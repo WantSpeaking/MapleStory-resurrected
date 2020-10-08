@@ -10,22 +10,23 @@ using UnityEngine;
 
 public class Init : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer;//用来显示图片
-    public string path = "F:/BaiduYunDownload/079mg5/UI.wz";
-    public string subPath = "UI.wz/Login.img/LoginVer/GameGrade";
-    public int mapId = 100000000;
+    //public SpriteRenderer spriteRenderer;//用来显示图片
+    public string maplestoryFolder = "F:/BaiduYunDownload/079mg5/";
+/*    public string path = "F:/BaiduYunDownload/079mg5/UI.wz";
+    public string subPath = "UI.wz/Login.img/LoginVer/GameGrade";*/
+    public int mapIdToLoad = 100000000;
     WzFileManager wzFileManager;
     // Start is called before the first frame update
     void Start()
     {
-       /* wzFileManager = new WzFileManager();
-        var wzFile = wzFileManager.LoadWzFile(path);
-        var wzObject = wzFile.GetObjectFromPath(subPath);
-        Debug.LogFormat("Width:{0}\t Height:{1}", wzObject?.GetBitmap()?.Width, wzObject?.GetBitmap()?.Height);
-        spriteRenderer.sprite = TextureToSprite(GetTexrture2DFromPath(wzObject));*/
+        /* wzFileManager = new WzFileManager();
+         var wzFile = wzFileManager.LoadWzFile(path);
+         var wzObject = wzFile.GetObjectFromPath(subPath);
+         Debug.LogFormat("Width:{0}\t Height:{1}", wzObject?.GetBitmap()?.Width, wzObject?.GetBitmap()?.Height);
+         spriteRenderer.sprite = TextureToSprite(GetTexrture2DFromPath(wzObject));*/
 
-        nx.load_all("F:/BaiduYunDownload/079mg5/");
-        Stage.get().load_map(mapId);
+        nx.load_all(maplestoryFolder);
+        Stage.get().load_map(mapIdToLoad);
     }
 
     // Update is called once per frame

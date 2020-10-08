@@ -11,6 +11,6 @@
 
 1.  下载 unity 2018.4.12 以上
 2.  打开项目
-3.  ![](https://images.gitee.com/uploads/images/2020/0920/160237_6f0b95ac_2152601.png "屏幕截图.png")在箭头所示位置输入wz文件路径（如F:/BaiduYunDownload/079mg5/Map.wz） 和 图片节点相对路径（如Map.wz/Back/login.img/back/15）
+3.  找到init gameobject，填入客户端文件夹路径，和 要载入的地图id
 4.  运行项目
 
