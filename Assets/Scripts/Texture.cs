@@ -91,7 +91,7 @@ namespace ms
                 spriteRenderer.gameObject.name = args.fullPath;
                 //spriteRenderer.sprite = TextureToSprite(bitmap, origin, dimensions,new Rect(ms_Rect.X, ms_Rect.Y, ms_Rect.Width, ms_Rect.Height));
                 spriteRenderer.sprite = TextureToSprite(bitmap, origin, dimensions, new Rect(ms_Rect.X, ms_Rect.Y, ms_Rect.Width, ms_Rect.Height), args, out var pos);
-                spriteRenderer.sortingLayerID = args.isBack ? 0 : 1;
+                //spriteRenderer.sortingLayerID = args.isBack ? 0 : 1;
                 spriteRenderer.sortingLayerName = args.isBack ? "Back" : "Front";
                 spriteRenderer.sortingOrder = args.orderInLayer;
                 setPos(pos);
