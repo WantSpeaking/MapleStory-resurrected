@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using UnityEngine;
 
 namespace ms
 {
@@ -16,14 +17,21 @@ namespace ms
             yscale = 1;
         }
 
-        public DrawArgument(Point<short> position, bool flip, float opacity,short cx,short cy)
+        public DrawArgument(Point<short> position, bool flip, float opacity,short cx,short cy,bool isBack,int orderInLayer,string fullPath)
         {
+            Debug.LogFormat("old cx:{0}\t cy:{1}", cx, cy);
+
             pos = position;
             center = position;
             xscale = 1;
             yscale = 1;
             this.cx = cx;
             this.cy = cy;
+            this.isBack = isBack;
+            this.orderInLayer = orderInLayer;
+            this.fullPath = fullPath;
+            Debug.LogFormat("new cx:{0}\t cy:{1}", this.cx, this.cy);
+
         }
 
         public Point<short> get_Pos()
@@ -65,5 +73,8 @@ namespace ms
         private float angle;
         public short cx;
         public short cy;
+        public bool isBack;
+        public int orderInLayer;
+        public string fullPath;
     }
 }

@@ -88,17 +88,23 @@ namespace ms
             draw();
             if (spriteRenderer != null)
             {
+                spriteRenderer.gameObject.name = args.fullPath;
                 //spriteRenderer.sprite = TextureToSprite(bitmap, origin, dimensions,new Rect(ms_Rect.X, ms_Rect.Y, ms_Rect.Width, ms_Rect.Height));
                 spriteRenderer.sprite = TextureToSprite(bitmap, origin, dimensions, new Rect(ms_Rect.X, ms_Rect.Y, ms_Rect.Width, ms_Rect.Height), args, out var pos);
+                spriteRenderer.sortingLayerID = args.isBack ? 0 : 1;
+                spriteRenderer.sortingLayerName = args.isBack ? "Back" : "Front";
+                spriteRenderer.sortingOrder = args.orderInLayer;
                 setPos(pos);
             }
         }
 
         private void setPos(Vector3 pos)
         {
+           
             if (spriteRenderer?.gameObject is GameObject gameObject)
             {
                 gameObject.transform.position = pos;
+                Debug.LogFormat("NEW x:{0}\t y:{1}", gameObject.transform.position.x, gameObject.transform.position.y);
             }
         }
         public void draw()
@@ -125,16 +131,25 @@ namespace ms
             t2d.Apply();
             //Sprite sprite = Sprite.Create(t2d, new Rect(args.get_Pos().x(), args.get_Pos().y(), dimensions.x(), dimensions.y()), new Vector2(origin.x(), origin.y()));
             //Sprite sprite = Sprite.Create(t2d, new Rect(0, 0, dimensions.x(), dimensions.y()), new Vector2(origin.x()/100, origin.y()/100));
-            var posX = args.get_Pos().x() + args.cx;
-            var posY = args.get_Pos().y() + args.cy;
+
+            var o_posX = args.get_Pos().x();
+            var o_posY = args.get_Pos().y();
+            var posX = o_posX + args.cx;
+            var posY = o_posY + args.cy;
             var pivotX = origin.x();
             var pivotY = origin.y();
             var width = dimensions.x();
             var height = dimensions.y();
             var relativeAnchorX = (float)pivotX / width;
             var relativeAnchorY = (float)pivotY / height;
-            pos = new Vector3(posX, posY, 0);
-            Debug.LogFormat("posX:{0}\t posY:{1}\t pivotX:{2}\t pivotY:{3}\t width:{4}\t height:{5}\t relativeAnchorX:{6}\t relativeAnchorY:{7}", posX, posY, pivotX, pivotY, width, height, relativeAnchorX, relativeAnchorY);
+            //Debug.LogFormat("OLD x:{0}\t y:{1}", posX, posY);
+
+
+            //pos = new Vector3(posX, posY, 0);
+            pos = new Vector3(o_posX, -o_posY, 0);
+            Debug.LogFormat("OLD x:{0}\t y:{1}", pos.x, pos.y);
+
+            Debug.LogFormat("posX:{0}\t posY:{1}\t pivotX:{2}\t pivotY:{3}\t width:{4}\t height:{5}\t relativeAnchorX:{6}\t relativeAnchorY:{7} o_posX:{8}\t o_posY:{9}\t args.cx:{10} args.cy:{11}", posX, posY, pivotX, pivotY, width, height, relativeAnchorX, relativeAnchorY, o_posX, o_posY, args.cx, args.cy);
             Sprite sprite = Sprite.Create(t2d, new Rect(0, 0, dimensions.x(), dimensions.y()), new Vector2(relativeAnchorX, relativeAnchorY), 1);
 
             //Sprite sprite = Sprite.Create(t2d, new Rect(0, 0, dimensions.x(), dimensions.y()), new Vector2(args.get_Pos().x()/100, args.get_Pos().y()/100));

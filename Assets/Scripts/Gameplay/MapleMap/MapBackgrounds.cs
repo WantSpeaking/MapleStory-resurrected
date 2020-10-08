@@ -9,55 +9,59 @@ using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using ms;
 using ms.Constants;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
-	public class Background
-	{
-		public Background(WzObject src)////back1stChild:Map/Map1/100000000.img/back/0
-		{
-			VWIDTH = Constants.get().get_viewwidth();
-			VHEIGHT = Constants.get().get_viewheight();
-			WOFFSET = (short)(VWIDTH / 2);
-			HOFFSET = (short)(VHEIGHT / 2);
+    public class Background
+    {
+        public Background(WzObject src)////back1stChild:Map/Map1/100000000.img/back/0
+        {
+            Debug.Log(src.FullPath);
+            VWIDTH = Constants.get().get_viewwidth();
+            VHEIGHT = Constants.get().get_viewheight();
+            WOFFSET = (short)(VWIDTH / 2);
+            HOFFSET = (short)(VHEIGHT / 2);
 
-			var backsrc = nl.nx.wz_map["Back"];//Map.wz/Back
-			animated = src["ani"].GetInt().ToBool();//animated:Map/Map1/100000000.img/back/0/ani
-			var node_0 = backsrc[src["bS"].GetString() + ".img"][animated ? "ani" : "back"][src["no"].GetInt().ToString()];// Map.wz/Back/grassySoil.img/ani/0
-			animation = new Animation(node_0);
-			//animation = backsrc[src["bS"] + ".img"][animated ? "ani" : "back"][src["no"]]; //animation:Map.wz/Back/{Map/Map1/100000000.img/back/0/bS}.img/(ani|back)/{Map/Map1/100000000.img/back/0/no}   Map.wz/Back/grassySoil.img/ani/0
-			opacity = src["a"].GetFloat();//Map/Map1/100000000.img/back/0/a
-			flipped = src["f"].GetInt().ToBool();//Map/Map1/100000000.img/back/0/f
-			cx = src["cx"].GetShort();//Map/Map1/100000000.img/back/0/cx
-			cy = src["cy"].GetShort(); //Map/Map1/100000000.img/back/0/cy
-			rx = src["rx"].GetShort(); //Map/Map1/100000000.img/back/0/rx
-			ry = src["ry"].GetShort(); //Map/Map1/100000000.img/back/0/ry
+            var backsrc = nl.nx.wz_map["Back"];//Map.wz/Back
+            animated = src["ani"].GetInt().ToBool();//animated:Map/Map1/100000000.img/back/0/ani
+            var node_0 = backsrc[src["bS"].GetString() + ".img"][animated ? "ani" : "back"][src["no"].GetInt().ToString()];// Map.wz/Back/grassySoil.img/ani/0
+            animation = new Animation(node_0);
+            //animation = backsrc[src["bS"] + ".img"][animated ? "ani" : "back"][src["no"]]; //animation:Map.wz/Back/{Map/Map1/100000000.img/back/0/bS}.img/(ani|back)/{Map/Map1/100000000.img/back/0/no}   Map.wz/Back/grassySoil.img/ani/0
+            opacity = src["a"].GetFloat();//Map/Map1/100000000.img/back/0/a
+            flipped = src["f"].GetInt().ToBool();//Map/Map1/100000000.img/back/0/f
+            cx = src["cx"].GetShort();//Map/Map1/100000000.img/back/0/cx
+            cy = src["cy"].GetShort(); //Map/Map1/100000000.img/back/0/cy
+            rx = src["rx"].GetShort(); //Map/Map1/100000000.img/back/0/rx
+            ry = src["ry"].GetShort(); //Map/Map1/100000000.img/back/0/ry
 
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-			//ORIGINAL LINE: moveobj.set_x(src["x"]);
-			 x = src["x"].GetDouble();
-			 y = src["y"].GetDouble();
+            //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
+            //ORIGINAL LINE: moveobj.set_x(src["x"]);
+            x = src["x"].GetDouble();
+            y = src["y"].GetDouble();
+            Debug.LogFormat("ini cx:{0}\t cy:{1}", cx, cy);
 
-			moveobj.set_x(x);//Map/Map1/100000000.img/back/0/x
-														  //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-														  //ORIGINAL LINE: moveobj.set_y(src["y"]);
-			moveobj.set_y(y);//Map/Map1/100000000.img/back/0/y
+            moveobj.set_x(x);//Map/Map1/100000000.img/back/0/x
+                             //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
+                             //ORIGINAL LINE: moveobj.set_y(src["y"]);
+            moveobj.set_y(y);//Map/Map1/100000000.img/back/0/y
 
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-			//ORIGINAL LINE: Type type = typebyid(src["type"]);
-			Type type = typebyid(src["type"].GetInt());//Map/Map1/100000000.img/back/0/type
+            //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
+            //ORIGINAL LINE: Type type = typebyid(src["type"]);
+            Type type = typebyid(src["type"].GetInt());//Map/Map1/100000000.img/back/0/type
 
-			settype(type);
-		}
-		double x;
-		double y;
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: void draw(double viewx, double viewy, float alpha) const
-		public void draw(double viewx, double viewy, float alpha)
-		{
-			//animation.draw();
-			animation.draw(new DrawArgument(new Point<short>((short)x, (short)y), flipped, opacity / 255, cx, cy), alpha);
-			/*			double x;
+            settype(type);
+            int.TryParse(src.Name, out orderInLayer);
+            fullPath = src.FullPath;
+        }
+
+        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+        //ORIGINAL LINE: void draw(double viewx, double viewy, float alpha) const
+        public void draw(double viewx, double viewy, float alpha, bool isBack)
+        {
+            //animation.draw();
+            animation.draw(new DrawArgument(new Point<short>((short)x, (short)y), flipped, opacity / 255, cx, cy, isBack, orderInLayer, fullPath), alpha);
+            /*			double x;
 
 						if (moveobj.hmobile())
 						{
@@ -120,28 +124,28 @@ namespace Assets.Scripts
 								animation.draw(new DrawArgument(new Point(ix + tx, iy + ty), flipped, opacity / 255), alpha);
 							}  
 						}*/
-		}
-		public void update()
-		{
-			//moveobj.move();
-			//animation.update();
-		}
+        }
+        public void update()
+        {
+            //moveobj.move();
+            //animation.update();
+        }
 
-		private enum Type
-		{
-			NORMAL,
-			HTILED,
-			VTILED,
-			TILED,
-			HMOVEA,
-			VMOVEA,
-			HMOVEB,
-			VMOVEB
-		}
+        private enum Type
+        {
+            NORMAL,
+            HTILED,
+            VTILED,
+            TILED,
+            HMOVEA,
+            VMOVEA,
+            HMOVEB,
+            VMOVEB
+        }
 
-		private static Type typebyid(int id)
-		{
-			/*if (id >= ((int)Type.NORMAL) != 0 && id <= Type.VMOVEB)
+        private static Type typebyid(int id)
+        {
+            /*if (id >= ((int)Type.NORMAL) != 0 && id <= Type.VMOVEB)
 			{
 				return (Type)id;
 			}
@@ -151,168 +155,172 @@ namespace Assets.Scripts
 			Console.Write("]");
 			Console.Write("\n");*/
 
-			return Type.NORMAL;
-		}
+            return Type.NORMAL;
+        }
 
-		private void settype(Type type)
-		{
-			short dim_x = animation.get_dimensions().x();
-			short dim_y = animation.get_dimensions().y();
+        private void settype(Type type)
+        {
+            short dim_x = animation.get_dimensions().x();
+            short dim_y = animation.get_dimensions().y();
 
-			// TODO: Double check for zero. Is this a WZ reading issue?
-			if (cx == 0)
-			{
-				cx = (short)((dim_x > 0) ? dim_x : 1);
-			}
+            // TODO: Double check for zero. Is this a WZ reading issue?
+            if (cx == 0)
+            {
+                cx = (short)((dim_x > 0) ? dim_x : 1);
+            }
 
-			if (cy == 0)
-			{
-				cy = (short)((dim_y > 0) ? dim_y : 1);
-			}
+            if (cy == 0)
+            {
+                cy = (short)((dim_y > 0) ? dim_y : 1);
+            }
 
-			htile = 1;
-			vtile = 1;
+            htile = 1;
+            vtile = 1;
 
-			switch (type)
-			{
-				case Type.HTILED:
-				case Type.HMOVEA:
-					htile = (short)(VWIDTH / cx + 3);
-					break;
-				case Type.VTILED:
-				case Type.VMOVEA:
-					vtile = (short)(VHEIGHT / cy + 3);
-					break;
-				case Type.TILED:
-				case Type.HMOVEB:
-				case Type.VMOVEB:
-					htile = (short)(VWIDTH / cx + 3);
-					vtile = (short)(VHEIGHT / cy + 3);
-					break;
-			}
+            switch (type)
+            {
+                case Type.HTILED:
+                case Type.HMOVEA:
+                    htile = (short)(VWIDTH / cx + 3);
+                    break;
+                case Type.VTILED:
+                case Type.VMOVEA:
+                    vtile = (short)(VHEIGHT / cy + 3);
+                    break;
+                case Type.TILED:
+                case Type.HMOVEB:
+                case Type.VMOVEB:
+                    htile = (short)(VWIDTH / cx + 3);
+                    vtile = (short)(VHEIGHT / cy + 3);
+                    break;
+            }
 
-			switch (type)
-			{
-				case Type.HMOVEA:
-				case Type.HMOVEB:
-					moveobj.hspeed = rx / 16;
-					break;
-				case Type.VMOVEA:
-				case Type.VMOVEB:
-					moveobj.vspeed = ry / 16;
-					break;
-			}
-		}
+            switch (type)
+            {
+                case Type.HMOVEA:
+                case Type.HMOVEB:
+                    moveobj.hspeed = rx / 16;
+                    break;
+                case Type.VMOVEA:
+                case Type.VMOVEB:
+                    moveobj.vspeed = ry / 16;
+                    break;
+            }
+        }
 
-		private short VWIDTH;
-		private short VHEIGHT;
-		private short WOFFSET;
-		private short HOFFSET;
+        private short VWIDTH;
+        private short VHEIGHT;
+        private short WOFFSET;
+        private short HOFFSET;
 
-		private Animation animation = new Animation();
-		private bool animated;
-		private short cx;
-		private short cy;
-		private double rx;
-		private double ry;
-		private short htile;
-		private short vtile;
-		private float opacity;
-		private bool flipped;
+        private Animation animation = new Animation();
+        private bool animated;
+        private short cx;
+        private short cy;
+        private double rx;
+        private double ry;
+        private short htile;
+        private short vtile;
+        private float opacity;
+        private bool flipped;
+        private double x;
+        private double y;
+        int orderInLayer;
+        private string fullPath;
 
-		private MovingObject moveobj = new MovingObject();
-	}
+        private MovingObject moveobj = new MovingObject();
+    }
 
-	public class MapBackgrounds
-	{
-		public MapBackgrounds(WzObject node_back)//back2NodePath:Map/Map1/100000000.img/back
-		{
+    public class MapBackgrounds
+    {
+        public MapBackgrounds(WzObject node_back)//back2NodePath:Map/Map1/100000000.img/back
+        {
             if (node_back is WzSubProperty subProperty)
             {
-				foreach (var wzProperty in subProperty.WzProperties)//directory:ap/Map1/100000000.img/back/0
-				{
-					bool front = wzProperty["front"].GetInt().ToBool(); //front:Map/Map1/100000000.img/back/0/front
-					Background background = new Background(wzProperty);
+                foreach (var wzProperty in subProperty.WzProperties)//directory:ap/Map1/100000000.img/back/0
+                {
+                    bool front = wzProperty["front"].GetInt().ToBool(); //front:Map/Map1/100000000.img/back/0/front
+                    Background background = new Background(wzProperty);
 
 
-					if (front)
-					{
-						foregrounds.Add(background);
-					}
-					else
-					{
-						backgrounds.Add(background);
-					}
-				}
-			}
-            
-			//short no = 0;
-			//var back = node_back[Convert.ToString(no)];//back1stChild:Map/Map1/100000000.img/back/0
+                    if (front)
+                    {
+                        foregrounds.Add(background);
+                    }
+                    else
+                    {
+                        backgrounds.Add(background);
+                    }
+                }
+            }
+
+            //short no = 0;
+            //var back = node_back[Convert.ToString(no)];//back1stChild:Map/Map1/100000000.img/back/0
 
 
-		/*	while (back.size() > 0)
-			{
-				bool front = back["front"].get_bool(); //front:Map/Map1/100000000.img/back/0/front
+            /*	while (back.size() > 0)
+                {
+                    bool front = back["front"].get_bool(); //front:Map/Map1/100000000.img/back/0/front
 
-				if (front)
-				{
-					foregrounds.Add(back);
-				}
-				else
-				{
-					backgrounds.Add(back);
-				}
+                    if (front)
+                    {
+                        foregrounds.Add(back);
+                    }
+                    else
+                    {
+                        backgrounds.Add(back);
+                    }
 
-				no++;
-				//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
-				//ORIGINAL LINE: back = src[std::to_string(no)];
-				back.CopyFrom(src[Convert.ToString(no)]);
-			}*/
+                    no++;
+                    //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+                    //ORIGINAL LINE: back = src[std::to_string(no)];
+                    back.CopyFrom(src[Convert.ToString(no)]);
+                }*/
 
-			black = node_back["0"]["bS"].GetString() == "";
-		}
-		public MapBackgrounds()
-		{
-		}
+            black = node_back["0"]["bS"].GetString() == "";
+        }
+        public MapBackgrounds()
+        {
+        }
 
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: void drawbackgrounds(double viewx, double viewy, float alpha) const
-		public void drawbackgrounds(double viewx, double viewy, float alpha)
-		{
-			if (black)
-			{
-				//GraphicsGL.get().drawscreenfill(0.0f, 0.0f, 0.0f, 1.0f);
-			}
+        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+        //ORIGINAL LINE: void drawbackgrounds(double viewx, double viewy, float alpha) const
+        public void drawbackgrounds(double viewx, double viewy, float alpha)
+        {
+            if (black)
+            {
+                //GraphicsGL.get().drawscreenfill(0.0f, 0.0f, 0.0f, 1.0f);
+            }
 
-			foreach (var background in backgrounds)
-			{
-				background.draw(viewx, viewy, alpha);
-			}
-		}
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: void drawforegrounds(double viewx, double viewy, float alpha) const
-		public void drawforegrounds(double viewx, double viewy, float alpha)
-		{
-			foreach (var foreground in foregrounds)
-			{
-				foreground.draw(viewx, viewy, alpha);
-			}
-		}
-		public void update()
-		{
-			foreach (var background in backgrounds)
-			{
-				background.update();
-			}
+            foreach (var background in backgrounds)
+            {
+                background.draw(viewx, viewy, alpha, true);
+            }
+        }
+        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+        //ORIGINAL LINE: void drawforegrounds(double viewx, double viewy, float alpha) const
+        public void drawforegrounds(double viewx, double viewy, float alpha)
+        {
+            foreach (var foreground in foregrounds)
+            {
+                foreground.draw(viewx, viewy, alpha, false);
+            }
+        }
+        public void update()
+        {
+            foreach (var background in backgrounds)
+            {
+                background.update();
+            }
 
-			foreach (var foreground in foregrounds)
-			{
-				foreground.update();
-			}
-		}
+            foreach (var foreground in foregrounds)
+            {
+                foreground.update();
+            }
+        }
 
-		private List<Background> backgrounds = new List<Background>();
-		private List<Background> foregrounds = new List<Background>();
-		private bool black;
-	}
+        private List<Background> backgrounds = new List<Background>();
+        private List<Background> foregrounds = new List<Background>();
+        private bool black;
+    }
 }
