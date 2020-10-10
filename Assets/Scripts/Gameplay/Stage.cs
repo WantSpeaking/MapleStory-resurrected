@@ -13,7 +13,7 @@ namespace Assets.ms
 		MapBackgrounds backgrounds;
 		MapTilesObjs tilesobjs;
 		private Physics physics;
-
+		private MapInfo mapinfo;
 		public void load_map (int mapid) //mapid:100000000
 		{
 			this.mapid = mapid;
@@ -24,17 +24,13 @@ namespace Assets.ms
 
 			//nl.node src = mapid == -1 ? nl.nx.ui["CashShopPreview.img"] : nl.nx.map["Map"]["Map" + prefix][strid + ".img"];
 			//var src = nl.nx.mapWz.ResolvePath("Map").ResolvePath($"Map{prefix}").ResolvePath($"{strid}.img"); //srcNodePath:Map/Map1/100000000.img
-			var node_100000000img = nl.nx.map["Map"]["Map" + prefix][strid + ".img"];
-			; //srcNodePath:Map/Map1/100000000.img
-
-
-			tilesobjs = new MapTilesObjs (node_100000000img);
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-			//ORIGINAL LINE: backgrounds = MapBackgrounds(src["back"]);
-			backgrounds = new MapBackgrounds (node_100000000img["back"]); //back2NodePath:Map/Map1/100000000.img/back
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-			physics = new Physics (node_100000000img["foothold"]);
 			
+			var node_100000000img = nl.nx.map["Map"]["Map" + prefix][strid + ".img"];//srcNodePath:Map/Map1/100000000.img
+			
+			tilesobjs = new MapTilesObjs (node_100000000img);
+			backgrounds = new MapBackgrounds (node_100000000img["back"]); //back2NodePath:Map/Map1/100000000.img/back
+			physics = new Physics (node_100000000img["foothold"]);
+			mapinfo = new MapInfo(node_100000000img, physics.get_fht().get_walls(), physics.get_fht().get_borders());
 		}
 
 		public void draw (float alpha)
