@@ -4,26 +4,24 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Assets.Scripts.Helper;
+using Assets.ms.Helper;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
-using ms;
-using ms.Constants;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace ms
 {
     public class Background
     {
         public Background(WzObject src)////back1stChild:Map/Map1/100000000.img/back/0
         {
-            Debug.Log(src.FullPath);
+            //Debug.Log(src.FullPath);
             VWIDTH = Constants.get().get_viewwidth();
             VHEIGHT = Constants.get().get_viewheight();
             WOFFSET = (short)(VWIDTH / 2);
             HOFFSET = (short)(VHEIGHT / 2);
 
-            var backsrc = nl.nx.wz_map["Back"];//Map.wz/Back
+            var backsrc = nl.nx.map["Back"];//Map.wz/Back
             animated = src["ani"].GetInt().ToBool();//animated:Map/Map1/100000000.img/back/0/ani
             var node_0 = backsrc[src["bS"].GetString() + ".img"][animated ? "ani" : "back"][src["no"].GetInt().ToString()];// Map.wz/Back/grassySoil.img/ani/0
             animation = new Animation(node_0);
@@ -39,7 +37,7 @@ namespace Assets.Scripts
             //ORIGINAL LINE: moveobj.set_x(src["x"]);
             x = src["x"].GetDouble();
             y = src["y"].GetDouble();
-            Debug.LogFormat("ini cx:{0}\t cy:{1}", cx, cy);
+            //Debug.LogFormat("ini cx:{0}\t cy:{1}", cx, cy);
 
             moveobj.set_x(x);//Map/Map1/100000000.img/back/0/x
                              //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
@@ -57,10 +55,10 @@ namespace Assets.Scripts
 
         //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
         //ORIGINAL LINE: void draw(double viewx, double viewy, float alpha) const
-        public void draw(double viewx, double viewy, float alpha, bool isBack)
+        public void draw(double viewx, double viewy, float alpha, string sortingLayer)
         {
             //animation.draw();
-            animation.draw(new DrawArgument(new Point<short>((short)x, (short)y), flipped, opacity / 255, cx, cy, isBack, orderInLayer, fullPath), alpha);
+            animation.draw(new DrawArgument(new Point<short>((short)x, (short)y), flipped, opacity / 255, cx, cy, sortingLayer, orderInLayer), alpha);
             /*			double x;
 
 						if (moveobj.hmobile())
@@ -294,7 +292,7 @@ namespace Assets.Scripts
 
             foreach (var background in backgrounds)
             {
-                background.draw(viewx, viewy, alpha, true);
+                background.draw(viewx, viewy, alpha, GlobalMembers.SortingLayer_Back);
             }
         }
         //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -303,7 +301,7 @@ namespace Assets.Scripts
         {
             foreach (var foreground in foregrounds)
             {
-                foreground.draw(viewx, viewy, alpha, false);
+                foreground.draw(viewx, viewy, alpha, GlobalMembers.SortingLayer_Front);
             }
         }
         public void update()

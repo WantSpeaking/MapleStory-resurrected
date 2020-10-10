@@ -69,7 +69,7 @@ namespace ms
             if (delay != 0)
             {
                 double hdelta = d - x.get();
-                hspeed = Constants.GlobalMembers.TIMESTEP * hdelta / delay;
+                hspeed = GlobalMembers.TIMESTEP * hdelta / delay;
             }
         }
 
@@ -78,7 +78,7 @@ namespace ms
             if (delay != 0)
             {
                 double vdelta = d - y.get();
-                vspeed = Constants.GlobalMembers.TIMESTEP * vdelta / delay;
+                vspeed = GlobalMembers.TIMESTEP * vdelta / delay;
             }
         }
 

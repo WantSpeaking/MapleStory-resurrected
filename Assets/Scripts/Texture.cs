@@ -51,6 +51,7 @@ namespace ms
     {
         GameObject spriteObj;
         SpriteRenderer spriteRenderer;
+        string fullPath;
         public Texture()
         {
         }
@@ -58,6 +59,8 @@ namespace ms
         {
             //if (src.ObjectType == WzObjectType.Image)
             {
+                //Debug.Log(src.FullPath);
+                fullPath = src.FullPath;
                 var tempOrigin = src["origin"].GetPoint();
                 origin = new Point<short>((short)tempOrigin.X, (short)tempOrigin.Y);
 
@@ -88,11 +91,12 @@ namespace ms
             draw();
             if (spriteRenderer != null)
             {
-                spriteRenderer.gameObject.name = args.fullPath;
+                Debug.Log(fullPath+"\t"+args.sortingLayer, spriteRenderer.gameObject);
+                spriteRenderer.gameObject.name = fullPath;
                 //spriteRenderer.sprite = TextureToSprite(bitmap, origin, dimensions,new Rect(ms_Rect.X, ms_Rect.Y, ms_Rect.Width, ms_Rect.Height));
                 spriteRenderer.sprite = TextureToSprite(bitmap, origin, dimensions, new Rect(ms_Rect.X, ms_Rect.Y, ms_Rect.Width, ms_Rect.Height), args, out var pos);
                 //spriteRenderer.sortingLayerID = args.isBack ? 0 : 1;
-                spriteRenderer.sortingLayerName = args.isBack ? "Back" : "Front";
+                spriteRenderer.sortingLayerName = args.sortingLayer;
                 spriteRenderer.sortingOrder = args.orderInLayer;
                 setPos(pos);
             }
@@ -104,7 +108,7 @@ namespace ms
             if (spriteRenderer?.gameObject is GameObject gameObject)
             {
                 gameObject.transform.position = pos;
-                Debug.LogFormat("NEW x:{0}\t y:{1}", gameObject.transform.position.x, gameObject.transform.position.y);
+                //Debug.LogFormat("NEW x:{0}\t y:{1}", gameObject.transform.position.x, gameObject.transform.position.y);
             }
         }
         public void draw()
@@ -147,10 +151,10 @@ namespace ms
 
             //pos = new Vector3(posX, posY, 0);
             pos = new Vector3(o_posX, -o_posY, 0);
-            Debug.LogFormat("OLD x:{0}\t y:{1}", pos.x, pos.y);
+            //Debug.LogFormat("OLD x:{0}\t y:{1}", pos.x, pos.y);
 
-            Debug.LogFormat("posX:{0}\t posY:{1}\t pivotX:{2}\t pivotY:{3}\t width:{4}\t height:{5}\t relativeAnchorX:{6}\t relativeAnchorY:{7} o_posX:{8}\t o_posY:{9}\t args.cx:{10} args.cy:{11}", posX, posY, pivotX, pivotY, width, height, relativeAnchorX, relativeAnchorY, o_posX, o_posY, args.cx, args.cy);
-            Sprite sprite = Sprite.Create(t2d, new Rect(0, 0, dimensions.x(), dimensions.y()), new Vector2(relativeAnchorX, relativeAnchorY), 1);
+            //Debug.LogFormat("posX:{0}\t posY:{1}\t pivotX:{2}\t pivotY:{3}\t width:{4}\t height:{5}\t relativeAnchorX:{6}\t relativeAnchorY:{7} o_posX:{8}\t o_posY:{9}\t args.cx:{10} args.cy:{11}", posX, posY, pivotX, pivotY, width, height, relativeAnchorX, relativeAnchorY, o_posX, o_posY, args.cx, args.cy);
+            Sprite sprite = Sprite.Create(t2d, new Rect(0, 0, dimensions.x(), dimensions.y()), new Vector2(relativeAnchorX, 1-relativeAnchorY), 1);
 
             //Sprite sprite = Sprite.Create(t2d, new Rect(0, 0, dimensions.x(), dimensions.y()), new Vector2(args.get_Pos().x()/100, args.get_Pos().y()/100));
             return sprite;

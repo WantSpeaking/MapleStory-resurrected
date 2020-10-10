@@ -19,45 +19,19 @@
 
 namespace ms
 {
-    public class Constants : Singleton<Constants>
-    {
-        public Constants()
-        {
-            VIEWWIDTH = 800;
-            VIEWHEIGHT = 600;
-        }
-
-        public new void Dispose()
-        {
-            base.Dispose();
-        }
-
-        public short get_viewwidth()
-        {
-            return VIEWWIDTH;
-        }
-
-        public void set_viewwidth(short width)
-        {
-            VIEWWIDTH = width;
-        }
-
-        public short get_viewheight()
-        {
-            return VIEWHEIGHT;
-        }
-
-        public void set_viewheight(short height)
-        {
-            VIEWHEIGHT = height;
-        }
-
-        // Window and screen width.
-        private short VIEWWIDTH;
-        // Window and screen height.
-        private short VIEWHEIGHT;
-
-
-
-    }
+	namespace Layer
+	{
+		public enum Id
+		{
+			ZERO,
+			ONE,
+			TWO,
+			THREE,
+			FOUR,
+			FIVE,
+			SIX,
+			SEVEN,
+			LENGTH
+		}
+	}
 }

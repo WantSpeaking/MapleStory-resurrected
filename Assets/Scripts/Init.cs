@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using Assets.Scripts;
+using Assets.ms;
 using HaRepacker;
 using MapleLib.WzLib;
 using nl;
@@ -12,8 +12,8 @@ public class Init : MonoBehaviour
 {
     //public SpriteRenderer spriteRenderer;//用来显示图片
     public string maplestoryFolder = "F:/BaiduYunDownload/079mg5/";
-/*    public string path = "F:/BaiduYunDownload/079mg5/UI.wz";
-    public string subPath = "UI.wz/Login.img/LoginVer/GameGrade";*/
+    /*    public string path = "F:/BaiduYunDownload/079mg5/UI.wz";
+        public string subPath = "UI.wz/Login.img/LoginVer/GameGrade";*/
     public int mapIdToLoad = 100000000;
     WzFileManager wzFileManager;
     // Start is called before the first frame update
@@ -27,6 +27,7 @@ public class Init : MonoBehaviour
 
         nx.load_all(maplestoryFolder);
         Stage.get().load_map(mapIdToLoad);
+        Stage.get().draw(1);
     }
 
     // Update is called once per frame

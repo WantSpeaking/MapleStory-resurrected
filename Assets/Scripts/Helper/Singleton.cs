@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts
+namespace ms
 {
 	public class Singleton<T> : System.IDisposable where T : new ()
 	{

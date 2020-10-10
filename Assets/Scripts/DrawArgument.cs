@@ -7,9 +7,33 @@ namespace ms
     {
         public DrawArgument()
         {
+
         }
 
-        public DrawArgument(Point<short> position, bool flip, float opacity)
+        public DrawArgument(Point<short> position)
+        {
+            pos = position;
+            center = position;
+            xscale = 1;
+            yscale = 1;
+        }
+        public DrawArgument(Point<short> position, string sortingLayer,int orderInLayer)
+        {
+            pos = position;
+            center = position;
+            xscale = 1;
+            yscale = 1;
+            this.sortingLayer = sortingLayer;
+            this.orderInLayer = orderInLayer;
+        }
+        public DrawArgument(Point<short> position, float inter)
+        {
+            pos = position;
+            center = position;
+            xscale = 1;
+            yscale = 1;
+        }
+        public DrawArgument(Point<short> position, bool flip)
         {
             pos = position;
             center = position;
@@ -17,9 +41,17 @@ namespace ms
             yscale = 1;
         }
 
-        public DrawArgument(Point<short> position, bool flip, float opacity,short cx,short cy,bool isBack,int orderInLayer,string fullPath)
+        public DrawArgument(Point<short> position, bool flip, float opacity, string fullPath)
         {
-            Debug.LogFormat("old cx:{0}\t cy:{1}", cx, cy);
+            pos = position;
+            center = position;
+            xscale = 1;
+            yscale = 1;
+        }
+
+        public DrawArgument(Point<short> position, bool flip, float opacity, short cx, short cy, string sortingLayer, int orderInLayer)
+        {
+            //Debug.LogFormat("old cx:{0}\t cy:{1}", cx, cy);
 
             pos = position;
             center = position;
@@ -27,10 +59,9 @@ namespace ms
             yscale = 1;
             this.cx = cx;
             this.cy = cy;
-            this.isBack = isBack;
+            this.sortingLayer = sortingLayer;
             this.orderInLayer = orderInLayer;
-            this.fullPath = fullPath;
-            Debug.LogFormat("new cx:{0}\t cy:{1}", this.cx, this.cy);
+            //Debug.LogFormat("new cx:{0}\t cy:{1}", this.cx, this.cy);
 
         }
 
@@ -74,6 +105,7 @@ namespace ms
         public short cx;
         public short cy;
         public bool isBack;
+        public string sortingLayer;
         public int orderInLayer;
         public string fullPath;
     }

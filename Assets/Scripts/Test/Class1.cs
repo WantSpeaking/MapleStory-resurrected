@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.Test
+namespace Assets.ms.Test
 {
     public class ConstrainedNumber<T> where T : struct, IComparable, IComparable<T>, IEquatable<T>
     {

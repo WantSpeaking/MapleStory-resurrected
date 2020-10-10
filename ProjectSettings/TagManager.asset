@@ -47,3 +47,9 @@ TagManager:
   - name: Front
     uniqueID: 77257927
     locked: 0
+  - name: Obj
+    uniqueID: 1898556603
+    locked: 0
+  - name: Tile
+    uniqueID: 164852267
+    locked: 0
