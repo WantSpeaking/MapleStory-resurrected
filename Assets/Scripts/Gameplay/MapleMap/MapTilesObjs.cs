@@ -48,8 +48,9 @@ namespace ms
         public TilesObjs()
         {
         }
-        public TilesObjs(WzImageProperty node_100000000img_0)//node:100000000.img/0
+        public TilesObjs(WzImageProperty node_100000000img_0,int layerId)//node:100000000.img/0
         {
+            this.layerId = layerId;
             var tileset = node_100000000img_0["info"]["tS"] + ".img";
 
             foreach (var node_100000000img_0_Tile_0 in node_100000000img_0["tile"].WzProperties)
@@ -77,14 +78,14 @@ namespace ms
             {
                 foreach (var obj in pair.Value)
                 {
-                    obj.draw(viewpos, alpha);
+                    obj.draw(viewpos, alpha,layerId);
                 }
             }
             foreach (var pair in tiles)
             {
                 foreach (var tile in pair.Value)
                 {
-                    tile.draw(viewpos);
+                    tile.draw(viewpos,layerId);
                 }
             }
             /* foreach (var iter in objs)
@@ -107,6 +108,7 @@ namespace ms
 
         private MultiValueDictionary<byte, Tile> tiles = new MultiValueDictionary<byte, Tile>();
         private MultiValueDictionary<byte, Obj> objs = new MultiValueDictionary<byte, Obj>();
+        private int layerId;
     }
 
     // The collection of tile and object layers on a map
@@ -125,7 +127,7 @@ namespace ms
                     if (node_100000000img[i.ToString()] is WzImageProperty node)//node:100000000.img/0
                     {
                         //LoadLayer(node, i);
-                        var tileObj = new TilesObjs(node);
+                        var tileObj = new TilesObjs(node,i);
                         layers[(Layer.Id)i] = tileObj;
                     }
                 }

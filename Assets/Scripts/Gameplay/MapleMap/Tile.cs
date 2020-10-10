@@ -59,7 +59,8 @@ namespace ms
 			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 			//ORIGINAL LINE: pos = Point<short>(src["x"], src["y"]);
 			pos = new Point<short> (node_100000000img_0_Tile_0["x"].GetShort (), node_100000000img_0_Tile_0["y"].GetShort ());
-			z = node_100000000img_0_Tile_0["zM"].GetShort ().ToByte ();
+			//z = (byte)(255- node_100000000img_0_Tile_0["zM"].GetShort ().ToByte ());//todo orderInLayer wz和unity正好相反
+			//z = (node_100000000img_0_Tile_0["zM"].GetShort ().ToByte ());//todo orderInLayer wz和unity正好相反
 			/*if (z == 0)
 			{
 			    z = node_Tile_allblackTileimg_bsc_0["zM"].GetShort().ToByte();
@@ -69,10 +70,10 @@ namespace ms
 		// Draw the tile
 		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 		//ORIGINAL LINE: void draw(Point<short> viewpos) const
-		public void draw (Point<short> viewpos)
+		public void draw (Point<short> viewpos,int layerId)
 		{
 			var tempPoint = new Point<short> ((short)(pos.x () + viewpos.x ()), (short)(pos.y () + viewpos.y ()));
-			texture.draw (new DrawArgument (tempPoint, GlobalMembers.SortingLayer_Tile, orderInLayer));
+			texture.draw (new DrawArgument (tempPoint, layerId, orderInLayer));
 		}
 
 		// Returns the depth of the tile

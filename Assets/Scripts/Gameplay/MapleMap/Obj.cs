@@ -59,7 +59,12 @@ namespace ms
 
 			pos = new Point<short> (node_100000000img_0_obj_0["x"].GetShort (), node_100000000img_0_obj_0["y"].GetShort ());
 			flip = node_100000000img_0_obj_0["f"].GetInt ().ToBool ();
-			z = node_100000000img_0_obj_0["z"].GetShort ().ToByte ();
+			//z = (byte)(255- node_100000000img_0_obj_0["z"].GetShort ().ToByte ());//orderInLayer wz和unity正好相反
+			z = (node_100000000img_0_obj_0["z"].GetShort ().ToByte ());//orderInLayer wz和unity正好相反
+			if (z==0)
+			{
+				z = (node_100000000img_0_obj_0["zM"].GetShort ().ToByte ());
+			}
 		}
 
 		// Update animation
@@ -71,10 +76,10 @@ namespace ms
 		// Draw the object at the specified position
 		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 		//ORIGINAL LINE: void draw(Point<short> viewpos, float inter) const
-		public void draw (Point<short> viewpos, float inter)
+		public void draw (Point<short> viewpos, float inter,int layerId)
 		{
 			var tempPoint = new Point<short> ((short)(pos.x () + viewpos.x ()), (short)(pos.y () + viewpos.y ()));
-			animation.draw (new DrawArgument (tempPoint, GlobalMembers.SortingLayer_Obj, orderInLayer), inter);
+			animation.draw (new DrawArgument (tempPoint, layerId, z), inter);
 		}
 
 		// Return the depth of the object

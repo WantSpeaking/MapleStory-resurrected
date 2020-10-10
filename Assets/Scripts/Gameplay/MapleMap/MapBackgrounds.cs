@@ -55,7 +55,7 @@ namespace ms
 
         //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
         //ORIGINAL LINE: void draw(double viewx, double viewy, float alpha) const
-        public void draw(double viewx, double viewy, float alpha, string sortingLayer)
+        public void draw(double viewx, double viewy, float alpha, int sortingLayer)
         {
             //animation.draw();
             animation.draw(new DrawArgument(new Point<short>((short)x, (short)y), flipped, opacity / 255, cx, cy, sortingLayer, orderInLayer), alpha);
@@ -292,7 +292,7 @@ namespace ms
 
             foreach (var background in backgrounds)
             {
-                background.draw(viewx, viewy, alpha, GlobalMembers.SortingLayer_Back);
+                background.draw(viewx, viewy, alpha, -2);
             }
         }
         //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -301,7 +301,7 @@ namespace ms
         {
             foreach (var foreground in foregrounds)
             {
-                foreground.draw(viewx, viewy, alpha, GlobalMembers.SortingLayer_Front);
+                foreground.draw(viewx, viewy, alpha, -1);
             }
         }
         public void update()

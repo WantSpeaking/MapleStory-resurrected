@@ -91,13 +91,15 @@ namespace ms
             draw();
             if (spriteRenderer != null)
             {
-                Debug.Log(fullPath+"\t"+args.sortingLayer, spriteRenderer.gameObject);
+                //Debug.Log(fullPath+"\t"+args.sortingLayer, spriteRenderer.gameObject);
                 spriteRenderer.gameObject.name = fullPath;
                 //spriteRenderer.sprite = TextureToSprite(bitmap, origin, dimensions,new Rect(ms_Rect.X, ms_Rect.Y, ms_Rect.Width, ms_Rect.Height));
                 spriteRenderer.sprite = TextureToSprite(bitmap, origin, dimensions, new Rect(ms_Rect.X, ms_Rect.Y, ms_Rect.Width, ms_Rect.Height), args, out var pos);
-                //spriteRenderer.sortingLayerID = args.isBack ? 0 : 1;
-                spriteRenderer.sortingLayerName = args.sortingLayer;
-                spriteRenderer.sortingOrder = args.orderInLayer;
+                //spriteRenderer.sortingLayerID = args.sortingLayer;
+                spriteRenderer.sortingLayerName = args.sortingLayer.ToString();
+                //Debug.Log (args.sortingLayer);
+                //spriteRenderer.sortingOrder = 255- args.orderInLayer;//orderInLayer wz和unity正好相反
+                spriteRenderer.sortingOrder = args.orderInLayer;//orderInLayer wz和unity正好相反
                 setPos(pos);
             }
         }

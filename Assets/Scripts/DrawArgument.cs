@@ -17,7 +17,7 @@ namespace ms
             xscale = 1;
             yscale = 1;
         }
-        public DrawArgument(Point<short> position, string sortingLayer,int orderInLayer)
+        public DrawArgument(Point<short> position, int sortingLayer,int orderInLayer)
         {
             pos = position;
             center = position;
@@ -49,7 +49,7 @@ namespace ms
             yscale = 1;
         }
 
-        public DrawArgument(Point<short> position, bool flip, float opacity, short cx, short cy, string sortingLayer, int orderInLayer)
+        public DrawArgument(Point<short> position, bool flip, float opacity, short cx, short cy, int sortingLayer, int orderInLayer)
         {
             //Debug.LogFormat("old cx:{0}\t cy:{1}", cx, cy);
 
@@ -105,7 +105,7 @@ namespace ms
         public short cx;
         public short cy;
         public bool isBack;
-        public string sortingLayer;
+        public int sortingLayer;
         public int orderInLayer;
         public string fullPath;
     }
