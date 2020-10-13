@@ -25,12 +25,20 @@ namespace nl
 			return file;
 		}
 
-		public static WzFile baseWz, character, effect, etc, item, map, mapPretty, mapLatest, map001, mob, morph, npc, quest, reactor, skill, sound, stringFile, tamingmob, ui;
+		public static WzFile wzFile_base, wzFile_character, wzFile_effect, wzFile_etc, wzFile_item, wzFile_map, wzFile_wzFile_mapPretty, wzFile_mapLatest, wzFile_map001, wzFile_mob, wzFile_morph, wzFile_npc, wzFile_quest, wzFile_reactor, wzFile_skill, wzFile_sound, wzFile_string, wzFile_tamingmob, wzFile_ui;
 		//NXNode baseFile, character, effect, etc, item, map, mapPretty, mapLatest, map001, mob, morph, npc, quest, reactor, skill, sound, stringFile, tamingmob, ui;
 
 		public static void load_all(string suffix)
 		{
-			map = add_file(suffix+"Map.wz");
+			
+			//wzFile_base = add_file(suffix+"base.wz");
+			wzFile_character = add_file(suffix+"character.wz");
+			wzFile_effect = add_file(suffix+"effect.wz");
+			wzFile_item = add_file(suffix+"item.wz");
+			wzFile_map = add_file(suffix+"map.wz");
+			wzFile_skill = add_file(suffix+"skill.wz");
+			wzFile_sound = add_file(suffix+"sound.wz");
+			wzFile_string = add_file(suffix+"string.wz");
 			/*if (exists("Base.nx"))
 			{
 				baseWz = add_file("Base.nx");

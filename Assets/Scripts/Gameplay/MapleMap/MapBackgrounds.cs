@@ -21,7 +21,7 @@ namespace ms
             WOFFSET = (short)(VWIDTH / 2);
             HOFFSET = (short)(VHEIGHT / 2);
 
-            var backsrc = nl.nx.map["Back"];//Map.wz/Back
+            var backsrc = nl.nx.wzFile_map["Back"];//Map.wz/Back
             animated = src["ani"].GetInt().ToBool();//animated:Map/Map1/100000000.img/back/0/ani
             var node_0 = backsrc[src["bS"].GetString() + ".img"][animated ? "ani" : "back"][src["no"].GetInt().ToString()];// Map.wz/Back/grassySoil.img/ani/0
             animation = new Animation(node_0);

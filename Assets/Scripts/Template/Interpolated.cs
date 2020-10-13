@@ -23,12 +23,19 @@ namespace ms
 {
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
 //ORIGINAL LINE: template <typename T>
-	/*public class Nominal <T>
+	public class Nominal <T> where T : struct/*, IComparable, IComparable<T>, IEquatable<T>*/
 	{
-		public Nominal() : now(T()), before(T()), threshold(0.0f)
+		public Nominal() : this (default, default,0 )
 		{
 		}
-
+		
+		public Nominal(T _now,T _before,float _threshold)
+		{
+			now = _now;
+			before = _before;
+			threshold = _threshold;
+		}
+		
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: T get() const
 		public T get()
@@ -40,7 +47,7 @@ namespace ms
 //ORIGINAL LINE: T get(float alpha) const
 		public T get(float alpha)
 		{
-			return alpha >= threshold != 0F ? now : before;
+			return alpha >= threshold ? now : before;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -65,7 +72,7 @@ namespace ms
 //ORIGINAL LINE: bool normalized() const
 		public bool normalized()
 		{
-			return before == now;
+			return (dynamic)before == now;
 		}
 
 		public void next(T value, float thrs)
@@ -77,50 +84,50 @@ namespace ms
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: bool operator == (T value) const
-		public static bool operator == (Nominal ImpliedObject, T value)
+		public static bool operator == (Nominal<T> ImpliedObject, T value)
 		{
-			return ImpliedObject.now == value;
+			return (dynamic)ImpliedObject.now == (dynamic)value;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: bool operator != (T value) const
-		public static bool operator != (Nominal ImpliedObject, T value)
+		public static bool operator != (Nominal<T>  ImpliedObject, T value)
 		{
-			return ImpliedObject.now != value;
+			return (dynamic)ImpliedObject.now != (dynamic)value;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: T operator + (T value) const
-		public static T operator + (Nominal ImpliedObject, T value)
+		public static T operator + (Nominal<T>  ImpliedObject, T value)
 		{
-			return ImpliedObject.now + value;
+			return (dynamic)ImpliedObject.now + (dynamic)value;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: T operator - (T value) const
-		public static T operator - (Nominal ImpliedObject, T value)
+		public static T operator - (Nominal<T>  ImpliedObject, T value)
 		{
-			return ImpliedObject.now - value;
+			return (dynamic)ImpliedObject.now - (dynamic)value;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: T operator * (T value) const
-		public static T operator * (Nominal ImpliedObject, T value)
+		public static T operator * (Nominal<T>  ImpliedObject, T value)
 		{
-			return ImpliedObject.now * value;
+			return (dynamic)ImpliedObject.now * (dynamic)value;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: T operator / (T value) const
-		public static T operator / (Nominal ImpliedObject, T value)
+		public static T operator / (Nominal<T>  ImpliedObject, T value)
 		{
-			return ImpliedObject.now / value;
+			return (dynamic)ImpliedObject.now / (dynamic)value;
 		}
 
 		private T now = new T();
 		private T before = new T();
 		private float threshold;
-	}*/
+	}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
 //ORIGINAL LINE: template <typename T>

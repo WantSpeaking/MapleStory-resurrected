@@ -294,7 +294,7 @@ namespace ms
 
 			if (phobj.fhlayer == 0 || phobj.onground)
 			{
-				phobj.fhlayer = (sbyte)nextfh.layer ();
+				phobj.fhlayer = (byte)nextfh.layer ();
 			}
 
 			if (phobj.fhid == 0)

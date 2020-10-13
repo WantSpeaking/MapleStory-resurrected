@@ -54,7 +54,7 @@ namespace ms
 		{
 			int.TryParse (node_100000000img_0_Tile_0.Name, out orderInLayer);
 			//UnityEngine. Debug.Log(node_100000000img_0_Tile_0["u"].WzValue.ToString()+"\t"+ts + "\t" + node_100000000img_0_Tile_0["no"].ToString());
-			var node_Tile_allblackTileimg_bsc_0 = nl.nx.map["Tile"][ts][node_100000000img_0_Tile_0["u"].ToString ()][node_100000000img_0_Tile_0["no"].ToString ()];
+			var node_Tile_allblackTileimg_bsc_0 = nl.nx.wzFile_map["Tile"][ts][node_100000000img_0_Tile_0["u"].ToString ()][node_100000000img_0_Tile_0["no"].ToString ()];
 			texture = new Texture (node_Tile_allblackTileimg_bsc_0);
 			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 			//ORIGINAL LINE: pos = Point<short>(src["x"], src["y"]);

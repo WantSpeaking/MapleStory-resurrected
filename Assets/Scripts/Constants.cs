@@ -58,6 +58,6 @@ namespace ms
         private short VIEWHEIGHT;
 
 
-
+        public static short TIMESTEP = 8;
     }
 }

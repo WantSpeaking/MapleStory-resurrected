@@ -198,6 +198,7 @@ namespace MapleLib.WzLib
         {
             get
             {
+                if (name == null) return null;
                 if (reader != null) if (!parsed) ParseImage();
                 foreach (WzImageProperty iwp in properties)
                     if (iwp.Name.ToLower() == name.ToLower())

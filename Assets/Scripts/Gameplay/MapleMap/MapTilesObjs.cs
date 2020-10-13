@@ -174,7 +174,7 @@ namespace ms
         //ORIGINAL LINE: void draw(Layer::Id layer, Point<short> viewpos, float alpha) const
         public void draw(Layer.Id layer, Point<short> viewpos, float alpha)
         {
-            layers[layer].draw(viewpos, alpha);
+            layers[layer]?.draw(viewpos, alpha);
         }
         public void update()
         {
