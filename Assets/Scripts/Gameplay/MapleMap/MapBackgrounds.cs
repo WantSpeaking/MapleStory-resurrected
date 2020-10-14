@@ -58,7 +58,8 @@ namespace ms
         public void draw(double viewx, double viewy, float alpha, int sortingLayer)
         {
             //animation.draw();
-            animation.draw(new DrawArgument(new Point<short>((short)x, (short)y), flipped, opacity / 255, cx, cy, sortingLayer, orderInLayer), alpha);
+            //animation.draw(new DrawArgument(new Point<short>((short)x, (short)y), flipped, opacity / 255, cx, cy, sortingLayer, orderInLayer), alpha);
+            animation.draw(new DrawArgument(new Point<short>((short)x, (short)y), flipped, opacity / 255,sortingLayer, orderInLayer), alpha);
             /*			double x;
 
 						if (moveobj.hmobile())
