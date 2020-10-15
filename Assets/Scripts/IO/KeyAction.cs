@@ -19,7 +19,7 @@
 
 namespace ms
 {
-	namespace KeyAction
+	public class KeyAction
 	{
 		// Maple-specific keycodes, sent via the Keymap Packet.
 		public enum Id : int
@@ -102,6 +102,11 @@ namespace ms
 			COPY,
 			PASTE,
 			LENGTH
+		}
+		
+		public static Id actionbyid(int id)
+		{
+			return (Id)(id);
 		}
 	}
 }

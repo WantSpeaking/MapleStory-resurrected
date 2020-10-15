@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Assets.ms.Helper;
+using ms.Helper;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using UnityEngine;

@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.ms.Helper;
+using ms.Helper;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 

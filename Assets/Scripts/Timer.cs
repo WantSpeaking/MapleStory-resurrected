@@ -16,53 +16,64 @@
 //	along with this program.  If not, see <https://www.gnu.org/licenses/>.		//
 //////////////////////////////////////////////////////////////////////////////////
 
+using System;
 
 namespace ms
 {
-    public class Constants : Singleton<Constants>
-    {
-        public Constants()
-        {
-            VIEWWIDTH = 800;
-            VIEWHEIGHT = 600;
-        }
+	// Small class for measuring elapsed time between game loops.
+	public class Timer : Singleton<Timer>
+	{
+		public Timer()
+		{
+			start();
+		}
 
-        public new void Dispose()
-        {
-            base.Dispose();
-        }
+		public new void Dispose()
+		{
+			base.Dispose();
+		}
 
-        public short get_viewwidth()
-        {
-            return VIEWWIDTH;
-        }
+		// Start the timer by setting the last measurement to now.
+		public void start()
+		{
+			point = DateTime.Now;
+		}
 
-        public void set_viewwidth(short width)
-        {
-            VIEWWIDTH = width;
-        }
-
-        public short get_viewheight()
-        {
-            return VIEWHEIGHT;
-        }
-
-        public void set_viewheight(short height)
-        {
-            VIEWHEIGHT = height;
-        }
-
-        // Window and screen width.
-        private short VIEWWIDTH;
-        // Window and screen height.
-        private short VIEWHEIGHT;
+		// Return time elapsed since the last measurement.
+		public int stop()
+		{
+			return (DateTime.Now - point).Milliseconds;
+		}
 
 
-        public static short TIMESTEP = 8;
+		private DateTime point = DateTime.MinValue;
+	}
 
-        public float walkSpeed = 1;
-        public float jumpSpeed = 1;
-        public float fallSpeed = 1;
-        public float animSpeed = 1;
-    }
+	// Small class for measuring elapsed time given a specific start time.
+	public class ContinuousTimer : Singleton<ContinuousTimer>
+	{
+
+		public ContinuousTimer()
+		{
+			start();
+		}
+
+		public new void Dispose()
+		{
+			base.Dispose();
+		}
+
+		// Return now from the clock to be used to calculate elapsed time later.
+		public DateTime start()
+		{
+			return DateTime.Now;
+		}
+
+		// Return time elapsed since the last measurement provided.
+		public long stop(DateTime last)
+		{
+			return (DateTime.Now - last).Milliseconds;
+		}
+
+	}
 }

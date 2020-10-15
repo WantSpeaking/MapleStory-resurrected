@@ -17,12 +17,14 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 using System;
+using Helper;
+using ms.Helper;
 
 namespace ms
 {
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
 //ORIGINAL LINE: template <class T>
-	public class Range<T> where T : struct, IComparable, IComparable<T>, IEquatable<T>
+	public class Range<T> where T : unmanaged, IComparable, IComparable<T>, IEquatable<T>
 	{
 		// Construct a range from the specified values
 		public Range (T first, T second)
@@ -59,6 +61,7 @@ namespace ms
 //ORIGINAL LINE: constexpr const T& greater() const
 		public T greater ()
 		{
+			return (GenericArithmetic.GreaterThan (a, b))?a : b;
 			return ((dynamic)a > b) ? a : b;
 		}
 
@@ -67,6 +70,7 @@ namespace ms
 //ORIGINAL LINE: constexpr const T& smaller() const
 		public T smaller ()
 		{
+			return (GenericArithmetic.GreaterThan (a, b))?b : a;
 			return (dynamic)a < b ? a : b;
 		}
 
@@ -75,6 +79,8 @@ namespace ms
 //ORIGINAL LINE: constexpr T delta() const
 		public T delta ()
 		{
+			return GenericArithmetic.Subtract (a,b);
+
 			return (dynamic)b - (dynamic)a;
 		}
 
@@ -83,6 +89,7 @@ namespace ms
 //ORIGINAL LINE: constexpr T length() const
 		public T length ()
 		{
+			return GenericArithmetic.Subtract (greater (),smaller ());
 			return (dynamic)greater () - (dynamic)smaller ();
 		}
 
@@ -91,6 +98,7 @@ namespace ms
 //ORIGINAL LINE: constexpr T center() const
 		public T center ()
 		{
+			return GenericArithmetic.DivideSpecific (GenericArithmetic.Add (a, b), 2);
 			return ((dynamic)a + (dynamic)b) / 2;
 		}
 
@@ -99,6 +107,7 @@ namespace ms
 //ORIGINAL LINE: constexpr bool empty() const
 		public bool empty ()
 		{
+			return GenericArithmetic.Equal (a, b);
 			return (dynamic)a == (dynamic)b;
 		}
 
@@ -107,6 +116,7 @@ namespace ms
 //ORIGINAL LINE: constexpr bool contains(const T& v) const
 		public bool contains (T v)
 		{
+			return GenericArithmetic.GreaterThanOrEqual (v, a) && !GenericArithmetic.GreaterThan (v, b);
 			return (dynamic)v >= (dynamic)a  && (dynamic)v <= (dynamic)b;
 		}
 
@@ -115,6 +125,7 @@ namespace ms
 //ORIGINAL LINE: constexpr bool contains(const Range<T>& v) const
 		public bool contains (Range<T> v)
 		{
+			return GenericArithmetic.GreaterThanOrEqual (v.a, a) && !GenericArithmetic.GreaterThan (v.b, b);
 			return (dynamic)v.a >= (dynamic)a  && (dynamic)v.b <= (dynamic)b;
 		}
 
@@ -131,6 +142,7 @@ namespace ms
 //ORIGINAL LINE: constexpr bool operator == (const Range<T>& v) const
 		public static bool operator == (Range<T> ImpliedObject, Range<T> v)
 		{
+			return GenericArithmetic.Equal (ImpliedObject.a, v.a) && GenericArithmetic.Equal (ImpliedObject.b, v.b);
 			return (dynamic)ImpliedObject.a == (dynamic)v.a && (dynamic)ImpliedObject.b == (dynamic)v.b;
 		}
 
@@ -147,7 +159,7 @@ namespace ms
 //ORIGINAL LINE: constexpr Range<T> operator + (const Range<T>& v) const
 		public static Range<T> operator + (Range<T> ImpliedObject, Range<T> v)
 		{
-			return new Range<T> ((dynamic)ImpliedObject.a + v.a, (dynamic)ImpliedObject.b + v.b);
+			return new Range<T> (GenericArithmetic.Add(ImpliedObject.a , v.a),GenericArithmetic.Add (ImpliedObject.b , v.b));
 			
 		}
 
@@ -156,6 +168,8 @@ namespace ms
 //ORIGINAL LINE: constexpr Range<T> operator - (const Range<T>& v) const
 		public static Range<T> operator - (Range<T> ImpliedObject, Range<T> v)
 		{
+			return new Range<T> (GenericArithmetic.Subtract(ImpliedObject.a , v.a),GenericArithmetic.Subtract (ImpliedObject.b , v.b));
+
 			return new Range<T> ((dynamic)ImpliedObject.a - v.a, (dynamic)ImpliedObject.b - v.b);
 		}
 
@@ -164,12 +178,14 @@ namespace ms
 //ORIGINAL LINE: constexpr Range<T> operator - () const
 		public static Range<T> operator - (Range<T> ImpliedObject)
 		{
+			return new Range<T> (GenericArithmetic.Multiply (ImpliedObject.a ,(-1).ToT<T> ()),GenericArithmetic.Multiply (ImpliedObject.b ,(-1).ToT<T> ()));
 			return new Range<T> (-(dynamic)ImpliedObject.a , -(dynamic)ImpliedObject.b );
 		}
 
 		// Construct a symmetric range around mid
 		public static Range<T> symmetric (T mid, T tail)
 		{
+			return new Range<T> (GenericArithmetic.Subtract(mid , tail), GenericArithmetic.Subtract(mid , tail));
 			return new Range<T> ((dynamic)mid - tail, (dynamic)mid + tail);
 		}
 

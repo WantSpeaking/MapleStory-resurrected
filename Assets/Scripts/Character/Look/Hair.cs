@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using Assets.ms.Helper;
+using ms.Helper;
 using MapleLib.WzLib;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -135,14 +135,22 @@ namespace ms
 			color = (index < NUM_COLORS) ? haircolors[index] : "";
 		}
 
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void draw(Stance::Id stance, Layer layer, byte frame, const DrawArgument& args) const
-		public void draw (Stance.Id stance, Layer layer, byte frame, DrawArgument args)
+		public void draw (Stance.Id stance, Layer layer, byte frame, DrawArgument args, bool drawOrErase = true)
 		{
 			Texture frameit = null;
 			stances[(int)stance, (int)layer]?.TryGetValue (frame, out frameit);
-			frameit?.draw (args);
 
+			if (drawOrErase)
+			{
+				frameit?.draw (args);
+			}
+			else
+			{
+				frameit?.erase ();
+			}
 			/*var frameit = stances[(int)stance, (int)layer].find(frame);
 
 			if (frameit == stances[(int)stance, (int)layer].end())

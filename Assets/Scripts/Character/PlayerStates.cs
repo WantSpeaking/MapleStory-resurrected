@@ -173,6 +173,7 @@ namespace ms
 		public override void initialize (Player player)
 		{
 			player.get_phobj ().type = PhysicsObject.Type.NORMAL;
+			/*if(!haswalkinput (player))*/ player.get_phobj ().hspeed = 0;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -288,12 +289,12 @@ public override void update (Player player)
 				if (hasrightinput (player))
 				{
 					player.set_direction (true);
-					player.get_phobj ().hforce += player.get_walkforce ();
+					player.get_phobj ().hforce += player.get_walkforce ()*Constants.get ().walkSpeed;
 				}
 				else if (hasleftinput (player))
 				{
 					player.set_direction (false);
-					player.get_phobj ().hforce += -player.get_walkforce ();
+					player.get_phobj ().hforce += -player.get_walkforce ()*Constants.get ().walkSpeed;
 				}
 			}
 			else
@@ -350,7 +351,7 @@ public override void update_state (Player player)
 
 			var hspeed = player.get_phobj ().hspeed;
 
-			if (hasleftinput (player) && hspeed > 0.0)
+			if (hasleftinput (player) && hspeed > 0.0)//todo where is real move speed???
 			{
 				hspeed -= 0.025;
 			}

@@ -150,7 +150,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 153, y: 0}
-  m_SizeDelta: {x: 659.27, y: 30}
+  m_SizeDelta: {x: 485.5, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &61339802
 MonoBehaviour:
@@ -466,7 +466,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 484164863}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 400, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -506,6 +506,10 @@ MonoBehaviour:
   inpuField_MapId: {fileID: 61339802}
   maplestoryFolder: F:/BaiduYunDownload/079mg5/
   mapIdToLoad: 100000000
+  walkSpeed: 3
+  jumpSpeed: 3.5
+  fallSpeed: 10
+  animSpeed: 1.5
 --- !u!4 &609587585
 Transform:
   m_ObjectHideFlags: 0
@@ -665,8 +669,8 @@ Canvas:
   m_GameObject: {fileID: 1105519178}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 484164865}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -737,7 +741,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 153, y: 0}
-  m_SizeDelta: {x: 659.27, y: 30}
+  m_SizeDelta: {x: 485.5, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1297704354
 MonoBehaviour:

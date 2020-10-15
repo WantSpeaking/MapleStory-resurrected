@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using Assets.ms.Helper;
+using ms.Helper;
 using MapleLib.WzLib;
 using UnityEngine;
 
@@ -134,16 +134,25 @@ namespace ms
 
 			name = nl.nx.wzFile_string["Eqp.img"]["Eqp"]["Face"][Convert.ToString (faceid)]["name"].ToString ();
 		}
+		
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void draw(Expression::Id expression, byte frame, const DrawArgument& args) const
-		public void draw (Expression.Id expression, byte frame, DrawArgument args)
+		public void draw (Expression.Id expression, byte frame, DrawArgument args, bool drawOrErase = true)
 		{
+			
 			Frame frameit = null;
-
 			expressions[(int)expression]?.TryGetValue (frame, out frameit);
-			//var frameit = expressions[(int)expression].find(frame);
-			frameit?.texture.draw (args);
+			
+			if (drawOrErase)
+			{
+				frameit?.texture.draw (args,true);
+			}
+			else
+			{
+				frameit?.texture.erase ();
+			}
+
 /*//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
 			if (frameit != expressions[(int)expression].end())
 			{
@@ -195,7 +204,7 @@ namespace ms
 				Point<short> shift = src["face"]?["map"]?["brow"]?.GetPoint ().ToMSPoint () ?? Point<short>.zero;
 				if (src.FullPath.Contains ("default"))
 				{
-					Debug.Log ($"initial origin :{texture.get_origin ()} \t Face.Frame shift: {shift}");
+					//Debug.Log ($"initial origin :{texture.get_origin ()} \t Face.Frame shift: {shift}");
 				}
 
 				texture.shift (-shift);

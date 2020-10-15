@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using Assets.ms.Helper;
+using ms.Helper;
 using MapleLib.WzLib;
 using UnityEngine;
 
@@ -72,7 +72,8 @@ namespace ms
 
 			foreach (var iter in Stance.names)
 			{
-				Stance.Id stance = iter.Key; string stancename = iter.Value;
+				Stance.Id stance = iter.Key;
+				string stancename = iter.Value;
 
 				var node_00002000img_alert = bodynode?[stancename];
 
@@ -148,15 +149,21 @@ namespace ms
 			name = (index < NUM_SKINTYPES) ? skintypes[index] : "";
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(Stance::Id stance, Layer layer, byte frame, const DrawArgument& args) const
-		public void draw (Stance.Id stance, Layer layer, byte frame, DrawArgument args)
+
+		public void draw (Stance.Id stance, Layer layer, byte frame, DrawArgument args, bool drawOrErase = true)
 		{
 			Texture frameit = null;
 			stances[(int)stance, (int)layer]?.TryGetValue (frame, out frameit);
-			//var frameit = expressions[(int)expression].find(frame);
-			frameit?.draw (args);
+			if (drawOrErase)
+			{
+				frameit?.draw (args);
+			}
+			else
+			{
+				frameit?.erase ();
+			}
 
+			//var frameit = expressions[(int)expression].find(frame);
 			/*var frameit = stances[(int)stance, (int)layer].find(frame);
 
 			if (frameit == stances[(int)stance, (int)layer].end())

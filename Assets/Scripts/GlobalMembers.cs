@@ -2,7 +2,7 @@
 {
 	public static class GlobalMembers
 	{
-		public const double GRAVFORCE = 0.14;
+		public static double GRAVFORCE => 0.14*Constants.get ().fallSpeed;
 		public	const double SWIMGRAVFORCE = 0.03;
 		public	const double FRICTION = 0.3;
 		public	const double SLOPEFACTOR = 0.1;

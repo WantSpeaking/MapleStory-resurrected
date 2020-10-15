@@ -19,50 +19,21 @@
 
 namespace ms
 {
-    public class Constants : Singleton<Constants>
-    {
-        public Constants()
-        {
-            VIEWWIDTH = 800;
-            VIEWHEIGHT = 600;
-        }
-
-        public new void Dispose()
-        {
-            base.Dispose();
-        }
-
-        public short get_viewwidth()
-        {
-            return VIEWWIDTH;
-        }
-
-        public void set_viewwidth(short width)
-        {
-            VIEWWIDTH = width;
-        }
-
-        public short get_viewheight()
-        {
-            return VIEWHEIGHT;
-        }
-
-        public void set_viewheight(short height)
-        {
-            VIEWHEIGHT = height;
-        }
-
-        // Window and screen width.
-        private short VIEWWIDTH;
-        // Window and screen height.
-        private short VIEWHEIGHT;
-
-
-        public static short TIMESTEP = 8;
-
-        public float walkSpeed = 1;
-        public float jumpSpeed = 1;
-        public float fallSpeed = 1;
-        public float animSpeed = 1;
-    }
+	public class KeyType
+	{
+		// Keytypes determine how a keycode is interpreted.
+		public enum Id
+		{
+			NONE = 0,
+			SKILL = 1,
+			ITEM = 2,
+			CASH = 3,
+			MENU = 4,
+			ACTION = 5,
+			FACE = 6,
+			MACRO = 8,
+			TEXT = 9,
+			LENGTH
+		}
+	}
 }

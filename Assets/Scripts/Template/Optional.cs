@@ -39,7 +39,10 @@ namespace ms
         {
             return ImpliedObject.val != null;
         }
-
+        public static implicit operator T(Optional<T> ImpliedObject)
+        {
+            return ImpliedObject.val;
+        }
         //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
         //ORIGINAL LINE: T* get() const
         public T get()

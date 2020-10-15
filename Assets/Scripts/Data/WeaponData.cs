@@ -1,7 +1,7 @@
 ﻿#define USE_NX
 
 using System;
-using Assets.ms.Helper;
+using ms.Helper;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//

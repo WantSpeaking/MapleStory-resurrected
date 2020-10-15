@@ -7,7 +7,7 @@ using ms;
 using System.Linq.Expressions;
 using Expression = System.Linq.Expressions.Expression;
 
-namespace Assets.ms.Helper
+namespace ms.Helper
 {
 	public static class TypeExt
 	{
@@ -33,67 +33,18 @@ namespace Assets.ms.Helper
 			return new Point<short> ((short)src.X, (short)src.Y);
 		}
 
-		private static readonly Dictionary<(Type Type, string Op), Delegate> Cache =
-			new Dictionary<(Type Type, string Op), Delegate>();
 
-		public static T Add<T>(T left, T right) where T : unmanaged
+		private static readonly Dictionary<object, object> Cache =
+			new Dictionary<object, object> ();
+
+		public static T ToT<T> (this object srcValue)
 		{
-			var t = typeof(T);
-			// If op is cached by type and function name, use cached version
-			if (Cache.TryGetValue((t, nameof(Add)), out var del))
-				return del is Func<T, T, T> specificFunc
-					? specificFunc(left, right)
-					: throw new InvalidOperationException(nameof(Add));
+			if (!Cache.TryGetValue (srcValue, out var resultValue))
+			{
+				resultValue = Convert.ChangeType (srcValue, typeof (T));
+			}
 
-			var leftPar = Expression.Parameter(t, nameof(left));
-			var rightPar = Expression.Parameter(t, nameof(right));
-			var body = Expression.Add(leftPar, rightPar);
-
-			var func = Expression.Lambda<Func<T, T, T>>(body, leftPar, rightPar).Compile();
-
-			Cache[(t, nameof(Add))] = func;
-
-			return func(left, right);
+			return (T)resultValue;
 		}
-		
-		public static T Subtract<T>(T left, T right) where T : unmanaged
-		{
-			var t = typeof(T);
-			// If op is cached by type and function name, use cached version
-			if (Cache.TryGetValue((t, nameof(Subtract)), out var del))
-				return del is Func<T, T, T> specificFunc
-					? specificFunc(left, right)
-					: throw new InvalidOperationException(nameof(Subtract));
-
-			var leftPar = Expression.Parameter(t, nameof(left));
-			var rightPar = Expression.Parameter(t, nameof(right));
-			var body = Expression.Subtract(leftPar, rightPar);
-
-			var func = Expression.Lambda<Func<T, T, T>>(body, leftPar, rightPar).Compile();
-
-			Cache[(t, nameof(Subtract))] = func;
-
-			return func(left, right);
-		}
-		
-		/*public static T Add<T>(this T left, T right) where T : unmanaged
-		{
-			var t = typeof(T);
-			// If op is cached by type and function name, use cached version
-			if (Cache.TryGetValue((t, nameof(Add)), out var del))
-				return del is Func<T, T, T> specificFunc
-					? specificFunc(left, right)
-					: throw new InvalidOperationException(nameof(Add));
-
-			var leftPar = Expression.Parameter(t, nameof(left));
-			var rightPar = Expression.Parameter(t, nameof(right));
-			var body = Expression.Add(leftPar, rightPar);
-
-			var func = Expression.Lambda<Func<T, T, T>>(body, leftPar, rightPar).Compile();
-
-			Cache[(t, nameof(Add))] = func;
-
-			return func(left, right);
-		}*/
 	}
 }

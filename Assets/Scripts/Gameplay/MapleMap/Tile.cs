@@ -40,7 +40,7 @@
 #endif
 
 using System.Diagnostics;
-using Assets.ms.Helper;
+using ms.Helper;
 using MapleLib.WzLib;
 
 namespace ms

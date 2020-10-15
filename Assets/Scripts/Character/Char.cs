@@ -86,7 +86,7 @@ namespace ms
 			}*/
 
 			//look.draw(new DrawArgument(absp, color), alpha);
-			look.draw(new DrawArgument(absp), alpha);
+			look.draw(new DrawArgument(absp,get_layer (),0), alpha);
 
 			//afterimage.draw(look.get_frame(), DrawArgument(absp, facing_right), alpha);
 
@@ -164,7 +164,7 @@ namespace ms
 
 			afterimage.update (look.get_frame (), stancespeed);
 
-			return look.update (stancespeed);
+			return look.update ((ushort)(stancespeed*Constants.get ().animSpeed));//todo this is action speed
 		}
 
 		protected float get_stancespeed ()
@@ -278,7 +278,7 @@ namespace ms
 			set_state ((byte)newstate);
 		}
 
-		void set_expression (int expid)
+		public void set_expression (int expid)
 		{
 			Expression.Id expression = Expression.byaction ((uint)expid);
 			look.set_expression (expression);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MapleLib.WzLib;
 using SD.Tools.Algorithmia.GeneralDataStructures;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -473,7 +474,13 @@ namespace ms
 //ORIGINAL LINE: const Foothold& get_fh(ushort fhid) const
 		private Foothold get_fh (ushort fhid)
 		{
-			footholds.TryGetValue (fhid, out var foothold);;
+			Foothold foothold;
+			if (!footholds.TryGetValue (fhid, out foothold))
+			{
+				foothold = new Foothold ();
+				Debug.LogWarning ($"can't find Foothold by fhid={fhid}");
+			}
+			
 			return foothold;
 		}
 

@@ -3,7 +3,8 @@
 using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using Assets.ms.Helper;
+using Helper;
+using ms.Helper;
 using UnityEngine;
 using Object = System.Object;
 
@@ -281,7 +282,7 @@ namespace ms
 			var temp_b = (T)Convert.ChangeType ((x.b.ToDouble (NumberFormatInfo.CurrentInfo) + y.b.ToDouble (NumberFormatInfo.CurrentInfo)), typeof (T));
 			return new Point<T> (temp_a, temp_b);*/
 			
-			return new Point<T> (TypeExt.Add (x.a, y.a), TypeExt.Add (x.b, y.b));
+			return new Point<T> (GenericArithmetic.Add (x.a, y.a), GenericArithmetic.Add (x.b, y.b));
 		}
 
 		// Return a point whose coordinates are the difference of this and another points coordinates
@@ -303,7 +304,7 @@ namespace ms
 			return new Point<T> ((T)(temp_left_a - temp_right_a), (T)temp_left_b - temp_right_b);*/
 			
 			//Debug.Log ($"x:{x == null} y:{y == null}");
-			return new Point<T> (TypeExt.Subtract (x.a, y.a), TypeExt.Subtract (x.b, y.b));
+			return new Point<T> (GenericArithmetic.Subtract (x.a, y.a), GenericArithmetic.Subtract (x.b, y.b));
 		}
 
 		// Return a point whose coordinates are the product of this and another points coordinates

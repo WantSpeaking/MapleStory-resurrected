@@ -19,50 +19,31 @@
 
 namespace ms
 {
-    public class Constants : Singleton<Constants>
-    {
-        public Constants()
-        {
-            VIEWWIDTH = 800;
-            VIEWHEIGHT = 600;
-        }
+	// Interface for tooltips
+	// Window with helpful information that appears on mouse hover at a specific location
+	public abstract class Tooltip : System.IDisposable
+	{
+		// Possible parent UIs for Tooltips
+		public enum Parent
+		{
+			NONE,
+			EQUIPINVENTORY,
+			ITEMINVENTORY,
+			SKILLBOOK,
+			SHOP,
+			EVENT,
+			TEXT,
+			KEYCONFIG,
+			WORLDMAP,
+			MINIMAP
+		}
 
-        public new void Dispose()
-        {
-            base.Dispose();
-        }
+		public virtual void Dispose()
+		{
+		}
 
-        public short get_viewwidth()
-        {
-            return VIEWWIDTH;
-        }
-
-        public void set_viewwidth(short width)
-        {
-            VIEWWIDTH = width;
-        }
-
-        public short get_viewheight()
-        {
-            return VIEWHEIGHT;
-        }
-
-        public void set_viewheight(short height)
-        {
-            VIEWHEIGHT = height;
-        }
-
-        // Window and screen width.
-        private short VIEWWIDTH;
-        // Window and screen height.
-        private short VIEWHEIGHT;
-
-
-        public static short TIMESTEP = 8;
-
-        public float walkSpeed = 1;
-        public float jumpSpeed = 1;
-        public float fallSpeed = 1;
-        public float animSpeed = 1;
-    }
+//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+//ORIGINAL LINE: virtual void draw(Point<short> cursorpos) const = 0;
+		public abstract void draw(Point<short> cursorpos);
+	}
 }

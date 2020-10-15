@@ -5,6 +5,8 @@ namespace ms
 {
 	public class DrawArgument
 	{
+		#region constructor
+
 		/*public DrawArgument () : this (Point<short>.zero)
 		{
 		}
@@ -203,10 +205,33 @@ namespace ms
 			this.orderInLayer = orderInLayer;
 		}
 
+		public DrawArgument (Point<short> position, bool flip, Point<short> center, int sortingLayer, int orderInLayer) : this (position, center, flip ? -1.0f : 1.0f, 1.0f, 1.0f, sortingLayer: sortingLayer, orderInLayer: orderInLayer)
+		{
+		}
+
+		public DrawArgument (int sortingLayer, int orderInLayer)
+		{
+			this.sortingLayer = sortingLayer;
+			this.orderInLayer = orderInLayer;
+		}
+
+		public DrawArgument (Point<short> position, int sortingLayer, int orderInLayer)
+		{
+			pos = position;
+			this.sortingLayer = sortingLayer;
+			this.orderInLayer = orderInLayer;
+		}
+
+		#endregion
+
 		#region operator
 
 		public static DrawArgument operator + (DrawArgument a, DrawArgument b)
 		{
+			var pos1 = a.pos + b.pos;
+			var center1 = a.center + b.center;
+			var stretch1 = a.stretch + b.stretch;
+
 			return new DrawArgument ()
 			{
 				pos = a.pos + b.pos,
@@ -238,6 +263,16 @@ namespace ms
 			return pos;
 		}
 
+		public float get_xscale ()
+		{
+			return xscale;
+		}
+
+		public float get_yscale ()
+		{
+			return yscale;
+		}
+
 		public Rectangle get_rectangle (Point<short> origin, Point<short> dimensions)
 		{
 			short w = stretch.x ();
@@ -265,11 +300,23 @@ namespace ms
 			return new Rectangle (cx + (short)(xscale * rl), cx + (short)(xscale * rr), cy + (short)(yscale * rt), cy + (short)(yscale * rb));
 		}
 
+		public DrawArgument IncreaseOrderInLayer (int orderInLayer = 0)
+		{
+			this.orderInLayer += orderInLayer;
+			return this;
+		}
+
+		public DrawArgument SetOrderInLayer (int orderInLayer = 0)
+		{
+			this.orderInLayer = orderInLayer;
+			return this;
+		}
+
 		private Point<short> pos = new Point<short> ();
 		private Point<short> center = new Point<short> ();
 		private Point<short> stretch = new Point<short> ();
-		private float xscale;
-		private float yscale;
+		private float xscale = 1;
+		private float yscale = 1;
 		private float opacity;
 		private float angle;
 		private Color color = new Color (Color.Code.CWHITE);

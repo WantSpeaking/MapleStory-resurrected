@@ -19,7 +19,7 @@
 
 namespace ms
 {
-	namespace Layer
+	public class Layer
 	{
 		public enum Id
 		{

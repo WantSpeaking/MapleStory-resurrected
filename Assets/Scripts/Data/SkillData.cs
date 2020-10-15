@@ -1,7 +1,7 @@
 ﻿#define USE_NX
 
 using System.Collections.Generic;
-using Assets.ms.Helper;
+using ms.Helper;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using nl;

@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Assets.ms.Helper;
+using ms.Helper;
 using MapleLib.WzLib;
 using UnityEngine;
 
@@ -175,7 +175,7 @@ namespace ms
 								{
 									delay = 100;
 								}
-								if (stance == Stance.Id.STAND1)
+								//if (stance == Stance.Id.STAND1)
 								{
 								stance_delays[(int)stance][frame] = (ushort)delay;
 								Dictionary<Body.Layer, Dictionary<string, Point<short>>> bodyshiftmap = new Dictionary<Body.Layer, Dictionary<string, Point<short>>> ();
@@ -302,7 +302,7 @@ namespace ms
 								
 									var result1 = bodyshiftmap[Body.Layer.BODY]["neck"] -bodyshiftmap[Body.Layer.HEAD]["neck"] ;
 									var result2 = result1 + bodyshiftmap[Body.Layer.HEAD]["brow"];
-									Debug.Log ($"Body.Layer.BODY[neck]: {bodyshiftmap[Body.Layer.BODY]["neck"]}\t Body.Layer.HEAD[neck]: {bodyshiftmap[Body.Layer.HEAD]["neck"]}\t Body.Layer.HEAD[brow]: {bodyshiftmap[Body.Layer.HEAD]["brow"]}\t result1: {result1}\t result2: {result2}");
+									//Debug.Log ($"Body.Layer.BODY[neck]: {bodyshiftmap[Body.Layer.BODY]["neck"]}\t Body.Layer.HEAD[neck]: {bodyshiftmap[Body.Layer.HEAD]["neck"]}\t Body.Layer.HEAD[brow]: {bodyshiftmap[Body.Layer.HEAD]["brow"]}\t result1: {result1}\t result2: {result2}");
 								}
 								
 								/*body_positions[(int)stance][frame] = bodyshiftmap[Body.Layer.BODY]["navel"];
@@ -428,11 +428,12 @@ namespace ms
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: Point<short> getfacepos(Stance::Id stance, byte frame) const
-		public Point<short> getfacepos (Stance.Id stance, byte frame)
+		public Point<short> getfacepos (Stance.Id stance, byte frame,bool flip=false)
 		{
 			var pos = new Point<short> ();
 			face_positions[(int)stance].TryGetValue (frame, out pos);
-			Debug.Log ($"getfacepos:{pos}");
+			//Debug.Log ($"stance: {stance} \t getfacepos: {pos} frame: {frame}");
+			if(flip)pos = new Point<short> ((short)-pos.x (),pos.y ());
 			return pos;
 			/*var iter = face_positions[(int)stance].find (frame);
 

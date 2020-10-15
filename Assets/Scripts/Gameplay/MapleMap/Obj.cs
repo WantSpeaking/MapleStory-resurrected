@@ -36,8 +36,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-using Assets.ms;
-using Assets.ms.Helper;
+using ms;
+using ms.Helper;
 using MapleLib.WzLib;
 
 namespace ms
