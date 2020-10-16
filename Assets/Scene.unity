@@ -506,10 +506,12 @@ MonoBehaviour:
   inpuField_MapId: {fileID: 61339802}
   maplestoryFolder: F:/BaiduYunDownload/079mg5/
   mapIdToLoad: 100000000
-  walkSpeed: 3
-  jumpSpeed: 3.5
-  fallSpeed: 10
-  animSpeed: 1.5
+  walkSpeed: 5
+  jumpSpeed: 5
+  climbSpeed: 3
+  flySpeed: 1
+  fallSpeed: 20
+  animSpeed: 1
 --- !u!4 &609587585
 Transform:
   m_ObjectHideFlags: 0

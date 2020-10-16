@@ -62,6 +62,8 @@ namespace ms
 
         public float walkSpeed = 1;
         public float jumpSpeed = 1;
+        public float climbSpeed = 1;
+        public float flySpeed = 1;
         public float fallSpeed = 1;
         public float animSpeed = 1;
     }

@@ -192,7 +192,7 @@ namespace ms
 		//ORIGINAL LINE: void draw(Layer.Id layer, double viewx, double viewy, float alpha) const
 		public void draw (Layer.Id layer, double viewx, double viewy, float alpha)
 		{
-			Debug.Log ($"Layer draw player :{(Layer.Id)get_layer()}");
+			Debug.Log ($"Layer draw player :{(Layer.Id)get_layer ()}");
 			if (layer == (Layer.Id)get_layer ())
 			{
 				draw (viewx, viewy, alpha);
@@ -567,7 +567,7 @@ namespace ms
 			//ORIGINAL LINE: ladder = ldr;
 			ladder = ldr;
 
-			if (ladder != null)
+			if ((bool)ladder)
 			{
 				phobj.set_x (ldr.Dereference ().get_x ());
 
@@ -588,7 +588,7 @@ namespace ms
 		// Checks if the player can climb
 		public bool can_climb ()
 		{
-			return climb_cooldown == null;
+			return !(bool)climb_cooldown;
 		}
 
 
@@ -597,7 +597,7 @@ namespace ms
 		//ORIGINAL LINE: float get_walkforce() const
 		public float get_walkforce ()
 		{
-			return 0.05f + 0.11f * (float)stats.get_total (EquipStat.Id.SPEED) / 100;
+			return 0.05f + 0.11f * (float)stats.get_total (EquipStat.Id.SPEED) / 100 * Constants.get ().walkSpeed;
 		}
 
 		// Returns the current jumping force, calculated from the total ES_JUMP stat.
@@ -605,7 +605,7 @@ namespace ms
 		//ORIGINAL LINE: float get_jumpforce() const
 		public float get_jumpforce ()
 		{
-			return 1.0f + 3.5f * (float)stats.get_total (EquipStat.Id.JUMP) / 100*Constants.get ().jumpSpeed;
+			return 1.0f + 3.5f * (float)stats.get_total (EquipStat.Id.JUMP) / 100 * Constants.get ().jumpSpeed;
 		}
 
 		// Returns the climbing force, calculated from the total ES_SPEED stat.
@@ -613,7 +613,7 @@ namespace ms
 		//ORIGINAL LINE: float get_climbforce() const
 		public float get_climbforce ()
 		{
-			return (float)stats.get_total (EquipStat.Id.SPEED) / 100;
+			return (float)stats.get_total (EquipStat.Id.SPEED) / 100 * Constants.get ().climbSpeed;
 		}
 
 		// Returns the flying force
@@ -621,7 +621,7 @@ namespace ms
 		//ORIGINAL LINE: float get_flyforce() const
 		public float get_flyforce ()
 		{
-			return 0.25f;
+			return 0.25f * Constants.get ().flySpeed;
 		}
 
 		// Return whether the player is underwater

@@ -108,7 +108,7 @@ namespace ms
 			double viewy = 0;
 			Point<short> viewpos = new Point<short> ();*/
 
-			//backgrounds.drawbackgrounds (1, 1, 1);
+			backgrounds.drawbackgrounds (viewx, viewy, alpha);
 
 			foreach (var id in Enum.GetValues (typeof (Layer.Id)))
 			{
@@ -123,7 +123,7 @@ namespace ms
 				 drops.draw(id, viewx, viewy, alpha);*/
 			}
 
-			//backgrounds.drawforegrounds (1, 1, 1);
+			backgrounds.drawforegrounds (viewx, viewy, alpha);
 		}
 
 		public void update ()
@@ -134,18 +134,18 @@ namespace ms
 			
 			camera.update(player.get_position());
 
-			/*if (!player.is_climbing () && !player.is_sitting () && !player.is_attacking ())
+			if (!player.is_climbing () && !player.is_sitting () && !player.is_attacking ())
 			{
 				if (player.is_key_down (KeyAction.Id.UP) && !player.is_key_down (KeyAction.Id.DOWN))
 					check_ladders (true);
 
-				if (player.is_key_down (KeyAction.Id.UP))
-					check_portals ();
+				/*if (player.is_key_down (KeyAction.Id.UP))
+					check_portals ();*/
 
 				if (player.is_key_down (KeyAction.Id.DOWN))
 					check_ladders (false);
 
-				if (player.is_key_down (KeyAction.Id.SIT))
+				/*if (player.is_key_down (KeyAction.Id.SIT))
 					check_seats ();
 
 				if (player.is_key_down (KeyAction.Id.ATTACK))
@@ -154,8 +154,8 @@ namespace ms
 				//combat.use_move(0);
 
 				if (player.is_key_down (KeyAction.Id.PICKUP))
-					check_drops ();
-			}*/
+					check_drops ();*/
+			}
 		}
 
 		void check_portals ()
@@ -196,11 +196,11 @@ namespace ms
 
 		void check_ladders (bool up)
 		{
-			/*if (!player.can_climb() || player.is_climbing() || player.is_attacking())
+			if (!player.can_climb() || player.is_climbing() || player.is_attacking())
 				return;
 
-			Optional<const Ladder> ladder = mapinfo.findladder(player.get_position(), up);
-			player.set_ladder(ladder);*/
+			Optional<Ladder> ladder = mapinfo.findladder(player.get_position(), up);
+			player.set_ladder(ladder);
 		}
 
 		void check_drops ()

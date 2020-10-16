@@ -185,7 +185,7 @@ namespace ms
 		// Construct a symmetric range around mid
 		public static Range<T> symmetric (T mid, T tail)
 		{
-			return new Range<T> (GenericArithmetic.Subtract(mid , tail), GenericArithmetic.Subtract(mid , tail));
+			return new Range<T> (GenericArithmetic.Subtract(mid , tail), GenericArithmetic.Add(mid , tail));
 			return new Range<T> ((dynamic)mid - tail, (dynamic)mid + tail);
 		}
 

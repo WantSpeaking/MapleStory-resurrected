@@ -35,12 +35,16 @@ public class MapleStory : MonoBehaviour
 
     public float walkSpeed = 1;
     public float jumpSpeed = 1;
+    public float climbSpeed = 1;
+    public float flySpeed = 1;
     public float fallSpeed = 1;
     public float animSpeed = 1;
     void Update()
     {
         Constants.get ().walkSpeed = walkSpeed;
         Constants.get ().jumpSpeed = jumpSpeed;
+        Constants.get ().climbSpeed = climbSpeed;
+        Constants.get ().flySpeed = flySpeed;
         Constants.get ().fallSpeed = fallSpeed;
         Constants.get ().animSpeed = animSpeed;
         loop ();
