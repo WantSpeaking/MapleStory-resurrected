@@ -41,6 +41,10 @@ namespace ms
 {
 	public class UI : Singleton<UI>
 	{
+		public void enable()
+		{
+			
+		}
 		public void send_key(int keycode, bool pressed)
 		{
 			/*if ((is_key_down[GLFW_KEY_LEFT_ALT] || is_key_down[GLFW_KEY_RIGHT_ALT]) && (is_key_down[GLFW_KEY_ENTER] || is_key_down[GLFW_KEY_KP_ENTER]))

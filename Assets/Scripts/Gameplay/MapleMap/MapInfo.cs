@@ -140,12 +140,12 @@ namespace ms
 			var split = bgmpath.IndexOf ('/');
 			bgm = bgmpath.Substring (0, split) + ".img/" + bgmpath.Substring (split + 1);
 
-			cloud = node_node_100000000img_info["cloud"].GetInt ().ToBool ();
-			fieldlimit = node_node_100000000img_info["fieldLimit"].GetInt ();
-			hideminimap = node_node_100000000img_info["hideMinimap"].GetInt ().ToBool ();
+			cloud = node_node_100000000img_info["cloud"]?.GetInt ().ToBool () ?? false;
+			fieldlimit = node_node_100000000img_info["fieldLimit"]?.GetInt () ?? 0;
+			hideminimap = node_node_100000000img_info["hideMinimap"]?.GetInt ().ToBool () ?? false;
 			mapmark = node_node_100000000img_info["mapMark"].ToString ();
-			swim = node_node_100000000img_info["swim"].GetInt ().ToBool ();
-			town = node_node_100000000img_info["town"].GetInt ().ToBool ();
+			swim = node_node_100000000img_info["swim"]?.GetInt ().ToBool () ?? false;
+			town = node_node_100000000img_info["town"]?.GetInt ().ToBool () ?? false;
 
 			if (node_100000000img["seat"] is WzImageProperty node_100000000img_seat)
 			{
