@@ -14,88 +14,140 @@ namespace ms
 	{
 		public Frame (WzObject src) // Map.wz/Back/grassySoil.img/ani/0
 		{
+			temp = src;
+
 			texture = new Texture (src);
-			//bounds = src;
-			//head = src["head"];
-			//delay = src["delay"];
+			bounds = new Rectangle<short> (src);
+			head = src["head"];
+			delay = src["delay"];
+
+			if (delay == 0)
+				delay = 100;
+
+			bool hasa0 = ((src["a0"] as WzImageProperty)?.PropertyType ?? WzPropertyType.Null) == WzPropertyType.Int;
+			bool hasa1 = ((src["a1"] as WzImageProperty)?.PropertyType ?? WzPropertyType.Null) == WzPropertyType.Int;
+
+			if (hasa0 && hasa1)
+			{
+				opacities = new Tuple<byte, byte> (src["a0"], src["a1"]);
+			}
+			else if (hasa0)
+			{
+				byte a0 = src["a0"];
+				opacities = new Tuple<byte, byte> (a0, (byte)(255 - a0));
+			}
+			else if (hasa1)
+			{
+				byte a1 = src["a1"];
+				opacities = new Tuple<byte, byte> ((byte)(255 - a1), a1);
+			}
+			else
+			{
+				opacities = new Tuple<byte, byte> (255, 255);
+			}
+
+			bool hasz0 = ((src["z0"] as WzImageProperty)?.PropertyType ?? WzPropertyType.Null) == WzPropertyType.Int;
+
+			bool hasz1 = ((src["z1"] as WzImageProperty)?.PropertyType ?? WzPropertyType.Null) == WzPropertyType.Int;
+
+
+			if (hasz0 && hasz1)
+				scales = new Tuple<short, short> (src["z0"], src["z1"]);
+			else if (hasz0)
+				scales = new Tuple<short, short> (src["z0"], 0);
+			else if (hasz1)
+				scales = new Tuple<short, short> (100, src["z1"]);
+			else
+				scales = new Tuple<short, short> (100, 100);
 		}
 
 		public Frame ()
 		{
-			/*delay = 0;
-			opacities = { 0, 0};
-			scales = { 0, 0};*/
+			delay = 0;
+			opacities = new Tuple<byte, byte> (0, 0);
+			scales = new Tuple<short, short> (0, 0);
 		}
+
+		public void erase ()
+		{
+			texture.erase ();
+		}
+
+		private WzObject temp;
 
 		public void draw (DrawArgument args)
 		{
+			//Debug.Log ($"FullPath:{temp?.FullPath}");
+
 			texture.draw (args);
 		}
 
-		public void draw ()
-		{
-			texture.draw ();
-		}
-
-		byte start_opacity() 
+		public byte start_opacity ()
 		{
 			return opacities.Item1;
 		}
 
-		ushort start_scale() 
+		public ushort start_scale ()
 		{
 			return (ushort)scales.Item1;
 		}
 
-		public ushort get_delay() 
+		public ushort get_delay ()
 		{
 			return delay;
 		}
 
-		public Point<short> get_origin() 
+		public Point<short> get_origin ()
 		{
-			return texture.get_origin();
+			return texture.get_origin ();
 		}
-		
+
 		public Point<short> get_dimensions ()
 		{
 			return texture.get_dimensions ();
 		}
-		public Point<short> get_head() 
+
+		public Point<short> get_head ()
 		{
 			return head;
 		}
 
-		public Rectangle<short> get_bounds() 
+		public Rectangle<short> get_bounds ()
 		{
 			return bounds;
 		}
-		public float opcstep(ushort timestep) 
+
+		public float opcstep (ushort timestep)
 		{
 			return timestep * (float)(opacities.Item2 - opacities.Item1) / delay;
 		}
 
-		public float scalestep(ushort timestep) 
+		public float scalestep (ushort timestep)
 		{
 			return timestep * (float)(scales.Item2 - scales.Item1) / delay;
 		}
-		
+
 		private Point<short> head = new Point<short> ();
 		private Rectangle<short> bounds = new Rectangle<short> ();
 		private Texture texture = new Texture ();
 		private ushort delay;
-		private System.Tuple<byte, byte> opacities = new System.Tuple<byte, byte> (0, 0);
+		private Tuple<byte, byte> opacities = new Tuple<byte, byte> (0, 0);
 
-		private System.Tuple<short, short> scales = new System.Tuple<short, short> (0, 0);
+		private Tuple<short, short> scales = new Tuple<short, short> (0, 0);
 		//private Rectangle<short> bounds = new Rectangle<short>();
 		//private Point<short> head = new Point<short>();
 	}
 
 	public class Animation
 	{
+		SortedSet<short> frameids = new SortedSet<short> ();
+
 		public Animation (WzObject src) // Map.wz/Back/grassySoil.img/ani/0
 		{
-			bool istexture = (src is WzCanvasProperty);
+			//bool istexture = (src is WzCanvasProperty);
+			bool istexture = ((src as WzImageProperty)?.PropertyType ?? WzPropertyType.Null) == WzPropertyType.Canvas;
+			//Debug.Log ($"{src.FullPath} istexture:{istexture} type:{(src as WzImageProperty)?.PropertyType}");
+
 			//var temp1 = src;
 			//var temp2 = src["0"];
 			//Debug.Log("temp1\t" + temp1 + "\t" + temp1.FullPath + "\t" + (temp1 is WzCanvasProperty) + "\t" + (temp1 is WzSubProperty));
@@ -103,10 +155,9 @@ namespace ms
 
 			if (istexture) //WzCanvasProperty
 			{
-				var frame = new Frame (src);
-				frames.Add (frame);
+				frames.Add (new Frame (src));
 			}
-			else //WzSubProperty
+			/*else //WzSubProperty
 			{
 				/*if (src is WzImageProperty node_Anim)
 				{
@@ -115,44 +166,47 @@ namespace ms
 				        var frame = new Frame(node_Frame);
 				        frames.Add(frame);
 				    }
-				}*/
+				}#1#
 				var frame = new Frame (src["0"]);
 				frames.Add (frame);
-			}
+				
+			}*/
 
-			/*else
+			else
 			{
-				SortedSet<short> frameids = new SortedSet<short>();
-
-				foreach (var sub in src)
+				if (src is WzImageProperty node_Anim)
 				{
-					if (sub.data_type() == nl.node.type.bitmap)
+					foreach (var sub in node_Anim.WzProperties)
 					{
-						short fid = string_conversion.GlobalMembers.or_default<short>(sub.name(), -1);
-
-						if (fid >= 0)
+						//Debug.Log ($"{sub.FullPath} istexture:{istexture} type:{(sub as WzImageProperty)?.PropertyType}");
+						if (sub.PropertyType == WzPropertyType.Canvas)
 						{
-							frameids.Add(fid);
+							short fid = string_conversion<short>.or_default (sub.Name, (short)-1);
+
+							if (fid >= 0)
+							{
+								frameids.Add (fid);
+							}
 						}
 					}
-				}
 
-				foreach (var fid in frameids)
-				{
-					var sub = src[Convert.ToString(fid)];
-					frames.Add(sub);
-				}
+					foreach (var fid in frameids)
+					{
+						var sub = src[Convert.ToString (fid)];
+						frames.Add (new Frame (sub));
+					}
 
-				if (frames.Count == 0)
-				{
-					frames.Add(new Frame());
+					if (frames.Count == 0)
+					{
+						frames.Add (new Frame ());
+					}
 				}
 			}
 
 			animated = frames.Count > 1;
-			zigzag = src["zigzag"].get_bool();
+			zigzag = src["zigzag"];
 
-			reset();*/
+			reset ();
 		}
 
 		public Animation ()
@@ -162,60 +216,151 @@ namespace ms
 
 			frames.Add (new Frame ());
 
-			//reset();
+			reset ();
 		}
 
-		
+
 		public void reset ()
 		{
+			frame.set (0);
+			opacity.set (frames[0].start_opacity ());
+			xyscale.set (frames[0].start_scale ());
+			delay = frames[0].get_delay ();
+			framestep = 1;
+			lastDraw_args = null;
+			lastDraw_interframe = -1;
 		}
+
+		private DrawArgument lastDraw_args;
+		private short lastDraw_interframe = -1;
+
+		private void erase (short interframe)
+		{
+			frames[interframe].erase ();
+		}
+
 		public void draw (DrawArgument args, float alpha)
 		{
-			/*short interframe = frame.get(alpha);
-			float interopc = opacity.get(alpha) / 255;
-			float interscale = xyscale.get(alpha) / 100;*/
+			if (lastDraw_interframe != -1)
+			{
+				erase (lastDraw_interframe);
+			}
 
-			short interframe = 0;
-			float interopc = 1;
-			float interscale = 1;
+			short interframe = frame.get (alpha);
+			float interopc = opacity.get (alpha) / 255;
+			float interscale = xyscale.get (alpha) / 100;
 
 			bool modifyopc = interopc != 1.0f;
 			bool modifyscale = interscale != 1.0f;
 
-			/*if (modifyopc || modifyscale)
-			{
-				frames[interframe].draw(args + new DrawArgument(interscale, interscale, interopc));
-			}
-			else*/
-			{
+			if (modifyopc || modifyscale)
+				frames[interframe].draw (args + new DrawArgument (interscale, interscale, interopc));
+			else
 				frames[interframe].draw (args);
-			}
+
+			lastDraw_interframe = interframe;
 		}
 
-		public void draw ()
+		/*public bool update ()
 		{
-			foreach (var frame in frames)
+			return update((ushort)(Constants.TIMESTEP*Constants.get ().frameDelay));
+		}*/
+
+		public bool update (ushort timestep = Constants.TIMESTEP)
+		{
+			timestep = (ushort)(timestep * Constants.get ().frameDelay);
+			
+			Frame framedata = get_frame ();
+
+			opacity += framedata.opcstep (timestep);
+
+			if (opacity.last () < 0.0f)
 			{
-				frame.draw ();
+				opacity.set (0.0f);
+			}
+			else if (opacity.last () > 255.0f)
+			{
+				opacity.set (255.0f);
+			}
+
+			xyscale += framedata.scalestep (timestep);
+
+			if (xyscale.last () < 0.0f)
+			{
+				opacity.set (0.0f);
+			}
+
+			if (timestep >= delay)
+			{
+				short lastframe = (short)(frames.Count - 1);
+				short nextframe;
+				bool ended;
+
+				if (zigzag && lastframe > 0)
+				{
+					if (framestep == 1 && frame == lastframe)
+					{
+						framestep = (short)-framestep;
+						ended = false;
+					}
+					else if (framestep == -1 && frame == 0)
+					{
+						framestep = (short)-framestep;
+						ended = true;
+					}
+					else
+					{
+						ended = false;
+					}
+
+					nextframe = frame + framestep;
+				}
+				else
+				{
+					if (frame == lastframe)
+					{
+						nextframe = 0;
+						ended = true;
+					}
+					else
+					{
+						nextframe = frame + 1;
+						ended = false;
+					}
+				}
+
+				ushort delta = (ushort)(timestep - delay);
+				float threshold = (float)delta / timestep;
+				frame.next (nextframe, threshold);
+
+				delay = frames[nextframe].get_delay ();
+
+				if (delay >= delta)
+				{
+					delay -= delta;
+				}
+
+				opacity.set (frames[nextframe].start_opacity ());
+				xyscale.set (frames[nextframe].start_scale ());
+
+				return ended;
+			}
+			else
+			{
+				frame.normalize ();
+
+				delay -= timestep;
+
+				return false;
 			}
 		}
 
-		public bool update ()
+		ushort get_delay (short frame_id)
 		{
-			return true;
+			return (ushort)(frame_id < frames.Count ? frames[frame_id].get_delay () : 0);
 		}
 
-		public bool update (ushort timestep)
-		{
-			return true;
-		}
-
-		ushort get_delay(short frame_id) 
-		{
-			return (ushort)(frame_id < frames.Count ? frames[frame_id].get_delay() : 0);
-		}
-
-		ushort getdelayuntil(short frame_id) 
+		ushort getdelayuntil (short frame_id)
 		{
 			ushort total = 0;
 
@@ -224,30 +369,32 @@ namespace ms
 				if (i >= frames.Count)
 					break;
 
-				total += frames[frame_id].get_delay();
+				total += frames[frame_id].get_delay ();
 			}
 
 			return total;
 		}
-		
-		public Point<short> get_origin() 
+
+		public Point<short> get_origin ()
 		{
-			return get_frame().get_origin();
+			return get_frame ().get_origin ();
 		}
-		
+
 		public Point<short> get_dimensions ()
 		{
 			return get_frame ().get_dimensions ();
 		}
-		Point<short> get_head() 
+
+		Point<short> get_head ()
 		{
-			return get_frame().get_head();
+			return get_frame ().get_head ();
 		}
 
-		Rectangle<short> get_bounds()
+		Rectangle<short> get_bounds ()
 		{
-			return get_frame().get_bounds();
+			return get_frame ().get_bounds ();
 		}
+
 		private Frame get_frame ()
 		{
 			//return frames[frame.get()];
@@ -258,9 +405,9 @@ namespace ms
 		private bool animated;
 		private bool zigzag;
 
-		/*private Nominal<short> frame = new Nominal<short>();
-		private Linear<float> opacity = new Linear<float>();
-		private Linear<float> xyscale = new Linear<float>();*/
+		private Nominal<short> frame = new Nominal<short> ();
+		private Linear<float> opacity = new Linear<float> ();
+		private Linear<float> xyscale = new Linear<float> ();
 
 		private ushort delay;
 		private short framestep;

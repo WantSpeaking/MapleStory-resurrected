@@ -58,7 +58,7 @@ namespace ms
         private short VIEWHEIGHT;
 
 
-        public static short TIMESTEP = 8;
+        public const ushort TIMESTEP = 8;
 
         public float walkSpeed = 1;
         public float jumpSpeed = 1;
@@ -66,5 +66,7 @@ namespace ms
         public float flySpeed = 1;
         public float fallSpeed = 1;
         public float animSpeed = 1;
+
+        public float frameDelay = 0.5f;
     }
 }

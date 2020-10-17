@@ -28,8 +28,35 @@ public class MapleStory : MonoBehaviour
 
     void init ()
     {
+        /*if (Error error = Session::get().init())
+        return error;
+
+#ifdef USE_NX
+        if (Error error = NxFiles::init())
+        return error;
+#else
+        if (Error error = WzFiles::init())
+        return error;
+#endif
+
+        if (Error error = Window::get().init())
+        return error;
+
+        if (Error error = Sound::init())
+        return error;
+
+        if (Error error = Music::init())
+        return error;
+
+        Char::init();
+        DamageNumber::init();
+        MapPortals::init();
+        Stage::get().init();
+        UI::get().init();*/
+        
         NxFiles.init (maplestoryFolder);
         Char.init();
+        MapPortals.init();
         Stage.get().init();
     }
 
@@ -39,6 +66,9 @@ public class MapleStory : MonoBehaviour
     public float flySpeed = 1;
     public float fallSpeed = 1;
     public float animSpeed = 1;
+    
+    public float frameDelay = 0.5f;
+
     void Update()
     {
         Constants.get ().walkSpeed = walkSpeed;
@@ -47,6 +77,8 @@ public class MapleStory : MonoBehaviour
         Constants.get ().flySpeed = flySpeed;
         Constants.get ().fallSpeed = fallSpeed;
         Constants.get ().animSpeed = animSpeed;
+        
+        Constants.get ().frameDelay = frameDelay;
         loop ();
         UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.LEFT,Input.GetKey (KeyCode.LeftArrow));
 

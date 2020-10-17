@@ -100,10 +100,13 @@ namespace ms
         }
         public void update()
         {
-            /* foreach (var iter in objs)
+             foreach (var iter in objs)
              {
-                 iter.second.update();
-             }*/
+                 foreach (var obj in iter.Value)
+                 {
+                     obj.update();
+                 }
+             }
         }
 
         private MultiValueDictionary<byte, Tile> tiles = new MultiValueDictionary<byte, Tile>();
@@ -114,9 +117,6 @@ namespace ms
     // The collection of tile and object layers on a map
     public class MapTilesObjs
     {
-        public MapTilesObjs()
-        {
-        }
         public MapTilesObjs(WzObject node_100000000img)
         {
 
@@ -178,10 +178,10 @@ namespace ms
         }
         public void update()
         {
-            /*foreach (var iter in layers)
+            foreach (var iter in layers)
             {
-                iter.second.update();
-            }*/
+                iter.Value?.update();
+            }
         }
 
         private EnumMap<Layer.Id, TilesObjs> layers = new EnumMap<Layer.Id, TilesObjs>();

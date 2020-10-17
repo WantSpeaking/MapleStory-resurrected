@@ -146,7 +146,7 @@ namespace ms
 			
 			if (drawOrErase)
 			{
-				frameit?.texture.draw (args,true);
+				frameit?.texture.draw (args);
 			}
 			else
 			{

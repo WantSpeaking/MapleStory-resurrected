@@ -221,6 +221,14 @@ namespace ms
 			this.sortingLayer = sortingLayer;
 			this.orderInLayer = orderInLayer;
 		}
+		
+		public DrawArgument (Point<short> position, bool flip,int sortingLayer, int orderInLayer)
+		{
+			pos = position;
+			xscale = flip ? -1.0f : 1.0f;
+			this.sortingLayer = sortingLayer;
+			this.orderInLayer = orderInLayer;
+		}
 
 		#endregion
 

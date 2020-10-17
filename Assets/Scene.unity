@@ -512,6 +512,7 @@ MonoBehaviour:
   flySpeed: 1
   fallSpeed: 20
   animSpeed: 1
+  frameDelay: 2
 --- !u!4 &609587585
 Transform:
   m_ObjectHideFlags: 0

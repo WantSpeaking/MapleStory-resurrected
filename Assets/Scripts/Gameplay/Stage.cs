@@ -27,7 +27,8 @@ namespace ms
 		private MapInfo mapinfo;
 		MapTilesObjs tilesobjs;
 		MapBackgrounds backgrounds;
-
+		MapPortals portals;
+		
 		//private  map
 
 		public void init ()
@@ -81,18 +82,17 @@ namespace ms
 			backgrounds = new MapBackgrounds (node_100000000img["back"]); //back2NodePath:Map/Map1/100000000.img/back
 			physics = new Physics (node_100000000img["foothold"]);
 			mapinfo = new MapInfo (node_100000000img, physics.get_fht ().get_walls (), physics.get_fht ().get_borders ());
+			portals = new MapPortals(node_100000000img["portal"], mapid);
+
 		}
 
 		void respawn (sbyte portalid)
 		{
 			//Music(mapinfo.get_bgm()).play();
 
-			//Point<short> spawnpoint = portals.get_portal_by_id(portalid);
-			//Point<short> startpos = physics.get_y_below(spawnpoint);
-			Point<short> startpos = Point<short>.zero;
-			//player.respawn(startpos, mapinfo.is_underwater());
-			player.respawn (new Point<short> (), mapinfo?.is_underwater () ?? false);
-
+			Point<short> spawnpoint = portals.get_portal_by_id((byte)portalid);
+			Point<short> startpos = physics.get_y_below(spawnpoint);
+			player.respawn(startpos, mapinfo?.is_underwater () ?? false);
 			camera.set_position(startpos);
 			camera.set_view(mapinfo?.get_walls(), mapinfo?.get_borders());
 		}
@@ -123,15 +123,27 @@ namespace ms
 				 drops.draw(id, viewx, viewy, alpha);*/
 			}
 
+			portals.draw(viewpos, alpha);
 			backgrounds.drawforegrounds (viewx, viewy, alpha);
 		}
 
 		public void update ()
 		{
 			if (player == null) return;
-			player.update (physics);
-
 			
+			//combat.update();
+			backgrounds.update();
+			//effect.update();
+			tilesobjs.update();
+			
+			//reactors.update(physics);
+			//npcs.update(physics);
+			//mobs.update(physics);
+			//chars.update(physics);
+			//drops.update(physics);
+			player.update(physics);
+
+			portals.update(player.get_position());
 			camera.update(player.get_position());
 
 			if (!player.is_climbing () && !player.is_sitting () && !player.is_attacking ())
@@ -160,29 +172,29 @@ namespace ms
 
 		void check_portals ()
 		{
-			/*if (player.is_attacking())
+			if (player.is_attacking())
 				return;
 
-			Point<int16_t> playerpos = player.get_position();
+			Point<short> playerpos = player.get_position();
 			Portal.WarpInfo warpinfo = portals.find_warp_at(playerpos);
 
 			if (warpinfo.intramap)
 			{
-				Point<int16_t> spawnpoint = portals.get_portal_by_name(warpinfo.toname);
-				Point<int16_t> startpos = physics.get_y_below(spawnpoint);
+				Point<short> spawnpoint = portals.get_portal_by_name(warpinfo.toname);
+				Point<short> startpos = physics.get_y_below(spawnpoint);
 
 				player.respawn(startpos, mapinfo.is_underwater());
 			}
 			else if (warpinfo.valid)
 			{
-				ChangeMapPacket(false, -1, warpinfo.name, false).dispatch();
+				//ChangeMapPacket(false, -1, warpinfo.name, false).dispatch();
 
-				CharStats& stats = get().get_player().get_stats();
+				CharStats stats = get().get_player().get_stats();
 
 				stats.set_mapid(warpinfo.mapid);
 
-				Sound(Sound.Name.PORTAL).play();
-			}*/
+				//Sound(Sound.Name.PORTAL).play();
+			}
 		}
 
 		void check_seats ()

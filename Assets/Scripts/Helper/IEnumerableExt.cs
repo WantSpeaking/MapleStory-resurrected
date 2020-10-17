@@ -37,5 +37,16 @@ public static class IEnumerableExt
 		}
 	}
 
+	public static T TryGet<T> (this List<T> list, int index)
+	{
+		if (index>=0&&index<list.Count-1)
+		{
+			return list[index];
+		}
+		else
+		{
+			return default;
+		}
+	}
 	#endregion
 }

@@ -70,7 +70,7 @@ namespace ms
 
 				bitmap = src.GetBitmap ();
 
-				dimensions = new Point<short> ((short)bitmap.Width, (short)bitmap.Height);
+				dimensions = new Point<short> ((short)(bitmap?.Width ?? 0), (short)(bitmap?.Height??0));
 
 				//GraphicsGL.get().addbitmap(bitmap);todo render unity
 				//Debug.Log ($"{src?.FullPath} \t {src?.GetType ()}", spriteObj);
@@ -103,8 +103,9 @@ namespace ms
 			}
 		}
 
-		public void draw (DrawArgument args, bool isFace = false)
+		public void draw (DrawArgument args)
 		{
+			if (bitmap == null) return;
 			if (spriteRenderer == null)
 			{
 				spriteObj = new GameObject ();

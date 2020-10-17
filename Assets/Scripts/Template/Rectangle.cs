@@ -1,5 +1,6 @@
 ﻿using System;
 using MapleLib.WzLib;
+using ms.Helper;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -24,15 +25,22 @@ namespace ms
 {
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
 //ORIGINAL LINE: template <class T>
-	public class Rectangle<T> where T :unmanaged, IComparable, IComparable<T>, IEquatable<T>, IConvertible
+	public class Rectangle<T> where T : unmanaged, IComparable, IComparable<T>, IEquatable<T>, IConvertible
 	{
 		public Rectangle (WzObject sourceLeftTop, WzObject sourceRightBottom)
 		{
+			if (sourceLeftTop?.GetPoint () == null || sourceRightBottom?.GetPoint () == null)
+			{
+				left_top = new Point<T> ();
+				right_bottom = new Point<T> ();
+				return;
+			}
+
 			var tempPoint1 = sourceLeftTop.GetPoint ();
-			this.left_top = new ms.Point<T> ((dynamic)tempPoint1.X, (dynamic)tempPoint1.Y);
+			left_top = new Point<T> (tempPoint1.X.ToT<T> (), tempPoint1.Y.ToT<T> ());
 
 			var tempPoint2 = sourceRightBottom.GetPoint ();
-			this.right_bottom = new ms.Point<T> ((dynamic)tempPoint2.X, (dynamic)tempPoint2.Y);
+			right_bottom = new Point<T> (tempPoint2.X.ToT<T> (), tempPoint2.Y.ToT<T> ());
 		}
 
 		public Rectangle (WzObject source) : this (source["lt"], source["rb"])
@@ -41,14 +49,14 @@ namespace ms
 
 		public Rectangle (Point<T> leftTop, Point<T> rightBottom)
 		{
-			this.left_top = leftTop;
-			this.right_bottom = rightBottom;
+			left_top = leftTop;
+			right_bottom = rightBottom;
 		}
 
 		public Rectangle (T left, T right, T top, T bottom)
 		{
-			this.left_top = new ms.Point<T> (left, top);
-			this.right_bottom = new ms.Point<T> (right, bottom);
+			left_top = new Point<T> (left, top);
+			right_bottom = new Point<T> (right, bottom);
 		}
 
 		public Rectangle ()
@@ -101,7 +109,7 @@ namespace ms
 //ORIGINAL LINE: constexpr bool contains(const Point<T>& v) const
 		public bool contains (Point<T> v)
 		{
-			return !straight () && (dynamic)v.x () >= left ()  && (dynamic)v.x () <= right ()  && (dynamic)v.y () >= top ()  && (dynamic)v.y () <= bottom ();
+			return !straight () && (dynamic)v.x () >= left () && (dynamic)v.x () <= right () && (dynamic)v.y () >= top () && (dynamic)v.y () <= bottom ();
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
