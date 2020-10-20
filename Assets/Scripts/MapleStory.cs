@@ -25,9 +25,9 @@ public class MapleStory : MonoBehaviour
 	public string maplestoryFolder = @"F:/BaiduYunDownload/079mg5/";
 	public int mapIdToLoad = 100000000;
 
-	WzFileManager wzFileManager;
+	private WzFileManager wzFileManager;
 
-	void Start ()
+	private void Start ()
 	{
 		/* wzFileManager = new WzFileManager();
 		 var wzFile = wzFileManager.LoadWzFile(path);
@@ -37,8 +37,8 @@ public class MapleStory : MonoBehaviour
 		button_load.onClick.AddListener (main);
 		DontDestroyOnLoad (this);
 	}
-	
-	void init ()
+
+	private void init ()
 	{
 		/*if (Error error = Session::get().init())
 		return error;
@@ -81,7 +81,7 @@ public class MapleStory : MonoBehaviour
 
 	public float frameDelay = 0.5f;
 
-	void Update ()
+	private void Update ()
 	{
 		Constants.get ().walkSpeed = walkSpeed;
 		Constants.get ().jumpSpeed = jumpSpeed;
@@ -100,7 +100,8 @@ public class MapleStory : MonoBehaviour
 
 		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.DOWN, Input.GetKey (KeyCode.DownArrow));
 
-		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.JUMP, Input.GetKey (KeyCode.Space));
+		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.JUMP, Input.GetKey (KeyCode.LeftAlt));
+		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.ATTACK, Input.GetKey (KeyCode.LeftControl));
 
 		/*if (Input.GetKey (KeyCode.LeftArrow))
 		{
@@ -129,7 +130,7 @@ public class MapleStory : MonoBehaviour
 		}*/
 	}
 
-	void update ()
+	private void update ()
 	{
 		Stage.get ().update ();
 
@@ -139,7 +140,7 @@ public class MapleStory : MonoBehaviour
 		Session.get().read();*/
 	}
 
-	void draw (float alpha)
+	private void draw (float alpha)
 	{
 		//Window.get().begin();
 		Stage.get ().draw (alpha);
@@ -149,18 +150,18 @@ public class MapleStory : MonoBehaviour
 
 	private bool canStart = false;
 
-	bool running ()
+	private bool running ()
 	{
 		return canStart;
 	}
 
-	static long timestep = Constants.TIMESTEP * 1000;
-	long accumulator = timestep;
+	private static long timestep = Constants.TIMESTEP * 1000;
+	private long accumulator = timestep;
 
-	long period = 0;
-	int samples = 0;
+	private long period = 0;
+	private int samples = 0;
 
-	void loop ()
+	private void loop ()
 	{
 		if (running ())
 		{
@@ -179,7 +180,7 @@ public class MapleStory : MonoBehaviour
 		}
 	}
 
-	void main ()
+	private void main ()
 	{
 		maplestoryFolder = inpuField_MapleFolder.text;
 		mapIdToLoad = int.Parse (inpuField_MapId.text);
@@ -190,6 +191,7 @@ public class MapleStory : MonoBehaviour
 		Stage.get ().load (mapIdToLoad, 0);
 		canStart = true;
 
+		Stage.get().get_mobs().spawn(new MobSpawn (1000000002,120100,0,5,135,false,-1,new ms.Point<short> (157,214)));
 		//nx.load_all(maplestoryFolder);
 		//Stage.get().load_map(mapIdToLoad);
 		//Stage.get().draw(1);
@@ -199,12 +201,12 @@ public class MapleStory : MonoBehaviour
 	}
 	#region Will be removed later
 
-	void OnButtonLoadClick ()
+	private void OnButtonLoadClick ()
 	{
 		
 	}
 
-	CharEntry parse_charentry (InPacket recv)
+	private CharEntry parse_charentry (InPacket recv)
 	{
 		int cid = 0;
 		StatsEntry stats = parse_stats (recv);
@@ -228,7 +230,7 @@ public class MapleStory : MonoBehaviour
 		return new CharEntry (stats, look, cid);
 	}
 
-	LookEntry parse_look (InPacket recv)
+	private LookEntry parse_look (InPacket recv)
 	{
 		LookEntry look = new LookEntry ();
 
@@ -298,7 +300,7 @@ public class MapleStory : MonoBehaviour
 		return look;*/
 	}
 
-	StatsEntry parse_stats (InPacket recv)
+	private StatsEntry parse_stats (InPacket recv)
 	{
 		StatsEntry statsentry = new StatsEntry ();
 

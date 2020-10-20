@@ -44,17 +44,17 @@ namespace ms
 	//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Multiple inheritance is not available in C#:
 	public class Player : Char, Playable
 	{
-		static PlayerStandState standing = new PlayerStandState ();
-		static PlayerWalkState walking = new PlayerWalkState ();
-		static PlayerFallState falling = new PlayerFallState ();
-		static PlayerProneState lying = new PlayerProneState ();
-		static PlayerClimbState climbing = new PlayerClimbState ();
-		static PlayerSitState sitting = new PlayerSitState ();
-		static PlayerFlyState flying = new PlayerFlyState ();
+		private static PlayerStandState standing = new PlayerStandState ();
+		private static PlayerWalkState walking = new PlayerWalkState ();
+		private static PlayerFallState falling = new PlayerFallState ();
+		private static PlayerProneState lying = new PlayerProneState ();
+		private static PlayerClimbState climbing = new PlayerClimbState ();
+		private static PlayerSitState sitting = new PlayerSitState ();
+		private static PlayerFlyState flying = new PlayerFlyState ();
 
-		PlayerNullState nullstate = new PlayerNullState ();
+		private PlayerNullState nullstate = new PlayerNullState ();
 
-		static PlayerState get_state (Char.State state)
+		private static PlayerState get_state (Char.State state)
 		{
 			switch (state)
 			{
@@ -295,109 +295,110 @@ namespace ms
 		//ORIGINAL LINE: bool can_attack() const
 		public bool can_attack ()
 		{
-			return !attacking && !is_climbing () && !is_sitting () && look.get_equips ().has_weapon ();
+			return !attacking && !is_climbing () && !is_sitting () /*&& look.get_equips ().has_weapon ()*/;
 		}
 
 		// Return whether the player can use a skill or not
 		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 		//ORIGINAL LINE: SpecialMove.ForbidReason can_use(const SpecialMove& move) const
-		/* public SpecialMove.ForbidReason can_use(SpecialMove move)
-		 {
-		     if (move.is_skill() && state == Char.State.PRONE)
-		     {
-		         return SpecialMove.ForbidReason.FBR_OTHER;
-		     }
+		public SpecialMove.ForbidReason can_use (SpecialMove move)
+		{
+			if (move.is_skill () && state == Char.State.PRONE)
+			{
+				return SpecialMove.ForbidReason.FBR_OTHER;
+			}
 
-		     if (move.is_attack() && (state == Char.State.LADDER || state == Char.State.ROPE))
-		     {
-		         return SpecialMove.ForbidReason.FBR_OTHER;
-		     }
+			if (move.is_attack () && (state == Char.State.LADDER || state == Char.State.ROPE))
+			{
+				return SpecialMove.ForbidReason.FBR_OTHER;
+			}
 
-		     if (has_cooldown(move.get_id()))
-		     {
-		         return SpecialMove.ForbidReason.FBR_COOLDOWN;
-		     }
+			if (has_cooldown (move.get_id ()))
+			{
+				return SpecialMove.ForbidReason.FBR_COOLDOWN;
+			}
 
-		     int level = skillbook.get_level(move.get_id());
-		     Weapon.Type weapon = get_weapontype();
-		     Job job = stats.get_job();
-		     ushort hp = stats.get_stat(MapleStat.Id.HP);
-		     ushort mp = stats.get_stat(MapleStat.Id.MP);
-		     ushort bullets = inventory.get_bulletcount();
+			int level = 0 /*skillbook.get_level(move.get_id())*/;
+			Weapon.Type weapon = get_weapontype ();
+			Job job = stats.get_job ();
+			ushort hp = stats.get_stat (MapleStat.Id.HP);
+			ushort mp = stats.get_stat (MapleStat.Id.MP);
+			ushort bullets = 0 /*inventory.get_bulletcount()*/;
 
-		     return move.can_use(level, weapon, job, hp, mp, bullets);
-		 }*/
+			return move.can_use (level, weapon, job, hp, mp, bullets);
+		}
 
 		// Create an attack struct using the player's stats
 		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 		//ORIGINAL LINE: Attack prepare_attack(bool skill) const
-		/* public Attack prepare_attack(bool skill)
-		 {
-		     Attack.Type attacktype;
-		     bool degenerate;
+		public Attack prepare_attack (bool skill)
+		{
+			Attack.Type attacktype;
+			bool degenerate;
 
-		     if (state == Char.State.PRONE)
-		     {
-		         degenerate = true;
-		         attacktype = Attack.Type.CLOSE;
-		     }
-		     else
-		     {
-		         Weapon.Type weapontype;
-		         weapontype = get_weapontype();
+			if (state == Char.State.PRONE)
+			{
+				degenerate = true;
+				attacktype = Attack.Type.CLOSE;
+			}
+			else
+			{
+				Weapon.Type weapontype;
+				weapontype = get_weapontype ();
 
-		         switch (weapontype)
-		         {
-		             case Weapon.Type.BOW:
-		             case Weapon.Type.CROSSBOW:
-		             case Weapon.Type.CLAW:
-		             case Weapon.Type.GUN:
-		                 {
-		                     degenerate = !inventory.has_projectile();
-		                     attacktype = degenerate ? Attack.Type.CLOSE : Attack.Type.RANGED;
-		                     break;
-		                 }
-		             case Weapon.Type.WAND:
-		             case Weapon.Type.STAFF:
-		                 {
-		                     degenerate = !skill;
-		                     attacktype = degenerate ? Attack.Type.CLOSE : Attack.Type.MAGIC;
-		                     break;
-		                 }
-		             default:
-		                 {
-		                     attacktype = Attack.Type.CLOSE;
-		                     degenerate = false;
-		                     break;
-		                 }
-		         }
-		     }
+				switch (weapontype)
+				{
+					case Weapon.Type.BOW:
+					case Weapon.Type.CROSSBOW:
+					case Weapon.Type.CLAW:
+					case Weapon.Type.GUN:
+					{
+						//degenerate = !inventory.has_projectile ();
+						degenerate = false;
+						attacktype = degenerate ? Attack.Type.CLOSE : Attack.Type.RANGED;
+						break;
+					}
+					case Weapon.Type.WAND:
+					case Weapon.Type.STAFF:
+					{
+						degenerate = !skill;
+						attacktype = degenerate ? Attack.Type.CLOSE : Attack.Type.MAGIC;
+						break;
+					}
+					default:
+					{
+						attacktype = Attack.Type.CLOSE;
+						degenerate = false;
+						break;
+					}
+				}
+			}
 
-		     Attack attack = new Attack();
-		     attack.type = attacktype;
-		     attack.mindamage = stats.get_mindamage();
-		     attack.maxdamage = stats.get_maxdamage();
+			Attack attack = new Attack ();
+			attack.type = attacktype;
+			attack.mindamage = stats.get_mindamage ();
+			attack.maxdamage = stats.get_maxdamage ();
 
-		     if (degenerate)
-		     {
-		         attack.mindamage /= 10;
-		         attack.maxdamage /= 10;
-		     }
+			if (degenerate)
+			{
+				attack.mindamage /= 10;
+				attack.maxdamage /= 10;
+			}
 
-		     attack.critical = stats.get_critical();
-		     attack.ignoredef = stats.get_ignoredef();
-		     attack.accuracy = stats.get_total(EquipStat.Id.ACC);
-		     attack.playerlevel = stats.get_stat(MapleStat.Id.LEVEL);
-		     //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
-		     //ORIGINAL LINE: attack.range = stats.get_range();
-		     attack.range.CopyFrom(stats.get_range());
-		     attack.bullet = inventory.get_bulletid();
-		     attack.origin = get_position();
-		     attack.toleft = !facing_right;
-		     attack.speed = get_integer_attackspeed();
+			attack.critical = stats.get_critical ();
+			attack.ignoredef = stats.get_ignoredef ();
+			attack.accuracy = stats.get_total (EquipStat.Id.ACC);
+			attack.playerlevel = (short)stats.get_stat (MapleStat.Id.LEVEL);
+			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+			//ORIGINAL LINE: attack.range = stats.get_range();
+			attack.range = (stats.get_range ());
+			/*attack.bullet = inventory.get_bulletid ();*/			attack.bullet = 0;
+			attack.origin = get_position ();
+			attack.toleft = !facing_right;
+			attack.speed = (byte)get_integer_attackspeed ();
 
-		     return attack;
-		 }*/
+			return attack;
+		}
 
 		// Execute a rush movement
 		public void rush (double targetx)
@@ -429,7 +430,7 @@ namespace ms
 		}
 
 		// Handle an attack to the player
-		/* public MobAttackResult damage(MobAttack attack)
+		 public MobAttackResult damage(MobAttack attack)
 		 {
 		     int damage = stats.calculate_damage(attack.watk);
 		     show_damage(damage);
@@ -446,16 +447,10 @@ namespace ms
 		         phobj.vforce -= 3.5;
 		     }
 
-		     byte direction = fromleft ? 0 : 1;
+		     byte direction = (byte)(fromleft ? 0 : 1);
 
-		     return
-
-		     {
-		         attack, damage, direction
-
-		     }
-		     ;
-		 }*/
+		     return new MobAttackResult (attack, damage, direction);
+		 }
 
 		// Apply a buff to the player
 		public void give_buff (Buff buff)

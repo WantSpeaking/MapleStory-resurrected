@@ -82,7 +82,7 @@ namespace ms
 			{
 				foreach (var property_SkillWZ_000img_skill_0000008 in property_SkillWZ_000img_skill.WzProperties)
 				{
-					int skill_id = string_conversion<int>.or_zero(property_SkillWZ_000img_skill_0000008.Name);
+					int skill_id = string_conversion.or_zero<int>(property_SkillWZ_000img_skill_0000008.Name);
 
 					if (skill_id == 0)
 					{

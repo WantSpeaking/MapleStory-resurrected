@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class IEnumerableExt
@@ -39,7 +41,7 @@ public static class IEnumerableExt
 
 	public static T TryGet<T> (this List<T> list, int index)
 	{
-		if (index>=0&&index<list.Count-1)
+		if (index >= 0 && index < list.Count - 1)
 		{
 			return list[index];
 		}
@@ -48,5 +50,19 @@ public static class IEnumerableExt
 			return default;
 		}
 	}
+
+	#endregion
+
+	#region f
+
+	public static void remove_if<T> (this LinkedList<T> list, Func<T, bool> predict)
+	{
+		var results = list.Where (predict).ToArray ();
+		foreach (var result in results)
+		{
+			list.Remove (result);
+		}
+	}
+
 	#endregion
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ms.Helper;
 
 namespace Helper
 {
@@ -208,6 +209,11 @@ namespace Helper
 			Cache[(t, nameof (Equal))] = func;
 
 			return func (left, right);
+		}
+
+		public static T Abs<T> (T a) where T : unmanaged
+		{
+			return !GreaterThanOrEqual (a, (0).ToT<T> ()) ? GenericArithmetic.Multiply (a, (-1).ToT<T> ()) : a;
 		}
 	}
 }

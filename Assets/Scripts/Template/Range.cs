@@ -40,6 +40,11 @@ namespace ms
 			//this.b = (dynamic)0;
 		}
 
+		public void Set (T first, T second)
+		{
+			a = first;
+			b = second;
+		}
 		// Return the first value
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: constexpr const T& first() const

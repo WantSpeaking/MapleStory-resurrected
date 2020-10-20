@@ -85,7 +85,7 @@ namespace ms
 			NUM_LAYERS
 		}
 
-		readonly Clothing.Layer[] layers = new[] {Clothing.Layer.CAP, Clothing.Layer.FACEACC, Clothing.Layer.EYEACC, Clothing.Layer.EARRINGS, Clothing.Layer.TOP, Clothing.Layer.MAIL, Clothing.Layer.PANTS, Clothing.Layer.SHOES, Clothing.Layer.GLOVE, Clothing.Layer.SHIELD, Clothing.Layer.CAPE, Clothing.Layer.RING, Clothing.Layer.PENDANT, Clothing.Layer.BELT, Clothing.Layer.MEDAL};
+		private readonly Clothing.Layer[] layers = new[] {Clothing.Layer.CAP, Clothing.Layer.FACEACC, Clothing.Layer.EYEACC, Clothing.Layer.EARRINGS, Clothing.Layer.TOP, Clothing.Layer.MAIL, Clothing.Layer.PANTS, Clothing.Layer.SHOES, Clothing.Layer.GLOVE, Clothing.Layer.SHIELD, Clothing.Layer.CAPE, Clothing.Layer.RING, Clothing.Layer.PENDANT, Clothing.Layer.BELT, Clothing.Layer.MEDAL};
 
 		// Construct a new equip
 		public Clothing (int id, BodyDrawInfo drawinfo)
@@ -263,7 +263,7 @@ namespace ms
 			transparent = transparents.Any (x => x == itemid);
 		}
 
-		readonly HashSet<int> transparents = new HashSet<int> {1002186};
+		private readonly HashSet<int> transparents = new HashSet<int> {1002186};
 
 		// Draw the equip
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:

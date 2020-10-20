@@ -220,7 +220,7 @@ namespace ms
 		public int flags = 0;
 		public ushort fhid = 0;
 		public double fhslope = 0.0;
-		public byte fhlayer = 0;
+		public sbyte fhlayer = 0;
 		public double groundbelow = 0.0;
 		public bool onground = true;
 		public bool enablejd = false;

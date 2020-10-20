@@ -74,6 +74,7 @@ namespace ms
 			totalstats[EquipStat.Id.LUK] = get_stat(MapleStat.Id.LUK);
 			totalstats[EquipStat.Id.SPEED] = 100;
 			totalstats[EquipStat.Id.JUMP] = 100;
+			totalstats[EquipStat.Id.ACC] = 100;//todo remove later totalstats[EquipStat.Id.ACC] = 100;
 
 			maxdamage = 0;
 			mindamage = 0;

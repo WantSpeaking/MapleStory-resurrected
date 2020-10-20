@@ -15,6 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using MapleLib.WzLib.WzProperties;
 using ms;
@@ -25,7 +27,7 @@ namespace MapleLib.WzLib
 	/// <summary>
 	/// An abstract class for wz objects
 	/// </summary>
-	public abstract class WzObject : IDisposable
+	public abstract class WzObject : IDisposable, IEnumerable<WzImageProperty>
 	{
 		private object hcTag = null;
 		private object hcTag_spine = null;
@@ -227,27 +229,27 @@ namespace MapleLib.WzLib
 
 		public static implicit operator int (WzObject wzObject)
 		{
-			return wzObject.GetInt ();
+			return wzObject?.GetInt () ?? 0;
 		}
 
 		public static implicit operator short (WzObject wzObject)
 		{
-			return wzObject.GetShort ();
+			return wzObject?.GetShort () ?? 0;
 		}
 
 		public static implicit operator long (WzObject wzObject)
 		{
-			return wzObject.GetLong ();
+			return wzObject?.GetLong () ?? 0;
 		}
 
 		public static implicit operator float (WzObject wzObject)
 		{
-			return wzObject.GetFloat ();
+			return wzObject?.GetFloat () ?? 0;
 		}
 
 		public static implicit operator double (WzObject wzObject)
 		{
-			return wzObject.GetDouble ();
+			return wzObject?.GetDouble () ?? 0;
 		}
 
 		/*public static implicit operator string(WzObject wzObject)
@@ -261,7 +263,7 @@ namespace MapleLib.WzLib
 
 		public static implicit operator Bitmap (WzObject wzObject)
 		{
-			return wzObject.GetBitmap ();
+			return wzObject?.GetBitmap ();
 		}
 
 		public static implicit operator byte[] (WzObject wzObject)
@@ -284,6 +286,60 @@ namespace MapleLib.WzLib
 			return wzObject?.GetShort () == 1;
 		}
 
+		public static implicit operator Animation (WzObject wzObject)
+		{
+			if (wzObject != null)
+			{
+				return new Animation (wzObject);
+			}
+			else
+			{
+				return new Animation ();
+			}
+		}
+
+		public static implicit operator List<WzImageProperty> (WzObject wzObject)
+		{
+			if (wzObject is WzImageProperty imageProperty)
+			{
+				return imageProperty.WzProperties;
+			}
+
+			return default;
+		}
+
+		public static implicit operator WzObjectType (WzObject wzObject)
+		{
+			return wzObject.ObjectType;
+		}
+
+		public static implicit operator WzPropertyType (WzObject wzObject)
+		{
+			if (wzObject is WzImageProperty wzImageProperty)
+			{
+				return wzImageProperty.PropertyType;
+			}
+
+			return WzPropertyType.Null;
+		}
+
 		#endregion
+
+		public IEnumerator<WzImageProperty> GetEnumerator ()
+		{
+			if (this is WzImageProperty imageProperty)
+			{
+				return imageProperty.WzProperties.GetEnumerator ();
+			}
+			else
+			{
+				return default;
+			}
+		}
+
+		IEnumerator IEnumerable.GetEnumerator ()
+		{
+			return GetEnumerator ();
+		}
 	}
 }

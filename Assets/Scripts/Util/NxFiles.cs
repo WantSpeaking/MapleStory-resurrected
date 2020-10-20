@@ -28,10 +28,10 @@ namespace ms
 	public class NxFiles
 	{
 		// Number of needed files
-		short NUM_FILES = 19;
+		private short NUM_FILES = 19;
 
 		// Names of the needed game files
-		string[] filenames =
+		private string[] filenames =
 		{
 			"Base.nx",
 			"Character.nx",

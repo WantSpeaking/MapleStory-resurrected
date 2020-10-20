@@ -108,11 +108,11 @@ namespace ms
 			return itemdata;
 		}
 
-		readonly string[] types = new[] {"HAT", "FACE ACCESSORY", "EYE ACCESSORY", "EARRINGS", "TOP", "OVERALL", "BOTTOM", "SHOES", "GLOVES", "SHIELD", "CAPE", "RING", "PENDANT", "BELT", "MEDAL"};
+		private readonly string[] types = new[] {"HAT", "FACE ACCESSORY", "EYE ACCESSORY", "EARRINGS", "TOP", "OVERALL", "BOTTOM", "SHOES", "GLOVES", "SHIELD", "CAPE", "RING", "PENDANT", "BELT", "MEDAL"};
 
-		readonly EquipSlot.Id[] equipslots = {EquipSlot.Id.HAT, EquipSlot.Id.FACE, EquipSlot.Id.EYEACC, EquipSlot.Id.EARACC, EquipSlot.Id.TOP, EquipSlot.Id.TOP, EquipSlot.Id.BOTTOM, EquipSlot.Id.SHOES, EquipSlot.Id.GLOVES, EquipSlot.Id.SHIELD, EquipSlot.Id.CAPE, EquipSlot.Id.RING1, EquipSlot.Id.PENDANT1, EquipSlot.Id.BELT, EquipSlot.Id.MEDAL};
+		private readonly EquipSlot.Id[] equipslots = {EquipSlot.Id.HAT, EquipSlot.Id.FACE, EquipSlot.Id.EYEACC, EquipSlot.Id.EARACC, EquipSlot.Id.TOP, EquipSlot.Id.TOP, EquipSlot.Id.BOTTOM, EquipSlot.Id.SHOES, EquipSlot.Id.GLOVES, EquipSlot.Id.SHIELD, EquipSlot.Id.CAPE, EquipSlot.Id.RING1, EquipSlot.Id.PENDANT1, EquipSlot.Id.BELT, EquipSlot.Id.MEDAL};
 
-		readonly string[] weaponTypes = {"ONE-HANDED SWORD", "ONE-HANDED AXE", "ONE-HANDED MACE", "DAGGER", "", "", "", "WAND", "STAFF", "", "TWO-HANDED SWORD", "TWO-HANDED AXE", "TWO-HANDED MACE", "SPEAR", "POLEARM", "BOW", "CROSSBOW", "CLAW", "KNUCKLE", "GUN"};
+		private readonly string[] weaponTypes = {"ONE-HANDED SWORD", "ONE-HANDED AXE", "ONE-HANDED MACE", "DAGGER", "", "", "", "WAND", "STAFF", "", "TWO-HANDED SWORD", "TWO-HANDED AXE", "TWO-HANDED MACE", "SPEAR", "POLEARM", "BOW", "CROSSBOW", "CLAW", "KNUCKLE", "GUN"};
 
 		// Allow the cache to use the constructor
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# has no concept of a 'friend' class:

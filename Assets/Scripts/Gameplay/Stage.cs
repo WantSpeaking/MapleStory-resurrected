@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 
 namespace ms
 {
-	class Stage : Singleton<Stage>
+	internal class Stage : Singleton<Stage>
 	{
-		enum State
+		private enum State
 		{
 			INACTIVE,
 			TRANSITION,
@@ -23,17 +23,22 @@ namespace ms
 
 		private Optional<Playable> playable;
 		private State state;
-		int mapid;
+		private int mapid;
 
 		private MapInfo mapinfo;
-		MapTilesObjs tilesobjs;
-		MapBackgrounds backgrounds;
-		MapPortals portals;
+		private MapTilesObjs tilesobjs;
+		private MapBackgrounds backgrounds;
+		private MapPortals portals;
+
+		private MapMobs mobs = new MapMobs ();
+		
+		Combat combat;
 
 		//private  map
 		public Stage ()
 		{
 			state = State.INACTIVE;
+			combat = new Combat (player, /*chars, */mobs/*, reactors*/);
 		}
 
 		public void init ()
@@ -72,10 +77,10 @@ namespace ms
 		public void clear ()
 		{
 			state = State.INACTIVE;
-
+			mobs.clear();
 			/*chars.clear();
 			npcs.clear();
-			mobs.clear();
+			
 			drops.clear();
 			reactors.clear();*/
 		}
@@ -102,7 +107,7 @@ namespace ms
 			portals = new MapPortals (node_100000000img["portal"], mapid);
 		}
 
-		void respawn (sbyte portalid)
+		private void respawn (sbyte portalid)
 		{
 			//Music(mapinfo.get_bgm()).play();
 
@@ -126,15 +131,17 @@ namespace ms
 			{
 				tilesobjs.draw ((Layer.Id)id, viewpos, alpha);
 				player.draw ((Layer.Id)id, viewx, viewy, alpha);
+				mobs.draw((Layer.Id)id, viewx, viewy, alpha);
 				//chars.draw((global.ms.Layer.Id)id, viewx, viewy, alpha);
 
 				/* reactors.draw(id, viewx, viewy, alpha);
 				 npcs.draw(id, viewx, viewy, alpha);
-				 mobs.draw(id, viewx, viewy, alpha);
+				
 				
 				 drops.draw(id, viewx, viewy, alpha);*/
 			}
 
+			combat.draw(viewx, viewy, alpha);
 			portals.draw (viewpos, alpha);
 			backgrounds.drawforegrounds (viewx, viewy, alpha);
 		}
@@ -143,14 +150,14 @@ namespace ms
 		{
 			if (player == null) return;
 
-			//combat.update();
+			combat.update();
 			backgrounds.update ();
 			//effect.update();
 			tilesobjs.update ();
 
 			//reactors.update(physics);
 			//npcs.update(physics);
-			//mobs.update(physics);
+			mobs.update(physics);
 			//chars.update(physics);
 			//drops.update(physics);
 			player.update (physics);
@@ -169,22 +176,38 @@ namespace ms
 				if (player.is_key_down (KeyAction.Id.DOWN))
 					check_ladders (false);
 
+				if (player.is_key_down (KeyAction.Id.ATTACK))
+				{
+					combat.use_move(0);
+				}
+				
 				/*if (player.is_key_down (KeyAction.Id.SIT))
 					check_seats ();
 
-				if (player.is_key_down (KeyAction.Id.ATTACK))
-				{
-				}
-				//combat.use_move(0);
+				
 
 				if (player.is_key_down (KeyAction.Id.PICKUP))
 					check_drops ();*/
+			}
+			
+			if (player.is_invincible())
+				return;
+
+			int oid_id = mobs.find_colliding(player.get_phobj());
+			if (oid_id!=0)
+			{
+				MobAttack attack = mobs.create_attack (oid_id);
+				if (attack!=null)
+				{
+					MobAttackResult result = player.damage(attack);
+					//TakeDamagePacket(result, TakeDamagePacket::From::TOUCH).dispatch();
+				}
 			}
 		}
 
 		private SetFieldHandler _setFieldHandler;
 
-		void check_portals ()
+		private void check_portals ()
 		{
 			if (player.is_attacking ())
 				return;
@@ -213,7 +236,7 @@ namespace ms
 			}
 		}
 
-		void check_seats ()
+		private void check_seats ()
 		{
 			/*if (player.is_sitting() || player.is_attacking())
 				return;
@@ -222,7 +245,7 @@ namespace ms
 			player.set_seat(seat);*/
 		}
 
-		void check_ladders (bool up)
+		private void check_ladders (bool up)
 		{
 			if (!player.can_climb () || player.is_climbing () || player.is_attacking ())
 				return;
@@ -231,7 +254,7 @@ namespace ms
 			player.set_ladder (ladder);
 		}
 
-		void check_drops ()
+		private void check_drops ()
 		{
 			/*Point<int16_t> playerpos = player.get_position();
 			MapDrops.Loot loot = drops.find_loot_at(playerpos);
@@ -251,7 +274,7 @@ namespace ms
 					playable.get ().send_action (KeyAction.actionbyid (action), down);
 					break;
 				case KeyType.Id.SKILL:
-					//combat.use_move (action);
+					combat.use_move (action);
 					break;
 				case KeyType.Id.ITEM:
 					player.use_item (action);
@@ -262,11 +285,19 @@ namespace ms
 			}
 		}
 
+		public MapMobs get_mobs()
+		{
+			return mobs;
+		}
+		
 		public Player get_player ()
 		{
 			return player;
 		}
-
+		Combat get_combat()
+		{
+			return combat;
+		}
 		public void transfer_player ()
 		{
 			/*PlayerMapTransferPacket().dispatch();

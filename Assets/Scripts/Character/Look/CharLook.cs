@@ -827,7 +827,7 @@ namespace ms
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: Stance::Id getattackstance(byte attack, bool degenerate) const
 
-		List<Stance.Id>[] degen_stances =
+private List<Stance.Id>[] degen_stances =
 		{
 			new List<Stance.Id> {Stance.Id.NONE},
 			new List<Stance.Id> {Stance.Id.NONE},
@@ -841,7 +841,7 @@ namespace ms
 			new List<Stance.Id> {Stance.Id.SWINGP1, Stance.Id.STABT2}
 		};
 
-		List<Stance.Id>[] attack_stances =
+private List<Stance.Id>[] attack_stances =
 		{
 			new List<Stance.Id> {Stance.Id.NONE},
 			new List<Stance.Id> {Stance.Id.STABO1, Stance.Id.STABO2, Stance.Id.SWINGO1, Stance.Id.SWINGO2, Stance.Id.SWINGO3},

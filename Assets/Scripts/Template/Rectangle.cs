@@ -63,6 +63,11 @@ namespace ms
 		{
 		}
 
+		public void Set (T left, T right, T top, T bottom)
+		{
+			left_top.Set (left, top);
+			right_bottom.Set (right, bottom);
+		}
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: constexpr T width() const
 		public T width ()

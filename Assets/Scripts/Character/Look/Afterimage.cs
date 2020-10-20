@@ -64,7 +64,7 @@ namespace ms
 			
 			foreach (var sub in ((WzImageProperty)src).WzProperties)
 			{
-				byte frame = string_conversion<byte>.or_default (sub.Name, (byte)255);
+				byte frame = string_conversion.or_default (sub.Name, (byte)255);
 
 				if (frame < 255)
 				{

@@ -263,7 +263,15 @@ namespace ms
 				stretch, xscale, yscale, color, angle
 			};*/
 		}
-
+		public static DrawArgument operator - (DrawArgument a, Point<short> argpos)
+		{
+			return new DrawArgument (a.pos - argpos, a.center - argpos, a.stretch, a.xscale, a.yscale, a.color, a.angle);
+			/*return {
+				pos + argpos,
+				center + argpos,
+				stretch, xscale, yscale, color, angle
+			};*/
+		}
 		#endregion
 
 		public Point<short> get_Pos ()

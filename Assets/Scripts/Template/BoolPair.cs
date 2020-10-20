@@ -21,19 +21,20 @@ namespace ms
 {
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
 //ORIGINAL LINE: template <typename T>
-	public class BoolPair <T> where T:new ()
+	public class BoolPair<T> /*where T:new ()*/
 	{
-		public BoolPair(T f, T s)
+		public BoolPair (T f, T s)
 		{
 			this.first = f;
 			this.second = s;
 		}
-		public BoolPair()
+
+		public BoolPair ()
 		{
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++11 variadic templates:
-		public void set(bool b, T t)
+		public void set (bool b, T t)
 		{
 			if (b)
 			{
@@ -45,12 +46,23 @@ namespace ms
 			}
 		}
 
-		public T this[bool b]
+		/*public void set (bool b, T t1, T t2)
 		{
-			get
+			if (b)
 			{
-				return b ? first : second;
+				first = t1;
+				second = t2;
 			}
+			else
+			{
+				first = t2;
+				second = t1;
+			}
+		}*/
+
+		public T this [bool b]
+		{
+			get => b ? first : second;
 			set
 			{
 				if (b)
@@ -64,7 +76,7 @@ namespace ms
 			}
 		}
 
-		private T first = new T();
-		private T second = new T();
+		private T first;
+		private T second;
 	}
 }

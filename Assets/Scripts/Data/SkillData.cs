@@ -191,7 +191,7 @@ namespace ms
 			return desc;
 		}
 
-		readonly string null_level = "Missing level description.";
+		private readonly string null_level = "Missing level description.";
 
 		// Return the description of a level
 		// If there is no description for this level, a warning message is returned.
@@ -297,7 +297,7 @@ namespace ms
 					float ignoredef = 0.0f;
 					float hrange = (float)(property_Skillwz_000img_skill_11111004_level_1["range"]?.GetFloat () ?? 100f) / 100;
 					Rectangle<short> range = new Rectangle<short> (property_Skillwz_000img_skill_11111004_level_1);
-					int level = string_conversion<int>.or_default (property_Skillwz_000img_skill_11111004_level_1.Name, -1);
+					int level = string_conversion.or_default (property_Skillwz_000img_skill_11111004_level_1.Name, -1);
 					stats.Add (level, new Stats (damage, matk, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range));
 				}
 			}
@@ -345,7 +345,7 @@ namespace ms
 			{
 				foreach (var property_Skillwz_1111img_skill_11111003_req_11111001 in property_Skillwz_1111img_skill_11111003_req.WzProperties)
 				{
-					int skillid = string_conversion<int>.or_default (property_Skillwz_1111img_skill_11111003_req_11111001.Name, -1);
+					int skillid = string_conversion.or_default (property_Skillwz_1111img_skill_11111003_req_11111001.Name, -1);
 					int reqlv = property_Skillwz_1111img_skill_11111003_req_11111001.GetInt ();
 
 					reqskills.Add (skillid, reqlv);
@@ -354,7 +354,7 @@ namespace ms
 			
 		}
 
-		Dictionary<int, int> skill_flags = new Dictionary<int, int>
+		private Dictionary<int, int> skill_flags = new Dictionary<int, int>
 		{
 			{(int)SkillId.Id.THREE_SNAILS, (int)Flags.ATTACK},
 			{(int)SkillId.Id.POWER_STRIKE, (int)Flags.ATTACK},

@@ -52,10 +52,10 @@ namespace ms
 	// Represents a single image loaded from a of game data
 	public class Texture : System.IDisposable
 	{
-		GameObject spriteObj;
-		SpriteRenderer spriteRenderer;
+		private GameObject spriteObj;
+		private SpriteRenderer spriteRenderer;
 		private UnityEngine.Sprite sprite;
-		string fullPath;
+		private string fullPath;
 
 		public Texture ()
 		{
@@ -79,16 +79,6 @@ namespace ms
 
 		public void Dispose ()
 		{
-		}
-
-		public Point<short> get_origin ()
-		{
-			return origin;
-		}
-
-		public Point<short> get_dimensions ()
-		{
-			return dimensions;
 		}
 
 		private Bitmap bitmap;
@@ -153,6 +143,31 @@ namespace ms
 		public void shift (Point<short> amount)
 		{
 			origin = origin - amount;
+		}
+		
+		public bool is_valid()
+		{
+			return bitmap != null;/*bitmap.id() > 0;*/
+		}
+
+		public short width() 
+		{
+			return dimensions.x();
+		}
+
+		public short height() 
+		{
+			return dimensions.y();
+		}
+
+		public Point<short> get_origin() 
+		{
+			return origin;
+		}
+
+		public Point<short> get_dimensions() 
+		{
+			return dimensions;
 		}
 	}
 }

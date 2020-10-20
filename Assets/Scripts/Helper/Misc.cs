@@ -78,7 +78,7 @@ namespace ms
 		}*/
 	}
 
-	public static class string_conversion<T>
+	public static class string_conversion
 	{
 		public static T or_default<T> (string str, T defaultVaule)
 		{
@@ -94,7 +94,7 @@ namespace ms
 			return ret;
 		}
 
-		public static T or_zero (string str)
+		public static T or_zero<T> (string str)
 		{
 			return or_default<T> (str, default (T));
 		}

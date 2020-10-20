@@ -40,9 +40,11 @@ namespace ms
 	// Base for objects on a map, e.g., Mobs, NPCs, Characters, etc.
 	public abstract class MapObject : System.IDisposable
 	{
-		public MapObject ()
+		protected MapObject(int o, Point<short> p )
 		{
-			
+			this.oid = o;
+			set_position (p);
+			active = true;
 		}
 		
 		public virtual void Dispose()
@@ -81,7 +83,7 @@ namespace ms
 		// Obtains the layer used to determine the drawing order on the map.
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: virtual sbyte get_layer() const
-		public virtual byte get_layer()
+		public virtual sbyte get_layer()
 		{
 			return phobj.fhlayer;
 		}
@@ -115,14 +117,7 @@ namespace ms
 			return phobj.get_position();
 		}
 
-		protected MapObject(int o, Point<short> p )
-		{
-			this.oid = o;
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: set_position(p);
-			set_position (p);
-			active = true;
-		}
+	
 
 		protected PhysicsObject phobj = new PhysicsObject();
 		protected int oid;

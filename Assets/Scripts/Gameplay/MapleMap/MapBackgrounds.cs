@@ -224,7 +224,7 @@ namespace ms
         private bool flipped;
         private double x;
         private double y;
-        int orderInLayer;
+        private int orderInLayer;
         private string fullPath;
 
         private MovingObject moveobj = new MovingObject();

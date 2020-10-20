@@ -113,7 +113,7 @@ namespace ms
 			number.draw(viewx, viewy, alpha);*/
 		}
 
-		void draw_preview (Point<short> position, float alpha)
+		private void draw_preview (Point<short> position, float alpha)
 		{
 			look_preview.draw (position, false, Stance.Id.STAND1, Expression.Id.DEFAULT);
 		}
@@ -167,7 +167,7 @@ namespace ms
 			return look.update ((ushort)(stancespeed*Constants.get ().animSpeed));//todo this is action speed
 		}
 
-		protected float get_stancespeed ()
+		public float get_stancespeed ()
 		{
 			if (attacking)
 				return get_real_attackspeed ();
@@ -184,14 +184,14 @@ namespace ms
 			}
 		}
 
-		protected float get_real_attackspeed ()
+		public float get_real_attackspeed ()
 		{
 			sbyte speed = get_integer_attackspeed ();
 
 			return 1.7f - (float)(speed) / 10;
 		}
 
-		protected ushort get_attackdelay (uint no)
+		public ushort get_attackdelay (uint no)
 		{
 			byte first_frame = afterimage.get_first_frame ();
 			ushort delay = look.get_attackdelay (no, first_frame);
@@ -207,29 +207,29 @@ namespace ms
 			return get_layer ();
 		}
 
-		protected sbyte get_layer ()
+		public sbyte get_layer ()
 		{
 			return (sbyte)(is_climbing () ? 7 : phobj.fhlayer);
 		}
 
-		protected void show_attack_effect (Animation toshow, sbyte z)
+		public void show_attack_effect (Animation toshow, sbyte z)
 		{
 			float attackspeed = get_real_attackspeed ();
 
 			effects.add (toshow, new DrawArgument (facing_right), z, attackspeed);
 		}
 
-		protected void show_effect_id (CharEffect.Id toshow)
+		public void show_effect_id (CharEffect.Id toshow)
 		{
 			effects.add (chareffects[toshow]);
 		}
 
-		protected void show_iron_body ()
+		public void show_iron_body ()
 		{
 			ironbody.set_for (500);
 		}
 
-		protected void show_damage (int damage)
+		public void show_damage (int damage)
 		{
 			short start_y = (short)(phobj.get_y () - 60);
 			short x = (short)(phobj.get_x () - 10);
@@ -240,12 +240,12 @@ namespace ms
 			invincible.set_for (2000);
 		}
 
-		protected void speak (string line)
+		public void speak (string line)
 		{
 			//chatballoon.change_text(line);
 		}
 
-		protected void change_look (MapleStat.Id stat, int id)
+		public void change_look (MapleStat.Id stat, int id)
 		{
 			switch (stat)
 			{
@@ -261,7 +261,7 @@ namespace ms
 			}
 		}
 
-		protected void set_state (byte statebyte)
+		public void set_state (byte statebyte)
 		{
 			if (statebyte % 2 == 1)
 			{
@@ -284,7 +284,7 @@ namespace ms
 			look.set_expression (expression);
 		}
 
-		void attack (string action)
+		public void attack (string action)
 		{
 			look.set_action (action);
 
@@ -292,7 +292,7 @@ namespace ms
 			look.set_alerted (5000);
 		}
 
-		void attack (Stance.Id stance)
+		public void attack (Stance.Id stance)
 		{
 			look.attack (stance);
 
@@ -300,7 +300,7 @@ namespace ms
 			look.set_alerted (5000);
 		}
 
-		void attack (bool degenerate)
+		public void attack (bool degenerate)
 		{
 			look.attack (degenerate);
 
@@ -308,7 +308,7 @@ namespace ms
 			look.set_alerted (5000);
 		}
 
-		void set_afterimage (int skill_id)
+		public void set_afterimage (int skill_id)
 		{
 			int weapon_id = look.get_equips ().get_weapon ();
 
@@ -343,7 +343,7 @@ namespace ms
 			look.set_stance (stance);
 		}
 
-		void add_pet (byte index, int iid, string name, int uniqueid, Point<short> pos, byte stance, int fhid)
+		private void add_pet (byte index, int iid, string name, int uniqueid, Point<short> pos, byte stance, int fhid)
 		{
 			if (index > 2)
 				return;
@@ -351,7 +351,7 @@ namespace ms
 			pets[index] = new PetLook (iid, name, uniqueid, pos, stance, fhid);
 		}
 
-		void remove_pet (byte index, bool hunger)
+		private void remove_pet (byte index, bool hunger)
 		{
 			if (index > 2)
 				return;
@@ -400,7 +400,7 @@ namespace ms
 			return facing_right;
 		}
 
-		string get_name ()
+		private string get_name ()
 		{
 			//return namelabel.get_text();
 			return string.Empty;
@@ -444,7 +444,7 @@ namespace ms
 		}
 
 
-		static EnumMap<CharEffect.Id, Animation> chareffects = new EnumMap<CharEffect.Id, Animation> ();
+		private static EnumMap<CharEffect.Id, Animation> chareffects = new EnumMap<CharEffect.Id, Animation> ();
 
 		public abstract sbyte get_integer_attackspeed ();
 
@@ -458,13 +458,13 @@ namespace ms
 			look = new CharLook (lk);
 		}
 
-		protected CharLook look = new CharLook ();
-		protected CharLook look_preview = new CharLook ();
-		protected PetLook[] pets = new PetLook[3];
+		public CharLook look = new CharLook ();
+		public CharLook look_preview = new CharLook ();
+		public PetLook[] pets = new PetLook[3];
 
-		protected State state;
-		protected bool attacking;
-		protected bool facing_right;
+		public State state;
+		public bool attacking;
+		public bool facing_right;
 
 		//private Text namelabel = new Text ();
 		//private ChatBalloon chatballoon = new ChatBalloon ();

@@ -6,14 +6,15 @@ namespace nl
 {
     public class nx
 	{
-		static List<WzFile> files = new List<WzFile>();
-		static WzFileManager wzFileManager = new WzFileManager();
-		static bool exists(string name)
+		private static List<WzFile> files = new List<WzFile>();
+		private static WzFileManager wzFileManager = new WzFileManager();
+
+		private static bool exists(string name)
 		{
 			return true;
 		}
 
-		static WzFile add_file(string name)
+		private static WzFile add_file(string name)
 		{
 			if (!exists(name))
 				return null;
@@ -36,6 +37,7 @@ namespace nl
 			wzFile_effect = add_file(suffix+"effect.wz");
 			wzFile_item = add_file(suffix+"item.wz");
 			wzFile_map = add_file(suffix+"map.wz");
+			wzFile_mob = add_file(suffix+"mob.wz");
 			wzFile_skill = add_file(suffix+"skill.wz");
 			wzFile_sound = add_file(suffix+"sound.wz");
 			wzFile_string = add_file(suffix+"string.wz");

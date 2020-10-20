@@ -140,7 +140,7 @@ namespace ms
 
 	public class Animation
 	{
-		SortedSet<short> frameids = new SortedSet<short> ();
+		private SortedSet<short> frameids = new SortedSet<short> ();
 
 		public Animation (WzObject src) // Map.wz/Back/grassySoil.img/ani/0
 		{
@@ -181,7 +181,7 @@ namespace ms
 						//Debug.Log ($"{sub.FullPath} istexture:{istexture} type:{(sub as WzImageProperty)?.PropertyType}");
 						if (sub.PropertyType == WzPropertyType.Canvas)
 						{
-							short fid = string_conversion<short>.or_default (sub.Name, (short)-1);
+							short fid = string_conversion.or_default (sub.Name, (short)-1);
 
 							if (fid >= 0)
 							{
@@ -355,12 +355,12 @@ namespace ms
 			}
 		}
 
-		ushort get_delay (short frame_id)
+		private ushort get_delay (short frame_id)
 		{
 			return (ushort)(frame_id < frames.Count ? frames[frame_id].get_delay () : 0);
 		}
 
-		ushort getdelayuntil (short frame_id)
+		private ushort getdelayuntil (short frame_id)
 		{
 			ushort total = 0;
 
@@ -385,12 +385,12 @@ namespace ms
 			return get_frame ().get_dimensions ();
 		}
 
-		Point<short> get_head ()
+		public Point<short> get_head ()
 		{
 			return get_frame ().get_head ();
 		}
 
-		Rectangle<short> get_bounds ()
+		public Rectangle<short> get_bounds ()
 		{
 			return get_frame ().get_bounds ();
 		}

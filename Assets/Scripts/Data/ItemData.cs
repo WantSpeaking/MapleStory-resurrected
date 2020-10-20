@@ -211,7 +211,7 @@ namespace ms
 			}
 		}
 
-		string[] categorynames = {"Cap", "Accessory", "Accessory", "Accessory", "Coat", "Longcoat", "Pants", "Shoes", "Glove", "Shield", "Cape", "Ring", "Accessory", "Accessory", "Accessory"};
+		private string[] categorynames = {"Cap", "Accessory", "Accessory", "Accessory", "Coat", "Longcoat", "Pants", "Shoes", "Glove", "Shield", "Cape", "Ring", "Accessory", "Accessory", "Accessory"};
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: string get_eqcategory(int id) const

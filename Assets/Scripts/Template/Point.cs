@@ -83,6 +83,11 @@ namespace ms
 			this.b = second;
 		}
 
+		public void Set (T first, T second)
+		{
+			a = first;
+			b = second;
+		}
 
 		// Return the x-coordinate
 		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -147,34 +152,34 @@ namespace ms
 		// Shift the x-coordinate by the specified amount
 		public void shift_x (T v)
 		{
-			a = (dynamic)a + v;
+			a = GenericArithmetic.Add (a, v);
 		}
 
 		// Shift the y-coordinate by the specified amount
 		public void shift_y (T v)
 		{
-			b = (dynamic)a + v;
+			b = GenericArithmetic.Add (b, v);
 		}
 
 		// Shift the coordinates by the specified amounts
 		public void shift (T x, T y)
 		{
-			a = (dynamic)a + x;
-			b = (dynamic)a + y;
+			a = GenericArithmetic.Add (a, x);
+			b = GenericArithmetic.Add (b, y);
 		}
 
 		// Shift the this point by the amounts defined by another point
 		// Equivalent to += operator
 		public void shift (Point<T> v)
 		{
-			a = (dynamic)a + v.a;
-			b = (dynamic)a + v.b;
+			a = GenericArithmetic.Add (a, v.a);
+			b = GenericArithmetic.Add (b, v.b);
 		}
 
 		// Take the absolute value of the point
 		public Point<T> abs ()
 		{
-			return new Point<T> (Math.Abs ((dynamic)a), Math.Abs ((dynamic)b));
+			return new Point<T> (GenericArithmetic.Abs (a), GenericArithmetic.Abs (b));
 		}
 
 		// Check whether point is equivalent to the specified point
@@ -217,9 +222,11 @@ namespace ms
 //ORIGINAL LINE: constexpr Point<T> operator - () const
 		public static Point<T> operator - (Point<T> x)
 		{
-			var temp_a = (T)Convert.ChangeType ((-x.a.ToDouble (NumberFormatInfo.CurrentInfo)), typeof (T));
+			/*var temp_a = (T)Convert.ChangeType ((-x.a.ToDouble (NumberFormatInfo.CurrentInfo)), typeof (T));
 			var temp_b = (T)Convert.ChangeType ((-x.b.ToDouble (NumberFormatInfo.CurrentInfo)), typeof (T));
-			return new Point<T> (temp_a, temp_b);
+			return new Point<T> (temp_a, temp_b);*/
+			return new Point<T> (GenericArithmetic.Multiply (x.a, (-1).ToT<T> ()), GenericArithmetic.Multiply (x.b, (-1).ToT<T> ()));
+
 			//return new Point<T> (-(dynamic)ImpliedObject.a, -(dynamic)ImpliedObject.b);
 		}
 
@@ -281,7 +288,7 @@ namespace ms
 			var temp_a = (T)Convert.ChangeType ((x.a.ToDouble (NumberFormatInfo.CurrentInfo) + y.a.ToDouble (NumberFormatInfo.CurrentInfo)), typeof (T));
 			var temp_b = (T)Convert.ChangeType ((x.b.ToDouble (NumberFormatInfo.CurrentInfo) + y.b.ToDouble (NumberFormatInfo.CurrentInfo)), typeof (T));
 			return new Point<T> (temp_a, temp_b);*/
-			
+
 			return new Point<T> (GenericArithmetic.Add (x.a, y.a), GenericArithmetic.Add (x.b, y.b));
 		}
 
@@ -296,13 +303,13 @@ namespace ms
 			var temp_b = (T)Convert.ChangeType ((x.b.ToDouble (NumberFormatInfo.CurrentInfo) - y.b.ToDouble (NumberFormatInfo.CurrentInfo)), typeof (T));
 			return new Point<T> ((T)(Object)(x.a.ToDouble (NumberFormatInfo.CurrentInfo) - y.a.ToDouble (NumberFormatInfo.CurrentInfo)), (T)(Object)(x.b.ToDouble (NumberFormatInfo.CurrentInfo) - y.b.ToDouble (NumberFormatInfo.CurrentInfo)));
 			*/
-			
+
 			/*dynamic temp_left_a = left.a;
 			dynamic temp_left_b = left.b;
 			dynamic temp_right_a = right.a;
 			dynamic temp_right_b = right.b;
 			return new Point<T> ((T)(temp_left_a - temp_right_a), (T)temp_left_b - temp_right_b);*/
-			
+
 			//Debug.Log ($"x:{x == null} y:{y == null}");
 			return new Point<T> (GenericArithmetic.Subtract (x.a, y.a), GenericArithmetic.Subtract (x.b, y.b));
 		}

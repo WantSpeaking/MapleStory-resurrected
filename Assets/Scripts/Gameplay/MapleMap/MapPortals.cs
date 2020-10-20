@@ -76,7 +76,7 @@ namespace ms
 			{
 				foreach (var property_100000000img_portal_0 in property_100000000img_portal.WzProperties)
 				{
-					sbyte portal_id = string_conversion<sbyte>.or_default (property_100000000img_portal_0.Name, (sbyte)-1);
+					sbyte portal_id = string_conversion.or_default (property_100000000img_portal_0.Name, (sbyte)-1);
 
 					if (portal_id < 0)
 					{
@@ -168,7 +168,7 @@ namespace ms
 			};*/
 		}
 
-		readonly Point<short> ABOVE = new Point<short> (0, 30);
+		private readonly Point<short> ABOVE = new Point<short> (0, 30);
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: Point<short> get_portal_by_id(byte portal_id) const
