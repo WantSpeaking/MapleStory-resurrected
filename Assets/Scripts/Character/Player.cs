@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ms.EquipStat;
 using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -122,16 +123,16 @@ namespace ms
 			stats.set_weapontype (weapontype);
 			stats.init_totalstats ();
 
-			/*if (equipchanged)
+			if (equipchanged)
 			{
-			    todo inventory.recalc_stats(weapontype);
+				inventory.recalc_stats (weapontype);
 			}
 
-			foreach (var stat in Enum.GetValues (typeof(EquipStat.Id)))
+			foreach (var stat in Enum.GetValues (typeof (EquipStat.Id)))
 			{
-			    int inventory_total = inventory.get_stat(stat);
-			    stats.add_value(stat, inventory_total);
-			}*/
+				int inventory_total = inventory.get_stat ((Id)stat);
+				stats.add_value ((Id)stat, inventory_total);
+			}
 
 			/*todo var passive_skills = skillbook.collect_passives();
 
@@ -150,41 +151,41 @@ namespace ms
 
 			stats.close_totalstats ();
 
-			/*todo if (var statsinfo = UI.get().get_element<UIStatsInfo>())
-			{
-			    statsinfo.update_all_stats();
-			}*/
+			/*if (var statsinfo = UI.get().get_element<UIStatsInfo>())
+		   {
+			   statsinfo.update_all_stats();
+		   }*/
 		}
 
 		// Change the equipment at the specified slot and recalculate stats
 		public void change_equip (short slot)
 		{
 			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
-			/*todo int itemid = inventory.get_item_id(InventoryType.Id.EQUIPPED, slot);
+			int itemid = inventory.get_item_id (InventoryType.Id.EQUIPPED, slot);
 			if (itemid > 0)
 			{
-			    look.add_equip(itemid);
+				look.add_equip (itemid);
 			}
 
 			else
 			{
-			    look.remove_equip(EquipSlot.by_id(slot));
-			}*/
+				look.remove_equip (EquipSlot.by_id (slot));
+			}
 		}
 
 		// Use the item from the player's inventory with the given id
 		public void use_item (int itemid)
 		{
-			/*todo InventoryType.Id type = InventoryType.by_item_id(itemid);
-
+			InventoryType.Id type = InventoryType.by_item_id (itemid);
+			short slot = inventory.find_item (type, itemid);
 			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
-			if (short slot = inventory.find_item(type, itemid))
+			//if (slot != null)
 			{
-			    if (type == InventoryType.Id.USE)
-			    {
-			        UseItemPacket(slot, itemid).dispatch();
-			    }
-			}*/
+				if (type == InventoryType.Id.USE)
+				{
+					//UseItemPacket(slot, itemid).dispatch();
+				}
+			}
 		}
 
 		// Draw the player
@@ -192,7 +193,7 @@ namespace ms
 		//ORIGINAL LINE: void draw(Layer.Id layer, double viewx, double viewy, float alpha) const
 		public void draw (Layer.Id layer, double viewx, double viewy, float alpha)
 		{
-			Debug.Log ($"Layer draw player :{(Layer.Id)get_layer ()}");
+			//Debug.Log ($"Layer draw player :{(Layer.Id)get_layer ()}");
 			if (layer == (Layer.Id)get_layer ())
 			{
 				draw (viewx, viewy, alpha);
@@ -323,7 +324,7 @@ namespace ms
 			Job job = stats.get_job ();
 			ushort hp = stats.get_stat (MapleStat.Id.HP);
 			ushort mp = stats.get_stat (MapleStat.Id.MP);
-			ushort bullets = 0 /*inventory.get_bulletcount()*/;
+			ushort bullets = inventory.get_bulletcount ();
 
 			return move.can_use (level, weapon, job, hp, mp, bullets);
 		}
@@ -353,8 +354,7 @@ namespace ms
 					case Weapon.Type.CLAW:
 					case Weapon.Type.GUN:
 					{
-						//degenerate = !inventory.has_projectile ();
-						degenerate = false;
+						degenerate = !inventory.has_projectile ();
 						attacktype = degenerate ? Attack.Type.CLOSE : Attack.Type.RANGED;
 						break;
 					}
@@ -392,7 +392,8 @@ namespace ms
 			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 			//ORIGINAL LINE: attack.range = stats.get_range();
 			attack.range = (stats.get_range ());
-			/*attack.bullet = inventory.get_bulletid ();*/			attack.bullet = 0;
+			attack.bullet = inventory.get_bulletid ();
+			attack.bullet = 0;
 			attack.origin = get_position ();
 			attack.toleft = !facing_right;
 			attack.speed = (byte)get_integer_attackspeed ();
@@ -430,27 +431,27 @@ namespace ms
 		}
 
 		// Handle an attack to the player
-		 public MobAttackResult damage(MobAttack attack)
-		 {
-		     int damage = stats.calculate_damage(attack.watk);
-		     show_damage(damage);
+		public MobAttackResult damage (MobAttack attack)
+		{
+			int damage = stats.calculate_damage (attack.watk);
+			show_damage (damage);
 
-		     bool fromleft = attack.origin.x() > phobj.get_x();
+			bool fromleft = attack.origin.x () > phobj.get_x ();
 
-		     bool missed = damage <= 0;
-		     bool immovable = ladder != null || state == Char.State.DIED;
-		     bool knockback = !missed && !immovable;
+			bool missed = damage <= 0;
+			bool immovable = ladder != null || state == Char.State.DIED;
+			bool knockback = !missed && !immovable;
 
-		     if (knockback && randomizer.above(stats.get_stance()))
-		     {
-		         phobj.hspeed = fromleft ? -1.5 : 1.5;
-		         phobj.vforce -= 3.5;
-		     }
+			if (knockback && randomizer.above (stats.get_stance ()))
+			{
+				phobj.hspeed = fromleft ? -1.5 : 1.5;
+				phobj.vforce -= 3.5;
+			}
 
-		     byte direction = (byte)(fromleft ? 0 : 1);
+			byte direction = (byte)(fromleft ? 0 : 1);
 
-		     return new MobAttackResult (attack, damage, direction);
-		 }
+			return new MobAttackResult (attack, damage, direction);
+		}
 
 		// Apply a buff to the player
 		public void give_buff (Buff buff)
@@ -640,46 +641,38 @@ namespace ms
 		{
 			return stats;
 		}
-/*
-        // Obtain a reference to the player's inventory
-        public Inventory get_inventory()
-        {
-            return inventory;
-        }
 
-        // Obtain a reference to the player's inventory
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: const Inventory& get_inventory() const
-        public Inventory get_inventory()
-        {
-            return inventory;
-        }
+		// Obtain a reference to the player's inventory
+		public Inventory get_inventory ()
+		{
+			return inventory;
+		}
 
-        // Obtain a reference to the player's skills
-        public SkillBook get_skills()
-        {
-            return skillbook;
-        }
+		/*// Obtain a reference to the player's skills
+		public SkillBook get_skills()
+		{
+		    return skillbook;
+		}
 
-        // Obtain a reference to the player's QuestLog
-        public QuestLog get_quests()
-        {
-            return questlog;
-        }
+		// Obtain a reference to the player's QuestLog
+		public QuestLog get_quests()
+		{
+		    return questlog;
+		}
 
-        // Obtain a reference to the player's TeleportRock locations
-        public TeleportRock get_teleportrock()
-        {
-            return teleportrock;
-        }
+		// Obtain a reference to the player's TeleportRock locations
+		public TeleportRock get_teleportrock()
+		{
+		    return teleportrock;
+		}
 
-        // Obtain a reference to the player's MonsterBook
-        public MonsterBook get_monsterbook()
-        {
-            return monsterbook;
-        }*/
+		// Obtain a reference to the player's MonsterBook
+		public MonsterBook get_monsterbook()
+		{
+		    return monsterbook;
+		}*/
 
-		//private Inventory inventory = new Inventory();
+		private Inventory inventory = new Inventory ();
 		//private SkillBook skillbook = new SkillBook();
 		//private QuestLog questlog = new QuestLog();
 		//private TeleportRock teleportrock = new TeleportRock();
