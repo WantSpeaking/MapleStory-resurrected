@@ -188,7 +188,7 @@ namespace ms
 			layers_by_name.TryGetValue (name, out var layer);
 			return layer;
 			/*var layer_iter = layers_by_name.find(name);
-GlobalMembers.
+
 			if (layer_iter == layers_by_name.end())
 			{
 				if (name != "")

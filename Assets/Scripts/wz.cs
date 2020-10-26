@@ -32,15 +32,21 @@ namespace nl
 		public static void load_all(string suffix)
 		{
 			
-			//wzFile_base = add_file(suffix+"base.wz");
+			wzFile_base = add_file(suffix+"base.wz");
 			wzFile_character = add_file(suffix+"character.wz");
 			wzFile_effect = add_file(suffix+"effect.wz");
+			wzFile_etc = add_file(suffix+"etc.wz");
 			wzFile_item = add_file(suffix+"item.wz");
 			wzFile_map = add_file(suffix+"map.wz");
+			wzFile_wzFile_mapPretty = add_file(suffix+"map.wz");
+			wzFile_mapLatest = add_file(suffix+"map.wz");
+			wzFile_map001 = add_file(suffix+"map.wz");
 			wzFile_mob = add_file(suffix+"mob.wz");
+			wzFile_npc = add_file(suffix+"npc.wz");
 			wzFile_skill = add_file(suffix+"skill.wz");
 			wzFile_sound = add_file(suffix+"sound.wz");
 			wzFile_string = add_file(suffix+"string.wz");
+			wzFile_ui = add_file(suffix+"ui.wz");
 			/*if (exists("Base.nx"))
 			{
 				baseWz = add_file("Base.nx");

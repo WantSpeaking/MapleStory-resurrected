@@ -497,7 +497,7 @@ namespace ms
 			{
 				result.Add (next_damage(mindamage, maxdamage, hitchance, critical));
 			}
-			/*std::generate(result.GetEnumerator(), result.end(), () =>
+			/*generate(result.GetEnumerator(), result.end(), () =>
 			{
 					return next_damage(mindamage, maxdamage, hitchance, critical);
 			});*/

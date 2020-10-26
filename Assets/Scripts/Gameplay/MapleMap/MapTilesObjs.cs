@@ -58,7 +58,7 @@ namespace ms
                 Tile tile = new Tile(node_100000000img_0_Tile_0, tileset);
                 var z = tile.getz();
                 tiles.Add(z, tile);
-                //tiles.emplace(z, std::move(tile));
+                //tiles.emplace(z, move(tile));
             }
 
             foreach (var node_100000000img_0_obj_0 in node_100000000img_0["obj"].WzProperties)
@@ -66,7 +66,7 @@ namespace ms
                 Obj obj = new Obj(node_100000000img_0_obj_0);
                 var z = obj.getz();
                 objs.Add(z, obj);
-                //objs.emplace(z, std::move(obj));
+                //objs.emplace(z, move(obj));
             }
         }
 

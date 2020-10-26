@@ -163,11 +163,11 @@ namespace ms
 					return pair.Key;
 				}
 			}
-			/*for (auto iter : names)
+			/*for (var iter : names)
 			if (iter.second == name)
 				return iter.first;
 
-			std::cout << "Unknown Stance::Id name: [" << name << "]" << std::endl;*/
+			cout << "Unknown Stance::Id name: [" << name << "]" << endl;*/
 
 			return Id.NONE;
 		}

@@ -68,7 +68,7 @@ namespace ms
 			{
 				if (value != 100)
 					Console.WriteLine($"Unknown Weapon::Type [{value}:]");
-				//std::cout << "Unknown Weapon::Type value: [" << value << "]" << std::endl;
+				//cout << "Unknown Weapon::Type value: [" << value << "]" << endl;
 
 				return Type.NONE;
 			}

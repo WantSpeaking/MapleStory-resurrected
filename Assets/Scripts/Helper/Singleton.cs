@@ -6,17 +6,27 @@ using System.Threading.Tasks;
 
 namespace ms
 {
-	public class Singleton<T> : System.IDisposable where T : new ()
+	public class Singleton<T> : IDisposable where T :new()
 	{
+		private static T instance;
+
+		public static T Instance
+		{
+			get
+			{
+				if (instance == null)
+				{
+					instance = new T();
+				}
+				return instance;
+			}
+		}
+
+		public static T get () => Instance;
+		
 		public virtual void Dispose()
 		{
+        
 		}
-
-		public static T get()
-		{
-			return instance;
-		}
-
-		private static T instance = new T();
 	}
 }

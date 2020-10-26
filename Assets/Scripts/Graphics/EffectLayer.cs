@@ -57,8 +57,8 @@ namespace ms
 				}
 			}
 
-			/*for (auto iter = effects.begin(); iter != effects.upper_bound(-1); ++iter)
-			for (auto& effect : iter->second)
+			/*for (var iter = effects.begin(); iter != effects.upper_bound(-1); ++iter)
+			for (var& effect : iter->second)
 				effect.draw(position, alpha);*/
 		}
 
@@ -82,7 +82,7 @@ namespace ms
 			{
 				foreach (var effect in iter.second)
 				{
-					GlobalMembers.effect.draw(position, alpha);
+					effect.draw(position, alpha);
 				}
 			}*/
 		}

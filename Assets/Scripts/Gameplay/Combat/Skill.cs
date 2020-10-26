@@ -66,7 +66,7 @@ namespace ms
 			projectile = true;
 			overregular = false;
 
-			//GlobalMembers.sound = new SingleSkillSound(strid);
+			//sound = new SingleSkillSound(strid);
 
 			bool byleveleffect = src["CharLevel"]["10"]["effect"].Any ();
 			bool multieffect = src["effect0"].Any ();
@@ -194,7 +194,7 @@ namespace ms
 		{
 			useeffect.apply (ref user);
 
-			//GlobalMembers.sound.play_use();
+			//sound.play_use();
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -294,7 +294,7 @@ namespace ms
 		{
 			hiteffect.apply (user, target);
 
-			//GlobalMembers.sound.play_hit();
+			//sound.play_hit();
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:

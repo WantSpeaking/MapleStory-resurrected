@@ -10,35 +10,11 @@ namespace ms
 {
 	internal class Stage : Singleton<Stage>
 	{
-		private enum State
-		{
-			INACTIVE,
-			TRANSITION,
-			ACTIVE
-		};
-
-		public Camera camera = new Camera ();
-		private Physics physics;
-		private Player player;
-
-		private Optional<Playable> playable;
-		private State state;
-		private int mapid;
-
-		private MapInfo mapinfo;
-		private MapTilesObjs tilesobjs;
-		private MapBackgrounds backgrounds;
-		private MapPortals portals;
-
-		private MapMobs mobs = new MapMobs ();
-		
-		Combat combat;
-
 		//private  map
 		public Stage ()
 		{
 			state = State.INACTIVE;
-			combat = new Combat (player, /*chars, */mobs/*, reactors*/);
+			combat = new Combat (player, /*chars, */mobs /*, reactors*/);
 		}
 
 		public void init ()
@@ -67,17 +43,17 @@ namespace ms
 			player = new Player (entry);
 			playable = new Optional<Playable> (player);
 
-			//start = ContinuousTimer.get().start();
+			start = ContinuousTimer.get().start();
 
-			//CharStats stats = player.get_stats();
-			//levelBefore = stats.get_stat(MapleStat.Id.LEVEL);
-			//expBefore = stats.get_exp();
+			CharStats stats = player.get_stats();
+			levelBefore = stats.get_stat(MapleStat.Id.LEVEL);
+			expBefore = stats.get_exp();
 		}
 
 		public void clear ()
 		{
 			state = State.INACTIVE;
-			mobs.clear();
+			mobs.clear ();
 			/*chars.clear();
 			npcs.clear();
 			
@@ -85,7 +61,7 @@ namespace ms
 			reactors.clear();*/
 		}
 
-		public void load_map (int mapid) //mapid:100000000
+		private void load_map (int mapid) //mapid:100000000
 		{
 			SceneManager.LoadScene ("Game", LoadSceneMode.Single);
 
@@ -95,7 +71,7 @@ namespace ms
 			string strid = mapid.ToString (); //strid:100000000
 			string prefix = Convert.ToString (mapid / 100000000); //prefix:1
 
-			//nl.node src = mapid == -1 ? nl.nx.ui["CashShopPreview.img"] : nl.nx.map["Map"]["Map" + prefix][strid + ".img"];
+			//WzObject src = mapid == -1 ? nl.nx.wzFile_ui["CashShopPreview.img"] : nl.nx.map["Map"]["Map" + prefix][strid + ".img"];
 			//var src = nl.nx.mapWz.ResolvePath("Map").ResolvePath($"Map{prefix}").ResolvePath($"{strid}.img"); //srcNodePath:Map/Map1/100000000.img
 
 			var node_100000000img = nl.nx.wzFile_map["Map"]["Map" + prefix][strid + ".img"]; //srcNodePath:Map/Map1/100000000.img
@@ -131,7 +107,7 @@ namespace ms
 			{
 				tilesobjs.draw ((Layer.Id)id, viewpos, alpha);
 				player.draw ((Layer.Id)id, viewx, viewy, alpha);
-				mobs.draw((Layer.Id)id, viewx, viewy, alpha);
+				mobs.draw ((Layer.Id)id, viewx, viewy, alpha);
 				//chars.draw((global.ms.Layer.Id)id, viewx, viewy, alpha);
 
 				/* reactors.draw(id, viewx, viewy, alpha);
@@ -141,7 +117,7 @@ namespace ms
 				 drops.draw(id, viewx, viewy, alpha);*/
 			}
 
-			combat.draw(viewx, viewy, alpha);
+			combat.draw (viewx, viewy, alpha);
 			portals.draw (viewpos, alpha);
 			backgrounds.drawforegrounds (viewx, viewy, alpha);
 		}
@@ -150,14 +126,14 @@ namespace ms
 		{
 			if (player == null) return;
 
-			combat.update();
+			combat.update ();
 			backgrounds.update ();
 			//effect.update();
 			tilesobjs.update ();
 
 			//reactors.update(physics);
 			//npcs.update(physics);
-			mobs.update(physics);
+			mobs.update (physics);
 			//chars.update(physics);
 			//drops.update(physics);
 			player.update (physics);
@@ -178,9 +154,9 @@ namespace ms
 
 				if (player.is_key_down (KeyAction.Id.ATTACK))
 				{
-					combat.use_move(0);
+					combat.use_move (0);
 				}
-				
+
 				/*if (player.is_key_down (KeyAction.Id.SIT))
 					check_seats ();
 
@@ -189,20 +165,27 @@ namespace ms
 				if (player.is_key_down (KeyAction.Id.PICKUP))
 					check_drops ();*/
 			}
-			
-			if (player.is_invincible())
+
+			if (player.is_invincible ())
 				return;
 
-			int oid_id = mobs.find_colliding(player.get_phobj());
-			if (oid_id!=0)
+			int oid_id = mobs.find_colliding (player.get_phobj ());
+			if (oid_id != 0)
 			{
 				MobAttack attack = mobs.create_attack (oid_id);
-				if (attack!=null)
+				if (attack != null)
 				{
-					MobAttackResult result = player.damage(attack);
-					//TakeDamagePacket(result, TakeDamagePacket::From::TOUCH).dispatch();
+					MobAttackResult result = player.damage (attack);
+					//TakeDamagePacket(result, TakeDamagePacket.From.TOUCH).dispatch();
 				}
 			}
+		}
+
+		void show_character_effect (int cid, CharEffect.Id effect)
+		{
+			var character = get_character (cid);
+			if (character != null)
+				character.get ().show_effect_id (effect);
 		}
 
 		private SetFieldHandler _setFieldHandler;
@@ -285,29 +268,135 @@ namespace ms
 			}
 		}
 
-		public MapMobs get_mobs()
+		public Cursor.State send_cursor (bool pressed, Point<short> position)
+		{
+			var statusbar = UI.get ().get_element<UIStatusBar> ();
+
+			if (statusbar != null && statusbar.get ().is_menu_active ())
+			{
+				if (pressed)
+					statusbar.get ().remove_menus ();
+
+				if (statusbar.get ().is_in_range (position))
+					return statusbar.get ().send_cursor (pressed, position);
+			}
+
+			return npcs.send_cursor (pressed, position, camera.position ());
+		}
+
+		public bool is_player (int cid)
+		{
+			return cid == player.get_oid ();
+		}
+
+		public MapNpcs get_npcs ()
+		{
+			return npcs;
+		}
+
+		public MapChars get_chars ()
+		{
+			return chars;
+		}
+
+		public MapMobs get_mobs ()
 		{
 			return mobs;
 		}
-		
+
+		MapReactors get_reactors ()
+		{
+			return reactors;
+		}
+
+		MapDrops get_drops ()
+		{
+			return drops;
+		}
+
+
 		public Player get_player ()
 		{
 			return player;
 		}
-		Combat get_combat()
+
+		public Combat get_combat ()
 		{
 			return combat;
 		}
+
+		public Optional<Char> get_character (int cid)
+		{
+			if (is_player (cid))
+				return player;
+			else
+				return (Char)chars.get_char (cid);
+		}
+
+		public int get_mapid ()
+		{
+			return mapid;
+		}
+
+		public void add_effect (string path)
+		{
+			//effect = MapEffect(path);
+		}
+
+		public long get_uptime ()
+		{
+			return ContinuousTimer.get ().stop (start);
+		}
+
+		public ushort get_uplevel ()
+		{
+			return levelBefore;
+		}
+
+		public long get_upexp ()
+		{
+			return expBefore;
+		}
+
 		public void transfer_player ()
 		{
 			/*PlayerMapTransferPacket().dispatch();
 
-			if (Configuration::get().get_admin())
-				AdminEnterMapPacket(AdminEnterMapPacket::Operation::ALERT_ADMINS).dispatch();*/
+			if (Configuration.get().get_admin())
+				AdminEnterMapPacket(AdminEnterMapPacket.Operation.ALERT_ADMINS).dispatch();*/
 		}
 
-		#region TempMethod to be removed later
 
-		#endregion
+		private enum State
+		{
+			INACTIVE,
+			TRANSITION,
+			ACTIVE
+		};
+
+		public Camera camera = new Camera ();
+		private Physics physics;
+		private Player player;
+
+		private Optional<Playable> playable;
+		private State state;
+		private int mapid;
+
+		MapInfo mapinfo;
+		MapTilesObjs tilesobjs;
+		MapBackgrounds backgrounds;
+		MapPortals portals;
+		MapReactors reactors;
+		MapNpcs npcs;
+		MapChars chars;
+		MapMobs mobs = new MapMobs ();
+		MapDrops drops;
+		MapEffect effect;
+
+		Combat combat;
+		
+		DateTime start;
+		ushort levelBefore;
+		long expBefore;
 	}
 }

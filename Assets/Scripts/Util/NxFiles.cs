@@ -57,16 +57,16 @@ namespace ms
 		/*Error init()
 		{
 			/*for (var filename in filenames)
-				if (std::ifstream{ filename }.good() == false)
+				if (ifstream{ filename }.good() == false)
 					return Error(Error::Code::MISSING_FILE, filename);#1#
 
 			try
 			{
 				nl::nx::load_all();
 			}
-			catch (const std::exception&ex)
+			catch (const exception&ex)
 			{
-				static const std::string message = ex.what();
+				const string message = ex.what();
 
 				return Error(Error::Code::NLNX, message.c_str());
 			}

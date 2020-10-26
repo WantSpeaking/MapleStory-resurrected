@@ -173,7 +173,7 @@ namespace ms
 			{
 				var level = string_conversion.or_zero<ushort> (sub.Name);
 				effects.Add (level, new BoolPair<Effect> (new Effect (sub["hit"]["0"]), new Effect (sub["hit"]["1"])));
-				//effects.emplace (std::piecewise_construct, std::forward_as_tuple (level), std::forward_as_tuple (sub["hit"]["0"], sub["hit"]["1"]));
+				//effects.emplace (piecewise_construct, forward_as_tuple (level), forward_as_tuple (sub["hit"]["0"], sub["hit"]["1"]));
 			}
 		}
 

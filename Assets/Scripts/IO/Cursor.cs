@@ -1,5 +1,7 @@
-﻿/*
+﻿
 #define USE_NX
+
+using MapleLib.WzLib;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -76,11 +78,12 @@ namespace ms
 
 		public void init()
 		{
-			nl.node src = nl.nx.ui["Basic.img"]["Cursor"];
+			WzObject src = nl.nx.wzFile_ui["Basic.img"]["Cursor"];
 
 			foreach (var iter in animations)
 			{
-				iter.second = src[iter.first];
+				animations[iter.Key] = src[iter.Key.ToString()];
+				//iter.Value = src[iter.Key];
 			}
 		}
 
@@ -88,16 +91,16 @@ namespace ms
 //ORIGINAL LINE: void draw(float alpha) const
 		public void draw(float alpha)
 		{
-			const long HIDE_AFTER = HIDE_TIME / Constants.GlobalMembers.TIMESTEP;
+			const long HIDE_AFTER = HIDE_TIME / Constants.TIMESTEP;
 
 			if (hide_counter < HIDE_AFTER)
 			{
-				animations[(int)state].draw(position, alpha);
+				animations[state].draw(position, alpha);
 			}
 		}
 		public void update()
 		{
-			animations[(int)state].update();
+			animations[state].update();
 
 			switch (state)
 			{
@@ -119,7 +122,7 @@ namespace ms
 			{
 				state = s;
 
-				animations[(int)state].reset();
+				animations[state].reset();
 				hide_counter = 0;
 			}
 		}
@@ -127,7 +130,7 @@ namespace ms
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: position = pos;
-			position.CopyFrom(pos);
+			position=(pos);
 			hide_counter = 0;
 		}
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -149,11 +152,11 @@ namespace ms
 		private Point<short> position = new Point<short>();
 		private int hide_counter;
 
-		private static const long HIDE_TIME = 15_000;
+		private const long HIDE_TIME = 15_000;
 	}
 }
 
 
 #if USE_NX
 #endif
-*/
+

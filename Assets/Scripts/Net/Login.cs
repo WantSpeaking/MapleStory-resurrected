@@ -19,10 +19,9 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-
 namespace ms
 {
-	public class Account
+	public struct Account
 	{
 		public int accid;
 		public sbyte female;
@@ -33,11 +32,21 @@ namespace ms
 		public sbyte pic;
 	}
 
-	public class World
+	public struct World
 	{
+		public World (string name, string message, List<int> chloads, byte channelcount, byte flag, sbyte wid)
+		{
+			this.name = name;
+			this.message = message;
+			this.chloads = chloads;
+			this.channelcount = channelcount;
+			this.flag = flag;
+			this.wid = wid;
+		}
+
 		public string name;
 		public string message;
-		public List<int> chloads = new List<int>();
+		public List<int> chloads;
 		public byte channelcount;
 		public byte flag;
 		public sbyte wid;
@@ -47,19 +56,25 @@ namespace ms
 	{
 		public string message;
 		public int wid;
+
+		public RecommendedWorld (string message, int wid)
+		{
+			this.message = message;
+			this.wid = wid;
+		}
 	}
 
 	public class StatsEntry
 	{
 		public string name;
 		public bool female;
-		public List<long> petids = new List<long>();
-		public EnumMap<MapleStat.Id, ushort> stats = new EnumMap<MapleStat.Id, ushort>();
+		public List<long> petids = new List<long> ();
+		public EnumMap<MapleStat.Id, ushort> stats = new EnumMap<MapleStat.Id, ushort> ();
 		public long exp;
 		public int mapid;
 		public byte portal;
-		public System.Tuple<int, sbyte> rank = new System.Tuple<int, sbyte>(0, 0);
-		public System.Tuple<int, sbyte> jobrank = new System.Tuple<int, sbyte>(0, 0);
+		public System.Tuple<int, sbyte> rank = new System.Tuple<int, sbyte> (0, 0);
+		public System.Tuple<int, sbyte> jobrank = new System.Tuple<int, sbyte> (0, 0);
 	}
 
 	public class LookEntry
@@ -68,15 +83,15 @@ namespace ms
 		public byte skin;
 		public int faceid;
 		public int hairid;
-		public SortedDictionary<sbyte, int> equips = new SortedDictionary<sbyte, int>();
-		public SortedDictionary<sbyte, int> maskedequips = new SortedDictionary<sbyte, int>();
-		public List<int> petids = new List<int>();
+		public SortedDictionary<sbyte, int> equips = new SortedDictionary<sbyte, int> ();
+		public SortedDictionary<sbyte, int> maskedequips = new SortedDictionary<sbyte, int> ();
+		public List<int> petids = new List<int> ();
 	}
 
 	public class CharEntry
 	{
-		public StatsEntry stats = new StatsEntry();
-		public LookEntry look = new LookEntry();
+		public StatsEntry stats = new StatsEntry ();
+		public LookEntry look = new LookEntry ();
 		public int id;
 
 		public CharEntry (StatsEntry stats, LookEntry look, int cid)

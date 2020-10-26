@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ms.EquipStat;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -99,7 +98,7 @@ namespace ms
 						//var old_State = stat_iter.Value;
 						//var new_State = old_State + equip.get_stat (stat_iter.Key);
 						//totalstats[(Id)iter.Value.unique_id] = (ushort)new_State;
-						totalstats[(Id)iter.Value.unique_id] += equip.get_stat (stat_iter.Key);
+						totalstats[(EquipStat.Id)iter.Value.unique_id] += equip.get_stat (stat_iter.Key);
 						//stat_iter.Value = new_State;
 						//stat_iter.Value += equip.get_stat(stat_iter.Key);
 					}

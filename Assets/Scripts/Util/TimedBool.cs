@@ -45,7 +45,7 @@ namespace ms
 
 		public void update()
 		{
-			update(GlobalMembers.TIMESTEP);
+			update(Constants.TIMESTEP);
 		}
 
 		public void update(ushort timestep)

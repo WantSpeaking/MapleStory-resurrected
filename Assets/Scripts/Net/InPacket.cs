@@ -46,7 +46,7 @@ namespace ms
 	public class InPacket
 	{
 		// Construct a packet from an array of bytes
-		public InPacket(string recv, uint length)
+		public InPacket(byte[] recv, int length)
 		{
 			bytes = recv;
 			top = length;
@@ -63,12 +63,12 @@ namespace ms
 		// Return the remaining length in bytes
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: uint length() const
-		public uint length()
+		public int length()
 		{
 			return top - pos;
 		}
 		// Skip a number of bytes (by increasing the offset)
-		public void skip(uint count)
+		public void skip(int count)
 		{
 			if (count > length())
 			{
@@ -237,15 +237,15 @@ namespace ms
 		// Read without advancing the buffer position
 		private T inspect<T>() where T : struct, IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T>
 		{
-			uint before = pos;
+			int before = pos;
 			T value = read<T>();
 			pos = before;
 
 			return value;
 		}
 
-		private readonly string bytes;
-		private uint top;
-		private uint pos;
+		private readonly byte[] bytes;
+		private int top;
+		private int pos;
 	}
 }

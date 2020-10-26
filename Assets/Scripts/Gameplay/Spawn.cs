@@ -38,7 +38,7 @@
 
 namespace ms
 {
-	/*public class NpcSpawn
+	public class NpcSpawn
 	{
 		public NpcSpawn(int o, int i, Point<short> p, bool fl, ushort f)
 		{
@@ -58,11 +58,11 @@ namespace ms
 			return oid;
 		}
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: std::unique_ptr<MapObject> instantiate(const Physics& physics) const
+//ORIGINAL LINE: unique_ptr<MapObject> instantiate(const Physics& physics) const
 		public MapObject instantiate(Physics physics)
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: auto spawnposition = physics.get_y_below(position);
+//ORIGINAL LINE: var spawnposition = physics.get_y_below(position);
 			var spawnposition = physics.get_y_below(position);
 			return new Npc(id, oid, flip, fh, false, spawnposition) ;
 		}
@@ -72,7 +72,7 @@ namespace ms
 		private Point<short> position = new Point<short>();
 		private bool flip;
 		private ushort fh;
-	}*/
+	}
 
 	public class MobSpawn
 	{
@@ -103,7 +103,7 @@ namespace ms
 			return oid;
 		}
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: std::unique_ptr<MapObject> instantiate() const
+//ORIGINAL LINE: unique_ptr<MapObject> instantiate() const
 		public MapObject instantiate()
 		{
 			return new Mob(oid, id, mode, stance, fh, newspawn, team, position);
@@ -119,7 +119,7 @@ namespace ms
 		private Point<short> position = new Point<short>();
 	}
 
-	/*public class ReactorSpawn
+	public class ReactorSpawn
 	{
 		public ReactorSpawn(int o, int r, sbyte s, Point<short> p)
 		{
@@ -128,7 +128,7 @@ namespace ms
 			this.state = s;
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: this.position = new ms.Point<short>(p);
-			this.position = new ms.Point<short>(new ms.Point(p));
+			this.position = p;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -138,13 +138,13 @@ namespace ms
 			return oid;
 		}
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: std::unique_ptr<MapObject> instantiate(const Physics& physics) const
-		public std::unique_ptr<MapObject> instantiate(Physics physics)
+//ORIGINAL LINE: unique_ptr<MapObject> instantiate(const Physics& physics) const
+		public MapObject instantiate(Physics physics)
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: auto spawnposition = physics.get_y_below(position);
-			var spawnposition = physics.get_y_below(new ms.Point(position));
-			return std::make_unique<Reactor>(oid, rid, state, spawnposition);
+//ORIGINAL LINE: var spawnposition = physics.get_y_below(position);
+			var spawnposition = physics.get_y_below(position);
+			return new Reactor(oid, rid, state, spawnposition);
 		}
 
 		private int oid;
@@ -163,10 +163,10 @@ namespace ms
 			this.owner = ow;
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: this.start = new ms.Point<short>(p);
-			this.start = new ms.Point<short>(new ms.Point(p));
+			this.start = p;
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: this.dest = new ms.Point<short>(d);
-			this.dest = new ms.Point<short>(new ms.Point(d));
+			this.dest = d;
 			this.droptype = t;
 			this.mode = m;
 			this.playerdrop = pd;
@@ -191,16 +191,16 @@ namespace ms
 			return oid;
 		}
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: std::unique_ptr<MapObject> instantiate(const Animation& icon) const
-		public std::unique_ptr<MapObject> instantiate(Animation icon)
+//ORIGINAL LINE: unique_ptr<MapObject> instantiate(const Animation& icon) const
+		public MapObject instantiate(Animation icon)
 		{
-			return std::make_unique<MesoDrop>(oid, owner, start, dest, droptype, mode, playerdrop, icon);
+			return new MesoDrop(oid, owner, start, dest, droptype, mode, playerdrop, icon);
 		}
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: std::unique_ptr<MapObject> instantiate(const Texture& icon) const
-		public std::unique_ptr<MapObject> instantiate(Texture icon)
+//ORIGINAL LINE: unique_ptr<MapObject> instantiate(const Texture& icon) const
+		public MapObject instantiate(Texture icon)
 		{
-			return std::make_unique<ItemDrop>(oid, owner, start, dest, droptype, mode, id, playerdrop, icon);
+			return new ItemDrop(oid, owner, start, dest, droptype, mode, id, playerdrop, icon);
 		}
 
 		private int oid;
@@ -219,14 +219,14 @@ namespace ms
 		public CharSpawn(int c, LookEntry lk, byte l, short j, string nm, sbyte st, Point<short> p)
 		{
 			this.cid = c;
-			this.look = new ms.LookEntry(lk);
+			this.look = lk;
 			this.level = l;
 			this.job = j;
 			this.name = nm;
 			this.stance = st;
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: this.position = new ms.Point<short>(p);
-			this.position = new ms.Point<short>(new ms.Point(p));
+			this.position = p;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -236,10 +236,10 @@ namespace ms
 			return cid;
 		}
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: std::unique_ptr<MapObject> instantiate() const
-		public std::unique_ptr<MapObject> instantiate()
+//ORIGINAL LINE: unique_ptr<MapObject> instantiate() const
+		public MapObject instantiate()
 		{
-			return std::make_unique<OtherChar>(cid, look, level, job, name, stance, position);
+			return new OtherChar(cid,new CharLook (look), level, job, name, stance, position);
 		}
 
 		private int cid;
@@ -249,7 +249,7 @@ namespace ms
 		private sbyte stance;
 		private Point<short> position = new Point<short>();
 		private LookEntry look = new LookEntry();
-	}*/
+	}
 }
 
 

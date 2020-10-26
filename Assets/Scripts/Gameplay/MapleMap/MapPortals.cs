@@ -96,7 +96,7 @@ namespace ms
 						Animation animation = Get_AnimationByType (type);
 						bool intramap = target_id == mapid;
 						portals_by_id.Add ((byte)portal_id, new Portal (animation, type, name, intramap, position, target_id, target_name));
-						//portals_by_id.emplace(std::piecewise_construct, std::forward_as_tuple(portal_id), std::forward_as_tuple(animation, type, name, intramap, position, target_id, target_name));
+						//portals_by_id.emplace(piecewise_construct, forward_as_tuple(portal_id), forward_as_tuple(animation, type, name, intramap, position, target_id, target_name));
 
 						portal_ids_by_name.TryAdd (name, (byte)portal_id); //todo add repeatedly
 					}

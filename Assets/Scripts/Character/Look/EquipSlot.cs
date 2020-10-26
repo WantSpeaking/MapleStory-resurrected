@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -76,11 +77,45 @@ namespace ms
 			LENGTH
 		}
 
-		public static Id by_id(short id)
+		public static List<Id> values = new List<Id> ()
+		{
+			Id.NONE,
+			Id.HAT,
+			Id.FACE,
+			Id.EYEACC,
+			Id.EARACC,
+			Id.TOP,
+			Id.BOTTOM,
+			Id.SHOES,
+			Id.GLOVES,
+			Id.CAPE,
+			Id.SHIELD, // TODO: Where is this now?
+			Id.WEAPON,
+			Id.RING1,
+			Id.RING2,
+			Id.RING3,
+			Id.RING4,
+			Id.PENDANT1,
+			Id.TAMEDMOB, // TODO: Where is this now?
+			Id.SADDLE, // TODO: Where is this now?
+			Id.MEDAL,
+			Id.BELT,
+			Id.POCKET, // TODO: What is the proper value for this?
+			Id.BOOK, // TODO: What is the proper value for this?
+			Id.PENDANT2, // TODO: What is the proper value for this?
+			Id.SHOULDER, // TODO: What is the proper value for this?
+			Id.ANDROID, // TODO: What is the proper value for this?
+			Id.EMBLEM, // TODO: What is the proper value for this?
+			Id.BADGE, // TODO: What is the proper value for this?
+			Id.SUBWEAPON, // TODO: What is the proper value for this?
+			Id.HEART, // TODO: What is the proper value for this?
+		};
+
+		public static Id by_id (short id)
 		{
 			if (id >= (short)Id.LENGTH)
 			{
-				Debug.Log($"Unknown EquipSlot::Id id: [{id}]");
+				Debug.Log ($"Unknown EquipSlot::Id id: [{id}]");
 				return Id.NONE;
 			}
 
@@ -88,6 +123,3 @@ namespace ms
 		}
 	}
 }
-
-
-

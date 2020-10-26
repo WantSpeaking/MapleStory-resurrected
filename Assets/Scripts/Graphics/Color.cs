@@ -104,49 +104,49 @@ namespace ms
 		}
 
 		// Predefined colors by name
-		public static float[,] colors = new float[,]
+		public static float[][] colors = new float[][]
 		{
-			{0.00f, 0.00f, 0.00f},
-			{1.00f, 1.00f, 1.00f},
-			{1.00f, 1.00f, 0.00f},
-			{0.00f, 0.00f, 1.00f},
-			{1.00f, 0.00f, 0.00f},
-			{0.80f, 0.30f, 0.30f},
-			{0.50f, 0.25f, 0.00f},
-			{0.34f, 0.20f, 0.07f},
-			{0.50f, 0.50f, 0.50f},
-			{0.25f, 0.25f, 0.25f},
-			{1.00f, 0.50f, 0.00f},
-			{0.00f, 0.75f, 1.00f},
-			{0.50f, 0.00f, 0.50f},
-			{0.47f, 0.40f, 0.27f},
-			{0.74f, 0.74f, 0.67f},
-			{0.60f, 0.60f, 0.54f},
-			{0.20f, 0.20f, 0.27f},
-			{0.94f, 0.94f, 0.94f},
-			{0.60f, 0.60f, 0.60f},
-			{0.34f, 0.34f, 0.34f},
-			{0.20f, 0.20f, 0.20f},
-			{1.00f, 1.00f, 0.87f},
-			{0.00f, 0.40f, 0.67f},
-			{0.30f, 0.20f, 0.10f},
-			{0.94f, 0.95f, 0.95f},
-			{0.34f, 0.27f, 0.14f},
-			{0.47f, 0.47f, 0.47f},
-			{0.00f, 0.75f, 0.00f},
-			{0.00f, 1.00f, 0.00f},
-			{0.00f, 0.50f, 0.00f},
-			{0.67f, 0.67f, 0.60f},
-			{0.80f, 1.00f, 0.00f},
-			{1.00f, 0.80f, 0.00f},
-			{0.47f, 1.00f, 0.00f},
-			{0.47f, 0.80f, 1.00f},
-			{0.67f, 0.67f, 0.67f},
-			{0.54f, 0.54f, 0.54f},
-			{0.94f, 0.00f, 0.20f},
-			{1.00f, 1.00f, 0.80f},
-			{0.00f, 0.23f, 0.56f},
-			{0.01f, 0.19f, 0.28f}
+			new float[] {0.00f, 0.00f, 0.00f},
+			new float[] {1.00f, 1.00f, 1.00f},
+			new float[] {1.00f, 1.00f, 0.00f},
+			new float[] {0.00f, 0.00f, 1.00f},
+			new float[] {1.00f, 0.00f, 0.00f},
+			new float[] {0.80f, 0.30f, 0.30f},
+			new float[] {0.50f, 0.25f, 0.00f},
+			new float[] {0.34f, 0.20f, 0.07f},
+			new float[] {0.50f, 0.50f, 0.50f},
+			new float[] {0.25f, 0.25f, 0.25f},
+			new float[] {1.00f, 0.50f, 0.00f},
+			new float[] {0.00f, 0.75f, 1.00f},
+			new float[] {0.50f, 0.00f, 0.50f},
+			new float[] {0.47f, 0.40f, 0.27f},
+			new float[] {0.74f, 0.74f, 0.67f},
+			new float[] {0.60f, 0.60f, 0.54f},
+			new float[] {0.20f, 0.20f, 0.27f},
+			new float[] {0.94f, 0.94f, 0.94f},
+			new float[] {0.60f, 0.60f, 0.60f},
+			new float[] {0.34f, 0.34f, 0.34f},
+			new float[] {0.20f, 0.20f, 0.20f},
+			new float[] {1.00f, 1.00f, 0.87f},
+			new float[] {0.00f, 0.40f, 0.67f},
+			new float[] {0.30f, 0.20f, 0.10f},
+			new float[] {0.94f, 0.95f, 0.95f},
+			new float[] {0.34f, 0.27f, 0.14f},
+			new float[] {0.47f, 0.47f, 0.47f},
+			new float[] {0.00f, 0.75f, 0.00f},
+			new float[] {0.00f, 1.00f, 0.00f},
+			new float[] {0.00f, 0.50f, 0.00f},
+			new float[] {0.67f, 0.67f, 0.60f},
+			new float[] {0.80f, 1.00f, 0.00f},
+			new float[] {1.00f, 0.80f, 0.00f},
+			new float[] {0.47f, 1.00f, 0.00f},
+			new float[] {0.47f, 0.80f, 1.00f},
+			new float[] {0.67f, 0.67f, 0.67f},
+			new float[] {0.54f, 0.54f, 0.54f},
+			new float[] {0.94f, 0.00f, 0.20f},
+			new float[] {1.00f, 1.00f, 0.80f},
+			new float[] {0.00f, 0.23f, 0.56f},
+			new float[] {0.01f, 0.19f, 0.28f}
 		};
 
 		// Create a color by an array of real numbers [0.0f, 1.0f]
@@ -254,8 +254,8 @@ namespace ms
 			Color blended = new Color();
 
 /*//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Only lambda expressions having all locals passed by reference can be converted to C#:
-//ORIGINAL LINE: std::transform(begin(), end(), other.begin(), blended.begin(), [alpha](float first, float second)
-			std::transform(begin(), end(), other.begin(), blended.begin(), (float first, float second) =>
+//ORIGINAL LINE: transform(begin(), end(), other.begin(), blended.begin(), [alpha](float first, float second)
+			transform(begin(), end(), other.begin(), blended.begin(), (float first, float second) =>
 			{
 					return lerp(first, second, alpha);
 			});*/

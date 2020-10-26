@@ -272,8 +272,8 @@ namespace ms
 
                     no++;
                     //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
-                    //ORIGINAL LINE: back = src[std::to_string(no)];
-                    back.CopyFrom(src[Convert.ToString(no)]);
+                    //ORIGINAL LINE: back = src[to_string(no)];
+                    back=(src[Convert.ToString(no)]);
                 }*/
 
             black = node_back["0"]["bS"].GetString() == "";

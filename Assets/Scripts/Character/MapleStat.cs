@@ -38,7 +38,7 @@
 
 namespace ms
 {
-	namespace MapleStat
+	public class MapleStat
 	{
 		public enum Id
 		{
@@ -64,7 +64,29 @@ namespace ms
 			GACHAEXP,
 			LENGTH
 		}
+
+		public static readonly EnumMap<Id, int> codes = new EnumMap<Id, int> ()
+		{
+			[Id.SKIN] = 0x1,
+			[Id.SKIN] = 0x2,
+			[Id.SKIN] = 0x4,
+			[Id.SKIN] = 0x10,
+			[Id.SKIN] = 0x20,
+			[Id.SKIN] = 0x40,
+			[Id.SKIN] = 0x80,
+			[Id.SKIN] = 0x100,
+			[Id.SKIN] = 0x200,
+			[Id.SKIN] = 0x400,
+			[Id.SKIN] = 0x800,
+			[Id.SKIN] = 0x1000,
+			[Id.SKIN] = 0x2000,
+			[Id.SKIN] = 0x4000,
+			[Id.SKIN] = 0x8000,
+			[Id.SKIN] = 0x10000,
+			[Id.SKIN] = 0x20000,
+			[Id.SKIN] = 0x40000,
+			[Id.SKIN] = 0x180008,
+			[Id.SKIN] = 0x200000,
+		};
 	}
 }
-
-

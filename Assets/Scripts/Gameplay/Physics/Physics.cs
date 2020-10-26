@@ -118,7 +118,7 @@ namespace ms
 				}
 				else
 				{
-					double inertia = phobj.hspeed / GlobalMembers.GROUNDSLIP;
+					double inertia = phobj.hspeed / GROUNDSLIP;
 					double slopef = phobj.fhslope;
 
 					if (slopef > 0.5)
@@ -130,12 +130,12 @@ namespace ms
 						slopef = -0.5;
 					}
 
-					phobj.hacc -= (GlobalMembers.FRICTION + GlobalMembers.SLOPEFACTOR * (1.0 + slopef * -inertia)) * inertia;
+					phobj.hacc -= (FRICTION + SLOPEFACTOR * (1.0 + slopef * -inertia)) * inertia;
 				}
 			}
 			else if (phobj.is_flag_not_set(PhysicsObject.Flag.NOGRAVITY))
 			{
-				phobj.vacc += GlobalMembers.GRAVFORCE;
+				phobj.vacc += GRAVFORCE;
 			}
 
 			phobj.hforce = 0.0;
@@ -153,8 +153,8 @@ namespace ms
 			phobj.hforce = 0.0;
 			phobj.vforce = 0.0;
 
-			phobj.hacc -= GlobalMembers.FLYFRICTION * phobj.hspeed;
-			phobj.vacc -= GlobalMembers.FLYFRICTION * phobj.vspeed;
+			phobj.hacc -= FLYFRICTION * phobj.hspeed;
+			phobj.vacc -= FLYFRICTION * phobj.vspeed;
 
 			phobj.hspeed += phobj.hacc;
 			phobj.vspeed += phobj.vacc;
@@ -178,12 +178,12 @@ namespace ms
 			phobj.hforce = 0.0;
 			phobj.vforce = 0.0;
 
-			phobj.hacc -= GlobalMembers.SWIMFRICTION * phobj.hspeed;
-			phobj.vacc -= GlobalMembers.SWIMFRICTION * phobj.vspeed;
+			phobj.hacc -= SWIMFRICTION * phobj.hspeed;
+			phobj.vacc -= SWIMFRICTION * phobj.vspeed;
 
 			if (phobj.is_flag_not_set(PhysicsObject.Flag.NOGRAVITY))
 			{
-				phobj.vacc += GlobalMembers.SWIMGRAVFORCE;
+				phobj.vacc += SWIMGRAVFORCE;
 			}
 
 			phobj.hspeed += phobj.hacc;
@@ -201,5 +201,13 @@ namespace ms
 		}
 
 		private FootholdTree fht = new FootholdTree();
+		
+		const double GRAVFORCE = 0.14;
+		const double SWIMGRAVFORCE = 0.03;
+		const double FRICTION = 0.3;
+		const double SLOPEFACTOR = 0.1;
+		const double GROUNDSLIP = 3.0;
+		const double FLYFRICTION = 0.05;
+		const double SWIMFRICTION = 0.08;
 	}
 }

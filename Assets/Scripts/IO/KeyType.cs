@@ -35,5 +35,13 @@ namespace ms
 			TEXT = 9,
 			LENGTH
 		}
+		
+		public static Id typebyid(byte id)
+		{
+			if (id <= (int)Id.NONE || id >= (int)Id.LENGTH)
+				return Id.NONE;
+
+			return (Id)(id);
+		}
 	}
 }

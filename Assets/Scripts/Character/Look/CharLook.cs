@@ -258,7 +258,7 @@ namespace ms
 
 			if (iter == hairstyles.end())
 			{
-				iter = hairstyles.emplace(std::piecewise_construct, std::forward_as_tuple(hair_id), std::forward_as_tuple(hair_id, drawinfo)).first;
+				iter = hairstyles.emplace(piecewise_construct, forward_as_tuple(hair_id), forward_as_tuple(hair_id, drawinfo)).first;
 			}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
@@ -281,7 +281,7 @@ namespace ms
 
 			if (iter == bodytypes.end())
 			{
-				iter = bodytypes.emplace(std::piecewise_construct, std::forward_as_tuple(skin_id), std::forward_as_tuple(skin_id, drawinfo)).first;
+				iter = bodytypes.emplace(piecewise_construct, forward_as_tuple(skin_id), forward_as_tuple(skin_id, drawinfo)).first;
 			}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
@@ -681,7 +681,7 @@ namespace ms
 			}
 
 			//Point<short> faceshift = drawinfo.getfacepos (interstance, interframe);
-			Point<short> faceshift = drawinfo.getfacepos (interstance, interframe,flip) ?? Point<short>.zero;
+			Point<short> faceshift = drawinfo.getfacepos (interstance, interframe, flip) ?? Point<short>.zero;
 			DrawArgument faceargs = args + new DrawArgument (faceshift, false, new Point<short> ());
 
 			if (Stance.is_climbing (interstance))
@@ -827,7 +827,7 @@ namespace ms
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: Stance::Id getattackstance(byte attack, bool degenerate) const
 
-private List<Stance.Id>[] degen_stances =
+		private List<Stance.Id>[] degen_stances =
 		{
 			new List<Stance.Id> {Stance.Id.NONE},
 			new List<Stance.Id> {Stance.Id.NONE},
@@ -841,7 +841,7 @@ private List<Stance.Id>[] degen_stances =
 			new List<Stance.Id> {Stance.Id.SWINGP1, Stance.Id.STABT2}
 		};
 
-private List<Stance.Id>[] attack_stances =
+		private List<Stance.Id>[] attack_stances =
 		{
 			new List<Stance.Id> {Stance.Id.NONE},
 			new List<Stance.Id> {Stance.Id.STABO1, Stance.Id.STABO2, Stance.Id.SWINGO1, Stance.Id.SWINGO2, Stance.Id.SWINGO3},

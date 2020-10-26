@@ -42,7 +42,7 @@ namespace ms
 /*//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++11 variadic templates:
 		public void emplace<typename...Args>(long delay, Args & ...args)
 		{
-			queue.Enqueue(time + delay, std::move(args)...);
+			queue.Enqueue(time + delay, move(args)...);
 		}*/
 		public void update (long timestep = Constants.TIMESTEP)
 		{
@@ -79,7 +79,7 @@ namespace ms
 			public Timed<typename...Args>(long w, Args & ...args)
 			{
 				this.when = {w};
-				this.value = {std::forward<Args>(args)...};
+				this.value = {forward<Args>(args)...};
 			}*/
 		}
 

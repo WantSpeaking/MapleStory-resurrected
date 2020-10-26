@@ -16,12 +16,18 @@ namespace ms.Helper
 			return src == 1;
 		}
 
-		public static Byte ToByte<T> (this T src)
+		public static byte ToByte<T> (this T src)
 		{
 			Byte.TryParse (src.ToString (), out var result);
 			return result;
 		}
 
+		public static sbyte ToSByte<T> (this T src)
+		{
+			SByte.TryParse (src.ToString (), out var result);
+			return result;
+		}
+		
 		public static ushort ToUshort<T> (this T src)
 		{
 			ushort.TryParse (src.ToString (), out var result);

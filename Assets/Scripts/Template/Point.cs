@@ -230,55 +230,26 @@ namespace ms
 			//return new Point<T> (-(dynamic)ImpliedObject.a, -(dynamic)ImpliedObject.b);
 		}
 
-/*
-		// Return a point whose coordinates have been added the specified amount
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr Point<T> operator + (T v) const
 		public static Point<T> operator + (Point<T> ImpliedObject, T v)
 		{
-			return
-			{
-				ImpliedObject.a + v, ImpliedObject.b + v
-			}
-			;
+			return new Point<T> (GenericArithmetic.Add (ImpliedObject.a, v), GenericArithmetic.Add (ImpliedObject.b, v));
 		}
 
-		// Return a point whose coordinates have been subtracted the specified amount
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr Point<T> operator - (T v) const
 		public static Point<T> operator - (Point<T> ImpliedObject, T v)
 		{
-			return
-			{
-				ImpliedObject.a - v, ImpliedObject.b - v
-			}
-			;
+			return new Point<T> (GenericArithmetic.Subtract (ImpliedObject.a, v), GenericArithmetic.Subtract (ImpliedObject.b, v));
 		}
 
-		// Return a point whose coordinates have been multiplied by the specified amount
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr Point<T> operator * (T v) const
 		public static Point<T> operator * (Point<T> ImpliedObject, T v)
 		{
-			return
-			{
-				ImpliedObject.a* v, ImpliedObject.b* v
-			}
-			;
+			return new Point<T> (GenericArithmetic.Multiply (ImpliedObject.a, v), GenericArithmetic.Multiply (ImpliedObject.b, v));
 		}
 
-		// Return a point whose coordinates have been divided by the specified amount
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr Point<T> operator / (T v) const
 		public static Point<T> operator / (Point<T> ImpliedObject, T v)
 		{
-			return
-			{
-				ImpliedObject.a / v, ImpliedObject.b / v
-			}
-			;
+			return new Point<T> (GenericArithmetic.Divide (ImpliedObject.a, v), GenericArithmetic.Divide (ImpliedObject.b, v));
 		}
-*/
+
 		// Return a point whose coordinates are the sum of this and another points coordinates
 		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 		//ORIGINAL LINE: constexpr Point<T> operator + (Point<T> v) const
@@ -325,18 +296,14 @@ namespace ms
 			return new Point<T> (temp_a, temp_b);
 		}
 
-		// Return a point whose coordinates are the division of this and another points coordinates
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: constexpr Point<T> operator / (Point<T> v) const
-		/* public static Point<T> operator /(Point<T> ImpliedObject, Point<T> v)
-		 {
-		     return new Point<T>(ImpliedObject.a / (v.a == 0 ? 1 : v.a), ImpliedObject.b / (v.b == 0 ? 1 : v.b));
-		     {
-		         ImpliedObject.a / (v.a == 0 ? 1 : v.a), ImpliedObject.b / (v.b == 0 ? 1 : v.b)
- 
-		     }
-		     ;
-		 }*/
+		public static Point<T> operator / (Point<T> ImpliedObject, Point<T> v)
+		{
+			return new Point<T>
+			(
+				GenericArithmetic.Divide (ImpliedObject.a, GenericArithmetic.Equal (v.a, 0.ToT<T> ()) ? 1.ToT<T> () : v.a),
+				GenericArithmetic.Divide (ImpliedObject.b, GenericArithmetic.Equal (v.b, 0.ToT<T> ()) ? 1.ToT<T> () : v.b)
+			);
+		}
 
 		private T a;
 		private T b;

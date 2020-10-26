@@ -1,23 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using HaRepacker;
-using MapleLib.WzLib;
+﻿using HaRepacker;
 using ms;
-using ms.MapleStat;
-using nl;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Char = ms.Char;
-using Image = System.Drawing.Image;
-using Sprite = UnityEngine.Sprite;
 
 public class MapleStory : MonoBehaviour
 {
-	public Button button_load;
+	public UnityEngine.UI.Button button_load;
 
 	public InputField inpuField_MapleFolder;
 	public InputField inpuField_MapId;
@@ -40,32 +29,33 @@ public class MapleStory : MonoBehaviour
 
 	private void init ()
 	{
-		/*if (Error error = Session::get().init())
+		/*if (Error error = Session.get().init())
 		return error;
 
 #ifdef USE_NX
-		if (Error error = NxFiles::init())
+		if (Error error = NxFiles.init())
 		return error;
 #else
-		if (Error error = WzFiles::init())
+		if (Error error = WzFiles.init())
 		return error;
 #endif
 
-		if (Error error = Window::get().init())
+		if (Error error = Window.get().init())
 		return error;
 
-		if (Error error = Sound::init())
+		if (Error error = Sound.init())
 		return error;
 
-		if (Error error = Music::init())
+		if (Error error = Music.init())
 		return error;
 
-		Char::init();
-		DamageNumber::init();
-		MapPortals::init();
-		Stage::get().init();
-		UI::get().init();*/
-
+		Char.init();
+		DamageNumber.init();
+		MapPortals.init();
+		*/
+		//Session.get().init();
+		//Stage.get().init();
+		//UI.get().init();
 		NxFiles.init (maplestoryFolder);
 		Char.init ();
 		MapPortals.init ();
@@ -92,7 +82,7 @@ public class MapleStory : MonoBehaviour
 
 		Constants.get ().frameDelay = frameDelay;
 		loop ();
-		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.LEFT, Input.GetKey (KeyCode.LeftArrow));
+		/*UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.LEFT, Input.GetKey (KeyCode.LeftArrow));
 
 		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.RIGHT, Input.GetKey (KeyCode.RightArrow));
 
@@ -101,33 +91,18 @@ public class MapleStory : MonoBehaviour
 		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.DOWN, Input.GetKey (KeyCode.DownArrow));
 
 		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.JUMP, Input.GetKey (KeyCode.LeftAlt));
-		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.ATTACK, Input.GetKey (KeyCode.LeftControl));
+		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.ATTACK, Input.GetKey (KeyCode.LeftControl));*/
 
-		/*if (Input.GetKey (KeyCode.LeftArrow))
-		{
-		    UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.LEFT,Input.GetKey (KeyCode.LeftArrow));
-		}
-		else
-		{
-		    UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.LEFT);
+		/*UI.get ().send_key ((int)KeyType.Id.ACTION,  Input.GetKey (KeyCode.LeftArrow));
 
-		}
-		if (Input.GetKey (KeyCode.RightArrow))
-		{
-		    UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.RIGHT);
-		}
-		if (Input.GetKey (KeyCode.UpArrow))
-		{
-		    UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.UP);
-		}
-		if (Input.GetKey (KeyCode.DownArrow))
-		{
-		    UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.DOWN);
-		}
-		if (Input.GetKeyDown (KeyCode.Space))
-		{
-		    UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.JUMP);
-		}*/
+		UI.get ().send_key ((int)KeyType.Id.ACTION,  Input.GetKey (KeyCode.RightArrow));
+
+		UI.get ().send_key ((int)KeyType.Id.ACTION,  Input.GetKey (KeyCode.UpArrow));
+
+		UI.get ().send_key ((int)KeyType.Id.ACTION,  Input.GetKey (KeyCode.DownArrow));
+
+		UI.get ().send_key ((int)KeyType.Id.ACTION,  Input.GetKey (KeyCode.LeftAlt));
+		UI.get ().send_key ((int)KeyType.Id.ACTION,  Input.GetKey (KeyCode.LeftControl));*/
 	}
 
 	private void update ()
@@ -186,7 +161,7 @@ public class MapleStory : MonoBehaviour
 		mapIdToLoad = int.Parse (inpuField_MapId.text);
 
 		init ();
-		var charEntry = parse_charentry (new InPacket ("", 0));
+		var charEntry = parse_charentry (new InPacket (new byte[NetConstants.HEADER_LENGTH], 0));
 		Stage.get ().loadplayer (charEntry);
 		Stage.get ().load (mapIdToLoad, 0);
 		canStart = true;
@@ -314,20 +289,20 @@ public class MapleStory : MonoBehaviour
 		for (var i = 0; i < 3; i++)
 			statsentry.petids.Add (i);
 
-		statsentry.stats[Id.LEVEL] = (ushort)1; // TODO: Change to recv.read_short(); to increase level cap
-		statsentry.stats[Id.JOB] = (ushort)100;
-		statsentry.stats[Id.STR] = (ushort)4;
-		statsentry.stats[Id.DEX] = (ushort)4;
-		statsentry.stats[Id.INT] = (ushort)4;
-		statsentry.stats[Id.LUK] = (ushort)4;
-		statsentry.stats[Id.HP] = (ushort)10;
-		statsentry.stats[Id.MAXHP] = (ushort)10;
-		statsentry.stats[Id.MP] = (ushort)10;
-		statsentry.stats[Id.MAXMP] = (ushort)10;
-		statsentry.stats[Id.AP] = (ushort)5;
-		statsentry.stats[Id.SP] = (ushort)5;
+		statsentry.stats[MapleStat.Id.LEVEL] = (ushort)1; // TODO: Change to recv.read_short(); to increase level cap
+		statsentry.stats[MapleStat.Id.JOB] = (ushort)100;
+		statsentry.stats[MapleStat.Id.STR] = (ushort)4;
+		statsentry.stats[MapleStat.Id.DEX] = (ushort)4;
+		statsentry.stats[MapleStat.Id.INT] = (ushort)4;
+		statsentry.stats[MapleStat.Id.LUK] = (ushort)4;
+		statsentry.stats[MapleStat.Id.HP] = (ushort)10;
+		statsentry.stats[MapleStat.Id.MAXHP] = (ushort)10;
+		statsentry.stats[MapleStat.Id.MP] = (ushort)10;
+		statsentry.stats[MapleStat.Id.MAXMP] = (ushort)10;
+		statsentry.stats[MapleStat.Id.AP] = (ushort)5;
+		statsentry.stats[MapleStat.Id.SP] = (ushort)5;
 		statsentry.exp = 0;
-		statsentry.stats[Id.FAME] = (ushort)5;
+		statsentry.stats[MapleStat.Id.FAME] = (ushort)5;
 
 		//recv.skip(4); // gachaexp
 

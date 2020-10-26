@@ -138,7 +138,7 @@ namespace ms
 
 					foreach (var property_Characterwz_00002000img_fly_0 in property_Characterwz_00002000img_airstrike.WzProperties)
 					{
-						/*for (byte frame = 0; nl.node framenode = property_Characterwz_00002000img_airstrike[frame];
+						/*for (byte frame = 0; WzObject framenode = property_Characterwz_00002000img_airstrike[frame];
 					++frame)*/
 						{
 							byte.TryParse (property_Characterwz_00002000img_fly_0.Name, out var frame);

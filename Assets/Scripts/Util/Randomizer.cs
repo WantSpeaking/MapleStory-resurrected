@@ -66,9 +66,9 @@ namespace ms
 			}
 			return (T)Convert.ChangeType (UnityEngine.Random.Range ((float)Convert.ChangeType (from, typeof (T)), (float)Convert.ChangeType (to, typeof (T))), typeof (T));
 
-			/*uniform_real_distribution<T> range = new std::uniform_real_distribution<T> (from, to);
-			random_device rd = new std::random_device ();
-			default_random_engine engine = new std::default_random_engine (rd ());
+			/*uniform_real_distribution<T> range = new uniform_real_distribution<T> (from, to);
+			random_device rd = new random_device ();
+			default_random_engine engine = new default_random_engine (rd ());
 
 			return range (engine);*/
 		}
@@ -94,9 +94,9 @@ namespace ms
 			}
 
 			return (T)Convert.ChangeType (UnityEngine.Random.Range ((float)Convert.ChangeType (from, typeof (T)), (float)Convert.ChangeType (to, typeof (T))), typeof (T));
-			/*std::uniform_int_distribution<T> range = new std::uniform_int_distribution<T> (from, to - 1);
-			std::random_device rd = new std::random_device ();
-			std::default_random_engine engine = new std::default_random_engine (rd ());
+			/*uniform_int_distribution<T> range = new uniform_int_distribution<T> (from, to - 1);
+			random_device rd = new random_device ();
+			default_random_engine engine = new default_random_engine (rd ());
 
 			return range (engine);*/
 		}

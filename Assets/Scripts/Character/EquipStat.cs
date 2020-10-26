@@ -36,7 +36,7 @@
 
 namespace ms
 {
-	namespace EquipStat
+	public class EquipStat
 	{
 		public enum Id
 		{
@@ -57,6 +57,27 @@ namespace ms
 			JUMP,
 			LENGTH
 		}
+		
+		public static readonly string[] names={
+			"STR",
+			"DEX",
+			"INT",
+			"LUK",
+			"MaxHP",
+			"MaxMP",
+			"Attack Power",
+			"Magic Attack",
+			"Defense",
+
+			// TODO: Does current GMS use these anymore?
+			"MAGIC DEFENSE",
+			"ACCURACY",
+			"AVOID",
+			"HANDS",
+
+			"Speed",
+			"Jump"
+		};
 	}
 }
 

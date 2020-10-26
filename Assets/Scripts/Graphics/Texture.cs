@@ -92,7 +92,9 @@ namespace ms
 				spriteRenderer.enabled = false;
 			}
 		}
-
+		public void draw ()
+		{
+		}
 		public void draw (DrawArgument args)
 		{
 			if (bitmap == null) return;
@@ -119,7 +121,19 @@ namespace ms
 				setPos (new Vector3 (args.get_Pos ().x (), -args.get_Pos ().y (), 0));
 			}
 		}
+		public void draw( DrawArgument args,  Range<short> vertical) 
+		{
+			/*if (!is_valid())
+				return;
 
+			GraphicsGL::get().draw(
+				bitmap,
+				args.get_rectangle(origin, dimensions),
+				vertical,
+				args.get_color(),
+				args.get_angle()
+			);*/
+		}
 		private void setPos (Vector3 pos)
 		{
 			if (spriteRenderer?.gameObject is GameObject gameObject)
@@ -136,9 +150,7 @@ namespace ms
 			}
 		}
 
-		public void draw ()
-		{
-		}
+	
 
 		public void shift (Point<short> amount)
 		{

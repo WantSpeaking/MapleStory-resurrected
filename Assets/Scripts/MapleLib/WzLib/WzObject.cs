@@ -298,6 +298,30 @@ namespace MapleLib.WzLib
 			}
 		}
 
+		public static implicit operator Sprite (WzObject wzObject)
+		{
+			if (wzObject != null)
+			{
+				return new Sprite (wzObject);
+			}
+			else
+			{
+				return new Sprite ();
+			}
+		}
+
+		public static implicit operator Texture (WzObject wzObject)
+		{
+			if (wzObject != null)
+			{
+				return new Texture (wzObject);
+			}
+			else
+			{
+				return new Texture ();
+			}
+		}
+
 		public static implicit operator List<WzImageProperty> (WzObject wzObject)
 		{
 			if (wzObject is WzImageProperty imageProperty)
@@ -324,6 +348,19 @@ namespace MapleLib.WzLib
 		}
 
 		#endregion
+
+		public WzObject resolve (string path)
+		{
+			var subPaths = path.Split ('/');
+			WzObject result = this;
+			for (int i = 0; i < subPaths.Length; i++)
+			{
+				var currentPath = subPaths[i];
+				result = result[currentPath];
+			}
+
+			return result;
+		}
 
 		public IEnumerator<WzImageProperty> GetEnumerator ()
 		{

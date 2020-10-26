@@ -49,6 +49,7 @@ namespace ms
 			return new Optional<T> (ImpliedObject);
 		}
 
+	
 		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 		//ORIGINAL LINE: T* get() const
 		public T get ()

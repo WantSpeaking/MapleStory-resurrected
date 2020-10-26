@@ -38,8 +38,9 @@ namespace ms
 		//public abstract Cursor.State send_cursor (Cursor.State mst, Point<short> pos);
 		public abstract void send_scroll (double yoffset);
 		public abstract void send_close ();
-
-		//public abstract void drag_icon (Icon icon);
+		public abstract Cursor.State send_cursor (Cursor.State cursorstate, Point<short> cursorpos);
+	
+		public abstract void drag_icon (Icon icon);
 		public abstract void clear_tooltip (Tooltip.Parent parent);
 		public abstract void show_equip (Tooltip.Parent parent, short slot);
 		public abstract void show_item (Tooltip.Parent parent, int itemid);
@@ -52,6 +53,12 @@ namespace ms
 		public abstract UIElement get (UIElement.Type type);
 		public abstract UIElement get_front (LinkedList<UIElement.Type> types);
 		public abstract UIElement get_front (Point<short> pos);
+		
+		/*Optional<Icon> draggedicon;
+		public void drag_icon(Icon drgic)
+		{
+			draggedicon = drgic;
+		}*/
 	}
 
 	public class UIStateNull : UIState
@@ -78,10 +85,15 @@ namespace ms
 		{
 		}
 
-		/*public override Cursor.State send_cursor (Cursor.State UnnamedParameter1, Point<short> UnnamedParameter2)
+		public override Cursor.State send_cursor (Cursor.State UnnamedParameter1, Point<short> UnnamedParameter2)
 		{
 			return Cursor.State.IDLE;
-		}*/
+		}
+
+		public override void drag_icon (Icon icon)
+		{
+			
+		}
 
 		public override void send_scroll (double UnnamedParameter1)
 		{

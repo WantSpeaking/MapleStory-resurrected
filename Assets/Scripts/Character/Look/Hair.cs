@@ -93,14 +93,14 @@ namespace ms
 					}
 				}
 
-				/*for (byte frame = 0; nl.node framenode = node_Hair_00030000img_alert[frame]; ++frame)
+				/*for (byte frame = 0; WzObject framenode = node_Hair_00030000img_alert[frame]; ++frame)
 				{
 					foreach (nl  in :node layernode : framenode)
 					{
 						string layername = layernode.name();
-						var layer_iter = GlobalMembers.layers_by_name.find(layername);
+						var layer_iter = layers_by_name.find(layername);
 
-						if (layer_iter == GlobalMembers.layers_by_name.end())
+						if (layer_iter == layers_by_name.end())
 						{
 							Console.Write("Unknown Hair::Layer name: [");
 							Console.Write(layername);

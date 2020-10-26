@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ms.EquipStat;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -24,7 +23,7 @@ namespace ms
 	public class StatCaps
 	{
 		// Externalizing this for easier configurability
-		public static Dictionary<EquipStat.Id, int> EQSTAT_CAPS =new Dictionary<Id, int> ()
+		public static Dictionary<EquipStat.Id, int> EQSTAT_CAPS =new Dictionary<EquipStat.Id, int> ()
 		{
 			{ EquipStat.Id.STR,	999		},
 			{ EquipStat.Id.DEX,	999		},

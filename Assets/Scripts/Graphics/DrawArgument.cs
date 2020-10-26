@@ -272,6 +272,11 @@ namespace ms
 				stretch, xscale, yscale, color, angle
 			};*/
 		}
+
+		public static implicit operator DrawArgument (ms.Point<short> point)
+		{
+			return new DrawArgument(point);
+		}
 		#endregion
 
 		public Point<short> get_Pos ()
@@ -289,6 +294,20 @@ namespace ms
 			return yscale;
 		}
 
+		public Color get_color ()
+		{
+			return color;
+		}
+
+		public Point<short> getstretch ()
+		{
+			return stretch;
+		}
+		public Point<short> getpos ()
+		{
+			return stretch;
+		}
+		
 		public Rectangle get_rectangle (Point<short> origin, Point<short> dimensions)
 		{
 			short w = stretch.x ();

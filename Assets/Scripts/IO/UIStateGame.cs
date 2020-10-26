@@ -168,7 +168,7 @@ namespace ms
 								}
 								case KeyAction.Id.MINIMAP:
 								{
-									if (auto minimap = UI.get().get_element<UIMiniMap>())
+									if (var minimap = UI.get().get_element<UIMiniMap>())
 									{
 										minimap.send_key(action, pressed, escape);
 									}
@@ -198,7 +198,7 @@ namespace ms
 								}
 								case KeyAction.Id.TOGGLECHAT:
 								{
-									if (auto chatbar = UI.get().get_element<UIChatBar>())
+									if (var chatbar = UI.get().get_element<UIChatBar>())
 									{
 										if (!chatbar.is_chatfieldopen())
 										{
@@ -210,7 +210,7 @@ namespace ms
 								}
 								case KeyAction.Id.MENU:
 								{
-									if (auto statusbar = UI.get().get_element<UIStatusBar>())
+									if (var statusbar = UI.get().get_element<UIStatusBar>())
 									{
 										statusbar.toggle_menu();
 									}
@@ -219,7 +219,7 @@ namespace ms
 								}
 								case KeyAction.Id.QUICKSLOTS:
 								{
-									if (auto statusbar = UI.get().get_element<UIStatusBar>())
+									if (var statusbar = UI.get().get_element<UIStatusBar>())
 									{
 										statusbar.toggle_qs();
 									}
@@ -249,7 +249,7 @@ namespace ms
 								}
 								case KeyAction.Id.MAINMENU:
 								{
-									if (auto statusbar = UI.get().get_element<UIStatusBar>())
+									if (var statusbar = UI.get().get_element<UIStatusBar>())
 									{
 										statusbar.send_key(action, pressed, escape);
 									}
@@ -283,10 +283,10 @@ namespace ms
 			Stage.get().send_key(type, action, pressed);
 		}
 
-		/*public override Cursor.State send_cursor (Cursor.State mst, Point<short> pos)
+		public override Cursor.State send_cursor (Cursor.State mst, Point<short> pos)
 		{
 			throw new NotImplementedException ();
-		}*/
+		}
 
 		public override void send_scroll (double yoffset)
 		{
@@ -298,10 +298,10 @@ namespace ms
 			throw new NotImplementedException ();
 		}
 
-		/*public override void drag_icon (Icon icon)
+		public override void drag_icon (Icon icon)
 		{
-			throw new NotImplementedException ();
-		}*/
+			
+		}
 
 		public override void clear_tooltip (Tooltip.Parent parent)
 		{
@@ -385,7 +385,7 @@ namespace ms
 		{
 			foreach (var type in elementorder)
 			{
-				auto element = elements[type];
+				var element = elements[type];
 
 				if (element != null && element.is_active())
 				{
@@ -423,7 +423,7 @@ namespace ms
 
 			foreach (var type in elementorder)
 			{
-				auto element = elements[type];
+				var element = elements[type];
 
 				if (element != null && element.is_active())
 				{
@@ -562,7 +562,7 @@ namespace ms
 								}
 								case KeyAction.Id.MINIMAP:
 								{
-									if (auto minimap = UI.get().get_element<UIMiniMap>())
+									if (var minimap = UI.get().get_element<UIMiniMap>())
 									{
 										minimap.send_key(action, pressed, escape);
 									}
@@ -592,7 +592,7 @@ namespace ms
 								}
 								case KeyAction.Id.TOGGLECHAT:
 								{
-									if (auto chatbar = UI.get().get_element<UIChatBar>())
+									if (var chatbar = UI.get().get_element<UIChatBar>())
 									{
 										if (!chatbar.is_chatfieldopen())
 										{
@@ -604,7 +604,7 @@ namespace ms
 								}
 								case KeyAction.Id.MENU:
 								{
-									if (auto statusbar = UI.get().get_element<UIStatusBar>())
+									if (var statusbar = UI.get().get_element<UIStatusBar>())
 									{
 										statusbar.toggle_menu();
 									}
@@ -613,7 +613,7 @@ namespace ms
 								}
 								case KeyAction.Id.QUICKSLOTS:
 								{
-									if (auto statusbar = UI.get().get_element<UIStatusBar>())
+									if (var statusbar = UI.get().get_element<UIStatusBar>())
 									{
 										statusbar.toggle_qs();
 									}
@@ -643,7 +643,7 @@ namespace ms
 								}
 								case KeyAction.Id.MAINMENU:
 								{
-									if (auto statusbar = UI.get().get_element<UIStatusBar>())
+									if (var statusbar = UI.get().get_element<UIStatusBar>())
 									{
 										statusbar.send_key(action, pressed, escape);
 									}
@@ -696,7 +696,7 @@ namespace ms
 			{
 				bool clicked = cursorstate == Cursor.State.CLICKING || cursorstate == Cursor.State.VSCROLLIDLE;
 
-				if (auto focusedelement = get(focused))
+				if (var focusedelement = get(focused))
 				{
 					if (focusedelement.is_active())
 					{
@@ -718,8 +718,8 @@ namespace ms
 						dragged = null;
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: if (auto front = get_front(cursorpos))
-						if (auto front = get_front(new ms.Point(new ms.Point(cursorpos))))
+//ORIGINAL LINE: if (var front = get_front(cursorpos))
+						if (var front = get_front(new ms.Point(new ms.Point(cursorpos))))
 						{
 							UIElement.Type front_type = front.get_type();
 
@@ -753,7 +753,7 @@ namespace ms
 
 							for (var iter = elementorder.rbegin(); iter != elementorder.rend(); ++iter)
 							{
-								auto element = elements[*iter];
+								var element = elements[*iter];
 
 								if (element != null && element.is_active() && element.is_in_range(cursorpos))
 								{
@@ -790,7 +790,7 @@ namespace ms
 		{
 			foreach (var type in elementorder)
 			{
-				auto element = elements[type];
+				var element = elements[type];
 
 				if (element != null && element.is_active())
 				{
@@ -872,9 +872,9 @@ namespace ms
 			}
 		}
 
-		public override EnumMap<UIElement.Type, std::unique_ptr<UIElement>, UIElement.Type.NUM_TYPES>.iterator pre_add(UIElement.Type type, bool is_toggled, bool is_focused)
+		public override EnumMap<UIElement.Type, unique_ptr<UIElement>, UIElement.Type.NUM_TYPES>.iterator pre_add(UIElement.Type type, bool is_toggled, bool is_focused)
 		{
-			auto element = elements[(int)type];
+			var element = elements[(int)type];
 
 			if (element != null && is_toggled)
 			{
@@ -954,7 +954,7 @@ namespace ms
 
 			elementorder.Remove(type);
 
-			if ((auto & element = elements[(int)type]) != 0)
+			if ((var & element = elements[(int)type]) != 0)
 			{
 				element.deactivate();
 				element.release();
@@ -973,7 +973,7 @@ namespace ms
 			{
 				if (types.Contains(*iter))
 				{
-					auto element = elements[*iter];
+					var element = elements[*iter];
 
 					if (element != null && element.is_active())
 					{
@@ -991,7 +991,7 @@ namespace ms
 
 			for (var iter = begin; iter != end; ++iter)
 			{
-				auto element = elements[*iter];
+				var element = elements[*iter];
 
 				if (element != null && element.is_active() && element.is_in_range(pos))
 				{
@@ -1053,13 +1053,13 @@ namespace ms
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++11 variadic templates:
 		private void emplace<T, typename...Args>(Args & ...args)
 		{
-			if (auto iter = pre_add(T.TYPE, T.TOGGLED, T.FOCUSED))
+			if (var iter = pre_add(T.TYPE, T.TOGGLED, T.FOCUSED))
 			{
-				iter.second = std::make_unique<T>(std::forward<Args>(args)...);
+				iter.second = <T>(forward<Args>(args)...);
 
 				var silent_types = UIElement.Type.STATUSMESSENGER, UIElement.Type.STATUSBAR, UIElement.Type.CHATBAR, UIElement.Type.MINIMAP, UIElement.Type.BUFFLIST, UIElement.Type.NPCTALK, UIElement.Type.SHOP;
 
-				if (std::find(silent_types.begin(), silent_types.end(), T.TYPE) == silent_types.end())
+				if (find(silent_types.begin(), silent_types.end(), T.TYPE) == silent_types.end())
 				{
 					if (T.TYPE == UIElement.Type.WORLDMAP)
 					{
@@ -1075,7 +1075,7 @@ namespace ms
 			}
 		}
 
-		private EnumMap<UIElement.Type, std::unique_ptr<UIElement>, UIElement.Type.NUM_TYPES> elements = new EnumMap<UIElement.Type, std::unique_ptr<UIElement>, UIElement.Type.NUM_TYPES>();
+		private EnumMap<UIElement.Type, unique_ptr<UIElement>, UIElement.Type.NUM_TYPES> elements = new EnumMap<UIElement.Type, unique_ptr<UIElement>, UIElement.Type.NUM_TYPES>();
 		private LinkedList<UIElement.Type> elementorder = new LinkedList<UIElement.Type>();
 		private UIElement.Type focused;
 		private UIElement dragged;

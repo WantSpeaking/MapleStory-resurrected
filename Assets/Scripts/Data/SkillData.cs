@@ -166,7 +166,7 @@ namespace ms
 			if (iter == stats.end ())
 			{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 NOTE: This static local variable declaration (not allowed in C#) has been moved just prior to the method:
-//				static constexpr Stats null_stats = Stats(0.0f, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f, 0.0f, 0.0f, Rectangle<short>());
+//				constexpr Stats null_stats = Stats(0.0f, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f, 0.0f, 0.0f, Rectangle<short>());
 
 				return null_stats;
 			}
@@ -210,7 +210,7 @@ namespace ms
 
 			if (iter == levels.end ())
 			{
-				const GlobalMembers.string null_level = "Missing level description.";
+				const string null_level = "Missing level description.";
 
 				return null_level;
 			}
@@ -270,7 +270,7 @@ namespace ms
 				}
 			}
 
-			/*for (int level = 1; nl.node sub = node_Stringwz_Skillimg_000["h" + Convert.ToString (level)];
+			/*for (int level = 1; WzObject sub = node_Stringwz_Skillimg_000["h" + Convert.ToString (level)];
 			level++)
 			{
 				levels.Add (level, sub);
@@ -318,9 +318,9 @@ namespace ms
 				float ignoredef = 0.0f;
 				float hrange = (float)property_Skillwz_000img_skill_0000008_level_1["range"].get_real (100.0) / 100;
 				Rectangle<short> range = property_Skillwz_000img_skill_0000008_level_1;
-				int level = string_conversion.GlobalMembers.or_default<int> (property_Skillwz_000img_skill_0000008_level_1.name (), -1);
+				int level = string_conversion.or_default<int> (property_Skillwz_000img_skill_0000008_level_1.name (), -1);
 
-				stats.emplace (std::piecewise_construct, std::forward_as_tuple (level), std::forward_as_tuple (damage, matk, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range));
+				stats.emplace (piecewise_construct, forward_as_tuple (level), forward_as_tuple (damage, matk, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range));
 			}*/
 
 			element = node_Skillwz_1111img_skill_11111004["elemAttr"]?.ToString ();

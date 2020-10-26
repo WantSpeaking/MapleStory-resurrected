@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ms.EquipStat;
 using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +79,7 @@ namespace ms
 		}
 
 		// Construct a player object from the given Character entry
-		public Player (CharEntry entry) : base (entry.id, entry.look, entry.stats.name)
+		public Player (CharEntry entry) : base (entry.id,new CharLook( entry.look), entry.stats.name)
 		{
 			stats = new CharStats (entry.stats);
 			attacking = false;
@@ -90,7 +89,7 @@ namespace ms
 			set_direction (true);
 		}
 
-		public Player () : base (0, new LookEntry (), "")
+		public Player () : base (0, new CharLook (), "")
 		{
 		}
 
@@ -130,8 +129,8 @@ namespace ms
 
 			foreach (var stat in Enum.GetValues (typeof (EquipStat.Id)))
 			{
-				int inventory_total = inventory.get_stat ((Id)stat);
-				stats.add_value ((Id)stat, inventory_total);
+				int inventory_total = inventory.get_stat ((EquipStat.Id)stat);
+				stats.add_value ((EquipStat.Id)stat, inventory_total);
 			}
 
 			/*todo var passive_skills = skillbook.collect_passives();
@@ -648,7 +647,7 @@ namespace ms
 			return inventory;
 		}
 
-		/*// Obtain a reference to the player's skills
+		// Obtain a reference to the player's skills
 		public SkillBook get_skills()
 		{
 		    return skillbook;
@@ -670,13 +669,13 @@ namespace ms
 		public MonsterBook get_monsterbook()
 		{
 		    return monsterbook;
-		}*/
+		}
 
 		private Inventory inventory = new Inventory ();
-		//private SkillBook skillbook = new SkillBook();
-		//private QuestLog questlog = new QuestLog();
-		//private TeleportRock teleportrock = new TeleportRock();
-		//private MonsterBook monsterbook = new MonsterBook();
+		private SkillBook skillbook = new SkillBook();
+		private QuestLog questlog = new QuestLog();
+		private TeleportRock teleportrock = new TeleportRock();
+		private MonsterBook monsterbook = new MonsterBook();
 
 
 		// Return a pointer to the ladder the player is on

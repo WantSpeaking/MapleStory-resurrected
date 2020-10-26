@@ -169,9 +169,9 @@ namespace ms
 		public void shift (Point<T> v)
 		{
 			left_top = left_top + v;
-			//left_top.CopyFrom (left_top + v);
+			//left_top= (left_top + v);
 			right_bottom = right_bottom + v;
-			//right_bottom.CopyFrom (right_bottom + v);
+			//right_bottom= (right_bottom + v);
 		}
 
 		private Point<T> left_top = new Point<T> ();

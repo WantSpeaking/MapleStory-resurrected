@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Priority_Queue
 {
     /// <summary>
-    /// A simplified priority queue implementation.  Is stable, auto-resizes, and thread-safe, at the cost of being slightly slower than
+    /// A simplified priority queue implementation.  Is stable, var-resizes, and thread-safe, at the cost of being slightly slower than
     /// FastPriorityQueue
     /// Methods tagged as O(1) or O(log n) are assuming there are no duplicates.  Duplicates may increase the algorithmic complexity.
     /// </summary>
@@ -235,7 +235,7 @@ namespace Priority_Queue
 
         /// <summary>
         /// Enqueue a node to the priority queue.  Lower values are placed in front. Ties are broken by first-in-first-out.
-        /// This queue automatically resizes itself, so there's no concern of the queue becoming 'full'.
+        /// This queue varmatically resizes itself, so there's no concern of the queue becoming 'full'.
         /// Duplicates and null-values are allowed.
         /// O(log n)
         /// </summary>
@@ -260,7 +260,7 @@ namespace Priority_Queue
 
         /// <summary>
         /// Enqueue a node to the priority queue if it doesn't already exist.  Lower values are placed in front. Ties are broken by first-in-first-out.
-        /// This queue automatically resizes itself, so there's no concern of the queue becoming 'full'.  Null values are allowed.
+        /// This queue varmatically resizes itself, so there's no concern of the queue becoming 'full'.  Null values are allowed.
         /// Returns true if the node was successfully enqueued; false if it already exists.
         /// O(log n)
         /// </summary>
@@ -561,7 +561,7 @@ namespace Priority_Queue
     }
 
     /// <summary>
-    /// A simplified priority queue implementation.  Is stable, auto-resizes, and thread-safe, at the cost of being slightly slower than
+    /// A simplified priority queue implementation.  Is stable, var-resizes, and thread-safe, at the cost of being slightly slower than
     /// FastPriorityQueue
     /// This class is kept here for backwards compatibility.  It's recommended you use SimplePriorityQueue&lt;TItem, TPriority&gt;
     /// </summary>

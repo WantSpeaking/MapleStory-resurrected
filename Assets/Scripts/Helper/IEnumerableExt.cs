@@ -6,6 +6,18 @@ using UnityEngine;
 
 public static class IEnumerableExt
 {
+	public static T TryGet<T> (this List<T> list, int index)
+	{
+		if (index >= 0 && index < list.Count - 1)
+		{
+			return list[index];
+		}
+		else
+		{
+			return default;
+		}
+	}
+
 	#region Dictionary
 
 	public static void TryAdd<T, V> (this Dictionary<T, V> dictionary, T key, bool refreshValue = false) where V : new ()
@@ -39,7 +51,27 @@ public static class IEnumerableExt
 		}
 	}
 
-	public static T TryGet<T> (this List<T> list, int index)
+	public static V TryGetValue<T, V> (this IDictionary<T, V> dictionary, T key)
+	{
+		dictionary.TryGetValue (key, out var value);
+		return value;
+	}
+
+	public static int count<T, V> (this IDictionary<T, V> dictionary, T key)
+	{
+		int result = 0;
+		foreach (var pair in dictionary)
+		{
+			if (Equals (pair.Key, key))
+			{
+				result++;
+			}
+		}
+
+		return result;
+	}
+
+	/*public static T RemoveWhere<T,V> (this Dictionary<T,V> list, Func<bool> predict)
 	{
 		if (index >= 0 && index < list.Count - 1)
 		{
@@ -49,11 +81,11 @@ public static class IEnumerableExt
 		{
 			return default;
 		}
-	}
+	}*/
 
 	#endregion
 
-	#region f
+	#region LinkedList
 
 	public static void remove_if<T> (this LinkedList<T> list, Func<T, bool> predict)
 	{

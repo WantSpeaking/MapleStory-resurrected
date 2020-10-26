@@ -137,7 +137,7 @@ namespace ms
 
 				no++;
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
-//ORIGINAL LINE: sub = src["effect" + std::to_string(no)];
+//ORIGINAL LINE: sub = src["effect" + to_string(no)];
 				sub = (src["effect" + Convert.ToString (no)]);
 			}
 		}

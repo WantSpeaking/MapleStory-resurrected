@@ -172,7 +172,7 @@ namespace ms
 
 			var soundsrc = nl.nx.wzFile_sound["Weapon.img"][src["sfx"].ToString ()];
 
-			/*bool twosounds = soundsrc["Attack2"].data_type() == nl.node.type.audio;//todo twosounds
+			/*bool twosounds = soundsrc["Attack2"].data_type() == WzObject.type.audio;//todo twosounds
 
 			if (twosounds)
 			{

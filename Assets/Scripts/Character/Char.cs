@@ -76,7 +76,7 @@ namespace ms
 			if (invincible)
 			{
 				float phi = invincible.alpha() * 30;
-				float rgb = 0.9f - 0.5f * std::abs(std::sinf(phi));
+				float rgb = 0.9f - 0.5f * abs(sinf(phi));
 
 				color = Color(rgb, rgb, rgb, 1.0f);
 			}
@@ -99,7 +99,7 @@ namespace ms
 				look.draw(DrawArgument(absp, scale, scale, opacity), alpha);
 			}
 
-			for (auto& pet : pets)
+			for (var& pet : pets)
 			if (pet.get_itemid())
 				pet.draw(viewx, viewy, alpha);
 
@@ -109,11 +109,11 @@ namespace ms
 
 			effects.drawabove(absp, alpha);
 
-			for (auto& number : damagenumbers)
+			for (var& number : damagenumbers)
 			number.draw(viewx, viewy, alpha);*/
 		}
 
-		private void draw_preview (Point<short> position, float alpha)
+		public void draw_preview (Point<short> position, float alpha)
 		{
 			look_preview.draw (position, false, Stance.Id.STAND1, Expression.Id.DEFAULT);
 		}
@@ -234,7 +234,7 @@ namespace ms
 			short start_y = (short)(phobj.get_y () - 60);
 			short x = (short)(phobj.get_x () - 10);
 
-			//damagenumbers.emplace_back(DamageNumber.Type.TOPLAYER, damage, start_y, x);
+			//damagenumbers.Add(DamageNumber.Type.TOPLAYER, damage, start_y, x);
 
 			look.set_alerted (5000);
 			invincible.set_for (2000);
@@ -400,7 +400,7 @@ namespace ms
 			return facing_right;
 		}
 
-		private string get_name ()
+		public string get_name ()
 		{
 			//return namelabel.get_text();
 			return string.Empty;
@@ -453,9 +453,11 @@ namespace ms
 
 		public abstract int get_skilllevel (int skillid);
 
-		public Char (int o, LookEntry lk, string name) : base (o, new Point<short> ())
+		public Char (int o, CharLook lk, string name) : base (o, new Point<short> ())
 		{
-			look = new CharLook (lk);
+			look = (lk);
+			look_preview = (lk);
+			namelabel = new Text (Text.Font.A13M, Text.Alignment.CENTER, Color.Name.WHITE, Text.Background.NAMETAG, name);
 		}
 
 		public CharLook look = new CharLook ();
@@ -466,8 +468,8 @@ namespace ms
 		public bool attacking;
 		public bool facing_right;
 
-		//private Text namelabel = new Text ();
-		//private ChatBalloon chatballoon = new ChatBalloon ();
+		private Text namelabel = new Text ();
+		private ChatBalloon chatballoon = new ChatBalloon ();
 		private EffectLayer effects = new EffectLayer ();
 		private Afterimage afterimage = new Afterimage ();
 		private TimedBool invincible = new TimedBool ();

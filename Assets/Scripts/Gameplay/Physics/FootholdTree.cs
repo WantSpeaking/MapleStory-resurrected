@@ -92,7 +92,7 @@ namespace ms
 
 							Foothold foothold = new Foothold (lastf, id, layer);
 							footholds[id] = foothold;
-							//Foothold foothold = footholds.emplace(std::piecewise_construct, std::forward_as_tuple(id), std::forward_as_tuple(lastf, id, layer)).first.second;
+							//Foothold foothold = footholds.emplace(piecewise_construct, forward_as_tuple(id), forward_as_tuple(lastf, id, layer)).first.second;
 
 							if (foothold.l () < leftw)
 							{

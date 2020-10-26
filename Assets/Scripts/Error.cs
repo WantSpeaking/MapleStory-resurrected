@@ -1,4 +1,4 @@
-﻿/*//////////////////////////////////////////////////////////////////////////////////
+﻿//////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
 //	Copyright (C) 2015-2019  Daniel Allendorf, Ryan Payton						//
 //																				//
@@ -44,12 +44,9 @@ namespace ms
 			LENGTH
 		}
 
-		public Error(Code c) : this(c, "")
+		public Error(Code c, string args = "")
 		{
-		}
-		public Error(Code c, string args)
-		{
-			this.code = new ms.Error.Code(c);
+			this.code = c;
 			this.args = args;
 		}
 
@@ -84,6 +81,11 @@ namespace ms
 		private Code code;
 		private readonly string args;
 
-		private const string[] messages = {"", "Cannot connect to server.", "Could not initialize NLNX.", "Could not initialize WZ.", "Missing a game file: ", "UI.nx has wrong version.", "Could not initialize GLFW.", "Could not initialize GLEW.", "Could not initialize FreeType.", "Failed to compile vertex shader.", "Failed to compile fragment shader.", "Failed to link shader program.", "Failed to validate shader program.", "Failed to locate shader variables.", "Failed to create window.", "Failed to initialize audio.", "Could not load icon.", "Could not load fonts."};
+		private static readonly string[] messages = new string[]{"", "Cannot connect to server.", "Could not initialize NLNX.", "Could not initialize WZ.", "Missing a game file: ", "UI.nx has wrong version.", "Could not initialize GLFW.", "Could not initialize GLEW.", "Could not initialize FreeType.", "Failed to compile vertex shader.", "Failed to compile fragment shader.", "Failed to link shader program.", "Failed to validate shader program.", "Failed to locate shader variables.", "Failed to create window.", "Failed to initialize audio.", "Could not load icon.", "Could not load fonts."};
+
+		public static implicit operator Error (Code code)
+		{
+			return new Error (code);
+		}
 	}
-}*/
+}

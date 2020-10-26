@@ -125,7 +125,7 @@ namespace ms
 		{
 			var node_node_100000000img_info = node_100000000img["info"];
 
-			/*if (node_node_100000000img_info["VRLeft"].data_type() == nl.node.type.integer)
+			/*if (node_node_100000000img_info["VRLeft"].data_type() == WzObject.type.integer)
 			{
 				mapwalls = new Range<short>(node_node_100000000img_info["VRLeft"], node_node_100000000img_info["VRRight"]);
 				mapborders = new Range<short>(node_node_100000000img_info["VRTop"], node_node_100000000img_info["VRBottom"]);

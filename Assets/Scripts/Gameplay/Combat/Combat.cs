@@ -271,9 +271,9 @@ namespace ms
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: if (Optional<Reactor> reactor = reactor_objs->get(reactor_targets.at(0)))
-					if (Optional < Reactor > GlobalMembers.reactor = reactor_objs.get (new List (reactor_targets[0])))
+					if (Optional < Reactor > reactor = reactor_objs.get (new List (reactor_targets[0])))
 					{
-						DamageReactorPacket (GlobalMembers.reactor.get_oid (), player.get_position (), 0, 0).dispatch ();
+						DamageReactorPacket (reactor.get_oid (), player.get_position (), 0, 0).dispatch ();
 					}
 				}*/
 			}

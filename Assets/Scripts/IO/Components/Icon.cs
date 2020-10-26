@@ -1,5 +1,4 @@
-﻿/*
-#define USE_NX
+﻿#define USE_NX
 
 using System;
 
@@ -39,11 +38,9 @@ using System;
 //////////////////////////////////////////////////////////////////////////////////
 
 
-
-
 namespace ms
 {
-	public class Icon
+	public class Icon : IDisposable
 	{
 		public enum IconType : byte
 		{
@@ -55,150 +52,171 @@ namespace ms
 			NUM_TYPES
 		}
 
+		public virtual void Dispose ()
+		{
+		}
+
 		public abstract class Type : System.IDisposable
 		{
-			public virtual void Dispose()
+			public virtual void Dispose ()
 			{
 			}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: virtual void drop_on_stage() const = 0;
-			public abstract void drop_on_stage();
+			public abstract void drop_on_stage ();
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: virtual void drop_on_equips(EquipSlot::Id eqslot) const = 0;
-			public abstract void drop_on_equips(EquipSlot.Id eqslot);
+			public abstract void drop_on_equips (EquipSlot.Id eqslot);
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: virtual bool drop_on_items(InventoryType::Id tab, EquipSlot::Id eqslot, short slot, bool equip) const = 0;
-			public abstract bool drop_on_items(InventoryType.Id tab, EquipSlot.Id eqslot, short slot, bool equip);
+			public abstract bool drop_on_items (InventoryType.Id tab, EquipSlot.Id eqslot, short slot, bool equip);
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: virtual void drop_on_bindings(Point<short> cursorposition, bool remove) const = 0;
-			public abstract void drop_on_bindings(Point<short> cursorposition, bool remove);
-			public abstract void set_count(short NamelessParameter);
-			public abstract IconType get_type();
+			public abstract void drop_on_bindings (Point<short> cursorposition, bool remove);
+			public abstract void set_count (short NamelessParameter);
+			public abstract IconType get_type ();
 		}
 
 		public class NullType : Type
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void drop_on_stage() const override
-			private override void drop_on_stage()
+			public override void drop_on_stage ()
 			{
 			}
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void drop_on_equips(EquipSlot::Id) const override
-			private override void drop_on_equips(EquipSlot.Id UnnamedParameter1)
+			public override void drop_on_equips (EquipSlot.Id UnnamedParameter1)
 			{
 			}
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: bool drop_on_items(InventoryType::Id, EquipSlot::Id, short, bool) const override
-			private override bool drop_on_items(InventoryType.Id UnnamedParameter1, EquipSlot.Id UnnamedParameter2, short UnnamedParameter3, bool UnnamedParameter4)
+			public override bool drop_on_items (InventoryType.Id UnnamedParameter1, EquipSlot.Id UnnamedParameter2, short UnnamedParameter3, bool UnnamedParameter4)
 			{
 				return true;
 			}
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void drop_on_bindings(Point<short>, bool) const override
-			private override void drop_on_bindings(Point<short> UnnamedParameter1, bool UnnamedParameter2)
+			public override void drop_on_bindings (Point<short> UnnamedParameter1, bool UnnamedParameter2)
 			{
 			}
-			private override void set_count(short UnnamedParameter1)
+
+			public override void set_count (short UnnamedParameter1)
 			{
 			}
-			private override IconType get_type()
+
+			public override IconType get_type ()
 			{
 				return IconType.NONE;
 			}
 		}
 
-		public Icon(std::unique_ptr<Type> t, Texture tx, short c)
+		public Icon (Type t, Texture tx, short c)
 		{
-			this.type = std::move(t);
+			this.type = t;
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: this.texture = new ms.Texture(tx);
-			this.texture = new ms.Texture(new ms.Texture(tx));
+			this.texture = tx;
 			this.count = c;
-			texture.shift(new Point<short>(0, 32));
+			texture.shift (new Point<short> (0, 32));
 			showcount = c > -1;
 			dragged = false;
 		}
-		public Icon() : this(std::make_unique<NullType>(), {}, -1)
+
+		public Icon () : this (new NullType (), new Texture (), -1)
 		{
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void drop_on_stage() const
-		public void drop_on_stage()
+		public void drop_on_stage ()
 		{
-			type.drop_on_stage();
+			type.drop_on_stage ();
 		}
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void drop_on_equips(EquipSlot::Id eqslot) const
-		public void drop_on_equips(EquipSlot.Id eqslot)
+		public void drop_on_equips (EquipSlot.Id eqslot)
 		{
-			type.drop_on_equips(eqslot);
+			type.drop_on_equips (eqslot);
 		}
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: bool drop_on_items(InventoryType::Id tab, EquipSlot::Id eqslot, short slot, bool equip) const
-		public bool drop_on_items(InventoryType.Id tab, EquipSlot.Id eqslot, short slot, bool equip)
+		public bool drop_on_items (InventoryType.Id tab, EquipSlot.Id eqslot, short slot, bool equip)
 		{
-			bool remove_icon = type.drop_on_items(tab, eqslot, slot, equip);
+			bool remove_icon = type.drop_on_items (tab, eqslot, slot, equip);
 
 			if (remove_icon)
 			{
-				Sound(Sound.Name.DRAGEND).play();
+				new Sound (Sound.Name.DRAGEND).play ();
 			}
 
 			return remove_icon;
 		}
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void drop_on_bindings(Point<short> cursorposition, bool remove) const
-		public void drop_on_bindings(Point<short> cursorposition, bool remove)
+		public void drop_on_bindings (Point<short> cursorposition, bool remove)
 		{
-			type.drop_on_bindings(cursorposition, remove);
+			type.drop_on_bindings (cursorposition, remove);
 		}
-		public void set_count(short c)
+
+		public void set_count (short c)
 		{
 			count = c;
-			type.set_count(c);
+			type.set_count (c);
 		}
-		public Icon.IconType get_type()
+
+		public Icon.IconType get_type ()
 		{
-			return type.get_type();
+			return type.get_type ();
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void draw(Point<short> position) const
-		public void draw(Point<short> position)
+		public void draw (Point<short> position)
 		{
 			float opacity = dragged ? 0.5f : 1.0f;
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: get_texture().draw(DrawArgument(position, opacity));
-			get_texture().draw(new DrawArgument(new ms.Point(new ms.Point(position)), opacity));
+			get_texture ().draw (new DrawArgument (position, opacity));
 
 			if (showcount)
 			{
-				Charset countset = new Charset(nl.nx.ui["Basic.img"]["ItemNo"], Charset.Alignment.LEFT);
-				countset.draw(Convert.ToString(count), position + new Point<short>(0, 20));
+				Charset countset = new Charset (nl.nx.wzFile_ui["Basic.img"]["ItemNo"], Charset.Alignment.LEFT);
+				countset.draw (Convert.ToString (count), position + new Point<short> (0, 20));
 			}
 		}
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void dragdraw(Point<short> cursorpos) const
-		public void dragdraw(Point<short> cursorpos)
+		public void dragdraw (Point<short> cursorpos)
 		{
 			if (dragged)
 			{
-				get_texture().draw(new DrawArgument(cursorpos - cursoroffset, 0.5f));
+				get_texture ().draw (new DrawArgument (cursorpos - cursoroffset, 0.5f));
 			}
 		}
-		public void start_drag(Point<short> offset)
+
+		public void start_drag (Point<short> offset)
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: cursoroffset = offset;
-			cursoroffset.CopyFrom(offset);
+			cursoroffset = (offset);
 			dragged = true;
 
-			Sound(Sound.Name.DRAGSTART).play();
+			new Sound (Sound.Name.DRAGSTART).play ();
 		}
-		public void reset()
+
+		public void reset ()
 		{
 			dragged = false;
 		}
@@ -207,33 +225,33 @@ namespace ms
 		// Use this instead of referencing texture directly
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: virtual Texture get_texture() const
-		public virtual Texture get_texture()
+		public virtual Texture get_texture ()
 		{
 			return texture;
 		}
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: short get_count() const
-		public short get_count()
+		public short get_count ()
 		{
 			return count;
 		}
-		public bool get_drag()
+
+		public bool get_drag ()
 		{
 			return dragged;
 		}
 
-		private std::unique_ptr<Type> type = new std::unique_ptr<Type>();
+		private Type type;
 		private bool showcount;
 		private short count;
 
-		private Texture texture = new Texture();
+		private Texture texture = new Texture ();
 		private bool dragged;
-		private Point<short> cursoroffset = new Point<short>();
+		private Point<short> cursoroffset = new Point<short> ();
 	}
 }
 
 
-
 #if USE_NX
 #endif
-*/

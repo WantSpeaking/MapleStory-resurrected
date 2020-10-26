@@ -91,7 +91,7 @@ namespace ms
 
 			if (iter == cloth_cache.end())
 			{
-				iter = cloth_cache.emplace(std::piecewise_construct, std::forward_as_tuple(itemid), std::forward_as_tuple(itemid, drawinfo)).first;
+				iter = cloth_cache.emplace(piecewise_construct, forward_as_tuple(itemid), forward_as_tuple(itemid, drawinfo)).first;
 			}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
