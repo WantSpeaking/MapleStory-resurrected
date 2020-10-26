@@ -68,16 +68,16 @@ namespace ms
 		public void encrypt(byte[] bytes, int length)
 		{
 #if USE_CRYPTO
-			mapleencrypt( bytes, length);
-			aesofb( bytes, length, sendiv);
+			//todo mapleencrypt( bytes, length);
+			//todo aesofb( bytes, length, sendiv);
 #endif
 		}
 		// Decrypt a byte array with the given length and iv
 		public void decrypt(byte[] bytes, int length)
 		{
 #if USE_CRYPTO
-			aesofb( bytes, length, recviv);
-			mapledecrypt( bytes, length);
+			//todo aesofb( bytes, length, recviv);
+			//todo mapledecrypt( bytes, length);
 #endif
 		}
 		// Generate a header for the specified length and key

@@ -69,7 +69,8 @@ namespace ms
 			WzObject Common = Login["Common"];
 
 			WzObject prettyLogo = nl.nx.wzFile_wzFile_mapPretty["Back"]["login.img"]["ani"]["16"];
-			WzObject frame = nl.nx.wzFile_mapLatest["Obj"]["login.img"]["Common"]["frame"]["2"]["0"];
+			//todo WzObject frame = nl.nx.wzFile_mapLatest["Obj"]["login.img"]["Common"]["frame"]["2"]["0"];
+			WzObject frame = nl.nx.wzFile_map["Obj"]["login.img"]["Common"]["frame"]["0"];
 
 			sprites.Add(new Sprite(back["11"], new Point<short>(400, 300)));
 			sprites.Add(new Sprite(ani["17"], new Point<short>(165, 276)));

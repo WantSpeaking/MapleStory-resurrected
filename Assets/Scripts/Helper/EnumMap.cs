@@ -53,6 +53,8 @@ public class EnumMap<T, V> : IEnumerable<KeyValuePair<T, V>> /*where V : new()*/
 	{
 		values.Clear ();
 	}
+
+	public int Count => values.Count;
 	/*public static implicit operator EnumMapNew<T, V> (EnumMap<T, V> map)
 	{
 		return new EnumMapNew<T, V> (map.values);

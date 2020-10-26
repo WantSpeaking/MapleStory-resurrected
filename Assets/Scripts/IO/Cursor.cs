@@ -1,6 +1,7 @@
 ﻿
 #define USE_NX
 
+using System;
 using MapleLib.WzLib;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -79,12 +80,18 @@ namespace ms
 		public void init()
 		{
 			WzObject src = nl.nx.wzFile_ui["Basic.img"]["Cursor"];
-
-			foreach (var iter in animations)
+			var count = animations.Count;
+			foreach (var enumObject in Enum.GetValues (typeof(State)))
+			{
+				var stateKey = (State)enumObject;
+				animations[stateKey] = src[stateKey.ToString()];
+			}
+			
+			/*foreach (var iter in animations)
 			{
 				animations[iter.Key] = src[iter.Key.ToString()];
 				//iter.Value = src[iter.Key];
-			}
+			}*/
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:

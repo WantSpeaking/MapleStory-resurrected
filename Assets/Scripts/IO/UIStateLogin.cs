@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -48,11 +50,11 @@ namespace ms
 
 			if (!start_shown)
 			{
-				UI.get ().emplace<UILogo> ();
+				emplace<UILogo> ();
 			}
 			else
 			{
-				UI.get ().emplace<UILogin> ();
+				emplace<UILogin> ();
 			}
 		}
 
@@ -173,7 +175,7 @@ namespace ms
 			}
 			else
 			{
-				UI.get ().emplace<UIQuitConfirm> ();
+				emplace<UIQuitConfirm> ();
 			}
 		}
 
@@ -218,7 +220,7 @@ namespace ms
 		{
 		}
 
-		public override EnumMap<UIElement.Type, UIElement> pre_add (UIElement.Type type, bool toggled, bool is_focused)
+		public override ConcurrentDictionary<UIElement.Type, UIElement> pre_add (UIElement.Type type, bool toggled, bool is_focused)
 		{
 			remove (type);
 
@@ -237,11 +239,11 @@ namespace ms
 				focused = UIElement.Type.NONE;
 			}
 
-			var element = elements[type];
+			var element = elements.TryGetValue (type);
 			if (element != null)
 			{
 				element.deactivate ();
-				element.Dispose ();
+				//element.Dispose ();
 			}
 		}
 
@@ -323,15 +325,32 @@ namespace ms
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++11 variadic templates:
-		/*private void emplace<T> (params object[] p)
+		private void emplace<T> (params object[] args) where T : UIElement
 		{
-			if (var iter = pre_add (T.TYPE, T.TOGGLED, T.FOCUSED))
-			{
-				iter.Value = std::make_unique<T> (std::forward<Args> (args)...);
-			}
-		}*/
+			/*var type = typeof (T);
+			var uiElementType = (UIElement.Type)type.GetField ("TYPE").GetRawConstantValue ();
+			var toggled = (bool)type.GetField ("TOGGLED").GetRawConstantValue ();
+			var focused = (bool)type.GetField ("FOCUSED").GetRawConstantValue ();
 
-		private EnumMap<UIElement.Type, UIElement> elements = new EnumMap<UIElement.Type, UIElement> ();
+			var map = state.pre_add (uiElementType, toggled, focused);
+			map.values.TryAdd (uiElementType, (T)System.Activator.CreateInstance (type, args));
+			return (T)state.get (uiElementType);*/
+
+			var type = typeof (T);
+			var uiElementType = (UIElement.Type)type.GetField ("TYPE").GetRawConstantValue ();
+			var toggled = (bool)type.GetField ("TOGGLED").GetRawConstantValue ();
+			var focused = (bool)type.GetField ("FOCUSED").GetRawConstantValue ();
+			var iter = pre_add (uiElementType, toggled, focused);
+			if (iter.TryGetValue (uiElementType, out var uiElement) && uiElement != null)
+			{
+				uiElement.makeactive ();
+			}
+			else
+			{
+				iter.TryAdd (uiElementType, (UIElement)System.Activator.CreateInstance (type, args));
+			}
+		}
+		private ConcurrentDictionary<UIElement.Type, UIElement> elements = new ConcurrentDictionary<UIElement.Type, UIElement> ();
 		private UIElement.Type focused;
 
 		private TextTooltip tetooltip = new TextTooltip ();

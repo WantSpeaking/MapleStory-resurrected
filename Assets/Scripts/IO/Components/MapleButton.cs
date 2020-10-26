@@ -36,6 +36,7 @@
 
 using System.Linq;
 using MapleLib.WzLib;
+using UnityEngine;
 
 namespace ms
 {
@@ -44,6 +45,12 @@ namespace ms
 	{
 		public MapleButton(WzObject src, Point<short> pos)
 		{
+			if (src == null)
+			{
+				Debug.LogWarning ($"MapleButton(src):{src}");
+				animations[(int)Button.State.NORMAL] = new Animation();
+				return;
+			}	
 			WzObject normal = src["normal"];
 
 			if (normal.Count() > 1)
@@ -82,15 +89,15 @@ namespace ms
 		{
 			if (active)
 			{
-				textures[(int)state].draw(position + parentpos);
-				animations[(int)state].draw(position + parentpos, 1.0f);
+				textures[(int)state]?.draw(position + parentpos);
+				animations[(int)state]?.draw(position + parentpos, 1.0f);
 			}
 		}
 		public override void update()
 		{
 			if (active)
 			{
-				animations[(int)state].update(6);
+				animations[(int)state]?.update(6);
 			}
 		}
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:

@@ -144,6 +144,12 @@ namespace ms
 
 		public Animation (WzObject src) // Map.wz/Back/grassySoil.img/ani/0
 		{
+			if (src == null)
+			{
+				Debug.LogWarning ($"Animation(src):{src}");
+				frames.Add (new Frame ());
+				return;
+			}
 			//bool istexture = (src is WzCanvasProperty);
 			bool istexture = ((src as WzImageProperty)?.PropertyType ?? WzPropertyType.Null) == WzPropertyType.Canvas;
 			//Debug.Log ($"{src.FullPath} istexture:{istexture} type:{(src as WzImageProperty)?.PropertyType}");
@@ -397,8 +403,8 @@ namespace ms
 
 		private Frame get_frame ()
 		{
-			//return frames[frame.get()];
-			return frames[0];
+			return frames[frame.get()];
+			//return frames[0];
 		}
 
 		private List<Frame> frames = new List<Frame> ();

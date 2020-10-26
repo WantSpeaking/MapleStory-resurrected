@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -146,7 +147,7 @@ namespace ms
 		{
 		}
 
-		public override EnumMap<UIElement.Type, UIElement> pre_add(UIElement.Type type, bool toggled, bool is_focused)
+		public override ConcurrentDictionary<UIElement.Type, UIElement> pre_add(UIElement.Type type, bool toggled, bool is_focused)
 		{
 			remove(type);
 
@@ -222,7 +223,7 @@ namespace ms
 			}
 		}*/
 
-		private EnumMap<UIElement.Type, UIElement> elements = new EnumMap<UIElement.Type,UIElement>();
+		private ConcurrentDictionary<UIElement.Type, UIElement> elements = new ConcurrentDictionary<UIElement.Type,UIElement>();
 		private UIElement.Type focused;
 	}
 }

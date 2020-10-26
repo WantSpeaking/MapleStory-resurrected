@@ -53,10 +53,10 @@ public class MapleStory : MonoBehaviour
 		DamageNumber.init();
 		MapPortals.init();
 		*/
-		//Session.get().init();
-		//Stage.get().init();
-		//UI.get().init();
+		Session.get ().init ();
 		NxFiles.init (maplestoryFolder);
+		Stage.get ().init ();
+		UI.get ().init ();
 		Char.init ();
 		MapPortals.init ();
 		Stage.get ().init ();
@@ -108,6 +108,8 @@ public class MapleStory : MonoBehaviour
 	private void update ()
 	{
 		Stage.get ().update ();
+		UI.get ().update ();
+		Session.get ().read ();
 
 		/*Window.get().check_events();
 		Window.get().update();
@@ -119,7 +121,7 @@ public class MapleStory : MonoBehaviour
 	{
 		//Window.get().begin();
 		Stage.get ().draw (alpha);
-		//UI.get().draw(alpha);
+		UI.get ().draw (alpha);
 		//Window.get().end();
 	}
 
@@ -127,7 +129,11 @@ public class MapleStory : MonoBehaviour
 
 	private bool running ()
 	{
-		return canStart;
+		/*return Session.get().is_connected()
+		       && UI.get().not_quitted()
+		       && Window.get().not_closed();*/
+		return canStart && Session.get ().is_connected ()
+		                && UI.get ().not_quitted ();
 	}
 
 	private static long timestep = Constants.TIMESTEP * 1000;
@@ -161,24 +167,22 @@ public class MapleStory : MonoBehaviour
 		mapIdToLoad = int.Parse (inpuField_MapId.text);
 
 		init ();
-		var charEntry = parse_charentry (new InPacket (new byte[NetConstants.HEADER_LENGTH], 0));
-		Stage.get ().loadplayer (charEntry);
-		Stage.get ().load (mapIdToLoad, 0);
 		canStart = true;
 
-		Stage.get().get_mobs().spawn(new MobSpawn (1000000002,120100,0,5,135,false,-1,new ms.Point<short> (157,214)));
+		/*var charEntry = parse_charentry (new InPacket (new byte[NetConstants.HEADER_LENGTH], 0));
+		Stage.get ().loadplayer (charEntry);
+		Stage.get ().load (mapIdToLoad, 0);
+		Stage.get().get_mobs().spawn(new MobSpawn (1000000002,120100,0,5,135,false,-1,new ms.Point<short> (157,214)));*/
+
 		//nx.load_all(maplestoryFolder);
 		//Stage.get().load_map(mapIdToLoad);
 		//Stage.get().draw(1);
-
-
-		//Stage.get().draw(1);
 	}
+
 	#region Will be removed later
 
 	private void OnButtonLoadClick ()
 	{
-		
 	}
 
 	private CharEntry parse_charentry (InPacket recv)

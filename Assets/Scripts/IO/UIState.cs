@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -48,7 +49,7 @@ namespace ms
 		public abstract void show_text (Tooltip.Parent parent, string text);
 		public abstract void show_map (Tooltip.Parent parent, string name, string description, int mapid, bool bolded);
 
-		public abstract EnumMap<UIElement.Type, UIElement> pre_add (UIElement.Type type, bool toggled, bool focused);
+		public abstract ConcurrentDictionary<UIElement.Type, UIElement> pre_add (UIElement.Type type, bool toggled, bool focused);
 		public abstract void remove (UIElement.Type type);
 		public abstract UIElement get (UIElement.Type type);
 		public abstract UIElement get_front (LinkedList<UIElement.Type> types);
@@ -131,7 +132,7 @@ namespace ms
 		{
 		}
 
-		public override EnumMap<UIElement.Type, UIElement> pre_add (UIElement.Type UnnamedParameter1, bool UnnamedParameter2, bool UnnamedParameter3)
+		public override ConcurrentDictionary<UIElement.Type, UIElement> pre_add (UIElement.Type UnnamedParameter1, bool UnnamedParameter2, bool UnnamedParameter3)
 		{
 			return null;
 		}

@@ -283,7 +283,7 @@ namespace ms
 
 		public UI ()
 		{
-			state = new UIStateGame ();
+			state = new UIStateNull ();
 			enabled = true;
 		}
 
@@ -332,10 +332,10 @@ namespace ms
 			switch (id)
 			{
 				case State.LOGIN:
-					state = new UIStateLogin ();;
+					state = new UIStateLogin ();
 					break;
 				case State.GAME:
-					state = new UIStateGame ();;
+					state = new UIStateGame ();
 					break;
 				case State.CASHSHOP:
 					//todo state = _uiStateCashShop;
@@ -366,8 +366,6 @@ namespace ms
 		{
 			Cursor.State cursorstate = (pressed && enabled) ? Cursor.State.CLICKING : Cursor.State.IDLE;
 			Point<short> cursorpos = cursor.get_position ();
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: send_cursor(cursorpos, cursorstate);
 			send_cursor (cursorpos, cursorstate);
 
 			if (focusedtextfield != null && pressed)
@@ -731,7 +729,6 @@ namespace ms
 			return keyboard;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++11 variadic templates:
 		public Optional<T> emplace<T> (params object[] args) where T : UIElement
 		{
 			var type = typeof (T);
@@ -739,10 +736,22 @@ namespace ms
 			var toggled = (bool)type.GetField ("TOGGLED").GetRawConstantValue ();
 			var focused = (bool)type.GetField ("FOCUSED").GetRawConstantValue ();
 
-			var map = state.pre_add (uiElementType, toggled, focused);
-			map.values.TryAdd (uiElementType, (T)System.Activator.CreateInstance (type, args));
+			var iter = state.pre_add (uiElementType, toggled, focused);
+			//iter.values.TryAdd (uiElementType, (T)System.Activator.CreateInstance (type, args),true);
+			
+			if (iter.TryGetValue (uiElementType, out var uiElement) && uiElement != null)
+			{
+				uiElement.makeactive ();
+			}
+			else
+			{
+				iter.TryAdd (uiElementType, (UIElement)System.Activator.CreateInstance (type, args));
+			}
+			
 			return (T)state.get (uiElementType);
 
+			
+			
 			/*
 			var attributes = type.GetCustomAttributes (false);
 
@@ -763,8 +772,6 @@ namespace ms
 			*/
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
-//ORIGINAL LINE: template <class T>
 		public Optional<T> get_element<T> ()where T : UIElement
 		{
 			var type = typeof (T);

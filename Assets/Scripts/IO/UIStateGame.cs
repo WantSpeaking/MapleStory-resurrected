@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -37,377 +38,61 @@ using System.Collections.Generic;
 //////////////////////////////////////////////////////////////////////////////////
 
 
-
-
 namespace ms
 {
 	public class UIStateGame : UIState
 	{
-		public override void draw (float inter, Point<short> cursor)
+		public UIStateGame ()
 		{
-			throw new NotImplementedException ();
-		}
-
-		public override void update ()
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override void doubleclick (Point<short> pos)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override void rightclick (Point<short> pos)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override void send_key(KeyType.Id type, int action, bool pressed, bool escape)
-		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
-			/*if (UIElement focusedelement = get(focused))
-			{
-				if (focusedelement.is_active())
-				{
-					return focusedelement.send_key(action, pressed, escape);
-				}
-				else
-				{
-					focused = UIElement.NONE;
-
-					return;
-				}
-			}
-			else*/
-			/*{
-				switch (type)
-				{
-					case KeyType.Id.MENU:
-					{
-						if (pressed)
-						{
-							switch ((KeyAction.Id)action)
-							{
-								case KeyAction.Id.EQUIPMENT:
-								{
-									emplace<UIEquipInventory>(Stage.get().get_player().get_inventory());
-
-									break;
-								}
-								case KeyAction.Id.ITEMS:
-								{
-									emplace<UIItemInventory>(Stage.get().get_player().get_inventory());
-
-									break;
-								}
-								case KeyAction.Id.STATS:
-								{
-									emplace<UIStatsInfo>(Stage.get().get_player().get_stats());
-
-									break;
-								}
-								case KeyAction.Id.SKILLS:
-								{
-									emplace<UISkillBook>(Stage.get().get_player().get_stats(), Stage.get().get_player().get_skills());
-
-									break;
-								}
-								case KeyAction.Id.FRIENDS:
-								case KeyAction.Id.PARTY:
-								case KeyAction.Id.BOSSPARTY:
-								{
-									UIUserList.Tab tab;
-
-									switch (action)
-									{
-										case KeyAction.Id.FRIENDS:
-											tab = UIUserList.Tab.FRIEND;
-											break;
-										case KeyAction.Id.PARTY:
-											tab = UIUserList.Tab.PARTY;
-											break;
-										case KeyAction.Id.BOSSPARTY:
-											tab = UIUserList.Tab.BOSS;
-											break;
-									}
-
-									var userlist = UI.get().get_element<UIUserList>();
-
-									if (userlist != null && userlist.Dereference().get_tab() != tab && userlist.Dereference().is_active())
-									{
-										userlist.Dereference().change_tab(tab);
-									}
-									else
-									{
-										emplace<UIUserList>(tab);
-
-										if (userlist != null && userlist.Dereference().get_tab() != tab && userlist.Dereference().is_active())
-										{
-											userlist.Dereference().change_tab(tab);
-										}
-									}
-
-									break;
-								}
-								case KeyAction.Id.WORLDMAP:
-								{
-									emplace<UIWorldMap>();
-									break;
-								}
-								case KeyAction.Id.MAPLECHAT:
-								{
-									var chat = UI.get().get_element<UIChat>();
-
-									if (chat == null || !chat.Dereference().is_active())
-									{
-										emplace<UIChat>();
-									}
-
-									break;
-								}
-								case KeyAction.Id.MINIMAP:
-								{
-									if (var minimap = UI.get().get_element<UIMiniMap>())
-									{
-										minimap.send_key(action, pressed, escape);
-									}
-
-									break;
-								}
-								case KeyAction.Id.QUESTLOG:
-								{
-									emplace<UIQuestLog>(Stage.get().get_player().get_quests());
-
-									break;
-								}
-								case KeyAction.Id.KEYBINDINGS:
-								{
-									var keyconfig = UI.get().get_element<UIKeyConfig>();
-
-									if (keyconfig == null || !keyconfig.Dereference().is_active())
-									{
-										emplace<UIKeyConfig>(Stage.get().get_player().get_inventory(), Stage.get().get_player().get_skills());
-									}
-									else if (keyconfig != null && keyconfig.Dereference().is_active())
-									{
-										keyconfig.Dereference().close();
-									}
-
-									break;
-								}
-								case KeyAction.Id.TOGGLECHAT:
-								{
-									if (var chatbar = UI.get().get_element<UIChatBar>())
-									{
-										if (!chatbar.is_chatfieldopen())
-										{
-											chatbar.toggle_chat();
-										}
-									}
-
-									break;
-								}
-								case KeyAction.Id.MENU:
-								{
-									if (var statusbar = UI.get().get_element<UIStatusBar>())
-									{
-										statusbar.toggle_menu();
-									}
-
-									break;
-								}
-								case KeyAction.Id.QUICKSLOTS:
-								{
-									if (var statusbar = UI.get().get_element<UIStatusBar>())
-									{
-										statusbar.toggle_qs();
-									}
-
-									break;
-								}
-								case KeyAction.Id.CASHSHOP:
-								{
-									EnterCashShopPacket().dispatch();
-									break;
-								}
-								case KeyAction.Id.EVENT:
-								{
-									emplace<UIEvent>();
-									break;
-								}
-								case KeyAction.Id.CHARINFO:
-								{
-									emplace<UICharInfo>(Stage.get().get_player().get_oid());
-
-									break;
-								}
-								case KeyAction.Id.CHANGECHANNEL:
-								{
-									emplace<UIChannel>();
-									break;
-								}
-								case KeyAction.Id.MAINMENU:
-								{
-									if (var statusbar = UI.get().get_element<UIStatusBar>())
-									{
-										statusbar.send_key(action, pressed, escape);
-									}
-
-									break;
-								}
-								default:
-								{
-									Console.Write("Unknown KeyAction::Id action: [");
-									Console.Write(action);
-									Console.Write("]");
-									Console.Write("\n");
-									break;
-								}
-							}
-						}
-
-						break;
-					}
-					case KeyType.Id.ACTION:
-					case KeyType.Id.FACE:
-					case KeyType.Id.ITEM:
-					case KeyType.Id.SKILL:
-					{
-						Stage.get().send_key(type, action, pressed);
-						break;
-					}
-				}
-			}*/
-			
-			Stage.get().send_key(type, action, pressed);
-		}
-
-		public override Cursor.State send_cursor (Cursor.State mst, Point<short> pos)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override void send_scroll (double yoffset)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override void send_close ()
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override void drag_icon (Icon icon)
-		{
-			
-		}
-
-		public override void clear_tooltip (Tooltip.Parent parent)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override void show_equip (Tooltip.Parent parent, short slot)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override void show_item (Tooltip.Parent parent, int itemid)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override void show_skill (Tooltip.Parent parent, int skill_id, int level, int masterlevel, long expiration)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override void show_text (Tooltip.Parent parent, string text)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override void show_map (Tooltip.Parent parent, string name, string description, int mapid, bool bolded)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override EnumMap<UIElement.Type, UIElement> pre_add (UIElement.Type type, bool toggled, bool focused)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override void remove (UIElement.Type type)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override UIElement get (UIElement.Type type)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override UIElement get_front (LinkedList<UIElement.Type> types)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public override UIElement get_front (Point<short> pos)
-		{
-			throw new NotImplementedException ();
-		}
-
-		/*public UIStateGame()
-		{
-			this.stats = Stage.get().get_player().get_stats();
+			this.stats = Stage.get ().get_player ().get_stats ();
 			this.dragged = null;
 			focused = UIElement.Type.NONE;
-			tooltipparent = Tooltip.Parent.NONE;
+			//tooltipparent = Tooltip.Parent.NONE;
 
-			CharLook look = Stage.get().get_player().get_look();
-			Inventory inventory = Stage.get().get_player().get_inventory();
+			CharLook look = Stage.get ().get_player ().get_look ();
+			Inventory inventory = Stage.get ().get_player ().get_inventory ();
 
-			emplace<UIStatusMessenger>();
-			emplace<UIStatusBar>(stats);
-			emplace<UIChatBar>();
-			emplace<UIMiniMap>(stats);
-			emplace<UIBuffList>();
-			emplace<UIShop>(look, inventory);
+			UI.get ().emplace<UIStatusMessenger> ();
+			UI.get ().emplace<UIStatusBar> (stats);
+			UI.get ().emplace<UIChatBar> ();
+			UI.get ().emplace<UIMiniMap> (stats);
+			UI.get ().emplace<UIBuffList> ();
+			UI.get ().emplace<UIShop> (look, inventory);
 
-			VWIDTH = Constants.get().get_viewwidth();
-			VHEIGHT = Constants.get().get_viewheight();
+			VWIDTH = Constants.get ().get_viewwidth ();
+			VHEIGHT = Constants.get ().get_viewheight ();
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void draw(float inter, Point<short> cursor) const override
-		public override void draw(float inter, Point<short> cursor)
+		public override void draw (float inter, Point<short> cursor)
 		{
 			foreach (var type in elementorder)
 			{
 				var element = elements[type];
 
-				if (element != null && element.is_active())
+				if (element != null && element.is_active ())
 				{
-					element.draw(inter);
+					element.draw (inter);
 				}
 			}
 
-			if (tooltip != null)
+			/*todo if (tooltip != null)
 			{
-				tooltip.Dereference().draw(cursor + new Point<short>(0, 22));
-			}
+				tooltip.Dereference ().draw (cursor + new Point<short> (0, 22));
+			}*/
 
 			if (draggedicon != null)
 			{
-				draggedicon.Dereference().dragdraw(cursor);
+				draggedicon.Dereference ().dragdraw (cursor);
 			}
 		}
-		public override void update()
+
+		public override void update ()
 		{
 			bool update_screen = false;
-			short new_width = Constants.Constants.get().get_viewwidth();
-			short new_height = Constants.Constants.get().get_viewheight();
+			short new_width = Constants.get ().get_viewwidth ();
+			short new_height = Constants.get ().get_viewheight ();
 
 			if (VWIDTH != new_width || VHEIGHT != new_height)
 			{
@@ -415,65 +100,68 @@ namespace ms
 				VWIDTH = new_width;
 				VHEIGHT = new_height;
 
-				UI.get().remove(UIElement.Type.STATUSBAR);
+				UI.get ().remove (UIElement.Type.STATUSBAR);
 
-				CharStats stats = Stage.get().get_player().get_stats();
-				emplace<UIStatusBar>(stats);
+				CharStats stats = Stage.get ().get_player ().get_stats ();
+				UI.get ().emplace<UIStatusBar> (stats);
 			}
 
 			foreach (var type in elementorder)
 			{
 				var element = elements[type];
 
-				if (element != null && element.is_active())
+				if (element != null && element.is_active ())
 				{
-					element.update();
+					element.update ();
 
 					if (update_screen)
 					{
-						element.update_screen(new_width, new_height);
+						element.update_screen (new_width, new_height);
 					}
 				}
 			}
 		}
 
-		public override void doubleclick(Point<short> pos)
+		public override void doubleclick (Point<short> pos)
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: if (UIElement* front = get_front(pos))
-			if (UIElement * front = get_front(new ms.Point(new ms.Point(pos))))
+			UIElement front = get_front (pos);
+			if (front != null)
 			{
-				front.doubleclick(pos);
+				front.doubleclick (pos);
 			}
 		}
-		public override void rightclick(Point<short> pos)
+
+		public override void rightclick (Point<short> pos)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: if (UIElement* front = get_front(pos))
-			if (UIElement * front = get_front(new ms.Point(new ms.Point(pos))))
+			UIElement front = get_front (pos);
+			if (front != null)
 			{
-				front.rightclick(pos);
+				front.rightclick (pos);
 			}
 		}
-		public override void send_key(KeyType.Id type, int action, bool pressed, bool escape)
+
+		public override void send_key (KeyType.Id type, int action, bool pressed, bool escape)
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
-			/*if (UIElement focusedelement = get(focused))
+			UIElement focusedelement = get (focused);
+			if (focusedelement != null)
 			{
-				if (focusedelement.is_active())
+				if (focusedelement.is_active ())
 				{
-					return focusedelement.send_key(action, pressed, escape);
+					focusedelement.send_key (action, pressed, escape);
+					return;
 				}
 				else
 				{
-					focused = UIElement.NONE;
+					focused = UIElement.Type.NONE;
 
 					return;
 				}
 			}
-			else#1#
+			else
 			{
 				switch (type)
 				{
@@ -485,25 +173,25 @@ namespace ms
 							{
 								case KeyAction.Id.EQUIPMENT:
 								{
-									emplace<UIEquipInventory>(Stage.get().get_player().get_inventory());
+									UI.get ().emplace<UIEquipInventory> (Stage.get ().get_player ().get_inventory ());
 
 									break;
 								}
 								case KeyAction.Id.ITEMS:
 								{
-									emplace<UIItemInventory>(Stage.get().get_player().get_inventory());
+									UI.get ().emplace<UIItemInventory> (Stage.get ().get_player ().get_inventory ());
 
 									break;
 								}
 								case KeyAction.Id.STATS:
 								{
-									emplace<UIStatsInfo>(Stage.get().get_player().get_stats());
+									UI.get ().emplace<UIStatsInfo> (Stage.get ().get_player ().get_stats ());
 
 									break;
 								}
 								case KeyAction.Id.SKILLS:
 								{
-									emplace<UISkillBook>(Stage.get().get_player().get_stats(), Stage.get().get_player().get_skills());
+									UI.get ().emplace<UISkillBook> (Stage.get ().get_player ().get_stats (), Stage.get ().get_player ().get_skills ());
 
 									break;
 								}
@@ -511,9 +199,9 @@ namespace ms
 								case KeyAction.Id.PARTY:
 								case KeyAction.Id.BOSSPARTY:
 								{
-									UIUserList.Tab tab;
+									UIUserList.Tab tab = 0;
 
-									switch (action)
+									switch ((KeyAction.Id)action)
 									{
 										case KeyAction.Id.FRIENDS:
 											tab = UIUserList.Tab.FRIEND;
@@ -526,19 +214,19 @@ namespace ms
 											break;
 									}
 
-									var userlist = UI.get().get_element<UIUserList>();
+									var userlist = UI.get ().get_element<UIUserList> ();
 
-									if (userlist != null && userlist.Dereference().get_tab() != tab && userlist.Dereference().is_active())
+									if (userlist != null && userlist.Dereference ().get_tab () != (int)tab && userlist.Dereference ().is_active ())
 									{
-										userlist.Dereference().change_tab(tab);
+										userlist.Dereference ().change_tab ((byte)tab);
 									}
 									else
 									{
-										emplace<UIUserList>(tab);
+										UI.get ().emplace<UIUserList> (tab);
 
-										if (userlist != null && userlist.Dereference().get_tab() != tab && userlist.Dereference().is_active())
+										if (userlist != null && userlist.Dereference ().get_tab () != (int)tab && userlist.Dereference ().is_active ())
 										{
-											userlist.Dereference().change_tab(tab);
+											userlist.Dereference ().change_tab ((byte)tab);
 										}
 									}
 
@@ -546,57 +234,59 @@ namespace ms
 								}
 								case KeyAction.Id.WORLDMAP:
 								{
-									emplace<UIWorldMap>();
+									UI.get ().emplace<UIWorldMap> ();
 									break;
 								}
 								case KeyAction.Id.MAPLECHAT:
 								{
-									var chat = UI.get().get_element<UIChat>();
+									var chat = UI.get ().get_element<UIChat> ();
 
-									if (chat == null || !chat.Dereference().is_active())
+									if (chat == null || !chat.Dereference ().is_active ())
 									{
-										emplace<UIChat>();
+										UI.get ().emplace<UIChat> ();
 									}
 
 									break;
 								}
 								case KeyAction.Id.MINIMAP:
 								{
-									if (var minimap = UI.get().get_element<UIMiniMap>())
+									var minimap = UI.get ().get_element<UIMiniMap> ();
+									if (minimap != null)
 									{
-										minimap.send_key(action, pressed, escape);
+										minimap.get ().send_key (action, pressed, escape);
 									}
 
 									break;
 								}
 								case KeyAction.Id.QUESTLOG:
 								{
-									emplace<UIQuestLog>(Stage.get().get_player().get_quests());
+									UI.get ().emplace<UIQuestLog> (Stage.get ().get_player ().get_quests ());
 
 									break;
 								}
 								case KeyAction.Id.KEYBINDINGS:
 								{
-									var keyconfig = UI.get().get_element<UIKeyConfig>();
+									var keyconfig = UI.get ().get_element<UIKeyConfig> ();
 
-									if (keyconfig == null || !keyconfig.Dereference().is_active())
+									if (keyconfig == null || !keyconfig.Dereference ().is_active ())
 									{
-										emplace<UIKeyConfig>(Stage.get().get_player().get_inventory(), Stage.get().get_player().get_skills());
+										UI.get ().emplace<UIKeyConfig> (Stage.get ().get_player ().get_inventory (), Stage.get ().get_player ().get_skills ());
 									}
-									else if (keyconfig != null && keyconfig.Dereference().is_active())
+									else if (keyconfig != null && keyconfig.Dereference ().is_active ())
 									{
-										keyconfig.Dereference().close();
+										keyconfig.Dereference ().close ();
 									}
 
 									break;
 								}
 								case KeyAction.Id.TOGGLECHAT:
 								{
-									if (var chatbar = UI.get().get_element<UIChatBar>())
+									var chatbar = UI.get ().get_element<UIChatBar> ();
+									if (chatbar != null)
 									{
-										if (!chatbar.is_chatfieldopen())
+										if (!chatbar.get ().is_chatfieldopen ())
 										{
-											chatbar.toggle_chat();
+											chatbar.get ().toggle_chat ();
 										}
 									}
 
@@ -604,58 +294,61 @@ namespace ms
 								}
 								case KeyAction.Id.MENU:
 								{
-									if (var statusbar = UI.get().get_element<UIStatusBar>())
+									var statusbar = UI.get ().get_element<UIStatusBar> ();
+									if (statusbar != null)
 									{
-										statusbar.toggle_menu();
+										statusbar.get ().toggle_menu ();
 									}
 
 									break;
 								}
 								case KeyAction.Id.QUICKSLOTS:
 								{
-									if (var statusbar = UI.get().get_element<UIStatusBar>())
+									var statusbar = UI.get ().get_element<UIStatusBar> ();
+									if (statusbar != null)
 									{
-										statusbar.toggle_qs();
+										statusbar.get ().toggle_qs ();
 									}
 
 									break;
 								}
 								case KeyAction.Id.CASHSHOP:
 								{
-									EnterCashShopPacket().dispatch();
+									new EnterCashShopPacket ().dispatch ();
 									break;
 								}
 								case KeyAction.Id.EVENT:
 								{
-									emplace<UIEvent>();
+									UI.get ().emplace<UIEvent> ();
 									break;
 								}
 								case KeyAction.Id.CHARINFO:
 								{
-									emplace<UICharInfo>(Stage.get().get_player().get_oid());
+									UI.get ().emplace<UICharInfo> (Stage.get ().get_player ().get_oid ());
 
 									break;
 								}
 								case KeyAction.Id.CHANGECHANNEL:
 								{
-									emplace<UIChannel>();
+									UI.get ().emplace<UIChannel> ();
 									break;
 								}
 								case KeyAction.Id.MAINMENU:
 								{
-									if (var statusbar = UI.get().get_element<UIStatusBar>())
+									var statusbar = UI.get ().get_element<UIStatusBar> ();
+									if (statusbar != null)
 									{
-										statusbar.send_key(action, pressed, escape);
+										statusbar.get ().send_key (action, pressed, escape);
 									}
 
 									break;
 								}
 								default:
 								{
-									Console.Write("Unknown KeyAction::Id action: [");
-									Console.Write(action);
-									Console.Write("]");
-									Console.Write("\n");
+									Console.Write ("Unknown KeyAction::Id action: [");
+									Console.Write (action);
+									Console.Write ("]");
+									Console.Write ("\n");
 									break;
 								}
 							}
@@ -668,13 +361,14 @@ namespace ms
 					case KeyType.Id.ITEM:
 					case KeyType.Id.SKILL:
 					{
-						Stage.get().send_key(type, action, pressed);
+						Stage.get ().send_key (type, action, pressed);
 						break;
 					}
 				}
 			}
 		}
-		public override Cursor.State send_cursor(Cursor.State cursorstate, Point<short> cursorpos)
+
+		public override Cursor.State send_cursor (Cursor.State cursorstate, Point<short> cursorpos)
 		{
 			if (draggedicon != null)
 			{
@@ -682,9 +376,9 @@ namespace ms
 				{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: if (drop_icon(*draggedicon, cursorpos))
-					if (drop_icon(draggedicon.Indirection(), new ms.Point(new ms.Point(cursorpos))))
+					if (drop_icon (draggedicon.get (), cursorpos))
 					{
-						remove_icon();
+						remove_icon ();
 					}
 
 					return cursorstate;
@@ -695,14 +389,14 @@ namespace ms
 			else
 			{
 				bool clicked = cursorstate == Cursor.State.CLICKING || cursorstate == Cursor.State.VSCROLLIDLE;
-
-				if (var focusedelement = get(focused))
+				var focusedelement = get (focused);
+				if (focusedelement != null)
 				{
-					if (focusedelement.is_active())
+					if (focusedelement.is_active ())
 					{
-						remove_cursor(focusedelement.get_type());
+						remove_cursor (focusedelement.get_type ());
 
-						return focusedelement.send_cursor(clicked, cursorpos);
+						return focusedelement.send_cursor (clicked, cursorpos);
 					}
 					else
 					{
@@ -719,45 +413,44 @@ namespace ms
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: if (var front = get_front(cursorpos))
-						if (var front = get_front(new ms.Point(new ms.Point(cursorpos))))
+						var front = get_front (cursorpos);
+						if (front != null)
 						{
-							UIElement.Type front_type = front.get_type();
+							UIElement.Type front_type = front.get_type ();
 
-							if (tooltipparent != UIElement.Type.NONE)
+							/*todo if (tooltipparent != (int)UIElement.Type.NONE)
 							{
-								if (front_type != tooltipparent)
+								if (front_type != (UIElement.Type)tooltipparent)
 								{
-									clear_tooltip(tooltipparent);
+									clear_tooltip (tooltipparent);
 								}
-							}
+							}*/
 
-							remove_cursor(front_type);
+							remove_cursor (front_type);
 
-							return front.send_cursor(clicked, cursorpos);
+							return front.send_cursor (clicked, cursorpos);
 						}
 						else
 						{
-							remove_cursors();
+							remove_cursors ();
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: return Stage::get().send_cursor(clicked, cursorpos);
-							return Stage.get().send_cursor(clicked, new ms.Point(cursorpos));
+							return Stage.get ().send_cursor (clicked, cursorpos);
 						}
 					}
 					else
 					{
-
 						if (dragged == null)
 						{
 							UIElement.Type drag_element_type = UIElement.Type.NONE;
-
-							for (var iter = elementorder.rbegin(); iter != elementorder.rend(); ++iter)
+							foreach (var iter in elementorder)
 							{
-								var element = elements[*iter];
+								var element = elements[iter];
 
-								if (element != null && element.is_active() && element.is_in_range(cursorpos))
+								if (element != null && element.is_active () && element.is_in_range (cursorpos))
 								{
-									dragged = element.get();
+									dragged = element;
 									drag_element_type = iter;
 									break;
 								}
@@ -765,237 +458,241 @@ namespace ms
 
 							if (drag_element_type != UIElement.Type.NONE)
 							{
-								elementorder.Remove(drag_element_type);
-								elementorder.AddLast(drag_element_type);
+								elementorder.Remove (drag_element_type);
+								elementorder.AddLast (drag_element_type);
 							}
 						}
 
 						if (dragged != null)
 						{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: return dragged->send_cursor(clicked, cursorpos);
-							return dragged.send_cursor(clicked, new ms.Point(cursorpos));
+							return dragged.send_cursor (clicked, cursorpos);
 						}
 						else
 						{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: return Stage::get().send_cursor(clicked, cursorpos);
-							return Stage.get().send_cursor(clicked, new ms.Point(cursorpos));
+							return Stage.get ().send_cursor (clicked, cursorpos);
 						}
 					}
 				}
 			}
 		}
-		public override void send_scroll(double yoffset)
+
+		public override void send_scroll (double yoffset)
 		{
 			foreach (var type in elementorder)
 			{
 				var element = elements[type];
 
-				if (element != null && element.is_active())
+				if (element != null && element.is_active ())
 				{
-					element.send_scroll(yoffset);
+					element.send_scroll (yoffset);
 				}
 			}
 		}
-		public override void send_close()
+
+		public override void send_close ()
 		{
-			UI.get().emplace<UIQuit>(stats);
+			UI.get ().emplace<UIQuit> (stats);
 		}
 
-		public override void drag_icon(Icon drgic)
+		public override void drag_icon (Icon drgic)
 		{
 			draggedicon = drgic;
 		}
-		public override void clear_tooltip(Tooltip.Parent parent)
+
+		public override void clear_tooltip (Tooltip.Parent parent)
 		{
-			if (parent == tooltipparent)
+			/*todo if (parent == tooltipparent)
 			{
-				eqtooltip.set_equip(Tooltip.Parent.NONE, 0);
-				ittooltip.set_item(0);
-				tetooltip.set_text("");
-				matooltip.reset();
-				tooltip = {};
+				eqtooltip.set_equip (Tooltip.Parent.NONE, 0);
+				ittooltip.set_item (0);
+				tetooltip.set_text ("");
+				matooltip.reset ();
+				tooltip = new Optional<Tooltip> ();
 				tooltipparent = Tooltip.Parent.NONE;
-			}
+			}*/
 		}
-		public override void show_equip(Tooltip.Parent parent, short slot)
+
+		public override void show_equip (Tooltip.Parent parent, short slot)
 		{
-			eqtooltip.set_equip(parent, slot);
+			/*todo eqtooltip.set_equip (parent, slot);
 
 			if (slot != 0)
 			{
 				tooltip = eqtooltip;
 				tooltipparent = parent;
-			}
+			}*/
 		}
-		public override void show_item(Tooltip.Parent parent, int itemid)
+
+		public override void show_item (Tooltip.Parent parent, int itemid)
 		{
-			ittooltip.set_item(itemid);
+			/*todo ittooltip.set_item (itemid);
 
 			if (itemid != 0)
 			{
 				tooltip = ittooltip;
 				tooltipparent = parent;
-			}
+			}*/
 		}
-		public override void show_skill(Tooltip.Parent parent, int skill_id, int level, int masterlevel, long expiration)
+
+		public override void show_skill (Tooltip.Parent parent, int skill_id, int level, int masterlevel, long expiration)
 		{
-			sktooltip.set_skill(skill_id, level, masterlevel, expiration);
+			/*todo sktooltip.set_skill (skill_id, level, masterlevel, expiration);
 
 			if (skill_id != 0)
 			{
 				tooltip = sktooltip;
 				tooltipparent = parent;
-			}
+			}*/
 		}
-		public override void show_text(Tooltip.Parent parent, string text)
-		{
-			tetooltip.set_text(text);
 
-			if (!string.IsNullOrEmpty(text))
+		public override void show_text (Tooltip.Parent parent, string text)
+		{
+			/*todo tetooltip.set_text (text);
+
+			if (!string.IsNullOrEmpty (text))
 			{
 				tooltip = tetooltip;
 				tooltipparent = parent;
-			}
+			}*/
 		}
-		public override void show_map(Tooltip.Parent parent, string name, string description, int mapid, bool bolded)
-		{
-			matooltip.set_name(parent, name, bolded);
-			matooltip.set_desc(description);
-			matooltip.set_mapid(mapid);
 
-			if (!string.IsNullOrEmpty(name))
+		public override void show_map (Tooltip.Parent parent, string name, string description, int mapid, bool bolded)
+		{
+			/*todo matooltip.set_name (parent, name, bolded);
+			matooltip.set_desc (description);
+			matooltip.set_mapid (mapid);
+
+			if (!string.IsNullOrEmpty (name))
 			{
 				tooltip = matooltip;
 				tooltipparent = parent;
-			}
+			}*/
 		}
 
-		public override EnumMap<UIElement.Type, unique_ptr<UIElement>, UIElement.Type.NUM_TYPES>.iterator pre_add(UIElement.Type type, bool is_toggled, bool is_focused)
+		public override ConcurrentDictionary<UIElement.Type, UIElement> pre_add (UIElement.Type type, bool is_toggled, bool is_focused)
 		{
-			var element = elements[(int)type];
+			var element = elements[type];
 
 			if (element != null && is_toggled)
 			{
-				elementorder.Remove(type);
-				elementorder.AddLast(type);
+				elementorder.Remove (type);
+				elementorder.AddLast (type);
 
-				bool active = element.is_active();
+				bool active = element.is_active ();
 
-				element.toggle_active();
+				element.toggle_active ();
 
-				if (active != element.is_active())
+				if (active != element.is_active ())
 				{
-					if (element.is_active())
+					if (element.is_active ())
 					{
 						if (type == UIElement.Type.WORLDMAP)
 						{
-							Sound(Sound.Name.WORLDMAPOPEN).play();
+							new Sound (Sound.Name.WORLDMAPOPEN).play ();
 						}
 						else
 						{
-							Sound(Sound.Name.MENUUP).play();
+							new Sound (Sound.Name.MENUUP).play ();
 						}
 
-						UI.get().send_cursor(false);
+						UI.get ().send_cursor (false);
 					}
 					else
 					{
 						if (type == UIElement.Type.WORLDMAP)
 						{
-							Sound(Sound.Name.WORLDMAPCLOSE).play();
+							new Sound (Sound.Name.WORLDMAPCLOSE).play ();
 						}
 						else
 						{
-							Sound(Sound.Name.MENUDOWN).play();
+							new Sound (Sound.Name.MENUDOWN).play ();
 						}
 
-						element.remove_cursor();
+						element.remove_cursor ();
 
 						if (draggedicon != null)
 						{
-							if (element.get_type() == icon_map[(int)draggedicon.get().get_type()])
+							if (element.get_type () == icon_map[draggedicon.get ().get_type ()])
 							{
-								remove_icon();
+								remove_icon ();
 							}
 						}
 
-						UI.get().send_cursor(false);
+						UI.get ().send_cursor (false);
 					}
 				}
 
-				return elements.end();
+				return elements;
 			}
 			else
 			{
-				remove(type);
-				elementorder.AddLast(type);
+				remove (type);
+				elementorder.AddLast (type);
 
 				if (is_focused)
 				{
 					focused = type;
 				}
 
-				return elements.find(type);
+				//return elements.find (type);
+				return elements;
 			}
 		}
-		public override void remove(UIElement.Type type)
+
+		public override void remove (UIElement.Type type)
 		{
 			if (type == focused)
 			{
 				focused = UIElement.Type.NONE;
 			}
 
-			if (type == tooltipparent)
+			/*todo if (type == (UIElement.Type)tooltipparent)
 			{
-				clear_tooltip(tooltipparent);
-			}
+				clear_tooltip (tooltipparent);
+			}*/
 
-			elementorder.Remove(type);
+			elementorder.Remove (type);
 
-			if ((var & element = elements[(int)type]) != 0)
+			var element = elements.TryGetValue (type);
+			if (element != null)
 			{
-				element.deactivate();
-				element.release();
+				element.deactivate ();
+				element.Dispose ();
 			}
 		}
-		public override UIElement get(UIElement.Type type)
-		{
-			return elements[(int)type].get();
-		}
-		public override UIElement get_front(LinkedList<UIElement.Type> types)
-		{
-			var begin = elementorder.rbegin();
-			var end = elementorder.rend();
 
-			for (var iter = begin; iter != end; ++iter)
+		public override UIElement get (UIElement.Type type)
+		{
+			return elements[type];
+		}
+
+		public override UIElement get_front (LinkedList<UIElement.Type> types)
+		{
+			foreach (var type in elementorder)
 			{
-				if (types.Contains(*iter))
+				if (types.Contains (type))
 				{
-					var element = elements[*iter];
+					var element = elements[type];
 
-					if (element != null && element.is_active())
+					if (element != null && element.is_active ())
 					{
-						return element.get();
+						return element;
 					}
 				}
 			}
 
 			return null;
 		}
-		public override UIElement get_front(Point<short> pos)
+
+		public override UIElement get_front (Point<short> pos)
 		{
-			var begin = elementorder.rbegin();
-			var end = elementorder.rend();
-
-			for (var iter = begin; iter != end; ++iter)
+			foreach (var iter in elementorder)
 			{
-				var element = elements[*iter];
+				var element = elements[iter];
 
-				if (element != null && element.is_active() && element.is_in_range(pos))
+				if (element != null && element.is_active () && element.is_in_range (pos))
 				{
-					return element.get();
+					return element;
 				}
 			}
 
@@ -1004,93 +701,94 @@ namespace ms
 
 		private readonly CharStats stats;
 
-		private bool drop_icon(Icon icon, Point<short> pos)
+		private bool drop_icon (Icon icon, Point<short> pos)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: if (UIElement* front = get_front(pos))
-			if (UIElement * front = get_front(new ms.Point(new ms.Point(pos))))
+			UIElement front = get_front (pos);
+			if (front != null)
 			{
-				return front.send_icon(icon, pos);
+				return front.send_icon (icon, pos);
 			}
 			else
 			{
-				icon.drop_on_stage();
+				icon.drop_on_stage ();
 			}
 
 			return true;
 		}
-		private void remove_icon()
+
+		private void remove_icon ()
 		{
-			draggedicon.Dereference().reset();
-			draggedicon = {};
+			draggedicon.Dereference ().reset ();
+			draggedicon = new Optional<Icon> ();
 		}
-		private void remove_cursors()
+
+		private void remove_cursors ()
 		{
 			foreach (var type in elementorder)
 			{
-				var element = elements[type].get();
+				var element = elements.TryGetValue (type);
 
-				if (element && element.is_active())
+				if (element!=null && element.is_active ())
 				{
-					element.remove_cursor();
+					element.remove_cursor ();
 				}
 			}
 		}
-		private void remove_cursor(UIElement.Type t)
+
+		private void remove_cursor (UIElement.Type t)
 		{
 			foreach (var type in elementorder)
 			{
-				var element = elements[type].get();
+				var element = elements.TryGetValue (type);
 
-				if (element && element.is_active() && element.get_type() != t)
+				if (element!=null && element.is_active () && element.get_type () != t)
 				{
-					element.remove_cursor();
+					element.remove_cursor ();
 				}
 			}
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++11 variadic templates:
-		private void emplace<T, typename...Args>(Args & ...args)
+		/*private void emplace<T>(Args & ...args)
 		{
-			if (var iter = pre_add(T.TYPE, T.TOGGLED, T.FOCUSED))
+			if (var iter = pre_add (T.TYPE, T.TOGGLED, T.FOCUSED))
 			{
-				iter.second = <T>(forward<Args>(args)...);
+				iter.second =  <T > (forward<Args> (args)...);
 
 				var silent_types = UIElement.Type.STATUSMESSENGER, UIElement.Type.STATUSBAR, UIElement.Type.CHATBAR, UIElement.Type.MINIMAP, UIElement.Type.BUFFLIST, UIElement.Type.NPCTALK, UIElement.Type.SHOP;
 
-				if (find(silent_types.begin(), silent_types.end(), T.TYPE) == silent_types.end())
+				if (find (silent_types.begin (), silent_types.end (), T.TYPE) == silent_types.end ())
 				{
 					if (T.TYPE == UIElement.Type.WORLDMAP)
 					{
-						Sound(Sound.Name.WORLDMAPOPEN).play();
+						Sound (Sound.Name.WORLDMAPOPEN).play ();
 					}
 					else
 					{
-						Sound(Sound.Name.MENUUP).play();
+						Sound (Sound.Name.MENUUP).play ();
 					}
 
-					UI.get().send_cursor(false);
+					UI.get ().send_cursor (false);
 				}
 			}
-		}
+		}*/
 
-		private EnumMap<UIElement.Type, unique_ptr<UIElement>, UIElement.Type.NUM_TYPES> elements = new EnumMap<UIElement.Type, unique_ptr<UIElement>, UIElement.Type.NUM_TYPES>();
-		private LinkedList<UIElement.Type> elementorder = new LinkedList<UIElement.Type>();
+		private ConcurrentDictionary<UIElement.Type, UIElement> elements = new ConcurrentDictionary<UIElement.Type, UIElement> ();
+		private LinkedList<UIElement.Type> elementorder = new LinkedList<UIElement.Type> ();
 		private UIElement.Type focused;
 		private UIElement dragged;
 
-		private EquipTooltip eqtooltip = new EquipTooltip();
-		private ItemTooltip ittooltip = new ItemTooltip();
-		private SkillTooltip sktooltip = new SkillTooltip();
-		private TextTooltip tetooltip = new TextTooltip();
-		private MapTooltip matooltip = new MapTooltip();
-		private Optional<Tooltip> tooltip = new Optional<Tooltip>();
-		private Tooltip.Parent tooltipparent;
+		/*private EquipTooltip eqtooltip = new EquipTooltip ();
+		private ItemTooltip ittooltip = new ItemTooltip ();
+		private SkillTooltip sktooltip = new SkillTooltip ();
+		private TextTooltip tetooltip = new TextTooltip ();
+		private MapTooltip matooltip = new MapTooltip ();
+		private Optional<Tooltip> tooltip = new Optional<Tooltip> ();
+		private Tooltip.Parent tooltipparent;*/
 
-		private Optional<Icon> draggedicon = new Optional<Icon>();
+		private Optional<Icon> draggedicon = new Optional<Icon> ();
 
-		private SortedDictionary<Icon.IconType, UIElement.Type> icon_map = new SortedDictionary<Icon.IconType, UIElement.Type>()
+		private SortedDictionary<Icon.IconType, UIElement.Type> icon_map = new SortedDictionary<Icon.IconType, UIElement.Type> ()
 		{
 			{Icon.IconType.NONE, UIElement.Type.NONE},
 			{Icon.IconType.SKILL, UIElement.Type.SKILLBOOK},
@@ -1101,9 +799,6 @@ namespace ms
 		};
 
 		private short VWIDTH;
-		private short VHEIGHT;*/
+		private short VHEIGHT;
 	}
 }
-
-
-

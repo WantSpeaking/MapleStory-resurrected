@@ -101,13 +101,13 @@ namespace ms
 			double viewx = viewrpos.x ();
 			double viewy = viewrpos.y ();
 
-			backgrounds.drawbackgrounds (viewx, viewy, alpha);
+			backgrounds?.drawbackgrounds (viewx, viewy, alpha);
 
 			foreach (var id in Enum.GetValues (typeof (Layer.Id)))
 			{
-				tilesobjs.draw ((Layer.Id)id, viewpos, alpha);
-				player.draw ((Layer.Id)id, viewx, viewy, alpha);
-				mobs.draw ((Layer.Id)id, viewx, viewy, alpha);
+				tilesobjs?.draw ((Layer.Id)id, viewpos, alpha);
+				player?.draw ((Layer.Id)id, viewx, viewy, alpha);
+				mobs?.draw ((Layer.Id)id, viewx, viewy, alpha);
 				//chars.draw((global.ms.Layer.Id)id, viewx, viewy, alpha);
 
 				/* reactors.draw(id, viewx, viewy, alpha);
@@ -117,9 +117,9 @@ namespace ms
 				 drops.draw(id, viewx, viewy, alpha);*/
 			}
 
-			combat.draw (viewx, viewy, alpha);
-			portals.draw (viewpos, alpha);
-			backgrounds.drawforegrounds (viewx, viewy, alpha);
+			combat?.draw (viewx, viewy, alpha);
+			portals?.draw (viewpos, alpha);
+			backgrounds?.drawforegrounds (viewx, viewy, alpha);
 		}
 
 		public void update ()

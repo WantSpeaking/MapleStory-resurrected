@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -291,7 +292,20 @@ namespace ms
 		protected List<Sprite> sprites = new List<Sprite> ();
 		protected Point<short> position = new Point<short> ();
 		protected Point<short> dimension = new Point<short> ();
-		protected bool active;
+		private bool _active;
+		protected bool active
+		{
+			get
+			{
+				//Debug.Log ($"get:{this.GetType ()} \t active:{_active}");
+				return _active;
+			}
+			set
+			{
+				//Debug.Log ($"set:{this.GetType ()} \t active:{value}");
+				_active = value;
+			}
+		}
 		public virtual Type TYPE => UIElement.Type.NONE;
 
 	}
