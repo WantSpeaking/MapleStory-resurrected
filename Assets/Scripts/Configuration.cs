@@ -633,7 +633,7 @@ namespace ms
 		private string RESETPIC = "https://www.nexon.com/account/en/login";
 		private string CHARGENX = "https://billing.nexon.net/PurchaseNX";
 		private const bool SHOW_FPS = false;
-		private const bool SHOW_PACKETS = false;
+		private const bool SHOW_PACKETS = true;
 		private const bool var_LOGIN = false;
 		private const byte var_world = 0;
 		private const byte var_channel = 0;
@@ -644,8 +644,8 @@ namespace ms
 		private bool rightclicksell = false;
 		private bool show_weekly = true;
 		private bool start_shown = false;
-		private string MACS;
-		private string HWID;
+		private string MACS="00FF27AC9CD6";
+		private string HWID="884F4FCB";
 		private short MAXWIDTH;
 		private short MAXHEIGHT;
 		private string VolumeSerialNumber;

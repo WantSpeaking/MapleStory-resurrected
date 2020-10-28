@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ms
-{
+/*namespace ms
+{*/
 	public class Singleton<T> : IDisposable where T :new()
 	{
 		private static T instance;
@@ -29,4 +29,4 @@ namespace ms
         
 		}
 	}
-}
+//}

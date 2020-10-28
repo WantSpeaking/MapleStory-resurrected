@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 public static class IEnumerableExt
@@ -97,4 +98,18 @@ public static class IEnumerableExt
 	}
 
 	#endregion
+
+	private static StringBuilder _stringBuilder = new StringBuilder();
+	public static string ToDebugLog (this IEnumerable enumerable)
+	{
+		_stringBuilder.Clear ();
+		_stringBuilder.Append ("[");
+		foreach (var e in enumerable)
+		{
+			_stringBuilder.Append (e);
+			_stringBuilder.Append (",");
+		}
+		_stringBuilder.Append ("]");
+		return _stringBuilder.ToString ();
+	}
 }

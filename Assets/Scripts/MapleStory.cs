@@ -1,8 +1,12 @@
-﻿using HaRepacker;
+﻿using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
+using HaRepacker;
 using ms;
 using UnityEngine;
 using UnityEngine.UI;
 using Char = ms.Char;
+using Timer = ms.Timer;
 
 public class MapleStory : MonoBehaviour
 {
@@ -26,6 +30,7 @@ public class MapleStory : MonoBehaviour
 		button_load.onClick.AddListener (main);
 		DontDestroyOnLoad (this);
 	}
+
 
 	private void init ()
 	{
@@ -55,12 +60,135 @@ public class MapleStory : MonoBehaviour
 		*/
 		Session.get ().init ();
 		NxFiles.init (maplestoryFolder);
-		Stage.get ().init ();
-		UI.get ().init ();
+		//Stage.get ().init ();
+		//UI.get ().init ();
 		Char.init ();
 		MapPortals.init ();
 		Stage.get ().init ();
+		TempLogin ();
 	}
+	private string fds;
+	private byte[] sendiv = new byte[NetConstants.HEADER_LENGTH];
+	private byte[] recviv = new byte[NetConstants.HEADER_LENGTH];
+	MMO_MemoryStream _stream = new MMO_MemoryStream();
+	public void create_header(byte[] buffer, int length)
+	{
+#if USE_CRYPTO
+			
+#else
+		/*const byte MAPLEVERSION = 83;
+
+		int a = (int)(((sendiv[3] << 8) | sendiv[2]) ^ MAPLEVERSION);
+		int b = a ^ length;
+
+		buffer[0] = (byte)(a % 0x100);
+		buffer[1] = (byte)(a / 0x100);
+		buffer[2] = (byte)(b % 0x100);
+		buffer[3] = (byte)(b / 0x100);*/
+
+		for (int i = 0; i < 4; i++)
+		{
+			buffer[i] = (byte)length;
+			length = length >> 8;
+		}
+#endif
+	}
+
+	[Utility.Inspector. Button("LoginStartPacket","LoginStartPacket 35")]
+	public string placeholder1;
+
+	void LoginStartPacket ()
+	{
+		new LoginStartPacket ().dispatch ();
+	}
+	
+	[Utility.Inspector. Button("LoginPacket","LoginPacket 1")]
+	public string placeholder2;
+
+	void LoginPacket ()
+	{
+		new LoginPacket ("admin", "admin").dispatch ();
+	}
+	
+	[Utility.Inspector. Button("ServerStatusRequestPacket","ServerStatusRequestPacket 6")]
+	public string placeholder3;
+
+	void ServerStatusRequestPacket ()
+	{
+		new ServerStatusRequestPacket (0).dispatch ();
+	}
+	
+	[Utility.Inspector. Button("CharlistRequestPacket","CharlistRequestPacket 5")]
+	public string placeholder4;
+
+	void CharlistRequestPacket ()
+	{
+		new CharlistRequestPacket (0,0).dispatch ();
+	}
+	
+	[Utility.Inspector. Button("SelectCharPacket","SelectCharPacket 19")]
+	public string placeholder5;
+
+	void SelectCharPacket ()
+	{
+		new SelectCharPacket (1).dispatch ();
+	}
+	
+	[Utility.Inspector. Button("PlayerLoginPacket","PlayerLoginPacket 20")]
+	public string placeholder6;
+
+	void PlayerLoginPacket ()
+	{
+		new PlayerLoginPacket (1).dispatch ();
+	}
+	
+	void TempLogin ()
+	{
+		/*
+		Thread.Sleep (1000);
+		_stream.WriteShort (35);
+		_stream.WriteShort (36);
+		_stream.WriteShort (37);
+		_stream.WriteShort (38);
+		_stream.WriteShort (39);
+		var buffer = _stream.ToArray ();
+		//Debug.Log (_stream.ToArray ().ToDebugLog ());
+		byte[] header = new byte[NetConstants.HEADER_LENGTH];
+		create_header (header, buffer.Length);
+		//NetWorkSocket.Instance.Send (header);
+		NetWorkSocket.Instance.Send (buffer);
+		*/
+		
+		Configuration.get ().set_hwid ("884F4FCB", ref fds);
+
+		/*new LoginStartPacket ().dispatch ();
+
+		Thread.Sleep (4000);
+
+		new LoginPacket ("admin", "admin").dispatch ();
+
+		Thread.Sleep (4000);
+		
+		new ServerRequestPacket ().dispatch ();
+		
+		Thread.Sleep (4000);
+		
+		new ServerStatusRequestPacket (0).dispatch ();
+
+		Thread.Sleep (4000);
+
+		new CharlistRequestPacket (0, 0).dispatch ();
+
+		Thread.Sleep (4000);
+
+		new PlayerLoginPacket (1).dispatch ();*/
+	}
+
+	IEnumerator WaitForSeconds (float seconds)
+	{
+		yield return new WaitForSeconds (seconds);
+	}
+
 
 	public float walkSpeed = 1;
 	public float jumpSpeed = 1;
@@ -108,7 +236,7 @@ public class MapleStory : MonoBehaviour
 	private void update ()
 	{
 		Stage.get ().update ();
-		UI.get ().update ();
+		//UI.get ().update ();
 		Session.get ().read ();
 
 		/*Window.get().check_events();
@@ -121,7 +249,7 @@ public class MapleStory : MonoBehaviour
 	{
 		//Window.get().begin();
 		Stage.get ().draw (alpha);
-		UI.get ().draw (alpha);
+		//UI.get ().draw (alpha);
 		//Window.get().end();
 	}
 
@@ -133,7 +261,7 @@ public class MapleStory : MonoBehaviour
 		       && UI.get().not_quitted()
 		       && Window.get().not_closed();*/
 		return canStart && Session.get ().is_connected ()
-		                && UI.get ().not_quitted ();
+			/*&& UI.get ().not_quitted ()*/;
 	}
 
 	private static long timestep = Constants.TIMESTEP * 1000;

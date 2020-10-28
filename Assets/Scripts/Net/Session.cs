@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using ms.Helper;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -58,7 +60,7 @@ namespace ms
 		{
 			if (connected)
 			{
-				socket.close ();
+				socket.DisConnect ();
 			}
 
 			base.Dispose ();
@@ -82,7 +84,9 @@ namespace ms
 		public void reconnect (string address, string port)
 		{
 			// Close the current connection and open a new one
-			bool success = socket.close ();
+			socket.DisConnect ();
+			bool success = true;
+			//bool success = socket.DisConnect ();
 
 			if (success)
 			{
@@ -98,6 +102,7 @@ namespace ms
 
 		private void process (byte[] bytes, int available)
 		{
+			Debug.Log ($"process bytes: {bytes.Length}");
 			if (pos == 0)
 			{
 				index += NetConstants.HEADER_LENGTH;
@@ -126,7 +131,7 @@ namespace ms
 			// Check if the current packet has been fully processed
 			if (pos >= length)
 			{
-				cryptography.decrypt (buffer, length);
+				cryptography.decrypt (buffer.ToSbyteArray (), length);
 
 				try
 				{
@@ -156,35 +161,40 @@ namespace ms
 		}
 
 		// Send a packet to the server
-		public void write (byte[] packet_bytes, int packet_length)
+		public void write (sbyte[] packet_bytes, int packet_length)
 		{
 			if (!connected)
 			{
 				return;
 			}
-
-			byte[] header = new byte[NetConstants.HEADER_LENGTH];
-			cryptography.create_header ( header, packet_length);
-			cryptography.encrypt (packet_bytes, packet_length);
-
-			socket.dispatch (header, NetConstants.HEADER_LENGTH);
-			socket.dispatch (packet_bytes, packet_length);
+			//Debug.Log ($"bytes before encrypt:{packet_bytes.ToDebugLog ()}");
+			sbyte[] header = new sbyte[NetConstants.HEADER_LENGTH];
+			cryptography.create_header (header, packet_length);
+			//cryptography.encrypt (packet_bytes, packet_length);
+			//Debug.Log ($"bytes After encrypt:{packet_bytes.ToDebugLog ()}");
+			/*socket.SendMsg (header, NetConstants.HEADER_LENGTH);
+			socket.SendMsg (packet_bytes, packet_length);*/
+			socket.SendMsg (header.ToByteArray ());
+			socket.SendMsg (packet_bytes.ToByteArray ());
+			
+			/*var temp = new byte[NetConstants.HEADER_LENGTH + packet_bytes.Length];
+			Array.Copy (header,temp,header.Length);
+			Array.Copy (packet_bytes,0,temp,NetConstants.HEADER_LENGTH,packet_bytes.Length);
+			socket.SendMsg (temp);*/
 		}
 
 		// Check for incoming packets and handle them
 		public void read ()
 		{
-			// Check if a packet has arrived. Handle if data is sufficient: 4 bytes (header) + 2 bytes (opcode) = 6 bytes.
+			/*// Check if a packet has arrived. Handle if data is sufficient: 4 bytes (header) + 2 bytes (opcode) = 6 bytes.
 			int result = socket.receive (connected);
-
+			Debug.Log ($"read result: {result}");
 			if (result >= NetConstants.MIN_PACKET_LENGTH || length > 0)
 			{
 				// Retrieve buffer from the socket and process it
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# does not have an equivalent to pointers to value types:
-//ORIGINAL LINE: const sbyte* bytes = socket.get_buffer();
 				var bytes = socket.get_buffer ();
 				process (bytes, result);
-			}
+			}*/
 		}
 
 		// Closes the current connection and opens a new one with default connection settings
@@ -207,8 +217,9 @@ namespace ms
 		private bool init (string host, string port)
 		{
 			// Connect to the server
-			connected = socket.open (host, port);
-
+			socket.Connect (host, Convert.ToInt32 (port));
+			//connected = socket.Connect (host, Convert.ToInt32 (port));
+			connected = true;
 			if (connected)
 			{
 				// Read keys necessary for communicating with the server
@@ -231,7 +242,7 @@ namespace ms
 #if USE_ASIO
 		private SocketAsio socket = new SocketAsio();
 #else
-		private SocketWinsock socket = new SocketWinsock ();
+		private NetWorkSocket socket = NetWorkSocket.Instance;
 #endif
 	}
 }

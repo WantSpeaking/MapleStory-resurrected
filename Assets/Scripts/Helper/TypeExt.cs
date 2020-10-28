@@ -52,5 +52,38 @@ namespace ms.Helper
 
 			return (T)resultValue;
 		}
+
+		public static sbyte[] ToSbyteArray (this byte[] src)
+		{
+			sbyte[] tar = new sbyte[src.Length];
+			for (int i = 0; i < src.Length; i++)
+			{
+				if (src[i]>=128)
+				{
+					tar[i] = (sbyte)(src[i] - 256);
+				}
+				tar[i] = (sbyte)(src[i]);
+			}
+
+			return tar;
+		}
+		
+		public static byte[] ToByteArray (this sbyte[] src)
+		{
+			byte[] tar = new byte[src.Length];
+			for (int i = 0; i < src.Length; i++)
+			{
+				if (src[i]<0)
+				{
+					tar[i] = (byte)(src[i] + 256);
+				}
+				else
+				{
+					tar[i] = (byte)(src[i]);
+				}
+			}
+
+			return tar;
+		}
 	}
 }

@@ -65,25 +65,25 @@ namespace ms
 		}
 
 		// Encrypt a byte array with the given length and iv
-		public void encrypt(byte[] bytes, int length)
+		public void encrypt(sbyte[] bytes, int length)
 		{
 #if USE_CRYPTO
-			//todo mapleencrypt( bytes, length);
-			//todo aesofb( bytes, length, sendiv);
+			mapleencrypt( bytes, length);
+			aesofb( bytes, length, sendiv);
 #endif
 		}
 		// Decrypt a byte array with the given length and iv
-		public void decrypt(byte[] bytes, int length)
+		public void decrypt(sbyte[] bytes, int length)
 		{
 #if USE_CRYPTO
-			//todo aesofb( bytes, length, recviv);
-			//todo mapledecrypt( bytes, length);
+			aesofb( bytes, length, recviv);
+			mapledecrypt( bytes, length);
 #endif
 		}
 		// Generate a header for the specified length and key
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void create_header(byte* buffer, int length) const
-		public void create_header(byte[] buffer, int length)
+		public void create_header(sbyte[] buffer, int length)
 		{
 #if USE_CRYPTO
 			const byte MAPLEVERSION = 83;
@@ -91,10 +91,10 @@ namespace ms
 			int a = (int)(((sendiv[3] << 8) | sendiv[2]) ^ MAPLEVERSION);
 			int b = a ^ length;
 
-			buffer[0] = (byte)(a % 0x100);
-			buffer[1] = (byte)(a / 0x100);
-			buffer[2] = (byte)(b % 0x100);
-			buffer[3] = (byte)(b / 0x100);
+			buffer[0] = (sbyte)(a % 0x100);
+			buffer[1] = (sbyte)(a / 0x100);
+			buffer[2] = (sbyte)(b % 0x100);
+			buffer[3] = (sbyte)(b / 0x100);
 #else
 			int length = (int)slength;
 
@@ -106,8 +106,6 @@ namespace ms
 #endif
 		}
 		// Use the 4-byte header of a received packet to determine its length
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int check_length(const byte* bytes) const
 		public int check_length(byte[] bytes)
 		{
 #if USE_CRYPTO
@@ -134,30 +132,30 @@ namespace ms
 		// Add the maple custom encryption
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void mapleencrypt(byte* bytes, int length) const
-		private void mapleencrypt( byte[] bytes, int length)
+		private void mapleencrypt(sbyte[] sbytes, int length)
 		{
-			for (int j = 0; j < 3; j++)
+			for (sbyte j = 0; j < 3; j++)
 			{
-				byte remember = 0;
-				byte datalen = (byte)(length & 0xFF);
+				sbyte remember = 0;
+				sbyte datalen = (sbyte)(length & 0xFF);
 
 				for (int i = 0; i < length; i++)
 				{
-					byte cur = (byte)((rollleft(bytes[i], 3) + datalen) ^ remember);
+					sbyte cur = (sbyte)((rollleft(sbytes[i], 3) + datalen) ^ remember);
 					remember = cur;
-					cur = rollright(cur, (int)datalen & 0xFF);
-					bytes[i] = (byte)((byte)((~cur) & 0xFF) + 0x48);
+					cur = rollright(cur, datalen & 0xFF);
+					sbytes[i] = (sbyte)((sbyte)((~cur) & 0xFF) + 0x48);
 					datalen--;
 				}
 
 				remember = 0;
-				datalen = (byte)(length & 0xFF);
+				datalen = (sbyte)(length & 0xFF);
 
-				for (int i = length; i>0;i--)
+				for (int i = length-1; i>=0;i--)
 				{
-					byte cur = (byte)((rollleft(bytes[i], 4) + datalen) ^ remember);
+					sbyte cur = (sbyte)((rollleft(sbytes[i], 4) + datalen) ^ remember);
 					remember = cur;
-					bytes[i] = rollright((byte)(cur ^ 0x13), 3);
+					sbytes[i] = rollright((sbyte)(cur ^ 0x13), 3);
 					datalen--;
 				}
 			}
@@ -165,17 +163,17 @@ namespace ms
 		// Remove the maple custom encryption
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void mapledecrypt(byte* bytes, int length) const
-		private void mapledecrypt(byte[] bytes, int length)
+		private void mapledecrypt(sbyte[] bytes, int length)
 		{
 			for (int i = 0; i < 3; i++)
 			{
 				byte remember = 0;
 				byte datalen = (byte)(length & 0xFF);
 
-				for (int j = length;j>0; j--)
+				for (int j = length-1;j>=0; j--)
 				{
 					byte cur = (byte)(rollleft(bytes[j], 3) ^ 0x13);
-					bytes[j] = rollright((byte)((cur ^ remember) - datalen), 4);
+					bytes[j] = rollright((sbyte)((cur ^ remember) - datalen), 4);
 					remember = cur;
 					datalen--;
 				}
@@ -186,8 +184,8 @@ namespace ms
 				for (int j = 0; j < length; j++)
 				{
 					byte cur = (byte)((~(bytes[j] - 0x48)) & 0xFF);
-					cur = rollleft(cur, (int)datalen & 0xFF);
-					bytes[j] = rollright((byte)((cur ^ remember) - datalen), 3);
+					cur = (byte)rollleft((sbyte)cur, (int)datalen & 0xFF);
+					bytes[j] = rollright((sbyte)((cur ^ remember) - datalen), 3);
 					remember = cur;
 					datalen--;
 				}
@@ -232,26 +230,26 @@ namespace ms
 		// Perform a roll-left operation
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: byte rollleft(byte data, int count) const
-		private byte rollleft(byte data, int count)
+		private sbyte rollleft(sbyte data, int count)
 		{
 			int mask = (data & 0xFF) << (count % 8);
 
-			return (byte)((mask & 0xFF) | (mask >> 8));
+			return (sbyte)((mask & 0xFF) | (mask >> 8));
 		}
 		// Perform a roll-right operation
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: byte rollright(byte data, int count) const
-		private byte rollright(byte data, int count)
+		private sbyte rollright(sbyte data, int count)
 		{
 			int mask = ((data & 0xFF) << 8) >> (count % 8);
 
-			return (byte)((mask & 0xFF) | (mask >> 8));
+			return (sbyte)((mask & 0xFF) | (mask >> 8));
 		}
 
 		// Apply AES OFB to a byte array
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void aesofb(byte* bytes, int length, byte* iv) const
-		private void aesofb(byte[] bytes, int length, byte[] iv)
+		private void aesofb(sbyte[] bytes, int length, byte[] iv)
 		{
 			int blocklength = 0x5B0;
 			int offset = 0;
@@ -281,7 +279,7 @@ namespace ms
 						aesencrypt( miv);
 					}
 
-					bytes[x + offset] ^= miv[relpos];
+					bytes[x + offset] ^= (sbyte)miv[relpos];
 				}
 
 				offset += blocklength;

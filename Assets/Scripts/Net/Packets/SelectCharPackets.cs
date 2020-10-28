@@ -23,10 +23,12 @@ namespace ms
 	// Opcode: SELECT_CHAR(19)
 	public class SelectCharPacket : OutPacket
 	{
+		private static sbyte[] tempbyte =new sbyte[46] {1,0,0,0,17,0,48,48,45,70,70,45,50,55,45,65,67,45,57,67,45,68,54,21,0,50,69,70,68,66,57,56,55,57,57,68,68,95,67,66,52,70,52,70,56,56 };
 		public SelectCharPacket(int cid) : base((short)OutPacket.Opcode.SELECT_CHAR)
 		{
-			write_int(cid);
-			write_hardware_info();
+			/*write_int(cid);
+			write_hardware_info();*/
+			write_Bytes (tempbyte);
 		}
 	}
 

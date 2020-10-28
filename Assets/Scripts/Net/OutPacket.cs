@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -58,7 +59,7 @@ namespace ms
 			{
 				if (opcode == (int)Opcode.PONG)
 				{
-					Console.Write ("Sent Packet: PONG");
+					Debug.Log ("Sent Packet: PONG");
 					Console.Write ("\n");
 				}
 				else
@@ -66,6 +67,7 @@ namespace ms
 					Console.Write ("Sent Packet: ");
 					Console.Write (Convert.ToString (opcode));
 					Console.Write ("\n");
+					Debug.Log ($"Sent Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Count} \t {bytes.ToDebugLog ()}");
 				}
 			}
 		}
@@ -147,7 +149,7 @@ namespace ms
 		// Write a byte
 		protected void write_byte (sbyte ch)
 		{
-			bytes.Add ((byte)ch);
+			bytes.Add ((sbyte)ch);
 		}
 
 		// Write a short
@@ -226,9 +228,16 @@ namespace ms
 		{
 			string macs = Configuration.get ().get_macs ();
 			string hwid = Configuration.get ().get_hwid ();
+			/*string macs = "00-FF-27-AC-9C-D6";
+			string hwid = "2EFDB98799DD_CB4F4F88";*/
 
 			write_string (macs);
 			write_string (hwid);
+		}
+
+		protected void write_Bytes (sbyte[] sbytes)
+		{
+			bytes.AddRange (sbytes);
 		}
 
 		// Function to convert hexadecimal to decimal
@@ -255,7 +264,7 @@ namespace ms
 			return dec_val;
 		}
 
-		private List<byte> bytes = new List<byte> ();
+		private List<sbyte> bytes = new List<sbyte> ();
 		private short opcode;
 	}
 }

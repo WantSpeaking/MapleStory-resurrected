@@ -181,8 +181,6 @@ namespace ms
 			return error != SOCKET_ERROR;*/
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool dispatch(const sbyte* bytes, uint length) const
 		public bool dispatch (byte[] bytes, int length)
 		{
 			Send (bytes);
@@ -362,8 +360,10 @@ namespace ms
 		public int receive (bool success)
 		{
 			//异步接收数据
-			m_Client.BeginReceive (m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallBack, m_Client);
-			return 1;
+			//m_Client.BeginReceive (m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallBack, m_Client);
+			//return 1;
+			return m_Client.Receive (buffer, 0, buffer.Length, SocketFlags.None, out var socketError);
+
 			/*timeval timeout = new timeval (0, 0);
 			fd_set sockset = new fd_set ();
 
@@ -388,8 +388,6 @@ namespace ms
 			}*/
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: const sbyte* get_buffer() const
 		public byte[] get_buffer ()
 		{
 			return buffer;
@@ -401,12 +399,4 @@ namespace ms
 		byte[] buffer = new byte[NetConstants.MAX_PACKET_LENGTH];
 	}
 }
-#endif
-
-#if ! USE_ASIO
-
-// TODO: Can this be moved?
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent to most C++ 'pragma' directives in C#:
-//#pragma comment (lib, "Ws2_32.lib")
-
 #endif

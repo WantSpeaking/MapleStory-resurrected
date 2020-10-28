@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using ms.Helper;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -131,8 +133,10 @@ namespace ms
 //ORIGINAL LINE: void forward(const sbyte* bytes, uint length) const
 		public void forward (byte[] bytes, int length)
 		{
+			//Debug.Log ($"forward bytes: {bytes.Length}");
 			// Wrap the bytes with a parser
-			InPacket recv = new InPacket (bytes, length);
+			var sByteArray = bytes.ToSbyteArray ();
+			InPacket recv = new InPacket (sByteArray, length);
 
 			// Read the opcode to determine handler responsible
 			var opcode = recv.read_short ();
@@ -150,11 +154,12 @@ namespace ms
 					Console.Write (Convert.ToString (opcode));
 					Console.Write ("\n");
 				}
+				Debug.Log ($"Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{sByteArray.Length} \t{sByteArray.ToDebugLog ()}");
 			}
 
 			if (opcode < NUM_HANDLERS)
 			{
-				var handler = handlers[(Opcode)opcode];
+				var handler = handlers.TryGetValue ((Opcode)opcode);
 				if (handler != null)
 				{
 					// Handler is good, packet is passed on
