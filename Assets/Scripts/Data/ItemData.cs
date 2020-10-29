@@ -164,27 +164,27 @@ namespace ms
 			{
 			case 1:
 				category = get_eqcategory(itemid);
-				src = nl.nx.wzFile_character[category][strid + ".img"]["info"];
+				src = nl.nx.wzFile_character[category]?[strid + ".img"]?["info"];
 				strsrc = nl.nx.wzFile_string["Eqp.img"]["Eqp"][category][Convert.ToString(itemid)];
 				break;
 			case 2:
 				category = "Consume";
-				src = nl.nx.wzFile_item["Consume"][strprefix + ".img"][strid]["info"];
+				src = nl.nx.wzFile_item["Consume"]?[strprefix + ".img"]?[strid]?["info"];
 				strsrc = nl.nx.wzFile_string["Consume.img"][Convert.ToString(itemid)];
 				break;
 			case 3:
 				category = "Install";
-				src = nl.nx.wzFile_item["Install"][strprefix + ".img"][strid]["info"];
-				strsrc = nl.nx.wzFile_string["Ins.img"][Convert.ToString(itemid)];
+				src = nl.nx.wzFile_item["Install"]?[strprefix + ".img"]?[strid]?["info"];
+				strsrc = nl.nx.wzFile_string["Ins.img"]?[Convert.ToString(itemid)];
 				break;
 			case 4:
 				category = "Etc";
-				src = nl.nx.wzFile_item["Etc"][strprefix + ".img"][strid]["info"];
+				src = nl.nx.wzFile_item["Etc"]?[strprefix + ".img"]?[strid]?["info"];
 				strsrc = nl.nx.wzFile_string["Etc.img"]["Etc"][Convert.ToString(itemid)];
 				break;
 			case 5:
 				category = "Cash";
-				src = nl.nx.wzFile_item["Cash"][strprefix + ".img"][strid]["info"];
+				src = nl.nx.wzFile_item["Cash"]?[strprefix + ".img"]?[strid]?["info"];
 				strsrc = nl.nx.wzFile_string["Cash.img"][Convert.ToString(itemid)];
 				break;
 			}
@@ -193,15 +193,15 @@ namespace ms
 			{
 				icons[false] =new Texture (src["icon"]);
 				icons[true] = new Texture (src["iconRaw"]);
-				price = src["price"].GetInt ();
-				untradable = src["tradeBlock"].GetInt ().ToBool();
-				unique = src["only"].GetInt ().ToBool();
-				unsellable = src["notSale"].GetInt ().ToBool();
-				cashitem = src["cash"].GetInt ().ToBool();
+				price = src["price"];
+				untradable = src["tradeBlock"];
+				unique = src["only"];
+				unsellable = src["notSale"];
+				cashitem = src["cash"];
 				gender = get_item_gender(itemid);
 
 				name = strsrc["name"].ToString ();
-				desc = strsrc["desc"].ToString ();
+				desc = strsrc["desc"]?.ToString ()??string.Empty;
 
 				valid = true;
 			}

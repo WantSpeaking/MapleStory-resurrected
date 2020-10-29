@@ -17,6 +17,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
+using System;
+
 namespace ms
 {
 	public class ItemParser
@@ -79,8 +81,14 @@ namespace ms
 			// Read equip stats
 			EnumMapNew<EquipStat.Id, ushort> stats = new EnumMapNew<EquipStat.Id, ushort> ();
 
-			foreach (var iter in stats)
-				stats[iter.Key] = (ushort)recv.read_short ();
+			foreach (EquipStat.Id enumObject in Enum.GetValues (typeof(EquipStat.Id)))
+			{
+				var stateId = (EquipStat.Id)enumObject;
+				if (stateId == EquipStat.Id.LENGTH) continue;
+				stats[stateId] = (ushort)recv.read_short ();//todo maybe read length
+			}
+			/*foreach (var iter in stats)
+				stats[iter.Key] = (ushort)recv.read_short ();*/
 
 			// Some more information
 			string owner = recv.read_string ();

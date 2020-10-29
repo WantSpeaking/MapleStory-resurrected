@@ -278,7 +278,7 @@ namespace MapleLib.WzLib
 
 		public static implicit operator byte (WzObject wzObject)
 		{
-			return (byte)wzObject.GetShort ();
+			return (byte)(wzObject?.GetShort () ?? 0);
 		}
 
 		public static implicit operator bool (WzObject wzObject)

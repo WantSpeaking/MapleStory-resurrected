@@ -545,7 +545,7 @@ namespace ms
 
 				sbyte pic = (sbyte)recv.read_byte ();
 				int slots = recv.read_int ();
-
+				UICharSelect.characters = characters;
 				// Remove previous UIs
 				//UI.get ().remove (UIElement.Type.LOGINNOTICE);
 				//UI.get ().remove (UIElement.Type.LOGINWAIT);

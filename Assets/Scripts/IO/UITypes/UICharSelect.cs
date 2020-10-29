@@ -53,7 +53,7 @@ namespace ms
 
 		public UICharSelect (List<CharEntry> characters, sbyte characters_count, int slots, sbyte require_pic)
 		{
-			this.characters = new List<CharEntry> (characters);
+			//this.characters = new List<CharEntry> (characters);//todo removw comment
 			this.characters_count = characters_count;
 			this.slots = slots;
 			this.require_pic = require_pic;
@@ -726,7 +726,7 @@ namespace ms
 		}
 
 
-		public CharEntry get_character (int id)
+		public static CharEntry get_character (int id)
 		{
 			foreach (CharEntry character in characters)
 			{
@@ -1142,7 +1142,7 @@ namespace ms
 			CHARACTER_SLOT0
 		}
 
-		private List<CharEntry> characters = new List<CharEntry> ();
+		public static List<CharEntry> characters = new List<CharEntry> ();//todo remove static
 
 		private sbyte characters_count;
 		private

@@ -81,9 +81,10 @@ namespace ms
 		{
 			WzObject src = nl.nx.wzFile_ui["Basic.img"]["Cursor"];
 			var count = animations.Count;
-			foreach (var enumObject in Enum.GetValues (typeof(State)))
+			foreach (State enumObject in Enum.GetValues (typeof(State)))
 			{
 				var stateKey = (State)enumObject;
+				if (stateKey == State.LENGTH) continue;
 				animations[stateKey] = src[stateKey.ToString()];
 			}
 			

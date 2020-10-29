@@ -22,21 +22,21 @@ namespace ms
             HOFFSET = (short)(VHEIGHT / 2);
 
             var backsrc = nl.nx.wzFile_map["Back"];//Map.wz/Back
-            animated = src["ani"].GetInt().ToBool();//animated:Map/Map1/100000000.img/back/0/ani
-            var node_0 = backsrc[src["bS"].GetString() + ".img"][animated ? "ani" : "back"][src["no"].GetInt().ToString()];// Map.wz/Back/grassySoil.img/ani/0
+            animated = src["ani"];//animated:Map/Map1/100000000.img/back/0/ani
+            var node_0 = backsrc[src["bS"] + ".img"][animated ? "ani" : "back"][src["no"].ToString()];// Map.wz/Back/grassySoil.img/ani/0
             animation = new Animation(node_0);
             //animation = backsrc[src["bS"] + ".img"][animated ? "ani" : "back"][src["no"]]; //animation:Map.wz/Back/{Map/Map1/100000000.img/back/0/bS}.img/(ani|back)/{Map/Map1/100000000.img/back/0/no}   Map.wz/Back/grassySoil.img/ani/0
-            opacity = src["a"].GetFloat();//Map/Map1/100000000.img/back/0/a
-            flipped = src["f"].GetInt().ToBool();//Map/Map1/100000000.img/back/0/f
-            cx = src["cx"].GetShort();//Map/Map1/100000000.img/back/0/cx
-            cy = src["cy"].GetShort(); //Map/Map1/100000000.img/back/0/cy
-            rx = src["rx"].GetShort(); //Map/Map1/100000000.img/back/0/rx
-            ry = src["ry"].GetShort(); //Map/Map1/100000000.img/back/0/ry
+            opacity = src["a"];//Map/Map1/100000000.img/back/0/a
+            flipped = src["f"];//Map/Map1/100000000.img/back/0/f
+            cx = src["cx"];//Map/Map1/100000000.img/back/0/cx
+            cy = src["cy"]; //Map/Map1/100000000.img/back/0/cy
+            rx = src["rx"]; //Map/Map1/100000000.img/back/0/rx
+            ry = src["ry"]; //Map/Map1/100000000.img/back/0/ry
 
             //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
             //ORIGINAL LINE: moveobj.set_x(src["x"]);
-            x = src["x"].GetDouble();
-            y = src["y"].GetDouble();
+            x = src["x"];
+            y = src["y"];
             //Debug.LogFormat("ini cx:{0}\t cy:{1}", cx, cy);
 
             moveobj.set_x(x);//Map/Map1/100000000.img/back/0/x
@@ -46,7 +46,7 @@ namespace ms
 
             //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
             //ORIGINAL LINE: Type type = typebyid(src["type"]);
-            Type type = typebyid(src["type"].GetInt());//Map/Map1/100000000.img/back/0/type
+            Type type = typebyid(src["type"]);//Map/Map1/100000000.img/back/0/type
 
             settype(type);
             int.TryParse(src.Name, out orderInLayer);
@@ -238,7 +238,7 @@ namespace ms
             {
                 foreach (var wzProperty in subProperty.WzProperties)//directory:ap/Map1/100000000.img/back/0
                 {
-                    bool front = wzProperty["front"].GetInt().ToBool(); //front:Map/Map1/100000000.img/back/0/front
+                    bool front = wzProperty["front"]; //front:Map/Map1/100000000.img/back/0/front
                     Background background = new Background(wzProperty);
 
 

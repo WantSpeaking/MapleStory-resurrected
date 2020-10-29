@@ -62,9 +62,12 @@ namespace ms
 
 		public void init_totalstats()
 		{
-			totalstats.Clear();
+			totalstats.SetValue ((() => 0));
+			buffdeltas.SetValue ((() => 0));
+			percentages.SetValue ((() => 0));
+			/*totalstats.Clear();
 			buffdeltas.Clear();
-			percentages.Clear();
+			percentages.Clear();*/
 
 			totalstats[EquipStat.Id.HP] = get_stat(MapleStat.Id.MAXHP);
 			totalstats[EquipStat.Id.MP] = get_stat(MapleStat.Id.MAXMP);

@@ -39,8 +39,6 @@ namespace ms
 	// Handler for a packet which contains all character information on first login or warps the player to a different map
 	public class SetFieldHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
 			//Constants.get ().set_viewwidth (Setting<Width>.get ().load ());
@@ -60,8 +58,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void transition(int mapid, byte portalid) const
 		public void transition (int mapid, byte portalid)
 		{
 			/*float fadestep = 0.025f;
@@ -85,56 +81,48 @@ namespace ms
 			Stage.get().clear();
 			Timer.get().start();*/
 
-			float fadestep = 0.025f;
 
 
 		
 
-			//GraphicsGL.get ().@lock ();
 			Stage.get ().clear ();
 			Timer.get ().start ();
+		
 			
-			//Window.get ().fadeout (fadestep, () =>
-			//{
-			//GraphicsGL.get().clear();
 
 			Stage.get ().load (mapid, (sbyte)portalid);
 
-			UI.get ().enable ();
+			//UI.get ().enable ();
 			Timer.get ().start ();
-			//GraphicsGL.get().unlock();
 
 			Stage.get ().transfer_player ();
 			//});
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void change_map(InPacket& recv, int map_id) const
 		private void change_map (InPacket recv, int map_id)
 		{
-			/*recv.skip (3);
+			recv.skip (3);
 
 			int mapid = recv.read_int ();
 			sbyte portalid = recv.read_byte ();
 
-			transition (mapid, portalid);*/
+			transition (mapid, (byte)portalid);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void set_field(InPacket& recv) const
 		private void set_field (InPacket recv)
 		{
-			/*recv.skip (23);
+			recv.skip (23);
 
 			int cid = recv.read_int ();
-			var charselect = UI.get ().get_element<UICharSelect> ();
+			/*var charselect = UI.get ().get_element<UICharSelect> ();
 
 			if (charselect == null)
 			{
 				return;
-			}
+			}*/
 
-			CharEntry playerentry = charselect.Dereference ().get_character (cid);
+			//CharEntry playerentry = charselect.Dereference ().get_character (cid);
+			CharEntry playerentry = UICharSelect.get_character (cid);
 
 			if (playerentry.id != cid)
 			{
@@ -169,16 +157,16 @@ namespace ms
 
 			player.recalc_stats (true);
 
-			PlayerUpdatePacket ().dispatch ();
+			new PlayerUpdatePacket ().dispatch ();
 
 			byte portalid = player.get_stats ().get_portal ();
 			int mapid = player.get_stats ().get_mapid ();
 
 			transition (mapid, portalid);
 
-			Sound (Sound.Name.GAMESTART).play ();
+			new Sound (Sound.Name.GAMESTART).play ();
 
-			UI.get ().change_state (UI.State.GAME);*/
+			//UI.get ().change_state (UI.State.GAME);
 		}
 	}
 }

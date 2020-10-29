@@ -762,7 +762,7 @@ namespace ms
 				pos.shift_y (stat_y);
 			}
 
-			foreach (Text label in statlabels.values.Values)
+			foreach (Text label in statlabels.dict.Values)
 			{
 				if (label.empty ())
 				{
@@ -916,7 +916,7 @@ namespace ms
 				pos.shift_y (stat_y);
 			}
 
-			foreach (Text label in statlabels_preview.values.Values)
+			foreach (Text label in statlabels_preview.dict.Values)
 			{
 				if (label.empty ())
 				{

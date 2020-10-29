@@ -348,21 +348,24 @@ namespace ms
 			double comp = borders.second ();
 
 			short x = (short)fx;
-			footholdsbyx.TryGetValue (x, out var range);
+			if (footholdsbyx.TryGetValue (x, out var range))
+			{
+				foreach (var iter in range)
+				{
+					Foothold fh = footholds[(ushort)iter];
+					double ycomp = fh.ground_below (fx);
+
+					if (comp >= ycomp && ycomp >= fy)
+					{
+						comp = ycomp;
+						ret = fh.id ();
+					}
+				}
+			}
 			//var range = new Range<short> (x,y);	
 			//var range = footholdsbyx.equal_range (x);
 
-			foreach (var iter in range)
-			{
-				Foothold fh = footholds[(ushort)iter];
-				double ycomp = fh.ground_below (fx);
-
-				if (comp >= ycomp && ycomp >= fy)
-				{
-					comp = ycomp;
-					ret = fh.id ();
-				}
-			}
+			
 			/*for (var iter = range.first(); iter != range.second(); ++iter)
 			{
 				Foothold fh = footholds[(ushort)iter];

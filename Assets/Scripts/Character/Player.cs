@@ -127,8 +127,10 @@ namespace ms
 				inventory.recalc_stats (weapontype);
 			}
 
-			foreach (var stat in Enum.GetValues (typeof (EquipStat.Id)))
+			foreach (EquipStat.Id enumObject in Enum.GetValues (typeof (EquipStat.Id)))
 			{
+				var stat = (EquipStat.Id)enumObject;
+				if (stat == EquipStat.Id.LENGTH) continue;
 				int inventory_total = inventory.get_stat ((EquipStat.Id)stat);
 				stats.add_value ((EquipStat.Id)stat, inventory_total);
 			}

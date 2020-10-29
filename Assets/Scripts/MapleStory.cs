@@ -94,6 +94,10 @@ public class MapleStory : MonoBehaviour
 #endif
 	}
 
+	[Utility.Inspector. Button("main","Connect")]
+	public string placeholder0;
+
+	
 	[Utility.Inspector. Button("LoginStartPacket","LoginStartPacket 35")]
 	public string placeholder1;
 
@@ -134,13 +138,13 @@ public class MapleStory : MonoBehaviour
 		new SelectCharPacket (1).dispatch ();
 	}
 	
-	[Utility.Inspector. Button("PlayerLoginPacket","PlayerLoginPacket 20")]
+	/*[Utility.Inspector. Button("PlayerLoginPacket","PlayerLoginPacket 20")]
 	public string placeholder6;
 
 	void PlayerLoginPacket ()
 	{
 		new PlayerLoginPacket (1).dispatch ();
-	}
+	}*/
 	
 	void TempLogin ()
 	{

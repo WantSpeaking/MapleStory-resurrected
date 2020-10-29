@@ -68,7 +68,7 @@ namespace ms
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# has no concept of a 'friend' class:
 //		friend Cache<JobData>;
-		private JobData(int id)
+		public JobData(int id)
 		{
 			string strid = string_format.extend_id(id, 3);
 			var node_SkillWZ_000img = nl.nx.wzFile_skill[strid + ".img"];
@@ -76,7 +76,7 @@ namespace ms
 
 			icon =new Texture (node_SkillWZ_000img["info"]["icon"]);
 
-			name = strsrc["bookName"].ToString ();
+			name = strsrc["bookName"]?.ToString ();
 
 			if (node_SkillWZ_000img["skill"] is WzImageProperty property_SkillWZ_000img_skill)
 			{

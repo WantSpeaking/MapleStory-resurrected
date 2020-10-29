@@ -127,13 +127,15 @@ namespace ms
 
 			string strid = "0" + Convert.ToString (itemid);
 			string category = equipdata.get_itemdata ().get_category ();
-			var src = nl.nx.wzFile_character[category][strid + ".img"];
+			if(category == null) return;
+			var src = nl.nx.wzFile_character[category]?[strid + ".img"];
+			if(src == null) return;//todo why cloth src is it null
 			var info = src["info"];
 
 			vslot = info["vslot"].ToString ();
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
-			var temp_stand_value = info["stand"].GetInt ();
+			var temp_stand_value = (int)info["stand"];
 			switch (temp_stand_value)
 			{
 				case 1:
@@ -148,7 +150,7 @@ namespace ms
 			}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
-			var temp_walk_value = info["walk"].GetInt ();
+			int temp_walk_value = info["walk"];
 			switch (temp_walk_value)
 			{
 				case 1:
@@ -347,7 +349,7 @@ namespace ms
 			return vslot;
 		}
 
-		private EnumMap<Stance.Id, EnumMap<Layer, Dictionary<byte, Texture>>> stances = new EnumMap<Stance.Id, EnumMap<Layer, Dictionary<byte, Texture>>> ();
+		private EnumMapNew<Stance.Id, EnumMapNew<Layer, Dictionary<byte, Texture>>> stances = new EnumMapNew<Stance.Id, EnumMapNew<Layer, Dictionary<byte, Texture>>> ();
 		private int itemid;
 		private EquipSlot.Id eqslot;
 		private Stance.Id walk;

@@ -2,6 +2,7 @@
 
 using System;
 using ms.Helper;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -123,33 +124,38 @@ namespace ms
 			this.itemdata = ItemData.get (id);
 			string strid = "0" + Convert.ToString (id);
 			string category = itemdata.get_category ();
-			var src = nl.nx.wzFile_character[category][strid + ".img"]["info"];
+			//Debug.Log ($"id:{id}\tstrid:{strid}\tcategory:{category}");
+			//if(category == null) return;//todo why id == 3 maybe chalist parsed wrong
+			var src = nl.nx.wzFile_character[category]?[strid + ".img"]?["info"];
 
-			cash = src["cash"].GetInt ().ToBool ();
-			tradeblock = src["tradeBlock"].GetInt ().ToBool ();
-			slots = src["tuc"].GetShort ().ToByte ();
+			if (src != null)
+			{
+				cash = src["cash"];
+				tradeblock = src["tradeBlock"];
+				slots = src["tuc"];
 
-			reqstats[MapleStat.Id.LEVEL] = src["reqLevel"].GetShort ();
-			reqstats[MapleStat.Id.JOB] = src["reqJob"].GetShort ();
-			reqstats[MapleStat.Id.STR] = src["reqSTR"].GetShort ();
-			reqstats[MapleStat.Id.DEX] = src["reqDEX"].GetShort ();
-			reqstats[MapleStat.Id.INT] = src["reqINT"].GetShort ();
-			reqstats[MapleStat.Id.LUK] = src["reqLUK"].GetShort ();
-			defstats[EquipStat.Id.STR] = src["incSTR"].GetShort ();
-			defstats[EquipStat.Id.DEX] = src["incDEX"].GetShort ();
-			defstats[EquipStat.Id.INT] = src["incINT"].GetShort ();
-			defstats[EquipStat.Id.LUK] = src["incLUK"].GetShort ();
-			defstats[EquipStat.Id.WATK] = src["incPAD"].GetShort ();
-			defstats[EquipStat.Id.WDEF] = src["incPDD"].GetShort ();
-			defstats[EquipStat.Id.MAGIC] = src["incMAD"].GetShort ();
-			defstats[EquipStat.Id.MDEF] = src["incMDD"].GetShort ();
-			defstats[EquipStat.Id.HP] = src["incMHP"].GetShort ();
-			defstats[EquipStat.Id.MP] = src["incMMP"].GetShort ();
-			defstats[EquipStat.Id.ACC] = src["incACC"].GetShort ();
-			defstats[EquipStat.Id.AVOID] = src["incEVA"].GetShort ();
-			defstats[EquipStat.Id.HANDS] = src["incHANDS"].GetShort ();
-			defstats[EquipStat.Id.SPEED] = src["incSPEED"].GetShort ();
-			defstats[EquipStat.Id.JUMP] = src["incJUMP"].GetShort ();
+				reqstats[MapleStat.Id.LEVEL] = src["reqLevel"];
+				reqstats[MapleStat.Id.JOB] = src["reqJob"];
+				reqstats[MapleStat.Id.STR] = src["reqSTR"];
+				reqstats[MapleStat.Id.DEX] = src["reqDEX"];
+				reqstats[MapleStat.Id.INT] = src["reqINT"];
+				reqstats[MapleStat.Id.LUK] = src["reqLUK"];
+				defstats[EquipStat.Id.STR] = src["incSTR"];
+				defstats[EquipStat.Id.DEX] = src["incDEX"];
+				defstats[EquipStat.Id.INT] = src["incINT"];
+				defstats[EquipStat.Id.LUK] = src["incLUK"];
+				defstats[EquipStat.Id.WATK] = src["incPAD"];
+				defstats[EquipStat.Id.WDEF] = src["incPDD"];
+				defstats[EquipStat.Id.MAGIC] = src["incMAD"];
+				defstats[EquipStat.Id.MDEF] = src["incMDD"];
+				defstats[EquipStat.Id.HP] = src["incMHP"];
+				defstats[EquipStat.Id.MP] = src["incMMP"];
+				defstats[EquipStat.Id.ACC] = src["incACC"];
+				defstats[EquipStat.Id.AVOID] = src["incEVA"];
+				defstats[EquipStat.Id.HANDS] = src["incHANDS"];
+				defstats[EquipStat.Id.SPEED] = src["incSPEED"];
+				defstats[EquipStat.Id.JUMP] = src["incJUMP"];
+			}
 
 			const uint NON_WEAPON_TYPES = 15;
 			const uint WEAPON_OFFSET = NON_WEAPON_TYPES + 15;

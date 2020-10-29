@@ -209,7 +209,7 @@ namespace ms
 
 				texture.shift (-shift);
 
-				delay = src["delay"]?.GetShort ().ToUshort () ?? 0;
+				delay = src["delay"];
 
 				if (delay == 0)
 				{

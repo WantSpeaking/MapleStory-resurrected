@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -87,21 +88,19 @@ namespace ms
 		// Recalculate sums of equip stats
 		public void recalc_stats (Weapon.Type type)
 		{
-			totalstats.Clear ();
-
+			totalstats.SetValue ((() => 0));//totalstats.Clear ();
 			foreach (var iter in inventories[InventoryType.Id.EQUIPPED])
 			{
 				if (equips.TryGetValue (iter.Value.unique_id, out var equip))
 				{
-					foreach (var stat_iter in totalstats)
+					foreach (var key in totalstats.keys)
 					{
-						//var old_State = stat_iter.Value;
-						//var new_State = old_State + equip.get_stat (stat_iter.Key);
-						//totalstats[(Id)iter.Value.unique_id] = (ushort)new_State;
-						totalstats[(EquipStat.Id)iter.Value.unique_id] += equip.get_stat (stat_iter.Key);
-						//stat_iter.Value = new_State;
-						//stat_iter.Value += equip.get_stat(stat_iter.Key);
+						totalstats[(EquipStat.Id)iter.Value.unique_id] += equip.get_stat (key);
 					}
+					/*foreach (var stat_iter in totalstats)
+					{
+						totalstats[(EquipStat.Id)iter.Value.unique_id] += equip.get_stat (stat_iter.Key);
+					}*/
 				}
 
 				/*var equip_iter = equips.find (iter.Value.unique_id);
@@ -284,6 +283,7 @@ namespace ms
 //ORIGINAL LINE: ushort get_stat(EquipStat::Id type) const
 		public ushort get_stat (EquipStat.Id type)
 		{
+			//Debug.Log ($"get_stat type: {type}");
 			return totalstats[type];
 		}
 

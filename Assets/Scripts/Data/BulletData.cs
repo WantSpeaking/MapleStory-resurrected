@@ -85,7 +85,7 @@ namespace ms
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# has no concept of a 'friend' class:
 //		friend Cache<BulletData>;
 		// Load a bullet from the game files.
-		private BulletData(int itemid)
+		public BulletData(int itemid)
 		{
 			this.itemdata = ItemData.get(itemid);
 			string prefix = "0" + Convert.ToString(itemid / 10000);
@@ -93,7 +93,7 @@ namespace ms
 			var src  = nl.nx.wzFile_item["Consume"][prefix + ".img"][strid];
 
 			bullet =new Animation(src["bullet"]); 
-			watk = src["info"]["incPAD"].GetShort ();
+			watk = src["info"]["incPAD"];
 		}
 
 		private readonly ItemData itemdata;

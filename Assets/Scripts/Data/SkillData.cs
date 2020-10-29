@@ -242,7 +242,7 @@ namespace ms
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# has no concept of a 'friend' class:
 //		friend Cache<SkillData>;
 		// Load a skill from the game files
-		private SkillData (int id)
+		public SkillData (int id)
 		{
 			/// Locate sources
 			string strid = string_format.extend_id (id, 7);
@@ -282,20 +282,20 @@ namespace ms
 			{
 				foreach (var property_Skillwz_000img_skill_11111004_level_1 in property_Skillwz_000img_skill_0000008_level.WzProperties)
 				{
-					float damage = (float)(property_Skillwz_000img_skill_11111004_level_1["damage"]?.GetFloat () ?? 100f) / 100;
-					int matk = property_Skillwz_000img_skill_11111004_level_1["mad"].GetInt ();
-					int fixdamage = property_Skillwz_000img_skill_11111004_level_1["fixdamage"].GetInt ();
-					int mastery = property_Skillwz_000img_skill_11111004_level_1["mastery"].GetInt ();
-					byte attackcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["attackCount"]?.GetInt () ?? 1);
-					byte mobcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["mobCount"]?.GetInt () ?? 1);
-					byte bulletcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["bulletCount"]?.GetInt () ?? 1);
-					short bulletcost = (short)(property_Skillwz_000img_skill_11111004_level_1["bulletConsume"]?.GetInt () ?? bulletcount);
-					int hpcost = property_Skillwz_000img_skill_11111004_level_1["hpCon"]?.GetInt () ?? 0;
-					int mpcost = property_Skillwz_000img_skill_11111004_level_1["mpCon"]?.GetInt () ?? 0;
-					float chance = (property_Skillwz_000img_skill_11111004_level_1["prop"]?.GetFloat () ?? 100f) / 100;
+					float damage = (float)(property_Skillwz_000img_skill_11111004_level_1["damage"]) / 100;
+					int matk = property_Skillwz_000img_skill_11111004_level_1["mad"];
+					int fixdamage = property_Skillwz_000img_skill_11111004_level_1["fixdamage"];
+					int mastery = property_Skillwz_000img_skill_11111004_level_1["mastery"];
+					byte attackcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["attackCount"]);
+					byte mobcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["mobCount"]);
+					byte bulletcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["bulletCount"]);
+					short bulletcost = (short)(property_Skillwz_000img_skill_11111004_level_1["bulletConsume"]);
+					int hpcost = property_Skillwz_000img_skill_11111004_level_1["hpCon"];
+					int mpcost = property_Skillwz_000img_skill_11111004_level_1["mpCon"];
+					float chance = (property_Skillwz_000img_skill_11111004_level_1["prop"]) / 100;
 					float critical = 0.0f;
 					float ignoredef = 0.0f;
-					float hrange = (float)(property_Skillwz_000img_skill_11111004_level_1["range"]?.GetFloat () ?? 100f) / 100;
+					float hrange = (float)(property_Skillwz_000img_skill_11111004_level_1["range"]) / 100;
 					Rectangle<short> range = new Rectangle<short> (property_Skillwz_000img_skill_11111004_level_1);
 					int level = string_conversion.or_default (property_Skillwz_000img_skill_11111004_level_1.Name, -1);
 					stats.Add (level, new Stats (damage, matk, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range));
@@ -331,13 +331,13 @@ namespace ms
 			}
 			else
 			{
-				reqweapon = Weapon.by_value (100 + node_Skillwz_1111img_skill_11111004["weapon"]?.GetInt () ?? 0);
+				reqweapon = Weapon.by_value (100 + node_Skillwz_1111img_skill_11111004["weapon"]);
 			}
 
 			masterlevel = stats.Count;
 			passive = (id % 10000) / 1000 == 0;
 			flags = flags_of (id);
-			invisible = node_Skillwz_1111img_skill_11111004["invisible"].GetInt ().ToBool ();
+			invisible = node_Skillwz_1111img_skill_11111004["invisible"];
 
 			/// Load required skills
 			var node_Skillwz_1111img_skill_11111004_req = node_Skillwz_1111img_skill_11111004["req"];
@@ -346,7 +346,7 @@ namespace ms
 				foreach (var property_Skillwz_1111img_skill_11111003_req_11111001 in property_Skillwz_1111img_skill_11111003_req.WzProperties)
 				{
 					int skillid = string_conversion.or_default (property_Skillwz_1111img_skill_11111003_req_11111001.Name, -1);
-					int reqlv = property_Skillwz_1111img_skill_11111003_req_11111001.GetInt ();
+					int reqlv = property_Skillwz_1111img_skill_11111003_req_11111001;
 
 					reqskills.Add (skillid, reqlv);
 				}

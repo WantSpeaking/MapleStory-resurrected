@@ -44,12 +44,15 @@ namespace ms
 	// Contains reading functions
 	public class InPacket
 	{
+		private MMO_MemoryStream _memoryStream;
 		// Construct a packet from an array of bytes
-		public InPacket (sbyte[] recv, int length)
+		public InPacket (byte[] recv, int length)
 		{
-			bytes = recv;
+			bytes = recv.ToSbyteArray ();
 			top = length;
 			pos = 0;
+			_memoryStream = new MMO_MemoryStream (recv);
+			_memoryStream.Position = 0;
 		}
 
 		// Check if there are more bytes available
@@ -76,52 +79,64 @@ namespace ms
 				throw new PacketError ("Stack underflow at " + Convert.ToString (pos));
 			}
 
+			_memoryStream.Position += count;
 			pos += count;
 		}
 
 		// Read a byte and check if it is equal to one
 		public bool read_bool ()
 		{
+			return _memoryStream.ReadBool ();
 			return read_byte () == 1;
 		}
 
 		// Read a byte
 		public sbyte read_byte ()
 		{
+			return _memoryStream.ReadByte ().ToSByte ();
 			return read<sbyte> ();
 		}
 
 		// Read a short
 		public short read_short ()
 		{
+			return _memoryStream.ReadShort ();
 			return read<short> ();
 		}
 
 		// Read a int
 		public int read_int ()
 		{
+			return _memoryStream.ReadInt ();
 			return read<int> ();
 		}
 
 		// Read a long
 		public long read_long ()
 		{
+			return _memoryStream.ReadLong ();
 			return read<long> ();
 		}
 
 		// Read a point
 		public Point<short> read_point ()
 		{
-			short x = read<short> ();
+			/*short x = read<short> ();
 			short y = read<short> ();
 
+			return new Point<short> (x, y);*/
+			short x = _memoryStream.ReadShort ();
+			short y = _memoryStream.ReadShort ();
 			return new Point<short> (x, y);
 		}
 
 		// Read a string
 		public string read_string ()
 		{
-			ushort length = read<ushort> ();
+			/*ushort length = read<ushort> ();
+
+			return read_padded_string (length);*/
+			var length = _memoryStream.ReadUShort ();
 
 			return read_padded_string (length);
 		}
@@ -133,7 +148,7 @@ namespace ms
 
 			for (short i = 0; i < count; i++)
 			{
-				sbyte letter = read_byte ();
+				var letter = _memoryStream.ReadByte ();
 
 				if (letter != (sbyte)'\0')
 				{
@@ -243,7 +258,7 @@ namespace ms
 
 				var val = bytes[pos];
 				int temp;
-				if (count > 1 && val < 0) //only convert except sbyte
+				if (i == 0 && count > 1 && val < 0) //only convert except sbyte with first bit
 				{
 					temp = val + 256;
 				}

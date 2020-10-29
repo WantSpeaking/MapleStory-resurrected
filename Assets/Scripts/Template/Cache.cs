@@ -26,17 +26,22 @@ namespace ms
 	// Template for a cache of game objects 
 	// which can be constructed from an identifier.
 	// The 'get' factory method is static.
-	public class Cache <T> : System.IDisposable
+	public class Cache<T> : System.IDisposable
 	{
-		public virtual void Dispose()
+		public virtual void Dispose ()
 		{
 		}
 
 		// Return a ref to the game object with the specified id.
 		// If the object is not in cache, it is created.
-		public static T get(int id)
+		public static T get (int id)
 		{
-			cache.TryGetValue (id, out T t);
+			if (!cache.TryGetValue (id, out T t))
+			{
+				t = (T)System.Activator.CreateInstance (typeof (T), id);
+				cache.Add (id, t);
+			}
+
 			return t;
 			/*var iter = cache.find(id);
 
@@ -49,7 +54,7 @@ namespace ms
 			return iter.second;*/
 		}
 
-		private static Dictionary<int, T> cache = new Dictionary<int, T>();
+		private static Dictionary<int, T> cache = new Dictionary<int, T> ();
 	}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:

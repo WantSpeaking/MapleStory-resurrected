@@ -52,10 +52,10 @@ namespace ms
 		public BodyAction (WzObject Characterwz00002000img_airstrike_3)
 		{
 			stance = Stance.by_string (Characterwz00002000img_airstrike_3["action"].ToString ());
-			frame = Characterwz00002000img_airstrike_3["frame"]?.GetInt ().ToByte ()??0;
-			move = Characterwz00002000img_airstrike_3["move"]?.GetPoint ().ToMSPoint ();
+			frame = Characterwz00002000img_airstrike_3["frame"];
+			move = Characterwz00002000img_airstrike_3["move"];
 
-			short sgndelay = Characterwz00002000img_airstrike_3["delay"]?.GetShort ()??0;
+			short sgndelay = Characterwz00002000img_airstrike_3["delay"];
 
 			if (sgndelay == 0)
 			{
@@ -169,7 +169,7 @@ namespace ms
 							{
 								
 								Stance.Id stance = Stance.by_string (ststr);
-								short delay = property_Characterwz_00002000img_fly_0["delay"]?.GetShort () ?? 0;
+								short delay = property_Characterwz_00002000img_fly_0["delay"];
 
 								if (delay <= 0)
 								{

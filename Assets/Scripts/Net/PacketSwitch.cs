@@ -136,7 +136,7 @@ namespace ms
 			//Debug.Log ($"forward bytes: {bytes.Length}");
 			// Wrap the bytes with a parser
 			var sByteArray = bytes.ToSbyteArray ();
-			InPacket recv = new InPacket (sByteArray, length);
+			InPacket recv = new InPacket (bytes, length);
 
 			// Read the opcode to determine handler responsible
 			var opcode = recv.read_short ();

@@ -72,10 +72,10 @@ namespace ms
 	{
 		public Ladder (WzImageProperty node_100000000img_ladderRope_1)
 		{
-			x = node_100000000img_ladderRope_1["x"].GetShort ();
-			y1 = node_100000000img_ladderRope_1["y1"].GetShort ();
-			y2 = node_100000000img_ladderRope_1["y2"].GetShort ();
-			ladder = node_100000000img_ladderRope_1["l"].GetInt ().ToBool ();
+			x = node_100000000img_ladderRope_1["x"];
+			y1 = node_100000000img_ladderRope_1["y1"];
+			y2 = node_100000000img_ladderRope_1["y2"];
+			ladder = node_100000000img_ladderRope_1["l"];
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -140,12 +140,12 @@ namespace ms
 			var split = bgmpath.IndexOf ('/');
 			bgm = bgmpath.Substring (0, split) + ".img/" + bgmpath.Substring (split + 1);
 
-			cloud = node_node_100000000img_info["cloud"]?.GetInt ().ToBool () ?? false;
-			fieldlimit = node_node_100000000img_info["fieldLimit"]?.GetInt () ?? 0;
-			hideminimap = node_node_100000000img_info["hideMinimap"]?.GetInt ().ToBool () ?? false;
+			cloud = node_node_100000000img_info["cloud"];
+			fieldlimit = node_node_100000000img_info["fieldLimit"];
+			hideminimap = node_node_100000000img_info["hideMinimap"];
 			mapmark = node_node_100000000img_info["mapMark"].ToString ();
-			swim = node_node_100000000img_info["swim"]?.GetInt ().ToBool () ?? false;
-			town = node_node_100000000img_info["town"]?.GetInt ().ToBool () ?? false;
+			swim = node_node_100000000img_info["swim"];
+			town = node_node_100000000img_info["town"];
 
 			if (node_100000000img["seat"] is WzImageProperty node_100000000img_seat)
 			{

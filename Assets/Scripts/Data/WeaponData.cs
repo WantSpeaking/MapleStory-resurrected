@@ -158,7 +158,7 @@ namespace ms
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# has no concept of a 'friend' class:
 //		friend Cache<WeaponData>;
 		// Load a weapon from the game files
-		private WeaponData(int equipid)
+		public WeaponData(int equipid)
 		{
 			this.equipdata = EquipData.get(equipid);
 			int prefix = equipid / 10000;
@@ -167,8 +167,8 @@ namespace ms
 
 			var src = nl.nx.wzFile_character["Weapon"]["0" + Convert.ToString(equipid) + ".img"]["info"];
 
-			attackspeed = (byte)src["attackSpeed"].GetShort ().ToByte ();
-			attack = (byte)src["attack"].GetShort ().ToByte ();
+			attackspeed = src["attackSpeed"];
+			attack = src["attack"];
 
 			var soundsrc = nl.nx.wzFile_sound["Weapon.img"][src["sfx"].ToString ()];
 

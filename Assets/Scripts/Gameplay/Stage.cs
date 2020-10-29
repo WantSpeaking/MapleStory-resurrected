@@ -103,8 +103,10 @@ namespace ms
 
 			backgrounds?.drawbackgrounds (viewx, viewy, alpha);
 
-			foreach (var id in Enum.GetValues (typeof (Layer.Id)))
+			foreach (Layer.Id enumObject in Enum.GetValues (typeof (Layer.Id)))
 			{
+				var id = (Layer.Id)enumObject;
+				if (id == Layer.Id.LENGTH) continue;
 				tilesobjs?.draw ((Layer.Id)id, viewpos, alpha);
 				player?.draw ((Layer.Id)id, viewx, viewy, alpha);
 				mobs?.draw ((Layer.Id)id, viewx, viewy, alpha);

@@ -58,7 +58,7 @@ namespace ms
 			texture = new Texture (node_Tile_allblackTileimg_bsc_0);
 			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 			//ORIGINAL LINE: pos = Point<short>(src["x"], src["y"]);
-			pos = new Point<short> (node_100000000img_0_Tile_0["x"].GetShort (), node_100000000img_0_Tile_0["y"].GetShort ());
+			pos = new Point<short> (node_100000000img_0_Tile_0["x"], node_100000000img_0_Tile_0["y"]);
 			//z = (byte)(255- node_100000000img_0_Tile_0["zM"].GetShort ().ToByte ());//todo orderInLayer wz和unity正好相反
 			//z = (node_100000000img_0_Tile_0["zM"].GetShort ().ToByte ());//todo orderInLayer wz和unity正好相反
 			/*if (z == 0)

@@ -57,10 +57,10 @@ namespace ms
 		}
 		public Foothold(WzImageProperty src, ushort id, byte ly)
 		{
-			this.m_prev = (ushort)src["prev"].GetShort ();
-			this.m_next = (ushort)src["next"].GetShort ();
-			this.m_horizontal = new ms.Range<short>(src["x1"].GetShort (), src["x2"].GetShort ());
-			this.m_vertical = new ms.Range<short>(src["y1"].GetShort (), src["y2"].GetShort ());
+			this.m_prev = (ushort)src["prev"];
+			this.m_next = (ushort)src["next"];
+			this.m_horizontal = new ms.Range<short>(src["x1"], src["x2"]);
+			this.m_vertical = new ms.Range<short>(src["y1"], src["y2"]);
 			this.m_id = id;
 			this.m_layer = ly;
 		}

@@ -57,13 +57,13 @@ namespace ms
 			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 			//ORIGINAL LINE: pos = Point<short>(src["x"], src["y"]);
 
-			pos = new Point<short> (node_100000000img_0_obj_0["x"].GetShort (), node_100000000img_0_obj_0["y"].GetShort ());
-			flip = node_100000000img_0_obj_0["f"].GetInt ().ToBool ();
+			pos = new Point<short> (node_100000000img_0_obj_0["x"], node_100000000img_0_obj_0["y"]);
+			flip = node_100000000img_0_obj_0["f"];
 			//z = (byte)(255- node_100000000img_0_obj_0["z"].GetShort ().ToByte ());//orderInLayer wz和unity正好相反
-			z = (node_100000000img_0_obj_0["z"].GetShort ().ToByte ()); //orderInLayer wz和unity正好相反
+			z = (node_100000000img_0_obj_0["z"]); //orderInLayer wz和unity正好相反
 			if (z == 0)
 			{
-				z = (node_100000000img_0_obj_0["zM"].GetShort ().ToByte ());
+				z = (node_100000000img_0_obj_0["zM"]);
 			}
 		}
 

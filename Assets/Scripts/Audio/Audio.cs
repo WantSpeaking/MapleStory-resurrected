@@ -88,7 +88,7 @@ namespace ms
 
 		public Sound (Name name)
 		{
-			id = soundids[name].ToString ();
+			//id = soundids[name].ToString ();
 		}
 
 		public Sound (int itemid)
@@ -130,10 +130,10 @@ namespace ms
 //ORIGINAL LINE: void play() const
 		public void play ()
 		{
-			if (id.Length > 0)
+			/*if (id.Length > 0)
 			{
 				play (id);
-			}
+			}*/
 		}
 
 		public static Error init ()

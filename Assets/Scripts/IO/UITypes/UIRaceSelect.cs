@@ -217,7 +217,7 @@ namespace ms
 
 			foreach (var  node in hotlist)
 			{
-				if (node.GetInt () == selected_class)
+				if (node == selected_class)
 				{
 					if (selected_class == (int)Classes.ZERO)
 					{
@@ -238,7 +238,7 @@ namespace ms
 
 			foreach (var node in newlist)
 			{
-				if (node.GetInt () == selected_class)
+				if (node == selected_class)
 				{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: newlabel.draw(position, inter);
@@ -258,7 +258,7 @@ namespace ms
 				foreach (var node in
 				hotlist)
 				{
-					if (node.GetInt () == class_index[i])
+					if (node == class_index[i])
 					{
 						hotbtn.draw (position + button_pos, inter);
 						break;
@@ -268,7 +268,7 @@ namespace ms
 				foreach (var node in
 				newlist)
 				{
-					if (node.GetInt () == class_index[i])
+					if (node == class_index[i])
 					{
 						newbtn.draw (position + button_pos, inter);
 						break;
