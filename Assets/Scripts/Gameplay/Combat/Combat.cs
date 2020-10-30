@@ -122,7 +122,7 @@ namespace ms
 					apply_move (move);
 					break;
 				default:
-					//ForbidSkillMessage(reason, weapontype).drop();
+					new ForbidSkillMessage(reason, weapontype).drop();
 					break;
 			}
 		}
@@ -264,7 +264,7 @@ namespace ms
 				apply_use_movement (move);
 				apply_result_movement (move, result);
 
-				//AttackPacket (result).dispatch ();
+				new AttackPacket (result).dispatch ();
 
 				/*if (reactor_targets.Count != 0)
 				{
@@ -283,8 +283,8 @@ namespace ms
 				move.apply_actions (player, Attack.Type.MAGIC);
 
 				int moveid = move.get_id ();
-				//int level = player.get_skills ().get_level (moveid);
-				//UseSkillPacket (moveid, level).dispatch ();
+				int level = player.get_skills ().get_level (moveid);
+				new UseSkillPacket (moveid, level).dispatch ();
 			}
 		}
 

@@ -1,25 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
 using HaRepacker;
 using ms;
 using UnityEngine;
 using UnityEngine.UI;
+using Utility.Inspector;
 using Char = ms.Char;
 using Timer = ms.Timer;
 
-public class MapleStory : MonoBehaviour
+public class MapleStory :SingletonMono<MapleStory> 
 {
-	public UnityEngine.UI.Button button_load;
-
-	public InputField inpuField_MapleFolder;
-	public InputField inpuField_MapId;
-
-	public string maplestoryFolder = @"F:/BaiduYunDownload/079mg5/";
-	public int mapIdToLoad = 100000000;
-
-	private WzFileManager wzFileManager;
-
 	private void Start ()
 	{
 		/* wzFileManager = new WzFileManager();
@@ -27,182 +19,9 @@ public class MapleStory : MonoBehaviour
 		 var wzObject = wzFile.GetObjectFromPath(subPath);
 		 Debug.LogFormat("Width:{0}\t Height:{1}", wzObject?.GetBitmap()?.Width, wzObject?.GetBitmap()?.Height);
 		 spriteRenderer.sprite = TextureToSprite(GetTexrture2DFromPath(wzObject));*/
-		button_load.onClick.AddListener (main);
+		//button_load.onClick.AddListener (main);
 		DontDestroyOnLoad (this);
 	}
-
-
-	private void init ()
-	{
-		/*if (Error error = Session.get().init())
-		return error;
-
-#ifdef USE_NX
-		if (Error error = NxFiles.init())
-		return error;
-#else
-		if (Error error = WzFiles.init())
-		return error;
-#endif
-
-		if (Error error = Window.get().init())
-		return error;
-
-		if (Error error = Sound.init())
-		return error;
-
-		if (Error error = Music.init())
-		return error;
-
-		Char.init();
-		DamageNumber.init();
-		MapPortals.init();
-		*/
-		Session.get ().init ();
-		NxFiles.init (maplestoryFolder);
-		//Stage.get ().init ();
-		//UI.get ().init ();
-		Char.init ();
-		MapPortals.init ();
-		Stage.get ().init ();
-		TempLogin ();
-	}
-	private string fds;
-	private byte[] sendiv = new byte[NetConstants.HEADER_LENGTH];
-	private byte[] recviv = new byte[NetConstants.HEADER_LENGTH];
-	MMO_MemoryStream _stream = new MMO_MemoryStream();
-	public void create_header(byte[] buffer, int length)
-	{
-#if USE_CRYPTO
-			
-#else
-		/*const byte MAPLEVERSION = 83;
-
-		int a = (int)(((sendiv[3] << 8) | sendiv[2]) ^ MAPLEVERSION);
-		int b = a ^ length;
-
-		buffer[0] = (byte)(a % 0x100);
-		buffer[1] = (byte)(a / 0x100);
-		buffer[2] = (byte)(b % 0x100);
-		buffer[3] = (byte)(b / 0x100);*/
-
-		for (int i = 0; i < 4; i++)
-		{
-			buffer[i] = (byte)length;
-			length = length >> 8;
-		}
-#endif
-	}
-
-	[Utility.Inspector. Button("main","Connect")]
-	public string placeholder0;
-
-	
-	[Utility.Inspector. Button("LoginStartPacket","LoginStartPacket 35")]
-	public string placeholder1;
-
-	void LoginStartPacket ()
-	{
-		new LoginStartPacket ().dispatch ();
-	}
-	
-	[Utility.Inspector. Button("LoginPacket","LoginPacket 1")]
-	public string placeholder2;
-
-	void LoginPacket ()
-	{
-		new LoginPacket ("admin", "admin").dispatch ();
-	}
-	
-	[Utility.Inspector. Button("ServerStatusRequestPacket","ServerStatusRequestPacket 6")]
-	public string placeholder3;
-
-	void ServerStatusRequestPacket ()
-	{
-		new ServerStatusRequestPacket (0).dispatch ();
-	}
-	
-	[Utility.Inspector. Button("CharlistRequestPacket","CharlistRequestPacket 5")]
-	public string placeholder4;
-
-	void CharlistRequestPacket ()
-	{
-		new CharlistRequestPacket (0,0).dispatch ();
-	}
-	
-	[Utility.Inspector. Button("SelectCharPacket","SelectCharPacket 19")]
-	public string placeholder5;
-
-	void SelectCharPacket ()
-	{
-		new SelectCharPacket (1).dispatch ();
-	}
-	
-	/*[Utility.Inspector. Button("PlayerLoginPacket","PlayerLoginPacket 20")]
-	public string placeholder6;
-
-	void PlayerLoginPacket ()
-	{
-		new PlayerLoginPacket (1).dispatch ();
-	}*/
-	
-	void TempLogin ()
-	{
-		/*
-		Thread.Sleep (1000);
-		_stream.WriteShort (35);
-		_stream.WriteShort (36);
-		_stream.WriteShort (37);
-		_stream.WriteShort (38);
-		_stream.WriteShort (39);
-		var buffer = _stream.ToArray ();
-		//Debug.Log (_stream.ToArray ().ToDebugLog ());
-		byte[] header = new byte[NetConstants.HEADER_LENGTH];
-		create_header (header, buffer.Length);
-		//NetWorkSocket.Instance.Send (header);
-		NetWorkSocket.Instance.Send (buffer);
-		*/
-		
-		Configuration.get ().set_hwid ("884F4FCB", ref fds);
-
-		/*new LoginStartPacket ().dispatch ();
-
-		Thread.Sleep (4000);
-
-		new LoginPacket ("admin", "admin").dispatch ();
-
-		Thread.Sleep (4000);
-		
-		new ServerRequestPacket ().dispatch ();
-		
-		Thread.Sleep (4000);
-		
-		new ServerStatusRequestPacket (0).dispatch ();
-
-		Thread.Sleep (4000);
-
-		new CharlistRequestPacket (0, 0).dispatch ();
-
-		Thread.Sleep (4000);
-
-		new PlayerLoginPacket (1).dispatch ();*/
-	}
-
-	IEnumerator WaitForSeconds (float seconds)
-	{
-		yield return new WaitForSeconds (seconds);
-	}
-
-
-	public float walkSpeed = 1;
-	public float jumpSpeed = 1;
-	public float climbSpeed = 1;
-	public float flySpeed = 1;
-	public float fallSpeed = 1;
-	public float animSpeed = 1;
-
-	public float frameDelay = 0.5f;
-
 	private void Update ()
 	{
 		Constants.get ().walkSpeed = walkSpeed;
@@ -237,14 +56,59 @@ public class MapleStory : MonoBehaviour
 		UI.get ().send_key ((int)KeyType.Id.ACTION,  Input.GetKey (KeyCode.LeftControl));*/
 	}
 
+	private void OnGUI ()
+	{
+		if (running ())
+		{
+			Window.get ().HandleGUIEvents(Event.current);
+		}
+	}
+
+	private void init ()
+	{
+		/*if (Error error = Session.get().init())
+		return error;
+
+#ifdef USE_NX
+		if (Error error = NxFiles.init())
+		return error;
+#else
+		if (Error error = WzFiles.init())
+		return error;
+#endif
+
+		if (Error error = Window.get().init())
+		return error;
+
+		if (Error error = Sound.init())
+		return error;
+
+		if (Error error = Music.init())
+		return error;
+
+		Char.init();
+		DamageNumber.init();
+		MapPortals.init();
+		*/
+		Session.get ().init ();
+		NxFiles.init (maplestoryFolder);
+		Window.get ().init ();
+		//Stage.get ().init ();
+		//UI.get ().init ();
+		Char.init ();
+		MapPortals.init ();
+		Stage.get ().init ();
+		TempLogin ();
+	}
+
 	private void update ()
 	{
 		Stage.get ().update ();
 		//UI.get ().update ();
 		Session.get ().read ();
-
-		/*Window.get().check_events();
+		Window.get().check_events();
 		Window.get().update();
+		/*
 		UI.get().update();
 		Session.get().read();*/
 	}
@@ -270,9 +134,6 @@ public class MapleStory : MonoBehaviour
 
 	private static long timestep = Constants.TIMESTEP * 1000;
 	private long accumulator = timestep;
-
-	private long period = 0;
-	private int samples = 0;
 
 	private void loop ()
 	{
@@ -312,7 +173,88 @@ public class MapleStory : MonoBehaviour
 	}
 
 	#region Will be removed later
+	
+	#region Placeholder
 
+	[Button("main","Connect")]
+	public string placeholder0;
+
+	
+	[Button("LoginStartPacket","LoginStartPacket 35")]
+	public string placeholder1;
+
+	void LoginStartPacket ()
+	{
+		new LoginStartPacket ().dispatch ();
+	}
+	
+	[Button("LoginPacket","LoginPacket 1")]
+	public string placeholder2;
+
+	void LoginPacket ()
+	{
+		new LoginPacket ("admin", "admin").dispatch ();
+	}
+	
+	[Button("ServerStatusRequestPacket","ServerStatusRequestPacket 6")]
+	public string placeholder3;
+
+	void ServerStatusRequestPacket ()
+	{
+		new ServerStatusRequestPacket (0).dispatch ();
+	}
+	
+	[Button("CharlistRequestPacket","CharlistRequestPacket 5")]
+	public string placeholder4;
+
+	void CharlistRequestPacket ()
+	{
+		new CharlistRequestPacket (0,0).dispatch ();
+	}
+	
+	[Button("SelectCharPacket","SelectCharPacket 19")]
+	public string placeholder5;
+
+	void SelectCharPacket ()
+	{
+		new SelectCharPacket (1).dispatch ();
+	}
+	
+	/*[Utility.Inspector. Button("PlayerLoginPacket","PlayerLoginPacket 20")]
+	public string placeholder6;
+
+	void PlayerLoginPacket ()
+	{
+		new PlayerLoginPacket (1).dispatch ();
+	}*/
+
+	#endregion
+
+	public bool enableDebugPacket = false;
+	public UnityEngine.UI.Button button_load;
+
+	public InputField inpuField_MapleFolder;
+	public InputField inpuField_MapId;
+
+	public string maplestoryFolder = @"F:/BaiduYunDownload/079mg5/";
+	public int mapIdToLoad = 100000000;
+
+	private WzFileManager wzFileManager;
+	
+	public float walkSpeed = 1;
+	public float jumpSpeed = 1;
+	public float climbSpeed = 1;
+	public float flySpeed = 1;
+	public float fallSpeed = 1;
+	public float animSpeed = 1;
+
+	public float frameDelay = 0.5f;
+	
+	private string fds;
+	void TempLogin ()
+	{
+		Configuration.get ().set_hwid ("884F4FCB", ref fds);
+	}
 	private void OnButtonLoadClick ()
 	{
 	}

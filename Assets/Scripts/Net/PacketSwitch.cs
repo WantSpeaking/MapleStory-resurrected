@@ -154,7 +154,11 @@ namespace ms
 					Console.Write (Convert.ToString (opcode));
 					Console.Write ("\n");
 				}
-				Debug.Log ($"Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{sByteArray.Length} \t{sByteArray.ToDebugLog ()}");
+
+				if (MapleStory.Instance.enableDebugPacket)
+				{
+					Debug.Log ($"Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{sByteArray.Length} \t{sByteArray.ToDebugLog ()}");
+				}
 			}
 
 			if (opcode < NUM_HANDLERS)

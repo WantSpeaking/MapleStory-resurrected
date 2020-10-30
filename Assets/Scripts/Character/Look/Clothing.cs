@@ -6,6 +6,7 @@ using System.Linq;
 using ms.Helper;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -82,6 +83,7 @@ namespace ms
 			WEAPON_OVER_HAND,
 			WEAPON_OVER_BODY,
 			WEAPON_OVER_GLOVE,
+			//WEAPON_OVER_ARM,
 			NUM_LAYERS
 		}
 
@@ -111,25 +113,30 @@ namespace ms
 
 			Clothing.Layer chlayer;
 			uint index = (uint)((itemid / 10000) - 100);
-
+			string indexTest = "";
 			if (index < NON_WEAPON_TYPES)
 			{
 				chlayer = layers[index];
+				indexTest = "NON_WEAPON_TYPES";
 			}
 			else if (index >= WEAPON_OFFSET && index < WEAPON_OFFSET + WEAPON_TYPES)
 			{
 				chlayer = Clothing.Layer.WEAPON;
+				indexTest = "WEAPON";
 			}
 			else
 			{
 				chlayer = Clothing.Layer.CAPE;
+				indexTest = "CAPE";
 			}
 
 			string strid = "0" + Convert.ToString (itemid);
 			string category = equipdata.get_itemdata ().get_category ();
-			if(category == null) return;
+			//Debug.Log ($"strid:{strid}\t category:{category}\t eqslot:{eqslot}\t chlayer:{chlayer}");
+			if (category == null) return;
+
 			var src = nl.nx.wzFile_character[category]?[strid + ".img"];
-			if(src == null) return;//todo why cloth src is it null
+			if (src == null) return; //todo why cloth src is it null
 			var info = src["info"];
 
 			vslot = info["vslot"].ToString ();
@@ -195,8 +202,10 @@ namespace ms
 							}
 							else
 							{
-								sublayernames.TryGetValue (zs, out var layer);
-								z = layer;
+								if (sublayernames.TryGetValue (zs, out var layer))
+								{
+									z = layer;
+								}
 							}
 
 							string parent = string.Empty;
@@ -255,6 +264,11 @@ namespace ms
 
 							var tempTexture = new Texture (property_00002000img_walk1_0_arm);
 							tempTexture.shift (shift);
+							if (stance.ToString ().Contains ("STAND"))
+							{
+								Debug.Log ($"stances.Add: stance:{stance}\t z:{z}\t frame:{frame} \t tempTexture:{tempTexture.fullPath}\t itemid:{itemid}\t index:{index}\t indexTest:{indexTest}\t eqslot:{eqslot}\t chlayer:{chlayer}\t zs:{zs}\t category:{category}");
+							}
+
 							stances[stance][z].Add (frame, tempTexture);
 						}
 					}
@@ -269,14 +283,15 @@ namespace ms
 
 		// Draw the equip
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(Stance::Id stance, Layer layer, byte frame, const DrawArgument& args) const
+//ORIGINAL LINE: void draw(Stance.Id stance, Layer layer, byte frame, const DrawArgument& args) const
 		public void draw (Stance.Id stance, Layer layer, byte frame, DrawArgument args)
 		{
+		
 			var range = stances[stance][layer].Where (pair => pair.Key == frame).Select (pair => pair.Value);
 
 			foreach (var texture in range)
 			{
-				texture.draw(args);
+				texture.draw (args);
 			}
 
 			/*for (var iter = range.first; iter != range.second; ++iter)
@@ -287,7 +302,7 @@ namespace ms
 
 		// Check if a part of the equip lies on the specified layer while in the specified stance
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool contains_layer(Stance::Id stance, Layer layer) const
+//ORIGINAL LINE: bool contains_layer(Stance.Id stance, Layer layer) const
 		public bool contains_layer (Stance.Id stance, Layer layer)
 		{
 			return stances[stance][layer].Count != 0;
@@ -319,7 +334,7 @@ namespace ms
 
 		// Return the equip slot for this cloth
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: EquipSlot::Id get_eqslot() const
+//ORIGINAL LINE: EquipSlot.Id get_eqslot() const
 		public EquipSlot.Id get_eqslot ()
 		{
 			return eqslot;
@@ -327,7 +342,7 @@ namespace ms
 
 		// Return the standing stance to use while equipped
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Stance::Id get_stand() const
+//ORIGINAL LINE: Stance.Id get_stand() const
 		public Stance.Id get_stand ()
 		{
 			return stand;
@@ -335,7 +350,7 @@ namespace ms
 
 		// Return the walking stance to use while equipped
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Stance::Id get_walk() const
+//ORIGINAL LINE: Stance.Id get_walk() const
 		public Stance.Id get_walk ()
 		{
 			return walk;
@@ -358,7 +373,30 @@ namespace ms
 		private bool twohanded;
 		private bool transparent;
 
-		private readonly Dictionary<string, Layer> sublayernames = new Dictionary<string, Layer> ();
+		private readonly Dictionary<string, Layer> sublayernames = new Dictionary<string, Layer> ()
+		{
+			// WEAPON
+			{"weaponOverHand", Clothing.Layer.WEAPON_OVER_HAND},
+			{"weaponOverGlove", Clothing.Layer.WEAPON_OVER_GLOVE},
+			{"weaponOverBody", Clothing.Layer.WEAPON_OVER_BODY},
+			//{"weaponOverArm", Clothing.Layer.WEAPON_OVER_ARM},
+			{"weaponBelowArm", Clothing.Layer.WEAPON_BELOW_ARM},
+			{"weaponBelowBody", Clothing.Layer.WEAPON_BELOW_BODY},
+			{"backWeaponOverShield", Clothing.Layer.BACKWEAPON},
+			// SHIELD
+			{"shieldOverHair", Clothing.Layer.SHIELD_OVER_HAIR},
+			{"shieldBelowBody", Clothing.Layer.SHIELD_BELOW_BODY},
+			{"backShield", Clothing.Layer.BACKSHIELD},
+			// GLOVE
+			{"gloveWrist", Clothing.Layer.WRIST},
+			{"gloveOverHair", Clothing.Layer.GLOVE_OVER_HAIR},
+			{"gloveOverBody", Clothing.Layer.GLOVE_OVER_BODY},
+			{"gloveWristOverHair", Clothing.Layer.WRIST_OVER_HAIR},
+			{"gloveWristOverBody", Clothing.Layer.WRIST_OVER_BODY},
+			// CAP
+			{"capOverHair", Clothing.Layer.CAP_OVER_HAIR},
+			{"capBelowBody", Clothing.Layer.CAP_BELOW_BODY},
+		};
 	}
 }
 

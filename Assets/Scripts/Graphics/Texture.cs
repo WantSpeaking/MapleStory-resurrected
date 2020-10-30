@@ -55,7 +55,7 @@ namespace ms
 		private GameObject spriteObj;
 		private SpriteRenderer spriteRenderer;
 		private UnityEngine.Sprite sprite;
-		private string fullPath;
+		public string fullPath;
 
 		public Texture ()
 		{
@@ -110,6 +110,7 @@ namespace ms
 				//Debug.Log ($"{fullPath} {origin}", spriteRenderer.gameObject);
 				if (sprite == null)
 				{
+					//Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
 					sprite = TextureAndSpriteUtil.TextureToSprite (bitmap, origin, dimensions);
 				}
 

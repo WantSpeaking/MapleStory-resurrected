@@ -77,22 +77,22 @@ namespace ms
 		int[] Keytable = new int[89]
 		{
 			0, 0, // 1
-			GLFW_KEY.GLFW_KEY_0, GLFW_KEY.GLFW_KEY_1, GLFW_KEY.GLFW_KEY_2, GLFW_KEY.GLFW_KEY_3, GLFW_KEY.GLFW_KEY_4, GLFW_KEY.GLFW_KEY_5, GLFW_KEY.GLFW_KEY_6, GLFW_KEY.GLFW_KEY_7, GLFW_KEY.GLFW_KEY_8, GLFW_KEY.GLFW_KEY_9, GLFW_KEY.GLFW_KEY_MINUS, GLFW_KEY.GLFW_KEY_EQUAL,
+			GLFW_Util.GLFW_KEY_0, GLFW_Util.GLFW_KEY_1, GLFW_Util.GLFW_KEY_2, GLFW_Util.GLFW_KEY_3, GLFW_Util.GLFW_KEY_4, GLFW_Util.GLFW_KEY_5, GLFW_Util.GLFW_KEY_6, GLFW_Util.GLFW_KEY_7, GLFW_Util.GLFW_KEY_8, GLFW_Util.GLFW_KEY_9, GLFW_Util.GLFW_KEY_MINUS, GLFW_Util.GLFW_KEY_EQUAL,
 			0, 0, // 15
-			GLFW_KEY.GLFW_KEY_Q, GLFW_KEY.GLFW_KEY_W, GLFW_KEY.GLFW_KEY_E, GLFW_KEY.GLFW_KEY_R, GLFW_KEY.GLFW_KEY_T, GLFW_KEY.GLFW_KEY_Y, GLFW_KEY.GLFW_KEY_U, GLFW_KEY.GLFW_KEY_I, GLFW_KEY.GLFW_KEY_O, GLFW_KEY.GLFW_KEY_P, GLFW_KEY.GLFW_KEY_LEFT_BRACKET, GLFW_KEY.GLFW_KEY_RIGHT_BRACKET,
+			GLFW_Util.GLFW_KEY_Q, GLFW_Util.GLFW_KEY_W, GLFW_Util.GLFW_KEY_E, GLFW_Util.GLFW_KEY_R, GLFW_Util.GLFW_KEY_T, GLFW_Util.GLFW_KEY_Y, GLFW_Util.GLFW_KEY_U, GLFW_Util.GLFW_KEY_I, GLFW_Util.GLFW_KEY_O, GLFW_Util.GLFW_KEY_P, GLFW_Util.GLFW_KEY_LEFT_BRACKET, GLFW_Util.GLFW_KEY_RIGHT_BRACKET,
 			0, // 28
-			GLFW_KEY.GLFW_KEY_LEFT_CONTROL, GLFW_KEY.GLFW_KEY_A, GLFW_KEY.GLFW_KEY_S, GLFW_KEY.GLFW_KEY_D, GLFW_KEY.GLFW_KEY_F, GLFW_KEY.GLFW_KEY_G, GLFW_KEY.GLFW_KEY_H, GLFW_KEY.GLFW_KEY_J, GLFW_KEY.GLFW_KEY_K, GLFW_KEY.GLFW_KEY_L, GLFW_KEY.GLFW_KEY_SEMICOLON, GLFW_KEY.GLFW_KEY_APOSTROPHE, GLFW_KEY.GLFW_KEY_GRAVE_ACCENT, GLFW_KEY.GLFW_KEY_LEFT_SHIFT, GLFW_KEY.GLFW_KEY_BACKSLASH, GLFW_KEY.GLFW_KEY_Z, GLFW_KEY.GLFW_KEY_X, GLFW_KEY.GLFW_KEY_C, GLFW_KEY.GLFW_KEY_V, GLFW_KEY.GLFW_KEY_B,
-			GLFW_KEY.GLFW_KEY_N, GLFW_KEY.GLFW_KEY_M, GLFW_KEY.GLFW_KEY_COMMA, GLFW_KEY.GLFW_KEY_PERIOD,
+			GLFW_Util.GLFW_KEY_LEFT_CONTROL, GLFW_Util.GLFW_KEY_A, GLFW_Util.GLFW_KEY_S, GLFW_Util.GLFW_KEY_D, GLFW_Util.GLFW_KEY_F, GLFW_Util.GLFW_KEY_G, GLFW_Util.GLFW_KEY_H, GLFW_Util.GLFW_KEY_J, GLFW_Util.GLFW_KEY_K, GLFW_Util.GLFW_KEY_L, GLFW_Util.GLFW_KEY_SEMICOLON, GLFW_Util.GLFW_KEY_APOSTROPHE, GLFW_Util.GLFW_KEY_GRAVE_ACCENT, GLFW_Util.GLFW_KEY_LEFT_SHIFT, GLFW_Util.GLFW_KEY_BACKSLASH, GLFW_Util.GLFW_KEY_Z, GLFW_Util.GLFW_KEY_X, GLFW_Util.GLFW_KEY_C, GLFW_Util.GLFW_KEY_V, GLFW_Util.GLFW_KEY_B,
+			GLFW_Util.GLFW_KEY_N, GLFW_Util.GLFW_KEY_M, GLFW_Util.GLFW_KEY_COMMA, GLFW_Util.GLFW_KEY_PERIOD,
 			0, 0, 0, // 55
-			GLFW_KEY.GLFW_KEY_LEFT_ALT, GLFW_KEY.GLFW_KEY_SPACE,
+			GLFW_Util.GLFW_KEY_LEFT_ALT, GLFW_Util.GLFW_KEY_SPACE,
 			0, // 58
-			GLFW_KEY.GLFW_KEY_F1, GLFW_KEY.GLFW_KEY_F2, GLFW_KEY.GLFW_KEY_F3, GLFW_KEY.GLFW_KEY_F4, GLFW_KEY.GLFW_KEY_F5, GLFW_KEY.GLFW_KEY_F6, GLFW_KEY.GLFW_KEY_F7, GLFW_KEY.GLFW_KEY_F8, GLFW_KEY.GLFW_KEY_F9, GLFW_KEY.GLFW_KEY_F10, GLFW_KEY.GLFW_KEY_F11, GLFW_KEY.GLFW_KEY_F12, GLFW_KEY.GLFW_KEY_HOME,
+			GLFW_Util.GLFW_KEY_F1, GLFW_Util.GLFW_KEY_F2, GLFW_Util.GLFW_KEY_F3, GLFW_Util.GLFW_KEY_F4, GLFW_Util.GLFW_KEY_F5, GLFW_Util.GLFW_KEY_F6, GLFW_Util.GLFW_KEY_F7, GLFW_Util.GLFW_KEY_F8, GLFW_Util.GLFW_KEY_F9, GLFW_Util.GLFW_KEY_F10, GLFW_Util.GLFW_KEY_F11, GLFW_Util.GLFW_KEY_F12, GLFW_Util.GLFW_KEY_HOME,
 			0, // 72
-			GLFW_KEY.GLFW_KEY_PAGE_UP,
+			GLFW_Util.GLFW_KEY_PAGE_UP,
 			0, 0, 0, 0, 0, // 78
-			GLFW_KEY.GLFW_KEY_END,
+			GLFW_Util.GLFW_KEY_END,
 			0, // 80
-			GLFW_KEY.GLFW_KEY_PAGE_DOWN, GLFW_KEY.GLFW_KEY_INSERT, GLFW_KEY.GLFW_KEY_DELETE, GLFW_KEY.GLFW_KEY_ESCAPE, GLFW_KEY.GLFW_KEY_RIGHT_CONTROL, GLFW_KEY.GLFW_KEY_RIGHT_SHIFT, GLFW_KEY.GLFW_KEY_RIGHT_ALT, GLFW_KEY.GLFW_KEY_SCROLL_LOCK
+			GLFW_Util.GLFW_KEY_PAGE_DOWN, GLFW_Util.GLFW_KEY_INSERT, GLFW_Util.GLFW_KEY_DELETE, GLFW_Util.GLFW_KEY_ESCAPE, GLFW_Util.GLFW_KEY_RIGHT_CONTROL, GLFW_Util.GLFW_KEY_RIGHT_SHIFT, GLFW_Util.GLFW_KEY_RIGHT_ALT, GLFW_Util.GLFW_KEY_SCROLL_LOCK
 		};
 
 		int[] Shifttable = new int[126]
@@ -128,22 +128,22 @@ namespace ms
 
 		public Keyboard ()
 		{
-			keymap[GLFW_KEY.GLFW_KEY_LEFT] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.LEFT);
-			keymap[GLFW_KEY.GLFW_KEY_RIGHT] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.RIGHT);
-			keymap[GLFW_KEY.GLFW_KEY_UP] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.UP);
-			keymap[GLFW_KEY.GLFW_KEY_DOWN] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.DOWN);
-			keymap[GLFW_KEY.GLFW_KEY_ENTER] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.RETURN);
-			keymap[GLFW_KEY.GLFW_KEY_KP_ENTER] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.RETURN);
-			keymap[GLFW_KEY.GLFW_KEY_TAB] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.TAB);
-			textactions[GLFW_KEY.GLFW_KEY_BACKSPACE] = KeyAction.Id.BACK;
-			textactions[GLFW_KEY.GLFW_KEY_ENTER] = KeyAction.Id.RETURN;
-			textactions[GLFW_KEY.GLFW_KEY_KP_ENTER] = KeyAction.Id.RETURN;
-			textactions[GLFW_KEY.GLFW_KEY_SPACE] = KeyAction.Id.SPACE;
-			textactions[GLFW_KEY.GLFW_KEY_TAB] = KeyAction.Id.TAB;
-			textactions[GLFW_KEY.GLFW_KEY_ESCAPE] = KeyAction.Id.ESCAPE;
-			textactions[GLFW_KEY.GLFW_KEY_HOME] = KeyAction.Id.HOME;
-			textactions[GLFW_KEY.GLFW_KEY_END] = KeyAction.Id.END;
-			textactions[GLFW_KEY.GLFW_KEY_DELETE] = KeyAction.Id.DELETE;
+			keymap[GLFW_Util.GLFW_KEY_LEFT] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.LEFT);
+			keymap[GLFW_Util.GLFW_KEY_RIGHT] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.RIGHT);
+			keymap[GLFW_Util.GLFW_KEY_UP] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.UP);
+			keymap[GLFW_Util.GLFW_KEY_DOWN] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.DOWN);
+			keymap[GLFW_Util.GLFW_KEY_ENTER] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.RETURN);
+			keymap[GLFW_Util.GLFW_KEY_KP_ENTER] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.RETURN);
+			keymap[GLFW_Util.GLFW_KEY_TAB] = new Mapping (KeyType.Id.ACTION, (int)KeyAction.Id.TAB);
+			textactions[GLFW_Util.GLFW_KEY_BACKSPACE] = KeyAction.Id.BACK;
+			textactions[GLFW_Util.GLFW_KEY_ENTER] = KeyAction.Id.RETURN;
+			textactions[GLFW_Util.GLFW_KEY_KP_ENTER] = KeyAction.Id.RETURN;
+			textactions[GLFW_Util.GLFW_KEY_SPACE] = KeyAction.Id.SPACE;
+			textactions[GLFW_Util.GLFW_KEY_TAB] = KeyAction.Id.TAB;
+			textactions[GLFW_Util.GLFW_KEY_ESCAPE] = KeyAction.Id.ESCAPE;
+			textactions[GLFW_Util.GLFW_KEY_HOME] = KeyAction.Id.HOME;
+			textactions[GLFW_Util.GLFW_KEY_END] = KeyAction.Id.END;
+			textactions[GLFW_Util.GLFW_KEY_DELETE] = KeyAction.Id.DELETE;
 		}
 
 		public void assign (byte key, byte tid, int action)
@@ -169,35 +169,35 @@ namespace ms
 //ORIGINAL LINE: int leftshiftcode() const
 		public int leftshiftcode ()
 		{
-			return GLFW_KEY.GLFW_KEY_LEFT_SHIFT;
+			return GLFW_Util.GLFW_KEY_LEFT_SHIFT;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: int rightshiftcode() const
 		public int rightshiftcode ()
 		{
-			return GLFW_KEY.GLFW_KEY_RIGHT_SHIFT;
+			return GLFW_Util.GLFW_KEY_RIGHT_SHIFT;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: int capslockcode() const
 		public int capslockcode ()
 		{
-			return GLFW_KEY.GLFW_KEY_CAPS_LOCK;
+			return (int)GLFW_Util.GLFW_KEY_CAPS_LOCK;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: int leftctrlcode() const
 		public int leftctrlcode ()
 		{
-			return GLFW_KEY.GLFW_KEY_LEFT_CONTROL;
+			return (int)GLFW_Util.GLFW_KEY_LEFT_CONTROL;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: int rightctrlcode() const
 		public int rightctrlcode ()
 		{
-			return GLFW_KEY.GLFW_KEY_LEFT_CONTROL;
+			return (int)GLFW_Util.GLFW_KEY_LEFT_CONTROL;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -213,9 +213,9 @@ namespace ms
 		{
 			switch (keycode)
 			{
-				case GLFW_KEY.GLFW_KEY_C:
+				case (int)GLFW_Util.GLFW_KEY_C:
 					return KeyAction.Id.COPY;
-				case GLFW_KEY.GLFW_KEY_V:
+				case (int)GLFW_Util.GLFW_KEY_V:
 					return KeyAction.Id.PASTE;
 				/*case GLFW_KEY_A:
 					return KeyAction::Id::SELECTALL;*/
@@ -302,10 +302,10 @@ namespace ms
 			{
 				switch (keycode)
 				{
-					case GLFW_KEY.GLFW_KEY_LEFT:
-					case GLFW_KEY.GLFW_KEY_RIGHT:
-					case GLFW_KEY.GLFW_KEY_UP:
-					case GLFW_KEY.GLFW_KEY_DOWN:
+					case GLFW_Util.GLFW_KEY_LEFT:
+					case GLFW_Util.GLFW_KEY_RIGHT:
+					case GLFW_Util.GLFW_KEY_UP:
+					case GLFW_Util.GLFW_KEY_DOWN:
 						return keymap[keycode];
 					default:
 						return new Mapping (KeyType.Id.NONE, 0);

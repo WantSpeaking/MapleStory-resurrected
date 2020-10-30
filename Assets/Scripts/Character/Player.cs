@@ -79,7 +79,7 @@ namespace ms
 		}
 
 		// Construct a player object from the given Character entry
-		public Player (CharEntry entry) : base (entry.id,new CharLook( entry.look), entry.stats.name)
+		public Player (CharEntry entry) : base (entry.id, new CharLook (entry.look), entry.stats.name)
 		{
 			stats = new CharStats (entry.stats);
 			attacking = false;
@@ -297,7 +297,7 @@ namespace ms
 		//ORIGINAL LINE: bool can_attack() const
 		public bool can_attack ()
 		{
-			return !attacking && !is_climbing () && !is_sitting () /*&& look.get_equips ().has_weapon ()*/;
+			return !attacking && !is_climbing () && !is_sitting () && look.get_equips ().has_weapon ();
 		}
 
 		// Return whether the player can use a skill or not
@@ -650,34 +650,34 @@ namespace ms
 		}
 
 		// Obtain a reference to the player's skills
-		public SkillBook get_skills()
+		public SkillBook get_skills ()
 		{
-		    return skillbook;
+			return skillbook;
 		}
 
 		// Obtain a reference to the player's QuestLog
-		public QuestLog get_quests()
+		public QuestLog get_quests ()
 		{
-		    return questlog;
+			return questlog;
 		}
 
 		// Obtain a reference to the player's TeleportRock locations
-		public TeleportRock get_teleportrock()
+		public TeleportRock get_teleportrock ()
 		{
-		    return teleportrock;
+			return teleportrock;
 		}
 
 		// Obtain a reference to the player's MonsterBook
-		public MonsterBook get_monsterbook()
+		public MonsterBook get_monsterbook ()
 		{
-		    return monsterbook;
+			return monsterbook;
 		}
 
 		private Inventory inventory = new Inventory ();
-		private SkillBook skillbook = new SkillBook();
-		private QuestLog questlog = new QuestLog();
-		private TeleportRock teleportrock = new TeleportRock();
-		private MonsterBook monsterbook = new MonsterBook();
+		private SkillBook skillbook = new SkillBook ();
+		private QuestLog questlog = new QuestLog ();
+		private TeleportRock teleportrock = new TeleportRock ();
+		private MonsterBook monsterbook = new MonsterBook ();
 
 
 		// Return a pointer to the ladder the player is on

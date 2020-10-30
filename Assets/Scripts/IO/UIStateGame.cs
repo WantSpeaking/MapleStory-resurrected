@@ -52,12 +52,12 @@ namespace ms
 			CharLook look = Stage.get ().get_player ().get_look ();
 			Inventory inventory = Stage.get ().get_player ().get_inventory ();
 
-			UI.get ().emplace<UIStatusMessenger> ();
+			/*UI.get ().emplace<UIStatusMessenger> ();
 			UI.get ().emplace<UIStatusBar> (stats);
 			UI.get ().emplace<UIChatBar> ();
 			UI.get ().emplace<UIMiniMap> (stats);
 			UI.get ().emplace<UIBuffList> ();
-			UI.get ().emplace<UIShop> (look, inventory);
+			UI.get ().emplace<UIShop> (look, inventory);*/
 
 			VWIDTH = Constants.get ().get_viewwidth ();
 			VHEIGHT = Constants.get ().get_viewheight ();
@@ -100,10 +100,10 @@ namespace ms
 				VWIDTH = new_width;
 				VHEIGHT = new_height;
 
-				UI.get ().remove (UIElement.Type.STATUSBAR);
+				//UI.get ().remove (UIElement.Type.STATUSBAR);
 
 				CharStats stats = Stage.get ().get_player ().get_stats ();
-				UI.get ().emplace<UIStatusBar> (stats);
+				//UI.get ().emplace<UIStatusBar> (stats);
 			}
 
 			foreach (var type in elementorder)
@@ -663,7 +663,7 @@ namespace ms
 
 		public override UIElement get (UIElement.Type type)
 		{
-			return elements[type];
+			return elements.TryGetValue (type);
 		}
 
 		public override UIElement get_front (LinkedList<UIElement.Type> types)

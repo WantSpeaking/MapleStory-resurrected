@@ -162,7 +162,7 @@ namespace ms
 
 		public static LookEntry parse_look (InPacket recv)
 		{
-			LookEntry look=new LookEntry ();
+			LookEntry look = new LookEntry ();
 
 			look.female = recv.read_bool ();
 			look.skin = (byte)recv.read_byte ();
@@ -201,11 +201,11 @@ namespace ms
 			recv.skip_byte ();
 
 			// Read the IPv4 address in a string
-			StringBuilder addrstr = new StringBuilder();
+			StringBuilder addrstr = new StringBuilder ();
 
 			for (int i = 0; i < 4; i++)
-			{		
-				byte num =  (byte)(recv.read_byte ());
+			{
+				byte num = (byte)(recv.read_byte ());
 				addrstr.Append (num);
 
 				if (i < 3)
@@ -216,7 +216,7 @@ namespace ms
 			string portstr = (recv.read_short ()).ToString ();
 
 			// Attempt to reconnect to the server
-			Session.get ().reconnect (addrstr.ToString(), portstr);
+			Session.get ().reconnect (addrstr.ToString (), portstr);
 		}
 	}
 }

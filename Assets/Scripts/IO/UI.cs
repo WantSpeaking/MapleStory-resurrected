@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Attributes;
+using Helper;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -445,14 +446,14 @@ namespace ms
 				return;
 			}*/
 
-			if (is_key_down[keyboard.capslockcode ()])
+			if (is_key_down[(GLFW_KEY)keyboard.capslockcode ()])
 			{
 				caps_lock_enabled = !caps_lock_enabled;
 			}
 
 			if (focusedtextfield != null)
 			{
-				bool ctrl = is_key_down[keyboard.leftctrlcode ()] || is_key_down[keyboard.rightctrlcode ()];
+				bool ctrl = is_key_down[(GLFW_KEY)keyboard.leftctrlcode ()] || is_key_down[(GLFW_KEY)keyboard.rightctrlcode ()];
 
 				if (ctrl && pressed)
 				{
@@ -476,7 +477,7 @@ namespace ms
 				}
 				else
 				{
-					bool shift = is_key_down[keyboard.leftshiftcode ()] || is_key_down[keyboard.rightshiftcode ()] || caps_lock_enabled;
+					bool shift = is_key_down[(GLFW_KEY)keyboard.leftshiftcode ()] || is_key_down[(GLFW_KEY)keyboard.rightshiftcode ()] || caps_lock_enabled;
 					Keyboard.Mapping mapping = keyboard.get_text_mapping (keycode, shift);
 					focusedtextfield.Dereference ().send_key (mapping.type, mapping.action, pressed);
 				}
@@ -488,18 +489,11 @@ namespace ms
 				bool sent = false;
 				LinkedList<UIElement.Type> types = new LinkedList<UIElement.Type> ();
 
-				/*todo bool escape = keycode == GLFW_KEY_ESCAPE;
-				bool tab = keycode == GLFW_KEY_TAB;
-				bool enter = keycode == GLFW_KEY_ENTER || keycode == GLFW_KEY_KP_ENTER;
-				bool up_down = keycode == GLFW_KEY_UP || keycode == GLFW_KEY_DOWN;
-				bool left_right = keycode == GLFW_KEY_LEFT || keycode == GLFW_KEY_RIGHT;
-				bool arrows = up_down || left_right;*/
-
-				bool escape = keycode == 0;
-				bool tab = keycode == 0;
-				bool enter = keycode == 0 || keycode == 0;
-				bool up_down = keycode == 0 || keycode == 0;
-				bool left_right = keycode == 0 || keycode == 0;
+				bool escape = keycode == (int)GLFW_Util.GLFW_KEY_ESCAPE;
+				bool tab = keycode == (int)GLFW_Util.GLFW_KEY_TAB;
+				bool enter = keycode == (int)GLFW_Util.GLFW_KEY_ENTER || keycode == (int)GLFW_Util.GLFW_KEY_KP_ENTER;
+				bool up_down = keycode == (int)GLFW_Util.GLFW_KEY_UP || keycode == (int)GLFW_Util.GLFW_KEY_DOWN;
+				bool left_right = keycode == (int)GLFW_Util.GLFW_KEY_LEFT || keycode == (int)GLFW_Util.GLFW_KEY_RIGHT;
 				bool arrows = up_down || left_right;
 
 				var statusbar = UI.get ().get_element<UIStatusBar> ();
@@ -651,12 +645,13 @@ namespace ms
 					}
 					else
 					{
+						change_state (State.GAME);//todo remove later
 						state.send_key (mapping.type, mapping.action, pressed, escape);
 					}
 				}
 			}
 
-			is_key_down[keycode] = pressed;
+			is_key_down[(GLFW_KEY)keycode] = pressed;
 		}
 
 		public void set_scrollnotice (string notice)
@@ -738,7 +733,7 @@ namespace ms
 
 			var iter = state.pre_add (uiElementType, toggled, focused);
 			//iter.values.TryAdd (uiElementType, (T)System.Activator.CreateInstance (type, args),true);
-			
+
 			if (iter.TryGetValue (uiElementType, out var uiElement) && uiElement != null)
 			{
 				uiElement.makeactive ();
@@ -747,11 +742,10 @@ namespace ms
 			{
 				iter.TryAdd (uiElementType, (UIElement)System.Activator.CreateInstance (type, args));
 			}
-			
+
 			return (T)state.get (uiElementType);
 
-			
-			
+
 			/*
 			var attributes = type.GetCustomAttributes (false);
 
@@ -772,7 +766,7 @@ namespace ms
 			*/
 		}
 
-		public Optional<T> get_element<T> ()where T : UIElement
+		public Optional<T> get_element<T> () where T : UIElement
 		{
 			var type = typeof (T);
 			var uiElementType = (UIElement.Type)type.GetField ("TYPE").GetRawConstantValue ();
@@ -795,7 +789,7 @@ namespace ms
 		private ScrollingNotice scrollingnotice = new ScrollingNotice ();
 
 		private Optional<Textfield> focusedtextfield = new Optional<Textfield> ();
-		private Dictionary<int, bool> is_key_down = new Dictionary<int, bool> ();
+		private EnumMap<GLFW_KEY, bool> is_key_down = new EnumMap<GLFW_KEY, bool> ();
 
 		private bool enabled;
 		private bool quitted;

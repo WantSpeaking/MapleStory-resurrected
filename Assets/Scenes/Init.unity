@@ -521,6 +521,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5543904772fbacb47a547d5b06e0439e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  placeholder0: 
+  placeholder1: 
+  placeholder2: 
+  placeholder3: 
+  placeholder4: 
+  placeholder5: 
+  enableDebugPacket: 0
   button_load: {fileID: 1812318448}
   inpuField_MapleFolder: {fileID: 1297704354}
   inpuField_MapId: {fileID: 61339802}
@@ -648,7 +655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1105519179
 MonoBehaviour:
   m_ObjectHideFlags: 0

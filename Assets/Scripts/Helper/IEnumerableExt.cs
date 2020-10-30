@@ -112,4 +112,23 @@ public static class IEnumerableExt
 		_stringBuilder.Append ("]");
 		return _stringBuilder.ToString ();
 	}
+	public static string ToDebugLog<T,V> (this IDictionary<T,V> enumerable)
+	{
+		_stringBuilder.Clear ();
+		_stringBuilder.Append ("[");
+		foreach (var e in enumerable)
+		{
+			_stringBuilder.Append ("(");
+
+			_stringBuilder.Append (e.Key);
+			_stringBuilder.Append (",");
+			_stringBuilder.Append (e.Value);
+			
+			_stringBuilder.Append (")");
+
+			_stringBuilder.Append (",");
+		}
+		_stringBuilder.Append ("]");
+		return _stringBuilder.ToString ();
+	}
 }

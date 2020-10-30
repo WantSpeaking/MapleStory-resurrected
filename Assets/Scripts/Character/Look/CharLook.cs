@@ -48,6 +48,7 @@ namespace ms
 			set_body (entry.skin);
 			set_hair (entry.hairid);
 			set_face (entry.faceid);
+			Debug.Log ($"CharLook entry.equips:{entry.equips.ToDebugLog()}");
 
 			foreach (var equip in entry.equips)
 			{
@@ -94,13 +95,9 @@ namespace ms
 
 			if (action != null)
 			{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
-//ORIGINAL LINE: acmove = action->get_move();
 				acmove = (action.get_move ());
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: DrawArgument relargs = { acmove, flip };
 			DrawArgument relargs = new DrawArgument (acmove, flip);
 
 			Stance.Id interstance = stance.get (alpha);

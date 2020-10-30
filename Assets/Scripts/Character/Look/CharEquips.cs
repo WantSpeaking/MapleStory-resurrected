@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -65,7 +66,10 @@ namespace ms
 //ORIGINAL LINE: void draw(EquipSlot::Id slot, Stance::Id stance, Clothing::Layer layer, byte frame, const DrawArgument& args) const
 		public void draw (EquipSlot.Id slot, Stance.Id stance, Clothing.Layer layer, byte frame, DrawArgument args)
 		{
+			
 			var cloth = clothes[slot];
+			if (stance.ToString ().Contains ("STAND"))
+				Debug.Log ($"draw CharEquips: slot:{slot}\t stance:{stance}\t layer:{layer}\t frame:{frame}\t  cloth:{cloth}");
 			//if (const Clothing * cloth = clothes[(int)slot])
 			{
 				cloth?.draw (stance, layer, frame, args);
