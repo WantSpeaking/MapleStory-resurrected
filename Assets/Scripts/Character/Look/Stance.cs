@@ -36,6 +36,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
+using Helper;
+
 namespace ms
 {
 	public class Stance
@@ -78,7 +80,6 @@ namespace ms
 			SWINGTF,
 			WALK1,
 			WALK2,
-			LENGTH
 		}
 
 		public static EnumMap<Id, string> names = new EnumMap<Id, string>
@@ -148,7 +149,7 @@ namespace ms
 
 		public static Id by_id (byte id)
 		{
-			if (id <= (int)Id.NONE || id >= (int)Id.LENGTH)
+			if (id <= (int)Id.NONE || id >= EnumUtil.GetEnumLength<Id> ())
 				return Id.NONE;
 
 			return (Id) (id);

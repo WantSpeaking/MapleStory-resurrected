@@ -63,7 +63,7 @@ namespace ms
 
 		public Texture (WzObject src)
 		{
-			if (src is WzCanvasProperty || src is WzUOLProperty)
+			if (src?.IsTexture ()??false)
 			{
 				fullPath = src.FullPath;
 				origin = src["origin"]?.GetPoint ().ToMSPoint () ?? Point<short>.zero;

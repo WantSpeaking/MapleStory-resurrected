@@ -43,7 +43,6 @@ namespace ms
 			NORMAL,
 			DISABLED,
 			MOUSEOVER,
-			LENGTH
 		}
 
 		public new abstract class Type : Icon.Type

@@ -288,6 +288,8 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 	/// <param name="buffer"></param>
 	public void Send (byte[] buffer)
 	{
+		//var encodeBuffer = System.Text.Encoding.Unicode.GetBytes (Convert.ToBase64String (buffer));
+		//Debug.Log ($"send encodeBuffer:{encodeBuffer.ToDebugLog ()}");
 		m_Client.BeginSend (buffer, 0, buffer.Length, SocketFlags.None, SendCallBack, m_Client);
 	}
 
@@ -327,6 +329,10 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 
 	#region ReceiveCallBack 接收数据回调
 
+	private byte[] strangeBytes = new byte[] {14, 0, 83, 0, 1, 0, 49, 70, 114, 122};
+	private byte[] strangeBytes1 = new byte[] {49,52,56,51,49,52,57};
+		
+
 	/// <summary>
 	/// 接收数据回调
 	/// </summary>
@@ -347,8 +353,24 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 				//把接收到数据 写入缓冲数据流的尾部
 				m_ReceiveMS.Position = m_ReceiveMS.Length;
 
+				if (StringExt.BytesCompare_Base64 (m_ReceiveBuffer, strangeBytes)||StringExt.BytesCompare_Base64 (m_ReceiveBuffer, strangeBytes1))
+				{
+					ReceiveMsg ();
+					return;
+				}
+
+				byte[] originalArray = new byte[len];
+				Array.Copy (m_ReceiveBuffer, 0, originalArray, 0, len);
+				//Debug.Log ($"Start Receive");
+				//Debug.Log ($"\toriginalArray :(length :{originalArray.Length}) {originalArray.ToDebugLog ()}");
 				//把指定长度的字节 写入数据流
-				m_ReceiveMS.Write (m_ReceiveBuffer, 0, len);
+				var originalString = System.Text.Encoding.UTF8.GetString (originalArray);
+				
+				//Debug.Log ($"\toriginalString: {originalString}");
+				//byte[] decodeArray = Convert.FromBase64String (originalString);
+				//Debug.Log ($"\tdecodeArray :(length :{decodeArray.Length}) {decodeArray.ToDebugLog ()}");
+				
+				m_ReceiveMS.Write (originalArray, 0, originalArray.Length);
 
 				//如果缓存数据流的长度>2 说明至少有个不完整的包过来了
 				//为什么这里是2 因为我们客户端封装数据包 用的ushort 长度就是2

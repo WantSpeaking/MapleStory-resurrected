@@ -41,7 +41,6 @@ namespace ms
 			AUDIO,
 			MISSING_ICON,
 			FONT_PATH,
-			LENGTH
 		}
 
 		public Error(Code c, string args = "")

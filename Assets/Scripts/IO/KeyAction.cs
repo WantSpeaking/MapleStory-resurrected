@@ -101,7 +101,6 @@ namespace ms
 			END,
 			COPY,
 			PASTE,
-			LENGTH
 		}
 		
 		public static Id actionbyid(int id)

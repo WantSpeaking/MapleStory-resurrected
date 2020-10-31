@@ -206,11 +206,11 @@ namespace ms
 			return layer_iter.second;*/
 		}
 
-		private Dictionary<byte, Texture>[,] stances = new Dictionary<byte, Texture>[(int)Stance.Id.LENGTH, (int)Layer.NUM_LAYERS];
+		private Dictionary<byte, Texture>[,] stances = new Dictionary<byte, Texture>[(int)Enum.GetNames (typeof (Stance.Id)).Length, (int)Layer.NUM_LAYERS];
 
 		private void init_Dict ()
 		{
-			for (int i = 0; i < (int)Stance.Id.LENGTH; i++)
+			for (int i = 0; i < (int)Enum.GetNames (typeof (Stance.Id)).Length; i++)
 			{
 				for (int j = 0; j < (int)Layer.NUM_LAYERS; j++)
 				{

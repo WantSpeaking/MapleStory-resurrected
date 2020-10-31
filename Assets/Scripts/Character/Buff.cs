@@ -110,7 +110,6 @@ namespace ms
 			MONSTER_RIDING,
 			HOMING_BEACON,
 			SPEED_INFUSION,
-			LENGTH
 		}
 
 		public static Dictionary<Id, long> first_codes = new Dictionary<Id, long> ()

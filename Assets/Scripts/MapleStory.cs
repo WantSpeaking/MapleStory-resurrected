@@ -201,7 +201,7 @@ public class MapleStory :SingletonMono<MapleStory>
 
 	void ServerStatusRequestPacket ()
 	{
-		new ServerStatusRequestPacket (0).dispatch ();
+		new ServerStatusRequestPacket (-565).dispatch ();
 	}
 	
 	[Button("CharlistRequestPacket","CharlistRequestPacket 5")]
@@ -217,7 +217,7 @@ public class MapleStory :SingletonMono<MapleStory>
 
 	void SelectCharPacket ()
 	{
-		new SelectCharPacket (1).dispatch ();
+		new SelectCharPacket (-565).dispatch ();
 	}
 	
 	/*[Utility.Inspector. Button("PlayerLoginPacket","PlayerLoginPacket 20")]
@@ -230,7 +230,7 @@ public class MapleStory :SingletonMono<MapleStory>
 
 	#endregion
 
-	public bool enableDebugPacket = false;
+	public bool enableDebugPacket = true;
 	public UnityEngine.UI.Button button_load;
 
 	public InputField inpuField_MapleFolder;

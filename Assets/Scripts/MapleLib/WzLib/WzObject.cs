@@ -215,7 +215,7 @@ namespace MapleLib.WzLib
 
 		public virtual Bitmap GetBitmap ()
 		{
-			throw new NotImplementedException ();
+			return null;
 		}
 
 		public virtual byte[] GetBytes ()
@@ -362,6 +362,11 @@ namespace MapleLib.WzLib
 			return result;
 		}
 
+		public bool IsTexture ()
+		{
+			return GetBitmap () != null;
+		}
+		
 		public IEnumerator<WzImageProperty> GetEnumerator ()
 		{
 			if (this is WzImageProperty imageProperty)

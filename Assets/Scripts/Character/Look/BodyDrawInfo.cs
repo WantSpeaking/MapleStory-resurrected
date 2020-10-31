@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Helper;
 using ms.Helper;
 using MapleLib.WzLib;
 using UnityEngine;
@@ -565,20 +566,20 @@ namespace ms
 			return null;*/
 		}
 
-		private Dictionary<byte, Point<short>>[] body_positions = new Dictionary<byte, Point<short>>[(int)Stance.Id.LENGTH]; //todo dict is null
-		private Dictionary<byte, Point<short>>[] arm_positions = new Dictionary<byte, Point<short>>[(int)Stance.Id.LENGTH];
-		private Dictionary<byte, Point<short>>[] hand_positions = new Dictionary<byte, Point<short>>[(int)Stance.Id.LENGTH];
-		private Dictionary<byte, Point<short>>[] head_positions = new Dictionary<byte, Point<short>>[(int)Stance.Id.LENGTH];
-		private Dictionary<byte, Point<short>>[] hair_positions = new Dictionary<byte, Point<short>>[(int)Stance.Id.LENGTH];
-		private Dictionary<byte, Point<short>>[] face_positions = new Dictionary<byte, Point<short>>[(int)Stance.Id.LENGTH];
-		private Dictionary<byte, ushort>[] stance_delays = new Dictionary<byte, ushort>[(int)Stance.Id.LENGTH];
+		private Dictionary<byte, Point<short>>[] body_positions = new Dictionary<byte, Point<short>>[EnumUtil.GetEnumLength<Stance.Id> ()]; //todo dict is null
+		private Dictionary<byte, Point<short>>[] arm_positions = new Dictionary<byte, Point<short>>[EnumUtil.GetEnumLength<Stance.Id> ()];
+		private Dictionary<byte, Point<short>>[] hand_positions = new Dictionary<byte, Point<short>>[EnumUtil.GetEnumLength<Stance.Id> ()];
+		private Dictionary<byte, Point<short>>[] head_positions = new Dictionary<byte, Point<short>>[EnumUtil.GetEnumLength<Stance.Id> ()];
+		private Dictionary<byte, Point<short>>[] hair_positions = new Dictionary<byte, Point<short>>[EnumUtil.GetEnumLength<Stance.Id> ()];
+		private Dictionary<byte, Point<short>>[] face_positions = new Dictionary<byte, Point<short>>[EnumUtil.GetEnumLength<Stance.Id> ()];
+		private Dictionary<byte, ushort>[] stance_delays = new Dictionary<byte, ushort>[EnumUtil.GetEnumLength<Stance.Id> ()];
 
 		private Dictionary<string, Dictionary<byte, BodyAction>> body_actions = new Dictionary<string, Dictionary<byte, BodyAction>> ();
 		private Dictionary<string, List<ushort>> attack_delays = new Dictionary<string, List<ushort>> ();
 
 		private void init_Dict ()
 		{
-			for (int i = 0; i < (int)Stance.Id.LENGTH; i++)
+			for (int i = 0; i < EnumUtil.GetEnumLength<Stance.Id> (); i++)
 			{
 				body_positions[i] = new Dictionary<byte, Point<short>> ();
 				arm_positions[i] = new Dictionary<byte, Point<short>> ();

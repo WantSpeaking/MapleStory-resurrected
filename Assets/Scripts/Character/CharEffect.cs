@@ -46,7 +46,6 @@ namespace ms
             SCROLL_SUCCESS,
             SCROLL_FAILURE,
             MONSTER_CARD,
-            LENGTH
         }
 
         public static EnumMap<Id, string> PATHS_One = new EnumMap<Id, string>

@@ -2,6 +2,7 @@
 #define USE_NX
 
 using System;
+using Helper;
 using MapleLib.WzLib;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +69,6 @@ namespace ms
 			CHATBARBLTRDRAG,
 			CHATBARMOVE = 72,
 			CHATBARBRTLDRAG,
-			LENGTH
 		}
 
 		public Cursor()
@@ -81,10 +81,8 @@ namespace ms
 		{
 			WzObject src = nl.nx.wzFile_ui["Basic.img"]["Cursor"];
 			var count = animations.Count;
-			foreach (State enumObject in Enum.GetValues (typeof(State)))
+			foreach (State stateKey in Enum.GetValues (typeof(State)))
 			{
-				var stateKey = (State)enumObject;
-				if (stateKey == State.LENGTH) continue;
 				animations[stateKey] = src[stateKey.ToString()];
 			}
 			

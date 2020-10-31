@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Helper;
 using MapleLib.WzLib;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -219,7 +220,7 @@ namespace ms
 //ORIGINAL LINE: KeyAction::Id icon_slot = unbound_action_by_position(cursorpos);
 			KeyAction.Id icon_slot = unbound_action_by_position (cursorpos);
 
-			if (icon_slot != KeyAction.Id.LENGTH)
+			if (icon_slot !=(KeyAction.Id.NONE))//todo any question
 			{
 				var icon = action_icons[icon_slot];
 				if (icon != null)
@@ -246,7 +247,7 @@ namespace ms
 //ORIGINAL LINE: KeyConfig::Key key_slot = key_by_position(cursorpos);
 			KeyConfig.Key key_slot = key_by_position (cursorpos);
 
-			if (key_slot != KeyConfig.Key.LENGTH)
+			if (key_slot != KeyConfig.Key.NONE)
 			{
 				Keyboard.Mapping mapping = get_staged_mapping ((int)key_slot);
 
@@ -327,7 +328,7 @@ namespace ms
 //ORIGINAL LINE: KeyConfig::Key fkey = key_by_position(cursorpos);
 			KeyConfig.Key fkey = key_by_position (cursorpos);
 
-			if (fkey != KeyConfig.Key.LENGTH)
+			if (fkey != KeyConfig.Key.NONE)
 			{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: icon.drop_on_bindings(cursorpos, false);
@@ -1143,7 +1144,7 @@ namespace ms
 
 				if (!keyFound)
 				{
-					updated_actions.Add (System.Tuple.Create (keyConfig, KeyType.Id.NONE, (int)KeyAction.Id.LENGTH));
+					updated_actions.Add (System.Tuple.Create (keyConfig, KeyType.Id.NONE,EnumUtil.GetEnumLength<KeyAction.Id> ()));
 				}
 			}
 
@@ -1240,7 +1241,7 @@ namespace ms
 				}
 			}
 
-			return KeyConfig.Key.LENGTH;
+			return KeyConfig.Key.NONE;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -1262,7 +1263,7 @@ namespace ms
 				}
 			}
 
-			return KeyAction.Id.LENGTH;
+			return KeyAction.Id.NONE;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -1367,7 +1368,7 @@ namespace ms
 				case KeyAction.Id.END:
 				case KeyAction.Id.COPY:
 				case KeyAction.Id.PASTE:
-				case KeyAction.Id.LENGTH:
+				case KeyAction.Id.NONE:
 				default:
 					return KeyType.Id.NONE;
 			}

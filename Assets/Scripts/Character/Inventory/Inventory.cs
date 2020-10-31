@@ -82,13 +82,13 @@ namespace ms
 			bulletslot = 0;
 			meso = 0;
 			running_uid = 0;
-			slotmaxima[InventoryType.Id.EQUIPPED] = (byte)EquipSlot.Id.LENGTH;
+			slotmaxima[InventoryType.Id.EQUIPPED] = (byte)Enum.GetNames (typeof (EquipSlot.Id)).Length;
 		}
 
 		// Recalculate sums of equip stats
 		public void recalc_stats (Weapon.Type type)
 		{
-			totalstats.SetValue ((() => 0));//totalstats.Clear ();
+			totalstats.SetValue ((() => 0)); //totalstats.Clear ();
 			foreach (var iter in inventories[InventoryType.Id.EQUIPPED])
 			{
 				if (equips.TryGetValue (iter.Value.unique_id, out var equip))
@@ -97,6 +97,7 @@ namespace ms
 					{
 						totalstats[(EquipStat.Id)iter.Value.unique_id] += equip.get_stat (key);
 					}
+
 					/*foreach (var stat_iter in totalstats)
 					{
 						totalstats[(EquipStat.Id)iter.Value.unique_id] += equip.get_stat (stat_iter.Key);
@@ -490,7 +491,7 @@ namespace ms
 		// Remove an item
 		private void remove (InventoryType.Id type, short slot)
 		{
-			if (!inventories[type].TryGetValue (slot,out var slotItem))
+			if (!inventories[type].TryGetValue (slot, out var slotItem))
 			{
 				return;
 			}

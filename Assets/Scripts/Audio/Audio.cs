@@ -83,7 +83,6 @@ namespace ms
 			PORTAL,
 			LEVELUP,
 			TOMBSTONE,
-			LENGTH
 		}
 
 		public Sound (Name name)

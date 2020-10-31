@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace ms
 {
@@ -216,6 +217,7 @@ namespace ms
 			string portstr = (recv.read_short ()).ToString ();
 
 			// Attempt to reconnect to the server
+			Debug.Log ($"Attempt to reconnect to the server (addrstr:{addrstr}\r portstr:{portstr})");
 			Session.get ().reconnect (addrstr.ToString (), portstr);
 		}
 	}

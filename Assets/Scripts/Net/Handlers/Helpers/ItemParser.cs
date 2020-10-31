@@ -18,6 +18,7 @@
 
 
 using System;
+using Helper;
 
 namespace ms
 {
@@ -81,10 +82,8 @@ namespace ms
 			// Read equip stats
 			EnumMapNew<EquipStat.Id, ushort> stats = new EnumMapNew<EquipStat.Id, ushort> ();
 
-			foreach (EquipStat.Id enumObject in Enum.GetValues (typeof(EquipStat.Id)))
+			foreach (EquipStat.Id stateId in Enum.GetValues (typeof(EquipStat.Id)))
 			{
-				var stateId = (EquipStat.Id)enumObject;
-				if (stateId == EquipStat.Id.LENGTH) continue;
 				stats[stateId] = (ushort)recv.read_short ();//todo maybe read length
 			}
 			/*foreach (var iter in stats)

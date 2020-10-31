@@ -151,7 +151,7 @@ namespace ms
 				return;
 			}
 			//bool istexture = (src is WzCanvasProperty);
-			bool istexture = ((src as WzImageProperty)?.PropertyType ?? WzPropertyType.Null) == WzPropertyType.Canvas;
+			bool istexture = src.IsTexture ();
 			//Debug.Log ($"{src.FullPath} istexture:{istexture} type:{(src as WzImageProperty)?.PropertyType}");
 
 			//var temp1 = src;

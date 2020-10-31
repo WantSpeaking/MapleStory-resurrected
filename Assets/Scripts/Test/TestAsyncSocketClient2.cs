@@ -132,8 +132,10 @@ public class TestAsyncSocketClient2 : MonoBehaviour
 		bs.WriteByte ((byte)((i >> 8) & 0xFF));
 	}
 
-	private byte[] buffer = {151,29};
-	private sbyte[] sbuffer = {-105,29};
+	private byte[] buffer = {151, 29};
+	//private sbyte[] sbuffer = {-105, 29};
+	private sbyte[] sbuffer = {-53,-3};
+
 	private void Start ()
 	{
 		/*bs.WriteShort (7575);
@@ -143,10 +145,14 @@ public class TestAsyncSocketClient2 : MonoBehaviour
 		/*writeShort (7575);
 		bs.Position = 0;
 		Debug.Log ($"bs:{bs.ToArray ().ToDebugLog ()}\t value:{readShort()}");*/
-		
+
 		bs = new MMO_MemoryStream (sbuffer.ToByteArray ());
 		//bs.Position = 0;
-		Debug.Log ($"bs:{bs.ToArray ().ToDebugLog ()}\t value:{readShort()}");
-		
+		//Debug.Log ($"bs:{bs.ToArray ().ToDebugLog ()}\t value:{readShort ()}");
+
+		//Debug.Log ($"{-105 & 255} \t {-105 & 0xff}\t {sbuffer[0] & 0xFF}\t {(sbuffer[1] & 0xFF) << 8}\t {(sbuffer[0] & 0xFF) + ((sbuffer[1] & 0xFF) << 8)}");
+		//Debug.Log ($"{sbuffer[0] & 0xFF}\t {(sbuffer[1] & 0xFF) << 8}\t {(sbuffer[0] & 0xFF) + ((sbuffer[1] & 0xFF) << 8)}");
+		Debug.Log ($"{unchecked((short)64971)}");
+
 	}
 }

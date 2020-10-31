@@ -55,7 +55,6 @@ namespace ms
 			SCROLL_SUCCESS,
 			SCROLL_FAILURE,
 			SCROLL_DESTROYED,
-			LENGTH
 		}
 
 		public static EnumMap<Type, string> messages =new EnumMap<Type, string> ()

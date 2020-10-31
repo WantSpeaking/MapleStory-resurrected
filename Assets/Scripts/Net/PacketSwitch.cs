@@ -157,7 +157,7 @@ namespace ms
 
 				if (MapleStory.Instance.enableDebugPacket)
 				{
-					Debug.Log ($"Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{sByteArray.Length} \t{sByteArray.ToDebugLog ()}");
+					Debug.Log ($"\t Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Length} \t{bytes.ToDebugLog ()}");
 				}
 			}
 

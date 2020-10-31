@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Helper;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -210,11 +211,11 @@ namespace ms
 
 		public ReadOnlyDictionary<int, MapObject> Objects;
 		private Dictionary<int, MapObject> objects = new Dictionary<int, MapObject> ();
-		private HashSet<int>[] layers = new HashSet<int>[(int)Layer.Id.LENGTH + 1];
+		private HashSet<int>[] layers = new HashSet<int>[EnumUtil.GetEnumLength<Layer.Id> ()];
 
 		private void initArray ()
 		{
-			for (int i = 0; i < (int)Layer.Id.LENGTH + 1; i++)
+			for (int i = 0; i < EnumUtil.GetEnumLength<Layer.Id> (); i++)
 			{
 				layers[i] = new HashSet<int> ();
 			}

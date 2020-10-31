@@ -220,7 +220,7 @@ namespace ms
 				/*case GLFW_KEY_A:
 					return KeyAction::Id::SELECTALL;*/
 				default:
-					return KeyAction.Id.LENGTH;
+					return KeyAction.Id.NONE;
 			}
 		}
 

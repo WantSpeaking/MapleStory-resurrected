@@ -82,6 +82,11 @@ public class EnumMap<T, V> : IEnumerable<KeyValuePair<T, V>> /*where V : new()*/
 			dict[key] = GenericArithmetic.Add (dict[key], method.Invoke ());
 		}
 	}*/
+
+	public bool TryGetValue (T key, out V value)
+	{
+		return dict.TryGetValue (key, out value);
+	}
 }
 
 public class EnumMapNew<T, V> : IEnumerable<KeyValuePair<T, V>> where V : new ()

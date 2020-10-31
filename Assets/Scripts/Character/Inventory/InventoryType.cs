@@ -50,7 +50,6 @@ namespace ms
 			ETC,
 			CASH,
 			EQUIPPED,
-			LENGTH
 		}
 
 		public static readonly Id[] values_by_id = new[]

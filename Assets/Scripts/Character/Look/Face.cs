@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Helper;
 using ms.Helper;
 using MapleLib.WzLib;
 using UnityEngine;
@@ -72,14 +73,13 @@ namespace ms
 			SHINE,
 			VOMIT,
 			WINK,
-			LENGTH
 		}
 
 		public static Expression.Id byaction (uint action)
 		{
 			action -= 98;
 
-			if (action < (uint)Expression.Id.LENGTH)
+			if (action < EnumUtil.GetEnumLength<Id> ())
 			{
 				return (Id)action;
 			}
@@ -120,6 +120,7 @@ namespace ms
 						foreach (var property_face_00020000img_angry_0 in property_face_00020000img_angry.WzProperties)
 						{
 							byte.TryParse (property_face_00020000img_angry_0.Name, out var tempKey);
+
 							expressions[(int)exp][tempKey] = new Frame (property_face_00020000img_angry_0);
 							//expressions[(int)exp].Add (tempKey, new Frame (property_face_00020000img_angry_0));
 						}
@@ -218,11 +219,11 @@ namespace ms
 			}
 		}
 
-		private Dictionary<byte, Frame>[] expressions = new Dictionary<byte, Frame>[(int)Expression.Id.LENGTH];
+		private Dictionary<byte, Frame>[] expressions = new Dictionary<byte, Frame>[EnumUtil.GetEnumLength<Expression.Id> ()];
 
 		private void init_Dict ()
 		{
-			for (int i = 0; i < (int)Expression.Id.LENGTH; i++)
+			for (int i = 0; i < EnumUtil.GetEnumLength<Expression.Id> (); i++)
 			{
 				expressions[i] = new Dictionary<byte, Frame> ();
 			}

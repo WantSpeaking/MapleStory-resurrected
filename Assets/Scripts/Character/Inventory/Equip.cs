@@ -46,7 +46,6 @@ namespace ms
 			POT_EPIC,
 			POT_UNIQUE,
 			POT_LEGENDARY,
-			LENGTH
 		}
 
 		public Equip(int item_id, long expiration, string owner, short flags, byte slots, byte level, EnumMap<EquipStat.Id, ushort> stats, byte itemlevel, short itemexp, int vicious)

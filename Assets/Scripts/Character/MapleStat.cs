@@ -62,7 +62,6 @@ namespace ms
 			MESO,
 			PET,
 			GACHAEXP,
-			LENGTH
 		}
 
 		public static readonly EnumMap<Id, int> codes = new EnumMap<Id, int> ()

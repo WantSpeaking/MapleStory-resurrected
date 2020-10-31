@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -269,7 +270,7 @@ namespace ms
 			recv.read_byte(); // 5 if controller == null
 			int id = recv.read_int();
 
-			recv.skip(22);
+			recv.skip(16);
 
 			Point<short> position = recv.read_point();
 			sbyte stance = recv.read_byte();
@@ -336,7 +337,7 @@ namespace ms
 
 					int id = recv.read_int();
 
-					recv.skip(22);
+					recv.skip(16);
 
 					Point<short> position = recv.read_point();
 					sbyte stance = recv.read_byte();
@@ -422,6 +423,7 @@ namespace ms
 //ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle(InPacket recv)
 		{
+			Debug.Log ($"SpawnNpcHandler: {recv.arr.ToDebugLog ()}");
 			int oid = recv.read_int();
 			int id = recv.read_int();
 			Point<short> position = recv.read_point();

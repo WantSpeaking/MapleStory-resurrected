@@ -45,10 +45,11 @@ namespace ms
 	public class InPacket
 	{
 		private MMO_MemoryStream _memoryStream;
+
 		// Construct a packet from an array of bytes
 		public InPacket (byte[] recv, int length)
 		{
-			bytes = recv.ToSbyteArray ();
+			arr = recv;
 			top = length;
 			pos = 0;
 			_memoryStream = new MMO_MemoryStream (recv);
@@ -86,69 +87,78 @@ namespace ms
 		// Read a byte and check if it is equal to one
 		public bool read_bool ()
 		{
-			return _memoryStream.ReadBool ();
+			return readByte () == 1;
+			//return _memoryStream.ReadBool ();
 			return read_byte () == 1;
 		}
 
 		// Read a byte
 		public sbyte read_byte ()
 		{
-			return _memoryStream.ReadByte ().ToSByte ();
+			return unchecked((sbyte)readByte ());
+			//return _memoryStream.ReadByte ().ToSByte ();
 			return read<sbyte> ();
 		}
 
 		// Read a short
 		public short read_short ()
 		{
-			return _memoryStream.ReadShort ();
+			return readShort ();
+			//return _memoryStream.ReadShort ();
 			return read<short> ();
 		}
 
 		// Read a int
 		public int read_int ()
 		{
-			return _memoryStream.ReadInt ();
+			return readInt ();
+			//return _memoryStream.ReadInt ();
 			return read<int> ();
 		}
 
 		// Read a long
 		public long read_long ()
 		{
-			return _memoryStream.ReadLong ();
+			return readLong ();
+			//return _memoryStream.ReadLong ();
 			return read<long> ();
 		}
 
 		// Read a point
 		public Point<short> read_point ()
 		{
+			short x = readShort ();
+			short y = readShort ();
 			/*short x = read<short> ();
-			short y = read<short> ();
+			short y = read<short> ();*/
 
-			return new Point<short> (x, y);*/
-			short x = _memoryStream.ReadShort ();
-			short y = _memoryStream.ReadShort ();
+			return new Point<short> (x, y);
+			//short x = _memoryStream.ReadShort ();
+			//short y = _memoryStream.ReadShort ();
 			return new Point<short> (x, y);
 		}
 
 		// Read a string
 		public string read_string ()
 		{
-			/*ushort length = read<ushort> ();
+			short length = readShort ();
+			//ushort length = read<ushort> ();
 
-			return read_padded_string (length);*/
-			var length = _memoryStream.ReadUShort ();
+			return read_padded_string (length);
+			//var length = _memoryStream.ReadUShort ();
 
 			return read_padded_string (length);
 		}
 
 		// Read a fixed-length string
-		public string read_padded_string (ushort count)
+		public string read_padded_string (short count)
 		{
 			string ret = string.Empty;
 
 			for (short i = 0; i < count; i++)
 			{
-				var letter = _memoryStream.ReadByte ();
+				var letter = read_byte ();
+				//var letter = _memoryStream.ReadByte ();
 
 				if (letter != (sbyte)'\0')
 				{
@@ -250,11 +260,30 @@ namespace ms
 			int count = (int)(Utils.SizeOf<T> (default) / sizeof (sbyte));
 			//uint count = T.Length;
 			var all = 0;
+			/*long tempResult = 0;
+			if (count == 1) //sbyte
+			{
+				tempResult = bytes[pos];
+			}
+			else if (count == 2) //short
+			{
+				tempResult = Convert.ToInt16 (bytes[pos]);
+			}
+			else if (count == 4) //int
+			{
+				tempResult = Convert.ToInt32 (bytes);
+			}
+			else if (count == 8) //long
+			{
+				tempResult = Convert.ToInt64 (bytes[pos]);
+			}
 
-			for (int i = 0; i < count; i++)
+			skip (count);
+			return tempResult.ToT<T> ();*/
+			/*for (int i = 0; i < count; i++)
 			{
 				/*T val = (dynamic)bytes[(int)pos];
-				all += (dynamic)val << (8 * i);*/
+				all += (dynamic)val << (8 * i);#1#
 
 				var val = bytes[pos];
 				int temp;
@@ -270,9 +299,48 @@ namespace ms
 				all += temp << (8 * i);
 
 				skip (1);
-			}
+			}*/
 
-			return all.ToT<T> ();
+			if (count == 1) //it's byte
+			{
+				var tempByte = arr[pos].ToT<T> ();
+				skip (1);
+				return tempByte;
+			}
+			else
+			{
+				for (int i = 0; i < count; i++)
+				{
+					var val = (byte)(arr[pos]);
+					all += (val << (8 * i));
+
+					skip (1);
+				}
+
+				/*//ulong tempResult = 0;
+				if (count == 1) //sbyte
+				{
+					var tempResult = Convert.ToSByte (all > (ulong)SByte.MaxValue ? all - Byte.MaxValue : all);
+					return tempResult.ToT<T> ();
+				}
+				else if (count == 2) //short
+				{
+					var tempResult = Convert.ToInt16 (all > (ulong)Int16.MaxValue ? all - UInt16.MaxValue : all);
+					return tempResult.ToT<T> ();
+				}
+				else if (count == 4) //int
+				{
+					var tempResult = Convert.ToInt32 (all > Int32.MaxValue ? all - UInt32.MaxValue : all);
+					return tempResult.ToT<T> ();
+				}
+				else if (count == 8) //long
+				{
+					var tempResult = Convert.ToInt64 (all > Int64.MaxValue ? all - UInt64.MaxValue : all);
+					return tempResult.ToT<T> ();
+				}*/
+
+				return all.ToT<T> ();
+			}
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
@@ -287,8 +355,64 @@ namespace ms
 			return value;
 		}
 
-		private readonly sbyte[] bytes;
+		public readonly byte[] arr;
 		private int top;
 		private int pos;
+		private long bytesRead = 0;
+
+		public byte readByte ()
+		{
+			return unchecked ((byte)readByteInternal ());
+		}
+
+		public int readInt ()
+		{
+			return unchecked (readByte () + (readByte () << 8) + (readByte () << 16) + (readByte () << 24));
+		}
+
+		/**
+     * Reads a short integer from the stream.
+     *
+     * @return The short read.
+     */
+		public short readShort ()
+		{
+			return unchecked ((short)(readByte () + (readByte () << 8)));
+		}
+
+		/**
+     * Reads a single character from the stream.
+     *
+     * @return The character read.
+     */
+		public char readChar ()
+		{
+			return (char)readShort ();
+		}
+
+		/**
+     * Reads a long integer from the stream.
+     *
+     * @return The long integer read.
+     */
+		public long readLong ()
+		{
+			long byte1 = readByte ();
+			long byte2 = readByte ();
+			long byte3 = readByte ();
+			long byte4 = readByte ();
+			long byte5 = readByte ();
+			long byte6 = readByte ();
+			long byte7 = readByte ();
+			long byte8 = readByte ();
+			return unchecked ((byte8 << 56) + (byte7 << 48) + (byte6 << 40) + (byte5 << 32) + (byte4 << 24) + (byte3 << 16) + (byte2 << 8) + byte1);
+		}
+
+		private int readByteInternal ()
+		{
+			bytesRead++;
+			return arr[pos++] & 0xFF;
+			return ((int)arr[pos++]) & 0xFF;
+		}
 	}
 }

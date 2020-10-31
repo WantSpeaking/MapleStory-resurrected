@@ -84,6 +84,7 @@ namespace ms
 			WEAPON_OVER_BODY,
 			WEAPON_OVER_GLOVE,
 			//WEAPON_OVER_ARM,
+			mailArmOverHair,
 			NUM_LAYERS
 		}
 
@@ -180,6 +181,10 @@ namespace ms
 
 				if (node_00002000img_walk1 is WzImageProperty property_00002000img_walk1)
 				{
+					if (stance.ToString ().Contains ("STABTF")&& itemid == 1052202)
+					{
+						var fdsfg = 0;
+					}
 					foreach (var property_00002000img_walk1_0 in property_00002000img_walk1.WzProperties)
 					{
 						byte.TryParse (property_00002000img_walk1_0.Name, out byte frame);
@@ -188,7 +193,7 @@ namespace ms
 						{
 							string part = property_00002000img_walk1_0_arm.Name;
 
-							if (!(property_00002000img_walk1_0_arm is WzCanvasProperty))
+							if (!property_00002000img_walk1_0_arm.IsTexture())
 							{
 								continue;
 							}
@@ -264,9 +269,9 @@ namespace ms
 
 							var tempTexture = new Texture (property_00002000img_walk1_0_arm);
 							tempTexture.shift (shift);
-							if (stance.ToString ().Contains ("STAND"))
+							//if (stance.ToString ().Contains ("STAND"))
 							{
-								Debug.Log ($"stances.Add: stance:{stance}\t z:{z}\t frame:{frame} \t tempTexture:{tempTexture.fullPath}\t itemid:{itemid}\t index:{index}\t indexTest:{indexTest}\t eqslot:{eqslot}\t chlayer:{chlayer}\t zs:{zs}\t category:{category}");
+								//Debug.Log ($"stances.Add: stance:{stance}\t z:{z}\t frame:{frame} \t tempTexture:{tempTexture.fullPath}\t itemid:{itemid}\t index:{index}\t indexTest:{indexTest}\t eqslot:{eqslot}\t chlayer:{chlayer}\t zs:{zs}\t category:{category}");
 							}
 
 							stances[stance][z].Add (frame, tempTexture);
@@ -396,6 +401,9 @@ namespace ms
 			// CAP
 			{"capOverHair", Clothing.Layer.CAP_OVER_HAIR},
 			{"capBelowBody", Clothing.Layer.CAP_BELOW_BODY},
+			//mail
+			{"mailArmOverHair", Clothing.Layer.mailArmOverHair},
+			
 		};
 	}
 }

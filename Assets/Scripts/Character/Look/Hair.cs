@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Helper;
 using ms.Helper;
 using MapleLib.WzLib;
 
@@ -85,8 +86,8 @@ namespace ms
 
 						layers_by_name.TryGetValue (layername, out var layer);
 
-						Point<short> brow = property_Hair_00030000img_alert_0["map"]?["brow"]?.GetPoint ().ToMSPoint ()??Point<short>.zero;
-						Point<short> shift = drawinfo.gethairpos (stance, frame)??Point<short>.zero - brow;
+						Point<short> brow = property_Hair_00030000img_alert_0["map"]?["brow"]?.GetPoint ().ToMSPoint () ?? Point<short>.zero;
+						Point<short> shift = drawinfo.gethairpos (stance, frame) ?? Point<short>.zero - brow;
 						var texture = new Texture (property_Hair_00030000img_alert_0);
 						texture.shift (shift);
 						stances[(int)stance, (int)layer]?.Add (frame, texture);
@@ -151,6 +152,7 @@ namespace ms
 			{
 				frameit?.erase ();
 			}
+
 			/*var frameit = stances[(int)stance, (int)layer].find(frame);
 
 			if (frameit == stances[(int)stance, (int)layer].end())
@@ -176,11 +178,11 @@ namespace ms
 			return color;
 		}
 
-		private Dictionary<byte, Texture>[,] stances = new Dictionary<byte, Texture>[(int)Stance.Id.LENGTH, (int)Layer.NUM_LAYERS];
+		private Dictionary<byte, Texture>[,] stances = new Dictionary<byte, Texture>[EnumUtil.GetEnumLength<Stance.Id> (), (int)Layer.NUM_LAYERS];
 
 		private void init_Dict ()
 		{
-			for (int i = 0; i < (int)Stance.Id.LENGTH; i++)
+			for (int i = 0; i < EnumUtil.GetEnumLength<Stance.Id> (); i++)
 			{
 				for (int j = 0; j < (int)Layer.NUM_LAYERS; j++)
 				{

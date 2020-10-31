@@ -17,6 +17,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
+using Helper;
+
 namespace ms
 {
 	public class KeyType
@@ -33,12 +35,11 @@ namespace ms
 			FACE = 6,
 			MACRO = 8,
 			TEXT = 9,
-			LENGTH
 		}
-		
-		public static Id typebyid(byte id)
+
+		public static Id typebyid (byte id)
 		{
-			if (id <= (int)Id.NONE || id >= (int)Id.LENGTH)
+			if (id <= (int)Id.NONE || id >= EnumUtil.GetEnumLength<Id> ())
 				return Id.NONE;
 
 			return (Id)(id);

@@ -55,7 +55,6 @@ namespace ms
 			HANDS,
 			SPEED,
 			JUMP,
-			LENGTH
 		}
 		
 		public static readonly string[] names={

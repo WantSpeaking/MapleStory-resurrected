@@ -31,7 +31,6 @@ namespace ms
 			FIVE,
 			SIX,
 			SEVEN,
-			LENGTH
 		}
 	}
 }

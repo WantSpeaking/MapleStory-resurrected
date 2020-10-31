@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Helper;
 using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +75,6 @@ namespace ms
 			BADGE, // TODO: What is the proper value for this?
 			SUBWEAPON, // TODO: What is the proper value for this?
 			HEART, // TODO: What is the proper value for this?
-			LENGTH
 		}
 
 		public static List<Id> values = new List<Id> ()
@@ -113,7 +113,7 @@ namespace ms
 
 		public static Id by_id (short id)
 		{
-			if (id >= (short)Id.LENGTH)
+			if (id >= EnumUtil.GetEnumLength<Stance.Id> ())
 			{
 				Debug.Log ($"Unknown EquipSlot::Id id: [{id}]");
 				return Id.NONE;

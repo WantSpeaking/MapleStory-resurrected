@@ -1,6 +1,7 @@
 ﻿#define USE_NX
 
 using System;
+using Helper;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -52,14 +53,13 @@ namespace ms
 			FLY,
 			HANG,
 			WARP,
-			LENGTH
 		}
 
 		public static Stance stancebyvalue (byte value)
 		{
 			byte valueh = (byte)(value / 2);
 
-			return valueh >= ((int)Stance.LENGTH) ? Stance.STAND : (Stance)valueh;
+			return valueh >= (EnumUtil.GetEnumLength<Stance> ()) ? Stance.STAND : (Stance)valueh;
 		}
 
 		public PetLook (int iid, string nm, int uqid, Point<short> pos, byte st, int fhid)

@@ -18,6 +18,8 @@
 
 
 using System;
+using Helper;
+using ms.Helper;
 
 namespace ms
 {
@@ -49,21 +51,24 @@ namespace ms
 //ORIGINAL LINE: template <class T>
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: T next_real(T to) const
-		public T next_real<T> (T to)
+		public T next_real<T> (T to) where T : unmanaged
 		{
-			return next_real<T> ((T)Convert.ChangeType (0, typeof (T)), to);
+			return next_real<T> (0.ToT<T> (), to);
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
 //ORIGINAL LINE: template <class T>
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: T next_real(T from, T to) const
-		public T next_real<T> (T from, T to)
+		public T next_real<T> (T from, T to) where T : unmanaged
 		{
-			if ((dynamic)from >= (dynamic)to)
+			if (GenericArithmetic.GreaterThanOrEqual(from,to))
 			{
 				return from;
 			}
+			Random rd = new Random(DateTime.Now.Millisecond);
+			int rdIndex = rd.Next(from.ToT<int> (), to.ToT<int> ());
+			return rdIndex.ToT<T> ();
 			return (T)Convert.ChangeType (UnityEngine.Random.Range ((float)Convert.ChangeType (from, typeof (T)), (float)Convert.ChangeType (to, typeof (T))), typeof (T));
 
 			/*uniform_real_distribution<T> range = new uniform_real_distribution<T> (from, to);
@@ -77,7 +82,7 @@ namespace ms
 //ORIGINAL LINE: template <class T>
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: T next_int(T to) const
-		public T next_int<T> (T to)
+		public T next_int<T> (T to) where T : unmanaged
 		{
 			return next_int<T> ((T)Convert.ChangeType (0, typeof (T)), to);
 		}
@@ -86,13 +91,15 @@ namespace ms
 //ORIGINAL LINE: template <class T>
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: T next_int(T from, T to) const
-		public T next_int<T> (T from, T to)
+		public T next_int<T> (T from, T to) where T : unmanaged
 		{
-			if ((dynamic)from >= (dynamic)to)
+			if (GenericArithmetic.GreaterThanOrEqual(from,to))
 			{
 				return from;
 			}
-
+			Random rd = new Random(DateTime.Now.Millisecond);
+			int rdIndex = rd.Next(from.ToT<int> (), to.ToT<int> ());
+			return rdIndex.ToT<T> ();
 			return (T)Convert.ChangeType (UnityEngine.Random.Range ((float)Convert.ChangeType (from, typeof (T)), (float)Convert.ChangeType (to, typeof (T))), typeof (T));
 			/*uniform_int_distribution<T> range = new uniform_int_distribution<T> (from, to - 1);
 			random_device rd = new random_device ();
@@ -105,7 +112,7 @@ namespace ms
 //ORIGINAL LINE: template <class E>
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: E next_enum(E to = E::LENGTH) const
-		public E next_enum<E> (E to)
+		public E next_enum<E> (E to) where E : unmanaged
 		{
 			return next_enum (default (E), to);
 		}
@@ -114,7 +121,7 @@ namespace ms
 //ORIGINAL LINE: template <class E>
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: E next_enum(E from, E to) const
-		public E next_enum<E> (E from, E to)
+		public E next_enum<E> (E from, E to) where E : unmanaged
 		{
 			var next_underlying = next_int (from, to);
 

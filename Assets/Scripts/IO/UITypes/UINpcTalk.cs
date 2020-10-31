@@ -1,6 +1,7 @@
 ﻿#define USE_NX
 
 using System;
+using Helper;
 using MapleLib.WzLib;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -58,7 +59,6 @@ namespace ms
 			SENDGETTEXT,
 			SENDGETNUMBER,
 			SENDSIMPLE,
-			LENGTH
 		}
 
 		public const Type TYPE = UIElement.Type.NPCTALK;
@@ -456,7 +456,7 @@ namespace ms
 
 		private UINpcTalk.TalkType get_by_value(sbyte value)
 		{
-			if (value > (int)TalkType.NONE && value < (int)TalkType.LENGTH)
+			if (value > (int)TalkType.NONE && value <EnumUtil.GetEnumLength<TalkType> ())
 			{
 				return (TalkType)value;
 			}

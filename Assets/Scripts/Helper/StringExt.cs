@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace ms
 {
@@ -53,6 +54,29 @@ namespace ms
 		public static int end (this string src)
 		{
 			return src.Length - 1;
+		}
+		
+		/// <summary>
+		/// 转成Base64字符串进行比较
+		/// </summary>
+		/// <param name="b1"></param>
+		/// <param name="b2"></param>
+		/// <returns></returns>
+		public static bool BytesCompare_Base64(byte[] b1, byte[] b2)
+		{
+			var miniLength = Math.Min (b1.Length, b2.Length);
+			for (int i = 0; i < miniLength; i++)
+			{
+				if (b1[i] != b2[i])
+				{
+					return false;
+				}
+			}
+			return true;
+			Debug.Log ($"b1:{Convert.ToBase64String(b1).TrimEnd ('A')}\t b2:{Convert.ToBase64String(b2).TrimEnd ('A')}");
+			if (b1 == null || b2 == null) return false;
+			if(b1.Length !=b2.Length ) return false;
+			return string.Compare(Convert.ToBase64String(b1).TrimEnd ('A'), Convert.ToBase64String(b2).TrimEnd ('M','A','=','='), false) == 0 ? true : false;
 		}
 	}
 }

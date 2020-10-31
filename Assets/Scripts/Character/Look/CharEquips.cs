@@ -69,8 +69,7 @@ namespace ms
 			
 			var cloth = clothes[slot];
 			if (stance.ToString ().Contains ("STAND"))
-				Debug.Log ($"draw CharEquips: slot:{slot}\t stance:{stance}\t layer:{layer}\t frame:{frame}\t  cloth:{cloth}");
-			//if (const Clothing * cloth = clothes[(int)slot])
+				//Debug.Log ($"draw CharEquips: slot:{slot}\t stance:{stance}\t layer:{layer}\t frame:{frame}\t  cloth:{cloth}");
 			{
 				cloth?.draw (stance, layer, frame, args);
 			}
@@ -244,7 +243,7 @@ namespace ms
 //ORIGINAL LINE: int get_equip(EquipSlot::Id slot) const
 		public int get_equip (EquipSlot.Id slot)
 		{
-			if (cloth_cache.TryGetValue ((int)slot, out var cloth))
+			if (clothes.TryGetValue (slot, out var cloth))
 			{
 				return cloth.get_id ();
 			}

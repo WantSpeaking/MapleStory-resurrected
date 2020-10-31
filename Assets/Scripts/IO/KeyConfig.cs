@@ -96,7 +96,7 @@ namespace ms
 			RIGHT_SHIFT,
 			RIGHT_ALT,
 			SCROLL_LOCK,
-			LENGTH
+			NONE,
 		}
 
 		public static Key actionbyid (int id)
