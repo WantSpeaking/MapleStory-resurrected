@@ -356,35 +356,51 @@ namespace ms
 
 		private Dictionary<int, int> skill_flags = new Dictionary<int, int>
 		{
+			// Beginner
 			{(int)SkillId.Id.THREE_SNAILS, (int)Flags.ATTACK},
+			// Warrior
 			{(int)SkillId.Id.POWER_STRIKE, (int)Flags.ATTACK},
 			{(int)SkillId.Id.SLASH_BLAST, (int)Flags.ATTACK},
+			// Fighter
+			// Page
+			// Crusader
 			{(int)SkillId.Id.SWORD_PANIC, (int)Flags.ATTACK},
 			{(int)SkillId.Id.AXE_PANIC, (int)Flags.ATTACK},
 			{(int)SkillId.Id.SWORD_COMA, (int)Flags.ATTACK},
-			{(int)SkillId.Id.AXE_COMA, (int)Flags.ATTACK},
+			//{(int)SkillId.Id.AXE_COMA, (int)Flags.ATTACK},//todo repeaded added
+			// Hero
 			{(int)SkillId.Id.RUSH_HERO, (int)Flags.ATTACK},
 			{(int)SkillId.Id.BRANDISH, (int)Flags.ATTACK},
+			// Page
+			// White Knight
 			{(int)SkillId.Id.CHARGE, (int)Flags.ATTACK},
+			// Paladin
 			{(int)SkillId.Id.RUSH_PALADIN, (int)Flags.ATTACK},
 			{(int)SkillId.Id.BLAST, (int)Flags.ATTACK},
 			{(int)SkillId.Id.HEAVENS_HAMMER, (int)Flags.ATTACK},
+			// Spearman
+			// Dragon Knight
 			{(int)SkillId.Id.DRAGON_BUSTER, (int)Flags.ATTACK},
 			{(int)SkillId.Id.DRAGON_FURY, (int)Flags.ATTACK},
 			{(int)SkillId.Id.PA_BUSTER, (int)Flags.ATTACK},
 			{(int)SkillId.Id.PA_FURY, (int)Flags.ATTACK},
 			{(int)SkillId.Id.SACRIFICE, (int)Flags.ATTACK},
 			{(int)SkillId.Id.DRAGONS_ROAR, (int)Flags.ATTACK},
+			// Dark Knight
 			{(int)SkillId.Id.RUSH_DK, (int)Flags.ATTACK},
+			// Mage
 			{(int)SkillId.Id.ENERGY_BOLT, (int)Flags.ATTACK | (int)Flags.RANGED},
 			{(int)SkillId.Id.MAGIC_CLAW, (int)Flags.ATTACK | (int)Flags.RANGED},
+			// F/P Mage
 			{(int)SkillId.Id.SLOW_FP, (int)Flags.ATTACK},
 			{(int)SkillId.Id.FIRE_ARROW, (int)Flags.ATTACK | (int)Flags.RANGED},
 			{(int)SkillId.Id.POISON_BREATH, (int)Flags.ATTACK | (int)Flags.RANGED},
+			// F/P ArchMage
 			{(int)SkillId.Id.EXPLOSION, (int)Flags.ATTACK},
-			{(int)SkillId.Id.POISON_BREATH,(int) Flags.ATTACK},
+			//{(int)SkillId.Id.POISON_BREATH,(int) Flags.ATTACK},//todo repeated added
 			{(int)SkillId.Id.SEAL_FP,(int) Flags.ATTACK},
 			{(int)SkillId.Id.ELEMENT_COMPOSITION_FP, (int)Flags.ATTACK | (int)Flags.RANGED},
+			// TODO: Blank?
 			{(int)SkillId.Id.FIRE_DEMON, (int)Flags.ATTACK},
 			{(int)SkillId.Id.PARALYZE, (int)Flags.ATTACK | (int)Flags.RANGED},
 			{(int)SkillId.Id.METEOR_SHOWER, (int)Flags.ATTACK}

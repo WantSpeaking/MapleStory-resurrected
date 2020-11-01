@@ -47,6 +47,10 @@ namespace ms
 		{
 		}
 
+		public Rectangle (Rectangle<T> src) : this (src.left_top, src.right_bottom)
+		{
+		}
+
 		public Rectangle (Point<T> leftTop, Point<T> rightBottom)
 		{
 			left_top = leftTop;
@@ -68,6 +72,7 @@ namespace ms
 			left_top.Set (left, top);
 			right_bottom.Set (right, bottom);
 		}
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: constexpr T width() const
 		public T width ()
@@ -172,6 +177,11 @@ namespace ms
 			//left_top= (left_top + v);
 			right_bottom = right_bottom + v;
 			//right_bottom= (right_bottom + v);
+		}
+
+		public override string ToString ()
+		{
+			return $"[left_top:{left_top} , right_bottom{right_bottom}]";
 		}
 
 		private Point<T> left_top = new Point<T> ();

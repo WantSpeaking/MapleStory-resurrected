@@ -77,7 +77,7 @@ namespace ms
 
 		public void draw (DrawArgument args)
 		{
-			//Debug.Log ($"FullPath:{temp?.FullPath}");
+			//Debug.Log ($"frame draw FullPath:{temp?.FullPath}");
 
 			texture.draw (args);
 		}
@@ -112,8 +112,11 @@ namespace ms
 			return head;
 		}
 
-		public Rectangle<short> get_bounds ()
+		public Rectangle<short> get_bounds (bool debug = false)
 		{
+			if (debug)
+				Debug.Log ($"frame FullPath:{temp?.FullPath}\t get_bounds:{bounds} ");
+			return new Rectangle<short> (bounds);
 			return bounds;
 		}
 
@@ -150,6 +153,7 @@ namespace ms
 				frames.Add (new Frame ());
 				return;
 			}
+
 			//bool istexture = (src is WzCanvasProperty);
 			bool istexture = src.IsTexture ();
 			//Debug.Log ($"{src.FullPath} istexture:{istexture} type:{(src as WzImageProperty)?.PropertyType}");
@@ -275,7 +279,7 @@ namespace ms
 		public bool update (ushort timestep = Constants.TIMESTEP)
 		{
 			timestep = (ushort)(timestep * Constants.get ().frameDelay);
-			
+
 			Frame framedata = get_frame ();
 
 			opacity += framedata.opcstep (timestep);
@@ -396,14 +400,14 @@ namespace ms
 			return get_frame ().get_head ();
 		}
 
-		public Rectangle<short> get_bounds ()
+		public Rectangle<short> get_bounds (bool debug = false)
 		{
-			return get_frame ().get_bounds ();
+			return get_frame ().get_bounds (debug);
 		}
 
-		private Frame get_frame ()
+		private Frame get_frame (bool debug = false)
 		{
-			return frames[frame.get()];
+			return frames[frame.get ()];
 			//return frames[0];
 		}
 

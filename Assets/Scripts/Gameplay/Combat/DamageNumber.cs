@@ -126,7 +126,9 @@ namespace ms
 			}
 			else
 			{
-				charsets[(int)type][false].draw(firstnum, new DrawArgument ( position, interopc));
+				var tempcha = charsets?[(int)type]?[false];if(tempcha == null) return;
+				
+				charsets?[(int)type]?[false]?.draw(firstnum, new DrawArgument ( position, interopc));//todo why damageNumber is null
 
 				if (multiple)
 				{

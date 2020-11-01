@@ -110,7 +110,7 @@ namespace ms
 		//ORIGINAL LINE: constexpr T length() const
 		public T length ()
 		{
-			return (T)Math.Sqrt ((dynamic)a * a + (dynamic)b * b);
+			return Math.Sqrt (GenericArithmetic.Add (GenericArithmetic.Multiply (a, a), GenericArithmetic.Multiply (b, b)).ToT<double> ()).ToT<T> ();
 		}
 
 		// Check whether the coordinates are equal
@@ -118,7 +118,7 @@ namespace ms
 		//ORIGINAL LINE: constexpr bool straight() const
 		public bool straight ()
 		{
-			return (dynamic)a == b;
+			return GenericArithmetic.Equal (a, b);
 		}
 
 		// Return a string representation of the point
@@ -134,7 +134,7 @@ namespace ms
 		//ORIGINAL LINE: constexpr T distance(Point<T> v) const
 		public T distance (Point<T> v)
 		{
-			return new Point<T> (a - (dynamic)v.a, b - (dynamic)v.b).length ();
+			return new Point<T> (GenericArithmetic.Subtract (a, v.a), GenericArithmetic.Subtract (b, v.b)).length ();
 		}
 
 		// Set the x-coordinate

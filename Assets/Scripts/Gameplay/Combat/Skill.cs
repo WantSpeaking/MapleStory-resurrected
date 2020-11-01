@@ -44,7 +44,7 @@ namespace ms
 {
 	// The skill implementation of special move
 	public class Skill : SpecialMove
-	{ 
+	{
 		public Skill (int id)
 		{
 			this.skillid = id;
@@ -68,8 +68,8 @@ namespace ms
 
 			//sound = new SingleSkillSound(strid);
 
-			bool byleveleffect = src["CharLevel"]["10"]["effect"].Any ();
-			bool multieffect = src["effect0"].Any ();
+			bool byleveleffect = src["CharLevel"]?["10"]?["effect"]?.Any () ?? false; //todo src["CharLevel"]?["10"]?["effect"] == null
+			bool multieffect = src["effect0"]?.Any () ?? false; //todo src["effect0"] == null
 
 			if (byleveleffect)
 			{
@@ -107,10 +107,10 @@ namespace ms
 				}
 			}
 
-			bool bylevelhit = src["CharLevel"]["10"]["hit"].Any ();
-			bool byskilllevelhit = src["level"]["1"]["hit"].Any ();
-			bool hashit0 = src["hit"]["0"].Any ();
-			bool hashit1 = src["hit"]["1"].Any ();
+			bool bylevelhit = src["CharLevel"]?["10"]?["hit"]?.Any () ?? false;
+			bool byskilllevelhit = src["level"]?["1"]?["hit"]?.Any () ?? false;
+			bool hashit0 = src["hit"]?["0"]?.Any () ?? false;
+			bool hashit1 = src["hit"]?["1"]?.Any () ?? false;
 
 			if (bylevelhit)
 			{
@@ -140,8 +140,8 @@ namespace ms
 				hiteffect = new NoHitEffect ();
 			}
 
-			bool hasaction0 = src["action"]["0"] == WzPropertyType.String;
-			bool hasaction1 = src["action"]["1"] == WzPropertyType.String;
+			bool hasaction0 = src["action"]?["0"] == WzPropertyType.String;
+			bool hasaction1 = src["action"]?["1"] == WzPropertyType.String;
 
 			if (hasaction0 && hasaction1)
 			{
@@ -153,7 +153,7 @@ namespace ms
 			}
 			else if (data.is_attack ())
 			{
-				bool bylevel = src["level"]["1"]["action"] == WzPropertyType.String;
+				bool bylevel = src["level"]?["1"]?["action"] == WzPropertyType.String;
 
 				if (bylevel)
 				{
@@ -170,8 +170,8 @@ namespace ms
 				action = new NoAction ();
 			}
 
-			bool hasball = src["ball"].Any ();
-			bool bylevelball = src["level"]["1"]["ball"].Any ();
+			bool hasball = src["ball"]?.Any ()??false;
+			bool bylevelball = src["level"]?["1"]?["ball"]?.Any ()??false;
 
 			if (bylevelball)
 			{
@@ -190,7 +190,7 @@ namespace ms
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void apply_useeffects(Char& user) const override
-		public override void apply_useeffects ( Char user)
+		public override void apply_useeffects (Char user)
 		{
 			useeffect.apply (ref user);
 
@@ -199,7 +199,7 @@ namespace ms
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void apply_actions(Char& user, Attack::Type type) const override
-		public override void apply_actions ( Char user, Attack.Type type)
+		public override void apply_actions (Char user, Attack.Type type)
 		{
 			action.apply (ref user, type);
 		}
