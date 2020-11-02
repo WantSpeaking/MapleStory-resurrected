@@ -47,7 +47,6 @@ using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using UnityEngine;
 using UnityEngine.Rendering;
-using ADBannerView = UnityEngine.iOS.ADBannerView;
 using Graphics = UnityEngine.Graphics;
 
 namespace ms
@@ -58,7 +57,7 @@ namespace ms
 		private GameObject spriteObj;
 		private SpriteRenderer spriteRenderer;
 		private UnityEngine.Sprite sprite;
-		public string fullPath;
+		public string fullPath = string.Empty;
 
 		public Texture ()
 		{
@@ -102,10 +101,11 @@ namespace ms
 
 		public void draw (DrawArgument args)
 		{
-			/*if (bitmap == null) return;
+			if (bitmap == null) return;
 			if (spriteRenderer == null)
 			{
 				spriteObj = new GameObject ();
+				AddToParent (spriteObj, fullPath);
 				spriteRenderer = spriteObj.AddComponent<SpriteRenderer> ();
 			}
 
@@ -116,7 +116,7 @@ namespace ms
 				if (sprite == null)
 				{
 					//Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
-					sprite = TextureAndSpriteUtil.BitmapToSprite (bitmap, origin, dimensions);
+					sprite = TextureAndSpriteUtil.BitmapToSprite (bitmap, pivot, dimensions);
 				}
 
 				spriteRenderer.gameObject.name = fullPath;
@@ -125,9 +125,9 @@ namespace ms
 				spriteRenderer.sortingOrder = args.orderInLayer;
 				setScale (new Vector3 (args.get_xscale (), args.get_yscale (), 1));
 				setPos (new Vector3 (args.get_Pos ().x (), -args.get_Pos ().y (), 0));
-			}*/
+			}
 
-			textureRange = new Rectangle<short> ((short)(args.get_Pos ().x () - pivot.x ()), (short)(args.get_Pos ().y () - pivot.y ()), dimensions.x (), dimensions.y ());
+			/*textureRange = new Rectangle<short> ((short)(args.get_Pos ().x () - pivot.x ()), (short)(args.get_Pos ().y () - pivot.y ()), dimensions.x (), dimensions.y ());
 			textureRect = new Rect (args.get_Pos ().x () - pivot.x (), args.get_Pos ().y () - pivot.y (), dimensions.x (), dimensions.y ());
 			if (bitmap == null) return;
 			if (mainTexture == null)
@@ -136,8 +136,7 @@ namespace ms
 			}
 
 			if (overlaps ())
-				DrawTextureToTarget ();
-			//Graphics.DrawTexture (new Rect (origin, dimensions), mainTexture);
+				DrawTextureToTarget ();*/
 		}
 
 		private Texture2D mainTexture;
@@ -239,6 +238,26 @@ namespace ms
 		public Point<short> get_dimensions ()
 		{
 			return dimensions;
+		}
+
+		private void AddToParent (GameObject gObj, string path)
+		{
+			if (gObj == null || string.IsNullOrEmpty (path)) return;
+			if (MapleStory.Instance.Map_Parent == null) return;
+			if (MapleStory.Instance.Character_Parent == null) return;
+			if (MapleStory.Instance.Mob_Parent == null) return;
+			if (path.Contains ("map"))
+			{
+				gObj.SetParent (MapleStory.Instance.Map_Parent.transform);
+			}
+			else if (path.Contains ("character"))
+			{
+				gObj.SetParent (MapleStory.Instance.Character_Parent.transform);
+			}
+			else if (path.Contains ("mob"))
+			{
+				gObj.SetParent (MapleStory.Instance.Mob_Parent.transform);
+			}
 		}
 	}
 }

@@ -71,6 +71,7 @@ namespace ms
 			return (byte)(flip ? stance : stance + 1);
 		}
 
+		private Stance lastDraw_Stance = Stance.STAND;
 		// Construct a mob by combining data from game files with data sent by the server
 		public Mob (int oi, int mid, sbyte mode, sbyte st, ushort fh, bool newspawn, sbyte tm, Point<short> position) : base (oi, position)
 		{
@@ -184,8 +185,6 @@ namespace ms
 			{
 				float interopc = opacity.get (alpha);
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: animations.at(stance).draw(DrawArgument(absp, flip && !noflip, interopc), alpha);
 				animations[stance].draw (new DrawArgument (absp, flip && !noflip, interopc, 8, 0), alpha); //todo mob sortinglayer
 
 				if (showhp != null)

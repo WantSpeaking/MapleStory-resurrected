@@ -64,14 +64,14 @@ namespace ms
 		// Draw an equip
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void draw(EquipSlot::Id slot, Stance::Id stance, Clothing::Layer layer, byte frame, const DrawArgument& args) const
-		public void draw (EquipSlot.Id slot, Stance.Id stance, Clothing.Layer layer, byte frame, DrawArgument args)
+		public void draw (EquipSlot.Id slot, Stance.Id stance, Clothing.Layer layer, byte frame, DrawArgument args, bool drawOrErase = true)
 		{
 			
 			var cloth = clothes[slot];
-			if (stance.ToString ().Contains ("STAND"))
+			//if (stance.ToString ().Contains ("WALK"))
 				//Debug.Log ($"draw CharEquips: slot:{slot}\t stance:{stance}\t layer:{layer}\t frame:{frame}\t  cloth:{cloth}");
 			{
-				cloth?.draw (stance, layer, frame, args);
+				cloth?.draw (stance, layer, frame, args,drawOrErase);
 			}
 		}
 

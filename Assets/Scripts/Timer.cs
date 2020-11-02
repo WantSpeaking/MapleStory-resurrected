@@ -42,7 +42,9 @@ namespace ms
 		// Return time elapsed since the last measurement.
 		public int stop()
 		{
-			return (DateTime.Now - point).Milliseconds;
+			var elapsed = (DateTime.Now - point).Milliseconds;
+			point = DateTime.Now;
+			return elapsed;
 		}
 
 

@@ -550,14 +550,14 @@ namespace ms
 			if (Stance.is_climbing (interstance))
 			{
 				body.draw (interstance, Body.Layer.BODY, interframe, args.SetOrderInLayer (256), false);
-				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.GLOVE, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.SHOES, interstance, Clothing.Layer.SHOES, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.BOTTOM, interstance, Clothing.Layer.PANTS, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.TOP, interstance, Clothing.Layer.TOP, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.TOP, interstance, Clothing.Layer.MAIL, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.CAPE, interstance, Clothing.Layer.CAPE, interframe, args.IncreaseOrderInLayer (1));
+				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.GLOVE, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.SHOES, interstance, Clothing.Layer.SHOES, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.BOTTOM, interstance, Clothing.Layer.PANTS, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.TOP, interstance, Clothing.Layer.TOP, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.TOP, interstance, Clothing.Layer.MAIL, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.CAPE, interstance, Clothing.Layer.CAPE, interframe, args.IncreaseOrderInLayer (1), false);
 				body.draw (interstance, Body.Layer.HEAD, interframe, args.IncreaseOrderInLayer (1), false);
-				equips.draw (EquipSlot.Id.EARACC, interstance, Clothing.Layer.EARRINGS, interframe, args.IncreaseOrderInLayer (1));
+				equips.draw (EquipSlot.Id.EARACC, interstance, Clothing.Layer.EARRINGS, interframe, args.IncreaseOrderInLayer (1), false);
 
 				switch (equips.getcaptype ())
 				{
@@ -565,106 +565,106 @@ namespace ms
 						hair.draw (interstance, Hair.Layer.BACK, interframe, args.IncreaseOrderInLayer (1), false);
 						break;
 					case CharEquips.CapType.HEADBAND:
-						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args.IncreaseOrderInLayer (1));
+						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args.IncreaseOrderInLayer (1), false);
 						hair.draw (interstance, Hair.Layer.BACK, interframe, args.IncreaseOrderInLayer (1), false);
 						break;
 					case CharEquips.CapType.HALFCOVER:
 						hair.draw (interstance, Hair.Layer.BELOWCAP, interframe, args.IncreaseOrderInLayer (1), false);
-						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args.IncreaseOrderInLayer (1));
+						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args.IncreaseOrderInLayer (1), false);
 						break;
 					case CharEquips.CapType.FULLCOVER:
-						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args.IncreaseOrderInLayer (1));
+						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args.IncreaseOrderInLayer (1), false);
 						break;
 				}
 
-				equips.draw (EquipSlot.Id.SHIELD, interstance, Clothing.Layer.BACKSHIELD, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.BACKWEAPON, interframe, args.IncreaseOrderInLayer (1));
+				equips.draw (EquipSlot.Id.SHIELD, interstance, Clothing.Layer.BACKSHIELD, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.BACKWEAPON, interframe, args.IncreaseOrderInLayer (1), false);
 			}
 			else
 			{
 				hair.draw (interstance, Hair.Layer.BELOWBODY, interframe, args, false);
-				equips.draw (EquipSlot.Id.CAPE, interstance, Clothing.Layer.CAPE, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.SHIELD, interstance, Clothing.Layer.SHIELD_BELOW_BODY, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_BELOW_BODY, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP_BELOW_BODY, interframe, args.IncreaseOrderInLayer (1));
+				equips.draw (EquipSlot.Id.CAPE, interstance, Clothing.Layer.CAPE, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.SHIELD, interstance, Clothing.Layer.SHIELD_BELOW_BODY, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_BELOW_BODY, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP_BELOW_BODY, interframe, args.IncreaseOrderInLayer (1), false);
 				body.draw (interstance, Body.Layer.BODY, interframe, args.IncreaseOrderInLayer (1), false);
-				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.WRIST_OVER_BODY, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.GLOVE_OVER_BODY, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.SHOES, interstance, Clothing.Layer.SHOES, interframe, args.IncreaseOrderInLayer (1));
+				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.WRIST_OVER_BODY, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.GLOVE_OVER_BODY, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.SHOES, interstance, Clothing.Layer.SHOES, interframe, args.IncreaseOrderInLayer (1), false);
 				body.draw (interstance, Body.Layer.ARM_BELOW_HEAD, interframe, args.IncreaseOrderInLayer (1), false);
 
 				if (equips.has_overall ())
 				{
-					equips.draw (EquipSlot.Id.TOP, interstance, Clothing.Layer.MAIL, interframe, args.IncreaseOrderInLayer (1));
+					equips.draw (EquipSlot.Id.TOP, interstance, Clothing.Layer.MAIL, interframe, args.IncreaseOrderInLayer (1), false);
 				}
 				else
 				{
-					equips.draw (EquipSlot.Id.BOTTOM, interstance, Clothing.Layer.PANTS, interframe, args.IncreaseOrderInLayer (1));
-					equips.draw (EquipSlot.Id.TOP, interstance, Clothing.Layer.TOP, interframe, args.IncreaseOrderInLayer (1));
+					equips.draw (EquipSlot.Id.BOTTOM, interstance, Clothing.Layer.PANTS, interframe, args.IncreaseOrderInLayer (1), false);
+					equips.draw (EquipSlot.Id.TOP, interstance, Clothing.Layer.TOP, interframe, args.IncreaseOrderInLayer (1), false);
 				}
 
 				body.draw (interstance, Body.Layer.ARM_BELOW_HEAD_OVER_MAIL, interframe, args.IncreaseOrderInLayer (1), false);
-				equips.draw (EquipSlot.Id.SHIELD, interstance, Clothing.Layer.SHIELD_OVER_HAIR, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.EARACC, interstance, Clothing.Layer.EARRINGS, interframe, args.IncreaseOrderInLayer (1));
+				equips.draw (EquipSlot.Id.SHIELD, interstance, Clothing.Layer.SHIELD_OVER_HAIR, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.EARACC, interstance, Clothing.Layer.EARRINGS, interframe, args.IncreaseOrderInLayer (1), false);
 				body.draw (interstance, Body.Layer.HEAD, interframe, args.IncreaseOrderInLayer (1), false);
 				hair.draw (interstance, Hair.Layer.SHADE, interframe, args.IncreaseOrderInLayer (1), false);
 				hair.draw (interstance, Hair.Layer.DEFAULT, interframe, args.IncreaseOrderInLayer (1), false);
 				face.draw (interexpression, interexpframe, faceargs.SetOrderInLayer (args.orderInLayer).IncreaseOrderInLayer (1), false);
-				equips.draw (EquipSlot.Id.FACE, interstance, Clothing.Layer.FACEACC, 0, faceargs.SetOrderInLayer (args.orderInLayer).IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.EYEACC, interstance, Clothing.Layer.EYEACC, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.SHIELD, interstance, Clothing.Layer.SHIELD, interframe, args.IncreaseOrderInLayer (1));
+				equips.draw (EquipSlot.Id.FACE, interstance, Clothing.Layer.FACEACC, 0, faceargs.SetOrderInLayer (args.orderInLayer).IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.EYEACC, interstance, Clothing.Layer.EYEACC, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.SHIELD, interstance, Clothing.Layer.SHIELD, interframe, args.IncreaseOrderInLayer (1), false);
 
 				switch (equips.getcaptype ())
 				{
 					case CharEquips.CapType.NONE:
-						hair.draw (interstance, Hair.Layer.OVERHEAD, interframe, args.IncreaseOrderInLayer (1));
+						hair.draw (interstance, Hair.Layer.OVERHEAD, interframe, args.IncreaseOrderInLayer (1), false);
 						break;
 					case CharEquips.CapType.HEADBAND:
-						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args.IncreaseOrderInLayer (1));
+						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args.IncreaseOrderInLayer (1), false);
 						hair.draw (interstance, Hair.Layer.DEFAULT, interframe, args.IncreaseOrderInLayer (1), false);
 						hair.draw (interstance, Hair.Layer.OVERHEAD, interframe, args.IncreaseOrderInLayer (1), false);
-						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP_OVER_HAIR, interframe, args.IncreaseOrderInLayer (1));
+						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP_OVER_HAIR, interframe, args.IncreaseOrderInLayer (1), false);
 						break;
 					case CharEquips.CapType.HALFCOVER:
 						hair.draw (interstance, Hair.Layer.DEFAULT, interframe, args.IncreaseOrderInLayer (1), false);
-						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args.IncreaseOrderInLayer (1));
+						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args.IncreaseOrderInLayer (1), false);
 						break;
 					case CharEquips.CapType.FULLCOVER:
-						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args.IncreaseOrderInLayer (1));
+						equips.draw (EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args.IncreaseOrderInLayer (1), false);
 						break;
 				}
 
-				equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_BELOW_ARM, interframe, args.IncreaseOrderInLayer (1));
+				equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_BELOW_ARM, interframe, args.IncreaseOrderInLayer (1), false);
 				bool twohanded = is_twohanded (interstance);
 
 				if (twohanded)
 				{
-					equips.draw (EquipSlot.Id.TOP, interstance, Clothing.Layer.MAILARM, interframe, args.IncreaseOrderInLayer (1));
+					equips.draw (EquipSlot.Id.TOP, interstance, Clothing.Layer.MAILARM, interframe, args.IncreaseOrderInLayer (1), false);
 					body.draw (interstance, Body.Layer.ARM, interframe, args.IncreaseOrderInLayer (1), false);
-					equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON, interframe, args.IncreaseOrderInLayer (1));
+					equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON, interframe, args.IncreaseOrderInLayer (1), false);
 				}
 				else
 				{
-					equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON, interframe, args.IncreaseOrderInLayer (1));
+					equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON, interframe, args.IncreaseOrderInLayer (1), false);
 					body.draw (interstance, Body.Layer.ARM, interframe, args.IncreaseOrderInLayer (1), false);
-					equips.draw (EquipSlot.Id.TOP, interstance, Clothing.Layer.MAILARM, interframe, args.IncreaseOrderInLayer (1));
+					equips.draw (EquipSlot.Id.TOP, interstance, Clothing.Layer.MAILARM, interframe, args.IncreaseOrderInLayer (1), false);
 				}
 
-				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.WRIST, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.GLOVE, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_OVER_GLOVE, interframe, args.IncreaseOrderInLayer (1));
+				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.WRIST, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.GLOVE, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_OVER_GLOVE, interframe, args.IncreaseOrderInLayer (1), false);
 
 				body.draw (interstance, Body.Layer.HAND_BELOW_WEAPON, interframe, args.IncreaseOrderInLayer (1), false);
 
 				body.draw (interstance, Body.Layer.ARM_OVER_HAIR, interframe, args.IncreaseOrderInLayer (1), false);
 				body.draw (interstance, Body.Layer.ARM_OVER_HAIR_BELOW_WEAPON, interframe, args.IncreaseOrderInLayer (1), false);
-				equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_OVER_HAND, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_OVER_BODY, interframe, args.IncreaseOrderInLayer (1));
+				equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_OVER_HAND, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_OVER_BODY, interframe, args.IncreaseOrderInLayer (1), false);
 				body.draw (interstance, Body.Layer.HAND_OVER_HAIR, interframe, args.IncreaseOrderInLayer (1), false);
 				body.draw (interstance, Body.Layer.HAND_OVER_WEAPON, interframe, args.IncreaseOrderInLayer (1), false);
 
-				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.WRIST_OVER_HAIR, interframe, args.IncreaseOrderInLayer (1));
-				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.GLOVE_OVER_HAIR, interframe, args.IncreaseOrderInLayer (1));
+				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.WRIST_OVER_HAIR, interframe, args.IncreaseOrderInLayer (1), false);
+				equips.draw (EquipSlot.Id.GLOVES, interstance, Clothing.Layer.GLOVE_OVER_HAIR, interframe, args.IncreaseOrderInLayer (1), false);
 			}
 		}
 

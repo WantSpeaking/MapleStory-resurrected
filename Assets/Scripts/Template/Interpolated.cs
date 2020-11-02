@@ -38,22 +38,16 @@ namespace ms
 			threshold = _threshold;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: T get() const
 		public T get ()
 		{
 			return now;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: T get(float alpha) const
 		public T get (float alpha)
 		{
 			return alpha >= threshold ? now : before;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: T last() const
 		public T last ()
 		{
 			return before;
@@ -70,8 +64,6 @@ namespace ms
 			before = now;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool normalized() const
 		public bool normalized ()
 		{
 			return GenericArithmetic.Equal (before, now);
@@ -84,43 +76,31 @@ namespace ms
 			threshold = thrs;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool operator == (T value) const
 		public static bool operator == (Nominal<T> ImpliedObject, T value)
 		{
 			return GenericArithmetic.Equal (ImpliedObject?.now ?? default, value);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool operator != (T value) const
 		public static bool operator != (Nominal<T> ImpliedObject, T value)
 		{
 			return !GenericArithmetic.Equal (ImpliedObject?.now ?? default, value);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: T operator + (T value) const
 		public static T operator + (Nominal<T> ImpliedObject, T value)
 		{
 			return GenericArithmetic.Add (ImpliedObject.now, value);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: T operator - (T value) const
 		public static T operator - (Nominal<T> ImpliedObject, T value)
 		{
 			return GenericArithmetic.Subtract (ImpliedObject.now, value);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: T operator * (T value) const
 		public static T operator * (Nominal<T> ImpliedObject, T value)
 		{
 			return GenericArithmetic.Multiply (ImpliedObject.now, value);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: T operator / (T value) const
 		public static T operator / (Nominal<T> ImpliedObject, T value)
 		{
 			return GenericArithmetic.Divide (ImpliedObject.now, value);

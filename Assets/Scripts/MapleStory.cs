@@ -30,7 +30,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		/*clearBuffer.Clear ();
 		clearBuffer.ClearRenderTarget (true, true, clearColor);
 		Graphics.ExecuteCommandBuffer (clearBuffer);*/
-		
+
 		Constants.get ().walkSpeed = walkSpeed;
 		Constants.get ().jumpSpeed = jumpSpeed;
 		Constants.get ().climbSpeed = climbSpeed;
@@ -39,10 +39,10 @@ public class MapleStory : SingletonMono<MapleStory>
 		Constants.get ().animSpeed = animSpeed;
 
 		Constants.get ().frameDelay = frameDelay;
-		
+
 		Constants.get ().multiplier_timeStep = multiplier_timeStep;
 		loop ();
-		
+
 
 		/*UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.LEFT, Input.GetKey (KeyCode.LeftArrow));
 
@@ -74,11 +74,20 @@ public class MapleStory : SingletonMono<MapleStory>
 			Window.get ().HandleGUIEvents (Event.current);
 		}
 	}
+
+	private void FixedUpdate ()
+	{
+		if (running ())
+		{
+			//update ();
+		}
+	}
+
 	CommandBuffer clearBuffer;
 	public UnityEngine.Color clearColor = UnityEngine.Color.magenta;
+
 	private void OnPostRender ()
 	{
-		
 	}
 
 	private void init ()
@@ -149,26 +158,31 @@ public class MapleStory : SingletonMono<MapleStory>
 			/*&& UI.get ().not_quitted ()*/;
 	}
 
-	private long timestep = (long)(Constants.TIMESTEP * 1000 * Constants.get ().multiplier_timeStep);
-	private long accumulator = timestep;
+	private long timestep => (long)(Constants.TIMESTEP * Constants.get ().multiplier_timeStep);
+
+	//private static long timestep = (long)(8 * 1000 * 1);
+	private long accumulator = 0;
 
 	private void loop ()
 	{
 		if (running ())
 		{
-			Debug.Log ($"{Time.deltaTime}");
 			var elapsed = Timer.get ().stop ();
 
+			var accumulator_before = accumulator;
+			var accumulator_plus_elapsed = accumulator + elapsed;
 			// Update game with constant timestep as many times as possible.
 			for (accumulator += elapsed; accumulator >= timestep; accumulator -= timestep)
 			{
+				update ();
+				//Debug.Log ("update");bt`
 			}
 
-			update ();
 			// Draw the game. Interpolate to account for remaining time.
-			float alpha = (float)(accumulator) / timestep;
+			float alpha = Mathf.Clamp01 (accumulator * multiplier_elapsed / timestep);
 			//Debug.Log ($"elapsed:{elapsed} \t timestep:{timestep} \t accumulator:{accumulator} \t alpha:{alpha}");
 			draw (alpha);
+			//Debug.Log ($"deltaTime:{Time.deltaTime * 1000}\t accumulator_before:{accumulator_before}\t elapsed:{elapsed}\t  accumulator_plus_elapsed:{accumulator_plus_elapsed}\t accumulator:{accumulator}\t  alpha:{alpha}");
 		}
 	}
 
@@ -192,64 +206,19 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	#region Will be removed later
 
-	#region Placeholder
-
-	[Button ("main", "Connect")] public string placeholder0;
-
-
-	[Button ("LoginStartPacket", "LoginStartPacket 35")]
-	public string placeholder1;
-
-	void LoginStartPacket ()
-	{
-		new LoginStartPacket ().dispatch ();
-	}
-
-	[Button ("LoginPacket", "LoginPacket 1")]
-	public string placeholder2;
-
-	void LoginPacket ()
-	{
-		new LoginPacket ("admin", "admin").dispatch ();
-	}
-
-	[Button ("ServerStatusRequestPacket", "ServerStatusRequestPacket 6")]
-	public string placeholder3;
-
-	void ServerStatusRequestPacket ()
-	{
-		new ServerStatusRequestPacket (-565).dispatch ();
-	}
-
-	[Button ("CharlistRequestPacket", "CharlistRequestPacket 5")]
-	public string placeholder4;
-
-	void CharlistRequestPacket ()
-	{
-		new CharlistRequestPacket (0, 0).dispatch ();
-	}
-
-	[Button ("SelectCharPacket", "SelectCharPacket 19")]
-	public string placeholder5;
-
-	void SelectCharPacket ()
-	{
-		new SelectCharPacket (-565).dispatch ();
-	}
-
-	/*[Utility.Inspector. Button("PlayerLoginPacket","PlayerLoginPacket 20")]
-	public string placeholder6;
-
-	void PlayerLoginPacket ()
-	{
-		new PlayerLoginPacket (1).dispatch ();
-	}*/
-
-	#endregion
-
 	public RenderTexture target;
 
+	private GameObject map_Parent;
+	private GameObject mob_Parent;
+	private GameObject character_Parent;
+
+	public GameObject Map_Parent => map_Parent ?? (map_Parent = new GameObject ("map_Parent"));
+	public GameObject Mob_Parent => mob_Parent ?? (mob_Parent = new GameObject ("mob_Parent"));
+	public GameObject Character_Parent => character_Parent ?? (character_Parent = new GameObject ("character_Parent"));
+
+
 	public bool enableDebugPacket = true;
+	public bool disableDebugPacketAfterLogin = true;
 	public UnityEngine.UI.Button button_load;
 
 	public InputField inpuField_MapleFolder;
@@ -269,7 +238,10 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	public float frameDelay = 0.5f;
 
-	public float multiplier_timeStep = 5f;
+	public float multiplier_timeStep = 1f;
+	public float multiplier_elapsed = 1f;
+
+
 	private string fds;
 
 	void TempLogin ()
@@ -465,6 +437,62 @@ public class MapleStory : SingletonMono<MapleStory>
 	{
 		DrawBound ();
 	}
+
+	#region Placeholder
+
+	[Button ("main", "Connect")] public string placeholder0;
+
+
+	[Button ("LoginStartPacket", "LoginStartPacket 35")]
+	public string placeholder1;
+
+	void LoginStartPacket ()
+	{
+		new LoginStartPacket ().dispatch ();
+	}
+
+	[Button ("LoginPacket", "LoginPacket 1")]
+	public string placeholder2;
+
+	void LoginPacket ()
+	{
+		new LoginPacket ("admin", "admin").dispatch ();
+	}
+
+	[Button ("ServerStatusRequestPacket", "ServerStatusRequestPacket 6")]
+	public string placeholder3;
+
+	void ServerStatusRequestPacket ()
+	{
+		new ServerStatusRequestPacket (0).dispatch ();
+	}
+
+	[Button ("CharlistRequestPacket", "CharlistRequestPacket 5")]
+	public string placeholder4;
+
+	void CharlistRequestPacket ()
+	{
+		new CharlistRequestPacket (0, 0).dispatch ();
+	}
+
+	[Button ("SelectCharPacket", "SelectCharPacket 19")]
+	public string placeholder5;
+
+	void SelectCharPacket ()
+	{
+		new SelectCharPacket (4).dispatch ();
+		enableDebugPacket = false;
+	}
+
+	/*[Utility.Inspector. Button("PlayerLoginPacket","PlayerLoginPacket 20")]
+	public string placeholder6;
+
+	void PlayerLoginPacket ()
+	{
+		new PlayerLoginPacket (1).dispatch ();
+	}*/
+
+	#endregion
 
 	#endregion
 }

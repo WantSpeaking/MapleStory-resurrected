@@ -68,7 +68,7 @@ namespace ms
         public float animSpeed = 1;
 
         public float frameDelay = 0.5f;
-        public float multiplier_timeStep = 5f;
+        public float multiplier_timeStep = 1f;
         
     }
 }

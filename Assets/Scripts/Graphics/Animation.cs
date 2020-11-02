@@ -15,12 +15,13 @@ namespace ms
 		public Frame (WzObject src) // Map.wz/Back/grassySoil.img/ani/0
 		{
 			temp = src;
-
+			
 			texture = new Texture (src);
 			bounds = new Rectangle<short> (src);
 			head = src["head"];
 			delay = src["delay"];
-
+			//if (temp?.FullPath.Contains ("1210100.img") ?? false)
+				//Debug.Log ($"\t delay:{delay}");
 			if (delay == 0)
 				delay = 100;
 
@@ -145,6 +146,8 @@ namespace ms
 	{
 		private SortedSet<short> frameids = new SortedSet<short> ();
 
+		private WzObject temp_src;
+
 		public Animation (WzObject src) // Map.wz/Back/grassySoil.img/ani/0
 		{
 			if (src == null)
@@ -154,34 +157,14 @@ namespace ms
 				return;
 			}
 
-			//bool istexture = (src is WzCanvasProperty);
-			bool istexture = src.IsTexture ();
-			//Debug.Log ($"{src.FullPath} istexture:{istexture} type:{(src as WzImageProperty)?.PropertyType}");
+			temp_src = src;
 
-			//var temp1 = src;
-			//var temp2 = src["0"];
-			//Debug.Log("temp1\t" + temp1 + "\t" + temp1.FullPath + "\t" + (temp1 is WzCanvasProperty) + "\t" + (temp1 is WzSubProperty));
-			//Debug.Log("temp2\t" + temp2 + "\t" + src.FullPath + "\t" + (temp2 is WzCanvasProperty) + "\t" + (temp2 is WzSubProperty));
+			bool istexture = src.IsTexture ();
 
 			if (istexture) //WzCanvasProperty
 			{
 				frames.Add (new Frame (src));
 			}
-			/*else //WzSubProperty
-			{
-				/*if (src is WzImageProperty node_Anim)
-				{
-				    foreach (var node_Frame in node_Anim.WzProperties)
-				    {
-				        var frame = new Frame(node_Frame);
-				        frames.Add(frame);
-				    }
-				}#1#
-				var frame = new Frame (src["0"]);
-				frames.Add (frame);
-				
-			}*/
-
 			else
 			{
 				if (src is WzImageProperty node_Anim)
@@ -269,6 +252,9 @@ namespace ms
 				frames[interframe].draw (args);
 
 			lastDraw_interframe = interframe;
+
+			//if (temp_src?.FullPath.Contains ("1210100.img") ?? false)
+				//Debug.Log ($"draw interframe : {interframe}");
 		}
 
 		/*public bool update ()
@@ -278,7 +264,7 @@ namespace ms
 
 		public bool update (ushort timestep = Constants.TIMESTEP)
 		{
-			timestep = (ushort)(timestep * Constants.get ().frameDelay);
+			//timestep = (ushort)(timestep * Constants.get ().frameDelay);
 
 			Frame framedata = get_frame ();
 
@@ -342,6 +328,9 @@ namespace ms
 				ushort delta = (ushort)(timestep - delay);
 				float threshold = (float)delta / timestep;
 				frame.next (nextframe, threshold);
+
+				//if (temp_src?.FullPath.Contains ("1210100.img") ?? false)
+					//Debug.Log ($"update nextframe : {nextframe}\t threshold:{threshold}\t timestep:{timestep}\t delay:{delay}\t delta:{delta}");
 
 				delay = frames[nextframe].get_delay ();
 

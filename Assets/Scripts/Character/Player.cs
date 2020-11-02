@@ -273,7 +273,7 @@ namespace ms
 		{
 			if (!attacking)
 			{
-				Debug.Log ($"{st}");
+				//Debug.Log ($"{st}");
 
 				base.set_state (st);
 

@@ -173,7 +173,7 @@ namespace ms
 		public override void initialize (Player player)
 		{
 			player.get_phobj ().type = PhysicsObject.Type.NORMAL;
-			if(!haswalkinput (player)) player.get_phobj ().hspeed = 0;
+			//if(!haswalkinput (player)) player.get_phobj ().hspeed = 0;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:

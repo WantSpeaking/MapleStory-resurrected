@@ -25,8 +25,9 @@ public static class TextureAndSpriteUtil
 	{
 		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y ());
 		t2d.LoadImage (ImageToByte2 (bitmap));
+		t2d.filterMode = FilterMode.Point;
 		t2d.Apply ();
-
+		
 		var pivotX = origin.x ();
 		var pivotY = origin.y ();
 		var width = dimensions.x ();

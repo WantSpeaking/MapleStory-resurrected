@@ -289,14 +289,21 @@ namespace ms
 		// Draw the equip
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void draw(Stance.Id stance, Layer layer, byte frame, const DrawArgument& args) const
-		public void draw (Stance.Id stance, Layer layer, byte frame, DrawArgument args)
+		public void draw (Stance.Id stance, Layer layer, byte frame, DrawArgument args, bool drawOrErase = true)
 		{
 		
 			var range = stances[stance][layer].Where (pair => pair.Key == frame).Select (pair => pair.Value);
 
 			foreach (var texture in range)
 			{
-				texture.draw (args);
+				if (drawOrErase)
+				{
+					texture.draw (args);
+				}
+				else
+				{
+					texture.erase ();
+				}
 			}
 
 			/*for (var iter = range.first; iter != range.second; ++iter)

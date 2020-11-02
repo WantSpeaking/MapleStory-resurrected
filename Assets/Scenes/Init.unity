@@ -420,6 +420,7 @@ GameObject:
   - component: {fileID: 484164866}
   - component: {fileID: 484164865}
   - component: {fileID: 484164864}
+  - component: {fileID: 484164867}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -486,12 +487,32 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 484164863}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 400, y: 0, z: -1}
+  m_LocalPosition: {x: 400, y: -100, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 609587585}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &484164867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484164863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AssetsPPU: 1
+  m_RefResolutionX: 800
+  m_RefResolutionY: 600
+  m_UpscaleRT: 0
+  m_PixelSnapping: 0
+  m_CropFrameX: 0
+  m_CropFrameY: 0
+  m_StretchFill: 0
 --- !u!1 &609587583
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,26 +542,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5543904772fbacb47a547d5b06e0439e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clearColor: {r: 1, g: 0, b: 1, a: 1}
+  target: {fileID: 8400000, guid: 1eb4d1811e6ead943a0bb73b3d722e2d, type: 2}
+  enableDebugPacket: 1
+  disableDebugPacketAfterLogin: 1
+  button_load: {fileID: 1812318448}
+  inpuField_MapleFolder: {fileID: 1297704354}
+  inpuField_MapId: {fileID: 61339802}
+  maplestoryFolder: F:/BaiduYunDownload/079mg5/
+  mapIdToLoad: 104040000
+  walkSpeed: 1
+  jumpSpeed: 1
+  climbSpeed: 1
+  flySpeed: 1
+  fallSpeed: 1
+  animSpeed: 1
+  frameDelay: 1
+  multiplier_timeStep: 1
+  multiplier_elapsed: 1
   placeholder0: 
   placeholder1: 
   placeholder2: 
   placeholder3: 
   placeholder4: 
   placeholder5: 
-  target: {fileID: 8400000, guid: 1eb4d1811e6ead943a0bb73b3d722e2d, type: 2}
-  enableDebugPacket: 1
-  button_load: {fileID: 1812318448}
-  inpuField_MapleFolder: {fileID: 1297704354}
-  inpuField_MapId: {fileID: 61339802}
-  maplestoryFolder: F:/BaiduYunDownload/079mg5/
-  mapIdToLoad: 104040000
-  walkSpeed: 5
-  jumpSpeed: 5
-  climbSpeed: 3
-  flySpeed: 1
-  fallSpeed: 20
-  animSpeed: 1
-  frameDelay: 2
 --- !u!4 &609587585
 Transform:
   m_ObjectHideFlags: 0
@@ -899,7 +924,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1710074253
 Transform:
   m_ObjectHideFlags: 0
