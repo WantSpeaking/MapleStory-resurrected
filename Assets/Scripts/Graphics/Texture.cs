@@ -46,6 +46,9 @@ using ms.Helper;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using UnityEngine;
+using UnityEngine.Rendering;
+using ADBannerView = UnityEngine.iOS.ADBannerView;
+using Graphics = UnityEngine.Graphics;
 
 namespace ms
 {
@@ -63,14 +66,14 @@ namespace ms
 
 		public Texture (WzObject src)
 		{
-			if (src?.IsTexture ()??false)
+			if (src?.IsTexture () ?? false)
 			{
 				fullPath = src.FullPath;
-				origin = src["origin"]?.GetPoint ().ToMSPoint () ?? Point<short>.zero;
+				pivot = src["origin"]?.GetPoint ().ToMSPoint () ?? Point<short>.zero;
 
 				bitmap = src.GetBitmap ();
 
-				dimensions = new Point<short> ((short)(bitmap?.Width ?? 0), (short)(bitmap?.Height??0));
+				dimensions = new Point<short> ((short)(bitmap?.Width ?? 0), (short)(bitmap?.Height ?? 0));
 
 				//GraphicsGL.get().addbitmap(bitmap);todo render unity
 				//Debug.Log ($"{src?.FullPath} \t {src?.GetType ()}", spriteObj);
@@ -82,7 +85,7 @@ namespace ms
 		}
 
 		private Bitmap bitmap;
-		private Point<short> origin = new Point<short> ();
+		private Point<short> pivot = new Point<short> ();
 		private Point<short> dimensions = new Point<short> ();
 
 		public void erase ()
@@ -92,12 +95,14 @@ namespace ms
 				spriteRenderer.enabled = false;
 			}
 		}
+
 		public void draw ()
 		{
 		}
+
 		public void draw (DrawArgument args)
 		{
-			if (bitmap == null) return;
+			/*if (bitmap == null) return;
 			if (spriteRenderer == null)
 			{
 				spriteObj = new GameObject ();
@@ -111,7 +116,7 @@ namespace ms
 				if (sprite == null)
 				{
 					//Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
-					sprite = TextureAndSpriteUtil.TextureToSprite (bitmap, origin, dimensions);
+					sprite = TextureAndSpriteUtil.BitmapToSprite (bitmap, origin, dimensions);
 				}
 
 				spriteRenderer.gameObject.name = fullPath;
@@ -120,9 +125,62 @@ namespace ms
 				spriteRenderer.sortingOrder = args.orderInLayer;
 				setScale (new Vector3 (args.get_xscale (), args.get_yscale (), 1));
 				setPos (new Vector3 (args.get_Pos ().x (), -args.get_Pos ().y (), 0));
+			}*/
+
+			textureRange = new Rectangle<short> ((short)(args.get_Pos ().x () - pivot.x ()), (short)(args.get_Pos ().y () - pivot.y ()), dimensions.x (), dimensions.y ());
+			textureRect = new Rect (args.get_Pos ().x () - pivot.x (), args.get_Pos ().y () - pivot.y (), dimensions.x (), dimensions.y ());
+			if (bitmap == null) return;
+			if (mainTexture == null)
+			{
+				mainTexture = TextureAndSpriteUtil.BitmapToUnityTexture2d (bitmap, dimensions);
 			}
+
+			if (overlaps ())
+				DrawTextureToTarget ();
+			//Graphics.DrawTexture (new Rect (origin, dimensions), mainTexture);
 		}
-		public void draw( DrawArgument args,  Range<short> vertical) 
+
+		private Texture2D mainTexture;
+		public RenderTexture target => MapleStory.Instance.target;
+		public UnityEngine.Color clearColor = UnityEngine.Color.magenta;
+
+		CommandBuffer clearBuffer = new CommandBuffer () {name = "Clear Buffer"};
+
+		public void DrawTextureToTarget ()
+		{
+			Graphics.SetRenderTarget (target);
+			//clearBuffer.Clear ();
+			//clearBuffer.ClearRenderTarget (true, true, clearColor);
+			//Graphics.ExecuteCommandBuffer (clearBuffer);
+
+			GL.PushMatrix ();
+			GL.LoadPixelMatrix (0, target.width, target.height, 0);
+			//GL.LoadPixelMatrix(0, target.width, 0, target.height);
+			Graphics.DrawTexture (textureRelativeToCamera, mainTexture);
+			GL.PopMatrix ();
+		}
+
+		private Rect textureRelativeToCamera => new Rect (textureRect.x - cameraRect.x, textureRect.y - cameraRect.y, textureRect.width, textureRect.height);
+		private const short camera_left = 0;
+		private const short camera_top = 0;
+		private const short camera_right = 800;
+		private const short camera_bottom = 600;
+		Rectangle<short> cameraRange = new Rectangle<short> (camera_left, camera_right, camera_top, camera_bottom);
+		Rect cameraRect = new Rect (camera_left, camera_top, camera_right, camera_bottom);
+		private Rectangle<short> textureRange;
+		private Rect textureRect;
+
+		private bool overlaps ()
+		{
+			return cameraRange.overlaps (textureRange);
+		}
+
+		private bool contains ()
+		{
+			return cameraRange.contains (textureRange);
+		}
+
+		public void draw (DrawArgument args, Range<short> vertical)
 		{
 			/*if (!is_valid())
 				return;
@@ -135,6 +193,7 @@ namespace ms
 				args.get_angle()
 			);*/
 		}
+
 		private void setPos (Vector3 pos)
 		{
 			if (spriteRenderer?.gameObject is GameObject gameObject)
@@ -151,34 +210,33 @@ namespace ms
 			}
 		}
 
-	
 
 		public void shift (Point<short> amount)
 		{
-			origin = origin - amount;
-		}
-		
-		public bool is_valid()
-		{
-			return bitmap != null;/*bitmap.id() > 0;*/
+			pivot = pivot - amount;
 		}
 
-		public short width() 
+		public bool is_valid ()
 		{
-			return dimensions.x();
+			return bitmap != null; /*bitmap.id() > 0;*/
 		}
 
-		public short height() 
+		public short width ()
 		{
-			return dimensions.y();
+			return dimensions.x ();
 		}
 
-		public Point<short> get_origin() 
+		public short height ()
 		{
-			return origin;
+			return dimensions.y ();
 		}
 
-		public Point<short> get_dimensions() 
+		public Point<short> get_origin ()
+		{
+			return pivot;
+		}
+
+		public Point<short> get_dimensions ()
 		{
 			return dimensions;
 		}

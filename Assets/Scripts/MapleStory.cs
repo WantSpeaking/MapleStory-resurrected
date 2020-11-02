@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using HaRepacker;
 using ms;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 using Utility.Inspector;
 using Char = ms.Char;
 using Timer = ms.Timer;
 
-public class MapleStory :SingletonMono<MapleStory> 
+public class MapleStory : SingletonMono<MapleStory>
 {
 	private void Start ()
 	{
@@ -21,9 +22,15 @@ public class MapleStory :SingletonMono<MapleStory>
 		 spriteRenderer.sprite = TextureToSprite(GetTexrture2DFromPath(wzObject));*/
 		//button_load.onClick.AddListener (main);
 		DontDestroyOnLoad (this);
+		clearBuffer = new CommandBuffer () {name = "Clear Buffer"};
 	}
+
 	private void Update ()
 	{
+		/*clearBuffer.Clear ();
+		clearBuffer.ClearRenderTarget (true, true, clearColor);
+		Graphics.ExecuteCommandBuffer (clearBuffer);*/
+		
 		Constants.get ().walkSpeed = walkSpeed;
 		Constants.get ().jumpSpeed = jumpSpeed;
 		Constants.get ().climbSpeed = climbSpeed;
@@ -32,7 +39,11 @@ public class MapleStory :SingletonMono<MapleStory>
 		Constants.get ().animSpeed = animSpeed;
 
 		Constants.get ().frameDelay = frameDelay;
+		
+		Constants.get ().multiplier_timeStep = multiplier_timeStep;
 		loop ();
+		
+
 		/*UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.LEFT, Input.GetKey (KeyCode.LeftArrow));
 
 		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.RIGHT, Input.GetKey (KeyCode.RightArrow));
@@ -60,8 +71,14 @@ public class MapleStory :SingletonMono<MapleStory>
 	{
 		if (running ())
 		{
-			Window.get ().HandleGUIEvents(Event.current);
+			Window.get ().HandleGUIEvents (Event.current);
 		}
+	}
+	CommandBuffer clearBuffer;
+	public UnityEngine.Color clearColor = UnityEngine.Color.magenta;
+	private void OnPostRender ()
+	{
+		
 	}
 
 	private void init ()
@@ -106,8 +123,8 @@ public class MapleStory :SingletonMono<MapleStory>
 		Stage.get ().update ();
 		//UI.get ().update ();
 		Session.get ().read ();
-		Window.get().check_events();
-		Window.get().update();
+		Window.get ().check_events ();
+		Window.get ().update ();
 		/*
 		UI.get().update();
 		Session.get().read();*/
@@ -132,13 +149,14 @@ public class MapleStory :SingletonMono<MapleStory>
 			/*&& UI.get ().not_quitted ()*/;
 	}
 
-	private static long timestep = Constants.TIMESTEP * 1000;
+	private long timestep = (long)(Constants.TIMESTEP * 1000 * Constants.get ().multiplier_timeStep);
 	private long accumulator = timestep;
 
 	private void loop ()
 	{
 		if (running ())
 		{
+			Debug.Log ($"{Time.deltaTime}");
 			var elapsed = Timer.get ().stop ();
 
 			// Update game with constant timestep as many times as possible.
@@ -156,8 +174,8 @@ public class MapleStory :SingletonMono<MapleStory>
 
 	private void main ()
 	{
-		maplestoryFolder = inpuField_MapleFolder.text;
-		mapIdToLoad = int.Parse (inpuField_MapId.text);
+		//maplestoryFolder = inpuField_MapleFolder.text;
+		//mapIdToLoad = int.Parse (inpuField_MapId.text);
 
 		init ();
 		canStart = true;
@@ -173,53 +191,52 @@ public class MapleStory :SingletonMono<MapleStory>
 	}
 
 	#region Will be removed later
-	
+
 	#region Placeholder
 
-	[Button("main","Connect")]
-	public string placeholder0;
+	[Button ("main", "Connect")] public string placeholder0;
 
-	
-	[Button("LoginStartPacket","LoginStartPacket 35")]
+
+	[Button ("LoginStartPacket", "LoginStartPacket 35")]
 	public string placeholder1;
 
 	void LoginStartPacket ()
 	{
 		new LoginStartPacket ().dispatch ();
 	}
-	
-	[Button("LoginPacket","LoginPacket 1")]
+
+	[Button ("LoginPacket", "LoginPacket 1")]
 	public string placeholder2;
 
 	void LoginPacket ()
 	{
 		new LoginPacket ("admin", "admin").dispatch ();
 	}
-	
-	[Button("ServerStatusRequestPacket","ServerStatusRequestPacket 6")]
+
+	[Button ("ServerStatusRequestPacket", "ServerStatusRequestPacket 6")]
 	public string placeholder3;
 
 	void ServerStatusRequestPacket ()
 	{
 		new ServerStatusRequestPacket (-565).dispatch ();
 	}
-	
-	[Button("CharlistRequestPacket","CharlistRequestPacket 5")]
+
+	[Button ("CharlistRequestPacket", "CharlistRequestPacket 5")]
 	public string placeholder4;
 
 	void CharlistRequestPacket ()
 	{
-		new CharlistRequestPacket (0,0).dispatch ();
+		new CharlistRequestPacket (0, 0).dispatch ();
 	}
-	
-	[Button("SelectCharPacket","SelectCharPacket 19")]
+
+	[Button ("SelectCharPacket", "SelectCharPacket 19")]
 	public string placeholder5;
 
 	void SelectCharPacket ()
 	{
 		new SelectCharPacket (-565).dispatch ();
 	}
-	
+
 	/*[Utility.Inspector. Button("PlayerLoginPacket","PlayerLoginPacket 20")]
 	public string placeholder6;
 
@@ -229,6 +246,8 @@ public class MapleStory :SingletonMono<MapleStory>
 	}*/
 
 	#endregion
+
+	public RenderTexture target;
 
 	public bool enableDebugPacket = true;
 	public UnityEngine.UI.Button button_load;
@@ -240,7 +259,7 @@ public class MapleStory :SingletonMono<MapleStory>
 	public int mapIdToLoad = 100000000;
 
 	private WzFileManager wzFileManager;
-	
+
 	public float walkSpeed = 1;
 	public float jumpSpeed = 1;
 	public float climbSpeed = 1;
@@ -249,12 +268,15 @@ public class MapleStory :SingletonMono<MapleStory>
 	public float animSpeed = 1;
 
 	public float frameDelay = 0.5f;
-	
+
+	public float multiplier_timeStep = 5f;
 	private string fds;
+
 	void TempLogin ()
 	{
 		Configuration.get ().set_hwid ("884F4FCB", ref fds);
 	}
+
 	private void OnButtonLoadClick ()
 	{
 	}

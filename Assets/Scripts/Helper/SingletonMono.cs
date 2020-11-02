@@ -12,17 +12,38 @@ public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
 		{
 			if (instance == null)
 			{
-				GameObject obj = new GameObject (typeof (T).Name);
-				DontDestroyOnLoad (obj);
-				instance = obj.GetComponent<T> ();
-				if (instance == null)
+				T[] managers = GameObject.FindObjectsOfType (typeof (T)) as T[];
+				if (managers.Length > 1)
 				{
-					instance = obj.AddComponent<T> ();
+					Debug.LogError ("You have more than one " + typeof (T).Name + " in the scene. You only need 1, it's a singleton!");
+					foreach (T manager in managers)
+					{
+						Component obj = manager as Component;
+						Component.Destroy (obj.gameObject);
+					}
+
+					new GameObject (typeof (T).Name, typeof (T));
+					managers = GameObject.FindObjectsOfType (typeof (T)) as T[];
+				}
+				else if (managers.Length == 0)
+				{
+					new GameObject (typeof (T).Name, typeof (T));
+					managers = GameObject.FindObjectsOfType (typeof (T)) as T[];
+				}
+
+				if (managers.Length == 1)
+				{
+					instance = managers[0];
+					if (Application.isPlaying)
+					{
+						MonoBehaviour.DontDestroyOnLoad (instance);
+					}
 				}
 			}
 
 			return instance;
 		}
+		set { instance = value; }
 	}
 
 	#endregion

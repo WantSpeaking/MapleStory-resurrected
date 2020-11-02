@@ -21,7 +21,7 @@ public static class TextureAndSpriteUtil
 		return t2d;
 	}
 
-	public static UnityEngine.Sprite TextureToSprite (Bitmap bitmap, Point<short> origin, Point<short> dimensions)
+	public static UnityEngine.Sprite BitmapToSprite (Bitmap bitmap, Point<short> origin, Point<short> dimensions)
 	{
 		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y ());
 		t2d.LoadImage (ImageToByte2 (bitmap));
@@ -38,7 +38,14 @@ public static class TextureAndSpriteUtil
 
 		return sprite;
 	}
+	public static UnityEngine.Texture2D BitmapToUnityTexture2d (Bitmap bitmap, Point<short> dimensions)
+	{
+		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y ());
+		t2d.LoadImage (ImageToByte2 (bitmap));
+		t2d.Apply ();
 
+		return t2d;
+	}
 	public static byte[] ImageToByte2 (Image bitmap)
 	{
 		/*using (var stream = new MemoryStream())

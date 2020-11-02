@@ -121,6 +121,11 @@ namespace ms
 		{
 			return !straight () && (dynamic)v.x () >= left () && (dynamic)v.x () <= right () && (dynamic)v.y () >= top () && (dynamic)v.y () <= bottom ();
 		}
+		
+		public bool contains (Rectangle<T> ar)
+		{
+			return get_horizontal ().contains (new Range<T> (ar.left (), ar.right ())) && get_vertical ().contains (new Range<T> (ar.top (), ar.bottom ()));
+		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: constexpr bool overlaps(const Rectangle<T>& ar) const

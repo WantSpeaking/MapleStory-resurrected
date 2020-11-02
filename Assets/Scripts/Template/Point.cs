@@ -305,6 +305,11 @@ namespace ms
 			);
 		}
 
+		public static implicit operator Vector2 (Point<T> x)
+		{
+			return new Vector2 (x.a.ToT<float> (), x.b.ToT<float> ());
+		}
+
 		private T a;
 		private T b;
 	}
