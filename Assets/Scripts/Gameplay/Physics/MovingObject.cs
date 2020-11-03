@@ -82,96 +82,70 @@ namespace ms
             }
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: bool hmobile() const
         public bool hmobile()
         {
             return hspeed != 0.0;
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: bool vmobile() const
         public bool vmobile()
         {
             return vspeed != 0.0;
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: bool mobile() const
         public bool mobile()
         {
             return hmobile() || vmobile();
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: double crnt_x() const
         public double crnt_x()
         {
             return x.get();
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: double crnt_y() const
         public double crnt_y()
         {
             return y.get();
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: double next_x() const
         public double next_x()
         {
             return hspeed+x;
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: double next_y() const
         public double next_y()
         {
             return y + vspeed;
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: short get_x() const
         public short get_x()
         {
             double rounded = Math.Round(x.get());
             return (short)rounded;
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: short get_y() const
         public short get_y()
         {
             double rounded = Math.Round(y.get());
             return (short)rounded;
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: short get_last_x() const
         public short get_last_x()
         {
             double rounded = Math.Round(x.last());
             return (short)rounded;
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: short get_last_y() const
         public short get_last_y()
         {
             double rounded = Math.Round(y.last());
             return (short)rounded;
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: Point<short> get_position() const
         public Point<short> get_position()
         {
             return new Point<short> (get_x(), get_y());
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: short get_absolute_x(double viewx, float alpha) const
         public short get_absolute_x(double viewx, float alpha)
         {
             double interx = x.normalized() ? Math.Round(x.get()) : x.get(alpha);
@@ -179,8 +153,6 @@ namespace ms
             return (short)Math.Round(interx + viewx);
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: short get_absolute_y(double viewy, float alpha) const
         public short get_absolute_y(double viewy, float alpha)
         {
             double intery = y.normalized() ? Math.Round(y.get()) : y.get(alpha);
@@ -188,8 +160,6 @@ namespace ms
             return (short)Math.Round(intery + viewy);
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: Point<short> get_absolute(double viewx, double viewy, float alpha) const
         public Point<short> get_absolute(double viewx, double viewy, float alpha)
         {
             return new Point<short> (get_absolute_x(viewx, alpha), get_absolute_y(viewy, alpha));

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ms;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace ms
@@ -24,6 +25,7 @@ namespace ms
 
 		public void load (int mapid, sbyte portalid)
 		{
+			Debug.Log ($"load mapid:{mapid}\t portalid:{portalid}");
 			switch (state)
 			{
 				case State.INACTIVE:
@@ -96,6 +98,9 @@ namespace ms
 
 		public void draw (float alpha)
 		{
+			if (state != State.ACTIVE)
+				return;
+			
 			Point<short> viewpos = camera.position (alpha);
 			Point<double> viewrpos = camera.realposition (alpha);
 			double viewx = viewrpos.x ();
@@ -124,7 +129,10 @@ namespace ms
 
 		public void update ()
 		{
-			if (player == null) return;
+			if (state != State.ACTIVE)
+				return;
+			
+			//if (player == null) return;
 
 			combat.update ();
 			backgrounds.update ();
@@ -360,13 +368,16 @@ namespace ms
 
 		public void transfer_player ()
 		{
-			/*PlayerMapTransferPacket().dispatch();
+			new PlayerMapTransferPacket().dispatch();
 
 			if (Configuration.get().get_admin())
-				AdminEnterMapPacket(AdminEnterMapPacket.Operation.ALERT_ADMINS).dispatch();*/
+				new AdminEnterMapPacket(AdminEnterMapPacket.Operation.ALERT_ADMINS).dispatch();
 		}
 
-
+		public FootholdTree GetFootholdTree ()
+		{
+			return physics?.get_fht ();
+		}
 		private enum State
 		{
 			INACTIVE,

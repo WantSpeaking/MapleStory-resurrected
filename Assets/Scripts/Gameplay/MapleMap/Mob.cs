@@ -71,7 +71,8 @@ namespace ms
 			return (byte)(flip ? stance : stance + 1);
 		}
 
-		private Stance lastDraw_Stance = Stance.STAND;
+		private int lastDraw_Stance = -1;
+
 		// Construct a mob by combining data from game files with data sent by the server
 		public Mob (int oi, int mid, sbyte mode, sbyte st, ushort fh, bool newspawn, sbyte tm, Point<short> position) : base (oi, position)
 		{
@@ -133,9 +134,7 @@ namespace ms
 
 			id = mid;
 			team = tm;
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: set_position(position);
-			set_position (position);
+			set_position (new Point<short> (position));
 			set_control (mode);
 			phobj.fhid = fh;
 			phobj.set_flag (PhysicsObject.Flag.TURNATEDGES);
@@ -168,18 +167,17 @@ namespace ms
 		}
 
 		// Draw the mob
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(double viewx, double viewy, float alpha) const override
 		public override void draw (double viewx, double viewy, float alpha)
 		{
-			Point<short> absp = phobj.get_absolute (viewx, viewy, alpha);
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: Point<short> headpos = get_head_position(absp);
-			Point<short> headpos = get_head_position (absp);
+			if (lastDraw_Stance != -1)
+			{
+				animations[(Stance)lastDraw_Stance].eraseAllFrame ();
+			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: effects.drawbelow(absp, alpha);
-			effects.drawbelow (absp, alpha);
+			Point<short> absp = phobj.get_absolute (viewx, viewy, alpha);
+			Point<short> headpos = get_head_position (new Point<short> (absp));
+			//Debug.Log ($"Mob draw absp:{absp}");
+			effects.drawbelow (new Point<short> (absp), alpha);
 
 			if (!dead)
 			{
@@ -199,10 +197,16 @@ namespace ms
 					}
 				}
 			}
+			else
+			{
+				animations[Stance.DIE].eraseAllFrame ();
+			}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: effects.drawabove(absp, alpha);
 			effects.drawabove (absp, alpha);
+
+			lastDraw_Stance = (int)stance;
 		}
 
 		// Update movement and animations
@@ -358,9 +362,7 @@ namespace ms
 				return;
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: set_position(start);
-			set_position (start);
+			set_position (new Point<short> (start));
 
 			movements = in_movements;
 
@@ -531,8 +533,6 @@ namespace ms
 		}
 
 		// Create a touch damage attack to the player
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: MobAttack create_touch_attack() const
 		public MobAttack create_touch_attack ()
 		{
 			if (!touchdamage)
@@ -548,9 +548,7 @@ namespace ms
 		}
 
 		// Check if this mob collides with the specified rectangle
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool is_in_range(const Rectangle<short>& range) const
-		public bool is_in_range (Rectangle<short> range,bool debug = false)
+		public bool is_in_range (Rectangle<short> range, bool debug = false)
 		{
 			if (!active)
 			{
@@ -564,20 +562,17 @@ namespace ms
 			{
 				Debug.Log ($"range:{range}\t get_bounds:{tempCacheBounds}\t get_position():{get_position ()}\t bounds.shift(get_position()):{bounds}\t {range.overlaps (bounds)}");
 			}
+
 			return range.overlaps (bounds);
 		}
 
 		// Check if this mob is still alive
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool is_alive() const
 		public bool is_alive ()
 		{
 			return active && !dying;
 		}
 
 		// Return the head position
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Point<short> get_head_position() const
 		public Point<short> get_head_position ()
 		{
 			Point<short> position = get_position ();
@@ -689,8 +684,6 @@ namespace ms
 		}
 
 		// Calculate the hit chance
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: float calculate_hitchance(short leveldelta, int player_accuracy) const
 		private float calculate_hitchance (short leveldelta, int player_accuracy)
 		{
 			float faccuracy = (float)player_accuracy;
@@ -705,8 +698,6 @@ namespace ms
 		}
 
 		// Calculate the minimum damage
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: double calculate_mindamage(short leveldelta, double damage, bool magic) const
 		private double calculate_mindamage (short leveldelta, double damage, bool magic)
 		{
 			double mindamage = magic ? damage - (1 + 0.01 * leveldelta) * mdef * 0.6 : damage * (1 - 0.01 * leveldelta) - wdef * 0.6;
@@ -715,8 +706,6 @@ namespace ms
 		}
 
 		// Calculate the maximum damage
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: double calculate_maxdamage(short leveldelta, double damage, bool magic) const
 		private double calculate_maxdamage (short leveldelta, double damage, bool magic)
 		{
 			double maxdamage = magic ? damage - (1 + 0.01 * leveldelta) * mdef * 0.5 : damage * (1 - 0.01 * leveldelta) - wdef * 0.5;
@@ -725,8 +714,6 @@ namespace ms
 		}
 
 		// Calculate a random damage line based on the specified values
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: System.Tuple<int, bool> next_damage(double mindamage, double maxdamage, float hitchance, float critical) const
 		private System.Tuple<int, bool> next_damage (double mindamage, double maxdamage, float hitchance, float critical)
 		{
 			bool hit = randomizer.below (hitchance);
@@ -761,8 +748,6 @@ namespace ms
 		}
 
 		// Return the current 'head' position
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Point<short> get_head_position(Point<short> position) const
 		private Point<short> get_head_position (Point<short> position)
 		{
 			Point<short> head = animations[stance].get_head ();
@@ -771,6 +756,16 @@ namespace ms
 			position.shift_y (head.y ());
 
 			return position;
+		}
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			foreach (var pair in animations)
+			{
+				pair.Value.Dispose ();
+			}
+			animations.Clear ();
 		}
 
 		private SortedDictionary<Stance, Animation> animations = new SortedDictionary<Stance, Animation> ();

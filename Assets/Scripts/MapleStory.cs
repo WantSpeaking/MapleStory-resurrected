@@ -4,11 +4,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using HaRepacker;
 using ms;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using Utility.Inspector;
 using Char = ms.Char;
+using Color = UnityEngine.Color;
+using Random = UnityEngine.Random;
 using Timer = ms.Timer;
 
 public class MapleStory : SingletonMono<MapleStory>
@@ -424,18 +427,64 @@ public class MapleStory : SingletonMono<MapleStory>
 	}
 
 
-	private void DrawBound ()
+	private GUIStyle labelStyle = new GUIStyle ();
+
+	public int fontSize = 1;
+	public Color fontColor = Color.black;
+	public bool enable_DrawFootHolder = false;
+	private void DrawFootHolder ()
 	{
-		var camer = Stage.get ().camera;
-		var center = new Vector3 ((float)camer.x.get (1), (float)camer.y.get (1));
-		var size = new Vector3 ((float)camer.hbounds.delta (), (float)camer.vbounds.delta ());
-		//Debug.Log ($"Bound.Center:{center}\tBound.size:{size}");
-		Gizmos.DrawWireCube (center, size);
+		var footholdtree = Stage.get ().GetFootholdTree ();
+		if (footholdtree != null)
+		{
+			foreach (var pair in footholdtree.Footholds)
+			{
+				var id = pair.Key;
+				var footHolder = pair.Value;
+				//Handles.RectangleHandleCap ();
+
+				var left = new Vector3 (footHolder.horizontal ().smaller (), -footHolder.vertical ().smaller ());
+				var center = new Vector3 (footHolder.horizontal ().center (), -footHolder.vertical ().center ());
+				var right = new Vector3 (footHolder.horizontal ().greater (), -footHolder.vertical ().greater ());
+				var footHoldSize = new Vector3 (footHolder.horizontal ().length (), footHolder.vertical ().length ());
+				//Debug.Log ($"Bound.Center:{center}\tBound.size:{size}");
+
+				Handles.BeginGUI ();
+
+				var text_Size = new Vector2 (40, 20);
+				var center_ScreenPosition = HandleUtility.WorldToGUIPoint (center);
+				var center_ScreenPosition_MinusWidth = new Vector2 (center_ScreenPosition.x - text_Size.x / 2, center_ScreenPosition.y);
+				var left_ScreenPosition = HandleUtility.WorldToGUIPoint (left);
+				var Right_ScreenPosition = HandleUtility.WorldToGUIPoint (right);
+				labelStyle.fontSize = fontSize;
+				labelStyle.normal.textColor = fontColor;
+				labelStyle.fontStyle = FontStyle.Bold;
+				//GUI.backgroundColor = Color.black;
+				//GUI.color = Color.red;
+				GUI.Label (new Rect (center_ScreenPosition_MinusWidth, text_Size), id.ToString (),labelStyle);
+				//GUI.backgroundColor = Color.white;
+				//GUI.Label (new Rect (left_ScreenPosition, 5 * Vector2.one), "");
+				//GUI.Label (new Rect (Right_ScreenPosition, 5 * Vector2.one), "");
+				Handles.EndGUI ();
+				
+				//Gizmos.color = new Color (id % 2, id % 2, id % 2, id % 2);
+				Gizmos.color = Color.black;
+				Gizmos.DrawWireCube (center, footHoldSize);
+				Gizmos.DrawCube (left, Vector3.one * 10);
+				//Gizmos.DrawCube (center, Vector3.one * 10);
+				Gizmos.DrawCube (right, Vector3.one * 10);
+
+	
+			}
+		}
+
+		//Handles.dr
 	}
 
 	private void OnDrawGizmos ()
 	{
-		DrawBound ();
+		if(enable_DrawFootHolder)
+			DrawFootHolder ();
 	}
 
 	#region Placeholder
@@ -481,7 +530,8 @@ public class MapleStory : SingletonMono<MapleStory>
 	void SelectCharPacket ()
 	{
 		new SelectCharPacket (4).dispatch ();
-		enableDebugPacket = false;
+		if(disableDebugPacketAfterLogin)
+			enableDebugPacket = false;
 	}
 
 	/*[Utility.Inspector. Button("PlayerLoginPacket","PlayerLoginPacket 20")]

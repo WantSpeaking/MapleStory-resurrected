@@ -10,18 +10,18 @@ using UnityEngine;
 
 namespace ms
 {
-	public class Frame
+	public class Frame : IDisposable
 	{
 		public Frame (WzObject src) // Map.wz/Back/grassySoil.img/ani/0
 		{
 			temp = src;
-			
+
 			texture = new Texture (src);
 			bounds = new Rectangle<short> (src);
 			head = src["head"];
 			delay = src["delay"];
 			//if (temp?.FullPath.Contains ("1210100.img") ?? false)
-				//Debug.Log ($"\t delay:{delay}");
+			//Debug.Log ($"\t delay:{delay}");
 			if (delay == 0)
 				delay = 100;
 
@@ -67,6 +67,10 @@ namespace ms
 			delay = 0;
 			opacities = new Tuple<byte, byte> (0, 0);
 			scales = new Tuple<short, short> (0, 0);
+			
+			head = new Point<short> ();
+			 bounds = new Rectangle<short> ();
+			texture = new Texture ();
 		}
 
 		public void erase ()
@@ -131,18 +135,23 @@ namespace ms
 			return timestep * (float)(scales.Item2 - scales.Item1) / delay;
 		}
 
-		private Point<short> head = new Point<short> ();
-		private Rectangle<short> bounds = new Rectangle<short> ();
-		private Texture texture = new Texture ();
+		public virtual void Dispose()
+		{
+			texture.Dispose ();
+		}
+		
+		private Point<short> head;
+		private Rectangle<short> bounds;
+		private Texture texture;
 		private ushort delay;
-		private Tuple<byte, byte> opacities = new Tuple<byte, byte> (0, 0);
+		private Tuple<byte, byte> opacities;
 
-		private Tuple<short, short> scales = new Tuple<short, short> (0, 0);
+		private Tuple<short, short> scales;
 		//private Rectangle<short> bounds = new Rectangle<short>();
 		//private Point<short> head = new Point<short>();
 	}
 
-	public class Animation
+	public class Animation : IDisposable
 	{
 		private SortedSet<short> frameids = new SortedSet<short> ();
 
@@ -212,7 +221,6 @@ namespace ms
 			reset ();
 		}
 
-
 		public void reset ()
 		{
 			frame.set (0);
@@ -230,6 +238,14 @@ namespace ms
 		private void erase (short interframe)
 		{
 			frames[interframe].erase ();
+		}
+
+		public void eraseAllFrame ()
+		{
+			foreach (var frame in frames)
+			{
+				frame.erase ();
+			}
 		}
 
 		public void draw (DrawArgument args, float alpha)
@@ -254,7 +270,7 @@ namespace ms
 			lastDraw_interframe = interframe;
 
 			//if (temp_src?.FullPath.Contains ("1210100.img") ?? false)
-				//Debug.Log ($"draw interframe : {interframe}");
+			//Debug.Log ($"draw interframe : {interframe}");
 		}
 
 		/*public bool update ()
@@ -264,8 +280,6 @@ namespace ms
 
 		public bool update (ushort timestep = Constants.TIMESTEP)
 		{
-			//timestep = (ushort)(timestep * Constants.get ().frameDelay);
-
 			Frame framedata = get_frame ();
 
 			opacity += framedata.opcstep (timestep);
@@ -330,7 +344,7 @@ namespace ms
 				frame.next (nextframe, threshold);
 
 				//if (temp_src?.FullPath.Contains ("1210100.img") ?? false)
-					//Debug.Log ($"update nextframe : {nextframe}\t threshold:{threshold}\t timestep:{timestep}\t delay:{delay}\t delta:{delta}");
+				//Debug.Log ($"update nextframe : {nextframe}\t threshold:{threshold}\t timestep:{timestep}\t delay:{delay}\t delta:{delta}");
 
 				delay = frames[nextframe].get_delay ();
 
@@ -400,6 +414,14 @@ namespace ms
 			//return frames[0];
 		}
 
+		public virtual void Dispose()
+		{
+			foreach (var frame in frames)
+			{
+				frame.Dispose ();
+			}
+		}
+		
 		private List<Frame> frames = new List<Frame> ();
 		private bool animated;
 		private bool zigzag;

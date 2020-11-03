@@ -81,6 +81,8 @@ namespace ms
 
 		public void Dispose ()
 		{
+			//bitmap?.Dispose ();
+			UnityEngine.Object.Destroy (spriteObj);
 		}
 
 		private Bitmap bitmap;

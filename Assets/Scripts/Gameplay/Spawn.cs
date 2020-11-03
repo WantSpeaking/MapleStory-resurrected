@@ -44,21 +44,15 @@ namespace ms
 		{
 			this.oid = o;
 			this.id = i;
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: this.position = new ms.Point<short>(p);
-			this.position = p;
+			this.position = new Point<short> (p);
 			this.flip = fl;
 			this.fh = f;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int get_oid() const
 		public int get_oid()
 		{
 			return oid;
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: unique_ptr<MapObject> instantiate(const Physics& physics) const
 		public MapObject instantiate(Physics physics)
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
@@ -85,25 +79,17 @@ namespace ms
 			this.fh = f;
 			this.newspawn = ns;
 			this.team = t;
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: this.position = new ms.Point<short>(p);
-			this.position = p;
+			this.position = new ms.Point<short>(p);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: sbyte get_mode() const
 		public sbyte get_mode()
 		{
 			return mode;
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int get_oid() const
 		public int get_oid()
 		{
 			return oid;
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: unique_ptr<MapObject> instantiate() const
 		public MapObject instantiate()
 		{
 			return new Mob(oid, id, mode, stance, fh, newspawn, team, position);
@@ -116,7 +102,7 @@ namespace ms
 		private ushort fh;
 		private bool newspawn;
 		private sbyte team;
-		private Point<short> position = new Point<short>();
+		private Point<short> position;
 	}
 
 	public class ReactorSpawn

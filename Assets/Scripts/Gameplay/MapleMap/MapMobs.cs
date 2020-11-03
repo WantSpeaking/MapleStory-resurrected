@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -82,13 +83,13 @@ namespace ms
 		// Spawn a new mob.
 		public void spawn (MobSpawn spawn)
 		{
+			//Debug.Log ($"MapMobs spawn : oid:{spawn.get_oid ()}\t mode:{spawn.get_mode ()}");
 			spawns.Enqueue (spawn);
 		}
 
 		// Kill a mob.
 		public void remove (int oid, sbyte animation)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 			if (mobs.get (oid).get () is Mob mob)
 			{
 				mob.kill (animation);
@@ -106,7 +107,6 @@ namespace ms
 		{
 			sbyte mode = (sbyte)(control ? 1 : 0);
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 			if (mobs.get (oid).get () is Mob mob)
 			{
 				mob.set_control (mode);
@@ -116,7 +116,6 @@ namespace ms
 		// Update a mob's hp display.
 		public void send_mobhp (int oid, sbyte percent, ushort playerlevel)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 			if (mobs.get (oid).get () is Mob mob)
 			{
 				mob.show_hp (percent, playerlevel);
@@ -126,7 +125,6 @@ namespace ms
 		// Update a mob's movements.
 		public void send_movement (int oid, Point<short> start, List<Movement> movements)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 			if (mobs.get (oid).get () is Mob mob)
 			{
 				mob.send_movement (start, movements);
@@ -138,7 +136,6 @@ namespace ms
 		{
 			foreach (var target in targets)
 			{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 				if (mobs.get (target).get () is Mob mob)
 				{
 					result.damagelines[target] = mob.calculate_damage (attack);
@@ -160,7 +157,6 @@ namespace ms
 		// Applies damage to a mob.
 		public void apply_damage (int oid, int damage, bool toleft, AttackUser user, SpecialMove move)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 			if (mobs.get (oid).get () is Mob mob)
 			{
 				mob.apply_damage (damage, toleft);
@@ -171,8 +167,6 @@ namespace ms
 		}
 
 		// Check if the mob with the specified oid exists.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool contains(int oid) const
 		public bool contains (int oid)
 		{
 			return mobs.contains (oid);
@@ -184,8 +178,6 @@ namespace ms
 		Rectangle<short> player_rect = new Rectangle<short> ();
 
 		// Return the id of the first mob who collides with the object.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int find_colliding(const MovingObject& moveobj) const
 		public int find_colliding (MovingObject moveobj)
 		{
 			horizontal.Set (moveobj.get_last_x (), moveobj.get_x ());
@@ -196,11 +188,8 @@ namespace ms
 		}
 
 		// Create an attack by the specified mob.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: MobAttack create_attack(int oid) const
 		public MobAttack create_attack (int oid)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 			if (mobs.get (oid).get () is Mob mob)
 			{
 				return mob.create_touch_attack ();
@@ -210,8 +199,6 @@ namespace ms
 		}
 
 		// Return the position of a mob.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Point<short> get_mob_position(int oid) const
 		public Point<short> get_mob_position (int oid)
 		{
 			if (mobs.get (oid).get () is Mob mob)
@@ -225,8 +212,6 @@ namespace ms
 		}
 
 		// Return the head position of a mob.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Point<short> get_mob_head_position(int oid) const
 		public Point<short> get_mob_head_position (int oid)
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:

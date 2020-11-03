@@ -292,23 +292,21 @@ namespace ms
 
 		List<int> targets = new List<int> ();
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: ClassicVector<int> find_closest(MapObjects* objs, Rectangle<short> range, Point<short> origin, byte objcount, bool use_mobs) const
 		private List<int> find_closest (MapObjects objs, Rectangle<short> range, Point<short> origin, byte objcount, bool use_mobs)
 		{
+			distances.Clear ();
+			targets.Clear ();
 			foreach (var mmo in objs)
 			{
 				if (use_mobs)
 				{
 					Mob mob = (Mob)mmo.Value;
 
-					if (mob != null && mob.is_alive () && mob.is_in_range (range,true))
+					if (mob != null && mob.is_alive () && mob.is_in_range (range))
 					{
 						int oid = mob.get_oid ();
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: ushort distance = mob->get_position().distance(origin);
-						ushort distance = (ushort)mob.get_position ().distance (origin);
-						distances.Add (distance, oid);
+						var distance = mob.get_position ().distance (new Point<short> (origin));
+						distances.Add ((ushort)distance, oid);
 					}
 				}
 				else
@@ -327,7 +325,7 @@ namespace ms
 				}
 			}
 
-			targets.Clear ();
+			
 			foreach (var iter in distances)
 			{
 				if (targets.Count >= objcount)

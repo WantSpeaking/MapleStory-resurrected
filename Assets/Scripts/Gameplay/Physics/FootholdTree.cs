@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using MapleLib.WzLib;
 using SD.Tools.Algorithmia.GeneralDataStructures;
 using UnityEngine;
@@ -48,6 +49,11 @@ namespace ms
 	{
 		public FootholdTree (WzObject src)
 		{
+			footholds = new Dictionary<ushort, Foothold> ();
+			Footholds = new ReadOnlyDictionary<ushort, Foothold> (footholds);
+			
+			footholdsbyx = new MultiValueDictionary<short, ushort> ();
+			
 			short leftw = 30000;
 			short rightw = -30000;
 			short botb = -30000;
@@ -136,13 +142,7 @@ namespace ms
 			borders = new Range<short> ((short)(topb - 300), (short)(botb + 100));
 		}
 
-		public FootholdTree ()
-		{
-		}
-
 		// Takes an accelerated PhysicsObject and limits its movement based on the platforms in this tree
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void limit_movement(PhysicsObject& phobj) const
 		public void limit_movement (PhysicsObject phobj)
 		{
 			if (phobj.hmobile ())
@@ -197,8 +197,6 @@ namespace ms
 		}
 
 		// Updates a PhysicsObject's fhid based on it's position
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void update_fh(PhysicsObject& phobj) const
 		public void update_fh (PhysicsObject phobj)
 		{
 			if (phobj.type == PhysicsObject.Type.FIXATED && phobj.fhid > 0)
@@ -306,11 +304,8 @@ namespace ms
 		}
 
 		// Determine the point on the ground below the specified position
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: short get_y_below(Point<short> position) const
 		public short get_y_below (Point<short> position)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 			ushort fhid = get_fhid_below (position.x (), position.y ());
 			if (fhid != 0)
 			{
@@ -325,23 +320,17 @@ namespace ms
 		}
 
 		// Returns the leftmost and rightmost platform positions of the map
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Range<short> get_walls() const
 		public Range<short> get_walls ()
 		{
 			return walls;
 		}
 
 		// Returns the topmost and bottommost platform positions of the map
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Range<short> get_borders() const
 		public Range<short> get_borders ()
 		{
 			return borders;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: ushort get_fhid_below(double fx, double fy) const
 		private ushort get_fhid_below (double fx, double fy)
 		{
 			ushort ret = 0;
@@ -381,8 +370,6 @@ namespace ms
 			return ret;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: double get_wall(ushort curid, bool left, double fy) const
 		private double get_wall (ushort curid, bool left, double fy)
 		{
 			var shorty = (short)fy;
@@ -427,8 +414,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: double get_edge(ushort curid, bool left) const
 		private double get_edge (ushort curid, bool left)
 		{
 			Foothold fh = get_fh (curid);
@@ -473,8 +458,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: const Foothold& get_fh(ushort fhid) const
 		private Foothold get_fh (ushort fhid)
 		{
 			Foothold foothold;
@@ -487,11 +470,12 @@ namespace ms
 			return foothold;
 		}
 
-		private Dictionary<ushort, Foothold> footholds = new Dictionary<ushort, Foothold> ();
-		private MultiValueDictionary<short, ushort> footholdsbyx = new MultiValueDictionary<short, ushort> ();//todo unordered_multimap
+		public IReadOnlyDictionary<ushort, Foothold> Footholds;
+		private readonly Dictionary<ushort, Foothold> footholds;
+		private readonly MultiValueDictionary<short, ushort> footholdsbyx;//todo unordered_multimap
 
-		private Foothold nullfh = new Foothold ();
-		private Range<short> walls = new Range<short> ();
-		private Range<short> borders = new Range<short> ();
+		private Foothold nullfh;
+		private readonly Range<short> walls;
+		private readonly Range<short> borders;
 	}
 }

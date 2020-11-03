@@ -76,13 +76,13 @@ namespace ms
 			}
 		}
 
-		HashSet<int> cache = new HashSet<int> ();
+		HashSet<int> cache_mob_ToRemove = new HashSet<int> ();
 
 		// Update all MapObjects of this type
 		// Also updates layers (E.g. drawing order)
 		public void update (Physics physics)
 		{
-			cache.Clear ();
+			cache_mob_ToRemove.Clear ();
 			foreach (var iter in objects)
 			{
 				bool remove_mob = false;
@@ -110,7 +110,7 @@ namespace ms
 
 				if (remove_mob)
 				{
-					cache.Add (iter.Key);
+					cache_mob_ToRemove.Add (iter.Key);
 					//iter = objects.Remove (iter);
 				}
 
@@ -120,9 +120,13 @@ namespace ms
 				}*/
 			}
 
-			foreach (var id in cache)
+			foreach (var id in cache_mob_ToRemove)
 			{
-				objects.Remove (id);
+				if (objects.TryGetValue (id ,out var mapObject))
+				{
+					mapObject.Dispose ();
+					objects.Remove (id);
+				}
 			}
 		}
 

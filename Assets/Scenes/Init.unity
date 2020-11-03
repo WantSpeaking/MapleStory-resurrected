@@ -545,7 +545,7 @@ MonoBehaviour:
   clearColor: {r: 1, g: 0, b: 1, a: 1}
   target: {fileID: 8400000, guid: 1eb4d1811e6ead943a0bb73b3d722e2d, type: 2}
   enableDebugPacket: 1
-  disableDebugPacketAfterLogin: 1
+  disableDebugPacketAfterLogin: 0
   button_load: {fileID: 1812318448}
   inpuField_MapleFolder: {fileID: 1297704354}
   inpuField_MapId: {fileID: 61339802}
@@ -560,6 +560,8 @@ MonoBehaviour:
   frameDelay: 1
   multiplier_timeStep: 1
   multiplier_elapsed: 1
+  fontSize: 1
+  fontColor: {r: 0, g: 0, b: 0, a: 1}
   placeholder0: 
   placeholder1: 
   placeholder2: 

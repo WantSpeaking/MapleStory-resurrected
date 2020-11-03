@@ -295,6 +295,7 @@ namespace ms
 
 			recv.skip(4);
 
+			//Debug.Log ($"SpawnMobHandler oid:{oid}\t id:{id}\t stance:{stance}\t fh:{fh}\t position:{position}");
 			Stage.get().get_mobs().spawn(new MobSpawn(oid, id, 0, stance, fh, effect == -2, team, position));
 		}
 	}

@@ -46,13 +46,8 @@ namespace ms
 			fht = new FootholdTree(node_100000000img_foothold);
 			//fht = src;
 		}
-		public Physics()
-		{
-		}
 
 		// Move the specified object over the specified game-time
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void move_object(PhysicsObject& phobj) const
 		public void move_object(PhysicsObject phobj)
 		{
 			// Determine which platform the object is currently on
@@ -82,8 +77,6 @@ namespace ms
 			phobj.move();
 		}
 		// Determine the point on the ground below the specified position
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Point<short> get_y_below(Point<short> position) const
 		public Point<short> get_y_below(Point<short> position)
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
@@ -93,15 +86,11 @@ namespace ms
 			return new Point<short>(position.x(), (short)(ground - 1));
 		}
 		// Return a reference to the collection of platforms
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: const FootholdTree& get_fht() const
 		public FootholdTree get_fht()
 		{
 			return fht;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void move_normal(PhysicsObject& phobj) const
 		private void move_normal(PhysicsObject phobj)
 		{
 			phobj.vacc = 0.0;
@@ -144,8 +133,6 @@ namespace ms
 			phobj.hspeed += phobj.hacc;
 			phobj.vspeed += phobj.vacc;
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void move_flying(PhysicsObject& phobj) const
 		private void move_flying(PhysicsObject phobj)
 		{
 			phobj.hacc = phobj.hforce;
@@ -169,8 +156,6 @@ namespace ms
 				phobj.vspeed = 0.0;
 			}
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void move_swimming(PhysicsObject& phobj) const
 		private void move_swimming(PhysicsObject phobj)
 		{
 			phobj.hacc = phobj.hforce;
@@ -200,7 +185,7 @@ namespace ms
 			}
 		}
 
-		private FootholdTree fht = new FootholdTree();
+		private FootholdTree fht;
 		
 		const double GRAVFORCE = 0.14;
 		const double SWIMGRAVFORCE = 0.03;

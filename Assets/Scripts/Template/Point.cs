@@ -76,7 +76,11 @@ namespace ms
 		public Point ()
 		{
 		}
-
+		public Point (Point<T> src)
+		{
+			this.a = src.a;
+			this.b = src.b;
+		}
 		public Point (T first, T second)
 		{
 			this.a = first;

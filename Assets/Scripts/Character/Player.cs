@@ -189,8 +189,6 @@ namespace ms
 		}
 
 		// Draw the player
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: void draw(Layer.Id layer, double viewx, double viewy, float alpha) const
 		public void draw (Layer.Id layer, double viewx, double viewy, float alpha)
 		{
 			//Debug.Log ($"Layer draw player :{(Layer.Id)get_layer ()}");
@@ -240,8 +238,6 @@ namespace ms
 
 
 		// Return the Character's attacking speed
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: sbyte get_integer_attackspeed() const override
 		public override sbyte get_integer_attackspeed ()
 		{
 			int weapon_id = look.get_equips ().get_weapon ();
@@ -284,24 +280,18 @@ namespace ms
 		}
 
 		// Return if the player is attacking
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: bool is_attacking() const
 		public bool is_attacking ()
 		{
 			return attacking;
 		}
 
 		// Return whether the player can attack or not
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: bool can_attack() const
 		public bool can_attack ()
 		{
 			return !attacking && !is_climbing () && !is_sitting () && look.get_equips ().has_weapon ();
 		}
 
 		// Return whether the player can use a skill or not
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: SpecialMove.ForbidReason can_use(const SpecialMove& move) const
 		public SpecialMove.ForbidReason can_use (SpecialMove move)
 		{
 			if (move.is_skill () && state == Char.State.PRONE)
@@ -330,8 +320,6 @@ namespace ms
 		}
 
 		// Create an attack struct using the player's stats
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: Attack prepare_attack(bool skill) const
 		public Attack prepare_attack (bool skill)
 		{
 			Attack.Type attacktype;
@@ -389,9 +377,7 @@ namespace ms
 			attack.ignoredef = stats.get_ignoredef ();
 			attack.accuracy = stats.get_total (EquipStat.Id.ACC);
 			attack.playerlevel = (short)stats.get_stat (MapleStat.Id.LEVEL);
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
-			//ORIGINAL LINE: attack.range = stats.get_range();
-			attack.range = (stats.get_range ());
+			attack.range = new Rectangle<short> (stats.get_range ());
 			attack.bullet = inventory.get_bulletid ();
 			attack.bullet = 0;
 			attack.origin = get_position ();
@@ -413,8 +399,6 @@ namespace ms
 		}
 
 		// Check whether the player is invincible
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: bool is_invincible() const override
 		public override bool is_invincible ()
 		{
 			if (state == Char.State.DIED)
@@ -466,8 +450,6 @@ namespace ms
 		}
 
 		// Return whether the buff is active
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: bool has_buff(Buffstat.Id stat) const
 		public bool has_buff (Buffstat.Id stat)
 		{
 			return buffs[stat].value > 0;
@@ -492,8 +474,6 @@ namespace ms
 		}
 
 		// Check if a skill is on cooldown
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: bool has_cooldown(int skill_id) const
 		public bool has_cooldown (int skill_id)
 		{
 			cooldowns.TryGetValue (skill_id, out var cool);
@@ -523,16 +503,12 @@ namespace ms
 		}
 
 		// Return the Character's level
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: ushort get_level() const override
 		public override ushort get_level ()
 		{
 			return stats.get_stat (MapleStat.Id.LEVEL);
 		}
 
 		// Return the Character's level of a skill
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: int get_skilllevel(int skillid) const override
 		public override int get_skilllevel (int skillid)
 		{
 			//todo return skillbook.get_level(skillid);
@@ -559,8 +535,7 @@ namespace ms
 		// Change players x-position to the ladder x and change stance to Char.State.LADDER or Char.State.ROPE
 		public void set_ladder (Optional<Ladder> ldr)
 		{
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
-			//ORIGINAL LINE: ladder = ldr;
+			//ladder = new Optional<Ladder> (ldr.get ());//todo may null
 			ladder = ldr;
 
 			if ((bool)ladder)
@@ -587,50 +562,37 @@ namespace ms
 			return !(bool)climb_cooldown;
 		}
 
-
 		// Returns the current walking force, calculated from the total ES_SPEED stat.
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: float get_walkforce() const
 		public float get_walkforce ()
 		{
 			return 0.05f + 0.11f * (float)stats.get_total (EquipStat.Id.SPEED) / 100 * Constants.get ().walkSpeed;
 		}
 
 		// Returns the current jumping force, calculated from the total ES_JUMP stat.
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: float get_jumpforce() const
 		public float get_jumpforce ()
 		{
 			return 1.0f + 3.5f * (float)stats.get_total (EquipStat.Id.JUMP) / 100 * Constants.get ().jumpSpeed;
 		}
 
 		// Returns the climbing force, calculated from the total ES_SPEED stat.
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: float get_climbforce() const
 		public float get_climbforce ()
 		{
 			return (float)stats.get_total (EquipStat.Id.SPEED) / 100 * Constants.get ().climbSpeed;
 		}
 
 		// Returns the flying force
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: float get_flyforce() const
 		public float get_flyforce ()
 		{
 			return 0.25f * Constants.get ().flySpeed;
 		}
 
 		// Return whether the player is underwater
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: bool is_underwater() const
 		public bool is_underwater ()
 		{
 			return underwater;
 		}
 
 		// Returns if a Keyaction is currently active 
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: bool is_key_down(KeyAction.Id action) const
 		public bool is_key_down (KeyAction.Id action)
 		{
 			return keysdown.Any (pair => pair.Key == action) && keysdown[action];
@@ -680,8 +642,6 @@ namespace ms
 
 
 		// Return a pointer to the ladder the player is on
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: Optional<const Ladder> get_ladder() const
 		public Optional<Ladder> get_ladder ()
 		{
 			return ladder;

@@ -238,16 +238,12 @@ namespace ms
 	// The walking state
 	public class PlayerWalkState : PlayerState
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void initialize(Player& player) const override
 		public override void initialize (Player player)
 		{
 			player.get_phobj ().type = PhysicsObject.Type.NORMAL;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void send_action(Player& player, KeyAction::Id ka, bool down) const override
-public override void send_action (Player player, KeyAction.Id ka, bool down)
+		public override void send_action (Player player, KeyAction.Id ka, bool down)
 		{
 			if (player.is_attacking ())
 			{
@@ -270,9 +266,7 @@ public override void send_action (Player player, KeyAction.Id ka, bool down)
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void update(Player& player) const override
-public override void update (Player player)
+		public override void update (Player player)
 		{
 			if (player.get_phobj ().enablejd == false)
 			{
@@ -306,9 +300,7 @@ public override void update (Player player)
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void update_state(Player& player) const override
-public override void update_state (Player player)
+		public override void update_state (Player player)
 		{
 			if (player.get_phobj ().onground)
 			{
@@ -327,21 +319,15 @@ public override void update_state (Player player)
 	// The falling state
 	public class PlayerFallState : PlayerState
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void initialize(Player& player) const override
 		public override void initialize (Player player)
 		{
 			player.get_phobj ().type = PhysicsObject.Type.NORMAL;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void send_action(Player& player, KeyAction::Id ka, bool down) const override
 		public override void send_action (Player player, KeyAction.Id ka, bool down)
 		{
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void update(Player& player) const override
 		public override void update (Player player)
 		{
 			if (player.is_attacking ())
@@ -351,7 +337,7 @@ public override void update_state (Player player)
 
 			var hspeed = player.get_phobj ().hspeed;
 
-			if (hasleftinput (player) && hspeed > 0.0)//todo where is real move speed???
+			if (hasleftinput (player) && hspeed > 0.0) //todo where is real move speed???
 			{
 				hspeed -= 0.025;
 			}
@@ -370,8 +356,6 @@ public override void update_state (Player player)
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void update_state(Player& player) const override
 		public override void update_state (Player player)
 		{
 			if (player.get_phobj ().onground)
@@ -499,16 +483,12 @@ public override void update_state (Player player)
 	// The flying or swimming state
 	public class PlayerFlyState : PlayerState
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void initialize(Player& player) const override
 		public override void initialize (Player player)
 		{
 			player.get_phobj ().type = player.is_underwater () ? PhysicsObject.Type.SWIMMING : PhysicsObject.Type.FLYING;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void send_action(Player& player, KeyAction::Id ka, bool down) const override
-public override void send_action (Player player, KeyAction.Id ka, bool down)
+		public override void send_action (Player player, KeyAction.Id ka, bool down)
 		{
 			if (down)
 			{
@@ -524,9 +504,7 @@ public override void send_action (Player player, KeyAction.Id ka, bool down)
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void update(Player& player) const override
-public override void update (Player player)
+		public override void update (Player player)
 		{
 			if (player.is_attacking ())
 			{
@@ -552,9 +530,7 @@ public override void update (Player player)
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void update_state(Player& player) const override
-public override void update_state (Player player)
+		public override void update_state (Player player)
 		{
 			if (player.get_phobj ().onground && player.is_underwater ())
 			{

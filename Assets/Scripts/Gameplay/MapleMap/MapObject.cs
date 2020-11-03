@@ -52,8 +52,6 @@ namespace ms
 		}
 
 		// Draws the object at the given position and with the specified interpolation.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: virtual void draw(double viewx, double viewy, float alpha) const = 0;
 		public abstract void draw(double viewx, double viewy, float alpha);
 
 		// Updates the object and returns the updated layer.
@@ -74,15 +72,11 @@ namespace ms
 			active = false;
 		}
 		// Checks whether this object is active.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: virtual bool is_active() const
 		public virtual bool is_active()
 		{
 			return active;
 		}
 		// Obtains the layer used to determine the drawing order on the map.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: virtual sbyte get_layer() const
 		public virtual sbyte get_layer()
 		{
 			return phobj.fhlayer;
@@ -103,15 +97,11 @@ namespace ms
 		}
 
 		// Returns the object id unique to every object on one map.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int get_oid() const
 		public int get_oid()
 		{
 			return oid;
 		}
 		// Returns the current position.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Point<short> get_position() const
 		public Point<short> get_position()
 		{
 			return phobj.get_position();
