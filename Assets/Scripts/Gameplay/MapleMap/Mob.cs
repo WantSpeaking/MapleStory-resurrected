@@ -71,8 +71,6 @@ namespace ms
 			return (byte)(flip ? stance : stance + 1);
 		}
 
-		private int lastDraw_Stance = -1;
-
 		// Construct a mob by combining data from game files with data sent by the server
 		public Mob (int oi, int mid, sbyte mode, sbyte st, ushort fh, bool newspawn, sbyte tm, Point<short> position) : base (oi, position)
 		{
@@ -166,6 +164,7 @@ namespace ms
 			}
 		}
 
+		private int lastDraw_Stance = -1;
 		// Draw the mob
 		public override void draw (double viewx, double viewy, float alpha)
 		{
@@ -202,8 +201,6 @@ namespace ms
 				animations[Stance.DIE].eraseAllFrame ();
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: effects.drawabove(absp, alpha);
 			effects.drawabove (absp, alpha);
 
 			lastDraw_Stance = (int)stance;

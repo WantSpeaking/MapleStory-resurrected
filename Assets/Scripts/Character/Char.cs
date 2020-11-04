@@ -345,7 +345,7 @@ namespace ms
 			look.set_stance (stance);
 		}
 
-		private void add_pet (byte index, int iid, string name, int uniqueid, Point<short> pos, byte stance, int fhid)
+		public void add_pet (byte index, int iid, string name, int uniqueid, Point<short> pos, byte stance, int fhid)
 		{
 			if (index > 2)
 				return;
@@ -353,7 +353,7 @@ namespace ms
 			pets[index] = new PetLook (iid, name, uniqueid, pos, stance, fhid);
 		}
 
-		private void remove_pet (byte index, bool hunger)
+		public void remove_pet (byte index, bool hunger)
 		{
 			if (index > 2)
 				return;
@@ -479,7 +479,6 @@ namespace ms
 		private TimedBool ironbody = new TimedBool ();
 		//private LinkedList<DamageNumber> damagenumbers = new LinkedList<DamageNumber> ();
 
-		//private static EnumMap<CharEffect.Id, Animation> chareffects = new EnumMap<CharEffect.Id, Animation> ();
 	}
 }
 

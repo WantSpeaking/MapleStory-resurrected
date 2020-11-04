@@ -109,8 +109,6 @@ namespace ms
 			touched = bounds ().contains (playerpos);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(Point<short> viewpos, float inter) const
 		public void draw (Point<short> viewpos, float inter)
 		{
 			if (animation == null || (type == Type.HIDDEN && !touched))

@@ -21,23 +21,27 @@ public static class IEnumerableExt
 
 	#region Dictionary
 
-	public static void TryAdd<T, V> (this Dictionary<T, V> dictionary, T key, bool refreshValue = false) where V : new ()
+	public static IDictionary<T, V> TryAdd<T, V> (this IDictionary<T, V> dictionary, T key, bool refreshValue = false) where V : new ()
 	{
-		var value = new V ();
+		V value;
 		if (dictionary.ContainsKey (key))
 		{
 			if (refreshValue)
 			{
+				value = new V ();
 				dictionary[key] = value;
 			}
 		}
 		else
 		{
+			value = new V ();
 			dictionary.Add (key, value);
 		}
+
+		return dictionary;
 	}
 
-	public static void TryAdd<T, V> (this Dictionary<T, V> dictionary, T key, V value, bool refreshValue = false)
+	public static void TryAdd<T, V> (this IDictionary<T, V> dictionary, T key, V value, bool refreshValue = false)
 	{
 		if (dictionary.ContainsKey (key))
 		{

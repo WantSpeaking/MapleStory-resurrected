@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Helper;
 using MapleLib.WzLib;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +117,7 @@ namespace ms
 		// Spawn a new drop
 		public void spawn (DropSpawn spawn)
 		{
-			spawns.Enqueue (spawn); 
+			spawns.Enqueue (spawn);
 		}
 
 		// Remove a drop
@@ -124,7 +125,7 @@ namespace ms
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 			Optional<Drop> drop = (Drop)drops.get (oid);
-			if (drop!= null)
+			if (drop != null)
 			{
 				drop.get ().expire (mode, looter);
 			}
@@ -141,7 +142,7 @@ namespace ms
 		{
 			if (!lootenabled)
 			{
-				return new Tuple<int, Point<short>> (0,Point<short>.zero);
+				return new Tuple<int, Point<short>> (0, Point<short>.zero);
 			}
 
 			foreach (var mmo in drops)
@@ -158,8 +159,8 @@ namespace ms
 					return new Tuple<int, Point<short>> (oid, position);
 				}
 			}
-			
-			return new Tuple<int, Point<short>> (0,Point<short>.zero);
+
+			return new Tuple<int, Point<short>> (0, Point<short>.zero);
 		}
 
 		private MapObjects drops = new MapObjects ();
@@ -170,10 +171,9 @@ namespace ms
 			GOLD,
 			BUNDLE,
 			BAG,
-			NUM_ICONS
 		}
 
-		private Animation[] mesoicons = new Animation[(int)MesoIcon.NUM_ICONS];
+		private Animation[] mesoicons = new Animation[EnumUtil.GetEnumLength<MesoIcon> ()];
 		private bool lootenabled;
 
 		private Queue<DropSpawn> spawns = new Queue<DropSpawn> ();

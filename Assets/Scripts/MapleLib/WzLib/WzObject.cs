@@ -369,7 +369,11 @@ namespace MapleLib.WzLib
 		
 		public IEnumerator<WzImageProperty> GetEnumerator ()
 		{
-			if (this is WzImageProperty imageProperty)
+			if (this is WzImage wzImage)
+			{
+				return wzImage.WzProperties.GetEnumerator ();
+			}
+			else if (this is WzImageProperty imageProperty)
 			{
 				return imageProperty.WzProperties.GetEnumerator ();
 			}

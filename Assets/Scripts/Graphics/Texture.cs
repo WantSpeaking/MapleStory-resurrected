@@ -107,7 +107,8 @@ namespace ms
 			if (spriteRenderer == null)
 			{
 				spriteObj = new GameObject ();
-				AddToParent (spriteObj, fullPath);
+				if(MapleStory.Instance.AddToParent)
+					AddToParent (spriteObj, fullPath);
 				spriteRenderer = spriteObj.AddComponent<SpriteRenderer> ();
 			}
 

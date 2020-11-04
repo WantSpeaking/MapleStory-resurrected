@@ -227,7 +227,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	public InputField inpuField_MapleFolder;
 	public InputField inpuField_MapId;
 
-	public string maplestoryFolder = @"F:/BaiduYunDownload/079mg5/";
+	public string maplestoryFolder = @"F:\Program Files (x86)\MapleStory\";
 	public int mapIdToLoad = 100000000;
 
 	private WzFileManager wzFileManager;
@@ -432,6 +432,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	public int fontSize = 1;
 	public Color fontColor = Color.black;
 	public bool enable_DrawFootHolder = false;
+	public bool AddToParent = true;
 	private void DrawFootHolder ()
 	{
 		var footholdtree = Stage.get ().GetFootholdTree ();

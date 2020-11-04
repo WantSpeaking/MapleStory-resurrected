@@ -58,6 +58,7 @@ namespace ms
         {
             [Id.SCROLL_SUCCESS] = "Enchant/Success",
             [Id.SCROLL_FAILURE] = "Enchant/Failure",
+            [Id.MONSTER_CARD] = "MonsterBook/cardGet",
         };
     }
 }

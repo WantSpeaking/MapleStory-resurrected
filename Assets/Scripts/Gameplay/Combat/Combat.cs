@@ -46,10 +46,10 @@ namespace ms
 	{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: Combat(Player& in_player, MapChars& in_chars, MapMobs& in_mobs, MapReactors& in_reactors) : player(in_player), chars(in_chars), mobs(in_mobs), reactors(in_reactors), attackresults([&](const AttackResult& attack)
-		public Combat (Player in_player /*, MapChars in_chars*/, MapMobs in_mobs /*, MapReactors in_reactors*/)
+		public Combat (Player in_player , MapChars in_chars, MapMobs in_mobs /*, MapReactors in_reactors*/)
 		{
-			//player = in_player;
-			//chars =in_chars);
+			player = in_player;
+			chars =in_chars;
 			mobs = in_mobs;
 			attackresults = new TimedQueue<AttackResult> ( apply_attack);
 			bulleteffects = new TimedQueue<BulletEffect> ( apply_bullet_effect);
@@ -132,25 +132,25 @@ namespace ms
 		{
 			attackresults.push (400, attack);
 		}
-		/*// Show a buff effect
+		// Show a buff effect
 		public void show_buff(int cid, int skillid, sbyte level)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
-			if (Optional<OtherChar> ouser = chars.get_char(cid))
+			Optional<OtherChar> ouser = chars.get_char (cid);
+			if ((bool)ouser)
 			{
 				OtherChar user = ouser;
-				user.update_skill(skillid, level);
+				user.update_skill(skillid, (byte)level);
 
 				SpecialMove move = get_move(skillid);
-				move.apply_useeffects(ref user);
-				move.apply_actions(ref user, Attack.Type.MAGIC);
+				move.apply_useeffects(user);
+				move.apply_actions(user, Attack.Type.MAGIC);
 			}
 		}
 		// Show a buff effect
 		public void show_player_buff(int skillid)
 		{
-			get_move(skillid).apply_useeffects(ref player);
-		}*/
+			get_move(skillid).apply_useeffects(player);
+		}
 
 		private struct DamageEffect
 		{
@@ -495,9 +495,10 @@ namespace ms
 			return skill;
 		}
 
-		private Player player => Stage.get ().get_player ();
+		//private Player player => Stage.get ().get_player ();
+		private Player player;
 
-		//private MapChars chars;
+		private MapChars chars;
 		private MapMobs mobs;
 		//private MapReactors reactors;
 

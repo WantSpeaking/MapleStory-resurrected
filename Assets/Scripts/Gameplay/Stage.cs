@@ -15,12 +15,12 @@ namespace ms
 		public Stage ()
 		{
 			state = State.INACTIVE;
-			combat = new Combat (player, /*chars, */mobs /*, reactors*/);
+			combat = new Combat (player, chars, mobs /*, reactors*/);
 		}
 
 		public void init ()
 		{
-			//drops.init();
+			drops.init();
 		}
 
 		public void load (int mapid, sbyte portalid)
@@ -55,8 +55,10 @@ namespace ms
 		public void clear ()
 		{
 			state = State.INACTIVE;
+			
+			chars.clear();
 			mobs.clear ();
-			/*chars.clear();
+			/*
 			npcs.clear();
 			
 			drops.clear();
@@ -110,16 +112,19 @@ namespace ms
 
 			foreach (Layer.Id id in Enum.GetValues (typeof (Layer.Id)))
 			{
-				tilesobjs?.draw ((Layer.Id)id, viewpos, alpha);
+				tilesobjs?.draw(id, viewpos, alpha);
+				reactors?.draw(id, viewx, viewy, alpha);
+				npcs?.draw(id, viewx, viewy, alpha);
+				mobs?.draw(id, viewx, viewy, alpha);
+				chars?.draw(id, viewx, viewy, alpha);
+				player?.draw(id, viewx, viewy, alpha);
+				drops?.draw(id, viewx, viewy, alpha);
+				
+				
+				/*tilesobjs?.draw ((Layer.Id)id, viewpos, alpha);
 				player?.draw ((Layer.Id)id, viewx, viewy, alpha);
-				mobs?.draw ((Layer.Id)id, viewx, viewy, alpha);
-				//chars.draw((global.ms.Layer.Id)id, viewx, viewy, alpha);
-
-				/* reactors.draw(id, viewx, viewy, alpha);
-				 npcs.draw(id, viewx, viewy, alpha);
+				mobs?.draw ((Layer.Id)id, viewx, viewy, alpha);*/
 				
-				
-				 drops.draw(id, viewx, viewy, alpha);*/
 			}
 
 			combat?.draw (viewx, viewy, alpha);
@@ -136,14 +141,14 @@ namespace ms
 
 			combat.update ();
 			backgrounds.update ();
-			//effect.update();
+			effect?.update();
 			tilesobjs.update ();
 
-			//reactors.update(physics);
-			//npcs.update(physics);
+			reactors.update(physics);
+			npcs.update(physics);
 			mobs.update (physics);
-			//chars.update(physics);
-			//drops.update(physics);
+			chars.update(physics);
+			drops.update(physics);
 			player.update (physics);
 
 			portals.update (player.get_position ());
@@ -184,19 +189,19 @@ namespace ms
 				if (attack != null)
 				{
 					MobAttackResult result = player.damage (attack);
-					//TakeDamagePacket(result, TakeDamagePacket.From.TOUCH).dispatch();
+					new TakeDamagePacket(result, TakeDamagePacket.From.TOUCH).dispatch();
 				}
 			}
 		}
 
-		void show_character_effect (int cid, CharEffect.Id effect)
+		public void show_character_effect (int cid, CharEffect.Id effect)
 		{
 			var character = get_character (cid);
 			if (character != null)
 				character.get ().show_effect_id (effect);
 		}
 
-		private SetFieldHandler _setFieldHandler;
+		//private SetFieldHandler _setFieldHandler;
 
 		private void check_portals ()
 		{
@@ -215,14 +220,14 @@ namespace ms
 			}
 			else if (warpinfo.valid)
 			{
-				//ChangeMapPacket(false, -1, warpinfo.name, false).dispatch();
+				new ChangeMapPacket(false, -1, warpinfo.name, false).dispatch();
 
 				CharStats stats = get ().get_player ().get_stats ();
 
 				stats.set_mapid (warpinfo.mapid);
 
-				if (_setFieldHandler == null) _setFieldHandler = new SetFieldHandler ();
-				_setFieldHandler.transition (warpinfo.mapid, 0);
+				/*if (_setFieldHandler == null) _setFieldHandler = new SetFieldHandler ();
+				_setFieldHandler.transition (warpinfo.mapid, 0);*/
 				//Sound(Sound.Name.PORTAL).play();
 			}
 		}
@@ -312,12 +317,12 @@ namespace ms
 			return mobs;
 		}
 
-		MapReactors get_reactors ()
+		public MapReactors get_reactors ()
 		{
 			return reactors;
 		}
 
-		MapDrops get_drops ()
+		public MapDrops get_drops ()
 		{
 			return drops;
 		}
@@ -348,7 +353,7 @@ namespace ms
 
 		public void add_effect (string path)
 		{
-			//effect = MapEffect(path);
+			effect = new MapEffect(path);
 		}
 
 		public long get_uptime ()
@@ -397,11 +402,11 @@ namespace ms
 		MapTilesObjs tilesobjs;
 		MapBackgrounds backgrounds;
 		MapPortals portals;
-		MapReactors reactors;
-		MapNpcs npcs;
-		MapChars chars;
+		MapReactors reactors = new MapReactors ();
+		MapNpcs npcs = new MapNpcs ();
+		MapChars chars = new MapChars ();
 		MapMobs mobs = new MapMobs ();
-		MapDrops drops;
+		MapDrops drops = new MapDrops ();
 		MapEffect effect;
 
 		Combat combat;
