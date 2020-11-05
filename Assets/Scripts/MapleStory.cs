@@ -234,7 +234,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	public InputField inpuField_MapleFolder;
 	public InputField inpuField_MapId;
 
-	public string maplestoryFolder = @"F:\Program Files (x86)\MapleStory\";
+	public string maplestoryFolder = @"F:\Program Files (x86)\MapleStory\";//F:\Program Files (x86)\MapleStory\ ;F:/BaiduYunDownload/079mg5/
 	public int mapIdToLoad = 100000000;
 
 	private WzFileManager wzFileManager;

@@ -1,6 +1,4 @@
-﻿
-
-//////////////////////////////////////////////////////////////////////////////////
+﻿//////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
 //	Copyright (C) 2015-2019  Daniel Allendorf, Ryan Payton						//
 //																				//
@@ -44,42 +42,42 @@ namespace ms
 	{
 		public enum Id : byte
 		{
-			NONE,
-			ALERT,
-			DEAD,
-			FLY,
-			HEAL,
-			JUMP,
-			LADDER,
-			PRONE,
-			PRONESTAB,
-			ROPE,
-			SHOT,
-			SHOOT1,
-			SHOOT2,
-			SHOOTF,
-			SIT,
-			STABO1,
-			STABO2,
-			STABOF,
-			STABT1,
-			STABT2,
-			STABTF,
-			STAND1,
-			STAND2,
-			SWINGO1,
-			SWINGO2,
-			SWINGO3,
-			SWINGOF,
-			SWINGP1,
-			SWINGP2,
-			SWINGPF,
-			SWINGT1,
-			SWINGT2,
-			SWINGT3,
-			SWINGTF,
-			WALK1,
-			WALK2,
+			NONE = 0,
+			ALERT = 1,
+			DEAD = 2,
+			FLY = 3,
+			HEAL = 4,
+			JUMP = 5,
+			LADDER = 6,
+			PRONE = 7,
+			PRONESTAB = 8,
+			ROPE = 9,
+			SHOT = 10,
+			SHOOT1 = 11,
+			SHOOT2 = 12,
+			SHOOTF = 13,
+			SIT = 14,
+			STABO1 = 15,
+			STABO2 = 16,
+			STABOF = 17,
+			STABT1 = 18,
+			STABT2 = 19,
+			STABTF = 20,
+			STAND1 = 21,
+			STAND2 = 22,
+			SWINGO1 = 23,
+			SWINGO2 = 24,
+			SWINGO3 = 25,
+			SWINGOF = 26,
+			SWINGP1 = 27,
+			SWINGP2 = 28,
+			SWINGPF = 29,
+			SWINGT1 = 30,
+			SWINGT2 = 31,
+			SWINGT3 = 32,
+			SWINGTF = 33,
+			WALK1 = 34,
+			WALK2 = 35,
 		}
 
 		public static EnumMap<Id, string> names = new EnumMap<Id, string>
@@ -152,7 +150,7 @@ namespace ms
 			if (id <= (int)Id.NONE || id >= EnumUtil.GetEnumLength<Id> ())
 				return Id.NONE;
 
-			return (Id) (id);
+			return (Id)(id);
 		}
 
 		public static Id by_string (string name)

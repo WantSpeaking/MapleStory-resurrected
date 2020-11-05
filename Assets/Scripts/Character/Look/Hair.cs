@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Helper;
 using ms.Helper;
 using MapleLib.WzLib;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -48,16 +49,15 @@ namespace ms
 	{
 		public enum Layer
 		{
-			NONE,
-			DEFAULT,
-			BELOWBODY,
-			OVERHEAD,
-			SHADE,
-			BACK,
-			BELOWCAP,
-			BELOWCAPNARROW,
-			BELOWCAPWIDE,
-			NUM_LAYERS
+			NONE = 0,
+			DEFAULT = 1,
+			BELOWBODY = 2,
+			OVERHEAD = 3,
+			SHADE = 4,
+			BACK = 5,
+			BELOWCAP = 6,
+			BELOWCAPNARROW = 7,
+			BELOWCAPWIDE = 8,
 		}
 
 		public Hair (int hairid, BodyDrawInfo drawinfo)
@@ -82,15 +82,33 @@ namespace ms
 					foreach (var property_Hair_00030000img_alert_0 in property_Hair_00030000img_alert.WzProperties)
 					{
 						var frame = byte.Parse (property_Hair_00030000img_alert_0.Name);
-						string layername = property_Hair_00030000img_alert_0.Name;
 
-						layers_by_name.TryGetValue (layername, out var layer);
+						foreach (var property_Hair_00030000img_alert_0_hair in property_Hair_00030000img_alert_0)
+						{
+							string layername = property_Hair_00030000img_alert_0_hair.Name;
 
-						Point<short> brow = property_Hair_00030000img_alert_0["map"]?["brow"]?.GetPoint ().ToMSPoint () ?? Point<short>.zero;
-						Point<short> shift = drawinfo.gethairpos (stance, frame) ?? Point<short>.zero - brow;
-						var texture = new Texture (property_Hair_00030000img_alert_0);
-						texture.shift (shift);
-						stances[(int)stance, (int)layer]?.Add (frame, texture);
+							if (!layers_by_name.TryGetValue (layername, out var layer))
+							{
+								Debug.LogWarning ($"Unknown Hair::Layer name: [{layername}]\tLocation: [{node_Hair_00030000img.Name}][{stancename}][{frame}]");
+							}
+
+
+							if (stance == Stance.Id.ROPE)
+							{
+								var fds = 2;
+							}
+							
+							
+							Point<short> brow = property_Hair_00030000img_alert_0_hair["map"]?["brow"];
+							//var hairPosFromDrawInfo = drawinfo.gethairpos (stance, frame);
+							
+							//Point<short> shift = hairPosFromDrawInfo - brow;
+							Point<short> shift = (drawinfo.gethairpos (stance, frame) ?? Point<short>.zero) - brow;
+							var texture = new Texture (property_Hair_00030000img_alert_0_hair);
+							texture.shift (shift);
+							stances[(int)stance, (int)layer]?.Add (frame, texture);
+						}
+						
 					}
 				}
 
@@ -178,13 +196,13 @@ namespace ms
 			return color;
 		}
 
-		private Dictionary<byte, Texture>[,] stances = new Dictionary<byte, Texture>[EnumUtil.GetEnumLength<Stance.Id> (), (int)Layer.NUM_LAYERS];
+		private Dictionary<byte, Texture>[,] stances = new Dictionary<byte, Texture>[EnumUtil.GetEnumLength<Stance.Id> (), EnumUtil.GetEnumLength<Layer> ()];
 
 		private void init_Dict ()
 		{
 			for (int i = 0; i < EnumUtil.GetEnumLength<Stance.Id> (); i++)
 			{
-				for (int j = 0; j < (int)Layer.NUM_LAYERS; j++)
+				for (int j = 0; j < EnumUtil.GetEnumLength<Layer> (); j++)
 				{
 					stances[i, j] = new Dictionary<byte, Texture> ();
 				}
