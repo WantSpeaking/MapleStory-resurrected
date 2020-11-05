@@ -23,7 +23,8 @@ namespace ms
 
             var backsrc = nl.nx.wzFile_map["Back"];//Map.wz/Back
             animated = src["ani"];//animated:Map/Map1/100000000.img/back/0/ani
-            var node_0 = backsrc[src["bS"] + ".img"][animated ? "ani" : "back"][src["no"].ToString()];// Map.wz/Back/grassySoil.img/ani/0
+            var node_0 = backsrc[src["bS"] + ".img"]?[animated ? "ani" : "back"]?[src["no"]?.ToString()];// Map.wz/Back/grassySoil.img/ani/0
+            if(node_0 == null){Debug.LogWarning ($"Background() node_0 == null");}
             animation = new Animation(node_0);
             //animation = backsrc[src["bS"] + ".img"][animated ? "ani" : "back"][src["no"]]; //animation:Map.wz/Back/{Map/Map1/100000000.img/back/0/bS}.img/(ani|back)/{Map/Map1/100000000.img/back/0/no}   Map.wz/Back/grassySoil.img/ani/0
             opacity = src["a"];//Map/Map1/100000000.img/back/0/a

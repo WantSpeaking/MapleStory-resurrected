@@ -321,7 +321,7 @@ namespace ms
 		{
 			VolumeSerialNumber = hwid;
 
-			StringBuilder newHWID = new StringBuilder();
+			StringBuilder newHWID = new StringBuilder ();
 
 			newHWID.Append (hwid);
 			newHWID.Append ("_");
@@ -336,8 +336,7 @@ namespace ms
 			newHWID.Append (part2);
 			newHWID.Append (part1);
 
-			HWID = newHWID.ToString();
-			
+			HWID = newHWID.ToString ();
 		}
 
 		// Set private member MAXWIDTH
@@ -545,8 +544,7 @@ namespace ms
 				var x = string_conversion.or_zero<short> (xstr);
 				var y = string_conversion.or_zero<short> (ystr);
 
-				return new Point<short> (x,y);
-				
+				return new Point<short> (x, y);
 			}
 		}
 
@@ -644,11 +642,11 @@ namespace ms
 		private bool rightclicksell = false;
 		private bool show_weekly = true;
 		private bool start_shown = false;
-		private string MACS="00FF27AC9CD6";
-		private string HWID="884F4FCB";
+		private string MACS = "00-FF-27-AC-9C-D6";
+		private string HWID = "2EFDB98799DD_CB4F4F88";
 		private short MAXWIDTH;
 		private short MAXHEIGHT;
-		private string VolumeSerialNumber;
+		private string VolumeSerialNumber = "2EFDB98799DD_CB4F4F88";
 		private byte worldid;
 		private byte channelid;
 		private bool admin;

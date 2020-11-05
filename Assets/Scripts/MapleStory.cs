@@ -255,7 +255,7 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	void TempLogin ()
 	{
-		Configuration.get ().set_hwid ("884F4FCB", ref fds);
+		//Configuration.get ().set_hwid ("2EFDB98799DD_CB4F4F88", ref fds);
 	}
 
 	private void OnButtonLoadClick ()
