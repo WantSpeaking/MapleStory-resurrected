@@ -222,6 +222,14 @@ namespace ms
 			this.orderInLayer = orderInLayer;
 		}
 		
+		public DrawArgument (Point<short> position,Color color, int sortingLayer, int orderInLayer)
+		{
+			pos = position;
+			this.color = color;
+			this.sortingLayer = sortingLayer;
+			this.orderInLayer = orderInLayer;
+		}
+		
 		public DrawArgument (Point<short> position, bool flip,int sortingLayer, int orderInLayer)
 		{
 			pos = position;
@@ -230,6 +238,11 @@ namespace ms
 			this.orderInLayer = orderInLayer;
 		}
 
+		public DrawArgument (float angle, Point<short> position, float opacity,int sortingLayer, int orderInLayer) : this (angle, position, false, opacity)
+		{
+			this.sortingLayer = sortingLayer;
+			this.orderInLayer = orderInLayer;
+		}
 		#endregion
 
 		#region operator

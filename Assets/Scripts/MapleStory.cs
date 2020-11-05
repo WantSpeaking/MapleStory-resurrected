@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using Utility.Inspector;
+using Camera = ms.Camera;
 using Char = ms.Char;
 using Color = UnityEngine.Color;
 using Random = UnityEngine.Random;
@@ -122,11 +123,11 @@ public class MapleStory : SingletonMono<MapleStory>
 		Session.get ().init ();
 		NxFiles.init (maplestoryFolder);
 		Window.get ().init ();
-		//Stage.get ().init ();
-		//UI.get ().init ();
+
 		Char.init ();
 		MapPortals.init ();
 		Stage.get ().init ();
+		//UI.get ().init ();
 		TempLogin ();
 	}
 
@@ -140,6 +141,10 @@ public class MapleStory : SingletonMono<MapleStory>
 		/*
 		UI.get().update();
 		Session.get().read();*/
+
+		var playerPos = Stage.get ().get_player ()?.get_position ();
+		if (playerPos != null)
+			UnityEngine.Camera.main.transform.position = new Vector3 (playerPos.x (), -playerPos.y (), -1);
 	}
 
 	private void draw (float alpha)
@@ -214,10 +219,12 @@ public class MapleStory : SingletonMono<MapleStory>
 	private GameObject map_Parent;
 	private GameObject mob_Parent;
 	private GameObject character_Parent;
+	private GameObject effect_Parent;
 
 	public GameObject Map_Parent => map_Parent ?? (map_Parent = new GameObject ("map_Parent"));
 	public GameObject Mob_Parent => mob_Parent ?? (mob_Parent = new GameObject ("mob_Parent"));
 	public GameObject Character_Parent => character_Parent ?? (character_Parent = new GameObject ("character_Parent"));
+	public GameObject Effect_Parent => effect_Parent ?? (effect_Parent = new GameObject ("effect_Parent"));
 
 
 	public bool enableDebugPacket = true;
@@ -243,7 +250,6 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	public float multiplier_timeStep = 1f;
 	public float multiplier_elapsed = 1f;
-
 
 	private string fds;
 
@@ -432,7 +438,29 @@ public class MapleStory : SingletonMono<MapleStory>
 	public int fontSize = 1;
 	public Color fontColor = Color.black;
 	public bool enable_DrawFootHolder = false;
+	public bool enable_DrawAttackRange = false;
 	public bool AddToParent = true;
+	public Rectangle<short> attackRange;
+	public Rectangle<short> attackRangeAfter;
+
+	private void DrawAttackRange ()
+	{
+		if (attackRange != null && attackRangeAfter != null && !attackRangeAfter.empty ())
+		{
+			Vector3 center = new Vector3 (attackRange.center ().x (), -attackRange.center ().y ());
+			Vector3 size = new Vector3 (attackRange.width (), attackRange.height ());
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawWireCube (center, size);
+			//Debug.Log ($"center:{center}\t size:{size}\t attackRange:{attackRange}");
+
+			Vector3 centerAfter = new Vector3 (attackRangeAfter.center ().x (), -attackRangeAfter.center ().y ());
+			Vector3 sizeAfter = new Vector3 (attackRangeAfter.width (), attackRangeAfter.height ());
+			Gizmos.color = Color.black;
+			Gizmos.DrawWireCube (centerAfter, sizeAfter);
+			//Debug.Log ($"centerAfter:{centerAfter}\t sizeAfter:{sizeAfter}\t attackRangeAfter:{attackRangeAfter}");
+		}
+	}
+
 	private void DrawFootHolder ()
 	{
 		var footholdtree = Stage.get ().GetFootholdTree ();
@@ -462,20 +490,18 @@ public class MapleStory : SingletonMono<MapleStory>
 				labelStyle.fontStyle = FontStyle.Bold;
 				//GUI.backgroundColor = Color.black;
 				//GUI.color = Color.red;
-				GUI.Label (new Rect (center_ScreenPosition_MinusWidth, text_Size), id.ToString (),labelStyle);
+				GUI.Label (new Rect (center_ScreenPosition_MinusWidth, text_Size), id.ToString (), labelStyle);
 				//GUI.backgroundColor = Color.white;
 				//GUI.Label (new Rect (left_ScreenPosition, 5 * Vector2.one), "");
 				//GUI.Label (new Rect (Right_ScreenPosition, 5 * Vector2.one), "");
 				Handles.EndGUI ();
-				
+
 				//Gizmos.color = new Color (id % 2, id % 2, id % 2, id % 2);
 				Gizmos.color = Color.black;
 				Gizmos.DrawWireCube (center, footHoldSize);
 				Gizmos.DrawCube (left, Vector3.one * 10);
 				//Gizmos.DrawCube (center, Vector3.one * 10);
 				Gizmos.DrawCube (right, Vector3.one * 10);
-
-	
 			}
 		}
 
@@ -484,8 +510,11 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	private void OnDrawGizmos ()
 	{
-		if(enable_DrawFootHolder)
+		if (enable_DrawFootHolder)
 			DrawFootHolder ();
+
+		if (enable_DrawAttackRange)
+			DrawAttackRange ();
 	}
 
 	#region Placeholder
@@ -531,7 +560,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	void SelectCharPacket ()
 	{
 		new SelectCharPacket (4).dispatch ();
-		if(disableDebugPacketAfterLogin)
+		if (disableDebugPacketAfterLogin)
 			enableDebugPacket = false;
 	}
 

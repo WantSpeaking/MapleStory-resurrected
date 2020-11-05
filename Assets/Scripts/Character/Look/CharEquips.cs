@@ -66,12 +66,11 @@ namespace ms
 //ORIGINAL LINE: void draw(EquipSlot::Id slot, Stance::Id stance, Clothing::Layer layer, byte frame, const DrawArgument& args) const
 		public void draw (EquipSlot.Id slot, Stance.Id stance, Clothing.Layer layer, byte frame, DrawArgument args, bool drawOrErase = true)
 		{
-			
 			var cloth = clothes[slot];
 			//if (stance.ToString ().Contains ("WALK"))
-				//Debug.Log ($"draw CharEquips: slot:{slot}\t stance:{stance}\t layer:{layer}\t frame:{frame}\t  cloth:{cloth}");
+			//Debug.Log ($"draw CharEquips: slot:{slot}\t stance:{stance}\t layer:{layer}\t frame:{frame}\t  cloth:{cloth}");
 			{
-				cloth?.draw (stance, layer, frame, args,drawOrErase);
+				cloth?.draw (stance, layer, frame, args, drawOrErase);
 			}
 		}
 
@@ -218,16 +217,16 @@ namespace ms
 //ORIGINAL LINE: Stance::Id adjust_stance(Stance::Id stance) const
 		public Stance.Id adjust_stance (Stance.Id stance)
 		{
-			if (cloth_cache.TryGetValue ((int)EquipSlot.Id.WEAPON, out var weapon))
+			if (clothes.TryGetValue (EquipSlot.Id.WEAPON, out var weapon))
 			{
 				switch (stance)
 				{
 					case Stance.Id.STAND1:
 					case Stance.Id.STAND2:
-						return weapon.get_stand ();
+						return weapon?.get_stand () ?? Stance.Id.STAND1;
 					case Stance.Id.WALK1:
 					case Stance.Id.WALK2:
-						return weapon.get_walk ();
+						return weapon?.get_walk () ?? Stance.Id.WALK1;
 					default:
 						return stance;
 				}

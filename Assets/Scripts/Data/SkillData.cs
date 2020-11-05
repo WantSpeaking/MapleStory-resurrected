@@ -282,20 +282,20 @@ namespace ms
 			{
 				foreach (var property_Skillwz_000img_skill_11111004_level_1 in property_Skillwz_000img_skill_0000008_level.WzProperties)
 				{
-					float damage = (float)(property_Skillwz_000img_skill_11111004_level_1["damage"]) / 100;
+					float damage = (float)property_Skillwz_000img_skill_11111004_level_1["damage"] / 100;
 					int matk = property_Skillwz_000img_skill_11111004_level_1["mad"];
 					int fixdamage = property_Skillwz_000img_skill_11111004_level_1["fixdamage"];
 					int mastery = property_Skillwz_000img_skill_11111004_level_1["mastery"];
-					byte attackcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["attackCount"]);
-					byte mobcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["mobCount"]);
-					byte bulletcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["bulletCount"]);
-					short bulletcost = (short)(property_Skillwz_000img_skill_11111004_level_1["bulletConsume"]);
+					byte attackcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["attackCount"] ?? 1);
+					byte mobcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["mobCount"] ?? 1);
+					byte bulletcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["bulletCount"] ?? 1);
+					short bulletcost = (short)(property_Skillwz_000img_skill_11111004_level_1["bulletConsume"] ?? bulletcount);
 					int hpcost = property_Skillwz_000img_skill_11111004_level_1["hpCon"];
 					int mpcost = property_Skillwz_000img_skill_11111004_level_1["mpCon"];
-					float chance = (property_Skillwz_000img_skill_11111004_level_1["prop"]) / 100;
+					float chance = (property_Skillwz_000img_skill_11111004_level_1["prop"] ?? 100f) / 100;
 					float critical = 0.0f;
 					float ignoredef = 0.0f;
-					float hrange = (float)(property_Skillwz_000img_skill_11111004_level_1["range"]) / 100;
+					float hrange = (property_Skillwz_000img_skill_11111004_level_1["range"] ?? 100f) / 100;
 					Rectangle<short> range = new Rectangle<short> (property_Skillwz_000img_skill_11111004_level_1);
 					int level = string_conversion.or_default (property_Skillwz_000img_skill_11111004_level_1.Name, -1);
 					stats.Add (level, new Stats (damage, matk, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range));
@@ -335,7 +335,7 @@ namespace ms
 			}
 
 			masterlevel = stats.Count;
-			passive = (id % 10000) / 1000 == 0;
+			passive = id % 10000 / 1000 == 0;
 			flags = flags_of (id);
 			invisible = node_Skillwz_1111img_skill_11111004["invisible"];
 
@@ -351,7 +351,6 @@ namespace ms
 					reqskills.Add (skillid, reqlv);
 				}
 			}
-			
 		}
 
 		private Dictionary<int, int> skill_flags = new Dictionary<int, int>
@@ -398,19 +397,20 @@ namespace ms
 			// F/P ArchMage
 			{(int)SkillId.Id.EXPLOSION, (int)Flags.ATTACK},
 			//{(int)SkillId.Id.POISON_BREATH,(int) Flags.ATTACK},//todo repeated added
-			{(int)SkillId.Id.SEAL_FP,(int) Flags.ATTACK},
+			{(int)SkillId.Id.SEAL_FP, (int)Flags.ATTACK},
 			{(int)SkillId.Id.ELEMENT_COMPOSITION_FP, (int)Flags.ATTACK | (int)Flags.RANGED},
 			// TODO: Blank?
 			{(int)SkillId.Id.FIRE_DEMON, (int)Flags.ATTACK},
 			{(int)SkillId.Id.PARALYZE, (int)Flags.ATTACK | (int)Flags.RANGED},
 			{(int)SkillId.Id.METEOR_SHOWER, (int)Flags.ATTACK}
 		};
+
 		// Get some hard-coded information
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: int flags_of(int id) const
 		private int flags_of (int id)
 		{
-			skill_flags.TryGetValue (id, out var flag);			
+			skill_flags.TryGetValue (id, out var flag);
 			return flag;
 			/*var iter = skill_flags.find (id);
 

@@ -69,6 +69,7 @@ namespace ms
 		// Deactivates the object.
 		public virtual void deactivate()
 		{
+			DisposeTextureBeforeDeactivate ();
 			active = false;
 		}
 		// Checks whether this object is active.
@@ -107,7 +108,10 @@ namespace ms
 			return phobj.get_position();
 		}
 
-	
+		protected virtual void DisposeTextureBeforeDeactivate ()
+		{
+			
+		}
 
 		protected PhysicsObject phobj = new PhysicsObject();
 		protected int oid;

@@ -73,7 +73,7 @@ namespace Helper
 		{
 			var t = typeof (T);
 			// If op is cached by type and function name, use cached version
-			if (Cache.TryGetValue ((t, nameof (Divide)), out var del))
+			if (Cache.TryGetValue ((t, nameof (Multiply)), out var del))
 				return del is Func<T, T, T> specificFunc
 					? specificFunc (left, right)
 					: throw new InvalidOperationException (nameof (Multiply));
@@ -237,6 +237,11 @@ namespace Helper
 			Cache[(t, nameof (Sqrt))] = func;
 
 			return func (left, right);
+		}
+		
+		public static T Average<T> (T left, T right) where T : unmanaged
+		{
+			return Divide (Add (left, right), 2.ToT<T> ());
 		}
 	}
 }

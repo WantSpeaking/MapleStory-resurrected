@@ -81,7 +81,7 @@ namespace MapleLib.WzLib.WzProperties
         {
             get
             {
-
+                if (name == null) return null;
                 foreach (WzImageProperty iwp in properties)
                     if (iwp.Name.ToLower() == name.ToLower())
                         return iwp;

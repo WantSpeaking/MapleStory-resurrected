@@ -112,7 +112,7 @@ namespace ms
 			animations[Stance.HIT] = src["hit1"];
 			animations[Stance.DIE] = src["die1"];
 
-			name = nl.nx.wzFile_string["Mob.img"][Convert.ToString (mid)]["name"].Name;
+			name = nl.nx.wzFile_string["Mob.img"][Convert.ToString (mid)]["name"].ToString ();
 
 			var sndsrc = nl.nx.wzFile_sound["Mob.img"][strid];
 
@@ -173,7 +173,8 @@ namespace ms
 				animations[(Stance)lastDraw_Stance].eraseAllFrame ();
 			}
 
-			Point<short> absp = phobj.get_absolute (viewx, viewy, alpha);
+			//Point<short> absp = phobj.get_absolute (viewx, viewy, alpha);
+			Point<short> absp = phobj.get_position ();
 			Point<short> headpos = get_head_position (new Point<short> (absp));
 			//Debug.Log ($"Mob draw absp:{absp}");
 			effects.drawbelow (new Point<short> (absp), alpha);
@@ -182,7 +183,7 @@ namespace ms
 			{
 				float interopc = opacity.get (alpha);
 
-				animations[stance].draw (new DrawArgument (absp, flip && !noflip, interopc, 8, 0), alpha); //todo mob sortinglayer
+				animations[stance].draw (new DrawArgument (absp, flip && !noflip, interopc, Constants.get ().sortingLayer_Mob, 0), alpha); //todo mob sortinglayer
 
 				if (showhp != null)
 				{
@@ -677,7 +678,7 @@ namespace ms
 		// Send the current position and state to the server
 		private void update_movement ()
 		{
-			//MoveMobPacket(oid, 1, 0, 0, 0, 0, 0, 0, get_position(), new Movement(phobj, value_of(stance, flip))).dispatch();
+			new MoveMobPacket(oid, 1, 0, 0, 0, 0, 0, 0, get_position(), new Movement(phobj, value_of(stance, flip))).dispatch();
 		}
 
 		// Calculate the hit chance

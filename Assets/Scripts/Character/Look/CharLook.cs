@@ -82,8 +82,6 @@ namespace ms
 			expelapsed = 0;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(const DrawArgument& args, float alpha) const
 		public void draw (DrawArgument args, float alpha)
 		{
 			if (body == null || hair == null || face == null)
@@ -122,8 +120,6 @@ namespace ms
 			draw (relargs + args, interstance, interexpression, interframe, interexpframe);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(Point<short> position, bool flipped, Stance::Id interstance, Expression::Id interexpression) const
 		public void draw (Point<short> position, bool flipped, Stance.Id interstance, Expression.Id interexpression)
 		{
 			interstance = equips.adjust_stance (interstance);
@@ -132,6 +128,8 @@ namespace ms
 
 		public bool update (ushort timestep)
 		{
+			//Debug.Log ($"now:{stance.get()}\t last:{stance.last ()}");
+
 			if (timestep == 0)
 			{
 				stance.normalize ();
@@ -205,6 +203,7 @@ namespace ms
 
 					stelapsed += timestep;
 				}
+				
 			}
 
 			ushort expdelay = (ushort)face.get_delay (expression.get (), expframe.get ());
@@ -437,15 +436,11 @@ namespace ms
 			alerted.set_for (millis);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool get_alerted() const
 		public bool get_alerted ()
 		{
 			return (bool)alerted;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool is_twohanded(Stance::Id st) const
 		public bool is_twohanded (Stance.Id st)
 		{
 			switch (st)
@@ -461,8 +456,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: ushort get_attackdelay(uint no, byte first_frame) const
 		public ushort get_attackdelay (uint no, byte first_frame)
 		{
 			if (action != null)
@@ -480,43 +473,31 @@ namespace ms
 			return delay;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: byte get_frame() const
 		public byte get_frame ()
 		{
 			return stframe.get ();
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Stance::Id get_stance() const
 		public Stance.Id get_stance ()
 		{
 			return stance.get ();
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: const Body* get_body() const
 		public Body get_body ()
 		{
 			return body;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: const Hair* get_hair() const
 		public Hair get_hair ()
 		{
 			return hair;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: const Face* get_face() const
 		public Face get_face ()
 		{
 			return face;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: const CharEquips& get_equips() const
 		public CharEquips get_equips ()
 		{
 			return equips;
@@ -668,8 +649,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(const DrawArgument& args, Stance::Id interstance, Expression::Id interexpression, byte interframe, byte interexpframe) const
 		private void draw (DrawArgument args, Stance.Id interstance, Expression.Id interexpression, byte interframe, byte interexpframe)
 		{
 			if (lastDraw_interframe != -1)
@@ -808,15 +787,11 @@ namespace ms
 			lastDraw_interexpframe = interexpframe;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: ushort get_delay(Stance::Id st, byte fr) const
 		private ushort get_delay (Stance.Id st, byte fr)
 		{
 			return drawinfo.get_delay (st, fr);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: byte getnextframe(Stance::Id st, byte fr) const
 		private byte getnextframe (Stance.Id st, byte fr)
 		{
 			return drawinfo.nextframe (st, fr);

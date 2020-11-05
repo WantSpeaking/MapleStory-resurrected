@@ -187,8 +187,6 @@ namespace ms
 			job.change_job(id);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int calculate_damage(int mobatk) const
 		public int calculate_damage(int mobatk)
 		{
 			// TODO: Random stuff, need to find the actual formula somewhere.
@@ -204,32 +202,22 @@ namespace ms
 			return reduceatk - (int)(reduceatk * reducedamage);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool is_damage_buffed() const
 		public bool is_damage_buffed()
 		{
 			return get_buffdelta(EquipStat.Id.WATK) > 0 || get_buffdelta(EquipStat.Id.MAGIC) > 0;
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: ushort get_stat(MapleStat::Id stat) const
 		public ushort get_stat(MapleStat.Id stat)
 		{
 			return basestats[stat];
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int get_total(EquipStat::Id stat) const
 		public int get_total(EquipStat.Id stat)
 		{
 			return totalstats[stat];
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int get_buffdelta(EquipStat::Id stat) const
 		public int get_buffdelta(EquipStat.Id stat)
 		{
 			return buffdeltas[stat];
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Rectangle<short> get_range() const
 		public Rectangle<short> get_range()
 		{
 			return new Rectangle<short>((short)-projectilerange, -5, -50, 50);
@@ -239,20 +227,14 @@ namespace ms
 		{
 			mapid = id;
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int get_mapid() const
 		public int get_mapid()
 		{
 			return mapid;
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: byte get_portal() const
 		public byte get_portal()
 		{
 			return portal;
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: long get_exp() const
 		public long get_exp()
 		{
 			return exp;

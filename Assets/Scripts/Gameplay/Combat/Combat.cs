@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SD.Tools.Algorithmia.GeneralDataStructures;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -46,33 +47,35 @@ namespace ms
 	{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: Combat(Player& in_player, MapChars& in_chars, MapMobs& in_mobs, MapReactors& in_reactors) : player(in_player), chars(in_chars), mobs(in_mobs), reactors(in_reactors), attackresults([&](const AttackResult& attack)
-		public Combat (Player in_player , MapChars in_chars, MapMobs in_mobs /*, MapReactors in_reactors*/)
+		public Combat (Player in_player, MapChars in_chars, MapMobs in_mobs, MapReactors in_reactors)
 		{
-			player = in_player;
-			chars =in_chars;
+			//player = in_player;//player maybe null at this time
+			chars = in_chars;
 			mobs = in_mobs;
-			attackresults = new TimedQueue<AttackResult> ( apply_attack);
-			bulleteffects = new TimedQueue<BulletEffect> ( apply_bullet_effect);
-			damageeffects = new TimedQueue<DamageEffect> ( apply_damage_effect);
-			//reactors =in_reactors;
+			reactors = in_reactors;
+			
+			attackresults = new TimedQueue<AttackResult> (apply_attack);
+			bulleteffects = new TimedQueue<BulletEffect> (apply_bullet_effect);
+			damageeffects = new TimedQueue<DamageEffect> (apply_damage_effect);
 			/*attackresults ((AttackResult attack) =>
 			{
 				apply_attack (attack);
 			};*/
 		}
 
-		public void draw(double viewx, double viewy, float alpha) 
+		public void draw (double viewx, double viewy, float alpha)
 		{
 			foreach (var be in bullets)
 			{
-				be.bullet.draw(viewx, viewy, alpha);
+				be.bullet.draw (viewx, viewy, alpha);
 			}
+
 			foreach (var dn in damagenumbers)
 			{
-				dn.draw(viewx, viewy, alpha);
+				dn.draw (viewx, viewy, alpha);
 			}
 		}
-		
+
 		public void update ()
 		{
 			attackresults.update ();
@@ -122,7 +125,7 @@ namespace ms
 					apply_move (move);
 					break;
 				default:
-					new ForbidSkillMessage(reason, weapontype).drop();
+					new ForbidSkillMessage (reason, weapontype).drop ();
 					break;
 			}
 		}
@@ -132,24 +135,26 @@ namespace ms
 		{
 			attackresults.push (400, attack);
 		}
+
 		// Show a buff effect
-		public void show_buff(int cid, int skillid, sbyte level)
+		public void show_buff (int cid, int skillid, sbyte level)
 		{
 			Optional<OtherChar> ouser = chars.get_char (cid);
 			if ((bool)ouser)
 			{
 				OtherChar user = ouser;
-				user.update_skill(skillid, (byte)level);
+				user.update_skill (skillid, (byte)level);
 
-				SpecialMove move = get_move(skillid);
-				move.apply_useeffects(user);
-				move.apply_actions(user, Attack.Type.MAGIC);
+				SpecialMove move = get_move (skillid);
+				move.apply_useeffects (user);
+				move.apply_actions (user, Attack.Type.MAGIC);
 			}
 		}
+
 		// Show a buff effect
-		public void show_player_buff(int skillid)
+		public void show_player_buff (int skillid)
 		{
-			get_move(skillid).apply_useeffects(player);
+			get_move (skillid).apply_useeffects (player);
 		}
 
 		private struct DamageEffect
@@ -233,16 +238,28 @@ namespace ms
 				Point<short> origin = attack.origin;
 				Rectangle<short> range = attack.range;
 				short hrange = (short)(range.left () * attack.hrange);
-
+				
+				MapleStory.Instance.attackRange = range;
+				//Debug.Log ($"center:{center}\t size:{size}\t attackRange:{attackRange}");
 				if (attack.toleft)
 				{
-					range = new Rectangle<short> ((short)(origin.x () + hrange), (short)(origin.x () + range.right ()), (short)(origin.y () + range.top ()), (short)(origin.y () + range.bottom ()));
+					range = new Rectangle<short> (
+						(short)(origin.x () + hrange), 
+						(short)(origin.x () + range.right ()), 
+						(short)(origin.y () + range.top ()), 
+						(short)(origin.y () + range.bottom ()));
 				}
 				else
 				{
-					range = new Rectangle<short> ((short)(origin.x () - range.right ()), (short)(origin.x () - hrange), (short)(origin.y () + range.top ()), (short)(origin.y () + range.bottom ()));
+					range = new Rectangle<short> (
+						(short)(origin.x () - range.right ()), 
+						(short)(origin.x () - hrange), 
+						(short)(origin.y () + range.top ()), 
+						(short)(origin.y () + range.bottom ()));
 				}
-
+				
+				MapleStory.Instance.attackRangeAfter = range;
+				
 				// This approach should also make it easier to implement PvP
 				byte mobcount = attack.mobcount;
 				AttackResult result = new AttackResult (attack);
@@ -302,7 +319,7 @@ namespace ms
 				{
 					Mob mob = (Mob)mmo.Value;
 
-					if (mob != null && mob.is_alive () && mob.is_in_range (range))
+					if (mob != null && mob.is_alive () && mob.is_in_range (range,true))
 					{
 						int oid = mob.get_oid ();
 						var distance = mob.get_position ().distance (new Point<short> (origin));
@@ -325,7 +342,7 @@ namespace ms
 				}
 			}
 
-			
+
 			foreach (var iter in distances)
 			{
 				if (targets.Count >= objcount)
@@ -495,12 +512,12 @@ namespace ms
 			return skill;
 		}
 
-		//private Player player => Stage.get ().get_player ();
-		private Player player;
+		private Player player => Stage.get ().get_player ();
+		//private Player player;
 
 		private MapChars chars;
 		private MapMobs mobs;
-		//private MapReactors reactors;
+		private MapReactors reactors;
 
 		private Dictionary<int, Skill> skills = new Dictionary<int, Skill> ();
 		private RegularAttack regularattack = new RegularAttack ();

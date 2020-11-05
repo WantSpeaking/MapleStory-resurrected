@@ -114,6 +114,7 @@ namespace ms
 		//ORIGINAL LINE: constexpr T length() const
 		public T length ()
 		{
+			//return GenericArithmetic.Sqrt (a,b);
 			return Math.Sqrt (GenericArithmetic.Add (GenericArithmetic.Multiply (a, a), GenericArithmetic.Multiply (b, b)).ToT<double> ()).ToT<T> ();
 		}
 

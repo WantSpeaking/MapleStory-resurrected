@@ -98,7 +98,6 @@ namespace ms
 		// Update a character's movement
 		public void send_movement(int cid, List<Movement> movements)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 			Optional<OtherChar> otherchar = get_char (cid);
 			if (otherchar != null)
 			{
@@ -108,7 +107,6 @@ namespace ms
 		// Update a character's look
 		public void update_look(int cid, LookEntry look)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 			Optional<OtherChar> otherchar = get_char (cid);
 			if (otherchar != null)
 			{

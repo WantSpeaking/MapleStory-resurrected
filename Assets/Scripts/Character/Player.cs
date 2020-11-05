@@ -41,7 +41,6 @@ using UnityEngine;
 
 namespace ms
 {
-	//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Multiple inheritance is not available in C#:
 	public class Player : Char, Playable
 	{
 		private static PlayerStandState standing = new PlayerStandState ();
@@ -160,9 +159,8 @@ namespace ms
 		// Change the equipment at the specified slot and recalculate stats
 		public void change_equip (short slot)
 		{
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 			int itemid = inventory.get_item_id (InventoryType.Id.EQUIPPED, slot);
-			if (itemid > 0)
+			if (itemid != 0)
 			{
 				look.add_equip (itemid);
 			}
@@ -178,12 +176,11 @@ namespace ms
 		{
 			InventoryType.Id type = InventoryType.by_item_id (itemid);
 			short slot = inventory.find_item (type, itemid);
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
-			//if (slot != null)
+			if (slot != null)
 			{
 				if (type == InventoryType.Id.USE)
 				{
-					//UseItemPacket(slot, itemid).dispatch();
+					new UseItemPacket(slot, itemid).dispatch();
 				}
 			}
 		}
@@ -227,7 +224,7 @@ namespace ms
 
 			if (needupdate)
 			{
-				//todo MovePlayerPacket(newmove).dispatch();
+				new MovePlayerPacket(newmove).dispatch();
 				lastmove = newmove;
 			}
 
@@ -235,7 +232,6 @@ namespace ms
 
 			return get_layer ();
 		}
-
 
 		// Return the Character's attacking speed
 		public override sbyte get_integer_attackspeed ()
@@ -309,7 +305,7 @@ namespace ms
 				return SpecialMove.ForbidReason.FBR_COOLDOWN;
 			}
 
-			int level = 0 /*skillbook.get_level(move.get_id())*/;
+			int level = skillbook.get_level(move.get_id());
 			Weapon.Type weapon = get_weapontype ();
 			Job job = stats.get_job ();
 			ushort hp = stats.get_stat (MapleStat.Id.HP);
@@ -512,7 +508,7 @@ namespace ms
 		public override int get_skilllevel (int skillid)
 		{
 			//todo return skillbook.get_level(skillid);
-			return 0;
+			return 30;
 		}
 
 		// Change the player's job, display the job change effect.

@@ -562,6 +562,9 @@ MonoBehaviour:
   multiplier_elapsed: 1
   fontSize: 1
   fontColor: {r: 0, g: 0, b: 0, a: 1}
+  enable_DrawFootHolder: 1
+  enable_DrawAttackRange: 1
+  AddToParent: 1
   placeholder0: 
   placeholder1: 
   placeholder2: 

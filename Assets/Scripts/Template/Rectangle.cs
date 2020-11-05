@@ -1,4 +1,5 @@
 ﻿using System;
+using Helper;
 using MapleLib.WzLib;
 using ms.Helper;
 
@@ -73,104 +74,81 @@ namespace ms
 			right_bottom.Set (right, bottom);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr T width() const
 		public T width ()
 		{
-			return Math.Abs ((dynamic)left () - right ());
+			return GenericArithmetic.Abs (GenericArithmetic.Subtract (left (), right ()));
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr T height() const
 		public T height ()
 		{
-			return Math.Abs ((dynamic)top () - bottom ());
+			return GenericArithmetic.Abs (GenericArithmetic.Subtract (top (), bottom ()));
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr T left() const
 		public T left ()
 		{
 			return left_top.x ();
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr T top() const
 		public T top ()
 		{
 			return left_top.y ();
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr T right() const
 		public T right ()
 		{
 			return right_bottom.x ();
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr T bottom() const
 		public T bottom ()
 		{
 			return right_bottom.y ();
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr bool contains(const Point<T>& v) const
+		public Point<T> center ()
+		{
+			return new Point<T> (GenericArithmetic.Average (left (), right ()), GenericArithmetic.Average (top (), bottom ()));
+		}
+
 		public bool contains (Point<T> v)
 		{
 			return !straight () && (dynamic)v.x () >= left () && (dynamic)v.x () <= right () && (dynamic)v.y () >= top () && (dynamic)v.y () <= bottom ();
 		}
-		
+
 		public bool contains (Rectangle<T> ar)
 		{
 			return get_horizontal ().contains (new Range<T> (ar.left (), ar.right ())) && get_vertical ().contains (new Range<T> (ar.top (), ar.bottom ()));
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr bool overlaps(const Rectangle<T>& ar) const
 		public bool overlaps (Rectangle<T> ar)
 		{
 			return get_horizontal ().overlaps (new Range<T> (ar.left (), ar.right ())) && get_vertical ().overlaps (new Range<T> (ar.top (), ar.bottom ()));
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr bool straight() const
 		public bool straight ()
 		{
 			return left_top == right_bottom;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr bool empty() const
 		public bool empty ()
 		{
 			return left_top.straight () && right_bottom.straight () && straight ();
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr const Point<T>& get_left_top() const
 		public Point<T> get_left_top ()
 		{
 			return left_top;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr const Point<T>& get_right_bottom() const
 		public Point<T> get_right_bottom ()
 		{
 			return right_bottom;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr Range<T> get_horizontal() const
 		public Range<T> get_horizontal ()
 		{
 			return new Range<T> (left (), right ());
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: constexpr Range<T> get_vertical() const
 		public Range<T> get_vertical ()
 		{
 			return new Range<T> (top (), bottom ());

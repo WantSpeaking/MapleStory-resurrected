@@ -34,12 +34,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
+using System;
 using MapleLib.WzLib;
 
 namespace ms
 {
 	// Combines an Animation with additional state
-	public class Sprite
+	public class Sprite : IDisposable
 	{
 		public Sprite(Animation a, DrawArgument args)
 		{
@@ -63,12 +64,18 @@ namespace ms
 		public Sprite()
 		{
 		}
+		
+		public void Dispose ()
+		{
+			animation.Dispose ();
+		}
 
+		private static DrawArgument renderOrderArgs = new DrawArgument(Constants.get ().sortingLayer_Effect,0);
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void draw(Point<short> parentpos, float alpha) const
 		public void draw(Point<short> parentpos, float alpha)
 		{
-			var absargs = stateargs + parentpos;
+			var absargs = stateargs + parentpos + renderOrderArgs;
 			animation.draw(absargs, alpha);
 		}
 		public bool update(ushort timestep)

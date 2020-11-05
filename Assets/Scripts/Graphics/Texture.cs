@@ -58,13 +58,22 @@ namespace ms
 		private SpriteRenderer spriteRenderer;
 		private UnityEngine.Sprite sprite;
 		public string fullPath = string.Empty;
-
+		private WzObject cache_src { get; set; }
 		public Texture ()
 		{
 		}
 
 		public Texture (WzObject src)
 		{
+			Init (src);
+		}
+		public Texture (Texture srcTexture)
+		{
+			Init (srcTexture?.cache_src);
+		}
+		private void Init (WzObject src)
+		{
+			cache_src = src;
 			if (src?.IsTexture () ?? false)
 			{
 				fullPath = src.FullPath;
@@ -78,7 +87,6 @@ namespace ms
 				//Debug.Log ($"{src?.FullPath} \t {src?.GetType ()}", spriteObj);
 			}
 		}
-
 		public void Dispose ()
 		{
 			//bitmap?.Dispose ();
@@ -260,6 +268,10 @@ namespace ms
 			else if (path.Contains ("mob"))
 			{
 				gObj.SetParent (MapleStory.Instance.Mob_Parent.transform);
+			}
+			else if (path.Contains ("effect"))
+			{
+				gObj.SetParent (MapleStory.Instance.Effect_Parent.transform);
 			}
 		}
 	}

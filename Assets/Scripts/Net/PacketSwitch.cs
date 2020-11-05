@@ -155,7 +155,7 @@ namespace ms
 					Console.Write ("\n");
 				}
 
-				if (MapleStory.Instance.enableDebugPacket)
+				if (MapleStory.Instance.enableDebugPacket && (Opcode)opcode != Opcode.SHOW_ITEM_GAIN_INCHAT)
 				{
 					Debug.Log ($"\t Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Length} \t{bytes.ToDebugLog ()}");
 				}

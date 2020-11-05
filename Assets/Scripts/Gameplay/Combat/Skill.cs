@@ -188,8 +188,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void apply_useeffects(Char& user) const override
 		public override void apply_useeffects (Char user)
 		{
 			useeffect.apply (ref user);
@@ -197,15 +195,11 @@ namespace ms
 			//sound.play_use();
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void apply_actions(Char& user, Attack::Type type) const override
 		public override void apply_actions (Char user, Attack.Type type)
 		{
 			action.apply (ref user, type);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void apply_stats(const Char& user, Attack& attack) const override
 		public override void apply_stats (Char user, Attack attack)
 		{
 			attack.skill = skillid;

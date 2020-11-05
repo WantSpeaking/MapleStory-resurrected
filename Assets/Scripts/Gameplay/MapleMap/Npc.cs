@@ -58,7 +58,6 @@ namespace ms
 			WzObject src = nl.nx.wzFile_npc[strid];
 			WzObject strsrc = nl.nx.wzFile_string["Npc.img"][Convert.ToString (id)];
 
-			Debug.Log ($"strid:{strid}\t src:{src?.FullPath}");
 			string link = src?["info"]?["link"]?.ToString ();
 
 			if (!string.IsNullOrEmpty (link) && link.Length > 0)
@@ -67,7 +66,11 @@ namespace ms
 				src = nl.nx.wzFile_npc[link];
 			}
 
-			if (src == null) return;
+			if (src == null)
+			{
+				Debug.LogWarning ($"cant't find Npc strid:{strid}\t id:{id}");
+				return;
+			}
 			
 			WzObject info = src["info"];
 

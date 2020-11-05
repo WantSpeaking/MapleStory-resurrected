@@ -69,6 +69,13 @@ namespace ms
 
         public float frameDelay = 0.5f;
         public float multiplier_timeStep = 1f;
+
+        public int sortingLayer_ItemDrop = 8;
+        public int sortingLayer_MesoDrop = 8;
+        public int sortingLayer_Mob = 8;
+        public int sortingLayer_Portal = 8;
+        public int sortingLayer_Effect = 8;
         
+
     }
 }

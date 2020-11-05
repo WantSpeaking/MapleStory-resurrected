@@ -113,12 +113,13 @@ namespace ms
 		{
 			if (animation == null || (type == Type.HIDDEN && !touched))
 			{
+				animation?.eraseAllFrame ();
 				return;
 			}
 
 			//Debug.Log ($"protal draw postion: {position}");
 			animation.update ();
-			animation.draw (new DrawArgument (position + viewpos, 8, 0), inter);
+			animation.draw (new DrawArgument (position + viewpos, Constants.get ().sortingLayer_Portal, 0), inter);
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:

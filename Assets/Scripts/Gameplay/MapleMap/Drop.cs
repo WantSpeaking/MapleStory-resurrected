@@ -164,6 +164,8 @@ namespace ms
 		protected Linear<float> opacity = new Linear<float> ();
 		protected Linear<float> angle = new Linear<float> ();
 
+		
+		
 		private enum State
 		{
 			DROPPED,

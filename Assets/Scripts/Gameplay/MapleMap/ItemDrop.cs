@@ -34,6 +34,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
+using UnityEngine;
+
 namespace ms
 {
 	public class ItemDrop : Drop
@@ -56,7 +58,15 @@ namespace ms
 			}
 
 			Point<short> absp = phobj.get_absolute (viewx, viewy, alpha);
-			icon.draw (new DrawArgument (angle.get (alpha), absp, opacity.get (alpha)));
+			if(icon == null)
+				Debug.Log ($"ItemDrop icon == null");
+			icon?.draw (new DrawArgument (angle.get (alpha), absp, opacity.get (alpha),Constants.get ().sortingLayer_ItemDrop,0));
+		}
+
+		public override void Dispose ()
+		{
+			icon?.Dispose ();
+			base.Dispose ();
 		}
 
 		private readonly Texture icon;

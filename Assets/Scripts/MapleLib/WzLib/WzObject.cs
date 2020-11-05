@@ -232,6 +232,11 @@ namespace MapleLib.WzLib
 			return wzObject?.GetInt () ?? 0;
 		}
 
+		public static implicit operator int? (WzObject wzObject)
+		{
+			return wzObject?.GetInt ();
+		}
+		
 		public static implicit operator short (WzObject wzObject)
 		{
 			return wzObject?.GetShort () ?? 0;
@@ -245,6 +250,11 @@ namespace MapleLib.WzLib
 		public static implicit operator float (WzObject wzObject)
 		{
 			return wzObject?.GetFloat () ?? 0;
+		}
+		
+		public static implicit operator float? (WzObject wzObject)
+		{
+			return wzObject?.GetFloat ();
 		}
 
 		public static implicit operator double (WzObject wzObject)
@@ -347,6 +357,7 @@ namespace MapleLib.WzLib
 			return WzPropertyType.Null;
 		}
 
+		
 		#endregion
 
 		public WzObject resolve (string path)

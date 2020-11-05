@@ -1,6 +1,7 @@
 ﻿#define USE_NX
 
 using MapleLib.WzLib;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -49,14 +50,20 @@ namespace ms
 			if (skill_id > 0)
 			{
 				string strid = string_format.extend_id (skill_id, 7);
-				src = nl.nx.wzFile_skill[strid.Substring (0, 3) + ".img"]["skill"][strid]["afterimage"][name][stance_name];
+				src = nl.nx.wzFile_skill[strid.Substring (0, 3) + ".img"]?["skill"]?[strid]?["afterimage"]?[name]?[stance_name];
 			}
 
 			if (src == null)
 			{
-				src = nl.nx.wzFile_character["Afterimage"][name + ".img"][(level / 10).ToString ()][stance_name];
+				src = nl.nx.wzFile_character["Afterimage"]?[name + ".img"]?[(level / 10).ToString ()]?[stance_name];
 			}
 
+			if (src == null)
+			{
+				Debug.LogWarning ($"Afterimage() src == null");
+				return;
+			}
+			
 			range = new Rectangle<short> (src);
 			firstframe = 0;
 			displayed = false;
@@ -80,13 +87,12 @@ namespace ms
 			displayed = true;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(byte stframe, const DrawArgument& args, float alpha) const
+		private static DrawArgument renderOrderArgs = new DrawArgument(Constants.get ().sortingLayer_Effect,0);
 		public void draw (byte stframe, DrawArgument args, float alpha)
 		{
 			if (!displayed && stframe >= firstframe)
 			{
-				animation.draw (args, alpha);
+				animation.draw (args + renderOrderArgs, alpha);
 			}
 		}
 
@@ -95,6 +101,11 @@ namespace ms
 			if (!displayed && stframe >= firstframe)
 			{
 				displayed = animation.update (timestep);
+			}
+
+			if (displayed)
+			{
+				animation?.Dispose ();
 			}
 		}
 

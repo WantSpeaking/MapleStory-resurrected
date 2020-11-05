@@ -155,9 +155,29 @@ namespace ms
 	{
 		private SortedSet<short> frameids = new SortedSet<short> ();
 
-		private WzObject temp_src;
+		private WzObject cache_src { get; set; }
 
 		public Animation (WzObject src) // Map.wz/Back/grassySoil.img/ani/0
+		{
+			Init (src);
+		}
+
+		public Animation ()
+		{
+			animated = false;
+			zigzag = false;
+
+			frames.Add (new Frame ());
+
+			reset ();
+		}
+
+		public Animation (Animation srcAnimation)
+		{
+			Init (srcAnimation?.cache_src);
+		}
+
+		private void Init (WzObject src)
 		{
 			if (src == null)
 			{
@@ -166,7 +186,7 @@ namespace ms
 				return;
 			}
 
-			temp_src = src;
+			cache_src = src;
 
 			bool istexture = src.IsTexture ();
 
@@ -210,17 +230,6 @@ namespace ms
 
 			reset ();
 		}
-
-		public Animation ()
-		{
-			animated = false;
-			zigzag = false;
-
-			frames.Add (new Frame ());
-
-			reset ();
-		}
-
 		public void reset ()
 		{
 			frame.set (0);

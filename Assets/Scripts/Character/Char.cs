@@ -68,51 +68,56 @@ namespace ms
 
 		public override void draw (double viewx, double viewy, float alpha)
 		{
-			Point<short> absp = phobj.get_absolute(viewx, viewy, alpha);
+			//Point<short> absp = phobj.get_absolute (viewx, viewy, alpha);
+			Point<short> absp = phobj.get_position ();
 			//Debug.Log ($"Char draw absp:{absp}\t phobj.x:{phobj.x.get()}\t phobj.y:{phobj.y.get()}");
 
-			//effects.drawbelow(absp, alpha);
+			effects.drawbelow (absp, alpha);
 
-			/*Color color;
+			Color color;
 
-			if (invincible)
+			if ((bool)invincible)
 			{
-				float phi = invincible.alpha() * 30;
-				float rgb = 0.9f - 0.5f * abs(sinf(phi));
+				float phi = invincible.alpha () * 30;
+				float rgb = (float)(0.9f - 0.5f * Math.Abs (Math.Sin (phi))) /*abs(sinf(phi))*/;
 
-				color = Color(rgb, rgb, rgb, 1.0f);
+				color = new Color (rgb, rgb, rgb, 1.0f);
 			}
 			else
 			{
-				color = Color::Code::CWHITE;
-			}*/
+				color = new Color (Color.Code.CWHITE);
+			}
 
 			//look.draw(new DrawArgument(absp, color), alpha);
-			look.draw(new DrawArgument(absp,get_layer (),0), alpha);
+			look.draw (new DrawArgument (absp, color,get_layer (), 0), alpha);
 
-			//afterimage.draw(look.get_frame(), DrawArgument(absp, facing_right), alpha);
+			afterimage.draw (look.get_frame (), new DrawArgument (absp, facing_right), alpha);
 
-			/*if (ironbody)
+			if ((bool)ironbody)
 			{
-				float ibalpha = ironbody.alpha();
+				float ibalpha = ironbody.alpha ();
 				float scale = 1.0f + ibalpha;
 				float opacity = 1.0f - ibalpha;
 
-				look.draw(DrawArgument(absp, scale, scale, opacity), alpha);
+				look.draw (new DrawArgument (absp, scale, scale, opacity), alpha);
 			}
 
-			for (var& pet : pets)
-			if (pet.get_itemid())
-				pet.draw(viewx, viewy, alpha);
+			foreach (var pet in pets)
+			{
+				if ((pet?.get_itemid () ?? 0) != 0)
+					pet?.draw (viewx, viewy, alpha);
+			}
+
 
 			// If ever changing code for namelabel confirm placements with map 10000
-			namelabel.draw(absp + Point<int16_t>(0, -4));
-			chatballoon.draw(absp - Point<int16_t>(0, 85));
+			namelabel.draw (absp + new Point<short> (0, -4));
+			chatballoon.draw (absp - new Point<short> (0, 85));
 
-			effects.drawabove(absp, alpha);
-
-			for (var& number : damagenumbers)
-			number.draw(viewx, viewy, alpha);*/
+			effects.drawabove (absp, alpha);
+			/*foreach (var number in damagenumbers)
+			{
+				number.draw(viewx, viewy, alpha);
+			}*/
 		}
 
 		public void draw_preview (Point<short> position, float alpha)
@@ -129,10 +134,10 @@ namespace ms
 			}
 			);*/
 
-			/*effects.update();
+			effects.update();
 			chatballoon.update();
 			invincible.update();
-			ironbody.update();*/
+			ironbody.update();
 
 
 			/*foreach(var pet in pets)
@@ -166,7 +171,7 @@ namespace ms
 
 			afterimage.update (look.get_frame (), stancespeed);
 
-			return look.update ((ushort)(stancespeed*Constants.get ().animSpeed));//todo this is action speed
+			return look.update ((ushort)(stancespeed * Constants.get ().animSpeed)); //todo this is action speed
 		}
 
 		public float get_stancespeed ()
@@ -428,18 +433,18 @@ namespace ms
 			var file_BasicEffimg = nl.nx.wzFile_effect["BasicEff.img"];
 			foreach (var iter in CharEffect.PATHS_One)
 			{
-				if (iter.Value!=null)
+				if (iter.Value != null)
 				{
 					chareffects[iter.Key] = new Animation (file_BasicEffimg[iter.Value]);
 				}
 			}
-			
+
 			foreach (var iter in CharEffect.PATHS_Two)
 			{
 				if (iter.Value != null)
 				{
 					var pathSplit = iter.Value.Split ('/');
-				
+
 					chareffects[iter.Key] = new Animation (file_BasicEffimg[pathSplit[0]][pathSplit[1]]);
 				}
 			}
@@ -478,7 +483,6 @@ namespace ms
 
 		private TimedBool ironbody = new TimedBool ();
 		//private LinkedList<DamageNumber> damagenumbers = new LinkedList<DamageNumber> ();
-
 	}
 }
 

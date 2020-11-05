@@ -15,7 +15,7 @@ namespace ms
 		public Stage ()
 		{
 			state = State.INACTIVE;
-			combat = new Combat (player, chars, mobs /*, reactors*/);
+			combat = new Combat (player, chars, mobs ,reactors);
 		}
 
 		public void init ()
@@ -57,12 +57,10 @@ namespace ms
 			state = State.INACTIVE;
 			
 			chars.clear();
-			mobs.clear ();
-			/*
 			npcs.clear();
-			
+			mobs.clear ();
 			drops.clear();
-			reactors.clear();*/
+			reactors.clear();
 		}
 
 		private void load_map (int mapid) //mapid:100000000
@@ -103,7 +101,8 @@ namespace ms
 			if (state != State.ACTIVE)
 				return;
 			
-			Point<short> viewpos = camera.position (alpha);
+			//Point<short> viewpos = camera.position (alpha);
+			Point<short> viewpos = Point<short>.zero;
 			Point<double> viewrpos = camera.realposition (alpha);
 			double viewx = viewrpos.x ();
 			double viewy = viewrpos.y ();
@@ -170,19 +169,17 @@ namespace ms
 					combat.use_move (0);
 				}
 
-				/*if (player.is_key_down (KeyAction.Id.SIT))
+				if (player.is_key_down (KeyAction.Id.SIT))
 					check_seats ();
 
-				
-
 				if (player.is_key_down (KeyAction.Id.PICKUP))
-					check_drops ();*/
+					check_drops ();
 			}
 
 			if (player.is_invincible ())
 				return;
 
-			int oid_id = mobs.find_colliding (player.get_phobj ());
+			/*int oid_id = mobs.find_colliding (player.get_phobj ());
 			if (oid_id != 0)
 			{
 				MobAttack attack = mobs.create_attack (oid_id);
@@ -191,7 +188,7 @@ namespace ms
 					MobAttackResult result = player.damage (attack);
 					new TakeDamagePacket(result, TakeDamagePacket.From.TOUCH).dispatch();
 				}
-			}
+			}*/
 		}
 
 		public void show_character_effect (int cid, CharEffect.Id effect)
@@ -234,11 +231,11 @@ namespace ms
 
 		private void check_seats ()
 		{
-			/*if (player.is_sitting() || player.is_attacking())
+			if (player.is_sitting() || player.is_attacking())
 				return;
 
-			Optional<const Seat> seat = mapinfo.findseat(player.get_position());
-			player.set_seat(seat);*/
+			Optional< Seat> seat = mapinfo.findseat(player.get_position());
+			player.set_seat(seat);
 		}
 
 		private void check_ladders (bool up)
@@ -252,11 +249,11 @@ namespace ms
 
 		private void check_drops ()
 		{
-			/*Point<int16_t> playerpos = player.get_position();
-			MapDrops.Loot loot = drops.find_loot_at(playerpos);
+			Point<short> playerpos = player.get_position();
+			var loot = drops.find_loot_at(playerpos);
 
-			if (loot.first)
-				PickupItemPacket(loot.first, loot.second).dispatch();*/
+			if (loot.Item1 != 0)
+				new PickupItemPacket(loot.Item1, loot.Item2).dispatch();
 		}
 
 		public void send_key (KeyType.Id type, int action, bool down)

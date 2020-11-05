@@ -496,6 +496,7 @@ namespace ms
 
 			bool playerdrop = !recv.read_bool ();
 
+			//Debug.Log ($"DropLootHandler oid:{oid}\t itemid:{itemid}");
 			Stage.get ().get_drops ().spawn (new DropSpawn (oid, itemid, meso, owner, dropfrom, dropto, pickuptype, mode, playerdrop));
 		}
 	}

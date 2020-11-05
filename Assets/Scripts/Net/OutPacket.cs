@@ -67,7 +67,7 @@ namespace ms
 					Console.Write ("Sent Packet: ");
 					Console.Write (Convert.ToString (opcode));
 					Console.Write ("\n");
-					if (MapleStory.Instance.enableDebugPacket)
+					if (MapleStory.Instance.enableDebugPacket && (Opcode)opcode != Opcode.MOVE_PLAYER && (Opcode)opcode != Opcode.MOVE_MONSTER )
 					{
 						Debug.Log ($"Sent Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Count} \t {bytes.ToDebugLog ()}");
 					}

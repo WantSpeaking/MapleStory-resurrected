@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -105,6 +106,7 @@ namespace ms
 
 				foreach (var _bufferEffect in _bufferEffects)
 				{
+					_bufferEffect.Dispose ();
 					pair.Value.Remove (_bufferEffect);
 				};
 				
@@ -114,6 +116,7 @@ namespace ms
 
 		public void add (Animation animation, DrawArgument args, sbyte z, float speed)
 		{
+			effects.TryAdd (z);
 			effects[z].AddLast (new Effect (animation, args, speed));
 		}
 
@@ -132,7 +135,7 @@ namespace ms
 			add (animation, new DrawArgument (), 0, 1.0f);
 		}
 
-		private class Effect
+		private class Effect : IDisposable
 		{
 			public Effect (Animation a, DrawArgument args, float s)
 			{
@@ -142,8 +145,11 @@ namespace ms
 				this.speed = s;
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(Point<short> position, float alpha) const
+			public void Dispose ()
+			{
+				sprite.Dispose ();
+			}
+			
 			public void draw (Point<short> position, float alpha)
 			{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:

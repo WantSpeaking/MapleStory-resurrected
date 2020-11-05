@@ -66,7 +66,7 @@ namespace ms
 				target.show_attack_effect (animation, z);
 			}
 
-			private Animation animation = new Animation ();
+			private Animation animation;
 			private sbyte z;
 		}
 	}

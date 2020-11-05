@@ -93,12 +93,12 @@ namespace ms
 					{
 						MesoIcon mesotype = (itemid > 999) ? MesoIcon.BAG : (itemid > 99) ? MesoIcon.BUNDLE : (itemid > 49) ? MesoIcon.GOLD : MesoIcon.BRONZE;
 
-						Animation icon = mesoicons[(int)mesotype];
+						Animation icon = new Animation(mesoicons[(int)mesotype]);
 						drops.add (spawn.instantiate (icon));
 					}
 					else if (itemdata != null)
 					{
-						Texture icon = itemdata.get_icon (true);
+						Texture icon = new Texture(itemdata.get_icon (true));
 						drops.add (spawn.instantiate (icon));
 					}
 				}

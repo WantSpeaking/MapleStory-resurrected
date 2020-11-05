@@ -52,6 +52,10 @@ namespace ms
 	{
 		public BodyAction (WzObject Characterwz00002000img_airstrike_3)
 		{
+			if (Characterwz00002000img_airstrike_3.FullPath.Contains ("burster2"))
+			{
+				var f = 0;
+			}
 			stance = Stance.by_string (Characterwz00002000img_airstrike_3["action"].ToString ());
 			frame = Characterwz00002000img_airstrike_3["frame"];
 			move = Characterwz00002000img_airstrike_3["move"];
@@ -168,7 +172,6 @@ namespace ms
 							}
 							else
 							{
-								
 								Stance.Id stance = Stance.by_string (ststr);
 								short delay = property_Characterwz_00002000img_fly_0["delay"];
 
@@ -176,136 +179,136 @@ namespace ms
 								{
 									delay = 100;
 								}
+
 								//if (stance == Stance.Id.STAND1)
 								{
-								stance_delays[(int)stance][frame] = (ushort)delay;
-								Dictionary<Body.Layer, Dictionary<string, Point<short>>> bodyshiftmap = new Dictionary<Body.Layer, Dictionary<string, Point<short>>> ();
-								bodyshiftmap.TryAdd (Body.Layer.ARM);
-								bodyshiftmap.TryAdd (Body.Layer.BODY);
-								bodyshiftmap.TryAdd (Body.Layer.HEAD);
-								bodyshiftmap.TryAdd (Body.Layer.NONE);
-								bodyshiftmap.TryAdd (Body.Layer.NUM_LAYERS);
-								bodyshiftmap.TryAdd (Body.Layer.ARM_OVER_HAIR);
-								bodyshiftmap.TryAdd (Body.Layer.ARM_BELOW_HEAD);
-								bodyshiftmap.TryAdd (Body.Layer.HAND_OVER_HAIR);
-								bodyshiftmap.TryAdd (Body.Layer.HAND_OVER_WEAPON);
-								bodyshiftmap.TryAdd (Body.Layer.HAND_BELOW_WEAPON);
-								bodyshiftmap.TryAdd (Body.Layer.ARM_BELOW_HEAD_OVER_MAIL);
-								bodyshiftmap.TryAdd (Body.Layer.ARM_OVER_HAIR_BELOW_WEAPON);
-								bodyshiftmap[Body.Layer.ARM].TryAdd ("hand");
-								bodyshiftmap[Body.Layer.ARM].TryAdd ("navel");
-								bodyshiftmap[Body.Layer.ARM_OVER_HAIR].TryAdd ("hand");
-								bodyshiftmap[Body.Layer.ARM_OVER_HAIR].TryAdd ("navel");
-								bodyshiftmap[Body.Layer.BODY].TryAdd ("navel");
-								bodyshiftmap[Body.Layer.BODY].TryAdd ("neck");
-								bodyshiftmap[Body.Layer.HEAD].TryAdd ("brow");
-								bodyshiftmap[Body.Layer.HEAD].TryAdd ("neck");
-								bodyshiftmap[Body.Layer.HAND_BELOW_WEAPON].TryAdd ("handMove");
+									stance_delays[(int)stance][frame] = (ushort)delay;
+									Dictionary<Body.Layer, Dictionary<string, Point<short>>> bodyshiftmap = new Dictionary<Body.Layer, Dictionary<string, Point<short>>> ();
+									bodyshiftmap.TryAdd (Body.Layer.ARM);
+									bodyshiftmap.TryAdd (Body.Layer.BODY);
+									bodyshiftmap.TryAdd (Body.Layer.HEAD);
+									bodyshiftmap.TryAdd (Body.Layer.NONE);
+									bodyshiftmap.TryAdd (Body.Layer.NUM_LAYERS);
+									bodyshiftmap.TryAdd (Body.Layer.ARM_OVER_HAIR);
+									bodyshiftmap.TryAdd (Body.Layer.ARM_BELOW_HEAD);
+									bodyshiftmap.TryAdd (Body.Layer.HAND_OVER_HAIR);
+									bodyshiftmap.TryAdd (Body.Layer.HAND_OVER_WEAPON);
+									bodyshiftmap.TryAdd (Body.Layer.HAND_BELOW_WEAPON);
+									bodyshiftmap.TryAdd (Body.Layer.ARM_BELOW_HEAD_OVER_MAIL);
+									bodyshiftmap.TryAdd (Body.Layer.ARM_OVER_HAIR_BELOW_WEAPON);
+									bodyshiftmap[Body.Layer.ARM].TryAdd ("hand");
+									bodyshiftmap[Body.Layer.ARM].TryAdd ("navel");
+									bodyshiftmap[Body.Layer.ARM_OVER_HAIR].TryAdd ("hand");
+									bodyshiftmap[Body.Layer.ARM_OVER_HAIR].TryAdd ("navel");
+									bodyshiftmap[Body.Layer.BODY].TryAdd ("navel");
+									bodyshiftmap[Body.Layer.BODY].TryAdd ("neck");
+									bodyshiftmap[Body.Layer.HEAD].TryAdd ("brow");
+									bodyshiftmap[Body.Layer.HEAD].TryAdd ("neck");
+									bodyshiftmap[Body.Layer.HAND_BELOW_WEAPON].TryAdd ("handMove");
 
-								if (property_Characterwz_00002000img_fly_0?.WzProperties != null)//todo WzProperties == null?
-								{
-									foreach (var property_Characterwz_00002000img_fly_0_arm in property_Characterwz_00002000img_fly_0.WzProperties)
+									if (property_Characterwz_00002000img_fly_0?.WzProperties != null) //todo WzProperties == null?
 									{
-										string part = property_Characterwz_00002000img_fly_0_arm.Name;
-
-										if (part != "delay" && part != "face")
+										foreach (var property_Characterwz_00002000img_fly_0_arm in property_Characterwz_00002000img_fly_0.WzProperties)
 										{
-											string zstr = property_Characterwz_00002000img_fly_0_arm["z"]?.ToString ();
-											if (string.IsNullOrEmpty (zstr)) continue;
-											Body.Layer z = Body.layer_by_name (zstr);
+											string part = property_Characterwz_00002000img_fly_0_arm.Name;
 
-											foreach (var property_Characterwz_00002000img_fly_0_arm_hand in property_Characterwz_00002000img_fly_0_arm["map"].WzProperties)
+											if (part != "delay" && part != "face")
 											{
-												//bodyshiftmap.TryAdd (z, new Dictionary<string, Point<short>> ());
+												string zstr = property_Characterwz_00002000img_fly_0_arm["z"]?.ToString ();
+												if (string.IsNullOrEmpty (zstr)) continue;
+												Body.Layer z = Body.layer_by_name (zstr);
 
-												bodyshiftmap[z].TryAdd (property_Characterwz_00002000img_fly_0_arm_hand.Name, property_Characterwz_00002000img_fly_0_arm_hand.GetPoint ().ToMSPoint (),true);
+												foreach (var property_Characterwz_00002000img_fly_0_arm_hand in property_Characterwz_00002000img_fly_0_arm["map"].WzProperties)
+												{
+													//bodyshiftmap.TryAdd (z, new Dictionary<string, Point<short>> ());
+
+													bodyshiftmap[z].TryAdd (property_Characterwz_00002000img_fly_0_arm_hand.Name, property_Characterwz_00002000img_fly_0_arm_hand.GetPoint ().ToMSPoint (), true);
+												}
 											}
 										}
 									}
-								}
 
-								//var node_Characterwz_00012000img_front_head_map = node_Characterwz_00012000img[ststr][frame.ToString()]["head"]["map"];//todo has frame?
-								var stand1 = node_Characterwz_00012000img["stand1"];
-								var frame0 = stand1["0"];
-								var head = frame0["head"];
-								var map = head["map"];
-								
-								var node_Characterwz_00012000img_front_head_map = map;
-								//var node_Characterwz_00012000img_front_head_map = node_Characterwz_00012000img[ststr][frame.ToString ()]["head"]["map"];
-								if (node_Characterwz_00012000img_front_head_map is WzImageProperty property_Characterwz_00012000img_front_head_map)
-								{
-									foreach (var property_Characterwz_00012000img_front_head_map_brow in property_Characterwz_00012000img_front_head_map.WzProperties)
+									//var node_Characterwz_00012000img_front_head_map = node_Characterwz_00012000img[ststr][frame.ToString()]["head"]["map"];//todo has frame?
+									var stand1 = node_Characterwz_00012000img["stand1"];
+									var frame0 = stand1["0"];
+									var head = frame0["head"];
+									var map = head["map"];
+
+									var node_Characterwz_00012000img_front_head_map = map;
+									//var node_Characterwz_00012000img_front_head_map = node_Characterwz_00012000img[ststr][frame.ToString ()]["head"]["map"];
+									if (node_Characterwz_00012000img_front_head_map is WzImageProperty property_Characterwz_00012000img_front_head_map)
 									{
-										//Debug.Log ($"{property_Characterwz_00012000img_front_head_map_brow.FullPath}");
-										//bodyshiftmap.TryAdd (Body.Layer.HEAD);
-										bodyshiftmap[Body.Layer.HEAD].TryAdd (property_Characterwz_00012000img_front_head_map_brow.Name, property_Characterwz_00012000img_front_head_map_brow.GetPoint ().ToMSPoint (),true);
+										foreach (var property_Characterwz_00012000img_front_head_map_brow in property_Characterwz_00012000img_front_head_map.WzProperties)
+										{
+											//Debug.Log ($"{property_Characterwz_00012000img_front_head_map_brow.FullPath}");
+											//bodyshiftmap.TryAdd (Body.Layer.HEAD);
+											bodyshiftmap[Body.Layer.HEAD].TryAdd (property_Characterwz_00012000img_front_head_map_brow.Name, property_Characterwz_00012000img_front_head_map_brow.GetPoint ().ToMSPoint (), true);
+										}
 									}
-								}
 
-								#region Debug
+									#region Debug
 
-								StringBuilder sb = new StringBuilder ();
+									StringBuilder sb = new StringBuilder ();
 
-								foreach (var key in bodyshiftmap.Keys)
-								{
-									sb.Append (key + "|");
-								}
+									foreach (var key in bodyshiftmap.Keys)
+									{
+										sb.Append (key + "|");
+									}
 
-								//Debug.Log ($"bodyshiftmap.Keys:  \t {sb}");
+									//Debug.Log ($"bodyshiftmap.Keys:  \t {sb}");
 
-								sb.Clear ();
-								foreach (var key in bodyshiftmap[Body.Layer.BODY].Keys)
-								{
-									sb.Append (key + "|");
-								}
+									sb.Clear ();
+									foreach (var key in bodyshiftmap[Body.Layer.BODY].Keys)
+									{
+										sb.Append (key + "|");
+									}
 
-								//Debug.Log ($"bodyshiftmap[Body.Layer.BODY].Keys: \t {sb}");
+									//Debug.Log ($"bodyshiftmap[Body.Layer.BODY].Keys: \t {sb}");
 
-								sb.Clear ();
-								foreach (var key in bodyshiftmap[Body.Layer.HAND_BELOW_WEAPON].Keys)
-								{
-									sb.Append (key + "|");
-								}
+									sb.Clear ();
+									foreach (var key in bodyshiftmap[Body.Layer.HAND_BELOW_WEAPON].Keys)
+									{
+										sb.Append (key + "|");
+									}
 
-								//Debug.Log ($"bodyshiftmap[Body.Layer.HAND_BELOW_WEAPON].Keys: \t  {sb}");
+									//Debug.Log ($"bodyshiftmap[Body.Layer.HAND_BELOW_WEAPON].Keys: \t  {sb}");
 
-								sb.Clear ();
-								foreach (var key in bodyshiftmap[Body.Layer.HEAD].Keys)
-								{
-									sb.Append (key + "|");
-								}
+									sb.Clear ();
+									foreach (var key in bodyshiftmap[Body.Layer.HEAD].Keys)
+									{
+										sb.Append (key + "|");
+									}
 
-								//Debug.Log ($"bodyshiftmap[Body.Layer.HEAD].Keys:  \t {sb}");
+									//Debug.Log ($"bodyshiftmap[Body.Layer.HEAD].Keys:  \t {sb}");
 
-								sb.Clear ();
-								foreach (var key in bodyshiftmap[Body.Layer.ARM].Keys)
-								{
-									sb.Append (key + "|");
-								}
+									sb.Clear ();
+									foreach (var key in bodyshiftmap[Body.Layer.ARM].Keys)
+									{
+										sb.Append (key + "|");
+									}
 
-								#endregion
+									#endregion
 
 
-								
-								//Debug.Log ($"bodyshiftmap[Body.Layer.ARM].Keys:  \t {sb}");
-								//Debug.Log ($"{stance} {bodyshiftmap.Keys} {bodyshiftmap[Body.Layer.BODY].Keys}");
-								body_positions[(int)stance].TryAdd (frame, bodyshiftmap[Body.Layer.BODY]["navel"]);
-								arm_positions[(int)stance].TryAdd (frame, bodyshiftmap.Any (x => x.Key == Body.Layer.ARM) ? bodyshiftmap[Body.Layer.ARM]["hand"] - bodyshiftmap[Body.Layer.ARM]["navel"] + bodyshiftmap[Body.Layer.BODY]["navel"] : bodyshiftmap[Body.Layer.ARM_OVER_HAIR]["hand"] - bodyshiftmap[Body.Layer.ARM_OVER_HAIR]["navel"] + bodyshiftmap[Body.Layer.BODY]["navel"]);
-								hand_positions[(int)stance].TryAdd (frame, bodyshiftmap[Body.Layer.HAND_BELOW_WEAPON]["handMove"]);
-								//var dsf = bodyshiftmap[Body.Layer.BODY];
-								var bodyneck = bodyshiftmap[Body.Layer.BODY]["neck"];
-								var headneck = bodyshiftmap[Body.Layer.HEAD]["neck"];
-								var delta = bodyneck - headneck;
-								head_positions[(int)stance].TryAdd (frame, bodyshiftmap[Body.Layer.BODY]["neck"] - bodyshiftmap[Body.Layer.HEAD]["neck"]);
-								face_positions[(int)stance].TryAdd (frame, bodyshiftmap[Body.Layer.BODY]["neck"] - bodyshiftmap[Body.Layer.HEAD]["neck"] + bodyshiftmap[Body.Layer.HEAD]["brow"]);
-								hair_positions[(int)stance].TryAdd (frame, bodyshiftmap[Body.Layer.HEAD]["brow"] - bodyshiftmap[Body.Layer.HEAD]["neck"] + bodyshiftmap[Body.Layer.BODY]["neck"]);
+									//Debug.Log ($"bodyshiftmap[Body.Layer.ARM].Keys:  \t {sb}");
+									//Debug.Log ($"{stance} {bodyshiftmap.Keys} {bodyshiftmap[Body.Layer.BODY].Keys}");
+									body_positions[(int)stance].TryAdd (frame, bodyshiftmap[Body.Layer.BODY]["navel"]);
+									arm_positions[(int)stance].TryAdd (frame, bodyshiftmap.Any (x => x.Key == Body.Layer.ARM) ? bodyshiftmap[Body.Layer.ARM]["hand"] - bodyshiftmap[Body.Layer.ARM]["navel"] + bodyshiftmap[Body.Layer.BODY]["navel"] : bodyshiftmap[Body.Layer.ARM_OVER_HAIR]["hand"] - bodyshiftmap[Body.Layer.ARM_OVER_HAIR]["navel"] + bodyshiftmap[Body.Layer.BODY]["navel"]);
+									hand_positions[(int)stance].TryAdd (frame, bodyshiftmap[Body.Layer.HAND_BELOW_WEAPON]["handMove"]);
+									//var dsf = bodyshiftmap[Body.Layer.BODY];
+									var bodyneck = bodyshiftmap[Body.Layer.BODY]["neck"];
+									var headneck = bodyshiftmap[Body.Layer.HEAD]["neck"];
+									var delta = bodyneck - headneck;
+									head_positions[(int)stance].TryAdd (frame, bodyshiftmap[Body.Layer.BODY]["neck"] - bodyshiftmap[Body.Layer.HEAD]["neck"]);
+									face_positions[(int)stance].TryAdd (frame, bodyshiftmap[Body.Layer.BODY]["neck"] - bodyshiftmap[Body.Layer.HEAD]["neck"] + bodyshiftmap[Body.Layer.HEAD]["brow"]);
+									hair_positions[(int)stance].TryAdd (frame, bodyshiftmap[Body.Layer.HEAD]["brow"] - bodyshiftmap[Body.Layer.HEAD]["neck"] + bodyshiftmap[Body.Layer.BODY]["neck"]);
 
-								
-									var result1 = bodyshiftmap[Body.Layer.BODY]["neck"] -bodyshiftmap[Body.Layer.HEAD]["neck"] ;
+
+									var result1 = bodyshiftmap[Body.Layer.BODY]["neck"] - bodyshiftmap[Body.Layer.HEAD]["neck"];
 									var result2 = result1 + bodyshiftmap[Body.Layer.HEAD]["brow"];
 									//Debug.Log ($"Body.Layer.BODY[neck]: {bodyshiftmap[Body.Layer.BODY]["neck"]}\t Body.Layer.HEAD[neck]: {bodyshiftmap[Body.Layer.HEAD]["neck"]}\t Body.Layer.HEAD[brow]: {bodyshiftmap[Body.Layer.HEAD]["brow"]}\t result1: {result1}\t result2: {result2}");
 								}
-								
+
 								/*body_positions[(int)stance][frame] = bodyshiftmap[Body.Layer.BODY]["navel"];
 								arm_positions[(int)stance][frame] = bodyshiftmap.Any (x => x.Key == Body.Layer.ARM) ? bodyshiftmap[Body.Layer.ARM]["hand"] - bodyshiftmap[Body.Layer.ARM]["navel"] + bodyshiftmap[Body.Layer.BODY]["navel"] : bodyshiftmap[Body.Layer.ARM_OVER_HAIR]["hand"] - bodyshiftmap[Body.Layer.ARM_OVER_HAIR]["navel"] + bodyshiftmap[Body.Layer.BODY]["navel"];
 								hand_positions[(int)stance][frame] = bodyshiftmap[Body.Layer.HAND_BELOW_WEAPON]["handMove"];
@@ -429,12 +432,15 @@ namespace ms
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: Point<short> getfacepos(Stance::Id stance, byte frame) const
-		public Point<short> getfacepos (Stance.Id stance, byte frame,bool flip=false)
+		public Point<short> getfacepos (Stance.Id stance, byte frame, bool flip = false)
 		{
-			var pos = new Point<short> ();
-			face_positions[(int)stance].TryGetValue (frame, out pos);
+			if (!face_positions[(int)stance].TryGetValue (frame, out var pos))
+			{
+				pos = new Point<short> ();
+			}
+
 			//Debug.Log ($"stance: {stance} \t getfacepos: {pos} frame: {frame}");
-			if(flip)pos = new Point<short> ((short)-pos.x (),pos.y ());
+			if (flip) pos = new Point<short> ((short)-pos.x (), pos.y ());
 			return pos;
 			/*var iter = face_positions[(int)stance].find (frame);
 

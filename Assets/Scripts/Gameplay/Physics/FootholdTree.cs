@@ -464,7 +464,7 @@ namespace ms
 			if (!footholds.TryGetValue (fhid, out foothold))
 			{
 				foothold = new Foothold ();
-				Debug.LogWarning ($"can't find Foothold by fhid={fhid}");
+				//Debug.LogWarning ($"can't find Foothold by fhid={fhid}");
 			}
 			
 			return foothold;
