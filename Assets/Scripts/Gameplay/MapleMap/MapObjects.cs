@@ -145,6 +145,7 @@ namespace ms
 			if (objects.TryGetValue (oid, out var mapObject))
 			{
 				sbyte layer = mapObject.get_layer ();
+				mapObject.Dispose ();
 				objects.Remove (oid);
 				layers[layer].RemoveWhere (l => l == oid);
 			}

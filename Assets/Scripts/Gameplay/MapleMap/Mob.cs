@@ -558,7 +558,7 @@ namespace ms
 			bounds.shift (get_position ());
 			if (debug)
 			{
-				Debug.Log ($"range:{range}\t get_bounds:{tempCacheBounds}\t get_position():{get_position ()}\t bounds.shift(get_position()):{bounds}\t {range.overlaps (bounds)}");
+				//Debug.Log ($"range:{range}\t get_bounds:{tempCacheBounds}\t get_position():{get_position ()}\t bounds.shift(get_position()):{bounds}\t {range.overlaps (bounds)}");
 			}
 
 			return range.overlaps (bounds);

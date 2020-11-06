@@ -120,7 +120,9 @@ namespace ms
 		public Rectangle<short> get_bounds (bool debug = false)
 		{
 			if (debug)
-				Debug.Log ($"frame FullPath:{temp?.FullPath}\t get_bounds:{bounds} ");
+			{
+				//Debug.Log ($"frame FullPath:{temp?.FullPath}\t get_bounds:{bounds} ");
+			}
 			return new Rectangle<short> (bounds);
 			return bounds;
 		}

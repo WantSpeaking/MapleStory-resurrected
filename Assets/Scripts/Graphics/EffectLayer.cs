@@ -88,7 +88,7 @@ namespace ms
 			}*/
 		}
 
-		private static List<Effect> _bufferEffects = new List<Effect>(); 
+		private readonly List<Effect> _bufferEffects = new List<Effect>(); 
 		public void update ()
 		{
 			

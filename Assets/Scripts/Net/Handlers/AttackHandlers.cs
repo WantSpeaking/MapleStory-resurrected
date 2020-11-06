@@ -39,8 +39,6 @@ namespace ms
 {
 	public class AttackHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle(InPacket recv)
 		{
 			int cid = recv.read_int();
@@ -80,6 +78,7 @@ namespace ms
 					int damage = recv.read_int();
 					bool critical = false; // TODO: ?
 					var singledamage = System.Tuple.Create(damage, critical);
+					attack.damagelines.TryAdd (oid);
 					attack.damagelines[oid].Add(singledamage);
 				}
 			}

@@ -45,8 +45,6 @@ namespace ms
 	/// </summary>
 	public class Combat
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Combat(Player& in_player, MapChars& in_chars, MapMobs& in_mobs, MapReactors& in_reactors) : player(in_player), chars(in_chars), mobs(in_mobs), reactors(in_reactors), attackresults([&](const AttackResult& attack)
 		public Combat (Player in_player, MapChars in_chars, MapMobs in_mobs, MapReactors in_reactors)
 		{
 			//player = in_player;//player maybe null at this time
@@ -194,9 +192,8 @@ namespace ms
 
 		private void apply_attack (AttackResult attack)
 		{
-			/*Optional < OtherChar > ouser = chars.get_char (attack.attacker);
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
-			if (ouser)
+			Optional < OtherChar > ouser = chars.get_char (attack.attacker);
+			if ((bool)ouser)
 			{
 				OtherChar user = ouser;
 				user.update_skill (attack.skill, attack.level);
@@ -218,7 +215,7 @@ namespace ms
 				user.set_afterimage (attack.skill);
 
 				extract_effects (user, move, attack);
-			}*/
+			}
 		}
 
 		private void apply_move (SpecialMove move)
@@ -267,9 +264,7 @@ namespace ms
 				MapObjects mob_objs = mobs.get_mobs ();
 				//MapObjects reactor_objs = reactors.get_reactors ();
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: ClassicVector<int> mob_targets = find_closest(mob_objs, range, origin, mobcount, true);
-				List<int> mob_targets = find_closest (mob_objs, range, origin, mobcount, true);
+				List<int> mob_targets = find_closest (mob_objs, range,new Point<short> (origin), mobcount, true);
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: ClassicVector<int> reactor_targets = find_closest(reactor_objs, range, origin, mobcount, false);
 				//List<int> reactor_targets = find_closest (reactor_objs, new ms.Rectangle (new ms.Rectangle (range)), new ms.Point (new ms.Point (origin)), mobcount, false);
@@ -531,6 +526,3 @@ namespace ms
 	}
 }
 
-
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void Combat::draw(double viewx, double viewy, float alpha) const

@@ -225,8 +225,6 @@ namespace ms
 	// Opcode: SHOW_FOREIGN_EFFECT(198)
 	public class ShowForeignEffectHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
 			int cid = recv.read_int ();
