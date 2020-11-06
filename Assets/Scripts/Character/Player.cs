@@ -224,6 +224,7 @@ namespace ms
 
 			if (needupdate)
 			{
+				Debug.Log ($"newmove command:{newmove.command}\t xpos:{newmove.xpos}\t ypos:{newmove.ypos}");
 				new MovePlayerPacket(newmove).dispatch();
 				lastmove = newmove;
 			}

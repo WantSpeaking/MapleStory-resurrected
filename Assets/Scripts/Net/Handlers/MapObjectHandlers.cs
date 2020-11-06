@@ -196,24 +196,21 @@ namespace ms
 	// Opcode: CHAR_MOVED(185)
 	public class CharMovedHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
 			int cid = recv.read_int ();
 			recv.skip (4);
 			List<Movement> movements = MovementParser.parse_movements (recv);
 
+			//Debug.Log ($"CharMovedHandler xpos:{movements[0].xpos}\t ypos:{movements[0].ypos}");
 			Stage.get ().get_chars ().send_movement (cid, movements);
 		}
 	}
-
+	
 	// Update the look of a character
 	// Opcode: UPDATE_CHARLOOK(197)
 	public class UpdateCharLookHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
 			int cid = recv.read_int ();

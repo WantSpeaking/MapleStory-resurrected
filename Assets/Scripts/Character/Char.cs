@@ -207,7 +207,7 @@ namespace ms
 			return (ushort)(delay / fspeed);
 		}
 
-		public virtual sbyte update (Physics physics)
+		public override sbyte update (Physics physics)
 		{
 			update (physics, 1.0f);
 
@@ -282,7 +282,7 @@ namespace ms
 			}
 
 			State newstate = by_value ((sbyte)statebyte);
-			set_state ((byte)newstate);
+			set_state (newstate);
 		}
 
 		public void set_expression (int expid)
@@ -371,7 +371,6 @@ namespace ms
 			}
 		}
 
-
 		public virtual bool is_invincible ()
 		{
 			return invincible == true;
@@ -456,7 +455,6 @@ namespace ms
 		public abstract sbyte get_integer_attackspeed ();
 
 		public abstract ushort get_level ();
-
 
 		public abstract int get_skilllevel (int skillid);
 

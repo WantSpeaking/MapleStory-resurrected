@@ -27,7 +27,7 @@ public static class TextureAndSpriteUtil
 		t2d.LoadImage (ImageToByte2 (bitmap));
 		t2d.filterMode = FilterMode.Point;
 		t2d.Apply ();
-		
+
 		var pivotX = origin.x ();
 		var pivotY = origin.y ();
 		var width = dimensions.x ();
@@ -39,6 +39,7 @@ public static class TextureAndSpriteUtil
 
 		return sprite;
 	}
+
 	public static UnityEngine.Texture2D BitmapToUnityTexture2d (Bitmap bitmap, Point<short> dimensions)
 	{
 		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y ());
@@ -47,6 +48,7 @@ public static class TextureAndSpriteUtil
 
 		return t2d;
 	}
+
 	public static byte[] ImageToByte2 (Image bitmap)
 	{
 		/*using (var stream = new MemoryStream())
@@ -54,8 +56,11 @@ public static class TextureAndSpriteUtil
 		    img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
 		    return stream.ToArray();
 		}*/
-
-		string filePath = Application.temporaryCachePath + "/Cache.png";
+#if !UNITY_EDITOR
+		string filePath = Application.temporaryCachePath + "/Cache_Player.png";
+#else
+		string filePath = Application.temporaryCachePath + "/Cache_Editor.png";
+#endif
 		bitmap.Save (filePath);
 		Stream stream = File.OpenRead (filePath);
 		byte[] data = new byte[stream.Length];

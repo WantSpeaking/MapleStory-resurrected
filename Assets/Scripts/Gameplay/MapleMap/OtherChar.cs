@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -60,6 +61,8 @@ namespace ms
 		// Update the character.
 		public override sbyte update (Physics physics)
 		{
+			//Debug.Log ($"OtherChar update lastmove.xpos: {lastmove.xpos}\t lastmove.ypos: {lastmove.ypos}\t phobj.crnt_x ():{phobj.crnt_x ()}\t phobj.crnt_y ():{phobj.crnt_y ()}");
+
 			if (timer > 1)
 			{
 				timer--;
@@ -86,7 +89,7 @@ namespace ms
 			phobj.hspeed = lastmove.xpos - phobj.crnt_x ();
 			phobj.vspeed = lastmove.ypos - phobj.crnt_y ();
 			phobj.move ();
-
+			
 			physics.get_fht ().update_fh (phobj);
 
 			bool aniend = base.update (physics, get_stancespeed ());
@@ -133,24 +136,18 @@ namespace ms
 		}
 
 		// Return the character's attacking speed.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: sbyte get_integer_attackspeed() const override
 		public override sbyte get_integer_attackspeed ()
 		{
 			return (sbyte)attackspeed;
 		}
 
 		// Return the character's level.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: ushort get_level() const override
 		public override ushort get_level ()
 		{
 			return level;
 		}
 
 		// Return the character's level of a skill.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int get_skilllevel(int skillid) const override
 		public override int get_skilllevel (int skillid)
 		{
 			if (!skilllevels.ContainsKey (skillid))

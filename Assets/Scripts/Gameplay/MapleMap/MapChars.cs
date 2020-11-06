@@ -44,12 +44,11 @@ namespace ms
 	public class MapChars
 	{
 		// Draw all characters on a layer
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(Layer::Id layer, double viewx, double viewy, float alpha) const
 		public void draw(Layer.Id layer, double viewx, double viewy, float alpha)
 		{
 			chars.draw(layer, viewx, viewy, alpha);
 		}
+		
 		// Update all characters
 		public void update(Physics physics)
 		{

@@ -215,14 +215,10 @@ namespace ms
 			this.position = p;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int get_cid() const
 		public int get_cid()
 		{
 			return cid;
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: unique_ptr<MapObject> instantiate() const
 		public MapObject instantiate()
 		{
 			return new OtherChar(cid,new CharLook (look), level, job, name, stance, position);
