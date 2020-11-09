@@ -21,6 +21,60 @@ public static class TextureAndSpriteUtil
 		return t2d;
 	}
 
+	public static UnityEngine.Sprite PngDataToSprite (byte[] data, Point<short> origin, Point<short> dimensions)
+	{
+		if (data == null) return null;
+		//Debug.Log ($"data.Length:{data.Length}\t {data.ToDebugLog ()}");
+		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y (),TextureFormat.BGRA32,false);
+		//t2d.LoadRawTextureData (data);
+		t2d.SetPixelData (data,0,0);
+		t2d.filterMode = FilterMode.Point;
+		t2d.Apply ();
+
+		var pivotX = origin.x ();
+		var pivotY = origin.y ();
+		var width = dimensions.x ();
+		var height = dimensions.y ();
+		var relativeAnchorX = (float)pivotX / width;
+		var relativeAnchorY = (float)pivotY / height;
+
+		UnityEngine.Sprite sprite = UnityEngine.Sprite.Create (t2d, new Rect (0, 0, dimensions.x (), dimensions.y ()), new Vector2 (relativeAnchorX, /*1 -*/ relativeAnchorY), 1);
+
+		return sprite;
+	}
+	public static UnityEngine.Texture2D PngDataToTexture2D (byte[] data, Point<short> origin, Point<short> dimensions)
+	{
+		if (data == null) return null;
+		//Debug.Log ($"data.Length:{data.Length}\t {data.ToDebugLog ()}");
+		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y (),TextureFormat.BGRA32,false);
+		//t2d.LoadRawTextureData (data);
+		t2d.SetPixelData (data,0,0);
+		t2d.filterMode = FilterMode.Point;
+		t2d.Apply ();
+		return t2d;
+	}
+	public static Texture2D AddWatermark(Texture2D background, Texture2D watermark, int startPositionX, int startPositionY)
+	{
+		//only read and rewrite the area of the watermark
+		for (int x = startPositionX; x < background.width; x++)
+		{
+			for (int y = startPositionY; y < background.height; y++)
+			{
+				if (x - startPositionX < watermark.width && y - startPositionY < watermark.height)
+				{
+					var bgColor = background.GetPixel(x, y);
+					var wmColor = watermark.GetPixel(x - startPositionX, y - startPositionY);
+
+					var finalColor = UnityEngine.Color.Lerp(bgColor, wmColor, wmColor.a / 1.0f);
+
+					background.SetPixel(x, y, finalColor);
+				}
+			}
+		}
+
+		background.Apply();
+		return background;
+	}
 	public static UnityEngine.Sprite BitmapToSprite (Bitmap bitmap, Point<short> origin, Point<short> dimensions)
 	{
 		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y ());

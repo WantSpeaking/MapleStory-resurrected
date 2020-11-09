@@ -59,6 +59,9 @@ namespace ms
 		private UnityEngine.Sprite sprite;
 		public string fullPath = string.Empty;
 		private WzObject cache_src { get; set; }
+
+		private byte[] textureData;
+
 		public Texture ()
 		{
 		}
@@ -67,10 +70,12 @@ namespace ms
 		{
 			Init (src);
 		}
+
 		public Texture (Texture srcTexture)
 		{
 			Init (srcTexture?.cache_src);
 		}
+
 		private void Init (WzObject src)
 		{
 			cache_src = src;
@@ -80,19 +85,30 @@ namespace ms
 				pivot = src["origin"]?.GetPoint ().ToMSPoint () ?? Point<short>.zero;
 
 				bitmap = src.GetBitmap ();
+				textureData = src.GetPngData ();
+				if (src is WzCanvasProperty canvasProperty)
+				{
+					//Debug.Log ($"pixelData:{canvasProperty.imageProp?.decodedData?.ToDebugLog ()}");
+				}
 
+				this.canvasProperty = src as WzCanvasProperty;
 				dimensions = new Point<short> ((short)(bitmap?.Width ?? 0), (short)(bitmap?.Height ?? 0));
 
 				//GraphicsGL.get().addbitmap(bitmap);todo render unity
 				//Debug.Log ($"{src?.FullPath} \t {src?.GetType ()}", spriteObj);
 			}
 		}
+
 		public void Dispose ()
 		{
 			//bitmap?.Dispose ();
 			UnityEngine.Object.Destroy (spriteObj);
 		}
 
+		public int textureWidth;
+		public int textureHight;
+		public byte[] data;
+		private WzCanvasProperty canvasProperty;
 		private Bitmap bitmap;
 		private Point<short> pivot = new Point<short> ();
 		private Point<short> dimensions = new Point<short> ();
@@ -111,43 +127,99 @@ namespace ms
 
 		public void draw (DrawArgument args)
 		{
-			if (bitmap == null) return;
-			if (spriteRenderer == null)
 			{
-				spriteObj = new GameObject ();
-				if(MapleStory.Instance.AddToParent)
-					AddToParent (spriteObj, fullPath);
-				spriteRenderer = spriteObj.AddComponent<SpriteRenderer> ();
-			}
-
-			if (spriteRenderer != null)
-			{
-				spriteRenderer.enabled = true;
-				//Debug.Log ($"{fullPath} {origin}", spriteRenderer.gameObject);
-				if (sprite == null)
+				/*if (bitmap == null) return;
+				if (spriteRenderer == null)
 				{
-					//Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
-					sprite = TextureAndSpriteUtil.BitmapToSprite (bitmap, pivot, dimensions);
+					spriteObj = new GameObject ();
+					if (MapleStory.Instance.AddToParent)
+						AddToParent (spriteObj, fullPath);
+					spriteRenderer = spriteObj.AddComponent<SpriteRenderer> ();
 				}
 
-				spriteRenderer.gameObject.name = fullPath;
-				spriteRenderer.sprite = sprite;
-				spriteRenderer.sortingLayerName = args.sortingLayer.ToString ();
-				spriteRenderer.sortingOrder = args.orderInLayer;
-				setScale (new Vector3 (args.get_xscale (), args.get_yscale (), 1));
-				setPos (new Vector3 (args.get_Pos ().x (), -args.get_Pos ().y (), 0));
+				if (spriteRenderer != null)
+				{
+					spriteRenderer.enabled = true;
+					//Debug.Log ($"{fullPath} {origin}", spriteRenderer.gameObject);
+					if (sprite == null)
+					{
+						//Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
+						sprite = TextureAndSpriteUtil.BitmapToSprite (bitmap, pivot, dimensions);
+					}
+
+					spriteRenderer.gameObject.name = fullPath;
+					spriteRenderer.sprite = sprite;
+					spriteRenderer.sortingLayerName = args.sortingLayer.ToString ();
+					spriteRenderer.sortingOrder = args.orderInLayer;
+					setScale (new Vector3 (args.get_xscale (), args.get_yscale (), 1));
+					setPos (new Vector3 (args.get_Pos ().x (), -args.get_Pos ().y (), 0));
+				}*/
 			}
 
-			/*textureRange = new Rectangle<short> ((short)(args.get_Pos ().x () - pivot.x ()), (short)(args.get_Pos ().y () - pivot.y ()), dimensions.x (), dimensions.y ());
-			textureRect = new Rect (args.get_Pos ().x () - pivot.x (), args.get_Pos ().y () - pivot.y (), dimensions.x (), dimensions.y ());
-			if (bitmap == null) return;
-			if (mainTexture == null)
 			{
-				mainTexture = TextureAndSpriteUtil.BitmapToUnityTexture2d (bitmap, dimensions);
+				/*textureRange = new Rectangle<short> ((short)(args.get_Pos ().x () - pivot.x ()), (short)(args.get_Pos ().y () - pivot.y ()), dimensions.x (), dimensions.y ());
+				textureRect = new Rect (args.get_Pos ().x () - pivot.x (), args.get_Pos ().y () - pivot.y (), dimensions.x (), dimensions.y ());
+				if (bitmap == null) return;
+				if (mainTexture == null)
+				{
+					mainTexture = TextureAndSpriteUtil.BitmapToUnityTexture2d (bitmap, dimensions);
+				}
+
+				if (overlaps ())
+					DrawTextureToTarget ();*/
 			}
 
-			if (overlaps ())
-				DrawTextureToTarget ();*/
+			{
+				/*if (bitmap != null)
+				{
+					if (mainTexture == null)
+					{
+						mainTexture = TextureAndSpriteUtil.BitmapToUnityTexture2d (bitmap, dimensions);
+					}
+
+					var batchItem = new BatchItem ();
+					batchItem.posX = args.get_Pos ().x ();
+					batchItem.posY = args.get_Pos ().y ();
+					batchItem.pivotX = pivot.x ();
+					batchItem.pivotY = pivot.y ();
+					batchItem.width = bitmap?.Width??0;
+					batchItem.height = bitmap?.Height??0;
+					batchItem.data = textureData;
+					batchItem.bmp = bitmap;
+					batchItem.texture = mainTexture;
+					SpriteBatch.Instance.Add (batchItem);
+				}*/
+			}
+
+			{
+				if (bitmap == null) return;
+				if (spriteRenderer == null)
+				{
+					spriteObj = new GameObject ();
+					if (MapleStory.Instance.AddToParent)
+						AddToParent (spriteObj, fullPath);
+					spriteRenderer = spriteObj.AddComponent<SpriteRenderer> ();
+					spriteRenderer.flipY = true;
+				}
+
+				if (spriteRenderer != null)
+				{
+					spriteRenderer.enabled = true;
+					//Debug.Log ($"{fullPath} {origin}", spriteRenderer.gameObject);
+					if (sprite == null)
+					{
+						//Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
+						sprite = TextureAndSpriteUtil.PngDataToSprite (textureData, pivot, dimensions);
+					}
+
+					spriteRenderer.gameObject.name = fullPath;
+					spriteRenderer.sprite = sprite;
+					spriteRenderer.sortingLayerName = args.sortingLayer.ToString ();
+					spriteRenderer.sortingOrder = args.orderInLayer;
+					setScale (new Vector3 (args.get_xscale (), args.get_yscale (), 1));
+					setPos (new Vector3 (args.get_Pos ().x (), -args.get_Pos ().y (), 0));
+				}
+			}
 		}
 
 		private Texture2D mainTexture;

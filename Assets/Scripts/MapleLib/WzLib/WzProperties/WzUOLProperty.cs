@@ -237,7 +237,10 @@ namespace MapleLib.WzLib.WzProperties
         {
             return LinkValue.GetBitmap();
         }
-
+        public override byte[] GetPngData()
+        {
+	        return LinkValue.GetPngData();
+        }
         public override byte[] GetBytes()
         {
             return LinkValue.GetBytes();

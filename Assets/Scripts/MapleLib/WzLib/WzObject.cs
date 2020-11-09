@@ -217,7 +217,10 @@ namespace MapleLib.WzLib
 		{
 			return null;
 		}
-
+		public virtual byte[] GetPngData ()
+		{
+			return null;
+		}
 		public virtual byte[] GetBytes ()
 		{
 			throw new NotImplementedException ();
