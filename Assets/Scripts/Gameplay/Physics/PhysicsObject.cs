@@ -25,8 +25,8 @@ namespace ms
 	// Structure that contains all properties for movement calculations
 	/*public class MovingObject
 	{
-		public Linear<double> x = new Linear<double>();
-		public Linear<double> y = new Linear<double>();
+		public Linear_double x = new Linear_double();
+		public Linear_double y = new Linear_double();
 		public double hspeed = 0.0;
 		public double vspeed = 0.0;
 

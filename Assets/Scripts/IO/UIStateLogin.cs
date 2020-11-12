@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -48,11 +49,11 @@ namespace ms
 
 			bool start_shown = Configuration.get ().get_start_shown ();
 
-			if (!start_shown)
+			/*if (!start_shown)
 			{
 				emplace<UILogo> ();
 			}
-			else
+			else*/
 			{
 				emplace<UILogin> ();
 			}
@@ -72,9 +73,9 @@ namespace ms
 				}
 			}
 
-			if (tooltip != null)
+			if (tooltip)
 			{
-				tooltip.Dereference ().draw (cursor + new Point<short> (0, 22));
+				tooltip.get ().draw (cursor + new Point<short> (0, 22));
 			}
 		}
 
@@ -94,7 +95,7 @@ namespace ms
 		public override void doubleclick (Point<short> pos)
 		{
 			var charselect = UI.get ().get_element<UICharSelect> ();
-			if (charselect != null)
+			if (charselect)
 			{
 				charselect.get ().doubleclick (pos);
 			}
@@ -169,7 +170,7 @@ namespace ms
 			var login = UI.get ().get_element<UILogin> ();
 			var region = UI.get ().get_element<UIRegion> ();
 
-			if (logo != null && logo.Dereference ().is_active () || login != null && login.Dereference ().is_active () || region != null && region.Dereference ().is_active ())
+			if (logo && logo.get ().is_active () || login && login.get ().is_active () || region && region.get ().is_active ())
 			{
 				UI.get ().quit ();
 			}
@@ -249,7 +250,12 @@ namespace ms
 
 		public override UIElement get (UIElement.Type type)
 		{
-			return elements[type];
+			if (!elements.TryGetValue (type, out var uiElement))
+			{
+				//Debug.LogWarning ($"UIStateLogin get() can't find uiElement by type:{type}");
+			}
+
+			return uiElement;
 		}
 
 		public UIElement get_front ()
@@ -350,6 +356,7 @@ namespace ms
 				iter.TryAdd (uiElementType, (UIElement)System.Activator.CreateInstance (type, args));
 			}
 		}
+
 		private ConcurrentDictionary<UIElement.Type, UIElement> elements = new ConcurrentDictionary<UIElement.Type, UIElement> ();
 		private UIElement.Type focused;
 

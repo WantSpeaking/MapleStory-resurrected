@@ -98,8 +98,8 @@ namespace ms
 
 			DrawArgument relargs = new DrawArgument (acmove, flip);
 
-			Stance.Id interstance = stance.get (alpha);
-			Expression.Id interexpression = expression.get (alpha);
+			Stance.Id interstance = (Stance.Id)stance.get (alpha);
+			Expression.Id interexpression = (Expression.Id)expression.get (alpha);
 			byte interframe = stframe.get (alpha);
 			byte interexpframe = expframe.get (alpha);
 			//Debug.Log ($"alpha:{alpha} \t interframe:{interframe}");
@@ -146,14 +146,14 @@ namespace ms
 
 			if (action == null)
 			{
-				ushort delay = get_delay (stance.get (), stframe.get ());
+				ushort delay = get_delay ((Stance.Id)stance.get (), stframe.get ());
 				ushort delta = (ushort)(delay - stelapsed);
 
 				if (timestep >= delta)
 				{
 					stelapsed = (ushort)(timestep - delta);
 
-					byte nextframe = getnextframe (stance.get (), stframe.get ());
+					byte nextframe = getnextframe ((Stance.Id)stance.get (), stframe.get ());
 					float threshold = (float)delta / timestep;
 					stframe.next (nextframe, threshold);
 
@@ -185,7 +185,7 @@ namespace ms
 						action = drawinfo.get_action (actionstr, actframe);
 
 						float threshold = (float)delta / timestep;
-						stance.next (action.get_stance (), threshold);
+						stance.next ((short)action.get_stance (), threshold);
 						stframe.next (action.get_frame (), threshold);
 					}
 					else
@@ -206,26 +206,26 @@ namespace ms
 				
 			}
 
-			ushort expdelay = (ushort)face.get_delay (expression.get (), expframe.get ());
+			ushort expdelay = (ushort)face.get_delay ((Expression.Id)expression.get (), expframe.get ());
 			ushort expdelta = (ushort)(expdelay - expelapsed);
 
 			if (timestep >= expdelta)
 			{
 				expelapsed = (ushort)(timestep - expdelta);
 
-				byte nextexpframe = face.nextframe (expression.get (), expframe.get ());
+				byte nextexpframe = face.nextframe ((Expression.Id)expression.get (), expframe.get ());
 				float fcthreshold = (float)expdelta / timestep;
 				expframe.next (nextexpframe, fcthreshold);
 
 				if (expframe == 0)
 				{
-					if (expression == Expression.Id.DEFAULT)
+					if (expression == (int)Expression.Id.DEFAULT)
 					{
-						expression.next (Expression.Id.BLINK, fcthreshold);
+						expression.next ((int)Expression.Id.BLINK, fcthreshold);
 					}
 					else
 					{
-						expression.next (Expression.Id.DEFAULT, fcthreshold);
+						expression.next ((int)Expression.Id.DEFAULT, fcthreshold);
 					}
 				}
 			}
@@ -263,25 +263,26 @@ namespace ms
 
 		public void set_body (int skin_id)
 		{
-			/*if (!bodytypes.ContainsKey (skin_id))
-			{
-				var body = new Body (skin_id,drawinfo);
-				bodytypes.Add (skin_id,body);
-			}*/
-			if (bodytypes.TryGetValue (skin_id, out body)) return;
+		
+	/*		if (bodytypes.TryGetValue (skin_id, out body)) return;
 			body = new Body (skin_id, drawinfo);
-			bodytypes.Add (skin_id, body);
+			bodytypes.Add (skin_id, body);*/
 
-			//body = tempBody;
-			/*var iter = bodytypes.find(skin_id);
-
-			if (iter == bodytypes.end())
-			{
-				iter = bodytypes.emplace(piecewise_construct, forward_as_tuple(skin_id), forward_as_tuple(skin_id, drawinfo)).first;
+			if (!bodytypes.TryGetValue(skin_id, out body))
+            {
+				body = new Body(skin_id, drawinfo);
+				bodytypes.Add(skin_id, body);
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
-			body = iter.second;*/
+				/*var iter = bodytypes.find(skin_id);
+
+				if (iter == bodytypes.end())
+				{
+					iter = bodytypes.emplace(piecewise_construct, forward_as_tuple(skin_id), forward_as_tuple(skin_id, drawinfo)).first;
+				}
+
+	//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
+				body = iter.second;*/
 		}
 
 		public void set_face (int face_id)
@@ -337,12 +338,12 @@ namespace ms
 
 			if (attacktype == 9 && !degenerate)
 			{
-				stance.set (Stance.Id.SHOT);
+				stance.set ((short)Stance.Id.SHOT);
 				set_action ("handgun");
 			}
 			else
 			{
-				stance.set (getattackstance (attacktype, degenerate));
+				stance.set ((short)getattackstance (attacktype, degenerate));
 				stframe.set (0);
 				stelapsed = 0;
 			}
@@ -377,9 +378,9 @@ namespace ms
 
 			Stance.Id adjstance = equips.adjust_stance (newstance);
 
-			if (stance != adjstance)
+			if (stance != (short)adjstance)
 			{
-				stance.set (adjstance);
+				stance.set ((short)adjstance);
 				stframe.set (0);
 				stelapsed = 0;
 			}
@@ -387,9 +388,9 @@ namespace ms
 
 		public void set_expression (Expression.Id newexpression)
 		{
-			if (expression != newexpression && expcooldown == null)
+			if (expression != (int)newexpression && expcooldown == null)
 			{
-				expression.set (newexpression);
+				expression.set ((int)newexpression);
 				expframe.set (0);
 
 				expelapsed = 0;
@@ -420,7 +421,7 @@ namespace ms
 					stelapsed = 0;
 					actionstr = acstr;
 
-					stance.set (action.get_stance ());
+					stance.set ((short)action.get_stance ());
 					stframe.set (action.get_frame ());
 				}
 			}
@@ -467,7 +468,7 @@ namespace ms
 
 			for (byte frame = 0; frame < first_frame; frame++)
 			{
-				delay += get_delay (stance.get (), frame);
+				delay += get_delay ((Stance.Id)stance.get (), frame);
 			}
 
 			return delay;
@@ -480,7 +481,7 @@ namespace ms
 
 		public Stance.Id get_stance ()
 		{
-			return stance.get ();
+			return (Stance.Id)stance.get ();
 		}
 
 		public Body get_body ()
@@ -511,7 +512,7 @@ namespace ms
 
 		private void updatetwohanded ()
 		{
-			Stance.Id basestance = Stance.baseof (stance.get ());
+			Stance.Id basestance = Stance.baseof ((Stance.Id)stance.get ());
 			set_stance (basestance);
 		}
 
@@ -829,7 +830,7 @@ namespace ms
 
 		private Stance.Id getattackstance (byte attack, bool degenerate)
 		{
-			if (stance == Stance.Id.PRONE)
+			if (stance == (short)Stance.Id.PRONE)
 			{
 				return Stance.Id.PRONESTAB;
 			}
@@ -865,12 +866,12 @@ namespace ms
 			NUM_ATTACKS
 		}
 
-		private Nominal<Stance.Id> stance = new Nominal<Stance.Id> ();
-		private Nominal<byte> stframe = new Nominal<byte> ();
+		private Nominal_short stance = new Nominal_short ();
+		private Nominal_byte stframe = new Nominal_byte ();
 		private ushort stelapsed;
 
-		private Nominal<Expression.Id> expression = new Nominal<Expression.Id> ();
-		private Nominal<byte> expframe = new Nominal<byte> ();
+		private Nominal_int expression = new Nominal_int ();
+		private Nominal_byte expframe = new Nominal_byte ();
 		private ushort expelapsed;
 		private TimedBool expcooldown = new TimedBool ();
 

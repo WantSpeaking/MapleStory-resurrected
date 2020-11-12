@@ -48,6 +48,10 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = true;
 
+		public UIEquipInventory (params object[] args) : this ((Inventory)args[0])
+		{
+		}
+		
 		public UIEquipInventory (Inventory invent)
 		{
 			//this.UIDragElement<PosEQINV> = new <type missing>();
@@ -510,7 +514,7 @@ namespace ms
 				if (tab != InventoryType.Id.EQUIP)
 				{
 					var iteminventory = UI.get ().get_element<UIItemInventory> ();
-					if (iteminventory != null)
+					if (iteminventory)
 					{
 						if (iteminventory.get ().is_active ())
 						{

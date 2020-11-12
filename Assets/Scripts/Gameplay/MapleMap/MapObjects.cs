@@ -69,9 +69,9 @@ namespace ms
 			{
 				var mmo = get (oid);
 
-				if (mmo != null && mmo.Dereference ().is_active ())
+				if (mmo && mmo.get ().is_active ())
 				{
-					mmo.Dereference ().draw (viewx, viewy, alpha);
+					mmo.get ().draw (viewx, viewy, alpha);
 				}
 			}
 		}

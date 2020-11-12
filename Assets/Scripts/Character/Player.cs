@@ -522,9 +522,9 @@ namespace ms
 		// Change players position to the seat's position and stance to Char.State.SIT
 		public void set_seat (Optional<Seat> seat)
 		{
-			if (seat != null)
+			if (seat)
 			{
-				set_position (seat.Dereference ().getpos ());
+				set_position (seat.get ().getpos ());
 				set_state (Char.State.SIT);
 			}
 		}
@@ -537,13 +537,13 @@ namespace ms
 
 			if ((bool)ladder)
 			{
-				phobj.set_x (ldr.Dereference ().get_x ());
+				phobj.set_x (ldr.get ().get_x ());
 
 				phobj.hspeed = 0.0;
 				phobj.vspeed = 0.0;
 				phobj.fhlayer = 7;
 
-				set_state (ldr.Dereference ().is_ladder () ? Char.State.LADDER : Char.State.ROPE);
+				set_state (ldr.get ().is_ladder () ? Char.State.LADDER : Char.State.ROPE);
 			}
 		}
 

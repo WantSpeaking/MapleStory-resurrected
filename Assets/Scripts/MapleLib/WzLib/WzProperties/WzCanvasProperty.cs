@@ -393,9 +393,9 @@ namespace MapleLib.WzLib.WzProperties
             return imageProp.GetImage(false);
         }
         
-        public override byte[] GetPngData ()
+        public override byte[] GetPngData (out int pngFormat)
         {
-            return imageProp.GetPngData ();
+            return imageProp.GetPngData (out pngFormat);
         }
         #endregion
     }

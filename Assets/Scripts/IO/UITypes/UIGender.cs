@@ -47,6 +47,10 @@ namespace ms
 		public const bool FOCUSED = true;
 		public const bool TOGGLED = false;
 
+		public UIGender (params object[] args) : this ((System.Action)args[0])
+		{
+		}
+		
 		public UIGender(System.Action oh) : base(new Point<short>(0, 15), new Point<short>(0, 0))
 		{
 			this.okhandler = oh;

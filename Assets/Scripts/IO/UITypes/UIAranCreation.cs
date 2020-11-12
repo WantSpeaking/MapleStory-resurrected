@@ -414,7 +414,7 @@ namespace ms
 						UI.get().remove(UIElement.Type.CLASSCREATION);
 						UI.get().remove(UIElement.Type.RACESELECT);
 						var charselect = UI.get ().get_element<UICharSelect> ();
-						if (charselect != null)
+						if (charselect)
 						{
 							charselect.get ().post_add_character();
 						}
@@ -492,7 +492,7 @@ namespace ms
 									buttons[(int)Buttons.BT_CHARC_OK].set_state(Button.State.DISABLED);
 									buttons[(int)Buttons.BT_CHARC_CANCEL].set_state(Button.State.DISABLED);
 									var raceselect = UI.get ().get_element<UIRaceSelect> ();
-									if (raceselect != null)
+									if (raceselect)
 									{
 										if (raceselect.get ().check_name(name))
 										{

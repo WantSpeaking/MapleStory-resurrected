@@ -115,7 +115,7 @@ namespace ms
 					// TODO: Update UIWorldSelect after selecting new region
 					//uint8_t region = (buttonid == Buttons::NA) ? 5 : 6;
 					var worldselect = UI.get ().get_element<UIWorldSelect> ();
-					if (worldselect!=null)
+					if (worldselect)
 					{
 						UI.get().remove(UIElement.Type.REGION);
 

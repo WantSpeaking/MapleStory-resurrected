@@ -168,238 +168,238 @@ namespace ms
 			var oequip = inventory.get_equip (invtype, invpos);
 			CharStats stats = player.get_stats ();
 
-			
-				if (invtype == InventoryType.Id.EQUIP)
+
+			if (invtype == InventoryType.Id.EQUIP)
+			{
+				int item_id1 = oequip.get ().get_item_id ();
+				EquipData equipdata1 = EquipData.get (item_id1);
+				EquipSlot.Id eqslot = equipdata1.get_eqslot ();
+
+				if (inventory.has_equipped (eqslot))
 				{
-					int item_id1 = oequip.get ().get_item_id ();
-					EquipData equipdata1 = EquipData.get (item_id1);
-					EquipSlot.Id eqslot = equipdata1.get_eqslot ();
+					var eequip = inventory.get_equip (InventoryType.Id.EQUIPPED, (short)eqslot);
 
-					if (inventory.has_equipped (eqslot))
+					if (eequip != null)
 					{
-						var eequip = inventory.get_equip (InventoryType.Id.EQUIPPED, (short)eqslot);
+						Equip equip1 = eequip.get ();
 
-						if (eequip != null)
-						{
-							Equip equip1 = eequip.get ();
+						int item_id2 = equip1.get_item_id ();
 
-							int item_id2 = equip1.get_item_id ();
+						EquipData equipdata2 = EquipData.get (item_id2);
+						ItemData itemdata1 = equipdata2.get_itemdata ();
 
-							EquipData equipdata2 = EquipData.get (item_id2);
-							ItemData itemdata1 = equipdata2.get_itemdata ();
-
-							height_preview = 540;
+						height_preview = 540;
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: itemicon_preview = itemdata.get_icon(false);
-							itemicon_preview = (itemdata1.get_icon (false));
+						itemicon_preview = (itemdata1.get_icon (false));
 
-							foreach (var ms in requirements)
+						foreach (var ms in requirements)
+						{
+							canequip_preview[ms] = stats.get_stat (ms) >= equipdata1.get_reqstat (ms);
+							string reqstr = Convert.ToString (equipdata1.get_reqstat (ms));
+
+							if (ms != MapleStat.Id.LEVEL)
 							{
-								canequip_preview[ms] = stats.get_stat (ms) >= equipdata1.get_reqstat (ms);
-								string reqstr = Convert.ToString (equipdata1.get_reqstat (ms));
+								reqstr = string_format.extend_id (equipdata1.get_reqstat (ms), 3);
+								//reqstr = reqstr.Insert(0, 3 - reqstr.Length, '0');
+							}
 
-								if (ms != MapleStat.Id.LEVEL)
+							reqstatstrings_preview[ms] = reqstr;
+						}
+
+						okjobs_preview.Clear ();
+
+						switch (equipdata2.get_reqstat (MapleStat.Id.JOB))
+						{
+							case 0:
+								okjobs_preview.Add (0);
+								okjobs_preview.Add (1);
+								okjobs_preview.Add (2);
+								okjobs_preview.Add (3);
+								okjobs_preview.Add (4);
+								okjobs_preview.Add (5);
+								canequip_preview[MapleStat.Id.JOB] = true;
+								break;
+							case 1:
+								okjobs_preview.Add (1);
+								canequip_preview[MapleStat.Id.JOB] = (stats.get_stat (MapleStat.Id.JOB) / 100 == 1) || (stats.get_stat (MapleStat.Id.JOB) / 100 >= 20);
+								break;
+							case 2:
+								okjobs_preview.Add (2);
+								canequip_preview[MapleStat.Id.JOB] = stats.get_stat (MapleStat.Id.JOB) / 100 == 2;
+								break;
+							case 4:
+								okjobs_preview.Add (3);
+								canequip_preview[MapleStat.Id.JOB] = stats.get_stat (MapleStat.Id.JOB) / 100 == 3;
+								break;
+							case 8:
+								okjobs_preview.Add (4);
+								canequip_preview[MapleStat.Id.JOB] = stats.get_stat (MapleStat.Id.JOB) / 100 == 4;
+								break;
+							case 16:
+								okjobs_preview.Add (5);
+								canequip_preview[MapleStat.Id.JOB] = stats.get_stat (MapleStat.Id.JOB) / 100 == 5;
+								break;
+							default:
+								canequip_preview[MapleStat.Id.JOB] = false;
+								break;
+						}
+
+						prank_preview = equip1.get_potrank ();
+
+						switch (prank_preview)
+						{
+							case Equip.Potential.POT_HIDDEN:
+								potflag_preview = new Text (Text.Font.A11M, Text.Alignment.CENTER, Color.Name.RED);
+								potflag_preview.change_text ("(Hidden Potential)");
+								break;
+							case Equip.Potential.POT_RARE:
+								potflag_preview = new Text (Text.Font.A11M, Text.Alignment.CENTER, Color.Name.WHITE);
+								potflag_preview.change_text ("(Rare Item)");
+								break;
+							case Equip.Potential.POT_EPIC:
+								potflag_preview = new Text (Text.Font.A11M, Text.Alignment.CENTER, Color.Name.WHITE);
+								potflag_preview.change_text ("(Epic Item)");
+								break;
+							case Equip.Potential.POT_UNIQUE:
+								potflag_preview = new Text (Text.Font.A11M, Text.Alignment.CENTER, Color.Name.WHITE);
+								potflag_preview.change_text ("(Unique Item)");
+								break;
+							case Equip.Potential.POT_LEGENDARY:
+								potflag_preview = new Text (Text.Font.A11M, Text.Alignment.CENTER, Color.Name.WHITE);
+								potflag_preview.change_text ("(Legendary Item)");
+								break;
+							default:
+								height_preview -= 16;
+								break;
+						}
+
+						Color.Name namecolor1;
+
+						switch (equip1.get_quality ())
+						{
+							case EquipQuality.Id.GREY:
+								namecolor1 = Color.Name.LIGHTGREY;
+								break;
+							case EquipQuality.Id.ORANGE:
+								namecolor1 = Color.Name.ORANGE;
+								break;
+							case EquipQuality.Id.BLUE:
+								namecolor1 = Color.Name.MEDIUMBLUE;
+								break;
+							case EquipQuality.Id.VIOLET:
+								namecolor1 = Color.Name.VIOLET;
+								break;
+							case EquipQuality.Id.GOLD:
+								namecolor1 = Color.Name.YELLOW;
+								break;
+							default:
+								namecolor1 = Color.Name.WHITE;
+								break;
+						}
+
+						var namestr1 = new StringBuilder (itemdata1.get_name ());
+						sbyte reqGender1 = itemdata1.get_gender ();
+						bool female1 = stats.get_female ();
+
+						switch (reqGender1)
+						{
+							case 0: // Male
+								//namestr += " (M)";
+								namestr1.Append (" (M)");
+								break;
+							case 1: // Female
+								//namestr += " (F)";
+								namestr1.Append (" (F)");
+								break;
+							case 2: // Unisex
+							default:
+								break;
+						}
+
+						if (equip1.get_level () > 0)
+						{
+							namestr1.Append (" (+");
+							namestr1.Append (Convert.ToString (equip1.get_level ()));
+							namestr1.Append (")");
+						}
+
+						name_preview = new Text (Text.Font.A12B, Text.Alignment.LEFT, namecolor1, namestr1.ToString (), 400);
+						atkinc_preview = new Text (Text.Font.A11M, Text.Alignment.RIGHT, Color.Name.DUSTYGRAY, "ATT INCREASE");
+
+						string desctext1 = itemdata1.get_desc ();
+						hasdesc_preview = desctext1.Length > 0;
+
+						if (hasdesc_preview)
+						{
+							desc_preview = new Text (Text.Font.A12M, Text.Alignment.LEFT, Color.Name.WHITE, desctext1, 250);
+							height_preview += (short)(desc_preview.height () + 10);
+						}
+
+						category_preview = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, "Type: " + equipdata2.get_type ());
+
+						is_weapon_preview = equipdata2.is_weapon ();
+
+						if (is_weapon_preview)
+						{
+							WeaponData weapon = WeaponData.get (item_id2);
+							wepspeed_preview = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, "Attack Speed: " + weapon.getspeedstring ());
+						}
+						else
+						{
+							height_preview -= 18;
+						}
+
+						hasslots_preview = (equip1.get_slots () > 0) || (equip1.get_level () > 0);
+
+						if (hasslots_preview)
+						{
+							slots_preview = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, "Remaining Enhancements: " + Convert.ToString (equip1.get_slots ()));
+
+							string vicious = Convert.ToString (equip1.get_vicious ());
+
+							if (equip1.get_vicious () > 1)
+							{
+								vicious += (" (MAX) ");
+							}
+
+							hammers_preview = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, "Hammers Applied: " + vicious);
+						}
+						else
+						{
+							height_preview -= 36;
+						}
+
+						statlabels_preview.Clear ();
+
+						for (EquipStat.Id es = EquipStat.Id.STR; es <= EquipStat.Id.JUMP; es = (EquipStat.Id)(es + 1))
+						{
+							if (equip1.get_stat (es) > 0)
+							{
+								short delta = (short)(equip1.get_stat (es) - equipdata2.get_defstat (es));
+								var statstr = new StringBuilder (Convert.ToString (equip1.get_stat (es)));
+
+								if (delta != 0)
 								{
-									reqstr = string_format.extend_id (equipdata1.get_reqstat (ms), 3);
-									//reqstr = reqstr.Insert(0, 3 - reqstr.Length, '0');
+									statstr.Append (" (");
+									statstr.Append ((delta < 0) ? "-" : "+");
+									statstr.Append (Convert.ToString (Math.Abs (delta)) + ")");
 								}
 
-								reqstatstrings_preview[ms] = reqstr;
-							}
-
-							okjobs_preview.Clear ();
-
-							switch (equipdata2.get_reqstat (MapleStat.Id.JOB))
-							{
-								case 0:
-									okjobs_preview.Add (0);
-									okjobs_preview.Add (1);
-									okjobs_preview.Add (2);
-									okjobs_preview.Add (3);
-									okjobs_preview.Add (4);
-									okjobs_preview.Add (5);
-									canequip_preview[MapleStat.Id.JOB] = true;
-									break;
-								case 1:
-									okjobs_preview.Add (1);
-									canequip_preview[MapleStat.Id.JOB] = (stats.get_stat (MapleStat.Id.JOB) / 100 == 1) || (stats.get_stat (MapleStat.Id.JOB) / 100 >= 20);
-									break;
-								case 2:
-									okjobs_preview.Add (2);
-									canequip_preview[MapleStat.Id.JOB] = stats.get_stat (MapleStat.Id.JOB) / 100 == 2;
-									break;
-								case 4:
-									okjobs_preview.Add (3);
-									canequip_preview[MapleStat.Id.JOB] = stats.get_stat (MapleStat.Id.JOB) / 100 == 3;
-									break;
-								case 8:
-									okjobs_preview.Add (4);
-									canequip_preview[MapleStat.Id.JOB] = stats.get_stat (MapleStat.Id.JOB) / 100 == 4;
-									break;
-								case 16:
-									okjobs_preview.Add (5);
-									canequip_preview[MapleStat.Id.JOB] = stats.get_stat (MapleStat.Id.JOB) / 100 == 5;
-									break;
-								default:
-									canequip_preview[MapleStat.Id.JOB] = false;
-									break;
-							}
-
-							prank_preview = equip1.get_potrank ();
-
-							switch (prank_preview)
-							{
-								case Equip.Potential.POT_HIDDEN:
-									potflag_preview = new Text (Text.Font.A11M, Text.Alignment.CENTER, Color.Name.RED);
-									potflag_preview.change_text ("(Hidden Potential)");
-									break;
-								case Equip.Potential.POT_RARE:
-									potflag_preview = new Text (Text.Font.A11M, Text.Alignment.CENTER, Color.Name.WHITE);
-									potflag_preview.change_text ("(Rare Item)");
-									break;
-								case Equip.Potential.POT_EPIC:
-									potflag_preview = new Text (Text.Font.A11M, Text.Alignment.CENTER, Color.Name.WHITE);
-									potflag_preview.change_text ("(Epic Item)");
-									break;
-								case Equip.Potential.POT_UNIQUE:
-									potflag_preview = new Text (Text.Font.A11M, Text.Alignment.CENTER, Color.Name.WHITE);
-									potflag_preview.change_text ("(Unique Item)");
-									break;
-								case Equip.Potential.POT_LEGENDARY:
-									potflag_preview = new Text (Text.Font.A11M, Text.Alignment.CENTER, Color.Name.WHITE);
-									potflag_preview.change_text ("(Legendary Item)");
-									break;
-								default:
-									height_preview -= 16;
-									break;
-							}
-
-							Color.Name namecolor1;
-
-							switch (equip1.get_quality ())
-							{
-								case EquipQuality.Id.GREY:
-									namecolor1 = Color.Name.LIGHTGREY;
-									break;
-								case EquipQuality.Id.ORANGE:
-									namecolor1 = Color.Name.ORANGE;
-									break;
-								case EquipQuality.Id.BLUE:
-									namecolor1 = Color.Name.MEDIUMBLUE;
-									break;
-								case EquipQuality.Id.VIOLET:
-									namecolor1 = Color.Name.VIOLET;
-									break;
-								case EquipQuality.Id.GOLD:
-									namecolor1 = Color.Name.YELLOW;
-									break;
-								default:
-									namecolor1 = Color.Name.WHITE;
-									break;
-							}
-
-							var namestr1 = new StringBuilder (itemdata1.get_name ());
-							sbyte reqGender1 = itemdata1.get_gender ();
-							bool female1 = stats.get_female ();
-
-							switch (reqGender1)
-							{
-								case 0: // Male
-									//namestr += " (M)";
-									namestr1.Append (" (M)");
-									break;
-								case 1: // Female
-									//namestr += " (F)";
-									namestr1.Append (" (F)");
-									break;
-								case 2: // Unisex
-								default:
-									break;
-							}
-
-							if (equip1.get_level () > 0)
-							{
-								namestr1.Append (" (+");
-								namestr1.Append (Convert.ToString (equip1.get_level ()));
-								namestr1.Append (")");
-							}
-
-							name_preview = new Text (Text.Font.A12B, Text.Alignment.LEFT, namecolor1, namestr1.ToString (), 400);
-							atkinc_preview = new Text (Text.Font.A11M, Text.Alignment.RIGHT, Color.Name.DUSTYGRAY, "ATT INCREASE");
-
-							string desctext1 = itemdata1.get_desc ();
-							hasdesc_preview = desctext1.Length > 0;
-
-							if (hasdesc_preview)
-							{
-								desc_preview = new Text (Text.Font.A12M, Text.Alignment.LEFT, Color.Name.WHITE, desctext1, 250);
-								height_preview += (short)(desc_preview.height () + 10);
-							}
-
-							category_preview = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, "Type: " + equipdata2.get_type ());
-
-							is_weapon_preview = equipdata2.is_weapon ();
-
-							if (is_weapon_preview)
-							{
-								WeaponData weapon = WeaponData.get (item_id2);
-								wepspeed_preview = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, "Attack Speed: " + weapon.getspeedstring ());
+								statlabels_preview[es] = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, EquipStat.names[(int)es] + ": " + statstr.ToString ());
 							}
 							else
 							{
 								height_preview -= 18;
 							}
-
-							hasslots_preview = (equip1.get_slots () > 0) || (equip1.get_level () > 0);
-
-							if (hasslots_preview)
-							{
-								slots_preview = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, "Remaining Enhancements: " + Convert.ToString (equip1.get_slots ()));
-
-								string vicious = Convert.ToString (equip1.get_vicious ());
-
-								if (equip1.get_vicious () > 1)
-								{
-									vicious += (" (MAX) ");
-								}
-
-								hammers_preview = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, "Hammers Applied: " + vicious);
-							}
-							else
-							{
-								height_preview -= 36;
-							}
-
-							statlabels_preview.Clear ();
-
-							for (EquipStat.Id es = EquipStat.Id.STR; es <= EquipStat.Id.JUMP; es = (EquipStat.Id)(es + 1))
-							{
-								if (equip1.get_stat (es) > 0)
-								{
-									short delta = (short)(equip1.get_stat (es) - equipdata2.get_defstat (es));
-									var statstr = new StringBuilder (Convert.ToString (equip1.get_stat (es)));
-
-									if (delta != 0)
-									{
-										statstr.Append (" (");
-										statstr.Append ((delta < 0) ? "-" : "+");
-										statstr.Append (Convert.ToString (Math.Abs (delta)) + ")");
-									}
-
-									statlabels_preview[es] = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, EquipStat.names[(int)es] + ": " + statstr.ToString());
-								}
-								else
-								{
-									height_preview -= 18;
-								}
-							}
-
-							invpos_preview = 1;
 						}
+
+						invpos_preview = 1;
 					}
 				}
-			
+			}
+
 
 			if (oequip == null)
 			{
@@ -417,7 +417,7 @@ namespace ms
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: itemicon = itemdata.get_icon(false);
-			itemicon= (itemdata2.get_icon (false));
+			itemicon = (itemdata2.get_icon (false));
 
 			foreach (var ms in requirements)
 			{
@@ -524,7 +524,7 @@ namespace ms
 					break;
 			}
 
-			var namestr2 =new StringBuilder(itemdata2.get_name ());
+			var namestr2 = new StringBuilder (itemdata2.get_name ());
 			sbyte reqGender2 = itemdata2.get_gender ();
 			bool female2 = stats.get_female ();
 
@@ -548,7 +548,7 @@ namespace ms
 				namestr2.Append (")");
 			}
 
-			name = new Text (Text.Font.A12B, Text.Alignment.LEFT, namecolor, namestr2.ToString(), 400);
+			name = new Text (Text.Font.A12B, Text.Alignment.LEFT, namecolor, namestr2.ToString (), 400);
 			atkinc = new Text (Text.Font.A11M, Text.Alignment.RIGHT, Color.Name.DUSTYGRAY, "ATT INCREASE");
 
 			string desctext2 = itemdata2.get_desc ();
@@ -584,7 +584,7 @@ namespace ms
 
 				if (equip2.get_vicious () > 1)
 				{
-					vicious+= (" (MAX) ");
+					vicious += (" (MAX) ");
 				}
 
 				hammers = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, "Hammers Applied: " + vicious);
@@ -601,7 +601,7 @@ namespace ms
 				if (equip2.get_stat (es) > 0)
 				{
 					short delta = (short)(equip2.get_stat (es) - equipdata3.get_defstat (es));
-					var statstr =new StringBuilder(equip2.get_stat (es));
+					var statstr = new StringBuilder (equip2.get_stat (es));
 
 					if (delta != 0)
 					{
@@ -737,7 +737,7 @@ namespace ms
 
 			pos.shift_y (88);
 
-			Point<short> job_position =  (pos + new Point<short> (10, 14));
+			Point<short> job_position = (pos + new Point<short> (10, 14));
 			jobsback.draw (job_position);
 
 			foreach (var jbit in okjobs)
@@ -891,7 +891,7 @@ namespace ms
 
 			pos.shift_y (88);
 
-			Point<short> job_position =  (pos + new Point<short> (10, 14));
+			Point<short> job_position = (pos + new Point<short> (10, 14));
 			jobsback.draw (job_position);
 
 			foreach (var jbit in okjobs_preview)
@@ -992,7 +992,7 @@ namespace ms
 		private BoolPair<Texture> type = new BoolPair<Texture> ();
 
 		private List<MapleStat.Id> requirements = new List<MapleStat.Id> ();
-		private EnumMap<MapleStat.Id, BoolPair<Texture>> reqstattextures = new EnumMap<MapleStat.Id, BoolPair<Texture>> ();
+		private EnumMapNew<MapleStat.Id, BoolPair<Texture>> reqstattextures = new EnumMapNew<MapleStat.Id, BoolPair<Texture>> ();
 		private EnumMap<MapleStat.Id, bool> canequip = new EnumMap<MapleStat.Id, bool> ();
 		private EnumMap<MapleStat.Id, bool> canequip_preview = new EnumMap<MapleStat.Id, bool> ();
 		private EnumMap<MapleStat.Id, Point<short>> reqstatpositions = new EnumMap<MapleStat.Id, Point<short>> ();
@@ -1001,7 +1001,7 @@ namespace ms
 		private BoolPair<Charset> atkincset = new BoolPair<Charset> ();
 
 		private Texture jobsback = new Texture ();
-		private BoolPair<SortedDictionary<byte, Texture>> jobs = new BoolPair<SortedDictionary<byte, Texture>> ();
+		private BoolPair<SortedDictionary<byte, Texture>> jobs = new BoolPair<SortedDictionary<byte, Texture>> (new SortedDictionary<byte, Texture> (), new SortedDictionary<byte, Texture> ());
 		private List<byte> okjobs = new List<byte> ();
 		private List<byte> okjobs_preview = new List<byte> ();
 	}

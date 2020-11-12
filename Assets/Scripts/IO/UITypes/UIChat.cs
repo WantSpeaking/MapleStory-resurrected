@@ -48,6 +48,10 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = true;
 
+		public UIChat (params object[] args) : this ()
+		{
+		}
+		
 		public UIChat()
 		{
 			//this.UIDragElement<PosMAPLECHAT> = new <type missing>();
@@ -172,6 +176,10 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = true;
 
+		public UIRank (params object[] args) : this ()
+		{
+		}
+		
 		public UIRank()
 		{
 			//this.UIDragElement<PosMAPLECHAT> = new <type missing>();

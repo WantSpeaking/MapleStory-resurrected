@@ -173,8 +173,11 @@ namespace ms
 				animations[(Stance)lastDraw_Stance].eraseAllFrame ();
 			}
 
-			//Point<short> absp = phobj.get_absolute (viewx, viewy, alpha);
+#if BackgroundStatic
 			Point<short> absp = phobj.get_position ();
+#else
+			Point<short> absp = phobj.get_absolute (viewx, viewy, alpha);
+#endif
 			Point<short> headpos = get_head_position (new Point<short> (absp));
 			//Debug.Log ($"Mob draw absp:{absp}");
 			effects.drawbelow (new Point<short> (absp), alpha);
@@ -815,7 +818,7 @@ namespace ms
 		private sbyte hppercent;
 		private bool fading;
 		private bool fadein;
-		private Linear<float> opacity = new Linear<float> ();
+		private Linear_float opacity = new Linear_float ();
 	}
 }
 

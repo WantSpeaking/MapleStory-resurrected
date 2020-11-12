@@ -159,7 +159,7 @@ namespace ms
 			int cid = recv.read_int ();
 			Optional<Char> character = Stage.get ().get_character (cid);
 
-			if (character == null)
+			if (character == false)
 			{
 				return;
 			}
@@ -181,13 +181,13 @@ namespace ms
 				byte stance = (byte)recv.read_byte ();
 				int fhid = recv.read_int ();
 
-				character.Dereference ().add_pet (petindex, itemid, name, uniqueid, pos, stance, fhid);
+				character.get ().add_pet (petindex, itemid, name, uniqueid, pos, stance, fhid);
 			}
 			else if (mode == 0)
 			{
 				bool hunger = recv.read_bool ();
 
-				character.Dereference ().remove_pet (petindex, hunger);
+				character.get ().remove_pet (petindex, hunger);
 			}
 		}
 	}

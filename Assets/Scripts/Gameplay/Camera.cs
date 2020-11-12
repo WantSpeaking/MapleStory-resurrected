@@ -166,8 +166,8 @@ namespace ms
 	
 		
 		// Movement variables.
-		public Linear<double> x = new Linear<double> ();
-		public Linear<double> y = new Linear<double> ();
+		public Linear_double x = new Linear_double ();
+		public Linear_double y = new Linear_double ();
 
 		// View limits.
 		public Range<short> hbounds = new Range<short> ();

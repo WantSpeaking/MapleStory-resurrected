@@ -150,9 +150,9 @@ namespace ms
 			{
 				var ladder = player.get_ladder ();
 
-				if (ladder != null)
+				if (ladder)
 				{
-					state = ladder.Dereference ().is_ladder () ? Char.State.LADDER : Char.State.ROPE;
+					state = ladder.get ().is_ladder () ? Char.State.LADDER : Char.State.ROPE;
 				}
 				else
 				{
@@ -618,7 +618,7 @@ namespace ms
 			bool downwards = player.is_key_down (KeyAction.Id.DOWN);
 			var ladder = player.get_ladder ();
 
-			if (ladder != null && ladder.Dereference ().felloff (y, downwards))
+			if (ladder && ladder.get ().felloff (y, downwards))
 			{
 				cancel_ladder (player);
 			}

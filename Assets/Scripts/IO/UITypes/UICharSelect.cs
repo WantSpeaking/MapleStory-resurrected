@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Helper;
 using MapleLib.WzLib;
 using ms.Helper;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -47,13 +48,17 @@ namespace ms
 	// The character selection screen
 	public class UICharSelect : UIElement
 	{
-		public static Type TYPE = UIElement.Type.CHARSELECT;
-		public static bool FOCUSED = false;
-		public static bool TOGGLED = false;
+		public const Type TYPE = UIElement.Type.CHARSELECT;
+		public const bool FOCUSED = false;
+		public const bool TOGGLED = false;
+
+		public UICharSelect (params object[] args) : this ((List<CharEntry>)args[0], (sbyte)args[1], (int)args[2], (sbyte)args[3])
+		{
+		}
 
 		public UICharSelect (List<CharEntry> characters, sbyte characters_count, int slots, sbyte require_pic)
 		{
-			//this.characters = new List<CharEntry> (characters);//todo removw comment
+			this.characters = characters;//todo removw comment
 			this.characters_count = characters_count;
 			this.slots = slots;
 			this.require_pic = require_pic;
@@ -105,7 +110,7 @@ namespace ms
 			byte world_id = Configuration.get ().get_worldid ();
 			byte channel_id = Configuration.get ().get_channelid ();
 			var worldselect = UI.get ().get_element<UIWorldSelect> ();
-			if (worldselect != null)
+			if (worldselect)
 			{
 				world = worldselect.get ().get_worldbyid (world_id);
 			}
@@ -201,6 +206,7 @@ namespace ms
 			{
 				if (selected_character < characters_count)
 				{
+					//Debug.Log ($"selected_character:{selected_character}");
 					update_selected_character ();
 				}
 				else
@@ -217,7 +223,7 @@ namespace ms
 			dimension = new Point<short> (800, 600);
 		}
 
-		static List<byte> tempList = new List<byte> (){2, 3, 6, 7};
+		static List<byte> tempList = new List<byte> () {2, 3, 6, 7};
 		LinkedList<byte> fliplist = new LinkedList<byte> (tempList);
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -286,15 +292,15 @@ namespace ms
 					byte j = 0;
 					ushort job = character_stats.stats[MapleStat.Id.JOB];
 
-					if (job >= 0 &&job < 1000)
+					if (job >= 0 && job < 1000)
 					{
 						j = 0;
 					}
-					else if (job >= 1000 &&job < 2000)
+					else if (job >= 1000 && job < 2000)
 					{
 						j = 1;
 					}
-					else if (job >= 2000 &&job < 2200)
+					else if (job >= 2000 && job < 2200)
 					{
 						j = 2;
 					}
@@ -371,17 +377,17 @@ namespace ms
 				}
 			}
 
-			if (tab_move&& tab_move_pos < 4)
+			if (tab_move && tab_move_pos < 4)
 			{
 				tab_move_pos += 1;
 			}
 
-			if (tab_move &&tab_move_pos == 4)
+			if (tab_move && tab_move_pos == 4)
 			{
 				tab_move = false;
 			}
 
-			if (!tab_move&& tab_move_pos > 0)
+			if (!tab_move && tab_move_pos > 0)
 			{
 				tab_move_pos -= 1;
 			}
@@ -409,7 +415,7 @@ namespace ms
 			ushort button_index = (ushort)(selected_character + Buttons.CHARACTER_SLOT0);
 			var btit = buttons[button_index];
 
-			if (btit.is_active () &&btit.bounds (position).contains (cursorpos)&& btit.get_state () == Button.State.NORMAL&& button_index >= (int)Buttons.CHARACTER_SLOT0)
+			if (btit.is_active () && btit.bounds (position).contains (cursorpos) && btit.get_state () == Button.State.NORMAL && button_index >= (int)Buttons.CHARACTER_SLOT0)
 			{
 				button_pressed ((ushort)Buttons.CHARACTER_SELECT);
 			}
@@ -435,7 +441,7 @@ namespace ms
 
 			foreach (var btit in buttons)
 			{
-				if (btit.Value.is_active ()&& btit.Value.bounds (position).contains (cursorpos))
+				if (btit.Value.is_active () && btit.Value.bounds (position).contains (cursorpos))
 				{
 					if (btit.Value.get_state () == Button.State.NORMAL)
 					{
@@ -452,7 +458,7 @@ namespace ms
 
 							btit.Value.set_state (button_pressed ((ushort)btit.Key));
 
-							if (tab_active&& btit.Key == tab_map[tab_index])
+							if (tab_active && btit.Key == tab_map[tab_index])
 							{
 								btit.Value.set_state (Button.State.MOUSEOVER);
 							}
@@ -726,7 +732,7 @@ namespace ms
 		}
 
 
-		public static CharEntry get_character (int id)
+		public CharEntry get_character (int id)
 		{
 			foreach (CharEntry character in characters)
 			{
@@ -741,7 +747,7 @@ namespace ms
 			Console.Write ("]");
 			Console.Write ("\n");
 
-			CharEntry null_character = new CharEntry (new StatsEntry (), new LookEntry (),  0);
+			CharEntry null_character = new CharEntry (new StatsEntry (), new LookEntry (), 0);
 
 			return null_character;
 		}
@@ -917,7 +923,7 @@ namespace ms
 
 					new Sound (Sound.Name.SCROLLUP).play ();
 					var worldselect = UI.get ().get_element<UIWorldSelect> ();
-					if (worldselect != null)
+					if (worldselect)
 					{
 						worldselect.get ().makeactive ();
 					}
@@ -1142,11 +1148,13 @@ namespace ms
 			CHARACTER_SLOT0
 		}
 
-		public static List<CharEntry> characters = new List<CharEntry> ();//todo remove static
+		public List<CharEntry> characters = new List<CharEntry> (); //todo remove static
 
 		private sbyte characters_count;
+
 		private
-		int slots;
+			int slots;
+
 		private sbyte require_pic;
 		private Text version = new Text ();
 		private Point<short> pagepos = new Point<short> ();
@@ -1170,9 +1178,9 @@ namespace ms
 		private Texture charslot = new Texture ();
 		private Texture pagebase = new Texture ();
 		private Charset pagenumber = new Charset ();
-		private WzObject pagenumberpos ;
+		private WzObject pagenumberpos;
 		private Texture[] signpost = new Texture[3];
-		private WzObject nametag ;
+		private WzObject nametag;
 		private Charset levelset = new Charset ();
 		private OutlinedText namelabel = new OutlinedText ();
 		private List<CharLook> charlooks = new List<CharLook> ();

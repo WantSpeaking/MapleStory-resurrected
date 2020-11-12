@@ -48,6 +48,10 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = true;
 
+		public UIWorldMap (params object[] args) : this ()
+		{
+		}
+		
 		public UIWorldMap ()
 		{
 			//this.UIDragElement<PosMAP> = new <type missing>();

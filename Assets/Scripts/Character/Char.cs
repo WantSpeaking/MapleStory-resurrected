@@ -68,10 +68,12 @@ namespace ms
 
 		public override void draw (double viewx, double viewy, float alpha)
 		{
-			//Point<short> absp = phobj.get_absolute (viewx, viewy, alpha);
+#if BackgroundStatic
 			Point<short> absp = phobj.get_position ();
+#else
+			Point<short> absp = phobj.get_absolute (viewx, viewy, alpha);
+#endif
 			//Debug.Log ($"Char draw absp:{absp}\t phobj.x:{phobj.x.get()}\t phobj.y:{phobj.y.get()}");
-
 			effects.drawbelow (absp, alpha);
 
 			Color color;

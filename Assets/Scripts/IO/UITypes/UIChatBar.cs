@@ -283,11 +283,16 @@ namespace ms
 //ORIGINAL LINE: chatfield.update(position);
 			chatfield.update (position);
 
-			foreach (var iter in message_cooldowns)
+			foreach (var key in message_cooldowns.keys)
+			{
+				message_cooldowns[key] -= Constants.TIMESTEP;
+			}
+
+			/*foreach (var iter in message_cooldowns)
 			{
 				message_cooldowns[iter.Key]-= Constants.TIMESTEP;
 				//iter.Value -= Constants.TIMESTEP;
-			}
+			}*/
 		}
 
 		public override void send_key (int keycode, bool pressed, bool escape)
@@ -500,7 +505,7 @@ namespace ms
 					break;
 			}
 
-			rowtexts.Add (rowmax, new Text(Text.Font.A11M, Text.Alignment.LEFT, color, line, 480));
+			rowtexts.Add (rowmax, new Text (Text.Font.A11M, Text.Alignment.LEFT, color, line, 480));
 		}
 
 		public void display_message (Messages.Type line, UIChatBar.LineType type)
@@ -626,7 +631,7 @@ namespace ms
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: bool indragrange(Point<short> cursorpos) const override
-public override bool indragrange (Point<short> cursorpos)
+		public override bool indragrange (Point<short> cursorpos)
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: var bounds = getbounds(dragarea);
@@ -710,13 +715,13 @@ public override bool indragrange (Point<short> cursorpos)
 		private bool chatopen;
 		private bool chatopen_persist;
 		private bool chatfieldopen;
-		private Texture[] chatspace =new Texture[4];
+		private Texture[] chatspace = new Texture[4];
 		private Texture chatenter = new Texture ();
 		private Texture chatcover = new Texture ();
 		private Textfield chatfield = new Textfield ();
 		private Point<short> closechat = new Point<short> ();
 
-		private Text[] chattab_text =new Text[(int)UIChatBar.ChatTab.NUM_CHATTAB];
+		private Text[] chattab_text = new Text[(int)UIChatBar.ChatTab.NUM_CHATTAB];
 		private short chattab_x;
 		private short chattab_y;
 		private short chattab_span;

@@ -84,17 +84,21 @@ namespace ms
 
 
 		
-
+			//GraphicsGL.get().@lock();
 			Stage.get ().clear ();
 			Timer.get ().start ();
-		
 			
+			
+			
+		
+			//GraphicsGL.get().clear();
 
 			Stage.get ().load (mapid, (sbyte)portalid);
 
-			//UI.get ().enable ();
+			UI.get ().enable ();
 			Timer.get ().start ();
-
+			//GraphicsGL.get().unlock();
+			
 			Stage.get ().transfer_player ();
 			//});
 		}
@@ -114,15 +118,15 @@ namespace ms
 			recv.skip (23);
 
 			int cid = recv.read_int ();
-			/*var charselect = UI.get ().get_element<UICharSelect> ();
+			var charselect = UI.get ().get_element<UICharSelect> ();
 
-			if (charselect == null)
+			if (charselect == false)
 			{
 				return;
-			}*/
+			}
 
-			//CharEntry playerentry = charselect.Dereference ().get_character (cid);
-			CharEntry playerentry = UICharSelect.get_character (cid);
+			CharEntry playerentry = charselect.get ().get_character (cid);
+			//CharEntry playerentry = UICharSelect.get_character (cid);
 
 			if (playerentry.id != cid)
 			{
@@ -166,7 +170,7 @@ namespace ms
 
 			new Sound (Sound.Name.GAMESTART).play ();
 
-			//UI.get ().change_state (UI.State.GAME);
+			UI.get ().change_state (UI.State.GAME);
 		}
 	}
 }

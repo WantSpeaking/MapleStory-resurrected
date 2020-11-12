@@ -96,7 +96,7 @@ namespace ms
 
 		private ColorBox background = new ColorBox();
 		private Text notice = new Text();
-		private Linear<double> xpos = new Linear<double>();
+		private Linear_double xpos = new Linear_double();
 		private bool active;
 		private short width;
 	}

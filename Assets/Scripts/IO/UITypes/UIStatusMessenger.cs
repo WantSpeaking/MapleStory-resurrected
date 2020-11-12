@@ -71,7 +71,7 @@ namespace ms
 
 		private Text text = new Text();
 		private Text shadow = new Text();
-		private Linear<float> opacity = new Linear<float>();
+		private Linear_float opacity = new Linear_float();
 
 		// 8 seconds
 		private const long FADE_DURATION = 8_000;

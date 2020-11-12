@@ -48,58 +48,62 @@ namespace ms
 		public const bool FOCUSED = true;
 		public const bool TOGGLED = false;
 
-		public UIKeyConfirm(bool alternate, System.Action oh, bool l)
+		public UIKeyConfirm (params object[] args) : this ((bool)args[0], (Action)args[1], (bool)args[2])
+		{
+		}
+
+		public UIKeyConfirm (bool alternate, System.Action oh, bool l)
 		{
 			this.okhandler = oh;
 			this.login = l;
 			WzObject alert = nl.nx.wzFile_ui["UIWindow2.img"]["KeyConfig"]["KeyType"]["alert"];
 			WzObject background = alternate ? alert["alternate"] : alert["default"];
 
-			sprites.Add(background);
+			sprites.Add (background);
 
-			buttons[(int)Buttons.OK] = new MapleButton(alert["btOk"]);
+			buttons[(int)Buttons.OK] = new MapleButton (alert["btOk"]);
 
-			position = new Point<short>(276, 229);
-			dimension = new Texture(background).get_dimensions();
+			position = new Point<short> (276, 229);
+			dimension = new Texture (background).get_dimensions ();
 		}
 
-		public override void send_key(int keycode, bool pressed, bool escape)
+		public override void send_key (int keycode, bool pressed, bool escape)
 		{
 			if (pressed)
 			{
 				if (keycode == (int)KeyAction.Id.RETURN)
 				{
-					confirm();
+					confirm ();
 				}
 				else if (!login && escape)
 				{
-					deactivate();
+					deactivate ();
 
-					UI.get().remove(UIElement.Type.LOGINNOTICE);
+					UI.get ().remove (UIElement.Type.LOGINNOTICE);
 				}
 			}
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: UIElement::Type get_type() const override
-		public override UIElement.Type get_type()
+		public override UIElement.Type get_type ()
 		{
 			return TYPE;
 		}
 
-		public override Button.State button_pressed(ushort buttonid)
+		public override Button.State button_pressed (ushort buttonid)
 		{
-			confirm();
+			confirm ();
 
 			return Button.State.NORMAL;
 		}
 
-		private void confirm()
+		private void confirm ()
 		{
-			okhandler();
-			deactivate();
+			okhandler ();
+			deactivate ();
 
-			UI.get().remove(UIElement.Type.LOGINNOTICE);
+			UI.get ().remove (UIElement.Type.LOGINNOTICE);
 		}
 
 		private enum Buttons
@@ -117,54 +121,58 @@ namespace ms
 		public const bool FOCUSED = true;
 		public const bool TOGGLED = false;
 
-		public UIKeySelect(System.Action<bool> oh, bool l)
+		public UIKeySelect (params object[] args) : this ((Action<bool>)args[0], (bool)args[1])
+		{
+		}
+
+		public UIKeySelect (System.Action<bool> oh, bool l)
 		{
 			this.okhandler = oh;
 			this.login = l;
 			WzObject KeyType = nl.nx.wzFile_ui["UIWindow2.img"]["KeyConfig"]["KeyType"];
 			WzObject backgrnd = KeyType["backgrnd"];
 
-			sprites.Add(backgrnd);
+			sprites.Add (backgrnd);
 
-			buttons[(int)Buttons.CLOSE] = new MapleButton(KeyType["btClose"]);
-			buttons[(int)Buttons.TYPEA] = new MapleButton(KeyType["btTypeA"]);
-			buttons[(int)Buttons.TYPEB] = new MapleButton(KeyType["btTypeB"], new Point<short>(1, 1));
+			buttons[(int)Buttons.CLOSE] = new MapleButton (KeyType["btClose"]);
+			buttons[(int)Buttons.TYPEA] = new MapleButton (KeyType["btTypeA"]);
+			buttons[(int)Buttons.TYPEB] = new MapleButton (KeyType["btTypeB"], new Point<short> (1, 1));
 
 			if (login)
 			{
-				buttons[(int)Buttons.CLOSE].set_active(false);
+				buttons[(int)Buttons.CLOSE].set_active (false);
 			}
 
-			position = new Point<short>(181, 145);
-			dimension = new Texture(backgrnd).get_dimensions();
+			position = new Point<short> (181, 145);
+			dimension = new Texture (backgrnd).get_dimensions ();
 		}
 
-		public override void send_key(int keycode, bool pressed, bool escape)
+		public override void send_key (int keycode, bool pressed, bool escape)
 		{
 			if (pressed && !login)
 			{
 				if (escape || keycode == (int)KeyAction.Id.RETURN)
 				{
-					deactivate();
+					deactivate ();
 				}
 			}
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: UIElement::Type get_type() const override
-		public override UIElement.Type get_type()
+		public override UIElement.Type get_type ()
 		{
 			return TYPE;
 		}
 
-		public override Button.State button_pressed(ushort buttonid)
+		public override Button.State button_pressed (ushort buttonid)
 		{
 			switch ((Buttons)buttonid)
 			{
 				default:
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# does not allow fall-through from a non-empty 'case':
 				case Buttons.CLOSE:
-					deactivate();
+					deactivate ();
 					break;
 				case Buttons.TYPEA:
 				case Buttons.TYPEB:
@@ -173,11 +181,11 @@ namespace ms
 
 					if (alternate)
 					{
-						buttons[(int)Buttons.TYPEA].set_state(Button.State.DISABLED);
+						buttons[(int)Buttons.TYPEA].set_state (Button.State.DISABLED);
 					}
 					else
 					{
-						buttons[(int)Buttons.TYPEB].set_state(Button.State.DISABLED);
+						buttons[(int)Buttons.TYPEB].set_state (Button.State.DISABLED);
 					}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Lambda expressions cannot be assigned to 'var':
@@ -185,11 +193,11 @@ namespace ms
 //ORIGINAL LINE: var onok = [&, alternate]()
 					Action onok = () =>
 					{
-						okhandler(alternate);
-						deactivate();
+						okhandler (alternate);
+						deactivate ();
 					};
 
-					UI.get().emplace<UIKeyConfirm>(alternate, onok, login);
+					UI.get ().emplace<UIKeyConfirm> (alternate, onok, login);
 					break;
 				}
 			}
@@ -214,7 +222,11 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = false;
 
-		public UIClassConfirm(ushort selected_class, bool unavailable, System.Action okhandler)
+		public UIClassConfirm (params object[] args) : this ((ushort)args[0], (bool)args[1], (Action)args[2])
+		{
+		}
+
+		public UIClassConfirm (ushort selected_class, bool unavailable, System.Action okhandler)
 		{
 			this.okhandler = okhandler;
 			WzObject RaceSelect = nl.nx.wzFile_ui["Login.img"]["RaceSelect_new"];
@@ -222,87 +234,88 @@ namespace ms
 			WzObject backgrnd = type["backgrnd"];
 			WzObject race = type["race"][selected_class.ToString ()];
 
-			short backgrnd_x = new Texture(backgrnd).get_dimensions().x();
-			short race_x = new Texture(race).get_dimensions().x();
+			short backgrnd_x = new Texture (backgrnd).get_dimensions ().x ();
+			short race_x = new Texture (race).get_dimensions ().x ();
 
 			short pos_x = (short)((backgrnd_x - race_x) / 2);
 
-			sprites.Add(backgrnd);
-			sprites.Add(new Sprite (race, new Point<short>(pos_x, 10) + (Point<short>)race["origin"]));
+			sprites.Add (backgrnd);
+			sprites.Add (new Sprite (race, new Point<short> (pos_x, 10) + (Point<short>)race["origin"]));
 
 			if (unavailable)
 			{
-				buttons[(int)Buttons.OK] = new MapleButton(type["BtOK"]);
+				buttons[(int)Buttons.OK] = new MapleButton (type["BtOK"]);
 			}
 			else
 			{
-				buttons[(int)Buttons.OK] = new MapleButton(type["BtOK"], new Point<short>(62, 107));
-				buttons[(int)Buttons.CANCEL] = new MapleButton(type["BtCancel"], new Point<short>(137, 107));
+				buttons[(int)Buttons.OK] = new MapleButton (type["BtOK"], new Point<short> (62, 107));
+				buttons[(int)Buttons.CANCEL] = new MapleButton (type["BtCancel"], new Point<short> (137, 107));
 			}
 
-			position = new Point<short>(286, 189);
-			dimension = new Texture(backgrnd).get_dimensions();
+			position = new Point<short> (286, 189);
+			dimension = new Texture (backgrnd).get_dimensions ();
 		}
 
-		public override Cursor.State send_cursor(bool clicked, Point<short> cursorpos)
+		public override Cursor.State send_cursor (bool clicked, Point<short> cursorpos)
 		{
 			foreach (var btit in buttons)
 			{
-				if (btit.Value.is_active() && btit.Value.bounds(position).contains(cursorpos))
+				if (btit.Value.is_active () && btit.Value.bounds (position).contains (cursorpos))
 				{
-					if (btit.Value.get_state() == Button.State.NORMAL)
+					if (btit.Value.get_state () == Button.State.NORMAL)
 					{
-						new Sound(Sound.Name.BUTTONOVER).play();
+						new Sound (Sound.Name.BUTTONOVER).play ();
 
-						btit.Value.set_state(Button.State.MOUSEOVER);
+						btit.Value.set_state (Button.State.MOUSEOVER);
 					}
-					else if (btit.Value.get_state() == Button.State.MOUSEOVER)
+					else if (btit.Value.get_state () == Button.State.MOUSEOVER)
 					{
 						if (clicked)
 						{
-							new Sound(Sound.Name.BUTTONCLICK).play();
+							new Sound (Sound.Name.BUTTONCLICK).play ();
 
-							btit.Value.set_state(button_pressed((ushort)btit.Key));
+							btit.Value.set_state (button_pressed ((ushort)btit.Key));
 						}
 					}
 				}
-				else if (btit.Value.get_state() == Button.State.MOUSEOVER)
+				else if (btit.Value.get_state () == Button.State.MOUSEOVER)
 				{
-					btit.Value.set_state(Button.State.NORMAL);
+					btit.Value.set_state (Button.State.NORMAL);
 				}
 			}
 
 			return Cursor.State.LEAF;
 		}
-		public override void send_key(int keycode, bool pressed, bool escape)
+
+		public override void send_key (int keycode, bool pressed, bool escape)
 		{
 			if (pressed)
 			{
 				if (escape)
 				{
-					deactivate();
+					deactivate ();
 				}
 				else if (keycode == (int)KeyAction.Id.RETURN)
 				{
-					button_pressed((ushort)Buttons.OK);
+					button_pressed ((ushort)Buttons.OK);
 				}
 			}
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: UIElement::Type get_type() const override
-		public override UIElement.Type get_type()
+		public override UIElement.Type get_type ()
 		{
 			return TYPE;
 		}
 
-		public override Button.State button_pressed(ushort buttonid)
+		public override Button.State button_pressed (ushort buttonid)
 		{
-			deactivate();
+			deactivate ();
 
 			if (buttonid == (int)Buttons.OK)
 			{
-				okhandler();
+				okhandler ();
 			}
 
 			return Button.State.NORMAL;
@@ -323,52 +336,52 @@ namespace ms
 		public const bool FOCUSED = true;
 		public const bool TOGGLED = false;
 
-		public UIQuitConfirm()
+		public UIQuitConfirm ()
 		{
 			WzObject notice = nl.nx.wzFile_ui["Login.img"]["Notice"];
 			WzObject backgrnd = notice["backgrnd"]["0"];
 
-			sprites.Add(backgrnd);
-			sprites.Add(new Sprite(notice["text"][UILoginNotice.Message.CONFIRM_EXIT.ToString ()], new Point<short>(17, 13)));
+			sprites.Add (backgrnd);
+			sprites.Add (new Sprite (notice["text"][UILoginNotice.Message.CONFIRM_EXIT.ToString ()], new Point<short> (17, 13)));
 
-			buttons[(int)Buttons.BT_OK] = new MapleButton(notice["BtYes"], new Point<short>(70, 106));
-			buttons[(int)Buttons.BT_CANCEL] = new MapleButton(notice["BtNo"], new Point<short>(130, 106));
+			buttons[(int)Buttons.BT_OK] = new MapleButton (notice["BtYes"], new Point<short> (70, 106));
+			buttons[(int)Buttons.BT_CANCEL] = new MapleButton (notice["BtNo"], new Point<short> (130, 106));
 
-			position = new Point<short>(275, 209);
-			dimension = new Texture(backgrnd).get_dimensions();
+			position = new Point<short> (275, 209);
+			dimension = new Texture (backgrnd).get_dimensions ();
 		}
 
-		public override void send_key(int keycode, bool pressed, bool escape)
+		public override void send_key (int keycode, bool pressed, bool escape)
 		{
 			if (pressed)
 			{
 				if (escape)
 				{
-					deactivate();
+					deactivate ();
 				}
 				else if (keycode == (int)KeyAction.Id.RETURN)
 				{
-					UI.get().quit();
-					deactivate();
+					UI.get ().quit ();
+					deactivate ();
 				}
 			}
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: UIElement::Type get_type() const override
-		public override UIElement.Type get_type()
+		public override UIElement.Type get_type ()
 		{
 			return TYPE;
 		}
 
-		public override Button.State button_pressed(ushort buttonid)
+		public override Button.State button_pressed (ushort buttonid)
 		{
 			if (buttonid == (int)Buttons.BT_OK)
 			{
-				UI.get().quit();
+				UI.get ().quit ();
 			}
 
-			deactivate();
+			deactivate ();
 
 			return Button.State.PRESSED;
 		}
@@ -380,7 +393,7 @@ namespace ms
 		}
 	}
 
-	[UIElement(UIElement.Type.LOGINNOTICE,true,false)]
+	[UIElement (UIElement.Type.LOGINNOTICE, true, false)]
 	public class UILoginNotice : UIElement
 	{
 		//public override Type TYPE => UIElement.Type.LOGINNOTICE;
@@ -514,7 +527,11 @@ namespace ms
 			JAPANESE2
 		}
 
-		public UILoginNotice(ushort message, System.Action okhandler, System.Action cancelhandler)
+		public UILoginNotice (params object[] args) : this ((ushort)args[0], (Action)args[1], (Action)args[2])
+		{
+		}
+
+		public UILoginNotice (ushort message, System.Action okhandler, System.Action cancelhandler)
 		{
 			this.okhandler = okhandler;
 			this.cancelhandler = cancelhandler;
@@ -531,37 +548,37 @@ namespace ms
 				case Message.INCORRECT_PIC:
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: backgrnd = Notice["backgrnd"]["1"];
-					backgrnd=(Notice["backgrnd"]["1"]);
+					backgrnd = (Notice["backgrnd"]["1"]);
 					break;
 				default:
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: backgrnd = Notice["backgrnd"]["0"];
-					backgrnd=(Notice["backgrnd"]["0"]);
+					backgrnd = (Notice["backgrnd"]["0"]);
 					break;
 			}
 
-			sprites.Add(backgrnd);
-			sprites.Add(new Sprite(Notice["text"][message.ToString ()], new Point<short>(17, 13)));
+			sprites.Add (backgrnd);
+			sprites.Add (new Sprite (Notice["text"][message.ToString ()], new Point<short> (17, 13)));
 
 			if (message == (int)Message.DELETE_CONFIRMATION)
 			{
 				multiple = true;
 
-				buttons[(int)Buttons.YES] = new MapleButton(Notice["BtYes"], new Point<short>(70, 106));
-				buttons[(int)Buttons.NO] = new MapleButton(Notice["BtNo"], new Point<short>(130, 106));
+				buttons[(int)Buttons.YES] = new MapleButton (Notice["BtYes"], new Point<short> (70, 106));
+				buttons[(int)Buttons.NO] = new MapleButton (Notice["BtNo"], new Point<short> (130, 106));
 			}
 			else
 			{
-				buttons[(int)Buttons.YES] = new MapleButton(Notice["BtYes"], new Point<short>(100, 106));
+				buttons[(int)Buttons.YES] = new MapleButton (Notice["BtYes"], new Point<short> (100, 106));
 			}
 
-			position = new Point<short>(275, 209);
-			dimension = new Texture(backgrnd).get_dimensions();
+			position = new Point<short> (275, 209);
+			dimension = new Texture (backgrnd).get_dimensions ();
 		}
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The implementation of the following method could not be found:
 //		UILoginNotice(ushort message, System.Action okhandler) : UILoginNotice(message, okhandler, () => TangibleLambdaToken67UILoginNotice(ushort message);
 
-		public override void send_key(int keycode, bool pressed, bool escape)
+		public override void send_key (int keycode, bool pressed, bool escape)
 		{
 			if (pressed)
 			{
@@ -569,42 +586,42 @@ namespace ms
 				{
 					if (!multiple)
 					{
-						okhandler();
+						okhandler ();
 					}
 					else
 					{
-						cancelhandler();
+						cancelhandler ();
 					}
 
-					deactivate();
+					deactivate ();
 				}
 				else if (keycode == (int)KeyAction.Id.RETURN)
 				{
-					okhandler();
-					deactivate();
+					okhandler ();
+					deactivate ();
 				}
 			}
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: UIElement::Type get_type() const override
-		public override UIElement.Type get_type()
+		public override UIElement.Type get_type ()
 		{
 			return TYPE;
 		}
 
-		public override Button.State button_pressed(ushort buttonid)
+		public override Button.State button_pressed (ushort buttonid)
 		{
 			if (buttonid == (int)Buttons.YES)
 			{
-				okhandler();
+				okhandler ();
 			}
 			else if (buttonid == (int)Buttons.NO)
 			{
-				cancelhandler();
+				cancelhandler ();
 			}
 
-			deactivate();
+			deactivate ();
 
 			return Button.State.NORMAL;
 		}

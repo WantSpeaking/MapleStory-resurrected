@@ -161,8 +161,8 @@ namespace ms
 			}
 		}
 
-		protected Linear<float> opacity = new Linear<float> ();
-		protected Linear<float> angle = new Linear<float> ();
+		protected Linear_float opacity = new Linear_float ();
+		protected Linear_float angle = new Linear_float ();
 
 		
 		

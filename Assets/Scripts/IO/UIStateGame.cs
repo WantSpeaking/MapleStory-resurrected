@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -47,17 +49,17 @@ namespace ms
 			this.stats = Stage.get ().get_player ().get_stats ();
 			this.dragged = null;
 			focused = UIElement.Type.NONE;
-			//tooltipparent = Tooltip.Parent.NONE;
+			tooltipparent = Tooltip.Parent.NONE;
 
 			CharLook look = Stage.get ().get_player ().get_look ();
 			Inventory inventory = Stage.get ().get_player ().get_inventory ();
 
-			/*UI.get ().emplace<UIStatusMessenger> ();
-			UI.get ().emplace<UIStatusBar> (stats);
-			UI.get ().emplace<UIChatBar> ();
-			UI.get ().emplace<UIMiniMap> (stats);
-			UI.get ().emplace<UIBuffList> ();
-			UI.get ().emplace<UIShop> (look, inventory);*/
+			emplace<UIStatusMessenger> ();
+			emplace<UIStatusBar> (stats);
+			emplace<UIChatBar> ();
+			emplace<UIMiniMap> (stats);
+			emplace<UIBuffList> ();
+			emplace<UIShop> (look, inventory);
 
 			VWIDTH = Constants.get ().get_viewwidth ();
 			VHEIGHT = Constants.get ().get_viewheight ();
@@ -77,14 +79,14 @@ namespace ms
 				}
 			}
 
-			/*todo if (tooltip != null)
+			if (tooltip)
 			{
-				tooltip.Dereference ().draw (cursor + new Point<short> (0, 22));
-			}*/
+				tooltip.get ().draw (cursor + new Point<short> (0, 22));
+			}
 
-			if (draggedicon != null)
+			if (draggedicon)
 			{
-				draggedicon.Dereference ().dragdraw (cursor);
+				draggedicon.get ().dragdraw (cursor);
 			}
 		}
 
@@ -100,10 +102,10 @@ namespace ms
 				VWIDTH = new_width;
 				VHEIGHT = new_height;
 
-				//UI.get ().remove (UIElement.Type.STATUSBAR);
+				UI.get ().remove (UIElement.Type.STATUSBAR);
 
 				CharStats stats = Stage.get ().get_player ().get_stats ();
-				//UI.get ().emplace<UIStatusBar> (stats);
+				emplace<UIStatusBar> (stats);
 			}
 
 			foreach (var type in elementorder)
@@ -216,17 +218,17 @@ namespace ms
 
 									var userlist = UI.get ().get_element<UIUserList> ();
 
-									if (userlist != null && userlist.Dereference ().get_tab () != (int)tab && userlist.Dereference ().is_active ())
+									if (userlist && userlist.get ().get_tab () != (int)tab && userlist.get ().is_active ())
 									{
-										userlist.Dereference ().change_tab ((byte)tab);
+										userlist.get ().change_tab ((byte)tab);
 									}
 									else
 									{
 										UI.get ().emplace<UIUserList> (tab);
 
-										if (userlist != null && userlist.Dereference ().get_tab () != (int)tab && userlist.Dereference ().is_active ())
+										if (userlist && userlist.get ().get_tab () != (int)tab && userlist.get ().is_active ())
 										{
-											userlist.Dereference ().change_tab ((byte)tab);
+											userlist.get ().change_tab ((byte)tab);
 										}
 									}
 
@@ -241,7 +243,7 @@ namespace ms
 								{
 									var chat = UI.get ().get_element<UIChat> ();
 
-									if (chat == null || !chat.Dereference ().is_active ())
+									if (chat == false || !chat.get ().is_active ())
 									{
 										UI.get ().emplace<UIChat> ();
 									}
@@ -251,7 +253,7 @@ namespace ms
 								case KeyAction.Id.MINIMAP:
 								{
 									var minimap = UI.get ().get_element<UIMiniMap> ();
-									if (minimap != null)
+									if (minimap)
 									{
 										minimap.get ().send_key (action, pressed, escape);
 									}
@@ -268,13 +270,13 @@ namespace ms
 								{
 									var keyconfig = UI.get ().get_element<UIKeyConfig> ();
 
-									if (keyconfig == null || !keyconfig.Dereference ().is_active ())
+									if (keyconfig == false || !keyconfig.get ().is_active ())
 									{
 										UI.get ().emplace<UIKeyConfig> (Stage.get ().get_player ().get_inventory (), Stage.get ().get_player ().get_skills ());
 									}
-									else if (keyconfig != null && keyconfig.Dereference ().is_active ())
+									else if (keyconfig && keyconfig.get ().is_active ())
 									{
-										keyconfig.Dereference ().close ();
+										keyconfig.get ().close ();
 									}
 
 									break;
@@ -282,7 +284,7 @@ namespace ms
 								case KeyAction.Id.TOGGLECHAT:
 								{
 									var chatbar = UI.get ().get_element<UIChatBar> ();
-									if (chatbar != null)
+									if (chatbar)
 									{
 										if (!chatbar.get ().is_chatfieldopen ())
 										{
@@ -295,7 +297,7 @@ namespace ms
 								case KeyAction.Id.MENU:
 								{
 									var statusbar = UI.get ().get_element<UIStatusBar> ();
-									if (statusbar != null)
+									if (statusbar)
 									{
 										statusbar.get ().toggle_menu ();
 									}
@@ -305,7 +307,7 @@ namespace ms
 								case KeyAction.Id.QUICKSLOTS:
 								{
 									var statusbar = UI.get ().get_element<UIStatusBar> ();
-									if (statusbar != null)
+									if (statusbar)
 									{
 										statusbar.get ().toggle_qs ();
 									}
@@ -336,7 +338,7 @@ namespace ms
 								case KeyAction.Id.MAINMENU:
 								{
 									var statusbar = UI.get ().get_element<UIStatusBar> ();
-									if (statusbar != null)
+									if (statusbar)
 									{
 										statusbar.get ().send_key (action, pressed, escape);
 									}
@@ -558,7 +560,7 @@ namespace ms
 
 		public override void show_map (Tooltip.Parent parent, string name, string description, int mapid, bool bolded)
 		{
-			/*todo matooltip.set_name (parent, name, bolded);
+			matooltip.set_name (parent, name, bolded);
 			matooltip.set_desc (description);
 			matooltip.set_mapid (mapid);
 
@@ -566,12 +568,53 @@ namespace ms
 			{
 				tooltip = matooltip;
 				tooltipparent = parent;
-			}*/
+			}
+		}
+
+
+		UIElement.Type[] silent_types = new[]
+		{
+			UIElement.Type.STATUSMESSENGER,
+			UIElement.Type.STATUSBAR,
+			UIElement.Type.CHATBAR,
+			UIElement.Type.MINIMAP,
+			UIElement.Type.BUFFLIST,
+			UIElement.Type.NPCTALK,
+			UIElement.Type.SHOP
+		};
+
+		public void emplace<T> (params object[] args) where T : UIElement
+		{
+			var type = typeof (T);
+			var uiElementType = (UIElement.Type)type.GetField ("TYPE").GetRawConstantValue ();
+			var toggled = (bool)type.GetField ("TOGGLED").GetRawConstantValue ();
+			var focused = (bool)type.GetField ("FOCUSED").GetRawConstantValue ();
+
+			var iter = pre_add (uiElementType, toggled, focused);
+			if (iter.TryGetValue (uiElementType, out var uiElement) && uiElement != null)
+			{
+				uiElement.makeactive ();
+			}
+			else
+			{
+				iter.TryAdd (uiElementType, (UIElement)System.Activator.CreateInstance (type, args));
+			}
+
+			if (!silent_types.Contains (uiElementType))
+			{
+				if (uiElementType == UIElement.Type.WORLDMAP)
+					new Sound(Sound.Name.WORLDMAPOPEN).play();
+				else
+					new Sound(Sound.Name.MENUUP).play();
+
+				UI.get().send_cursor(false);
+			}
+			
 		}
 
 		public override ConcurrentDictionary<UIElement.Type, UIElement> pre_add (UIElement.Type type, bool is_toggled, bool is_focused)
 		{
-			var element = elements[type];
+			var element = elements.TryGetValue(type);
 
 			if (element != null && is_toggled)
 			{
@@ -646,10 +689,10 @@ namespace ms
 				focused = UIElement.Type.NONE;
 			}
 
-			/*todo if (type == (UIElement.Type)tooltipparent)
+			if (type == (UIElement.Type)tooltipparent)
 			{
 				clear_tooltip (tooltipparent);
-			}*/
+			}
 
 			elementorder.Remove (type);
 
@@ -703,6 +746,12 @@ namespace ms
 
 		private bool drop_icon (Icon icon, Point<short> pos)
 		{
+			if (icon == null)
+			{
+				Debug.LogWarning ($"drop_icon() icon is null");
+				return false;
+			}
+
 			UIElement front = get_front (pos);
 			if (front != null)
 			{
@@ -718,7 +767,7 @@ namespace ms
 
 		private void remove_icon ()
 		{
-			draggedicon.Dereference ().reset ();
+			draggedicon.get ().reset ();
 			draggedicon = new Optional<Icon> ();
 		}
 
@@ -728,7 +777,7 @@ namespace ms
 			{
 				var element = elements.TryGetValue (type);
 
-				if (element!=null && element.is_active ())
+				if (element != null && element.is_active ())
 				{
 					element.remove_cursor ();
 				}
@@ -741,50 +790,25 @@ namespace ms
 			{
 				var element = elements.TryGetValue (type);
 
-				if (element!=null && element.is_active () && element.get_type () != t)
+				if (element != null && element.is_active () && element.get_type () != t)
 				{
 					element.remove_cursor ();
 				}
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++11 variadic templates:
-		/*private void emplace<T>(Args & ...args)
-		{
-			if (var iter = pre_add (T.TYPE, T.TOGGLED, T.FOCUSED))
-			{
-				iter.second =  <T > (forward<Args> (args)...);
-
-				var silent_types = UIElement.Type.STATUSMESSENGER, UIElement.Type.STATUSBAR, UIElement.Type.CHATBAR, UIElement.Type.MINIMAP, UIElement.Type.BUFFLIST, UIElement.Type.NPCTALK, UIElement.Type.SHOP;
-
-				if (find (silent_types.begin (), silent_types.end (), T.TYPE) == silent_types.end ())
-				{
-					if (T.TYPE == UIElement.Type.WORLDMAP)
-					{
-						Sound (Sound.Name.WORLDMAPOPEN).play ();
-					}
-					else
-					{
-						Sound (Sound.Name.MENUUP).play ();
-					}
-
-					UI.get ().send_cursor (false);
-				}
-			}
-		}*/
-
 		private ConcurrentDictionary<UIElement.Type, UIElement> elements = new ConcurrentDictionary<UIElement.Type, UIElement> ();
 		private LinkedList<UIElement.Type> elementorder = new LinkedList<UIElement.Type> ();
 		private UIElement.Type focused;
 		private UIElement dragged;
 
-		/*private EquipTooltip eqtooltip = new EquipTooltip ();
+		private EquipTooltip eqtooltip = new EquipTooltip ();
 		private ItemTooltip ittooltip = new ItemTooltip ();
 		private SkillTooltip sktooltip = new SkillTooltip ();
 		private TextTooltip tetooltip = new TextTooltip ();
 		private MapTooltip matooltip = new MapTooltip ();
 		private Optional<Tooltip> tooltip = new Optional<Tooltip> ();
-		private Tooltip.Parent tooltipparent;*/
+		private Tooltip.Parent tooltipparent;
 
 		private Optional<Icon> draggedicon = new Optional<Icon> ();
 

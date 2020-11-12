@@ -32,17 +32,18 @@ namespace ms
 		{
 		}
 
-		public static bool operator == (Optional<T> person1, Optional<T> person2)
+		/*public static bool operator == (Optional<T> person1, Optional<T> person2)
 		{
+	
 			if ((person1 as object) != null && (person2 as object) != null && person1.val != null && person2.val != null)
 				return object.Equals (person1.val, person2.val); //只有当两个对象参数都不为空时才比较
 			else if ((person1 as object) == null && (person2 as object) == null)
 				return true; //两个都为空的话就当作它们相等了
 			else
 				return false; //除此之外，都认为他们不相等了
-		}
+		}*/
 
-		public static bool operator != (Optional<T> person1, Optional<T> person2)
+		/*public static bool operator != (Optional<T> person1, Optional<T> person2)
 		{
 			if ((person1 as object) != null && (person2 as object) != null && person1.val != null && person2.val != null)
 				return !object.Equals (person1.val, person2.val); //只有当两个对象参数都不为空时才比较
@@ -50,11 +51,11 @@ namespace ms
 				return false; //两个都为空的话就当作它们相等了
 			else
 				return true; //除此之外，都认为他们不相等了
-		}
+		}*/
 
 		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 		//ORIGINAL LINE: explicit operator bool() const
-		public static explicit operator bool (Optional<T> ImpliedObject)
+		public static implicit operator bool (Optional<T> ImpliedObject)
 		{
 			return ImpliedObject != null && ImpliedObject.val != null;
 		}
@@ -79,10 +80,10 @@ namespace ms
 
 		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 		//ORIGINAL LINE: T* operator ->() const
-		public T Dereference ()
+		/*public T Dereference ()
 		{
 			return val;
-		}
+		}*/
 
 		/*//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 		//ORIGINAL LINE: T& operator *() const

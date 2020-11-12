@@ -1405,7 +1405,7 @@ namespace ms
 				if (mapping.type == KeyType.Id.ITEM || mapping.type == KeyType.Id.SKILL)
 				{
 					var keyconfig = UI.get ().get_element<UIKeyConfig> ();
-					keyconfig.Dereference ().unstage_mapping (mapping);
+					keyconfig.get ().unstage_mapping (mapping);
 				}
 			}
 
@@ -1430,11 +1430,11 @@ namespace ms
 
 				if (remove)
 				{
-					keyconfig.Dereference ().unstage_mapping (mapping);
+					keyconfig.get ().unstage_mapping (mapping);
 				}
 				else
 				{
-					keyconfig.Dereference ().stage_mapping (cursorposition, mapping);
+					keyconfig.get ().stage_mapping (cursorposition, mapping);
 				}
 			}
 

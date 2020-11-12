@@ -217,8 +217,9 @@ namespace MapleLib.WzLib
 		{
 			return null;
 		}
-		public virtual byte[] GetPngData ()
+		public virtual byte[] GetPngData (out int pngFormat)
 		{
+			pngFormat = 0;
 			return null;
 		}
 		public virtual byte[] GetBytes ()

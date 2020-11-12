@@ -51,6 +51,8 @@ namespace ms
 		public const bool FOCUSED = true;
 		public const bool TOGGLED = true;
 
+		public UIShop (params object[]args):this((CharLook)args[0],(Inventory)args[1]){}
+
 		public UIShop(CharLook in_charlook, Inventory in_inventory)
 		{
 			//this.UIDragElement<PosSHOP> = new <type missing>();

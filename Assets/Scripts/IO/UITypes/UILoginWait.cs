@@ -1,5 +1,7 @@
 ﻿#define USE_NX
 
+using System;
+
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
 //	Copyright (C) 2015-2019  Daniel Allendorf, Ryan Payton						//
@@ -47,28 +49,50 @@ namespace ms
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The implementation of the following method could not be found:
 //		UILoginWait() : UILoginWait(() => TangibleLambdaToken69UILoginWait(System.Action okhandler);
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: UIElement::Type get_type() const override
-		public override UIElement.Type get_type()
+		public UILoginWait () : this ((Action)null)
+		{
+		}
+
+		public UILoginWait (params object[] args) : this ((System.Action)args[0])
+		{
+		}
+
+		public UILoginWait (System.Action okhandler)
+		{
+			this.okhandler = okhandler;
+			var Loading = nl.nx.wzFile_ui["Login.img"]["Notice"]["Loading"];
+			var backgrnd = Loading["backgrnd"];
+
+			sprites.Add (backgrnd);
+			sprites.Add (new Sprite(Loading["circle"], new Point<short> (127, 70)));
+
+			buttons[(uint)Buttons.CANCEL] = new MapleButton (Loading["BtCancel"], new Point<short> (101, 106));
+
+			position = new Point<short> (276, 229);
+			dimension = new Texture (backgrnd).get_dimensions ();
+		}
+
+		public override UIElement.Type get_type ()
 		{
 			return TYPE;
 		}
 
-		public void close()
+		public void close ()
 		{
-			deactivate();
-			okhandler();
+			deactivate ();
+			okhandler ();
 		}
-		public System.Action get_handler()
+
+		public System.Action get_handler ()
 		{
 			return okhandler;
 		}
 
-		public override Button.State button_pressed(ushort id)
+		public override Button.State button_pressed (ushort id)
 		{
-			Session.get().reconnect();
+			Session.get ().reconnect ();
 
-			close();
+			close ();
 
 			return Button.State.NORMAL;
 		}
@@ -81,5 +105,3 @@ namespace ms
 		private System.Action okhandler;
 	}
 }
-
-

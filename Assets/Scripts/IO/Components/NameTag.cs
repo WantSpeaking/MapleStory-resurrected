@@ -41,59 +41,60 @@ namespace ms
 {
 	public class NameTag
 	{
-		public NameTag(WzObject src, Text.Font f, string n)
+		public NameTag (WzObject src, Text.Font f, string n)
 		{
-			name = new OutlinedText(f, Text.Alignment.CENTER, Color.Name.EAGLE, Color.Name.JAMBALAYA);
-			name.change_text(n);
+			name = new OutlinedText (f, Text.Alignment.CENTER, Color.Name.EAGLE, Color.Name.JAMBALAYA);
+			name.change_text (n);
 
-			textures[false].Add(src["0"]["0"]);
-			textures[false].Add(src["0"]["1"]);
-			textures[false].Add(src["0"]["2"]);
+			textures[false].Add (src["0"]["0"]);
+			textures[false].Add (src["0"]["1"]);
+			textures[false].Add (src["0"]["2"]);
 
-			textures[true].Add(src["1"]["0"]);
-			textures[true].Add(src["1"]["1"]);
-			textures[true].Add(src["1"]["2"]);
+			textures[true].Add (src["1"]["0"]);
+			textures[true].Add (src["1"]["1"]);
+			textures[true].Add (src["1"]["2"]);
 
 			selected = false;
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void draw(Point<short> position) const
-		public void draw(Point<short> position)
+		public void draw (Point<short> position)
 		{
-			position.shift(new Point<short>(1, 2));
+			position.shift (new Point<short> (1, 2));
 
 			var tag = textures[selected];
 
-			short width = name.width();
+			short width = name.width ();
 
 			// If ever changing startpos, confirm with UICharSelect.cpp
-			Point<short> startpos = position - new Point<short>((short)(6 + width / 2), 0);
+			Point<short> startpos = position - new Point<short> ((short)(6 + width / 2), 0);
 
-			tag[0].draw(startpos);
-			tag[1].draw(new DrawArgument(startpos + new Point<short>(6, 0), new Point<short>(width, 0)));
-			tag[2].draw(new DrawArgument(startpos + new Point<short>((short)(width + 6), 0)));
+			tag[0].draw (startpos);
+			tag[1].draw (new DrawArgument (startpos + new Point<short> (6, 0), new Point<short> (width, 0)));
+			tag[2].draw (new DrawArgument (startpos + new Point<short> ((short)(width + 6), 0)));
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: name.draw(position);
-			name.draw(position);
+			name.draw (position);
 		}
-		public void set_selected(bool s)
+
+		public void set_selected (bool s)
 		{
 			selected = s;
 
 			if (s)
 			{
-				name.change_color(Color.Name.WHITE);
+				name.change_color (Color.Name.WHITE);
 			}
 			else
 			{
-				name.change_color(Color.Name.EAGLE);
+				name.change_color (Color.Name.EAGLE);
 			}
 		}
 
-		private OutlinedText name = new OutlinedText();
-		private BoolPair<List<Texture>> textures = new BoolPair<List<Texture>>();
+		private OutlinedText name = new OutlinedText ();
+		private BoolPair<List<Texture>> textures = new BoolPair<List<Texture>> (new List<Texture> (), new List<Texture> ());
 		private bool selected;
 	}
 }

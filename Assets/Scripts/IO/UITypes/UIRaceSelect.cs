@@ -50,6 +50,10 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = false;
 
+		public UIRaceSelect (params object[] args) : this ()
+		{
+		}
+		
 		public UIRaceSelect () : base (new Point<short> (0, 0), new Point<short> (800, 600))
 		{
 			string version_text = Configuration.get ().get_version ();
@@ -606,7 +610,7 @@ namespace ms
 			deactivate ();
 
 			var charselect = UI.get ().get_element<UICharSelect> ();
-			if (charselect!= null)
+			if (charselect)
 			{
 				charselect.get ().makeactive ();
 			}

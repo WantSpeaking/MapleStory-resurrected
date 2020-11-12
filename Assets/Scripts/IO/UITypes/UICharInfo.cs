@@ -49,6 +49,10 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = true;
 
+		public UICharInfo (params object[] args) : this ((int)args[0])
+		{
+		}
+
 		public UICharInfo (int cid)
 		{
 			//this.UIDragElement<PosCHARINFO> = new <type missing>();

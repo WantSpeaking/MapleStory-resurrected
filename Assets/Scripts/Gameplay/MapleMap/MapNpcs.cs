@@ -58,9 +58,9 @@ namespace ms
 				int oid = spawn.get_oid ();
 				Optional<MapObject> npc = npcs.get (oid);
 
-				if (npc != null)
+				if (npc)
 				{
-					npc.Dereference ().makeactive ();
+					npc.get ().makeactive ();
 				}
 				else
 				{

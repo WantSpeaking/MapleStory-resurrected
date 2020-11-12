@@ -39,8 +39,8 @@ namespace nl
 			wzFile_item = add_file(suffix+"item.wz");
 			wzFile_map = add_file(suffix+"map.wz");
 			wzFile_wzFile_mapPretty = add_file(suffix+"map.wz");
-			wzFile_mapLatest = add_file(suffix+"map.wz");
-			wzFile_map001 = add_file(suffix+"map.wz");
+			wzFile_mapLatest = add_file(suffix+"MapLatest.wz");
+			wzFile_map001 = add_file(suffix+"Map001.wz");
 			wzFile_mob = add_file(suffix+"mob.wz");
 			wzFile_npc = add_file(suffix+"npc.wz");
 			wzFile_skill = add_file(suffix+"skill.wz");
@@ -64,7 +64,7 @@ namespace nl
 				quest = add_file("Quest.nx");
 				reactor = add_file("Reactor.nx");
 				skill = add_file("Skill.nx");
-				sound = add_file("Sound.nx");
+				sound = add_file("Sound.nx");1
 				stringFile = add_file("String.nx");
 				tamingmob = add_file("TamingMob.nx");
 				ui = add_file("UI.nx");

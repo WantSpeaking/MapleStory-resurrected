@@ -15,12 +15,12 @@ namespace ms
 		public Stage ()
 		{
 			state = State.INACTIVE;
-			combat = new Combat (player, chars, mobs ,reactors);
+			combat = new Combat (player, chars, mobs, reactors);
 		}
 
 		public void init ()
 		{
-			drops.init();
+			drops.init ();
 		}
 
 		public void load (int mapid, sbyte portalid)
@@ -45,22 +45,22 @@ namespace ms
 			player = new Player (entry);
 			playable = new Optional<Playable> (player);
 
-			start = ContinuousTimer.get().start();
+			start = ContinuousTimer.get ().start ();
 
-			CharStats stats = player.get_stats();
-			levelBefore = stats.get_stat(MapleStat.Id.LEVEL);
-			expBefore = stats.get_exp();
+			CharStats stats = player.get_stats ();
+			levelBefore = stats.get_stat (MapleStat.Id.LEVEL);
+			expBefore = stats.get_exp ();
 		}
 
 		public void clear ()
 		{
 			state = State.INACTIVE;
-			
-			chars.clear();
-			npcs.clear();
+
+			chars.clear ();
+			npcs.clear ();
 			mobs.clear ();
-			drops.clear();
-			reactors.clear();
+			drops.clear ();
+			reactors.clear ();
 		}
 
 		private void load_map (int mapid) //mapid:100000000
@@ -100,9 +100,12 @@ namespace ms
 		{
 			if (state != State.ACTIVE)
 				return;
-			
-			//Point<short> viewpos = camera.position (alpha);
+#if BackgroundStatic
 			Point<short> viewpos = Point<short>.zero;
+#else
+			Point<short> viewpos = camera.position (alpha);
+#endif
+
 			Point<double> viewrpos = camera.realposition (alpha);
 			double viewx = viewrpos.x ();
 			double viewy = viewrpos.y ();
@@ -111,19 +114,18 @@ namespace ms
 
 			foreach (Layer.Id id in Enum.GetValues (typeof (Layer.Id)))
 			{
-				tilesobjs?.draw(id, viewpos, alpha);
-				reactors?.draw(id, viewx, viewy, alpha);
-				npcs?.draw(id, viewx, viewy, alpha);
-				mobs?.draw(id, viewx, viewy, alpha);
-				chars?.draw(id, viewx, viewy, alpha);
-				player?.draw(id, viewx, viewy, alpha);
-				drops?.draw(id, viewx, viewy, alpha);
-				
-				
+				tilesobjs?.draw (id, viewpos, alpha);
+				reactors?.draw (id, viewx, viewy, alpha);
+				npcs?.draw (id, viewx, viewy, alpha);
+				mobs?.draw (id, viewx, viewy, alpha);
+				chars?.draw (id, viewx, viewy, alpha);
+				player?.draw (id, viewx, viewy, alpha);
+				drops?.draw (id, viewx, viewy, alpha);
+
+
 				/*tilesobjs?.draw ((Layer.Id)id, viewpos, alpha);
 				player?.draw ((Layer.Id)id, viewx, viewy, alpha);
 				mobs?.draw ((Layer.Id)id, viewx, viewy, alpha);*/
-				
 			}
 
 			combat?.draw (viewx, viewy, alpha);
@@ -135,19 +137,19 @@ namespace ms
 		{
 			if (state != State.ACTIVE)
 				return;
-			
+
 			//if (player == null) return;
 
 			combat.update ();
 			backgrounds.update ();
-			effect?.update();
+			effect?.update ();
 			tilesobjs.update ();
 
-			reactors.update(physics);
-			npcs.update(physics);
+			reactors.update (physics);
+			npcs.update (physics);
 			mobs.update (physics);
-			chars.update(physics);
-			drops.update(physics);
+			chars.update (physics);
+			drops.update (physics);
 			player.update (physics);
 
 			portals.update (player.get_position ());
@@ -217,7 +219,7 @@ namespace ms
 			}
 			else if (warpinfo.valid)
 			{
-				new ChangeMapPacket(false, -1, warpinfo.name, false).dispatch();
+				new ChangeMapPacket (false, -1, warpinfo.name, false).dispatch ();
 
 				CharStats stats = get ().get_player ().get_stats ();
 
@@ -231,11 +233,11 @@ namespace ms
 
 		private void check_seats ()
 		{
-			if (player.is_sitting() || player.is_attacking())
+			if (player.is_sitting () || player.is_attacking ())
 				return;
 
-			Optional< Seat> seat = mapinfo.findseat(player.get_position());
-			player.set_seat(seat);
+			Optional<Seat> seat = mapinfo.findseat (player.get_position ());
+			player.set_seat (seat);
 		}
 
 		private void check_ladders (bool up)
@@ -249,11 +251,11 @@ namespace ms
 
 		private void check_drops ()
 		{
-			Point<short> playerpos = player.get_position();
-			var loot = drops.find_loot_at(playerpos);
+			Point<short> playerpos = player.get_position ();
+			var loot = drops.find_loot_at (playerpos);
 
 			if (loot.Item1 != 0)
-				new PickupItemPacket(loot.Item1, loot.Item2).dispatch();
+				new PickupItemPacket (loot.Item1, loot.Item2).dispatch ();
 		}
 
 		public void send_key (KeyType.Id type, int action, bool down)
@@ -282,7 +284,7 @@ namespace ms
 		{
 			var statusbar = UI.get ().get_element<UIStatusBar> ();
 
-			if (statusbar != null && statusbar.get ().is_menu_active ())
+			if (statusbar && statusbar.get ().is_menu_active ())
 			{
 				if (pressed)
 					statusbar.get ().remove_menus ();
@@ -350,7 +352,7 @@ namespace ms
 
 		public void add_effect (string path)
 		{
-			effect = new MapEffect(path);
+			effect = new MapEffect (path);
 		}
 
 		public long get_uptime ()
@@ -370,16 +372,17 @@ namespace ms
 
 		public void transfer_player ()
 		{
-			new PlayerMapTransferPacket().dispatch();
+			new PlayerMapTransferPacket ().dispatch ();
 
-			if (Configuration.get().get_admin())
-				new AdminEnterMapPacket(AdminEnterMapPacket.Operation.ALERT_ADMINS).dispatch();
+			if (Configuration.get ().get_admin ())
+				new AdminEnterMapPacket (AdminEnterMapPacket.Operation.ALERT_ADMINS).dispatch ();
 		}
 
 		public FootholdTree GetFootholdTree ()
 		{
 			return physics?.get_fht ();
 		}
+
 		private enum State
 		{
 			INACTIVE,
@@ -407,7 +410,7 @@ namespace ms
 		MapEffect effect;
 
 		Combat combat;
-		
+
 		DateTime start;
 		ushort levelBefore;
 		long expBefore;

@@ -369,9 +369,9 @@ namespace ms
 			Point<short> cursorpos = cursor.get_position ();
 			send_cursor (cursorpos, cursorstate);
 
-			if (focusedtextfield != null && pressed)
+			if (focusedtextfield && pressed)
 			{
-				Cursor.State tstate = focusedtextfield.Dereference ().send_cursor (cursorpos, pressed);
+				Cursor.State tstate = focusedtextfield.get ().send_cursor (cursorpos, pressed);
 
 				switch (tstate)
 				{
@@ -451,7 +451,7 @@ namespace ms
 				caps_lock_enabled = !caps_lock_enabled;
 			}
 
-			if (focusedtextfield != null)
+			if (focusedtextfield)
 			{
 				bool ctrl = is_key_down[(GLFW_KEY)keyboard.leftctrlcode ()] || is_key_down[(GLFW_KEY)keyboard.rightctrlcode ()];
 
@@ -461,7 +461,7 @@ namespace ms
 
 					if (action == KeyAction.Id.COPY || action == KeyAction.Id.PASTE)
 					{
-						if (focusedtextfield.Dereference ().can_copy_paste ())
+						if (focusedtextfield.get ().can_copy_paste ())
 						{
 							switch (action)
 							{
@@ -479,7 +479,7 @@ namespace ms
 				{
 					bool shift = is_key_down[(GLFW_KEY)keyboard.leftshiftcode ()] || is_key_down[(GLFW_KEY)keyboard.rightshiftcode ()] || caps_lock_enabled;
 					Keyboard.Mapping mapping = keyboard.get_text_mapping (keycode, shift);
-					focusedtextfield.Dereference ().send_key (mapping.type, mapping.action, pressed);
+					focusedtextfield.get ().send_key (mapping.type, mapping.action, pressed);
 				}
 			}
 			else
@@ -508,49 +508,49 @@ namespace ms
 				//var report = UI::get().get_element<UIReport>();
 				//var whisper = UI::get().get_element<UIWhisper>();
 
-				if (npctalk != null && npctalk.Dereference ().is_active ())
+				if (npctalk && npctalk.get ().is_active ())
 				{
-					npctalk.Dereference ().send_key (mapping.action, pressed, escape);
+					npctalk.get ().send_key (mapping.action, pressed, escape);
 					sent = true;
 				}
-				else if (statusbar != null && statusbar.Dereference ().is_menu_active ())
+				else if (statusbar && statusbar.get ().is_menu_active ())
 				{
-					statusbar.Dereference ().send_key (mapping.action, pressed, escape);
+					statusbar.get ().send_key (mapping.action, pressed, escape);
 					sent = true;
 				}
-				else if (channel != null && channel.Dereference ().is_active () && mapping.action != (int)KeyAction.Id.CHANGECHANNEL)
+				else if (channel && channel.get ().is_active () && mapping.action != (int)KeyAction.Id.CHANGECHANNEL)
 				{
-					channel.Dereference ().send_key (mapping.action, pressed, escape);
+					channel.get ().send_key (mapping.action, pressed, escape);
 					sent = true;
 				}
-				else if (worldmap != null && worldmap.Dereference ().is_active () && mapping.action != (int)KeyAction.Id.WORLDMAP)
+				else if (worldmap && worldmap.get ().is_active () && mapping.action != (int)KeyAction.Id.WORLDMAP)
 				{
-					worldmap.Dereference ().send_key (mapping.action, pressed, escape);
+					worldmap.get ().send_key (mapping.action, pressed, escape);
 					sent = true;
 				}
-				else if (optionmenu != null && optionmenu.Dereference ().is_active ())
+				else if (optionmenu  && optionmenu.get ().is_active ())
 				{
-					optionmenu.Dereference ().send_key (mapping.action, pressed, escape);
+					optionmenu.get ().send_key (mapping.action, pressed, escape);
 					sent = true;
 				}
-				else if (shop != null && shop.Dereference ().is_active ())
+				else if (shop  && shop.get ().is_active ())
 				{
-					shop.Dereference ().send_key (mapping.action, pressed, escape);
+					shop.get ().send_key (mapping.action, pressed, escape);
 					sent = true;
 				}
-				else if (joypad != null && joypad.Dereference ().is_active ())
+				else if (joypad  && joypad.get ().is_active ())
 				{
-					joypad.Dereference ().send_key (mapping.action, pressed, escape);
+					joypad.get ().send_key (mapping.action, pressed, escape);
 					sent = true;
 				}
-				else if (rank != null && rank.Dereference ().is_active ())
+				else if (rank && rank.get ().is_active ())
 				{
-					rank.Dereference ().send_key (mapping.action, pressed, escape);
+					rank.get ().send_key (mapping.action, pressed, escape);
 					sent = true;
 				}
-				else if (quit != null && quit.Dereference ().is_active ())
+				else if (quit && quit.get ().is_active ())
 				{
-					quit.Dereference ().send_key (mapping.action, pressed, escape);
+					quit.get ().send_key (mapping.action, pressed, escape);
 					sent = true;
 				}
 				else
@@ -623,9 +623,9 @@ namespace ms
 
 					if (escape)
 					{
-						if (chatbar != null && chatbar.Dereference ().is_chatopen ())
+						if (chatbar && chatbar.get ().is_chatopen ())
 						{
-							chatbar.Dereference ().send_key (mapping.action, pressed, escape);
+							chatbar.get ().send_key (mapping.action, pressed, escape);
 						}
 						else
 						{
@@ -634,9 +634,9 @@ namespace ms
 					}
 					else if (enter)
 					{
-						if (chatbar != null)
+						if (chatbar)
 						{
-							chatbar.Dereference ().send_key (mapping.action, pressed, escape);
+							chatbar.get ().send_key (mapping.action, pressed, escape);
 						}
 						else
 						{
@@ -645,7 +645,7 @@ namespace ms
 					}
 					else
 					{
-						change_state (State.GAME);//todo remove later
+						//change_state (State.GAME);//todo remove later
 						state.send_key (mapping.type, mapping.action, pressed, escape);
 					}
 				}
@@ -661,9 +661,9 @@ namespace ms
 
 		public void focus_textfield (Textfield tofocus)
 		{
-			if (focusedtextfield != null)
+			if (focusedtextfield)
 			{
-				focusedtextfield.Dereference ().set_state (Textfield.State.NORMAL);
+				focusedtextfield.get ().set_state (Textfield.State.NORMAL);
 			}
 
 			focusedtextfield = tofocus;
@@ -671,9 +671,9 @@ namespace ms
 
 		public void remove_textfield ()
 		{
-			if (focusedtextfield != null)
+			if (focusedtextfield)
 			{
-				focusedtextfield.Dereference ().set_state (Textfield.State.NORMAL);
+				focusedtextfield.get ().set_state (Textfield.State.NORMAL);
 			}
 
 			focusedtextfield = new Optional<Textfield> ();

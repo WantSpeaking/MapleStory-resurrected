@@ -48,6 +48,10 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = true;
 
+		public UIEvent (params object[] args) : this ()
+		{
+		}
+		
 		public UIEvent ()
 		{
 			//this.UIDragElement<PosEVENT> = new <type missing>();

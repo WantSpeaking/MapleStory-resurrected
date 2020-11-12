@@ -47,6 +47,10 @@ namespace ms
 		public const bool FOCUSED = true;
 		public const bool TOGGLED = false;
 
+		public UICashShop (params object[] args) : this ()
+		{
+		}
+		
 		public UICashShop ()
 		{
 			this.preview_index = 0;

@@ -50,6 +50,10 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = false;
 
+		public UIWorldSelect (params object[] args) : this ()
+		{
+		}
+
 		public UIWorldSelect () : base (new Point<short> (0, 0), new Point<short> (800, 600))
 		{
 			worldcount = 0;
@@ -159,7 +163,7 @@ namespace ms
 				UI.get ().emplace<UILoginWait> ();
 				var loginwait = UI.get ().get_element<UILoginWait> ();
 
-				if (loginwait != null && loginwait.Dereference ().is_active ())
+				if (loginwait && loginwait.get ().is_active ())
 				{
 					new CharlistRequestPacket (world, channel).dispatch ();
 				}
@@ -399,7 +403,7 @@ namespace ms
 					{
 						var quitconfirm = UI.get ().get_element<UIQuitConfirm> ();
 
-						if (quitconfirm != null && quitconfirm.Dereference ().is_active ())
+						if (quitconfirm && quitconfirm.get ().is_active ())
 						{
 							UI.get ().send_key (keycode, pressed);
 							return;
@@ -413,7 +417,7 @@ namespace ms
 					{
 						var quitconfirm = UI.get ().get_element<UIQuitConfirm> ();
 
-						if (quitconfirm != null && quitconfirm.Dereference ().is_active ())
+						if (quitconfirm && quitconfirm.get ().is_active ())
 						{
 							UI.get ().send_key (keycode, pressed);
 							return;
@@ -690,7 +694,7 @@ namespace ms
 			UI.get ().emplace<UILoginWait> ();
 			var loginwait = UI.get ().get_element<UILoginWait> ();
 
-			if (loginwait != null && loginwait.Dereference ().is_active ())
+			if (loginwait && loginwait.get ().is_active ())
 			{
 				new CharlistRequestPacket (worldid, channelid).dispatch ();
 			}

@@ -105,7 +105,7 @@ namespace ms
 		private IconCover cover;
 		private int buffid;
 		private int duration;
-		private Linear<float> opacity = new Linear<float>();
+		private Linear_float opacity = new Linear_float();
 		private float opcstep;
 	}
 

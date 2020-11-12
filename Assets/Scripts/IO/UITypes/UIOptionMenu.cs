@@ -48,6 +48,10 @@ namespace ms
 		public const bool FOCUSED = true;
 		public const bool TOGGLED = false;
 
+		public UIOptionMenu (params object[] args) : this ()
+		{
+		}
+		
 		public UIOptionMenu ()
 		{
 			//this.UIDragElement<PosOPTIONMENU> = new <type missing>();

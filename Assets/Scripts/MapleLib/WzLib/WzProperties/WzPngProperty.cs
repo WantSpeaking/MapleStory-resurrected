@@ -776,7 +776,7 @@ namespace MapleLib.WzLib.WzProperties
 			return GetImage (false);
 		}
 
-		public override byte[] GetPngData ()
+		public override byte[] GetPngData (out int pngFormat)
 		{
 			if (decodedData == null)
 			{
@@ -784,6 +784,7 @@ namespace MapleLib.WzLib.WzProperties
 				ParsePngNew ();
 			}
 
+			pngFormat = Format;
 			return decodedData;
 		}
 
@@ -834,6 +835,77 @@ namespace MapleLib.WzLib.WzProperties
 
 								byte[] decoded = GetPixelDataBgra4444 (decBuf, width, height);
 								decodedData = decoded; //new
+								break;
+							}
+							case 2:
+							{
+
+								int uncompressedSize = width * height * 4;
+								byte[] decBuf = new byte[uncompressedSize];
+								zlib.Read (decBuf, 0, uncompressedSize);
+								zlib.Close ();
+								decodedData = decBuf; //new
+								break;
+							}
+							case 3:
+							{
+								// New format 黑白缩略图
+								// thank you Elem8100, http://forum.ragezone.com/f702/wz-png-format-decode-code-1114978/ 
+								// you'll be remembered forever <3 
+
+								int uncompressedSize = width * height * 4;
+								byte[] decBuf = new byte[uncompressedSize];
+								zlib.Read (decBuf, 0, uncompressedSize);
+								zlib.Close ();
+
+								byte[] decoded = GetPixelDataDXT3 (decBuf, width, height);
+								decodedData = decoded; //new
+								break;
+							}
+							case 513:
+							{
+
+								int uncompressedSize = width * height * 2;
+								byte[] decBuf = new byte[uncompressedSize];
+								zlib.Read (decBuf, 0, uncompressedSize);
+								zlib.Close ();
+								decodedData = decBuf; //new
+								break;
+							}
+							case 517:
+							{
+
+								int uncompressedSize = width * height / 128;
+								byte[] decBuf = new byte[uncompressedSize];
+								zlib.Read (decBuf, 0, uncompressedSize);
+								zlib.Close ();
+
+								byte[] decoded = GetPixelDataForm517 (decBuf, width, height);
+								decodedData = decoded; //new
+								break;
+							}
+							case 1026:
+							{
+
+								int uncompressedSize = width * height * 4;
+								byte[] decBuf = new byte[uncompressedSize];
+								zlib.Read (decBuf, 0, uncompressedSize);
+								zlib.Close ();
+
+								decBuf = GetPixelDataDXT3 (decBuf, this.width, this.height);
+								decodedData = decBuf; //new
+								break;
+							}
+							case 2050: // new
+							{
+
+								int uncompressedSize = width * height;
+								byte[] decBuf = new byte[uncompressedSize];
+								zlib.Read (decBuf, 0, uncompressedSize);
+								zlib.Close ();
+
+								decBuf = GetPixelDataDXT5 (decBuf, Width, Height);
+								decodedData = decBuf; //new
 								break;
 							}
 							default:

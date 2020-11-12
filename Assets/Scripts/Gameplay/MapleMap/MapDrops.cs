@@ -80,7 +80,7 @@ namespace ms
 
 				Optional<MapObject> drop = drops.get (oid);
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
-				if (drop != null)
+				if (drop)
 				{
 					drop.get ().makeactive ();
 				}
@@ -149,12 +149,12 @@ namespace ms
 			{
 				Optional<Drop> drop = (Drop)mmo.Value;
 
-				if (drop != null && drop.Dereference ().bounds ().contains (playerpos))
+				if (drop && drop.get ().bounds ().contains (playerpos))
 				{
 					lootenabled = false;
 
 					int oid = mmo.Key;
-					Point<short> position = drop.Dereference ().get_position ();
+					Point<short> position = drop.get ().get_position ();
 
 					return new Tuple<int, Point<short>> (oid, position);
 				}

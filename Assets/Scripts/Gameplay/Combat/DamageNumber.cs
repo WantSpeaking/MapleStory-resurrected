@@ -240,7 +240,7 @@ namespace ms
 		private string restnum;
 		private short shift;
 		private MovingObject moveobj = new MovingObject();
-		private Linear<float> opacity = new Linear<float>();
+		private Linear_float opacity = new Linear_float();
 
 		private static BoolPair<Charset>[] charsets =new BoolPair<Charset>[NUM_TYPES];
 	}

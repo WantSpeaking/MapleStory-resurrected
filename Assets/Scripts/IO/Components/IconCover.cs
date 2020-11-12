@@ -113,7 +113,7 @@ namespace ms
 		}
 
 		private ColorBox cover = new ColorBox();
-		private Linear<float> yscale = new Linear<float>();
+		private Linear_float yscale = new Linear_float();
 		private float scalestep;
 		private Type type;
 	}

@@ -53,9 +53,9 @@ namespace ms
         }
 
         // Window and screen width.
-        private short VIEWWIDTH;
+        private short VIEWWIDTH = 800;
         // Window and screen height.
-        private short VIEWHEIGHT;
+        private short VIEWHEIGHT = 600;
 
 
         public const ushort TIMESTEP = 8;
@@ -70,12 +70,15 @@ namespace ms
         public float frameDelay = 0.5f;
         public float multiplier_timeStep = 1f;
 
+        public int sortingLayer_Default = 8;
         public int sortingLayer_ItemDrop = 8;
         public int sortingLayer_MesoDrop = 8;
         public int sortingLayer_Mob = 8;
         public int sortingLayer_Portal = 8;
         public int sortingLayer_Effect = 8;
-        
+        public int sortingLayer_UI = 9;
 
+
+        public string defaultSpriteDrawerName = "SpriteDrawer";
     }
 }

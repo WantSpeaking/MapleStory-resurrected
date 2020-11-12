@@ -150,11 +150,12 @@ namespace ms
 				sprite.Dispose ();
 			}
 			
+			private static DrawArgument effectRenderOrderArgs = new DrawArgument(Constants.get ().sortingLayer_Effect,0);
 			public void draw (Point<short> position, float alpha)
 			{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: sprite.draw(position, alpha);
-				sprite.draw (position, alpha);
+				sprite.draw (position, alpha, effectRenderOrderArgs);
 			}
 
 			public bool update ()

@@ -51,6 +51,10 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = true;
 
+		public UIItemInventory (params object[] args) : this ((Inventory)args[0])
+		{
+		}
+		
 		public UIItemInventory (Inventory invent)
 		{
 			//this.UIDragElement<PosINV> = new <type missing>();
@@ -1121,11 +1125,11 @@ namespace ms
 
 					if (remove)
 					{
-						keyconfig.Dereference ().unstage_mapping (mapping);
+						keyconfig.get ().unstage_mapping (mapping);
 					}
 					else
 					{
-						keyconfig.Dereference ().stage_mapping (cursorposition, mapping);
+						keyconfig.get ().stage_mapping (cursorposition, mapping);
 					}
 				}
 			}

@@ -1,4 +1,4 @@
-﻿/*using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -47,7 +47,7 @@ namespace ms
 		{
 			var loginwait = UI.get ().get_element<UILoginWait> ();
 
-			if (loginwait != null && loginwait.Dereference ().is_active ())
+			if (loginwait && loginwait.get ().is_active ())
 			{
 				// Remove previous UIs
 				UI.get ().remove (UIElement.Type.LOGINNOTICE);
@@ -55,7 +55,7 @@ namespace ms
 				UI.get ().remove (UIElement.Type.TOS);
 				UI.get ().remove (UIElement.Type.GENDER);
 
-				System.Action okhandler = loginwait.Dereference ().get_handler ();
+				System.Action okhandler = loginwait.get ().get_handler ();
 
 				// The packet should contain a 'reason' integer which can signify various things
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
@@ -145,9 +145,9 @@ namespace ms
 //ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
-			/*TODO var worldselect = UI.get ().get_element<UIWorldSelect> ();
+			var worldselect = UI.get ().get_element<UIWorldSelect> ();
 
-			if (worldselect == null)
+			if (!worldselect)
 			{
 				worldselect = UI.get ().emplace<UIWorldSelect> ();
 			}
@@ -159,7 +159,7 @@ namespace ms
 
 				if (world.wid != -1)
 				{
-					worldselect.Dereference ().add_world (world);
+					worldselect.get ().add_world (world);
 				}
 				else
 				{
@@ -167,12 +167,12 @@ namespace ms
 					UI.get ().remove (UIElement.Type.LOGIN);
 
 					// Add the world selection screen to the UI
-					worldselect.Dereference ().draw_world ();
+					worldselect.get ().draw_world ();
 
 					// End of packet
 					return;
 				}
-			}#1#
+			}
 		}
 	}
 
@@ -185,7 +185,7 @@ namespace ms
 		{
 			var loginwait = UI.get ().get_element<UILoginWait> ();
 
-			if (loginwait != null && loginwait.Dereference ().is_active ())
+			if (loginwait && loginwait.get ().is_active ())
 			{
 				byte channel_id = (byte)recv.read_byte ();
 
@@ -207,7 +207,7 @@ namespace ms
 
 				// Remove the world selection screen
 				var worldselect = UI.get ().get_element<UIWorldSelect> ();
-				if (worldselect != null)
+				if (worldselect)
 				{
 					worldselect.get ().remove_selected ();
 				}
@@ -247,7 +247,7 @@ namespace ms
 
 			// Notify the character creation screen
 			var raceselect = UI.get ().get_element<UIRaceSelect> ();
-			if (raceselect != null)
+			if (raceselect)
 			{
 				raceselect.get ().send_naming_result (used);
 			}
@@ -268,7 +268,7 @@ namespace ms
 
 			// Read the updated character selection
 			var charselect = UI.get ().get_element<UICharSelect> ();
-			if (charselect != null)
+			if (charselect)
 			{
 				charselect.get ().add_character ((character));
 			}
@@ -309,7 +309,7 @@ namespace ms
 			else
 			{
 				var charselect = UI.get ().get_element<UICharSelect> ();
-				if (charselect != null)
+				if (charselect)
 				{
 					charselect.get ().remove_character (cid);
 				}
@@ -325,7 +325,7 @@ namespace ms
 		public override void handle (InPacket recv)
 		{
 			var worldselect = UI.get ().get_element<UIWorldSelect> ();
-			if (worldselect != null)
+			if (worldselect)
 			{
 				short count = recv.read_byte ();
 
@@ -341,46 +341,13 @@ namespace ms
 			}
 		}
 	}
-}*/
-
-using System.Collections.Generic;
-
-//////////////////////////////////////////////////////////////////////////////////
-//	This file is part of the continued Journey MMORPG client					//
-//	Copyright (C) 2015-2019  Daniel Allendorf, Ryan Payton						//
-//																				//
-//	This program is free software: you can redistribute it and/or modify		//
-//	it under the terms of the GNU Affero General Public License as published by	//
-//	the Free Software Foundation, either version 3 of the License, or			//
-//	(at your option) any later version.											//
-//																				//
-//	This program is distributed in the hope that it will be useful,				//
-//	but WITHOUT ANY WARRANTY; without even the implied warranty of				//
-//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the				//
-//	GNU Affero General Public License for more details.							//
-//																				//
-//	You should have received a copy of the GNU Affero General Public License	//
-//	along with this program.  If not, see <https://www.gnu.org/licenses/>.		//
-//////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
-//	This file is part of the continued Journey MMORPG client					//
-//	Copyright (C) 2015-2019  Daniel Allendorf, Ryan Payton						//
-//																				//
-//	This program is free software: you can redistribute it and/or modify		//
-//	it under the terms of the GNU Affero General Public License as published by	//
-//	the Free Software Foundation, either version 3 of the License, or			//
-//	(at your option) any later version.											//
-//																				//
-//	This program is distributed in the hope that it will be useful,				//
-//	but WITHOUT ANY WARRANTY; without even the implied warranty of				//
-//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the				//
-//	GNU Affero General Public License for more details.							//
-//																				//
-//	You should have received a copy of the GNU Affero General Public License	//
-//	along with this program.  If not, see <https://www.gnu.org/licenses/>.		//
-//////////////////////////////////////////////////////////////////////////////////
+}
 
 
+
+
+
+/*using System.Collections.Generic;
 namespace ms
 {
 	// Handler for a packet that contains the response to an attempt at logging in
@@ -438,7 +405,7 @@ namespace ms
 							break;
 					}
 				}
-				else*/
+				else#1#
 				{
 					// Login successful
 					// The packet contains information on the account, so we initialize the account with it.
@@ -490,12 +457,12 @@ namespace ms
 //ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
-			 /*var worldselect = UI.get ().get_element<UIWorldSelect> ();
+			/*var worldselect = UI.get ().get_element<UIWorldSelect> ();
 
-			if (worldselect == null)
-			{
-				worldselect = UI.get ().emplace<UIWorldSelect> ();
-			}*/
+		   if (worldselect == null)
+		   {
+			   worldselect = UI.get ().emplace<UIWorldSelect> ();
+		   }#1#
 
 			// Parse all worlds
 			while (recv.available ())
@@ -555,7 +522,7 @@ namespace ms
 				if (worldselect != null)
 				{
 					worldselect.get ().remove_selected ();
-				}*/
+				}#1#
 
 				// Add the character selection screen
 				//UI.get ().emplace<UICharSelect> (characters, charcount, slots, pic);
@@ -595,7 +562,7 @@ namespace ms
 			if (raceselect != null)
 			{
 				raceselect.get ().send_naming_result (used);
-			}*/
+			}#1#
 		}
 	}
 
@@ -616,15 +583,13 @@ namespace ms
 			if (charselect != null)
 			{
 				charselect.get ().add_character ((character));
-			}*/
+			}#1#
 		}
 	}
 
 	// Handler for a packet that responds to the request to the delete a character
 	public class DeleteCharResponseHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
 			// Read the character id and if deletion was successful (PIC was correct)
@@ -649,7 +614,7 @@ namespace ms
 						break;
 				}
 
-				UI.get ().emplace<UILoginNotice> (message);
+				UI.get ().emplace<UILoginNotice> (message, null, null);
 			}
 			else
 			{
@@ -665,8 +630,6 @@ namespace ms
 	// Handles the packet that contains information on recommended worlds
 	public class RecommendedWorldsHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
 			//var worldselect = UI.get ().get_element<UIWorldSelect> ();
@@ -686,4 +649,4 @@ namespace ms
 			}
 		}
 	}
-}
+}*/

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using MapleLib.WzLib;
+using UnityEngine;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -55,6 +56,10 @@ namespace ms
 			COMMUNITY,
 			CHARACTER,
 			EVENT
+		}
+
+		public UIStatusBar (params object[] args) : this ((CharStats)args[0])
+		{
 		}
 
 		public UIStatusBar (CharStats st)
@@ -447,8 +452,9 @@ namespace ms
 			long exp = stats.get_exp ();
 
 			string expstring = Convert.ToString (100 * getexppercent ());
-
-			statset.draw (Convert.ToString (exp) + "[" + expstring.Substring (0, expstring.IndexOf ('.') + 3) + "%]", position + statset_pos);
+			//Debug.Log ($"expstring:{expstring}");
+			statset.draw (Convert.ToString (exp), position + statset_pos);
+			//statset.draw (Convert.ToString (exp) + "[" + expstring.Substring (0, expstring.IndexOf ('.') + 3) + "%]", position + statset_pos);todo expstring.IndexOf ('.') index out of range must 0.0 ,0 now
 
 			hpmpset.draw ("[" + Convert.ToString (hp) + "/" + Convert.ToString (maxhp) + "]", position + hpset_pos);
 
@@ -965,34 +971,34 @@ namespace ms
 					var userlist = UI.get ().get_element<UIUserList> ();
 					var tab = (id == (int)Buttons.BT_COMMUNITY_FRIENDS) ? UIUserList.Tab.FRIEND : UIUserList.Tab.PARTY;
 
-					if (userlist == null)
+					if (userlist)
 					{
 						UI.get ().emplace<UIUserList> (tab);
 					}
 					else
 					{
-						var cur_tab = userlist.Dereference ().get_tab ();
-						var is_active = userlist.Dereference ().is_active ();
+						var cur_tab = userlist.get ().get_tab ();
+						var is_active = userlist.get ().is_active ();
 
 						if (cur_tab == (int)tab)
 						{
 							if (is_active)
 							{
-								userlist.Dereference ().deactivate ();
+								userlist.get ().deactivate ();
 							}
 							else
 							{
-								userlist.Dereference ().makeactive ();
+								userlist.get ().makeactive ();
 							}
 						}
 						else
 						{
 							if (!is_active)
 							{
-								userlist.Dereference ().makeactive ();
+								userlist.get ().makeactive ();
 							}
 
-							userlist.Dereference ().change_tab ((byte)tab);
+							userlist.get ().change_tab ((byte)tab);
 						}
 					}
 
@@ -1053,7 +1059,8 @@ namespace ms
 		{
 			short level = (short)stats.get_stat (MapleStat.Id.LEVEL);
 
-			if (level >= ExpTable.LEVELCAP)
+			//Debug.Log ($"get_player.level:{Stage.get ().get_player ().get_stats ().get_stat (MapleStat.Id.LEVEL)}\t getexppercent.level:{level}");//65535 -1
+			if (level >= ExpTable.LEVELCAP || level <= 0)
 			{
 				return 0.0f;
 			}
@@ -1277,8 +1284,8 @@ namespace ms
 		private Charset hpmpset = new Charset ();
 		private Charset levelset = new Charset ();
 		private Texture[] quickslot = new Texture[2];
-		private Texture[] menutitle =new Texture[5]; 
-		private Texture[] menubackground =new Texture[3]; 
+		private Texture[] menutitle = new Texture[5];
+		private Texture[] menubackground = new Texture[3];
 		private OutlinedText namelabel = new OutlinedText ();
 		private List<Sprite> hpmp_sprites = new List<Sprite> ();
 

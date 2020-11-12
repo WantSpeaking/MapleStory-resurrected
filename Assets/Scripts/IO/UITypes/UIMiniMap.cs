@@ -48,6 +48,8 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = true;
 
+		public UIMiniMap (params object[]args):this((CharStats)args[0]){}
+
 		public UIMiniMap (CharStats stats) : base (new Point<short> (128, 20))
 		{
 			//this.UIDragElement<PosMINIMAP> = new Point<short>(128, 20);
@@ -79,6 +81,7 @@ namespace ms
 			combined_text = new Text (Text.Font.A12M, Text.Alignment.LEFT, Color.Name.WHITE);
 
 			marker = Setting<MiniMapDefaultHelpers>.get ().load () ? nl.nx.wzFile_ui["UIWindow2.img"]["MiniMapSimpleMode"]["DefaultHelper"] : nl.nx.wzFile_mapLatest["MapHelper.img"]["minimap"];
+			//marker = true ? nl.nx.wzFile_ui["UIWindow2.img"]["MiniMapSimpleMode"]["DefaultHelper"] : nl.nx.wzFile_mapLatest["MapHelper.img"]["minimap"];
 
 			player_marker = new Animation (marker["user"]);
 			selected_marker = new Animation (MiniMap["iconNpc"]);

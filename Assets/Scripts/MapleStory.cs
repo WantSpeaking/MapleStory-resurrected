@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Threading;
-using System.Threading.Tasks;
-using HaRepacker;
+﻿using HaRepacker;
 using ms;
 using UnityEditor;
 using UnityEngine;
@@ -10,10 +6,8 @@ using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Utility.Inspector;
-using Camera = ms.Camera;
 using Char = ms.Char;
 using Color = UnityEngine.Color;
-using Random = UnityEngine.Random;
 using Timer = ms.Timer;
 
 public class MapleStory : SingletonMono<MapleStory>
@@ -47,29 +41,14 @@ public class MapleStory : SingletonMono<MapleStory>
 
 		Constants.get ().multiplier_timeStep = multiplier_timeStep;
 		loop ();
+		
+		
+#if BackgroundStatic
+		var playerPos = Stage.get ().get_player ()?.get_position ();
+		if (playerPos != null)
+			UnityEngine.Camera.main.transform.position = new Vector3 (playerPos.x (), -playerPos.y (), -1);
+#endif
 
-
-		/*UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.LEFT, Input.GetKey (KeyCode.LeftArrow));
-
-		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.RIGHT, Input.GetKey (KeyCode.RightArrow));
-
-		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.UP, Input.GetKey (KeyCode.UpArrow));
-
-		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.DOWN, Input.GetKey (KeyCode.DownArrow));
-
-		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.JUMP, Input.GetKey (KeyCode.LeftAlt));
-		UI.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.ATTACK, Input.GetKey (KeyCode.LeftControl));*/
-
-		/*UI.get ().send_key ((int)KeyType.Id.ACTION,  Input.GetKey (KeyCode.LeftArrow));
-
-		UI.get ().send_key ((int)KeyType.Id.ACTION,  Input.GetKey (KeyCode.RightArrow));
-
-		UI.get ().send_key ((int)KeyType.Id.ACTION,  Input.GetKey (KeyCode.UpArrow));
-
-		UI.get ().send_key ((int)KeyType.Id.ACTION,  Input.GetKey (KeyCode.DownArrow));
-
-		UI.get ().send_key ((int)KeyType.Id.ACTION,  Input.GetKey (KeyCode.LeftAlt));
-		UI.get ().send_key ((int)KeyType.Id.ACTION,  Input.GetKey (KeyCode.LeftControl));*/
 	}
 
 	private void OnGUI ()
@@ -128,32 +107,25 @@ public class MapleStory : SingletonMono<MapleStory>
 		Char.init ();
 		MapPortals.init ();
 		Stage.get ().init ();
-		//UI.get ().init ();
+		UI.get ().init ();
 		canStart = true;
-		
 	}
 
 	private void update ()
 	{
 		Stage.get ().update ();
-		//UI.get ().update ();
+		UI.get ().update ();
 		Session.get ().read ();
 		Window.get ().check_events ();
 		Window.get ().update ();
-		/*
-		UI.get().update();
-		Session.get().read();*/
 
-		var playerPos = Stage.get ().get_player ()?.get_position ();
-		if (playerPos != null)
-			UnityEngine.Camera.main.transform.position = new Vector3 (playerPos.x (), -playerPos.y (), -1);
 	}
 
 	private void draw (float alpha)
 	{
 		//Window.get().begin();
 		Stage.get ().draw (alpha);
-		//UI.get ().draw (alpha);
+		UI.get ().draw (alpha);
 		//Window.get().end();
 	}
 
@@ -168,7 +140,7 @@ public class MapleStory : SingletonMono<MapleStory>
 			/*&& UI.get ().not_quitted ()*/;
 	}
 
-	private long timestep => (long)(Constants.TIMESTEP * Constants.get ().multiplier_timeStep);
+	private long timestep => (long)(Constants.TIMESTEP * multiplier_timeStep);
 
 	//private static long timestep = (long)(8 * 1000 * 1);
 	private long accumulator = 0;
@@ -206,12 +178,11 @@ public class MapleStory : SingletonMono<MapleStory>
 #endif
 
 		init ();
-		LoginStartPacket();
+		/*LoginStartPacket();
 		LoginPacket ();
 		ServerStatusRequestPacket ();
 		CharlistRequestPacket ();
-		SelectCharPacket ();
-
+		SelectCharPacket ();*/
 	}
 
 	#region Will be removed later
@@ -228,18 +199,21 @@ public class MapleStory : SingletonMono<MapleStory>
 	public GameObject Character_Parent => character_Parent ?? (character_Parent = new GameObject ("character_Parent"));
 	public GameObject Effect_Parent => effect_Parent ?? (effect_Parent = new GameObject ("effect_Parent"));
 
+	public GameObject prefab_SpriteDrawer;
 
 	public bool enableDebugPacket = true;
 	public bool disableDebugPacketAfterLogin = true;
 	public UnityEngine.UI.Button button_load;
 
 	public InputField inpuField_MapleFolder;
-	[FormerlySerializedAs ("inpuField_MapId")] 
+
+	[FormerlySerializedAs ("inpuField_MapId")]
 	public InputField inpuField_MapAccount;
+
 	public InputField inpuField_MapPassword;
 	public InputField inpuField_MapCharacter;
 
-	public string maplestoryFolder = @"F:\Program Files (x86)\MapleStory\";//F:\Program Files (x86)\MapleStory\ ;F:/BaiduYunDownload/079mg5/
+	public string maplestoryFolder = @"F:\Program Files (x86)\MapleStory\"; //F:\Program Files (x86)\MapleStory\ ;F:/BaiduYunDownload/079mg5/
 	public string account = "admin";
 	public string password = "admin";
 	public int characterIdToLoad = 1;
@@ -262,8 +236,6 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	void TempLogin ()
 	{
-		
-
 	}
 
 	private void OnButtonLoadClick ()

@@ -48,6 +48,10 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = true;
 
+		public UIUserList (params object[] args) : this ((ushort)args[0])
+		{
+		}
+
 		public UIUserList (ushort t) : base (new Point<short> (260, 20))
 		{
 			this.tab = t;
@@ -93,8 +97,8 @@ namespace ms
 			buttons[(int)Buttons.BT_PARTY_LEAVE].set_active (false);
 			buttons[(int)Buttons.BT_PARTY_SETTINGS].set_active (false);
 
-			buttons[(int)Buttons.BT_TAB_PARTY_MINE] = new TwoSpriteButton  (party_tabdis["0"], party_taben["0"]);
-			buttons[(int)Buttons.BT_TAB_PARTY_SEARCH] = new TwoSpriteButton  (party_tabdis["1"], party_taben["1"]);
+			buttons[(int)Buttons.BT_TAB_PARTY_MINE] = new TwoSpriteButton (party_tabdis["0"], party_taben["0"]);
+			buttons[(int)Buttons.BT_TAB_PARTY_SEARCH] = new TwoSpriteButton (party_tabdis["1"], party_taben["1"]);
 			buttons[(int)Buttons.BT_TAB_PARTY_MINE].set_active (false);
 			buttons[(int)Buttons.BT_TAB_PARTY_SEARCH].set_active (false);
 
@@ -118,7 +122,7 @@ namespace ms
 			friend_tab = (int)Tab.FRIEND_ALL;
 			friend_sprites.Add (Friend["title"]);
 			friend_sprites.Add (Friend["CbCondition"]["text"]);
-			friend_sprites.Add (new Sprite(UserList["line"], new DrawArgument (new Point<short> (132, 115), new Point<short> (230, 0))));
+			friend_sprites.Add (new Sprite (UserList["line"], new DrawArgument (new Point<short> (132, 115), new Point<short> (230, 0))));
 
 			buttons[(int)Buttons.BT_FRIEND_GROUP_0] = new MapleButton (UserList["BtSheetIClose"], new Point<short> (13, 118));
 			buttons[(int)Buttons.BT_FRIEND_GROUP_0].set_active (false);
@@ -128,7 +132,7 @@ namespace ms
 				friend_grid[i] = UserList["Sheet1"][i.ToString ()];
 			}
 
-			string text = "(" + Convert.ToString (friend_count) + "/" + Convert.ToString (friend_total) +  (")");
+			string text = "(" + Convert.ToString (friend_count) + "/" + Convert.ToString (friend_total) + (")");
 			friends_online_text = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, text, 0);
 
 			friends_cur_location = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.LIGHTGREY, "My Location - " + get_cur_location (), 0);
@@ -161,11 +165,11 @@ namespace ms
 			boss_sprites.Add (Boss["base3"]);
 			boss_sprites.Add (Boss["base2"]);
 
-			buttons[(int)Buttons.BT_BOSS_0] =new  TwoSpriteButton  (Boss["BossList"]["0"]["icon"]["disabled"]["0"], Boss["BossList"]["0"]["icon"]["normal"]["0"]);
-			buttons[(int)Buttons.BT_BOSS_1] =new  TwoSpriteButton  (Boss["BossList"]["1"]["icon"]["disabled"]["0"], Boss["BossList"]["1"]["icon"]["normal"]["0"]);
-			buttons[(int)Buttons.BT_BOSS_2] =new  TwoSpriteButton  (Boss["BossList"]["2"]["icon"]["disabled"]["0"], Boss["BossList"]["2"]["icon"]["normal"]["0"]);
-			buttons[(int)Buttons.BT_BOSS_3] =new  TwoSpriteButton  (Boss["BossList"]["3"]["icon"]["disabled"]["0"], Boss["BossList"]["3"]["icon"]["normal"]["0"]);
-			buttons[(int)Buttons.BT_BOSS_4] =new  TwoSpriteButton  (Boss["BossList"]["4"]["icon"]["disabled"]["0"], Boss["BossList"]["4"]["icon"]["normal"]["0"]);
+			buttons[(int)Buttons.BT_BOSS_0] = new TwoSpriteButton (Boss["BossList"]["0"]["icon"]["disabled"]["0"], Boss["BossList"]["0"]["icon"]["normal"]["0"]);
+			buttons[(int)Buttons.BT_BOSS_1] = new TwoSpriteButton (Boss["BossList"]["1"]["icon"]["disabled"]["0"], Boss["BossList"]["1"]["icon"]["normal"]["0"]);
+			buttons[(int)Buttons.BT_BOSS_2] = new TwoSpriteButton (Boss["BossList"]["2"]["icon"]["disabled"]["0"], Boss["BossList"]["2"]["icon"]["normal"]["0"]);
+			buttons[(int)Buttons.BT_BOSS_3] = new TwoSpriteButton (Boss["BossList"]["3"]["icon"]["disabled"]["0"], Boss["BossList"]["3"]["icon"]["normal"]["0"]);
+			buttons[(int)Buttons.BT_BOSS_4] = new TwoSpriteButton (Boss["BossList"]["4"]["icon"]["disabled"]["0"], Boss["BossList"]["4"]["icon"]["normal"]["0"]);
 			buttons[(int)Buttons.BT_BOSS_L] = new MapleButton (Boss["BtArrow"]["Left"]);
 			buttons[(int)Buttons.BT_BOSS_R] = new MapleButton (Boss["BtArrow"]["Right"]);
 			buttons[(int)Buttons.BT_BOSS_DIFF_L] = new MapleButton (Boss["BtArrow2"]["Left"]);
@@ -578,8 +582,8 @@ namespace ms
 		// Party tab
 		private ushort party_tab;
 		private Texture party_title = new Texture ();
-		private Texture[] party_mine_grid =new Texture[5];
-		private Texture[] party_search_grid =new Texture[3];
+		private Texture[] party_mine_grid = new Texture[5];
+		private Texture[] party_search_grid = new Texture[3];
 		private Text party_mine_name = new Text ();
 		private Slider party_slider = new Slider ();
 
@@ -588,7 +592,7 @@ namespace ms
 		private int friend_count = 0;
 		private int friend_total = 50;
 		private List<Sprite> friend_sprites = new List<Sprite> ();
-		private Texture[] friend_grid =new Texture[4];
+		private Texture[] friend_grid = new Texture[4];
 		private Text friends_online_text = new Text ();
 		private Text friends_cur_location = new Text ();
 		private Text friends_name = new Text ();
@@ -601,7 +605,7 @@ namespace ms
 		// Blacklist tab
 		private ushort blacklist_tab;
 		private Texture blacklist_title = new Texture ();
-		private Texture[] blacklist_grid =new Texture[3];
+		private Texture[] blacklist_grid = new Texture[3];
 		private Text blacklist_name = new Text ();
 	}
 }

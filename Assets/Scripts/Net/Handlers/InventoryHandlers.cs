@@ -46,7 +46,7 @@ namespace ms
 		public override void handle (InPacket recv)
 		{
 			var iteminventory = UI.get ().get_element<UIItemInventory> ();
-			if (iteminventory != null)
+			if (iteminventory)
 			{
 				iteminventory.get ().set_sort (true);
 			}
@@ -61,7 +61,7 @@ namespace ms
 		public override void handle (InPacket recv)
 		{
 			var iteminventory = UI.get ().get_element<UIItemInventory> ();
-			if (iteminventory != null)
+			if (iteminventory)
 			{
 				iteminventory.get ().set_sort (false);
 				iteminventory.get ().clear_new ();
@@ -110,7 +110,7 @@ namespace ms
 				{
 					case Inventory.Modification.ADD:
 						ItemParser.parse_item (recv, mod.type, mod.pos, inventory);
-						if (keyconfig != null)
+						if (keyconfig)
 						{
 							short count_now = inventory.get_item_count (mod.type, mod.pos);
 							keyconfig.get ().update_item_count (mod.type, mod.pos, count_now);
@@ -126,7 +126,7 @@ namespace ms
 
 						inventory.modify (mod.type, mod.pos, mod.mode, mod.arg, Inventory.Movement.MOVE_NONE);
 
-						if (keyconfig != null)
+						if (keyconfig)
 						{
 							keyconfig.get ().update_item_count (mod.type, mod.pos, (short)(count_now - count_before));
 						}
@@ -141,7 +141,7 @@ namespace ms
 						mod.arg = recv.read_short ();
 						break;
 					case Inventory.Modification.REMOVE:
-						if (keyconfig != null)
+						if (keyconfig)
 						{
 							short count_before = inventory.get_item_count (mod.type, mod.pos);
 							keyconfig.get ().update_item_count (mod.type, mod.pos, (short)(-1 * count_before));
@@ -164,7 +164,7 @@ namespace ms
 				}
 
 				var shop = UI.get ().get_element<UIShop> ();
-				if (shop!=null)
+				if (shop)
 				{
 					shop.get ().modify (mod.type);
 				}
@@ -178,9 +178,9 @@ namespace ms
 						switch (mod.type)
 						{
 							case InventoryType.Id.EQUIPPED:
-								if (eqinvent != null)
+								if (eqinvent)
 								{
-									eqinvent.Dereference ().modify (mod.pos, mod.mode, mod.arg);
+									eqinvent.get ().modify (mod.pos, mod.mode, mod.arg);
 								}
 
 								Stage.get ().get_player ().change_equip ((short)-mod.pos);
@@ -191,9 +191,9 @@ namespace ms
 							case InventoryType.Id.SETUP:
 							case InventoryType.Id.ETC:
 							case InventoryType.Id.CASH:
-								if (itinvent != null)
+								if (itinvent)
 								{
-									itinvent.Dereference ().modify (mod.type, mod.pos, mod.mode, mod.arg);
+									itinvent.get ().modify (mod.type, mod.pos, mod.mode, mod.arg);
 								}
 
 								break;
@@ -204,28 +204,28 @@ namespace ms
 					case Inventory.Movement.MOVE_UNEQUIP:
 						if (mod.pos < 0)
 						{
-							if (eqinvent != null)
+							if (eqinvent )
 							{
-								eqinvent.Dereference ().modify ((short)-mod.pos, 3, 0);
+								eqinvent.get ().modify ((short)-mod.pos, 3, 0);
 							}
 
-							if (itinvent != null)
+							if (itinvent )
 							{
-								itinvent.Dereference ().modify (InventoryType.Id.EQUIP, mod.arg, mod.mode, 0);
+								itinvent.get ().modify (InventoryType.Id.EQUIP, mod.arg, mod.mode, 0);
 							}
 
 							Stage.get ().get_player ().change_equip ((short)-mod.pos);
 						}
 						else if (mod.arg < 0)
 						{
-							if (eqinvent != null)
+							if (eqinvent)
 							{
-								eqinvent.Dereference ().modify ((short)-mod.arg, 0, 0);
+								eqinvent.get ().modify ((short)-mod.arg, 0, 0);
 							}
 
-							if (itinvent != null)
+							if (itinvent)
 							{
-								itinvent.Dereference ().modify (InventoryType.Id.EQUIP, mod.pos, (sbyte)Inventory.Modification.REMOVE, 0);
+								itinvent.get ().modify (InventoryType.Id.EQUIP, mod.pos, (sbyte)Inventory.Modification.REMOVE, 0);
 							}
 
 							Stage.get ().get_player ().change_equip ((short)-mod.arg);

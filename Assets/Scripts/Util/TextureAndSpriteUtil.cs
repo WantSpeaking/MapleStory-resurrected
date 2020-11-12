@@ -21,13 +21,15 @@ public static class TextureAndSpriteUtil
 		return t2d;
 	}
 
-	public static UnityEngine.Sprite PngDataToSprite (byte[] data, Point<short> origin, Point<short> dimensions)
+	public static UnityEngine.Sprite PngDataToSprite (byte[] pngData,int pngFormat, Point<short> origin, Point<short> dimensions)
 	{
-		if (data == null) return null;
-		//Debug.Log ($"data.Length:{data.Length}\t {data.ToDebugLog ()}");
-		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y (),TextureFormat.BGRA32,false);
+		if (pngData == null) return null;
+		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y (), PngFormatToTextureFormat(pngFormat), false);
 		//t2d.LoadRawTextureData (data);
-		t2d.SetPixelData (data,0,0);
+		var rawTextureData = t2d.GetRawTextureData ();
+		//Debug.Log ($"pngData.Length:{pngData.Length}\t rawTextureData.Length:{rawTextureData.Length}\t pngFormat:{pngFormat}\t {dimensions.x ()*dimensions.y ()}");
+
+		t2d.SetPixelData (pngData,0,0);
 		t2d.filterMode = FilterMode.Point;
 		t2d.Apply ();
 
@@ -42,18 +44,20 @@ public static class TextureAndSpriteUtil
 
 		return sprite;
 	}
+
 	public static UnityEngine.Texture2D PngDataToTexture2D (byte[] data, Point<short> origin, Point<short> dimensions)
 	{
 		if (data == null) return null;
 		//Debug.Log ($"data.Length:{data.Length}\t {data.ToDebugLog ()}");
-		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y (),TextureFormat.BGRA32,false);
+		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y (), TextureFormat.BGRA32, false);
 		//t2d.LoadRawTextureData (data);
-		t2d.SetPixelData (data,0,0);
+		t2d.SetPixelData (data, 0, 0);
 		t2d.filterMode = FilterMode.Point;
 		t2d.Apply ();
 		return t2d;
 	}
-	public static Texture2D AddWatermark(Texture2D background, Texture2D watermark, int startPositionX, int startPositionY)
+
+	public static Texture2D AddWatermark (Texture2D background, Texture2D watermark, int startPositionX, int startPositionY)
 	{
 		//only read and rewrite the area of the watermark
 		for (int x = startPositionX; x < background.width; x++)
@@ -62,19 +66,20 @@ public static class TextureAndSpriteUtil
 			{
 				if (x - startPositionX < watermark.width && y - startPositionY < watermark.height)
 				{
-					var bgColor = background.GetPixel(x, y);
-					var wmColor = watermark.GetPixel(x - startPositionX, y - startPositionY);
+					var bgColor = background.GetPixel (x, y);
+					var wmColor = watermark.GetPixel (x - startPositionX, y - startPositionY);
 
-					var finalColor = UnityEngine.Color.Lerp(bgColor, wmColor, wmColor.a / 1.0f);
+					var finalColor = UnityEngine.Color.Lerp (bgColor, wmColor, wmColor.a / 1.0f);
 
-					background.SetPixel(x, y, finalColor);
+					background.SetPixel (x, y, finalColor);
 				}
 			}
 		}
 
-		background.Apply();
+		background.Apply ();
 		return background;
 	}
+
 	public static UnityEngine.Sprite BitmapToSprite (Bitmap bitmap, Point<short> origin, Point<short> dimensions)
 	{
 		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y ());
@@ -123,5 +128,26 @@ public static class TextureAndSpriteUtil
 		stream.Close ();
 		File.Delete (filePath);
 		return data;
+	}
+
+	public static TextureFormat PngFormatToTextureFormat (int pngFormat)
+	{
+		TextureFormat result = TextureFormat.ARGB32;
+		switch (pngFormat)
+		{
+			case 1:
+			case 2:
+			case 3:
+			case 1026:
+			case 2050:
+				result = TextureFormat.BGRA32;
+				break;
+			case 513:
+			case 517:
+				result = TextureFormat.RGB565;
+				break;
+		}
+
+		return result;
 	}
 }

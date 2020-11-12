@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Drawing;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
+using Utility.PoolSystem;
 using Graphics = UnityEngine.Graphics;
 
 namespace ms
@@ -28,7 +30,10 @@ namespace ms
 		private static int screenWidth = 800;
 		private static int screenHeight = 600;
 		private static ConcurrentQueue<BatchItem> batchQueue = new ConcurrentQueue<BatchItem> ();
+		private static ConcurrentQueue<UnityPoolItem> poolItemQueue = new ConcurrentQueue<UnityPoolItem> ();
+		public static ConcurrentQueue<SpriteRenderer> spriteRenderQueue = new ConcurrentQueue<SpriteRenderer> ();
 
+		public int DrawOrder;
 		private Texture2D background;
 
 		public RenderTexture target => MapleStory.Instance.target;
@@ -112,6 +117,11 @@ namespace ms
 			batchQueue.Enqueue (batchItem);
 		}
 
+		public void Add (UnityPoolItem poolItem)
+		{
+			poolItemQueue.Enqueue (poolItem);
+		}
+
 		private void OnPostRender ()
 		{
 		}
@@ -120,6 +130,49 @@ namespace ms
 		{
 			base.OnUpdate ();
 			//Draw ();
+			StartCoroutine (DespawnSpriteDrawer());
+		}
+
+		WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame ();
+
+		IEnumerator DespawnSpriteDrawer ()
+		{
+			yield return _waitForEndOfFrame;
+			DrawOrder = 0;
+			/*for (; poolItemQueue.Count > 0; poolItemQueue.TryDequeue (out var de))
+			{
+				if (poolItemQueue.TryPeek (out var poolItem))
+				{
+					//PoolManager.Despawn (poolItem);
+					PoolManager.Despawn (poolItem, FinalDeSpawn);
+				}
+			}*/
+
+			for (; spriteRenderQueue.Count > 0; spriteRenderQueue.TryDequeue(out var de))
+			{
+				if (spriteRenderQueue.TryPeek(out var spriteRenderer))
+				{
+					//spriteRenderer.sprite = null;
+					spriteRenderer.enabled = false;
+                    if (spriteRenderer.gameObject.name.Contains(@"character.wz\00002003.img\walk2\2\body"))
+                    {
+						Debug.Log($"Despawn spriteRenderer.sprite:{spriteRenderer.sprite}");
+                    }
+				}
+			}
+		}
+
+		private void FinalDeSpawn (UnityPoolItem unityPoolItem)
+		{
+			var renderer = unityPoolItem.PooledRef.GetComponent<SpriteRenderer> ().Component;
+		/*	var transform = unityPoolItem.PooledRef.GetComponent<Transform> ().Component;
+			renderer.gameObject.name = Constants.get ().defaultSpriteDrawerName;*/
+			renderer.sprite = null;
+			/*renderer.flipY = false;
+			renderer.sortingLayerName = Constants.get ().sortingLayer_Default.ToString ();
+			renderer.sortingOrder = 0;
+			transform.position = Vector3.zero;
+			transform.localScale = Vector3.zero;*/
 		}
 
 		private void Draw ()
@@ -150,9 +203,9 @@ namespace ms
 					if (realposX >= camera_left && realposX <= camera_right && realposY >= camera_top && realposY <= camera_bottom)
 					{
 						{
-							DrawTextureToTarget(pixelTexture);
+							DrawTextureToTarget (pixelTexture);
 						}
-						
+
 						{
 							/*for (int x = startPositionX; x < background.width; x++)
 							{

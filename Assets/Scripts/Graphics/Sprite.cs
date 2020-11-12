@@ -42,77 +42,91 @@ namespace ms
 	// Combines an Animation with additional state
 	public class Sprite : IDisposable
 	{
-		public Sprite(Animation a, DrawArgument args)
+		public Sprite (Animation a, DrawArgument args)
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: this.animation = new ms.Animation(a);
 			this.animation = a;
 			this.stateargs = args;
 		}
-		public Sprite(WzObject src, DrawArgument args)
+
+		public Sprite (WzObject src, DrawArgument args)
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: this.animation = new ms.Animation(src);
-			this.animation = new ms.Animation(src);
+			this.animation = new ms.Animation (src);
 			this.stateargs = args;
 		}
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: this(src, {});
-		public Sprite(WzObject src) : this(src, new DrawArgument())
+		public Sprite (WzObject src) : this (src, new DrawArgument ())
 		{
 		}
-		public Sprite()
+
+		public Sprite ()
 		{
 		}
-		
+
 		public void Dispose ()
 		{
 			animation.Dispose ();
 		}
 
-		private static DrawArgument renderOrderArgs = new DrawArgument(Constants.get ().sortingLayer_Effect,0);
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(Point<short> parentpos, float alpha) const
-		public void draw(Point<short> parentpos, float alpha)
+		private static DrawArgument uiRenderOrderArgs = new DrawArgument(Constants.get ().sortingLayer_UI,0);
+
+		public void draw (Point<short> parentpos, float alpha)
 		{
-			var absargs = stateargs + parentpos + renderOrderArgs;
-			animation.draw(absargs, alpha);
+			//var absargs = stateargs + parentpos + uiRenderOrderArgs;//todo uiRenderOrderArgs
+			var absargs = stateargs + parentpos;
+			animation.draw (absargs, alpha);
 		}
-		public bool update(ushort timestep)
+		
+		public void draw (Point<short> parentpos, float alpha, DrawArgument renderOrderArgs)
 		{
-			return animation.update(timestep);
+			var absargs = renderOrderArgs != null ? stateargs + parentpos + renderOrderArgs : stateargs + parentpos;
+			animation.draw (absargs, alpha);
 		}
-		public bool update()
+
+		public bool update (ushort timestep)
 		{
-			return animation.update();
+			return animation.update (timestep);
+		}
+
+		public bool update ()
+		{
+			return animation.update ();
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: short width() const
-		public short width()
+		public short width ()
 		{
-			return get_dimensions().x();
-		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: short height() const
-		public short height()
-		{
-			return get_dimensions().y();
-		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Point<short> get_origin() const
-		public Point<short> get_origin()
-		{
-			return animation.get_origin();
-		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Point<short> get_dimensions() const
-		public Point<short> get_dimensions()
-		{
-			return animation.get_dimensions();
+			return get_dimensions ().x ();
 		}
 
-		private Animation animation = new Animation();
-		private DrawArgument stateargs = new DrawArgument();
+//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+//ORIGINAL LINE: short height() const
+		public short height ()
+		{
+			return get_dimensions ().y ();
+		}
+
+//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+//ORIGINAL LINE: Point<short> get_origin() const
+		public Point<short> get_origin ()
+		{
+			return animation.get_origin ();
+		}
+
+//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+//ORIGINAL LINE: Point<short> get_dimensions() const
+		public Point<short> get_dimensions ()
+		{
+			return animation.get_dimensions ();
+		}
+
+		private Animation animation = new Animation ();
+		private DrawArgument stateargs = new DrawArgument ();
 	}
 }

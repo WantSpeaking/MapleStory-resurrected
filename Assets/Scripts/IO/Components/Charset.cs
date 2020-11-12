@@ -56,8 +56,8 @@ namespace ms
 			foreach (var sub in src)
 			{
 				string name = sub.Name;
-
-				if (sub != WzPropertyType.Canvas || string.IsNullOrEmpty(name))
+				
+				if (!sub.IsTexture () || string.IsNullOrEmpty(name))
 				{
 					continue;
 				}
@@ -71,7 +71,7 @@ namespace ms
 					c = '/';
 				}
 
-				chars.Add((sbyte)c,new Texture(sub));
+				chars.TryAdd((sbyte)c,new Texture(sub),true);//to refresh?
 			}
 		}
 		public Charset()

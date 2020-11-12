@@ -48,6 +48,9 @@ namespace ms
 		public const bool FOCUSED = true;
 		public const bool TOGGLED = false;
 
+		public UITermsOfService (params object[] args) : this ((System.Action)args[0])
+		{
+		}
 		public UITermsOfService(System.Action oh)
 		{
 			this.okhandler = oh;

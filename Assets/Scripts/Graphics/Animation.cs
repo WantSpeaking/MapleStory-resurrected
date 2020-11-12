@@ -437,9 +437,9 @@ namespace ms
 		private bool animated;
 		private bool zigzag;
 
-		private Nominal<short> frame = new Nominal<short> ();
-		private Linear<float> opacity = new Linear<float> ();
-		private Linear<float> xyscale = new Linear<float> ();
+		private Nominal_short frame = new Nominal_short ();
+		private Linear_float opacity = new Linear_float ();
+		private Linear_float xyscale = new Linear_float ();
 
 		private ushort delay;
 		private short framestep;

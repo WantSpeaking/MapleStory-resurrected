@@ -49,6 +49,10 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = true;
 
+		public UIStatsInfo (params object[] args) : this ((CharStats)args[0])
+		{
+		}
+		
 		public UIStatsInfo (CharStats st) : base (new Point<short> (212, 20))
 		{
 			//this.UIDragElement<PosSTATS> = new Point<short>(212, 20);

@@ -186,6 +186,7 @@ namespace ms
 
 	public class UIYesNo : UINotice
 	{
+		public UIYesNo(params object[]args):this((string)args[0],(Action<bool>)args[1],(Text.Alignment)args[2]){}
 		public UIYesNo(string message, System.Action<bool> yh, Text.Alignment alignment) : base(message, NoticeType.YESNO, alignment)
 		{
 			yesnohandler = yh;
@@ -258,6 +259,7 @@ namespace ms
 
 	public class UIEnterNumber : UINotice
 	{
+		public UIEnterNumber(params object[] args):this((string)args[0],(Action<int>)args[1],(int)args[2],(int)args[3]){}
 		public UIEnterNumber(string message, System.Action<int> nh, int m, int quantity) : base(message, NoticeType.ENTERNUMBER)
 		{
 			numhandler = nh;
@@ -417,6 +419,7 @@ namespace ms
 
 	public class UIOk : UINotice
 	{
+		public UIOk(params object[] args):this((string)args[0],(Action<bool>)args[1]){}
 		public UIOk(string message, System.Action<bool> oh) : base(message, NoticeType.OK)
 		{
 			okhandler = oh;

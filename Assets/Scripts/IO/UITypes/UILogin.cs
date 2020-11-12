@@ -48,6 +48,10 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = false;
 
+		public UILogin (params object[] args) : this ()
+		{
+		}
+		
 		public UILogin() : base(new Point<short>(0, 0), new Point<short>(800, 600))
 		{
 			this.signboard_pos = new Point<short>(389, 333);
@@ -69,8 +73,8 @@ namespace ms
 			WzObject Common = Login["Common"];
 
 			WzObject prettyLogo = nl.nx.wzFile_wzFile_mapPretty["Back"]["login.img"]["ani"]["16"];
-			//todo WzObject frame = nl.nx.wzFile_mapLatest["Obj"]["login.img"]["Common"]["frame"]["2"]["0"];
-			WzObject frame = nl.nx.wzFile_map["Obj"]["login.img"]["Common"]["frame"]["0"];
+			WzObject frame = nl.nx.wzFile_mapLatest["Obj"]["login.img"]["Common"]["frame"]["2"]["0"];
+			//WzObject frame = nl.nx.wzFile_map["Obj"]["login.img"]["Common"]["frame"]["0"];
 
 			sprites.Add(new Sprite(back["11"], new Point<short>(400, 300)));
 			sprites.Add(new Sprite(ani["17"], new Point<short>(165, 276)));
@@ -159,7 +163,7 @@ namespace ms
 
 				var loginwait = UI.get().get_element<UILoginWait>();
 
-				if (loginwait != null && loginwait.Dereference().is_active())
+				if (loginwait && loginwait.get().is_active())
 				{
 					new LoginPacket(Configuration.get().get_var_acc(), Configuration.get().get_var_pass()).dispatch();
 				}
@@ -279,9 +283,11 @@ namespace ms
 			account.set_state(Textfield.State.DISABLED);
 			password.set_state(Textfield.State.DISABLED);
 
-			string account_text = account.get_text();
-			string password_text = password.get_text();
-
+			/*string account_text = account.get_text();
+			string password_text = password.get_text();*///todo recover later
+			string account_text = "admin";
+			string password_text = "admin";
+ 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Only lambda expressions having all locals passed by reference can be converted to C#:
 //ORIGINAL LINE: System.Action okhandler = [&, password_text]()
 			System.Action okhandler = () =>
@@ -301,13 +307,13 @@ namespace ms
 
 			if (string.IsNullOrEmpty(account_text))
 			{
-				UI.get().emplace<UILoginNotice>(UILoginNotice.Message.NOT_REGISTERED, okhandler);
+				UI.get().emplace<UILoginNotice>(UILoginNotice.Message.NOT_REGISTERED, okhandler, null);
 				return;
 			}
 
 			if (password_text.Length <= 4)
 			{
-				UI.get().emplace<UILoginNotice>(UILoginNotice.Message.WRONG_PASSWORD, okhandler);
+				UI.get().emplace<UILoginNotice>(UILoginNotice.Message.WRONG_PASSWORD, okhandler, null);
 				return;
 			}
 
@@ -315,7 +321,7 @@ namespace ms
 
 			var loginwait = UI.get().get_element<UILoginWait>();
 
-			if (loginwait != null && loginwait.Dereference().is_active())
+			if (loginwait && loginwait.get().is_active())
 			{
 				new LoginPacket(account_text, password_text).dispatch();
 			}

@@ -50,6 +50,9 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = true;
 
+		public UISkillBook (params object[] args) : this ((CharStats)args[0],(SkillBook)args[1])
+		{
+		}
 		public UISkillBook(CharStats in_stats, SkillBook in_skillbook)
 		{
 			//this.UIDragElement<PosSKILL> = new <type missing>();
@@ -615,11 +618,11 @@ namespace ms
 
 				if (remove)
 				{
-					keyconfig.Dereference().unstage_mapping(mapping);
+					keyconfig.get().unstage_mapping(mapping);
 				}
 				else
 				{
-					keyconfig.Dereference().stage_mapping(cursorposition, mapping);
+					keyconfig.get().stage_mapping(cursorposition, mapping);
 				}
 			}
 			public override void set_count(short UnnamedParameter1)

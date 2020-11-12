@@ -48,6 +48,10 @@ namespace ms
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = true;
 
+		public UIChannel (params object[] args) : this ()
+		{
+		}
+		
 		public UIChannel()
 		{
 			//this.UIDragElement<PosCHANNEL> = new <type missing>();

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public static class IEnumerableExt
 {
-	public static T TryGet<T> (this List<T> list, int index)
+	public static T TryGet<T> (this IList<T> list, int index)
 	{
 		if (index >= 0 && index < list.Count - 1)
 		{
@@ -19,6 +19,7 @@ public static class IEnumerableExt
 		}
 	}
 
+	
 	#region Dictionary
 
 	public static IDictionary<T, V> TryAdd<T, V> (this IDictionary<T, V> dictionary, T key, bool refreshValue = false) where V : new ()

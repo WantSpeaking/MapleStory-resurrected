@@ -38,31 +38,29 @@ using UnityEngine;
 //////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-
 namespace ms
 {
 	public class Window : Singleton<Window>
 	{
-		public Window()
+		public Window ()
 		{
 			//context = null;
 			//glwnd = null;
 			opacity = 1.0f;
 			opcstep = 0.0f;
-			width = Constants.get().get_viewwidth();
-			height = Constants.get().get_viewheight();
+			width = Constants.get ().get_viewwidth ();
+			height = Constants.get ().get_viewheight ();
 		}
-		public new void Dispose()
+
+		public new void Dispose ()
 		{
 			//glfwTerminate();
 			//base.Dispose();
 		}
 
-		public Error init()
+		public Error init ()
 		{
-			fullscreen = Setting<Fullscreen>.get().load();
+			fullscreen = Setting<Fullscreen>.get ().load ();
 
 			/*if (!glfwInit())
 			{
@@ -82,9 +80,10 @@ namespace ms
 				return error;
 			}*/
 
-			return initwindow();
+			return initwindow ();
 		}
-		public Error initwindow()
+
+		public Error initwindow ()
 		{
 			/*if (glwnd != null)
 			{
@@ -146,35 +145,40 @@ namespace ms
 			return Error.Code.NONE;
 		}
 
-		public bool not_closed()
+		public bool not_closed ()
 		{
 			//return glfwWindowShouldClose(glwnd) == 0;
 			return true;
 		}
-		public void update()
+
+		public void update ()
 		{
-			updateopc();
+			updateopc ();
 		}
-		public void begin()
+
+		public void begin ()
 		{
 			//GraphicsGL.get().clearscene();
 		}
-		public void end()
+
+		public void end ()
 		{
 			//GraphicsGL.get().flush(opacity);
 			//glfwSwapBuffers(glwnd);
 		}
-		public void fadeout(float step, System.Action fadeproc)
+
+		public void fadeout (float step, System.Action fadeproc)
 		{
 			opcstep = -step;
 			fadeprocedure = fadeproc;
 		}
-		public void check_events()
+
+		public void check_events ()
 		{
-			short max_width = Configuration.get().get_max_width();
-			short max_height = Configuration.get().get_max_height();
-			short new_width = Constants.get().get_viewwidth();
-			short new_height = Constants.get().get_viewheight();
+			short max_width = Configuration.get ().get_max_width ();
+			short max_height = Configuration.get ().get_max_height ();
+			short new_width = Constants.get ().get_viewwidth ();
+			short new_height = Constants.get ().get_viewheight ();
 
 			if (width != new_width || height != new_height)
 			{
@@ -186,58 +190,91 @@ namespace ms
 					fullscreen = true;
 				}
 
-				initwindow();
+				initwindow ();
 			}
 
 			//glfwPollEvents();
 		}
 
-		public void HandleGUIEvents(Event evt)
+		private Vector3 last_mousePos;
+
+		public void HandleGUIEvents (Event evt)
 		{
 			if (evt.rawType == EventType.KeyDown)
 			{
-				UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY(evt.keyCode),true);
+				UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY (evt.keyCode), true);
 			}
 			else if (evt.rawType == EventType.KeyUp)
 			{
-				UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY(evt.keyCode),false);
+				UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY (evt.keyCode), false);
+			}
+			else if (evt.rawType == EventType.MouseDown)
+			{
+				if (evt.button == 0)
+				{
+					if (evt.clickCount == 1)
+					{
+						UI.get ().send_cursor (true);
+					}
+					else
+					{
+						UI.get ().doubleclick ();
+					}
+				}
+				else if (evt.button == 1)
+				{
+					UI.get ().rightclick ();
+				}
+			}
+			else if (evt.rawType == EventType.MouseUp)
+			{
+				UI.get ().send_cursor (false);
+			}
+			else if (Input.mousePosition != last_mousePos)
+			{
+				last_mousePos = Input.mousePosition;
+				var mousePos = new Point<short> ((short)last_mousePos.x, (short)(Constants.get ().get_viewheight () - last_mousePos.y));
+				//Debug.Log ($"Input.mousePosition:{Input.mousePosition}\t mousePos:{mousePos}\t Screen.height:{Screen.height}\t evt.mousePosition:{evt.mousePosition}");
+				UI.get ().send_cursor (mousePos);
 			}
 		}
-		
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void setclipboard(const string& text) const
-		public void setclipboard(string text)
+		public void setclipboard (string text)
 		{
 			//glfwSetClipboardString(glwnd, text);
 		}
+
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: string getclipboard() const
-		public string getclipboard()
+		public string getclipboard ()
 		{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# does not have an equivalent to pointers to value types:
 //ORIGINAL LINE: const sbyte* text = glfwGetClipboardString(glwnd);
-			/*sbyte text = glfwGetClipboardString(glwnd)*/;
-			string text = null ;
+			/*sbyte text = glfwGetClipboardString(glwnd)*/
+			;
+			string text = null;
 
-			return text==null? text : "";
+			return text == null ? text : "";
 		}
 
-		public void toggle_fullscreen()
+		public void toggle_fullscreen ()
 		{
-			short max_width = Configuration.get().get_max_width();
-			short max_height = Configuration.get().get_max_height();
+			short max_width = Configuration.get ().get_max_width ();
+			short max_height = Configuration.get ().get_max_height ();
 
 			if (width < max_width && height < max_height)
 			{
 				fullscreen = !fullscreen;
-				Setting<Fullscreen>.get().save(fullscreen);
+				Setting<Fullscreen>.get ().save (fullscreen);
 
-				initwindow();
+				initwindow ();
 				//glfwPollEvents();
 			}
 		}
 
-		private void updateopc()
+		private void updateopc ()
 		{
 			if (opcstep != 0.0f)
 			{
@@ -253,7 +290,7 @@ namespace ms
 					opacity = 0.0f;
 					opcstep = -opcstep;
 
-					fadeprocedure();
+					fadeprocedure ();
 				}
 			}
 		}
@@ -268,6 +305,3 @@ namespace ms
 		private short height;
 	}
 }
-
-
-

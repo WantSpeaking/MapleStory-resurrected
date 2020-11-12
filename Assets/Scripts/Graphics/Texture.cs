@@ -47,6 +47,7 @@ using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Utility.PoolSystem;
 using Graphics = UnityEngine.Graphics;
 
 namespace ms
@@ -61,6 +62,8 @@ namespace ms
 		private WzObject cache_src { get; set; }
 
 		private byte[] textureData;
+
+		private int pngFormat;
 
 		public Texture ()
 		{
@@ -85,7 +88,7 @@ namespace ms
 				pivot = src["origin"]?.GetPoint ().ToMSPoint () ?? Point<short>.zero;
 
 				bitmap = src.GetBitmap ();
-				textureData = src.GetPngData ();
+				textureData = src.GetPngData (out pngFormat);
 				if (src is WzCanvasProperty canvasProperty)
 				{
 					//Debug.Log ($"pixelData:{canvasProperty.imageProp?.decodedData?.ToDebugLog ()}");
@@ -102,7 +105,7 @@ namespace ms
 		public void Dispose ()
 		{
 			//bitmap?.Dispose ();
-			UnityEngine.Object.Destroy (spriteObj);
+			//UnityEngine.Object.Destroy (spriteObj);
 		}
 
 		public int textureWidth;
@@ -117,13 +120,15 @@ namespace ms
 		{
 			if (spriteRenderer != null)
 			{
-				spriteRenderer.enabled = false;
+				//spriteRenderer.enabled = false;
 			}
 		}
 
 		public void draw ()
 		{
 		}
+
+		private DrawArgument _drawArgument;
 
 		public void draw (DrawArgument args)
 		{
@@ -192,34 +197,74 @@ namespace ms
 			}
 
 			{
-				if (bitmap == null) return;
-				if (spriteRenderer == null)
-				{
-					spriteObj = new GameObject ();
-					if (MapleStory.Instance.AddToParent)
-						AddToParent (spriteObj, fullPath);
-					spriteRenderer = spriteObj.AddComponent<SpriteRenderer> ();
-					spriteRenderer.flipY = true;
+                //if (bitmap == null) return;
+                if (spriteRenderer == null)
+                {
+                    spriteObj = new GameObject();
+                    if (MapleStory.Instance.AddToParent)
+                        AddToParent(spriteObj, fullPath);
+                    spriteRenderer = spriteObj.AddComponent<SpriteRenderer>();
+                    spriteRenderer.flipY = true;
+					spriteRenderer.gameObject.name = fullPath;
 				}
 
-				if (spriteRenderer != null)
-				{
-					spriteRenderer.enabled = true;
+                if (spriteRenderer != null)
+                {
+                    
 					//Debug.Log ($"{fullPath} {origin}", spriteRenderer.gameObject);
 					if (sprite == null)
-					{
-						//Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
-						sprite = TextureAndSpriteUtil.PngDataToSprite (textureData, pivot, dimensions);
-					}
+                    {
+                        //Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
+                        sprite = TextureAndSpriteUtil.PngDataToSprite(textureData, pngFormat, pivot, dimensions);
+						spriteRenderer.sprite = sprite;
 
-					spriteRenderer.gameObject.name = fullPath;
-					spriteRenderer.sprite = sprite;
-					spriteRenderer.sortingLayerName = args.sortingLayer.ToString ();
-					spriteRenderer.sortingOrder = args.orderInLayer;
-					setScale (new Vector3 (args.get_xscale (), args.get_yscale (), 1));
-					setPos (new Vector3 (args.get_Pos ().x (), -args.get_Pos ().y (), 0));
+					}
+					spriteRenderer.enabled = true;
+					if (spriteRenderer.gameObject.name.Contains(@"character.wz\00002003.img\walk2\2\body"))
+					{
+						Debug.Log($"Spawn spriteRenderer.sprite:{spriteRenderer.sprite}\t TextureHashCode:{GetHashCode()}");
+					}
+					//spriteRenderer.sortingLayerName = args.sortingLayer.ToString();
+					spriteRenderer.sortingOrder = SpriteBatch.Instance.DrawOrder++;
+					setScale(new Vector3(args.get_xscale(), args.get_yscale(), 1));
+                    setPos(new Vector3(args.get_Pos().x(), -args.get_Pos().y(), 0));
+
+					SpriteBatch.spriteRenderQueue.Enqueue(spriteRenderer);
 				}
+            }
+
+			{
+				/*_drawArgument = args;
+				if (sprite == null)
+				{
+					//Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
+					sprite = TextureAndSpriteUtil.PngDataToSprite (textureData, pngFormat, pivot, dimensions);
+				}
+
+				PoolManager.Spawn (MapleStory.Instance.prefab_SpriteDrawer, InitSpawn);*/
 			}
+		}
+
+		private void InitSpawn (UnityPoolItem unityPoolItem)
+		{
+			if (unityPoolItem.PooledRef.IsValid)
+			{
+				var renderer = unityPoolItem.PooledRef.GetComponent<SpriteRenderer> ().Component;
+				renderer.gameObject.name = fullPath;
+				renderer.sprite = sprite;
+				renderer.flipY = true;
+				//renderer.sortingLayerName = _drawArgument.sortingLayer.ToString ();
+				renderer.sortingOrder = SpriteBatch.Instance.DrawOrder++;
+
+				var transform = unityPoolItem.PooledRef.GetComponent<Transform> ().Component;
+
+				transform.position = new Vector3 (_drawArgument.get_Pos ().x (), -_drawArgument.get_Pos ().y (), 0);
+				transform.localScale = new Vector3 (_drawArgument.get_xscale (), _drawArgument.get_yscale (), 1);
+				
+				//Debug.Log ($"Draw fullPath: {fullPath}\t sortingLayer: {_drawArgument.sortingLayer}\t DrawOrder: {SpriteBatch.Instance.DrawOrder}");
+			}
+
+			SpriteBatch.Instance.Add (unityPoolItem);
 		}
 
 		private Texture2D mainTexture;
