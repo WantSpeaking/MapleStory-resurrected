@@ -6,12 +6,14 @@ using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 using Utility.PoolSystem;
+using vadersb.utils.unity;
 using Graphics = UnityEngine.Graphics;
 
 namespace ms
 {
 	public struct BatchItem
 	{
+		public Vector2 position => new Vector2 (realposX, -realposY);
 		public int posX;
 		public int posY;
 		public int realposX => posX - pivotX;
@@ -22,7 +24,9 @@ namespace ms
 		public int height;
 		public byte[] data;
 		public Bitmap bmp;
+		public UnityEngine.Color color;
 		public UnityEngine.Texture2D texture;
+		public UnityEngine.Sprite sprite;
 	}
 
 	public class SpriteBatch : SingletonMono<SpriteBatch>
@@ -32,6 +36,8 @@ namespace ms
 		private static ConcurrentQueue<BatchItem> batchQueue = new ConcurrentQueue<BatchItem> ();
 		private static ConcurrentQueue<UnityPoolItem> poolItemQueue = new ConcurrentQueue<UnityPoolItem> ();
 		public static ConcurrentQueue<SpriteRenderer> spriteRenderQueue = new ConcurrentQueue<SpriteRenderer> ();
+		//private ConcurrentDictionary<int, SpriteRenderer> spriteRenderDict = new ConcurrentDictionary<int, SpriteRenderer> ();
+		private ConcurrentDictionary<Texture, SpriteRenderer> spriteRenderDict = new ConcurrentDictionary<Texture, SpriteRenderer> ();
 
 		public int DrawOrder;
 		private Texture2D background;
@@ -122,6 +128,32 @@ namespace ms
 			poolItemQueue.Enqueue (poolItem);
 		}
 
+		public SpriteRenderer TryGetSpriteRenderer (Texture hashCode, Func<SpriteRenderer> create = null)
+		{
+			if (!spriteRenderDict.TryGetValue (hashCode, out var result))
+			{
+				result = create?.Invoke ();
+				if (result != null)
+				{
+					spriteRenderDict.TryAdd (hashCode, result);
+				}
+			}
+
+			else
+			{
+				if (result == null)
+				{
+					spriteRenderDict.TryRemove (hashCode, out var removed);
+				}
+			}
+
+			return result;
+		}
+
+		public void ClearSpriteRendererDict ()
+		{
+			spriteRenderDict.Clear ();
+		}
 		private void OnPostRender ()
 		{
 		}
@@ -130,7 +162,13 @@ namespace ms
 		{
 			base.OnUpdate ();
 			//Draw ();
-			StartCoroutine (DespawnSpriteDrawer());
+			//StartCoroutine (DespawnSpriteDrawer ());
+		}
+
+		protected override void OnLateUpdate ()
+		{
+			//Draw ();
+			StartCoroutine (DespawnSpriteDrawer ());
 		}
 
 		WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame ();
@@ -148,16 +186,16 @@ namespace ms
 				}
 			}*/
 
-			for (; spriteRenderQueue.Count > 0; spriteRenderQueue.TryDequeue(out var de))
+			for (; spriteRenderQueue.Count > 0; spriteRenderQueue.TryDequeue (out var de))
 			{
-				if (spriteRenderQueue.TryPeek(out var spriteRenderer))
+				if (spriteRenderQueue.TryPeek (out var spriteRenderer))
 				{
 					//spriteRenderer.sprite = null;
 					spriteRenderer.enabled = false;
-                    if (spriteRenderer.gameObject.name.Contains(@"character.wz\00002003.img\walk2\2\body"))
-                    {
-						Debug.Log($"Despawn spriteRenderer.sprite:{spriteRenderer.sprite}");
-                    }
+					if (spriteRenderer.gameObject.name.Contains (@"character.wz\00002003.img\walk2\2\body"))
+					{
+						Debug.Log ($"Despawn spriteRenderer.sprite:{spriteRenderer.sprite}");
+					}
 				}
 			}
 		}
@@ -165,8 +203,8 @@ namespace ms
 		private void FinalDeSpawn (UnityPoolItem unityPoolItem)
 		{
 			var renderer = unityPoolItem.PooledRef.GetComponent<SpriteRenderer> ().Component;
-		/*	var transform = unityPoolItem.PooledRef.GetComponent<Transform> ().Component;
-			renderer.gameObject.name = Constants.get ().defaultSpriteDrawerName;*/
+			/*	var transform = unityPoolItem.PooledRef.GetComponent<Transform> ().Component;
+				renderer.gameObject.name = Constants.get ().defaultSpriteDrawerName;*/
 			renderer.sprite = null;
 			/*renderer.flipY = false;
 			renderer.sortingLayerName = Constants.get ().sortingLayer_Default.ToString ();
@@ -177,9 +215,20 @@ namespace ms
 
 		private void Draw ()
 		{
-			clearBuffer.Clear ();
+			/*clearBuffer.Clear ();
 			clearBuffer.ClearRenderTarget (true, true, clearColor);
-			Graphics.ExecuteCommandBuffer (clearBuffer);
+			Graphics.ExecuteCommandBuffer (clearBuffer);*/
+
+			if (batchQueue.Count == 0) return;
+
+			if (batchQueue.Count > 0)
+			{
+				if (batchQueue.TryPeek (out var batchItem))
+				{
+					SpriteBatcher.Instance.RefreshMaterialPropertyBlock (batchItem.sprite?.texture);
+					SpriteBatcher.Instance.ApplyMaterialPropertyBlock ();
+				}
+			}
 
 			for (; batchQueue.Count > 0; batchQueue.TryDequeue (out var de))
 			{
@@ -192,6 +241,9 @@ namespace ms
 					var width = batchItem.width;
 					var pixelData = batchItem.data;
 					var pixelTexture = batchItem.texture;
+					var sprite = batchItem.sprite;
+					var position = batchItem.position;
+					var color = batchItem.color;
 					//Debug.Log ($"texturePixels:{texturePixels.ToDebugLog ()}");
 					//Debug.Log ($"pixelData:{pixelData.ToDebugLog ()}");
 
@@ -203,7 +255,15 @@ namespace ms
 					if (realposX >= camera_left && realposX <= camera_right && realposY >= camera_top && realposY <= camera_bottom)
 					{
 						{
-							DrawTextureToTarget (pixelTexture);
+							/*SpriteQuad spriteQuad = new SpriteQuad ();
+							spriteQuad.SetupFromSprite (sprite);
+							spriteQuad.Vertices_Move (position);
+							SpriteBatcher.Instance.DrawSpriteQuad (spriteQuad);*/
+							SpriteBatcher.Instance.DrawSprite (sprite, position, color);
+						}
+
+						{
+							//DrawTextureToTarget (pixelTexture);
 						}
 
 						{
@@ -317,10 +377,11 @@ namespace ms
 				}
 			}
 
-			background.LoadRawTextureData (texturePixels);
+			/*background.LoadRawTextureData (texturePixels);
 			//mainTexture.SetPixelData (ByteArray_2To1 (array2d_Screen, screenWidth, screenHeight), 0, 0);
 			background.Apply ();
-			DrawTextureToTarget (background);
+			DrawTextureToTarget (background);*/
+			SpriteBatcher.Instance.CompleteMesh ();
 		}
 
 		private int[,] ByteArray_1To2 (byte[] src, int width, int height)

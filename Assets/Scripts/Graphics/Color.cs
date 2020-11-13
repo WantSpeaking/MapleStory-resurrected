@@ -34,7 +34,6 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-
 namespace ms
 {
 	// Simple color class which stores RGBA components
@@ -150,41 +149,44 @@ namespace ms
 		};
 
 		// Create a color by an array of real numbers [0.0f, 1.0f]
-		public Color(float[] comps)
+		public Color (float[] comps)
 		{
 			this.rgba = comps;
 		}
+
 		// Create a color by real numbers [0.0f, 1.0f]
-		public Color(float red, float green, float blue, float alpha) : this(new float[]{red, green, blue, alpha})
+		public Color (float red, float green, float blue, float alpha) : this (new float[] {red, green, blue, alpha})
 		{
 		}
+
 		// Create a color by an array of natural numbers [0, 255]
-		public Color(byte[] comps) : this(comps[0], comps[1], comps[2], comps[3])
+		public Color (byte[] comps) : this (comps[0], comps[1], comps[2], comps[3])
 		{
 		}
 
 		// Create a color by natural numbers [0, 255]
-		public Color(byte red, byte green, byte blue, byte alpha) : this((float)red / 255, (float)green / 255, (float)blue / 255, (float)alpha / 255)
+		public Color (byte red, byte green, byte blue, byte alpha) : this ((float)red / 255, (float)green / 255, (float)blue / 255, (float)alpha / 255)
 		{
 		}
 
 		// Create a color by code
-		public Color(uint code) : this((byte)(code >> 24), (byte)(code >> 16), (byte)(code >> 8), (byte)code)
+		public Color (uint code) : this ((byte)(code >> 24), (byte)(code >> 16), (byte)(code >> 8), (byte)code)
 		{
 		}
 
 		// Create a color by named code
-		public Color(Code code) : this((uint)code)
+		public Color (Code code) : this ((uint)code)
 		{
 		}
-		public Color() :this(Code.CNONE)
+
+		public Color () : this (Code.CNONE)
 		{
 		}
 
 		// Check whether the color is completely invisible
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: constexpr bool invisible() const
-		public bool invisible()
+		public bool invisible ()
 		{
 			return rgba[3] <= 0.0f;
 		}
@@ -192,7 +194,7 @@ namespace ms
 		// Return the red component
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: constexpr float r() const
-		public float r()
+		public float r ()
 		{
 			return rgba[0];
 		}
@@ -200,7 +202,7 @@ namespace ms
 		// Return the green component
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: constexpr float g() const
-		public float g()
+		public float g ()
 		{
 			return rgba[1];
 		}
@@ -208,7 +210,7 @@ namespace ms
 		// Return the blue component
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: constexpr float b() const
-		public float b()
+		public float b ()
 		{
 			return rgba[2];
 		}
@@ -216,7 +218,7 @@ namespace ms
 		// Return the alpha (opacity) component
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: constexpr float a() const
-		public float a()
+		public float a ()
 		{
 			return rgba[3];
 		}
@@ -225,7 +227,7 @@ namespace ms
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: const float* data() const
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: C# has no equivalent to methods returning pointers to value types:
-		public float[] data()
+		public float[] data ()
 		{
 			return rgba;
 		}
@@ -249,9 +251,9 @@ namespace ms
 		// Blend the second color into the first
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: Color blend(const Color& other, float alpha) const
-		public Color blend(Color other, float alpha)
+		public Color blend (Color other, float alpha)
 		{
-			Color blended = new Color();
+			Color blended = new Color ();
 
 /*//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Only lambda expressions having all locals passed by reference can be converted to C#:
 //ORIGINAL LINE: transform(begin(), end(), other.begin(), blended.begin(), [alpha](float first, float second)
@@ -268,7 +270,7 @@ namespace ms
 //ORIGINAL LINE: constexpr Color operator *(const Color& o) const
 		public static Color operator * (Color ImpliedObject, Color o)
 		{
-			return new Color(ImpliedObject.r() * o.r(), ImpliedObject.g() * o.g(), ImpliedObject.b() * o.b(), ImpliedObject.a() * o.a());
+			return new Color (ImpliedObject.r () * o.r (), ImpliedObject.g () * o.g (), ImpliedObject.b () * o.b (), ImpliedObject.a () * o.a ());
 		}
 
 		// Combine two colors
@@ -276,10 +278,14 @@ namespace ms
 //ORIGINAL LINE: constexpr Color operator /(const Color& o) const
 		public static Color operator / (Color ImpliedObject, Color o)
 		{
-			return new Color(ImpliedObject.r() / o.r(), ImpliedObject.g() / o.g(), ImpliedObject.b() / o.b(), ImpliedObject.a() / o.a());
+			return new Color (ImpliedObject.r () / o.r (), ImpliedObject.g () / o.g (), ImpliedObject.b () / o.b (), ImpliedObject.a () / o.a ());
 		}
 
 		private float[] rgba = new float[LENGTH];
+
+		public static implicit operator UnityEngine.Color (Color color)
+		{
+			return new UnityEngine.Color (color.r (),color.g (),color.b (),color.r ());
+		}
 	}
 }
-

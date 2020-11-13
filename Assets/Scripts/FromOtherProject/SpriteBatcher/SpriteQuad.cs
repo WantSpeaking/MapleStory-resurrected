@@ -5,13 +5,14 @@ namespace vadersb.utils.unity
 {
 	public class SpriteQuad
 	{
-		public const int VerticesCount = 4;
-		public const int IndicesCount = 6;
-
-		public const int Index_TopLeft = 0;
-		public const int Index_TopRight = 1;
-		public const int Index_BottomLeft = 2;
-		public const int Index_BottomRight = 3;
+		public int VerticesCount = 4;
+		public int UVCount = 4;
+		public int IndicesCount = 6;
+		public int TriangleCount = 6;
+		public int Index_TopLeft = 0;
+		public int Index_TopRight = 1;
+		public int Index_BottomLeft = 2;
+		public int Index_BottomRight = 3;
 
 		//INDICES:
 		//0 1 2
@@ -29,17 +30,17 @@ namespace vadersb.utils.unity
 		//             
 		//             
 		//[0;0]   [1;0]
-		public readonly Vector2[] m_Vertices_Original;
-		public readonly Vector2[] m_Vertices;
-		public readonly Vector2[] m_UV1_Original;
-		public readonly Vector2[] m_UV1;
+		public  Vector2[] m_Vertices_Original;
+		public  Vector2[] m_Vertices;
+		public  Vector2[] m_UV1_Original;
+		public  Vector2[] m_UV1;
 
-		public readonly Vector2[] m_UV2;
-		public readonly Vector2[] m_UV3;
-		public readonly Vector2[] m_UV4;
+		public  Vector2[] m_UV2;
+		public  Vector2[] m_UV3;
+		public  Vector2[] m_UV4;
 
-		public readonly Color[] m_Colors;
-		public readonly ushort[] m_Triangles;
+		public  Color[] m_Colors;
+		public  ushort[] m_Triangles;
 
 		private float m_Width;
 		private float m_Height;
@@ -437,37 +438,59 @@ namespace vadersb.utils.unity
 		{
 			if (sprite == null)
 			{
-				Debug.LogError("sprite is null!");
+				Debug.LogWarning("sprite is null!");
 				Reset();
 				return;
 			}
 
-			if (sprite.packingMode != SpritePackingMode.Rectangle)
+			/*if (sprite.packingMode != SpritePackingMode.Rectangle)
 			{
 				Debug.LogError("Unsupported sprite packing mode: " + sprite.packingMode + " in sprite: " + sprite.name);
 				Reset();
 				return;
-			}
+			}*/
 
+			
+			
+			
 			//-----
 			//vertices
 			var spriteVertices = sprite.vertices;
 
-			Debug.Assert(spriteVertices.Length == VerticesCount);
+			//Debug.Assert(spriteVertices.Length == VerticesCount);
 
 			//uvs
 			var spriteUVs = sprite.uv;
+			UVCount = spriteUVs.Length;
+			
+			VerticesCount = spriteVertices.Length;
+			//Debug.Log ($"spriteUVs.Length:{spriteUVs.Length}");
+			//Debug.Assert(spriteUVs.Length == VerticesCount);
 
-			Debug.Assert(spriteUVs.Length == VerticesCount);
 
-
+			m_Vertices_Original = new Vector2[VerticesCount];
+			m_Vertices = new Vector2[VerticesCount];
+			m_UV1_Original = new Vector2[VerticesCount];
+			m_UV1 = new Vector2[VerticesCount];
+			m_UV2 = new Vector2[VerticesCount];
+			m_UV3 = new Vector2[VerticesCount];
+			m_UV4 = new Vector2[VerticesCount];
+			m_Colors = new Color[VerticesCount];
+			
+			
+			
 			//copying vertices and uvs
 			for (int i = 0; i < VerticesCount; i++)
 			{
 				m_Vertices_Original[i] = spriteVertices[i];
-				m_UV1_Original[i] = spriteUVs[i];
+				
 			}
 
+			for (int i = 0; i < UVCount; i++)
+			{
+				m_UV1_Original[i] = spriteUVs[i];
+			}
+			
 			Recalculate_WidthHeight();
 			Vertices_Reset();
 			UV1_Reset();
@@ -478,11 +501,23 @@ namespace vadersb.utils.unity
 			//-----
 			//triangles
 			var spriteTriangles = sprite.triangles;
+			TriangleCount = spriteTriangles.Length;
+			//Debug.Assert(spriteTriangles.Length == IndicesCount);
 
-			Debug.Assert(spriteTriangles.Length == IndicesCount);
+			
+			m_Triangles = new ushort[TriangleCount];
+			m_Width = m_Height = 0;
 
+			//triangles
+			/*m_Triangles[0] = 0;
+			m_Triangles[1] = 1;
+			m_Triangles[2] = 2;
+			m_Triangles[3] = 2;
+			m_Triangles[4] = 1;
+			m_Triangles[5] = 3;*/
+			
 			//copying triangles
-			for (int i = 0; i < IndicesCount; i++)
+			for (int i = 0; i < TriangleCount; i++)
 			{
 #if DEBUG
 				if (m_Triangles[i] != spriteTriangles[i])
@@ -498,7 +533,7 @@ namespace vadersb.utils.unity
 			Colors_Reset();
 		}
 
-		public void SetupFromSpriteBatcher(SpriteBatcher spriteBatcher, string spriteName)
+		/*public void SetupFromSpriteBatcher(SpriteBatcher spriteBatcher, string spriteName)
 		{
 			var curSprite = spriteBatcher.GetSprite(spriteName);
 
@@ -510,7 +545,7 @@ namespace vadersb.utils.unity
 			{
 				Debug.LogError("Failed to find sprite " + spriteName + " in SpriteBatcher!");
 			}
-		}
+		}*/
 
 
 		//------------------------------------------------------------

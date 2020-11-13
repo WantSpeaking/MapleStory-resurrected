@@ -5,15 +5,16 @@ using UnityEngine.U2D;
 
 namespace vadersb.utils.unity
 {
-	public class SpriteBatcher : MonoBehaviour
+	public class SpriteBatcher : SingletonMono<SpriteBatcher>
 	{
 		private const string ColorProperty = "_RendererColor";
 		private const string TextureProperty = "_MainTex";
+		private const string FlipProperty = "_Flip";
 
 		private const int DefaultCapacity = 4096;
 
-		[SerializeField]
-		private SpriteAtlas m_SpriteAtlas = null;
+		/*[SerializeField]
+		private SpriteAtlas m_SpriteAtlas = null;*/
 
 		[SerializeField]
 		private Color m_Color = Color.white;
@@ -45,20 +46,23 @@ namespace vadersb.utils.unity
 		private List<Color> m_Dynamic_Colors;
 		private List<int> m_Dynamic_Triangles;
 
-
-		private void Awake()
+		MeshFilter meshFilter ;
+		MeshRenderer myRenderer;
+		protected override void OnAwake ()
 		{
-			RefreshSpritesList();
-			RefreshMaterialPropertyBlock();
-			ApplyMaterialPropertyBlock();
+			//RefreshSpritesList();
+			//RefreshMaterialPropertyBlock();
+			//ApplyMaterialPropertyBlock();
 
 			//creating a mesh
 			m_Mesh = new Mesh();
 			m_Mesh.name = "SpriteBatcher dynamic mesh";
 			m_Mesh.MarkDynamic();
 
+			myRenderer = GetComponent<MeshRenderer>();
+			
 			//mesh filter
-			var meshFilter = GetComponent<MeshFilter>();
+			meshFilter = GetComponent<MeshFilter>();
 
 			Debug.Assert(meshFilter != null);
 
@@ -73,12 +77,14 @@ namespace vadersb.utils.unity
 			m_Dynamic_UV4 = new List<Vector2>(DefaultCapacity);
 			m_Dynamic_Colors = new List<Color>(DefaultCapacity);
 			m_Dynamic_Triangles = new List<int>(DefaultCapacity);
+			
+			m_MaterialPropertyBlock = new MaterialPropertyBlock ();
 		}
 
 
 		private void OnValidate()
 		{
-			RefreshSpritesList();
+			//RefreshSpritesList();
 
 			if (m_MaterialPropertyBlock != null)
 			{
@@ -89,7 +95,7 @@ namespace vadersb.utils.unity
 
 		//----------------------------------------------------------------------
 		//Settings
-		public Color Color
+		/*public Color Color
 		{
 			get => m_Color;
 			set
@@ -102,7 +108,7 @@ namespace vadersb.utils.unity
 					ApplyMaterialPropertyBlock();
 				}
 			}
-		}
+		}*/
 
 		//----------------------------------------------------------------------
 		//Finalizing the mesh
@@ -147,7 +153,7 @@ namespace vadersb.utils.unity
 
 		//----------------------------------------------------------------------
 		//Getting sprite index
-		public int GetSpriteIndex(Sprite sprite)
+		/*public int GetSpriteIndex(Sprite sprite)
 		{
 			int nameSearchResult = GetSpriteIndex(sprite.name);
 
@@ -207,29 +213,29 @@ namespace vadersb.utils.unity
 			#endif
 
 			return null;
-		}
+		}*/
 
 		//----------------------------------------------------------------------
 		//Drawing Sprites
 		private static readonly Vector2 s_DefaultExtraUV = new Vector2(0.0f,0.0f);
+		private static readonly int Flip = Shader.PropertyToID (FlipProperty);
 
-		public void DrawSprite(int spriteIndex, Vector2 position, Color color)
+		public void DrawSprite(Sprite sprite, Vector2 position, Color color)
 		{
-			//-----
-			//index test
-			if (spriteIndex < 0 || spriteIndex >= m_Sprites_Vertices.Length)
+			if (sprite == null)
 			{
 #if DEBUG
-				Debug.LogError("invalid spriteIndex: " + spriteIndex + "");
+				Debug.LogWarning("Draw null Sprite ");
 #endif
 				return;
 			}
 
+			
 			//-----
 			//Adding sprite geometry
-			var vertices = m_Sprites_Vertices[spriteIndex];
-			var uvs = m_Sprites_UVs[spriteIndex];
-			var triangles = m_Sprites_Triangles[spriteIndex];
+			var vertices = sprite.vertices;
+			var uvs = sprite.uv;
+			var triangles = sprite.triangles;
 
 			int count = vertices.Length;
 
@@ -478,6 +484,68 @@ namespace vadersb.utils.unity
 			m_Dynamic_IndexOffset += vertices.Length;
 		}
 
+		public void DrawSprite(int spriteIndex, Vector2 position, Color color)
+		{
+			//-----
+			//index test
+			if (spriteIndex < 0 || spriteIndex >= m_Sprites_Vertices.Length)
+			{
+#if DEBUG
+				Debug.LogError("invalid spriteIndex: " + spriteIndex + "");
+#endif
+				return;
+			}
+
+			//-----
+			//Adding sprite geometry
+			var vertices = m_Sprites_Vertices[spriteIndex];
+			var uvs = m_Sprites_UVs[spriteIndex];
+			var triangles = m_Sprites_Triangles[spriteIndex];
+
+			int count = vertices.Length;
+
+			for (int i = 0; i < count; i++)
+			{
+				//vertex position
+				var curVertex = vertices[i];
+
+				curVertex += position; //translation
+
+				m_Dynamic_Vertices.Add(new Vector3(curVertex.x, curVertex.y, 0.0f));
+
+				//uv
+				var curUV = uvs[i];
+
+				m_Dynamic_UV1.Add(curUV);
+
+				//color
+				m_Dynamic_Colors.Add(color);
+			}
+
+			//extra UVs
+			if (m_UseExtendedUVs == true)
+			{
+				for (int i = 0; i < count; i++)
+				{
+					m_Dynamic_UV2.Add(s_DefaultExtraUV);
+					m_Dynamic_UV3.Add(s_DefaultExtraUV);
+					m_Dynamic_UV4.Add(s_DefaultExtraUV);
+				}
+			}
+
+			count = triangles.Length;
+
+			for (int i = 0; i < count; i++)
+			{
+				//index
+				int curIndex = triangles[i];
+
+				m_Dynamic_Triangles.Add(curIndex + m_Dynamic_IndexOffset);
+			}
+
+			m_Dynamic_IndexOffset += vertices.Length;
+		}
+
 		public void DrawSpriteQuad(SpriteQuad spriteQuad)
 		{
 			//-----
@@ -493,7 +561,7 @@ namespace vadersb.utils.unity
 			//-----
 			//Adding sprite geometry
 
-			for (int i = 0; i < SpriteQuad.VerticesCount; i++)
+			for (int i = 0; i < spriteQuad.VerticesCount; i++)
 			{
 				//vertex position
 				m_Dynamic_Vertices.Add(spriteQuad.m_Vertices[i]);
@@ -508,7 +576,7 @@ namespace vadersb.utils.unity
 			//uv2
 			if (m_UseExtendedUVs == true)
 			{
-				for (int i = 0; i < SpriteQuad.VerticesCount; i++)
+				for (int i = 0; i < spriteQuad.VerticesCount; i++)
 				{
 					m_Dynamic_UV2.Add(spriteQuad.m_UV2[i]);
 					m_Dynamic_UV3.Add(spriteQuad.m_UV3[i]);
@@ -516,13 +584,13 @@ namespace vadersb.utils.unity
 				}
 			}
 
-			for (int i = 0; i < SpriteQuad.IndicesCount; i++)
+			for (int i = 0; i < spriteQuad.IndicesCount; i++)
 			{
 				//index
 				m_Dynamic_Triangles.Add(spriteQuad.m_Triangles[i] + m_Dynamic_IndexOffset);
 			}
 
-			m_Dynamic_IndexOffset += SpriteQuad.VerticesCount;
+			m_Dynamic_IndexOffset += spriteQuad.VerticesCount;
 		}
 
 		public void DrawMesh(Vector2[] vertices, Vector2[] uv1, Color[] colors, int[] triangles, Vector2[] uv2 = null, Vector2[] uv3 = null, Vector2[] uv4 = null)
@@ -781,7 +849,7 @@ namespace vadersb.utils.unity
 
 		//----------------------------------------------------------------------
 		//Helper functions
-		private void RefreshSpritesList()
+		/*private void RefreshSpritesList()
 		{
 			m_Sprites = null;
 
@@ -814,13 +882,14 @@ namespace vadersb.utils.unity
 			{
 				m_Sprites_Triangles[i] = m_Sprites[i].triangles;
 			}
-		}
+		}*/
 
 
 		private void RefreshMaterialPropertyBlock()
 		{
-			m_MaterialPropertyBlock = new MaterialPropertyBlock();
-
+			//m_MaterialPropertyBlock = new MaterialPropertyBlock();
+			m_MaterialPropertyBlock.Clear ();
+				
 			Texture2D texture = null;
 
 			if (m_Sprites.Length > 0)
@@ -834,14 +903,26 @@ namespace vadersb.utils.unity
 			m_MaterialPropertyBlock.SetColor(ColorProperty, m_Color);
 
 			//test flip
-			//m_MaterialPropertyBlock.SetVector("_Flip", new Vector4(1.0f, 1.0f, 0.0f, 0.0f));
+			m_MaterialPropertyBlock.SetVector(Flip, new Vector4(1.0f, 1.0f, 0.0f, 0.0f));
 		}
 
-
-		private void ApplyMaterialPropertyBlock()
+		
+		public void RefreshMaterialPropertyBlock(Texture2D texture)
 		{
-			var myRenderer = GetComponent<MeshRenderer>();
+			//texture = new Texture2D (800,600);
+			if(texture == null) return;
+			m_MaterialPropertyBlock.Clear ();
+			
+			// ReSharper disable once Unity.PreferAddressByIdToGraphicsParams
+			m_MaterialPropertyBlock.SetTexture(TextureProperty, texture);
+			// ReSharper disable once Unity.PreferAddressByIdToGraphicsParams
+			m_MaterialPropertyBlock.SetColor(ColorProperty, m_Color);
 
+			//test flip
+			//m_MaterialPropertyBlock.SetVector(Flip, new Vector4(1.0f, 0f, 0.0f, 0.0f));
+		}
+		public void ApplyMaterialPropertyBlock()
+		{
 			if (myRenderer != null)
 			{
 				myRenderer.SetPropertyBlock(m_MaterialPropertyBlock, 0);

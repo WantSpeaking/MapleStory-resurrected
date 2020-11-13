@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
@@ -63,6 +64,11 @@ public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
 		OnUpdate ();
 	}
 
+	private void LateUpdate ()
+	{
+		OnLateUpdate ();
+	}
+
 	void OnDestroy ()
 	{
 		BeforeOnDestroy ();
@@ -80,6 +86,9 @@ public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
 	{
 	}
 
+	protected virtual void OnLateUpdate ()
+	{
+	}
 	protected virtual void BeforeOnDestroy ()
 	{
 	}

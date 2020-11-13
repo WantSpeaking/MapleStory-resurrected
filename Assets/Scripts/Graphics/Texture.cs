@@ -65,6 +65,9 @@ namespace ms
 
 		private int pngFormat;
 
+		private short real_X;
+		private short real_Y;
+
 		public Texture ()
 		{
 		}
@@ -197,25 +200,24 @@ namespace ms
 			}
 
 			{
-                //if (bitmap == null) return;
-                if (spriteRenderer == null)
-                {
-                    spriteObj = new GameObject();
-                    if (MapleStory.Instance.AddToParent)
-                        AddToParent(spriteObj, fullPath);
-                    spriteRenderer = spriteObj.AddComponent<SpriteRenderer>();
-                    spriteRenderer.flipY = true;
+				/*if (spriteRenderer == null)
+				{
+				    spriteObj = new GameObject();
+				    if (MapleStory.Instance.AddToParent)
+				        AddToParent(spriteObj, fullPath);
+				    spriteRenderer = spriteObj.AddComponent<SpriteRenderer>();
+				    spriteRenderer.flipY = true;
 					spriteRenderer.gameObject.name = fullPath;
 				}
 
-                if (spriteRenderer != null)
-                {
-                    
+				if (spriteRenderer != null)
+				{
+				    
 					//Debug.Log ($"{fullPath} {origin}", spriteRenderer.gameObject);
 					if (sprite == null)
-                    {
-                        //Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
-                        sprite = TextureAndSpriteUtil.PngDataToSprite(textureData, pngFormat, pivot, dimensions);
+				    {
+				        //Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
+				        sprite = TextureAndSpriteUtil.PngDataToSprite(textureData, pngFormat, pivot, dimensions);
 						spriteRenderer.sprite = sprite;
 
 					}
@@ -227,11 +229,11 @@ namespace ms
 					//spriteRenderer.sortingLayerName = args.sortingLayer.ToString();
 					spriteRenderer.sortingOrder = SpriteBatch.Instance.DrawOrder++;
 					setScale(new Vector3(args.get_xscale(), args.get_yscale(), 1));
-                    setPos(new Vector3(args.get_Pos().x(), -args.get_Pos().y(), 0));
+				    setPos(new Vector3(args.get_Pos().x(), -args.get_Pos().y(), 0));
 
 					SpriteBatch.spriteRenderQueue.Enqueue(spriteRenderer);
-				}
-            }
+				}*/
+			}
 
 			{
 				/*_drawArgument = args;
@@ -243,6 +245,76 @@ namespace ms
 
 				PoolManager.Spawn (MapleStory.Instance.prefab_SpriteDrawer, InitSpawn);*/
 			}
+
+			{
+				/*if (sprite == null)
+				{
+					//Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
+					sprite = TextureAndSpriteUtil.PngDataToSprite (textureData, pngFormat, pivot, dimensions);
+				}
+
+				var batchItem = new BatchItem ();
+				batchItem.posX = args.get_Pos ().x ();
+				batchItem.posY = args.get_Pos ().y ();
+				batchItem.pivotX = pivot.x ();
+				batchItem.pivotY = pivot.y ();
+				batchItem.width = bitmap?.Width ?? 0;
+				batchItem.height = bitmap?.Height ?? 0;
+				batchItem.data = textureData;
+				batchItem.bmp = bitmap;
+				batchItem.texture = mainTexture;
+				batchItem.color = args.get_color ();
+				batchItem.sprite = sprite;
+				SpriteBatch.Instance.Add (batchItem);*/
+			}
+
+			{
+				var renderer = SpriteBatch.Instance.TryGetSpriteRenderer (this, SpriteRendererCreator);
+				/*if (spriteRenderer == null)
+				{
+					spriteObj = new GameObject ();
+					if (MapleStory.Instance.AddToParent)
+						AddToParent (spriteObj, fullPath);
+					spriteRenderer = spriteObj.AddComponent<SpriteRenderer> ();
+					spriteRenderer.flipY = true;
+					spriteRenderer.gameObject.name = fullPath;
+				}*/
+
+				if (renderer != null)
+				{
+					renderer.enabled = true;
+
+					renderer.sortingOrder = SpriteBatch.Instance.DrawOrder++;
+					renderer.gameObject.transform.position = new Vector3 (args.get_Pos ().x (), -args.get_Pos ().y (), 0);
+					renderer.gameObject.transform.localScale = new Vector3 (args.get_xscale (), args.get_yscale (), 1);
+					SpriteBatch.spriteRenderQueue.Enqueue (renderer);
+
+
+					/*if (spriteRenderer.gameObject.name.Contains (@"character.wz\00002003.img\walk2\2\body"))
+			{
+				Debug.Log ($"Spawn spriteRenderer.sprite:{spriteRenderer.sprite}\t TextureHashCode:{GetHashCode ()}");
+			}*/
+
+					//spriteRenderer.sortingLayerName = args.sortingLayer.ToString();
+				}
+			}
+		}
+
+		private SpriteRenderer SpriteRendererCreator ()
+		{
+			var obj = new GameObject (fullPath);
+			/*if (MapleStory.Instance.AddToParent)
+				AddToParent (spriteObj, fullPath);*/
+			var renderer = obj.AddComponent<SpriteRenderer> ();
+			renderer.flipY = true;
+			if (sprite == null)
+			{
+				//Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
+				sprite = TextureAndSpriteUtil.PngDataToSprite (textureData, pngFormat, pivot, dimensions);
+				renderer.sprite = sprite;
+			}
+
+			return renderer;
 		}
 
 		private void InitSpawn (UnityPoolItem unityPoolItem)
@@ -260,7 +332,7 @@ namespace ms
 
 				transform.position = new Vector3 (_drawArgument.get_Pos ().x (), -_drawArgument.get_Pos ().y (), 0);
 				transform.localScale = new Vector3 (_drawArgument.get_xscale (), _drawArgument.get_yscale (), 1);
-				
+
 				//Debug.Log ($"Draw fullPath: {fullPath}\t sortingLayer: {_drawArgument.sortingLayer}\t DrawOrder: {SpriteBatch.Instance.DrawOrder}");
 			}
 
@@ -337,7 +409,6 @@ namespace ms
 			}
 		}
 
-
 		public void shift (Point<short> amount)
 		{
 			pivot = pivot - amount;
@@ -390,6 +461,14 @@ namespace ms
 			{
 				gObj.SetParent (MapleStory.Instance.Effect_Parent.transform);
 			}
+		}
+
+		public override int GetHashCode ()
+		{
+			var hashCode = 339610899;
+			//hashCode = hashCode * -1521134295 + real_X.GetHashCode ();
+			hashCode = hashCode * -1521134295 /*+ real_Y.GetHashCode ()*/;
+			return base.GetHashCode () + hashCode;
 		}
 	}
 }

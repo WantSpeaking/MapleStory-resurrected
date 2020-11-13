@@ -65,8 +65,9 @@ namespace ms
 
 		private void load_map (int mapid) //mapid:100000000
 		{
-			SceneManager.LoadScene ("Game", LoadSceneMode.Single);
-
+			//SceneManager.LoadScene ("Game", LoadSceneMode.Single);
+			//SpriteBatch.Instance.ClearSpriteRendererDict ();
+			
 			this.mapid = mapid;
 
 			//string strid = string_format.extend_id(mapid, 9);

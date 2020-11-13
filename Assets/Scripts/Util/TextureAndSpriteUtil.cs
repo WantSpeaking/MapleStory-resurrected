@@ -41,7 +41,6 @@ public static class TextureAndSpriteUtil
 		var relativeAnchorY = (float)pivotY / height;
 
 		UnityEngine.Sprite sprite = UnityEngine.Sprite.Create (t2d, new Rect (0, 0, dimensions.x (), dimensions.y ()), new Vector2 (relativeAnchorX, /*1 -*/ relativeAnchorY), 1);
-
 		return sprite;
 	}
 
