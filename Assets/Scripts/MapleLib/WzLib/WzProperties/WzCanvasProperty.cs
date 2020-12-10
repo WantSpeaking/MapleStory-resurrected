@@ -25,7 +25,7 @@ namespace MapleLib.WzLib.WzProperties
     /// <summary>
     /// A property that can contain sub properties and has one png image
     /// </summary>
-    public class WzCanvasProperty : WzExtended, IPropertyContainer
+    public partial class WzCanvasProperty : WzExtended, IPropertyContainer
     {
         #region Constants
         /// <summary>
@@ -283,7 +283,7 @@ namespace MapleLib.WzLib.WzProperties
         /// It will be handled via HaRepackerMainPanel instead.
         /// </summary>
         /// <returns></returns>
-        public Bitmap GetLinkedWzCanvasBitmap()
+/*        public Bitmap GetLinkedWzCanvasBitmap()
         {
             string _inlink = ((WzStringProperty)this[InlinkPropertyName])?.Value; // could get nexon'd here. In case they place an _inlink that's not WzStringProperty
             string _outlink = ((WzStringProperty)this[OutlinkPropertyName])?.Value; // could get nexon'd here. In case they place an _outlink that's not WzStringProperty
@@ -321,7 +321,7 @@ namespace MapleLib.WzLib.WzProperties
                 }
             }
             return this.GetBitmap();
-        }
+        }*/
 
         /// <summary>
         /// The png image for this canvas property
@@ -388,15 +388,10 @@ namespace MapleLib.WzLib.WzProperties
 
         #region Cast Values
 
-        public override Bitmap GetBitmap()
+        /*public override Bitmap GetBitmap()
         {
             return imageProp.GetImage(false);
-        }
-        
-        public override byte[] GetPngData (out int pngFormat)
-        {
-            return imageProp.GetPngData (out pngFormat);
-        }
+        }*/
         #endregion
     }
 }

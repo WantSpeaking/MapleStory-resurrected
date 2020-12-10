@@ -321,7 +321,7 @@ namespace ms
 			return stretch;
 		}
 		
-		public Rectangle get_rectangle (Point<short> origin, Point<short> dimensions)
+		public Rectangle<short> get_rectangle (Point<short> origin, Point<short> dimensions)
 		{
 			short w = stretch.x ();
 
@@ -345,7 +345,7 @@ namespace ms
 			short cx = center.x ();
 			short cy = center.y ();
 
-			return new Rectangle (cx + (short)(xscale * rl), cx + (short)(xscale * rr), cy + (short)(yscale * rt), cy + (short)(yscale * rb));
+			return new Rectangle<short> ((short)(cx + (short)(xscale * rl)), (short)(cx + (short)(xscale * rr)), (short)(cy + (short)(yscale * rt)), (short)(cy + (short)(yscale * rb)));
 		}
 
 		public DrawArgument IncreaseOrderInLayer (int orderInLayer = 0)

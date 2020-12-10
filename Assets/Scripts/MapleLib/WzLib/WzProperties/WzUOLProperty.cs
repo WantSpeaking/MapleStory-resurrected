@@ -27,7 +27,7 @@ namespace MapleLib.WzLib.WzProperties
 	/// <summary>
 	/// A property that's value is a string
 	/// </summary>
-    public class WzUOLProperty : WzExtended
+    public partial class WzUOLProperty : WzExtended
 	{
 		#region Fields
 		internal string name, val;
@@ -153,10 +153,10 @@ namespace MapleLib.WzLib.WzProperties
 						{
                             if (linkVal is WzImageProperty)
                                 linkVal = ((WzImageProperty)linkVal)[path];
-                            else if (linkVal is WzImage)
-                                linkVal = ((WzImage)linkVal)[path];
-                            else if (linkVal is WzDirectory)
-                                linkVal = ((WzDirectory)linkVal)[path];
+                            else if (linkVal is WzImage image)
+                                linkVal = image[path];
+                            else if (linkVal is WzDirectory directory)
+                                linkVal = directory[path];
                             else
                             {
                                 MapleLib.Helpers.ErrorLogger.Log(MapleLib.Helpers.ErrorLevel.Critical, "UOL got nexon'd at property: " + this.FullPath);
@@ -233,14 +233,11 @@ namespace MapleLib.WzLib.WzProperties
             return LinkValue.GetPoint();
         }
 
-        public override Bitmap GetBitmap()
+     /*   public override Bitmap GetBitmap()
         {
             return LinkValue.GetBitmap();
-        }
-        public override byte[] GetPngData(out int pngFormat)
-        {
-	        return LinkValue.GetPngData(out pngFormat);
-        }
+        }*/
+
         public override byte[] GetBytes()
         {
             return LinkValue.GetBytes();

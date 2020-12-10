@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ms;
 using System.Linq.Expressions;
+using MapleLib.WzLib;
 using Expression = System.Linq.Expressions.Expression;
 
 namespace ms.Helper
@@ -34,7 +35,7 @@ namespace ms.Helper
 			return result;
 		}
 
-		public static Point<short> ToMSPoint (this System.Drawing.Point src)
+		public static Point<short> ToMSPoint (this Point src)
 		{
 			return new Point<short> ((short)src.X, (short)src.Y);
 		}

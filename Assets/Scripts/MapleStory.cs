@@ -100,6 +100,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		DamageNumber.init();
 		MapPortals.init();
 		*/
+		maplestoryFolder = Constants.get ().path_MapleStoryFolder;
 		Session.get ().init ();
 		NxFiles.init (maplestoryFolder);
 		Window.get ().init ();

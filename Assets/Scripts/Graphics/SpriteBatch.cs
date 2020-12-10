@@ -23,7 +23,7 @@ namespace ms
 		public int width;
 		public int height;
 		public byte[] data;
-		public Bitmap bmp;
+		//public Bitmap bmp;
 		public UnityEngine.Color color;
 		public UnityEngine.Texture2D texture;
 		public UnityEngine.Sprite sprite;

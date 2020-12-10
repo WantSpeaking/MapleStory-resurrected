@@ -63,7 +63,7 @@ namespace ms
 
 		private byte[] textureData;
 
-		private int pngFormat;
+		private PngInfo pngInfo;
 
 		private short real_X;
 		private short real_Y;
@@ -90,15 +90,15 @@ namespace ms
 				fullPath = src.FullPath;
 				pivot = src["origin"]?.GetPoint ().ToMSPoint () ?? Point<short>.zero;
 
-				bitmap = src.GetBitmap ();
-				textureData = src.GetPngData (out pngFormat);
+				//bitmap = src.GetBitmap ();
+				textureData = src.GetPngData (out pngInfo);
 				if (src is WzCanvasProperty canvasProperty)
 				{
 					//Debug.Log ($"pixelData:{canvasProperty.imageProp?.decodedData?.ToDebugLog ()}");
 				}
 
 				this.canvasProperty = src as WzCanvasProperty;
-				dimensions = new Point<short> ((short)(bitmap?.Width ?? 0), (short)(bitmap?.Height ?? 0));
+				dimensions = new Point<short> ((short)(pngInfo.width), (short)(pngInfo.height));
 
 				//GraphicsGL.get().addbitmap(bitmap);todo render unity
 				//Debug.Log ($"{src?.FullPath} \t {src?.GetType ()}", spriteObj);
@@ -115,7 +115,7 @@ namespace ms
 		public int textureHight;
 		public byte[] data;
 		private WzCanvasProperty canvasProperty;
-		private Bitmap bitmap;
+		//private Bitmap bitmap;
 		private Point<short> pivot = new Point<short> ();
 		private Point<short> dimensions = new Point<short> ();
 
@@ -310,7 +310,7 @@ namespace ms
 			if (sprite == null)
 			{
 				//Debug.Log ($"fullPath:{fullPath}\t Width:{bitmap.Width}\t Height:{bitmap.Height}\t dimensions:{dimensions}");
-				sprite = TextureAndSpriteUtil.PngDataToSprite (textureData, pngFormat, pivot, dimensions);
+				sprite = TextureAndSpriteUtil.PngDataToSprite (textureData, pngInfo, pivot, dimensions);
 				renderer.sprite = sprite;
 			}
 
@@ -416,7 +416,7 @@ namespace ms
 
 		public bool is_valid ()
 		{
-			return bitmap != null; /*bitmap.id() > 0;*/
+			return textureData != null; /*bitmap.id() > 0;*/
 		}
 
 		public short width ()

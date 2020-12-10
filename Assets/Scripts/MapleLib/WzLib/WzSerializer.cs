@@ -21,7 +21,7 @@ using System.Text;
 using MapleLib.WzLib.Util;
 using MapleLib.WzLib.WzProperties;
 using System.IO;
-using System.Drawing.Imaging;
+//using System.Drawing.Imaging;
 using System.Globalization;
 using System.Xml;
 using System.Drawing;
@@ -116,7 +116,7 @@ namespace MapleLib.WzLib.Serialization
         {
             if (prop is WzCanvasProperty)
             {
-                WzCanvasProperty property3 = (WzCanvasProperty)prop;
+                /*WzCanvasProperty property3 = (WzCanvasProperty)prop;
                 if (ExportBase64Data)
                 {
                     MemoryStream stream = new MemoryStream();
@@ -132,7 +132,7 @@ namespace MapleLib.WzLib.Serialization
                 {
                     WritePropertyToXML(tw, newDepth, property, exportFilePath);
                 }
-                tw.Write(depth + "</canvas>" + lineBreak);
+                tw.Write(depth + "</canvas>" + lineBreak);*///todo WzSerializer WritePropertyToXML prop is WzCanvasProperty
             }
             else if (prop is WzIntProperty)
             {
@@ -478,11 +478,11 @@ namespace MapleLib.WzLib.Serialization
             }
             else if (currObj is WzCanvasProperty)
             {
-                Bitmap bmp = ((WzCanvasProperty)currObj).PngProperty.GetImage(false);
+                /*Bitmap bmp = ((WzCanvasProperty)currObj).PngProperty.GetImage(false);
 
                 string path = outPath + ProgressingWzSerializer.EscapeInvalidFilePathNames(currObj.Name) + ".png";
 
-                bmp.Save(path, ImageFormat.Png);
+                bmp.Save(path, ImageFormat.Png);*///todo WzSerializer ExportRecursion currObj is WzCanvasProperty
                 //curr++;
             }
             else if (currObj is WzBinaryProperty)
@@ -781,7 +781,7 @@ namespace MapleLib.WzLib.Serialization
                     if (!element.HasAttribute("basedata")) throw new NoBase64DataException("no base64 data in canvas element with name " + canvas.Name);
                     canvas.PngProperty = new WzPngProperty();
                     MemoryStream pngstream = new MemoryStream(Convert.FromBase64String(element.GetAttribute("basedata")));
-                    canvas.PngProperty.SetImage((Bitmap)Image.FromStream(pngstream, true, true));
+                    canvas.PngProperty.SetImage(pngstream.ToArray ()); //todo WzSerializer canvas.PngProperty.SetImage((Bitmap)Image.FromStream(pngstream, true, true));
                     foreach (XmlElement subelement in element)
                         canvas.AddProperty(ParsePropertyFromXMLElement(subelement));
                     return canvas;

@@ -36,7 +36,7 @@ namespace MapleLib.WzLib.WzProperties
     /// <summary>
     /// A property that contains data for an MP3 or binary file
     /// </summary>
-    public class WzBinaryProperty : WzExtended
+    public partial class WzBinaryProperty : WzExtended
     {
         #region Fields
         internal string name;

@@ -9,7 +9,7 @@ using UnityEngine;
 
 public static class TextureAndSpriteUtil
 {
-	public static Texture2D GetTexrture2DFromPath (WzObject wzObject)
+	/*public static Texture2D GetTexrture2DFromPath (WzObject wzObject)
 	{
 		var bitMap = wzObject?.GetBitmap ();
 		var width = bitMap?.Width ?? 0;
@@ -19,12 +19,12 @@ public static class TextureAndSpriteUtil
 		t2d.LoadImage (ImageToByte2 (bitMap));
 		t2d.Apply ();
 		return t2d;
-	}
+	}*/
 
-	public static UnityEngine.Sprite PngDataToSprite (byte[] pngData,int pngFormat, Point<short> origin, Point<short> dimensions)
+	public static UnityEngine.Sprite PngDataToSprite (byte[] pngData,PngInfo pngFormat, Point<short> origin, Point<short> dimensions)
 	{
 		if (pngData == null) return null;
-		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y (), PngFormatToTextureFormat(pngFormat), false);
+		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y (), PngFormatToTextureFormat(pngFormat.format), false);
 		//t2d.LoadRawTextureData (data);
 		var rawTextureData = t2d.GetRawTextureData ();
 		//Debug.Log ($"pngData.Length:{pngData.Length}\t rawTextureData.Length:{rawTextureData.Length}\t pngFormat:{pngFormat}\t {dimensions.x ()*dimensions.y ()}");
@@ -79,7 +79,7 @@ public static class TextureAndSpriteUtil
 		return background;
 	}
 
-	public static UnityEngine.Sprite BitmapToSprite (Bitmap bitmap, Point<short> origin, Point<short> dimensions)
+	/*public static UnityEngine.Sprite BitmapToSprite (Bitmap bitmap, Point<short> origin, Point<short> dimensions)
 	{
 		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y ());
 		t2d.LoadImage (ImageToByte2 (bitmap));
@@ -113,7 +113,7 @@ public static class TextureAndSpriteUtil
 		{
 		    img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
 		    return stream.ToArray();
-		}*/
+		}#1#
 #if !UNITY_EDITOR
 		string filePath = Application.temporaryCachePath + "/Cache_Player.png";
 #else
@@ -127,7 +127,7 @@ public static class TextureAndSpriteUtil
 		stream.Close ();
 		File.Delete (filePath);
 		return data;
-	}
+	}*/
 
 	public static TextureFormat PngFormatToTextureFormat (int pngFormat)
 	{

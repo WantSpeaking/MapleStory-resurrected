@@ -108,7 +108,7 @@ namespace ms
 		// Can be used for reloading
 		public void load ()
 		{
-			var file = File.OpenText (FILENAME) /*new ifstream (FILENAME)*/;
+			var file = File.OpenText ($"{Constants.get ().path_SettingFileFolder}{FILENAME}") /*new ifstream (FILENAME)*/;
 
 			//if (file.is_open ())
 			{

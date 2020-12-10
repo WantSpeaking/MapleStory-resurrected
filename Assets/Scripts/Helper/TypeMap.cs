@@ -40,7 +40,7 @@ public class TypeMap<D> where D : new ()
 
 	public D get<T> ()
 	{
-		container.TryGetValue (typeof (D), out var d);
+		container.TryGetValue (typeof (T), out var d);
 		return d;
 	}
 

@@ -23,8 +23,8 @@ namespace MapleLib.WzLib
 {
     public class WzImageResource : IDisposable
     {
-        private bool parsed;
-        private WzImage img;
+        bool parsed;
+        WzImage img;
         public WzImageResource(WzImage img)
         {
             this.img = img;
