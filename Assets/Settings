@@ -1,5 +1,5 @@
 PosNOTICE = (400, 285)
-ServerIP = 218.87.219.250
+ServerIP = 127.0.0.1
 FontPathNormal = fonts/Roboto/Roboto-Regular.ttf
 ServerPort = 8484
 Width = 800

@@ -43,7 +43,34 @@ public static class TextureAndSpriteUtil
 		UnityEngine.Sprite sprite = UnityEngine.Sprite.Create (t2d, new Rect (0, 0, dimensions.x (), dimensions.y ()), new Vector2 (relativeAnchorX, /*1 -*/ relativeAnchorY), 1);
 		return sprite;
 	}
+	public static UnityEngine.Texture2D PngDataToTexture2D (byte[] pngData, PngInfo pngFormat, Point<short> origin, Point<short> dimensions)
+	{
+		if (pngData == null)
+			return null;
+		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y (), PngFormatToTextureFormat (pngFormat.format), false);
+		//Debug.Log ($"pngData.Length:{pngData.Length}\t rawTextureData.Length:{rawTextureData.Length}\t pngFormat:{pngFormat}\t {dimensions.x ()*dimensions.y ()}");
 
+		t2d.SetPixelData (pngData, 0, 0);
+		t2d.filterMode = FilterMode.Point;
+		t2d.Apply ();
+		/*		//t2d.LoadRawTextureData (data);
+				var rawTextureData = t2d.GetRawTextureData ();
+				//Debug.Log ($"pngData.Length:{pngData.Length}\t rawTextureData.Length:{rawTextureData.Length}\t pngFormat:{pngFormat}\t {dimensions.x ()*dimensions.y ()}");
+
+				t2d.SetPixelData (pngData, 0, 0);
+				t2d.filterMode = FilterMode.Point;
+				t2d.Apply ();
+
+				var pivotX = origin.x ();
+				var pivotY = origin.y ();
+				var width = dimensions.x ();
+				var height = dimensions.y ();
+				var relativeAnchorX = (float)pivotX / width;
+				var relativeAnchorY = (float)pivotY / height;
+
+				UnityEngine.Sprite sprite = UnityEngine.Sprite.Create (t2d, new Rect (0, 0, dimensions.x (), dimensions.y ()), new Vector2 (relativeAnchorX, *//*1 -*//* relativeAnchorY), 1);*/
+		return t2d;
+	}
 	public static UnityEngine.Texture2D PngDataToTexture2D (byte[] data, Point<short> origin, Point<short> dimensions)
 	{
 		if (data == null) return null;

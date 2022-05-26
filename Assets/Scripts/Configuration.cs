@@ -131,7 +131,7 @@ namespace ms
 			}
 
 			// Replace default values with loaded values
-			foreach (var setting in settings)
+			/*foreach (var setting in settings)
 			{
 				if (rawsettings.TryGetValue (setting.Value.name, out var rawSetting))
 				{
@@ -139,7 +139,7 @@ namespace ms
 					old_Entry.value = rawSetting;
 					settings[setting.Key] = old_Entry;
 				}
-			}
+			}*/
 		}
 
 		// Save the current settings 

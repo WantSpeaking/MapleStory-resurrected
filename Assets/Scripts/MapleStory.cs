@@ -110,6 +110,8 @@ public class MapleStory : SingletonMono<MapleStory>
 		Stage.get ().init ();
 		UI.get ().init ();
 		canStart = true;
+		Stage.get ().load_map(100000000);
+
 	}
 
 	private void update ()

@@ -63,7 +63,7 @@ namespace ms
 			reactors.clear ();
 		}
 
-		private void load_map (int mapid) //mapid:100000000
+		public void load_map (int mapid) //mapid:100000000
 		{
 			//SceneManager.LoadScene ("Game", LoadSceneMode.Single);
 			//SpriteBatch.Instance.ClearSpriteRendererDict ();
@@ -99,8 +99,8 @@ namespace ms
 
 		public void draw (float alpha)
 		{
-			if (state != State.ACTIVE)
-				return;
+			/*if (state != State.ACTIVE)
+				return;*/
 #if BackgroundStatic
 			Point<short> viewpos = Point<short>.zero;
 #else

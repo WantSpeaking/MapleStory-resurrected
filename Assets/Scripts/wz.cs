@@ -46,7 +46,7 @@ namespace nl
 			wzFile_skill = add_file(suffix+"skill.wz");
 			wzFile_sound = add_file(suffix+"sound.wz");
 			wzFile_string = add_file(suffix+"string.wz");
-			wzFile_ui = add_file(suffix+"ui.wz");
+			wzFile_ui = add_file(suffix+"ui-new.wz");
 			/*if (exists("Base.nx"))
 			{
 				baseWz = add_file("Base.nx");

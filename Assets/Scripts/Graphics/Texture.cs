@@ -62,7 +62,7 @@ namespace ms
 		private WzObject cache_src { get; set; }
 
 		private byte[] textureData;
-
+		public UnityEngine.Texture2D texture2D { get; set; }
 		private PngInfo pngInfo;
 
 		private short real_X;
@@ -100,6 +100,7 @@ namespace ms
 				this.canvasProperty = src as WzCanvasProperty;
 				dimensions = new Point<short> ((short)(pngInfo.width), (short)(pngInfo.height));
 
+				texture2D = TextureAndSpriteUtil.PngDataToTexture2D (textureData, pngInfo, pivot, dimensions);
 				//GraphicsGL.get().addbitmap(bitmap);todo render unity
 				//Debug.Log ($"{src?.FullPath} \t {src?.GetType ()}", spriteObj);
 			}
@@ -268,9 +269,9 @@ namespace ms
 				SpriteBatch.Instance.Add (batchItem);*/
 			}
 
-			{
+			/*{
 				var renderer = SpriteBatch.Instance.TryGetSpriteRenderer (this, SpriteRendererCreator);
-				/*if (spriteRenderer == null)
+				*//*if (spriteRenderer == null)
 				{
 					spriteObj = new GameObject ();
 					if (MapleStory.Instance.AddToParent)
@@ -278,25 +279,31 @@ namespace ms
 					spriteRenderer = spriteObj.AddComponent<SpriteRenderer> ();
 					spriteRenderer.flipY = true;
 					spriteRenderer.gameObject.name = fullPath;
-				}*/
+				}*//*
 
 				if (renderer != null)
 				{
 					renderer.enabled = true;
 
-					renderer.sortingOrder = SpriteBatch.Instance.DrawOrder++;
+					//renderer.sortingOrder = SpriteBatch.Instance.DrawOrder++;
 					renderer.gameObject.transform.position = new Vector3 (args.get_Pos ().x (), -args.get_Pos ().y (), 0);
 					renderer.gameObject.transform.localScale = new Vector3 (args.get_xscale (), args.get_yscale (), 1);
 					SpriteBatch.spriteRenderQueue.Enqueue (renderer);
 
 
-					/*if (spriteRenderer.gameObject.name.Contains (@"character.wz\00002003.img\walk2\2\body"))
+					*//*if (spriteRenderer.gameObject.name.Contains (@"character.wz\00002003.img\walk2\2\body"))
 			{
 				Debug.Log ($"Spawn spriteRenderer.sprite:{spriteRenderer.sprite}\t TextureHashCode:{GetHashCode ()}");
-			}*/
+			}*//*
 
 					//spriteRenderer.sortingLayerName = args.sortingLayer.ToString();
 				}
+			}*/
+
+			{
+				var position = new Vector3 (args.get_Pos ().x (), -args.get_Pos ().y (), 0);
+				var localScale = new Vector3 (args.get_xscale (), args.get_yscale (), 1);
+				TestURPBatcher.Instance.TryDraw (this,pngInfo, position, localScale);
 			}
 		}
 
