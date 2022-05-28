@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 #if UNITY_EDITOR || UNITY_ANDROID || UNITY_IPHONE
-using UnityEngine;
+
 #endif
 
 using System.Reflection;
@@ -28,8 +28,8 @@ namespace ms
 	{
 		public Constants ()
 		{
-			VIEWWIDTH = 800;
-			VIEWHEIGHT = 600;
+			//VIEWWIDTH = 800;
+			//VIEWHEIGHT = 600;
 		}
 
 		public new void Dispose ()
@@ -57,12 +57,19 @@ namespace ms
 			VIEWHEIGHT = height;
 		}
 
-		// Window and screen width.
-		private short VIEWWIDTH = 800;
+		// Window and screen Width.
+		private short VIEWWIDTH = 1280;
 
 		// Window and screen height.
-		private short VIEWHEIGHT = 600;
+		private short VIEWHEIGHT = 720;
 
+		public short VIEWWIDTH_Login { get; set; } = 800;
+
+		public short VIEWHEIGHT_Login { get; set; } = 600;
+
+		public short VIEWWIDTH_CashShop { get; set; } = 1024;
+
+		public short VIEWHEIGHT_CashShop { get; set; } = 768;
 
 		public const ushort TIMESTEP = 8;
 
@@ -89,20 +96,22 @@ namespace ms
 		public BindingFlags bindingFlags_UIElementInfo = BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy;
 		public int MAX_PartyMemberCount = 6;
 
-#if UNITY_EDITOR
-		public string path_MapleStoryFolder = @"D:\Program Files (x86)\MapleStory\";
-		public string path_SettingFileFolder = $"{Application.dataPath}/";
+#if UNITY_EDITOR || WINDOWS
+		public string path_MapleStoryFolder = @"D:\Program Files (x86)\MapleStory";
+		public string path_SettingFileFolder = @"D:\Program Files (x86)\MapleStory";
 
-#elif UNITY_ANDROID
-		public string path_MapleStoryFolder = $"{Application.persistentDataPath}/";
-		public string path_SettingFileFolder = $"{Application.persistentDataPath}/";
-
+#elif UNITY_ANDROID || ANDROID
+		//public string path_MapleStoryFolder = $"{Application.persistentDataPath}";
+		//public string path_SettingFileFolder = $"{Application.persistentDataPath}";
+		public string path_MapleStoryFolder = $"/storage/emulated/0/Download";
+		public string path_SettingFileFolder = $"/storage/emulated/0/Download";
 #else
-		//public string path_MapleStoryFolder = $"/storage/emulated/0/Android/data/MapleStory_resurrected_MonoGame_Android.MapleStory_resurrected_MonoGame_Android/files/";
-		public string path_MapleStoryFolder = $"/storage/emulated/0/Android/data/com.DefaultCompany.MapleStoryresurrected/files/";
-		public string path_SettingFileFolder = $"/storage/emulated/0/Android/data/com.DefaultCompany.MapleStoryresurrected/files/";
-		
-#endif
+		//public string path_MapleStoryFolder = $"/storage/emulated/0/Android/data/MapleStory_resurrected_MonoGame_Android.MapleStory_resurrected_MonoGame_Android/files";
+		//public string path_MapleStoryFolder = $"/storage/emulated/0/Download";
+		//public string path_SettingFileFolder = $"/storage/emulated/0/Download";
 
+		public string path_MapleStoryFolder = @"F:\Program Files (x86)\MapleStory";
+		public string path_SettingFileFolder = @"F:\Program Files (x86)\MapleStory";
+#endif
 	}
 }

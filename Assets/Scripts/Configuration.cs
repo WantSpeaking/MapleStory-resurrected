@@ -4,42 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using UnityEngine;
 
-//////////////////////////////////////////////////////////////////////////////////
-//	This file is part of the continued Journey MMORPG client					//
-//	Copyright (C) 2015-2019  Daniel Allendorf, Ryan Payton						//
-//																				//
-//	This program is free software: you can redistribute it and/or modify		//
-//	it under the terms of the GNU Affero General Public License as published by	//
-//	the Free Software Foundation, either version 3 of the License, or			//
-//	(at your option) any later version.											//
-//																				//
-//	This program is distributed in the hope that it will be useful,				//
-//	but WITHOUT ANY WARRANTY; without even the implied warranty of				//
-//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the				//
-//	GNU Affero General Public License for more details.							//
-//																				//
-//	You should have received a copy of the GNU Affero General Public License	//
-//	along with this program.  If not, see <https://www.gnu.org/licenses/>.		//
-//////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
-//	This file is part of the continued Journey MMORPG client					//
-//	Copyright (C) 2015-2019  Daniel Allendorf, Ryan Payton						//
-//																				//
-//	This program is free software: you can redistribute it and/or modify		//
-//	it under the terms of the GNU Affero General Public License as published by	//
-//	the Free Software Foundation, either version 3 of the License, or			//
-//	(at your option) any later version.											//
-//																				//
-//	This program is distributed in the hope that it will be useful,				//
-//	but WITHOUT ANY WARRANTY; without even the implied warranty of				//
-//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the				//
-//	GNU Affero General Public License for more details.							//
-//																				//
-//	You should have received a copy of the GNU Affero General Public License	//
-//	along with this program.  If not, see <https://www.gnu.org/licenses/>.		//
-//////////////////////////////////////////////////////////////////////////////////
+
+
 
 
 namespace ms
@@ -91,12 +58,13 @@ namespace ms
 
 			load ();
 		}
-
+		
 		Dictionary<string, string> rawsettings = new Dictionary<string, string> ();
 
 		// Save
-		public new void Dispose ()
+		public override void Dispose ()
 		{
+			AppDebug.Log ("Dispose ");
 #if ! DEBUG
 			save();
 #endif
@@ -108,29 +76,48 @@ namespace ms
 		// Can be used for reloading
 		public void load ()
 		{
-			var file = File.OpenText ($"{Constants.get ().path_SettingFileFolder}{FILENAME}") /*new ifstream (FILENAME)*/;
+            try
+            {
+				var file = File.OpenText(Path.Combine(Constants.get().path_SettingFileFolder, FILENAME)) /*new ifstream (FILENAME)*/;
 
-			//if (file.is_open ())
-			{
-				// Go through the file line by line
-				string line;
-				//getline (file, line);
-				while (!file.EndOfStream)
+				//if (file.is_open ())
 				{
-					line = file.ReadLine ();
-					if (line == null) continue;
-					// If the setting is not empty, load the value.
-					var split = line.IndexOf ('=');
-
-					if (split != -1 && split + 2 < line.Length)
+					// Go through the file line by line
+					string line;
+					//getline (file, line);
+					while (!file.EndOfStream)
 					{
-						//Debug.Log ($"{line}");
-						rawsettings.Add (line.Substring (0, split - 1), line.Substring (split + 2));
+						line = file.ReadLine();
+						if (string.IsNullOrEmpty(line)) continue;
+						//AppDebug.Log ($"{line}");
+						// If the setting is not empty, load the value.
+						var split = line.IndexOf('=');
+
+						if (split != -1 && split + 2 < line.Length)
+						{
+							//AppDebug.Log ($"key:{line.Substring (0, split - 1)}\t value:{line.Substring (split + 2)}");
+							//AppDebug.Log ($"{line}");
+							rawsettings.Add(line.Substring(0, split - 1).Trim(), line.Substring(split + 2).Trim());
+						}
 					}
 				}
 			}
+			catch (Exception ex)
+            {
+				AppDebug.Log($"load config error:{ex.Message}");
+            }
 
+			
+			
 			// Replace default values with loaded values
+			foreach (var pair in rawsettings)
+			{
+				if (settings.TryGetValue (pair.Key, out var entry))
+				{
+					entry.value = pair.Value;
+				}
+			}
+			
 			/*foreach (var setting in settings)
 			{
 				if (rawsettings.TryGetValue (setting.Value.name, out var rawSetting))
@@ -143,12 +130,10 @@ namespace ms
 		}
 
 		// Save the current settings 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void save() const
 		public void save ()
 		{
 			// Open the settings file
-			using (var config = File.Open (FILENAME, FileMode.OpenOrCreate))
+			using (var config = File.Open (Path.Combine(Constants.get().path_SettingFileFolder, FILENAME), FileMode.OpenOrCreate))
 			{
 				using (var writer = new StreamWriter (config))
 				{
@@ -156,31 +141,25 @@ namespace ms
 					// Save settings line by line
 					foreach (var setting in settings)
 					{
-						writer.WriteLine (setting.Value.ToString ());
+						writer.WriteLine ($"{setting.Value.name} = {setting.Value.value}");
 					}
 				}
 			}
 		}
 
 		// Get private member SHOW_FPS
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool get_show_fps() const
 		public bool get_show_fps ()
 		{
 			return SHOW_FPS;
 		}
 
 		// Get private member SHOW_PACKETS
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool get_show_packets() const
 		public bool get_show_packets ()
 		{
 			return SHOW_PACKETS;
 		}
 
 		// Get private member var_LOGIN
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool get_var_login() const
 		public bool get_var_login ()
 		{
 			return var_LOGIN;
@@ -223,88 +202,66 @@ namespace ms
 		}
 
 		// Get private member TITLE
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string get_title() const
 		public string get_title ()
 		{
 			return TITLE;
 		}
 
 		// Get private member VERSION
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string get_version() const
 		public string get_version ()
 		{
 			return VERSION;
 		}
 
 		// Get private member LoginMusic
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string get_login_music() const
 		public string get_login_music ()
 		{
 			return LoginMusic;
 		}
 
 		// Get private member LoginMusicSEA
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string get_login_music_sea() const
 		public string get_login_music_sea ()
 		{
 			return LoginMusicSEA;
 		}
 
 		// Get private member LoginMusicNewtro
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string get_login_music_newtro() const
 		public string get_login_music_newtro ()
 		{
 			return LoginMusicNewtro;
 		}
 
 		// Get private member JOINLINK
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string get_joinlink() const
 		public string get_joinlink ()
 		{
 			return JOINLINK;
 		}
 
 		// Get private member WEBSITE
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string get_website() const
 		public string get_website ()
 		{
 			return WEBSITE;
 		}
 
 		// Get private member FINDID
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string get_findid() const
 		public string get_findid ()
 		{
 			return FINDID;
 		}
 
 		// Get private member FINDPASS
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string get_findpass() const
 		public string get_findpass ()
 		{
 			return FINDPASS;
 		}
 
 		// Get private member RESETPIC
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string get_resetpic() const
 		public string get_resetpic ()
 		{
 			return RESETPIC;
 		}
 
 		// Get private member CHARGENX
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string get_chargenx() const
 		public string get_chargenx ()
 		{
 			return CHARGENX;
@@ -369,7 +326,7 @@ namespace ms
 			return VolumeSerialNumber;
 		}
 
-		// Get the max width allowed
+		// Get the max Width allowed
 		public short get_max_width ()
 		{
 			return MAXWIDTH;
@@ -469,11 +426,6 @@ namespace ms
 			public string name;
 			public string value;
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# has no concept of a 'friend' class:
-//			friend class Configuration;
-
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string to_string() const
 			private string to_string ()
 			{
 				return name + " = " + value;
@@ -492,8 +444,6 @@ namespace ms
 				value = b ? "true" : "false";
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool load() const
 			public bool load ()
 			{
 				return value == "true";
@@ -512,14 +462,11 @@ namespace ms
 				value = str;
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string load() const
 			public string load ()
 			{
 				return value;
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++ 'using' declarations which operate on base class members:
 		}
 
 		// Setting which converts to a Point<int16_t>
@@ -529,14 +476,12 @@ namespace ms
 			{
 			}
 
-			public void save (Point<short> vec)
+			public void save (Point_short vec)
 			{
 				value = vec.to_string ();
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Point<short> load() const
-			public Point<short> load ()
+			public Point_short load ()
 			{
 				string xstr = value.Substring (1, value.IndexOf (",") - 1);
 				string ystr = value.Substring (value.IndexOf (",") + 1, value.IndexOf (")") - value.IndexOf (",") - 1);
@@ -544,13 +489,11 @@ namespace ms
 				var x = string_conversion.or_zero<short> (xstr);
 				var y = string_conversion.or_zero<short> (ystr);
 
-				return new Point<short> (x, y);
+				return new Point_short (x, y);
 			}
 		}
 
 		// Setting which converts to an integer type
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
-//ORIGINAL LINE: template <class T>
 		public class IntegerEntry<T> : Entry
 		{
 			protected IntegerEntry (string n, string v) : base (n, v)
@@ -562,14 +505,11 @@ namespace ms
 				value = Convert.ToString (num);
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: T load() const
 			public T load ()
 			{
 				return string_conversion.or_zero<T> (value);
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++ 'using' declarations which operate on base class members:
 		}
 
 		// Setting which converts to a byte
@@ -579,7 +519,6 @@ namespace ms
 			{
 			}
 
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++ 'using' declarations which operate on base class members:
 		}
 
 		// Setting which converts to a short
@@ -589,7 +528,6 @@ namespace ms
 			{
 			}
 
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++ 'using' declarations which operate on base class members:
 		}
 
 		// Setting which converts to an int
@@ -599,7 +537,6 @@ namespace ms
 			{
 			}
 
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++ 'using' declarations which operate on base class members:
 		}
 
 		// Setting which converts to a long
@@ -609,21 +546,15 @@ namespace ms
 			{
 			}
 
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++ 'using' declarations which operate on base class members:
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
-//ORIGINAL LINE: template <typename T>
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# has no concept of a 'friend' class:
-//		friend struct Setting;
-
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to templates on variables:
 		private string FILENAME = "Settings";
 		private string TITLE = "MapleStory";
 		private string VERSION = "213.2";
 		private string LoginMusic = "BgmUI.img/Title";
 		private string LoginMusicSEA = "BgmGL.img/OldMaple";
-		private string LoginMusicNewtro = "BgmEvent2.img/Newtro_Login";
+		//private string LoginMusicNewtro = "BgmEvent2.img/Newtro_Login";//todo doesnt exist
+		private string LoginMusicNewtro = "BgmUI.img/Title";
 		private string JOINLINK = "https://www.nexon.com/account/en/create";
 		private string WEBSITE = "http://maplestory.nexon.net/";
 		private string FINDID = "https://www.nexon.com/account/en/login";
@@ -644,8 +575,8 @@ namespace ms
 		private bool start_shown = false;
 		private string MACS = "00-FF-27-AC-9C-D6";
 		private string HWID = "2EFDB98799DD_CB4F4F88";
-		private short MAXWIDTH;
-		private short MAXHEIGHT;
+		private short MAXWIDTH = 1920;
+		private short MAXHEIGHT = 1080;
 		private string VolumeSerialNumber = "2EFDB98799DD_CB4F4F88";
 		private byte worldid;
 		private byte channelid;
@@ -656,7 +587,7 @@ namespace ms
 	// IP Address which the client will connect to
 	public class ServerIP : Configuration.StringEntry
 	{
-		public ServerIP () : base ("ServerIP", "127.0.0.1")
+		public ServerIP () : base ("ServerIP", "218.87.219.250")
 		{
 		}
 	}
@@ -677,10 +608,10 @@ namespace ms
 		}
 	}
 
-	// The width of the screen
+	// The Width of the screen
 	public class Width : Configuration.ShortEntry
 	{
-		public Width () : base ("Width", "800")
+		public Width () : base ("Width", "1280")
 		{
 		}
 	}
@@ -688,7 +619,7 @@ namespace ms
 	// The height of the screen
 	public class Height : Configuration.ShortEntry
 	{
-		public Height () : base ("Height", "600")
+		public Height () : base ("Height", "720")
 		{
 		}
 	}
@@ -746,7 +677,7 @@ namespace ms
 	// The last used account name
 	public class DefaultAccount : Configuration.StringEntry
 	{
-		public DefaultAccount () : base ("Account", "")
+		public DefaultAccount () : base ("DefaultAccount", "")
 		{
 		}
 	}
@@ -754,7 +685,7 @@ namespace ms
 	// The last used world
 	public class DefaultWorld : Configuration.ByteEntry
 	{
-		public DefaultWorld () : base ("World", "0")
+		public DefaultWorld () : base ("DefaultWorld", "0")
 		{
 		}
 	}
@@ -762,7 +693,7 @@ namespace ms
 	// The last used channel
 	public class DefaultChannel : Configuration.ByteEntry
 	{
-		public DefaultChannel () : base ("Channel", "0")
+		public DefaultChannel () : base ("DefaultChannel", "0")
 		{
 		}
 	}
@@ -770,7 +701,7 @@ namespace ms
 	// The last used region
 	public class DefaultRegion : Configuration.ByteEntry
 	{
-		public DefaultRegion () : base ("Region", "5")
+		public DefaultRegion () : base ("DefaultRegion", "5")
 		{
 		}
 	}
@@ -778,7 +709,7 @@ namespace ms
 	// The last used character
 	public class DefaultCharacter : Configuration.ByteEntry
 	{
-		public DefaultCharacter () : base ("Character", "0")
+		public DefaultCharacter () : base ("DefaultCharacter", "0")
 		{
 		}
 	}
@@ -922,7 +853,7 @@ namespace ms
 	// The default position of UIOptionMenu
 	public class PosOPTIONMENU : Configuration.PointEntry
 	{
-		public PosOPTIONMENU () : base ("PosUSERLIST", "(170, -1)")
+		public PosOPTIONMENU () : base ("PosOPTIONMENU", "(170, -1)")
 		{
 		}
 	}
@@ -935,6 +866,14 @@ namespace ms
 		}
 	}
 
+	// The default position of UIPartyMemberHP
+	public class PosPartyMemberHP : Configuration.PointEntry
+	{
+		public PosPartyMemberHP () : base ("PosPartyMemberHP", "(604, 104)")
+		{
+		}
+	}
+	
 	// The default type of UIMiniMap
 	public class MiniMapType : Configuration.ByteEntry
 	{
@@ -959,20 +898,11 @@ namespace ms
 		}
 	}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
-//ORIGINAL LINE: template <typename T>
 	// Can be used to access settings
 	public class Setting<T> where T : Configuration.Entry, new ()
 	{
-		// Access a setting
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 NOTE: This was formerly a static local variable declaration (not allowed in C#):
-		private static T get_defaultentry = new T ();
-
 		public static T get ()
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to 'static_assert':
-//			static_assert(is_base_of<Configuration::Entry, T>::value, "template parameter T for Setting must inherit from Configuration::Entry.");
-
 			var entry = Configuration.get ().settings.get<T> ();
 
 			if (entry != null)
@@ -981,9 +911,7 @@ namespace ms
 			}
 			else
 			{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 NOTE: This static local variable declaration (not allowed in C#) has been moved just prior to the method:
-//				static T defaultentry;
-				return get_defaultentry;
+				return new T ();
 			}
 		}
 	}

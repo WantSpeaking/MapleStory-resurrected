@@ -1,4 +1,4 @@
-﻿using HaRepacker;
+﻿using HaCreator.Wz;
 using ms;
 using UnityEditor;
 using UnityEngine;
@@ -74,7 +74,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	{
 	}
 
-	private void init ()
+	public void init ()
 	{
 		/*if (Error error = Session.get().init())
 		return error;
@@ -110,11 +110,11 @@ public class MapleStory : SingletonMono<MapleStory>
 		Stage.get ().init ();
 		UI.get ().init ();
 		canStart = true;
-		Stage.get ().load_map(100000000);
+		//Stage.get ().load_map(100000000);
 
 	}
 
-	private void update ()
+	public void update ()
 	{
 		Stage.get ().update ();
 		UI.get ().update ();
@@ -124,9 +124,10 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	}
 
-	private void draw (float alpha)
+	public void draw (float alpha)
 	{
 		//Window.get().begin();
+		GameUtil.Instance.DrawOrder = 0;
 		Stage.get ().draw (alpha);
 		UI.get ().draw (alpha);
 		//Window.get().end();
@@ -134,7 +135,7 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	private bool canStart = false;
 
-	private bool running ()
+	public bool running ()
 	{
 		/*return Session.get().is_connected()
 		       && UI.get().not_quitted()
@@ -254,8 +255,8 @@ public class MapleStory : SingletonMono<MapleStory>
 	public bool enable_DrawFootHolder = false;
 	public bool enable_DrawAttackRange = false;
 	public bool AddToParent = true;
-	public Rectangle<short> attackRange;
-	public Rectangle<short> attackRangeAfter;
+	public Rectangle_short attackRange;
+	public Rectangle_short attackRangeAfter;
 
 #if UNITY_EDITOR
 	private void DrawAttackRange ()
