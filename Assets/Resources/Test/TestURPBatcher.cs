@@ -52,6 +52,15 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 			AppDebug.Log($"DrawOrder:{GameUtil.Instance.DrawOrder} fullPath:{texture.fullPath} format:{pnginfo.format}");
 		}
 	}
+
+	public void HideAll()
+	{
+		foreach (var gobj in texture_GObj_Dict.Values)
+		{
+			var originalPos = gobj.transform.position;
+			gobj.transform.position = new Vector3(originalPos.x, originalPos.y,1);
+		}
+	}
 	GameObject Create (ms.Texture tex)
 	{
 		var tempMaterial = new Material (presetMaterial);

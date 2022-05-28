@@ -128,6 +128,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	{
 		//Window.get().begin();
 		GameUtil.Instance.DrawOrder = 0;
+		TestURPBatcher.Instance.HideAll();
 		Stage.get ().draw (alpha);
 		UI.get ().draw (alpha);
 		//Window.get().end();
