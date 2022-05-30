@@ -42,14 +42,30 @@ namespace ms
 {
 	public class Window : Singleton<Window>
 	{
+		private float width_Scaled;
+		private float height_Scaled;
+		private float ratio;
+
+		private float width_Camera;
+		private float height_Camera;
+
+		private float half_delta_width;
+		private float half_delta_height;
 		public Window ()
 		{
 			//context = null;
 			//glwnd = null;
 			opacity = 1.0f;
 			opcstep = 0.0f;
-			width = Constants.get ().get_viewwidth ();
-			height = Constants.get ().get_viewheight ();
+			viewwidth = Constants.get ().get_viewwidth ();
+			viewheight = Constants.get ().get_viewheight ();
+
+			height_Camera = viewheight * 1.0f;
+			ratio = Screen.height / height_Camera;
+			width_Camera = Screen.width / ratio;
+			half_delta_width = (width_Camera - viewwidth) / 2;
+			half_delta_height = 0;//height_Camera == viewheight
+
 		}
 
 		public new void Dispose ()
@@ -180,10 +196,10 @@ namespace ms
 			short new_width = Constants.get ().get_viewwidth ();
 			short new_height = Constants.get ().get_viewheight ();
 
-			if (width != new_width || height != new_height)
+			if (viewwidth != new_width || viewheight != new_height)
 			{
-				width = new_width;
-				height = new_height;
+				viewwidth = new_width;
+				viewheight = new_height;
 
 				if (new_width >= max_width || new_height >= max_height)
 				{
@@ -232,26 +248,26 @@ namespace ms
 			}
 			else if (Input.mousePosition != last_mousePos)
 			{
-				last_mousePos = Input.mousePosition;
-				var mousePos = new Point_short ((short)last_mousePos.x, (short)(Constants.get ().get_viewheight () - last_mousePos.y));
-				//Debug.Log ($"Input.mousePosition:{Input.mousePosition}\t mousePos:{mousePos}\t Screen.height:{Screen.height}\t evt.mousePosition:{evt.mousePosition}");
-				UI.get ().send_cursor (mousePos);
+				var x = evt.mousePosition.x;
+				var y = evt.mousePosition.y;
+
+				UI.get ().send_cursor (new Point_short ((short)((short)x/ratio - half_delta_width), (short)((short)y/ratio)));
+				//Debug.Log ($"evt.mousePosition:{evt.mousePosition}\t mousePos:({x/ratio},{y/ratio})\t Screen.height:{Screen.height}\t height:{viewheight}\t");
+
+
+				//UI.get ().send_cursor (new Point_short ((short)x, (short)y));
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void setclipboard(const string& text) const
 		public void setclipboard (string text)
 		{
 			//glfwSetClipboardString(glwnd, text);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string getclipboard() const
 		public string getclipboard ()
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# does not have an equivalent to pointers to value types:
-//ORIGINAL LINE: const sbyte* text = glfwGetClipboardString(glwnd);
+			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# does not have an equivalent to pointers to value types:
+			//ORIGINAL LINE: const sbyte* text = glfwGetClipboardString(glwnd);
 			/*sbyte text = glfwGetClipboardString(glwnd)*/
 			;
 			string text = null;
@@ -264,7 +280,7 @@ namespace ms
 			short max_width = Configuration.get ().get_max_width ();
 			short max_height = Configuration.get ().get_max_height ();
 
-			if (width < max_width && height < max_height)
+			if (viewwidth < max_width && viewheight < max_height)
 			{
 				fullscreen = !fullscreen;
 				Setting<Fullscreen>.get ().save (fullscreen);
@@ -301,7 +317,8 @@ namespace ms
 		private float opacity;
 		private float opcstep;
 		private System.Action fadeprocedure;
-		private short width;
-		private short height;
+		private short viewwidth;
+		private short viewheight;
+
 	}
 }

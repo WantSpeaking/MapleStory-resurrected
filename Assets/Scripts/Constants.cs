@@ -58,10 +58,10 @@ namespace ms
 		}
 
 		// Window and screen Width.
-		private short VIEWWIDTH = 1280;
+		private short VIEWWIDTH = 800;
 
 		// Window and screen height.
-		private short VIEWHEIGHT = 720;
+		private short VIEWHEIGHT = 600;
 
 		public short VIEWWIDTH_Login { get; set; } = 800;
 
