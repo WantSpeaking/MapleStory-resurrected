@@ -1,0 +1,115 @@
+/** This is an automatically generated class by FairyGUI. Please do not modify it. **/
+
+using System;
+using FairyGUI;
+using FairyGUI.Utils;
+using ms;
+
+namespace ms_Unity
+{
+	public partial class FGUI_EnterNumber
+	{
+		public string message;
+		public NoticeType t;
+		public Text.Alignment a;
+		public long count;
+		public long max;
+		public System.Action<int> numhandler;
+
+		public void OnCreate ()
+		{
+			this._gTextInput_Number.onChanged.Add (On_gTextInput_Number_Changed);
+			this._Btn_Yes.onClick.Add (OnClick_Btn_Yes);
+			this._Btn_No.onClick.Add (deactivate);
+
+		}
+
+		private void On_gTextInput_Number_Changed (EventContext context)
+		{
+			if (_gTextInput_Number.text.ToInt () > max)
+			{
+				_gTextInput_Number.text = max.ToString ();
+			}
+		}
+		private void OnClick_Btn_Yes (EventContext context)
+		{
+			handlestring (_gTextInput_Number.text);
+		}
+
+		private void handlestring (string numstr)
+		{
+			int num = -1;
+			bool has_only_digits = (numstr.find_first_not_of ("0123456789") == -1);
+
+			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Lambda expressions cannot be assigned to 'var':
+			Action<bool> okhandler = (bool UnnamedParameter1) =>
+			{
+				//numfield.set_state (Textfield.State.FOCUSED);
+				//buttons[(int)Buttons.OK].set_state (Button.State.NORMAL);
+			};
+
+			if (!has_only_digits)
+			{
+				//numfield.set_state (Textfield.State.DISABLED);
+				//UI.get ().emplace<UIOk> ("Only numbers are allowed.", okhandler);
+				FGUI_OK.ShowNotice (message: "Only numbers are allowed.", okhandler: okhandler);
+
+				return;
+			}
+			else
+			{
+				num = Convert.ToInt32 (numstr);
+			}
+
+			if (num < 1)
+			{
+				//numfield.set_state (Textfield.State.DISABLED);
+
+				//UI.get ().emplace<UIOk> ("You may only enter a number equal to or higher than 1.", okhandler);
+
+				FGUI_OK.ShowNotice (message: "You may only enter a number equal to or higher than 1.", okhandler: okhandler);
+
+				return;
+			}
+			else if (num > max)
+			{
+				//numfield.set_state (Textfield.State.DISABLED);
+				//UI.get ().emplace<UIOk> ("You may only enter a number equal to or lower than " + Convert.ToString (max) + ".", okhandler);
+				FGUI_OK.ShowNotice (message: "You may only enter a number equal to or lower than " + Convert.ToString (max) + ".", okhandler: okhandler);
+
+				return;
+			}
+			else
+			{
+				numhandler (num);
+				deactivate ();
+			}
+
+			//buttons[(int)Buttons.OK].set_state (Button.State.NORMAL);
+		}
+		private void deactivate()
+		{
+			ms_Unity.FGUI_Manager.Instance.CloseFGUI<FGUI_EnterNumber> ();
+			GRoot.inst.HidePopup (this);
+
+		}
+		public static void ShowNotice (string message, NoticeType t = NoticeType.ENTERNUMBER, Text.Alignment a = Text.Alignment.CENTER, long max = 0, long count = 0, System.Action<int> numhandler = null)
+		{
+			var thisNotice = ms_Unity.FGUI_Manager.Instance.OpenFGUI<FGUI_EnterNumber> () as FGUI_EnterNumber;
+			GRoot.inst.ShowPopup (thisNotice);
+
+			thisNotice.message = message;
+			thisNotice.t = t;
+			thisNotice.a = a;
+			thisNotice.max = max;
+			thisNotice.count = count;
+			thisNotice.numhandler = numhandler;
+
+			thisNotice._c_NoticeType.selectedIndex = (int)t;
+			thisNotice.Center ();
+
+			thisNotice.text = message;
+			thisNotice._gTextInput_Number.text = max.ToString ();
+		}
+	}
+}

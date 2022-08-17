@@ -1,0 +1,1675 @@
+fileFormatVersion: 2
+guid: 34267a18cdd782340b0f3c5f53ad4128
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 1
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 0
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MainEtcAtlas_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 550
+        width: 24
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91cba084f36c6224bb2bc7fbf2c07fb8
+      internalID: 1486705370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 41
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3137d9a032f7de84497261b87e459ab6
+      internalID: -759573385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_2
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 513
+        width: 26
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d43ed9b2be1a5c4da6ceded8e4a64e6
+      internalID: 924592798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 479
+        width: 52
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03d9a6c7382a6854fa6f11dd1031fbca
+      internalID: 994976281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_4
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 479
+        width: 52
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd205ac8af88ea44098d77841e021425
+      internalID: 797529376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_5
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 479
+        width: 51
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fdcb6961c549a448a219c134781241a
+      internalID: -406604214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_6
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 479
+        width: 42
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcf13373f88a25b44a01410e4d9caec0
+      internalID: -1371796010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_7
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 479
+        width: 33
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3693260213e92d640aa4e55353b40209
+      internalID: 1027649075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_8
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 479
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67c9192f1f916274892fe22410245c4a
+      internalID: 2074256798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_9
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 479
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 987978e720e13fb4396ed341a25e0487
+      internalID: 1469507858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_10
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 479
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28b8f3433b7aec34583e8ad2f9877b69
+      internalID: -286864049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_11
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 479
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0d0f40cd49972a4cb8449bbeaa5a1cb
+      internalID: 1278190886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_12
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 479
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d4bc15e3e2b7fd409ceea7924728e71
+      internalID: -1033016393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_13
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 479
+        width: 25
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 751125ef0dc3e60449b0f78595c65001
+      internalID: 1407492406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_14
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 479
+        width: 45
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db31c789e2091324cabb6f6518b5c4f1
+      internalID: -716999750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_15
+      rect:
+        serializedVersion: 2
+        x: 471
+        y: 479
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d11084a758b1e541b7a31840ce18b90
+      internalID: -103520675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 411
+        width: 67
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86f07713aba925745bab4985300a61e9
+      internalID: -577247632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_17
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 411
+        width: 67
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01b62ee8e21b9944faf7415bdf37ccf1
+      internalID: 401455816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_18
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 411
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e273953c2c68b0e4cb5de1398e9f1d61
+      internalID: 1413913392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_19
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 334
+        width: 107
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f87d7ce9601314b4c85fceb7ee4aa6db
+      internalID: -942342201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_20
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 456
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42413646d4fd9204a83f2150c0629a0d
+      internalID: -1907086065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_21
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 451
+        width: 42
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6fcfd86ad19a114a972e7500cf2b05e
+      internalID: 593549082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_22
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 411
+        width: 44
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4902cc2ddc1d5846aa666bacc829b55
+      internalID: -1489893844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_23
+      rect:
+        serializedVersion: 2
+        x: 446
+        y: 448
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3466e24741519c40afbcb0ead03d733
+      internalID: 1253001607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_24
+      rect:
+        serializedVersion: 2
+        x: 475
+        y: 448
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a32ffc21c9caf5b41972f045412dbfea
+      internalID: 2000658127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_25
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 411
+        width: 49
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d50a923dfb6fe74880cda78123ddf74
+      internalID: -924248532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_26
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 411
+        width: 42
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 978068456baea3348bede0bc66d89588
+      internalID: -1435742107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_27
+      rect:
+        serializedVersion: 2
+        x: 446
+        y: 411
+        width: 47
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 385b578cd9ac09e41b8a7eac21f89ba6
+      internalID: 70853493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 334
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3b07d93b8e896143aa5167c96ced378
+      internalID: 440912935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_29
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 332
+        width: 76
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e522ea0e5a22784499acb08bbbd65b1
+      internalID: 542059776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_30
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 334
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa50768040a515345a0f4ec1a145d672
+      internalID: 1902890453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_31
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 334
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6add64e60ae88114791f538c1666ec00
+      internalID: 410919052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_32
+      rect:
+        serializedVersion: 2
+        x: 378
+        y: 334
+        width: 119
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84e02f01cd21c2a4ea55164fdcc97d1b
+      internalID: -573686513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_33
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 379
+        width: 48
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2a31fe6d3dfaa2448b639b51772e94a
+      internalID: -302245273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_34
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 172
+        width: 128
+        height: 161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ec14816067b9f14baec11b0022988f5
+      internalID: -764930299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_35
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 274
+        width: 57
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cdc0312fd7ddde40ac110f86ccfa638
+      internalID: 1652029060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_36
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 274
+        width: 42
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e83111bb57491aa4880b26af86c5fe50
+      internalID: 1872423499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_37
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 318
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 249153eba6b960f478eb4898f2e94d8b
+      internalID: -44978908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_38
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 316
+        width: 45
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97b2fad12b6df47409036460c6c55cfb
+      internalID: 1876537875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_39
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 315
+        width: 22
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28de69ef7d69b174cbf96458b16b4014
+      internalID: -959309750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_40
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 314
+        width: 20
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43308e2bfa02ecb4dbff775a5a887450
+      internalID: -707021905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_41
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 274
+        width: 46
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 888b72fd1bfd8434cb29d611fdc1c6ac
+      internalID: -828215494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_42
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 274
+        width: 98
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c052cc3c0a856143b1dbb3978ce5e08
+      internalID: 565543999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_43
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 274
+        width: 50
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44265161c8d22104c9a0e82e997d40cf
+      internalID: -1991277139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_44
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 274
+        width: 45
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15714fd3ca27d964bb64e30c6cf2a1bd
+      internalID: 1689314376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_45
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 274
+        width: 39
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e11ebfecad31a54fb0a623b052d0b67
+      internalID: -1719809193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_46
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 172
+        width: 95
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe6901176434fba4e981f08341b13a8e
+      internalID: -1186768601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_47
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 173
+        width: 275
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59f7184085af1bd4689301a6965b5a20
+      internalID: 1358014718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_48
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 241
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb784f501e6375548b4ec8961fcb74de
+      internalID: 232372507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_49
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 208
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a905fc642af19b46a4cdd6c9d4187a2
+      internalID: -183789662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_50
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 173
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc1a4d97e6670ec46a8ada213a1007d2
+      internalID: 2067101356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_51
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 129
+        width: 114
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c191c32c5a708e4eb1e3700398c7af3
+      internalID: -1773213292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_52
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 128
+        width: 114
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7e0083e04fe3a547a15a943f013f5b6
+      internalID: 142385926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_53
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 128
+        width: 55
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e59ca4cc3b2d6934f903a8c6f6105c7c
+      internalID: 672294777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_54
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 128
+        width: 50
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9930b2973f822a40af1d686d3fa8152
+      internalID: -29557149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_55
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 128
+        width: 109
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3fa6945868b7444ca5476ef760efcb6
+      internalID: 1302548156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_56
+      rect:
+        serializedVersion: 2
+        x: 493
+        y: 150
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51bc6bc213828c94690966274544321b
+      internalID: -120617622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_57
+      rect:
+        serializedVersion: 2
+        x: 493
+        y: 129
+        width: 18
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebe80ae9587d9d24694aadf19915063b
+      internalID: -38477692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_58
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63553826a387fb9489b1cae639127867
+      internalID: 1170991791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_59
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 80
+        width: 58
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 316b7d2d941bd4c40b05c8411e13123a
+      internalID: 269411199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_60
+      rect:
+        serializedVersion: 2
+        x: 188
+        y: 80
+        width: 51
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d37914c1b18ab548b82a11277605b31
+      internalID: -1026692029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_61
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 80
+        width: 51
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ae5c650f7e5a544e8cd5e799e6d6a4c
+      internalID: 460748712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_62
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 104
+        width: 56
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ace430d0226880f408754fb316d387b5
+      internalID: 282412929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_63
+      rect:
+        serializedVersion: 2
+        x: 361
+        y: 106
+        width: 24
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 902685154e205d34f97acce12730ba37
+      internalID: -1247904856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_64
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 106
+        width: 24
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cabe1d982cd6b4b45b06a3507d52ddf8
+      internalID: -2134939680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_65
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 0
+        width: 90
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdd7863f98aeb5045b4f3de89ac3ccca
+      internalID: -263405178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_66
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 76
+        width: 44
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd5804a867f686544a38dd0d4369a95f
+      internalID: -1058864433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_67
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 80
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a32501d0b72e926419316964a34614cb
+      internalID: -1183387730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_68
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 0
+        width: 116
+        height: 104
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91b40e89f5c131e4e873c460767b2366
+      internalID: -1669970485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainEtcAtlas_69
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 0
+        width: 174
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1df023a03e35607498997c8cf822bcda
+      internalID: -1014672724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: ecf895ef784051540896ad92942e85d1
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      MainEtcAtlas_58: 1170991791
+      MainEtcAtlas_4: 797529376
+      MainEtcAtlas_34: -764930299
+      MainEtcAtlas_45: -1719809193
+      MainEtcAtlas_15: -103520675
+      MainEtcAtlas_43: -1991277139
+      MainEtcAtlas_28: 440912935
+      MainEtcAtlas_51: -1773213292
+      MainEtcAtlas_14: -716999750
+      MainEtcAtlas_53: 672294777
+      MainEtcAtlas_40: -707021905
+      MainEtcAtlas_3: 994976281
+      MainEtcAtlas_27: 70853493
+      MainEtcAtlas_38: 1876537875
+      MainEtcAtlas_7: 1027649075
+      MainEtcAtlas_32: -573686513
+      MainEtcAtlas_39: -959309750
+      MainEtcAtlas_11: 1278190886
+      MainEtcAtlas_57: -38477692
+      MainEtcAtlas_56: -120617622
+      MainEtcAtlas_18: 1413913392
+      MainEtcAtlas_0: 1486705370
+      MainEtcAtlas_13: 1407492406
+      MainEtcAtlas_16: -577247632
+      MainEtcAtlas_24: 2000658127
+      MainEtcAtlas_60: -1026692029
+      MainEtcAtlas_12: -1033016393
+      MainEtcAtlas_69: -1014672724
+      MainEtcAtlas_25: -924248532
+      MainEtcAtlas_55: 1302548156
+      MainEtcAtlas_59: 269411199
+      MainEtcAtlas_20: -1907086065
+      MainEtcAtlas_23: 1253001607
+      MainEtcAtlas_35: 1652029060
+      MainEtcAtlas_8: 2074256798
+      MainEtcAtlas_33: -302245273
+      MainEtcAtlas_17: 401455816
+      MainEtcAtlas_22: -1489893844
+      MainEtcAtlas_68: -1669970485
+      MainEtcAtlas_31: 410919052
+      MainEtcAtlas_52: 142385926
+      MainEtcAtlas_37: -44978908
+      MainEtcAtlas_61: 460748712
+      MainEtcAtlas_29: 542059776
+      MainEtcAtlas_6: -1371796010
+      MainEtcAtlas_42: 565543999
+      MainEtcAtlas_5: -406604214
+      MainEtcAtlas_66: -1058864433
+      MainEtcAtlas_64: -2134939680
+      MainEtcAtlas_50: 2067101356
+      MainEtcAtlas_63: -1247904856
+      MainEtcAtlas_2: 924592798
+      MainEtcAtlas_49: -183789662
+      MainEtcAtlas_26: -1435742107
+      MainEtcAtlas_1: -759573385
+      MainEtcAtlas_19: -942342201
+      MainEtcAtlas_44: 1689314376
+      MainEtcAtlas_47: 1358014718
+      MainEtcAtlas_9: 1469507858
+      MainEtcAtlas_62: 282412929
+      MainEtcAtlas_36: 1872423499
+      MainEtcAtlas_48: 232372507
+      MainEtcAtlas_46: -1186768601
+      MainEtcAtlas_65: -263405178
+      MainEtcAtlas_21: 593549082
+      MainEtcAtlas_10: -286864049
+      MainEtcAtlas_54: -29557149
+      MainEtcAtlas_30: 1902890453
+      MainEtcAtlas_67: -1183387730
+      MainEtcAtlas_41: -828215494
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
