@@ -38,9 +38,9 @@ namespace ms
 				var player = ms.Stage.Instance.get_player ();
 				if (checkInfo.checkStages.Count == 0)
 					return;
-				
+
 				bool isAvailable = true;
-				if (questId == 3242)
+				if (questId == 6250)
 				{
 					isAvailable = true;
 				}
@@ -49,18 +49,75 @@ namespace ms
 				isAvailable &= checkStage0.lvmax == 0 ? true : player.get_level () <= checkStage0.lvmax;
 				isAvailable &= checkStage0.level == 0 ? true : player.get_level () == checkStage0.level;
 
-				foreach (var item in checkStage0.items)
+
+				var nowString = System.DateTime.Now.ToString ("yyyyMMddHH");
+				var nowTime = Convert.ToInt32 (nowString);
+
+				if (!string.IsNullOrEmpty (checkStage0.start))
 				{
-					isAvailable &= item.count <= player.get_inventory ().get_total_item_count (item.id);
+					var startTimeString = checkStage0.start;
+					var startTime = Convert.ToInt32 (startTimeString);
+					isAvailable &= nowTime >= startTime;
+				}
+				if (!string.IsNullOrEmpty (checkStage0.end))
+				{
+					var endTimeString = checkStage0.end;
+					var endTime = Convert.ToInt32 (endTimeString);
+					isAvailable &= nowTime <= endTime;
 				}
 
-				foreach (var job in checkStage0.jobs)
+				foreach (var item in checkStage0.items)
 				{
-					isAvailable |= (job == player.get_stats ().get_job ().get_id ());
+					var item_count_inventory = player.get_inventory ().get_total_item_count (item.id);
+					if (item_count_inventory == 0)
+					{
+						isAvailable &= false;
+					}
+					else
+					{
+						isAvailable &= item.count <= player.get_inventory ().get_total_item_count (item.id);
+					}
+				}
+
+				if (checkStage0.jobs.Count > 0)
+				{
+					bool isJobFullfill = false;
+					foreach (var job in checkStage0.jobs)
+					{
+						isJobFullfill |= (job == player.get_stats ().get_job ().get_id ());
+					}
+					isAvailable &= isJobFullfill;
+				}
+
+				if (checkStage0.fieldEnters.Count > 0)
+				{
+					bool isFieldEnterFullfill = false;
+					foreach (var fieldEnter in checkStage0.fieldEnters)
+					{
+						isFieldEnterFullfill |= (fieldEnter == Stage.get ().get_mapid ());
+					}
+					isAvailable &= isFieldEnterFullfill;
+				}
+
+				if (checkStage0.pets.Count > 0)
+				{
+					bool isFieldEnterFullfill = false;
+					foreach (var pet in checkStage0.pets)
+					{
+						isFieldEnterFullfill |= player.has_pet(pet);
+					}
+					isAvailable &= isFieldEnterFullfill;
+				}
+
+				foreach (var quest in checkStage0.quests)
+				{
+					isAvailable &= questLog.is_completed ((short)quest.id);
 				}
 
 				if (isAvailable)
 				{
+					AppDebug.Log ($"questId:{questId}\t checkStage0: lvmin:{checkStage0.lvmin}\t lvmax:{checkStage0.lvmax}\t level{checkStage0.level}|player level:{player.get_level ()}");
+
 					available_QuestId_Info_Dict.Add (questId, questInfo);
 				}
 			}

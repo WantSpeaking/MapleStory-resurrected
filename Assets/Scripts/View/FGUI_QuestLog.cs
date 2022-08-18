@@ -20,7 +20,7 @@ namespace ms_Unity
 			_GList_QuestInfo_in_progress.onClickItem.Add (OnClick_QuestInfo_in_progress);
 			_GList_QuestInfo_completed.onClickItem.Add (QuestInfo_QuestInfo_completed);
 		}
-		
+
 		private void ItemRenderer_started (int index, GObject item)
 		{
 			var listPool = UnityEngine.Rendering.ListPool<short>.Get ();
@@ -28,7 +28,8 @@ namespace ms_Unity
 			var questId = listPool[index];
 			var questInfo = questLog.GetQuestInfo (questId);
 			var ListItem_QuestLog = item as FGUI_ListItem_QuestLog;
-			ListItem_QuestLog._Txt_Name.text = questInfo.DisplayName;
+			ListItem_QuestLog._Txt_Name.text = $"{questInfo.Id} {questInfo.DisplayName}";
+			ListItem_QuestLog.data = questId;
 			UnityEngine.Rendering.ListPool<short>.Release (listPool);
 		}
 		private void ItemRenderer_in_progress (int index, GObject item)
@@ -39,6 +40,7 @@ namespace ms_Unity
 			var questInfo = questLog.GetQuestInfo (questId);
 			var ListItem_QuestLog = item as FGUI_ListItem_QuestLog;
 			ListItem_QuestLog._Txt_Name.text = questInfo.DisplayName;
+			ListItem_QuestLog.data = questId;
 			UnityEngine.Rendering.ListPool<short>.Release (listPool);
 		}
 		private void ItemRenderer_completed (int index, GObject item)
@@ -58,7 +60,7 @@ namespace ms_Unity
 			var ListItem_QuestLog = context.data as FGUI_ListItem_QuestLog;
 			var questId = (short)ListItem_QuestLog.data;
 			var questInfo = questLog.GetQuestInfo (questId);
-			_Txt_Desc.text = questInfo.Info_started;
+			_Txt_Desc.text = questInfo.Info_started ?? $"quest {questId} Info_started not exist";
 
 		}
 

@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-
-
-
+using MapleLib.WzLib.WzProperties;
 
 namespace ms
 {
@@ -38,7 +36,10 @@ namespace ms
 			return started.Last ().Key;
 		}
 
-	
+		public bool is_completed (short qid)
+		{
+			return completed.Any (pair => pair.Key == qid);
+		}
 		public QuestInfo GetQuestInfo (short questId)
 		{
 			if (!questId_Info_Dict.TryGetValue (questId, out var questInfo))
@@ -48,8 +49,9 @@ namespace ms
 				if (wzObj_Quest != null)
 				{
 					var tempName = wzObj_Quest["name"]?.ToString ();
+					questInfo.Id = questId;
 					questInfo.Name = string.IsNullOrEmpty (tempName) ? $"name none,id:{questId}" : tempName;
-					questInfo.Parent = wzObj_Quest["parent"]?.ToString ();
+					questInfo.Parent = wzObj_Quest["parent"] is WzNullProperty ? "" : wzObj_Quest["parent"]?.ToString ();
 					questInfo.Info_started = wzObj_Quest["0"]?.ToString ();
 					questInfo.Info_in_progress = wzObj_Quest["1"]?.ToString ();
 					questInfo.Info_completed = wzObj_Quest["2"]?.ToString ();
@@ -86,7 +88,7 @@ namespace ms
 
 			return questInfo;
 		}
-		 
+
 		private SortedDictionary<short, string> started = new SortedDictionary<short, string> ();
 		private SortedDictionary<short, System.Tuple<short, string>> in_progress = new SortedDictionary<short, System.Tuple<short, string>> ();
 		private SortedDictionary<short, long> completed = new SortedDictionary<short, long> ();
@@ -103,6 +105,7 @@ namespace ms
 
 	public struct QuestInfo
 	{
+		public short Id { get; set; }
 		public string Name { get; set; }
 		public string Parent { get; set; }
 		public string Info_started { get; set; }

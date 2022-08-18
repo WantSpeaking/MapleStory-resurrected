@@ -335,7 +335,21 @@ namespace ms
 				// TODO: Empty
 			}
 		}
-
+		public bool has_pet(int petid)
+		{
+			for (int i = 0; i < pets.Length; i++)
+			{
+				var pet = pets[i];
+				if (pet != null)
+				{
+					if (pet.get_itemid() == petid)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
 		public virtual bool is_invincible ()
 		{
 			return invincible == true;

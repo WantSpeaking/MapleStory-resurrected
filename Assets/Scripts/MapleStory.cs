@@ -25,6 +25,9 @@ public class MapleStory : SingletonMono<MapleStory>
 		button_load.onClick.AddListener (OnButtonLoadClick);
 		DontDestroyOnLoad (this);
 		clearBuffer = new CommandBuffer () { name = "Clear Buffer" };
+		//Debug.Log ($"{System.DateTime.Now.ToString("yyyyMMddHH")}");
+		//System.DateTime.Parse ("2009010100");
+		//Debug.Log (System.DateTime.Parse ("2009010100"));
 	}
 
 	private void Update ()

@@ -100,6 +100,26 @@ namespace ms
 							}
 						}
 
+						checkStage.fieldEnters = new List<int> ();
+						if (checkimg_1000_0["fieldEnter"] is WzSubProperty checkimg_1000_0_fieldEnter)
+						{
+							foreach (var checkimg_1000_0_fieldEnter_0 in checkimg_1000_0_fieldEnter)
+							{
+								int mapId = checkimg_1000_0_fieldEnter_0;
+								checkStage.fieldEnters.Add (mapId);
+							}
+						}
+
+						checkStage.pets = new List<int> ();
+						if (checkimg_1000_0["pet"] is WzSubProperty checkimg_1000_0_pet)
+						{
+							foreach (var checkimg_1000_0_pet_0 in checkimg_1000_0_pet)
+							{
+								int petId = checkimg_1000_0_pet_0["id"];
+								checkStage.pets.Add (petId);
+							}
+						}
+
 						checkStage.infoexs = new List<CheckRequireInfoex> ();
 						if (checkimg_1000_0["infoex"] is WzSubProperty checkimg_1000_0_infoex)
 						{
@@ -165,6 +185,8 @@ namespace ms
 		public List<CheckRequireItem> items { get; set; }
 		public List<CheckRequireQuest> quests { get; set; }
 		public List<int> jobs { get; set; }
+		public List<int> fieldEnters { get; set; }
+		public List<int> pets { get; set; }
 		public List<CheckRequireInfoex> infoexs { get; set; }
 		public List<CheckRequireMbcard> mbcards { get; set; }
 		public List<CheckRequireMob> mobs { get; set; }
