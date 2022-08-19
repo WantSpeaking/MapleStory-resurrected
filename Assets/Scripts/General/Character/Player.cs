@@ -617,7 +617,7 @@ namespace ms
 		{
 			return questlog;
 		}
-		public CheckLog get_checkLog ()
+		public CheckLog get_checklog ()
 		{
 			return checkLog;
 		}

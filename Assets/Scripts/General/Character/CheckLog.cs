@@ -37,7 +37,7 @@ namespace ms
 							continue;
 						}
 						var checkStage = new CheckStage ();
-						checkStage.npc = checkimg_1000_0["npc"]?.ToString ();
+						checkStage.npc = checkimg_1000_0["npc"];
 						checkStage.lvmin = checkimg_1000_0["lvmin"];
 						checkStage.lvmax = checkimg_1000_0["lvmax"];
 						checkStage.dayByDay = checkimg_1000_0["dayByDay"];
@@ -191,7 +191,7 @@ namespace ms
 		public List<CheckRequireMbcard> mbcards { get; set; }
 		public List<CheckRequireMob> mobs { get; set; }
 
-		public string npc { get; set; }
+		public int npc { get; set; }
 		public int lvmin { get; set; }
 		public int lvmax { get; set; }
 		public int dayByDay { get; set; }

@@ -85,6 +85,8 @@ namespace ms
 
 			phobj.fhid = f;
 			set_position (new Point_short (position));
+			findQuest ();
+
 		}
 
 		private string lastDraw_Stance = string.Empty;
@@ -156,16 +158,12 @@ namespace ms
 		}
 
 		// Check whether this is a server-sided NPC
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool isscripted() const
 		public bool isscripted ()
 		{
 			return scripted;
 		}
 
 		// Check if the NPC is in range of the cursor
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool inrange(Point_short cursorpos, Point_short viewpos) const
 		public bool inrange (Point_short cursorpos, Point_short viewpos)
 		{
 			if (!active)
@@ -191,7 +189,36 @@ namespace ms
 		{
 			return func;
 		}
+		SortedDictionary<int, QuestInfo> available_Quests = new SortedDictionary<int, QuestInfo>();
+		SortedDictionary<int, QuestInfo> inProgress_Quests = new SortedDictionary<int, QuestInfo>();
+		QuestLog questLog => Stage.Instance.get_player ().get_questlog ();
+		CheckLog checkLog => Stage.Instance.get_player ().get_checklog ();
+		Quest quest => Stage.Instance.get_player ().get_quest ();
+		private void findQuest()
+		{
+			foreach (var questId in questLog.In_progress.Keys)
+			{
+				inProgress_Quests.Add (questId, questLog.GetQuestInfo (questId));
+			}
 
+			quest.GetAvailable_Quest ();
+			foreach (var pair in quest.AvailableQuests)
+			{
+				var questId = pair.Key;
+				var questInfo = pair.Value;
+				var checkInfo = checkLog.GetCheckInfo (questId);
+				if (checkInfo.checkStages[0].npc == npcid)
+				{
+					available_Quests.Add (questId, questInfo);
+				}
+			}
+
+		}
+
+		public bool hasQuest()
+		{
+			return available_Quests.Count != 0 || inProgress_Quests.Count != 0;
+		}
 		private SortedDictionary<string, Animation> animations = new SortedDictionary<string, Animation> ();
 		private SortedDictionary<string, List<string>> lines = new SortedDictionary<string, List<string>> ();
 		private List<string> states = new List<string> ();

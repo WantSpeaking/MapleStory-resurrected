@@ -115,6 +115,7 @@ namespace ms
 		private WzObject cache_src { get; set; }
 
 		public Texture2D texture2D { get; set; }
+		public FairyGUI.NTexture nTexture { get; set; }
 
 		public RenderTexture target => SingletonMono<MapleStory>.Instance.target;
 
@@ -160,6 +161,7 @@ namespace ms
 				this.canvasProperty = src as WzCanvasProperty;
 				dimensions = new Point_short ((short)bitmap.Width, (short)bitmap.Height);
 				texture2D = TextureAndSpriteUtil.PngDataToTexture2D (textureData, bitmap, pivot, dimensions);
+				nTexture = new FairyGUI.NTexture (texture2D);
 			}
 		}
 

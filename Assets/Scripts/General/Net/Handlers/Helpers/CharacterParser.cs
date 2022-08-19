@@ -118,12 +118,12 @@ namespace ms
 			Dictionary<short, long> completed = new Dictionary<short, long> ();
 			size = recv.read_short ();
 
-			for (short i = 0; i < size; i++)
+/*			for (short i = 0; i < size; i++)
 			{
 				short qid = recv.read_short ();
 				long time = recv.read_long ();
 				quests.add_completed (qid, time);
-			}
+			}*/
 		}
 
 		public static void parse_ring1 (InPacket recv)

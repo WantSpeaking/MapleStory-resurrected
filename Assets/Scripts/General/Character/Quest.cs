@@ -12,7 +12,7 @@ namespace ms
 		public Quest ()
 		{
 			this.questLog = ms.Stage.Instance.get_player ().get_questlog ();
-			this.checkLog = ms.Stage.Instance.get_player ().get_checkLog ();
+			this.checkLog = ms.Stage.Instance.get_player ().get_checklog ();
 
 			AvailableQuests = new ReadOnlyDictionary<short, QuestInfo> (available_QuestId_Info_Dict);
 

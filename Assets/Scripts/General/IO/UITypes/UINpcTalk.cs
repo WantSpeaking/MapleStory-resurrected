@@ -195,13 +195,13 @@ namespace ms
 
         public void change_text(int npcid, sbyte msgtype, short style, sbyte speakerbyte, string tx)
         {
-            AppDebug.Log($"npcid:{npcid}");
             type = get_by_value(msgtype);
 
             timestep = 0;
             draw_text = true;
             formatted_text_pos = 0;
             formatted_text = format_text(tx, npcid);
+            AppDebug.Log ($"npcid:{npcid} talk:{formatted_text}");
 
             //text = new Text(Text.Font.A12M, Text.Alignment.LEFT, Color.Name.DARKGREY, formatted_text, 320);
             text.change_text(formatted_text);
@@ -292,6 +292,8 @@ namespace ms
 
             position = new Point_short((short)(400 - top.width() / 2), (short)(240 - height / 2));
             dimension = new Point_short(top.width(), (short)(height + 120));
+
+            fGUI_NpcTalk.change_text ();
 
             /*text.TextWidth = 500;
             text.TextHeight = height;*/
@@ -498,6 +500,15 @@ namespace ms
         public override void OnActivityChange(bool isActive)
         {
             text?.OnActivityChange(isActive);
+
+            if (isActive)
+            {
+                ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_NpcTalk> ().OnVisiblityChanged (true,this);
+            }
+            else
+            {
+                ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_NpcTalk> ().OnVisiblityChanged (false,this);
+            }
         }
 
         private void OnClickLink(int selection)
@@ -523,14 +534,20 @@ namespace ms
             YES
         }
 
+        ms_Unity.FGUI_NpcTalk fGUI_NpcTalk;
+        public void SetFGUI_NpcTalk(ms_Unity.FGUI_NpcTalk fGUI_NpcTalk)
+		{
+            this.fGUI_NpcTalk = fGUI_NpcTalk;
+
+        }
         private readonly Texture top;
         private readonly Texture fill;
         private readonly Texture bottom;
-        private readonly Texture nametag;
-        private Texture speaker = new Texture();
+        public readonly Texture nametag;
+        public Texture speaker = new Texture();
 
-        private Text text;
-        private readonly Text name;
+        public Text text;
+        public readonly Text name;
 
         private short height;
         private short offset;
@@ -541,7 +558,7 @@ namespace ms
         private bool show_slider;
         private bool draw_text;
         private Slider slider = new Slider();
-        private TalkType type;
+        public TalkType type;
         private string formatted_text;
         private int formatted_text_pos;
         private ushort timestep;
