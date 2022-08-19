@@ -33,16 +33,20 @@ namespace ms_Unity
 		private void onClick_Btn_Close (EventContext context)
 		{
 			//ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_NpcTalk> ();
+			UI.get ().get_element<UINpcTalk> ().get()?.deactivate();
 			new NpcTalkMorePacket ((sbyte)type, -1).dispatch ();
 		}
 		private void onClick_Btn_Next (EventContext context)
 		{
 			//ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_NpcTalk> ();
+			UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
 
 			new NpcTalkMorePacket ((sbyte)type, 1).dispatch ();
 		}
 		private void onClick_Btn_Prev (EventContext context)
 		{
+			UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+
 			//ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_NpcTalk> ();
 
 			new NpcTalkMorePacket ((sbyte)type, 0).dispatch ();

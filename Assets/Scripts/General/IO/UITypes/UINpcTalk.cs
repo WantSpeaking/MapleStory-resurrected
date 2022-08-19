@@ -50,7 +50,8 @@ namespace ms
             buttons[(int)Buttons.MYLEVEL] = new MapleButton(UtilDlgEx["BtMyLevel"]);
             buttons[(int)Buttons.NEXT] = new MapleButton(UtilDlgEx["BtNext"]);
             buttons[(int)Buttons.NO] = new MapleButton(UtilDlgEx["BtNo"]);
-            buttons[(int)Buttons.OK] = new MapleButton(UtilDlgEx["BtOK"]);
+            //buttons[(int)Buttons.OK] = new MapleButton(UtilDlgEx["BtOK"]);
+            buttons[(int)Buttons.OK] = new MapleButton(UtilDlgEx["BtNo"]);
             buttons[(int)Buttons.PREV] = new MapleButton(UtilDlgEx["BtPrev"]);
             buttons[(int)Buttons.QAFTER] = new MapleButton(UtilDlgEx["BtQAfter"]);
             buttons[(int)Buttons.QCNO] = new MapleButton(UtilDlgEx["BtQCNo"]);
