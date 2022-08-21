@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using MapleLib.WzLib;
 
 
@@ -184,21 +185,27 @@ namespace ms
 			return name;
 		}
 
+		public int get_id()
+		{
+			return npcid;
+		}
+
 		// Returns the NPC's function description or title
 		public string get_func ()
 		{
 			return func;
 		}
-		SortedDictionary<int, QuestInfo> available_Quests = new SortedDictionary<int, QuestInfo>();
-		SortedDictionary<int, QuestInfo> inProgress_Quests = new SortedDictionary<int, QuestInfo>();
+		SortedDictionary<int, SayInfo> available_Quests = new SortedDictionary<int, SayInfo> ();
+		SortedDictionary<int, SayInfo> inProgress_Quests = new SortedDictionary<int, SayInfo> ();
 		QuestLog questLog => Stage.Instance.get_player ().get_questlog ();
 		CheckLog checkLog => Stage.Instance.get_player ().get_checklog ();
+		SayLog sayLog => Stage.Instance.get_player ().get_saylog ();
 		Quest quest => Stage.Instance.get_player ().get_quest ();
-		private void findQuest()
+		private void findQuest ()
 		{
 			foreach (var questId in questLog.In_progress.Keys)
 			{
-				inProgress_Quests.Add (questId, questLog.GetQuestInfo (questId));
+				inProgress_Quests.Add (questId, sayLog.GetSayInfo (questId));
 			}
 
 			quest.GetAvailable_Quest ();
@@ -206,16 +213,93 @@ namespace ms
 			{
 				var questId = pair.Key;
 				var questInfo = pair.Value;
+				var sayInfo = sayLog.GetSayInfo (questId);
 				var checkInfo = checkLog.GetCheckInfo (questId);
 				if (checkInfo.checkStages[0].npc == npcid)
 				{
-					available_Quests.Add (questId, questInfo);
+					available_Quests.Add (questId, sayInfo);
 				}
 			}
 
 		}
 
-		public bool hasQuest()
+		StringBuilder stringBuilder = new StringBuilder ();
+		/// <summary>
+		/// 拼装 npc对话框内的string 包含 available_Quests 、inProgress_Quests 列表 以供选择
+		/// </summary>
+		/// <returns></returns>
+		public string getQuestListString ()
+		{
+			stringBuilder.Clear ();
+			var index = 0;
+
+			if (available_Quests.Count > 0)
+			{
+				//stringBuilder.Append ($"{}");
+				stringBuilder.AppendLine ($"可开始的任务");
+				foreach (var pair in available_Quests)
+				{
+
+					stringBuilder.Append ($"#L{index++}# {pair.Value.questName} #l \r\n");
+				}
+			}
+
+			if (inProgress_Quests.Count > 0)
+			{
+				//stringBuilder.Append ($"{}");
+				stringBuilder.AppendLine ($"正在进行的任务");
+				foreach (var pair in inProgress_Quests)
+				{
+					stringBuilder.Append ($"#L{index++}# {pair.Value.questName} #l \r\n");
+				}
+			}
+			return stringBuilder.ToString ();
+		}
+
+		public SayPage getInitPage()
+		{
+			var sayPage = new SayPage ();
+			sayPage.npcId = npcid;
+			sayPage.pageIndex = -1;
+			sayPage.text = getQuestListString ();
+
+			return sayPage;
+		}
+
+		public SayInfo? BeginQuestSay(int questIndex, out bool isQuestStarted)
+		{
+			var index = 0;
+
+			if (available_Quests.Count > 0)
+			{
+				foreach (var pair in available_Quests)
+				{
+					if (index == questIndex)
+					{
+						isQuestStarted = false;
+						return pair.Value;
+					}
+					index++;
+				}
+			}
+
+			if (inProgress_Quests.Count > 0)
+			{
+				foreach (var pair in inProgress_Quests)
+				{
+					if (index == questIndex)
+					{
+						isQuestStarted = true;
+
+						return pair.Value;
+					}
+					index++;
+				}
+			}
+			isQuestStarted = false;
+			return null;
+		}
+		public bool hasQuest ()
 		{
 			return available_Quests.Count != 0 || inProgress_Quests.Count != 0;
 		}

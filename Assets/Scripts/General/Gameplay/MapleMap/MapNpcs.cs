@@ -78,7 +78,15 @@ namespace ms
                     if (pressed)
                     {
                         // TODO: Try finding dialog first
-                        new TalkToNPCPacket(npc.get_oid()).dispatch();
+                        if (npc.hasQuest())
+						{
+                            UI.get ().emplace<UINpcTalk> ();
+                            UI.get ().get_element<UINpcTalk> ().get().ParseSayPage(npc,npc.getInitPage ());
+						}
+                        else
+						{
+                            new TalkToNPCPacket (npc.get_oid ()).dispatch ();
+                        }
 
                         return Cursor.State.IDLE;
                     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HaCreator.Wz;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
@@ -124,7 +125,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		}
 		
 		//FindChild (wz.wzFile_quest["QuestInfo.img"]);
-		FindChild (wz.wzFile_quest["Check.img"]);
+		FindChild (wz.wzFile_quest["Say.img"]);
 		Debug.Log (dictionary.ToDebugLog ());
 	}
 	Dictionary<string, string> dictionary;
@@ -134,9 +135,14 @@ public class MapleStory : SingletonMono<MapleStory>
 			return;
 		foreach (var item in wzObj)
 		{
-			if (!dictionary.ContainsKey (item.Name) && item is not WzSubProperty)
+			if (!dictionary.ContainsKey (item.Name)/* && item is not WzSubProperty*/)
 			{
-				dictionary.Add (item.Name, item.FullPath);
+				if (!int.TryParse (item.Name, out var result))
+				{
+					dictionary.Add (item.Name, item.FullPath);
+
+				}
+
 			}
 			FindChild (item);
 		}

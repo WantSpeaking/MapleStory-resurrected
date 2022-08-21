@@ -83,5 +83,26 @@ namespace ms
 			if(b1.Length !=b2.Length ) return false;
 			return string.Compare(Convert.ToBase64String(b1).TrimEnd ('A'), Convert.ToBase64String(b2).TrimEnd ('M','A','=','='), false) == 0 ? true : false;
 		}
+
+		public static bool isInt(this string src)
+		{
+			return int.TryParse (src, out var result);
+		}
+
+		public static bool isFloot (this string src)
+		{
+			return float.TryParse (src, out var result);
+		}
+
+		public static bool isDouble (this string src)
+		{
+			return double.TryParse (src, out var result);
+		}
+
+		public static bool isNumber (this string src)
+		{
+			return isInt(src) || isFloot (src) || isDouble (src);
+		}
+
 	}
 }

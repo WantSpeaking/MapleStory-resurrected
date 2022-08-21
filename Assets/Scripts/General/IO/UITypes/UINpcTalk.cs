@@ -302,7 +302,7 @@ namespace ms
 
         public override Button.State button_pressed(ushort buttonid)
         {
-            deactivate();
+/*            deactivate();
 
             switch (type)
             {
@@ -416,7 +416,7 @@ namespace ms
                     {
                         break;
                     }
-            }
+            }*/
 
             return Button.State.NORMAL;
         }
@@ -516,6 +516,15 @@ namespace ms
         {
             new NpcTalkMorePacket(selection).dispatch();
         }
+
+    
+        public void ParseSayPage (Npc npc, SayPage sayPage)
+        {
+            //type = TalkType.NONE;
+            fGUI_NpcTalk.ParseSayPage(npc,sayPage);
+            change_text (sayPage.npcId,-1,0,0,sayPage.text);
+        }
+
         private enum Buttons
         {
             ALLLEVEL,

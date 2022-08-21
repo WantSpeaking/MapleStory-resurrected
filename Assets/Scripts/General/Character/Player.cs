@@ -621,6 +621,10 @@ namespace ms
 		{
 			return checkLog;
 		}
+		public SayLog get_saylog ()
+		{
+			return saylog;
+		}
 		public Quest get_quest ()
 		{
 			return quest ??= new Quest();
@@ -650,6 +654,8 @@ namespace ms
 		private SkillBook skillbook = new SkillBook ();
 		private QuestLog questlog = new QuestLog ();
 		private CheckLog checkLog = new CheckLog ();
+		private SayLog saylog = new SayLog ();
+		
 		private Quest quest;
 
 		private TeleportRock teleportrock = new TeleportRock ();
