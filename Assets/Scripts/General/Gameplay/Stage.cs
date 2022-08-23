@@ -439,5 +439,11 @@ namespace ms
 		{
 			return physics?.get_fht ();
 		}
+
+		public void UpdateQuest ()
+		{
+			ms.Stage.get ().get_npcs ().UpdateQuest ();
+			ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_QuestLog> ().UpdateQuest ();
+		}
 	}
 }

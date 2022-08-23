@@ -93,11 +93,15 @@ namespace ms
 			// TODO: New handlers, they need coded and moved to a proper file.
 			emplace (Opcode.CHECK_SPW_RESULT, new CheckSpwResultHandler ());
 			emplace (Opcode.FIELD_EFFECT, new FieldEffectHandler ());
+
+			//Quest
+			emplace (Opcode.UPDATE_QUEST_INFO, new UpdateQuestInfoHandler ());
+
 		}
 
 		// Forward a packet to the correct handler
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void forward(const sbyte* bytes, uint length) const
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: void forward(const sbyte* bytes, uint length) const
 		public void forward (byte[] bytes, int length)
 		{
 			//AppDebug.Log ($"forward bytes: {bytes.Length}");
@@ -122,8 +126,9 @@ namespace ms
 							Console.Write ("\n");
 						}*/
 
-				if (GameUtil.get ().enableDebugPacket && (Opcode)opcode != Opcode.SHOW_ITEM_GAIN_INCHAT && opcode != 198 && opcode != 239 && opcode != 240)
-				{
+				if (GameUtil.get ().enableDebugPacket && opcode != 198 && opcode != 239 && opcode != 240)
+				//if (GameUtil.get ().enableDebugPacket && (Opcode)opcode != Opcode.SHOW_ITEM_GAIN_INCHAT && opcode != 198 && opcode != 239 && opcode != 240)
+					{
 					AppDebug.Log ($"\t Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Length} \t {bytes.ToDebugLog ()}");
 				}
 			}

@@ -29,6 +29,13 @@ public class MapleStory : SingletonMono<MapleStory>
 		//Debug.Log ($"{System.DateTime.Now.ToString("yyyyMMddHH")}");
 		//System.DateTime.Parse ("2009010100");
 		//Debug.Log (System.DateTime.Parse ("2009010100"));
+
+		/*var str = $"abc\r\ndef\ngh";
+		var replaceStr = str.Replace ("\r\n", "\n").Replace ("\n", "\r\n");
+		// replaceStr = replaceStr.Replace ("\n", "\r\n");
+		Debug.Log (replaceStr);
+		Debug.Log (@replaceStr);*/
+
 	}
 
 	private void Update ()

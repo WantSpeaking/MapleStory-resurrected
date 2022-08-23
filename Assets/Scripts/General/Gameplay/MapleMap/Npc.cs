@@ -86,7 +86,7 @@ namespace ms
 
 			phobj.fhid = f;
 			set_position (new Point_short (position));
-			findQuest ();
+			UpdateQuest ();
 
 		}
 
@@ -201,14 +201,16 @@ namespace ms
 		CheckLog checkLog => Stage.Instance.get_player ().get_checklog ();
 		SayLog sayLog => Stage.Instance.get_player ().get_saylog ();
 		Quest quest => Stage.Instance.get_player ().get_quest ();
-		private void findQuest ()
+		public void UpdateQuest ()
 		{
+			inProgress_Quests.Clear ();
+			available_Quests.Clear ();
+
 			foreach (var questId in questLog.In_progress.Keys)
 			{
 				inProgress_Quests.Add (questId, sayLog.GetSayInfo (questId));
 			}
 
-			quest.GetAvailable_Quest ();
 			foreach (var pair in quest.AvailableQuests)
 			{
 				var questId = pair.Key;
@@ -266,15 +268,15 @@ namespace ms
 			return sayPage;
 		}
 
-		public SayInfo? BeginQuestSay(int questIndex, out bool isQuestStarted)
+		public SayInfo? GetQuestSayInfo(short selectQuestIndex, out bool isQuestStarted)
 		{
-			var index = 0;
+			short index = 0;
 
 			if (available_Quests.Count > 0)
 			{
 				foreach (var pair in available_Quests)
 				{
-					if (index == questIndex)
+					if (index == selectQuestIndex)
 					{
 						isQuestStarted = false;
 						return pair.Value;
@@ -287,7 +289,7 @@ namespace ms
 			{
 				foreach (var pair in inProgress_Quests)
 				{
-					if (index == questIndex)
+					if (index == selectQuestIndex)
 					{
 						isQuestStarted = true;
 

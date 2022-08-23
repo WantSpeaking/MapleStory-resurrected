@@ -24,15 +24,12 @@ namespace ms
 				var questInfo = questLog.GetQuestInfo (questId);
 				sayInfo = new SayInfo ();
 				sayInfo.questName = questLog.GetQuestInfo (questId).Name;
+				sayInfo.questId = questId;
 				sayInfo.sayStages = new List<SayStage> ();
 				if (wz.wzFile_quest.GetObjectFromPath ($"Quest.wz/Say.img/{questId}") is WzSubProperty sayimg_1000)
 				{
 					var count = sayimg_1000.Count ();
 					for (int i = 0; i < count; i++)
-					/*{
-						wzObj_Checkimg_1000[i]
-					}
-					foreach (var checkimg_1000_0 in wzObj_Checkimg_1000)*/
 					{
 						var sayimg_1000_0 = sayimg_1000[i.ToString ()];
 						if (sayimg_1000_0 == null)
@@ -42,10 +39,11 @@ namespace ms
 							continue;
 						}
 
-						/*if (!HasDialogue (sayimg_1000_0))
-							continue;*/
 						var pageIndex = 0;
-
+						if (questId == 1013)
+						{
+							AppDebug.Log ($"");
+						}
 						var sayStage = new SayStage ();
 						sayStage.introducePages = new List<SayPage> ();
 						sayStage.yesPages = new List<SayPage> ();
@@ -53,160 +51,114 @@ namespace ms
 						sayStage.stopPages = new List<SayPage> ();
 						sayInfo.sayStages.Add (sayStage);
 
-						//每个任务都有的起始页 0
-		/*				var page0 = new SayPage ();
-						page0.pageIndex = pageIndex++;
-						page0.text = questInfo.Name;
-						page0.talkType = UINpcTalk.TalkType.SENDYESNO;
-						sayStage.introducePages.Add (page0);*/
-
 						bool isAsk = sayimg_1000_0["ask"];
-						/*				if (isAsk)
-										{
-											var sayimg_1000_0_ask = sayimg_1000_0_0;
-
-											var askPage = new SayPage ();
-											askPage.pageIndex = pageIndex++;
-											askPage.question = sayimg_1000_0_0?.ToString ();
-											askPage.talkType = UINpcTalk.TalkType.SENDNEXTPREV;
-											sayStage.introducePages.Add (askPage);
-										}
-										else*/
+						foreach (var sayimg_1000_0_0 in sayimg_1000_0)
 						{
-							foreach (var sayimg_1000_0_0 in sayimg_1000_0)
+							if (sayimg_1000_0_0 == null || sayimg_1000_0_0 is WzNullProperty)
+								continue;
+
+							var sayPage = new SayPage ();
+							sayPage.sayPageType = isAsk ? SayPageType.Ask : SayPageType.Normal;
+							sayPage.pageIndex = pageIndex++;
+
+							bool isNumberIntroducePage = sayimg_1000_0_0.Name.isNumber ();
+							if (isNumberIntroducePage)
 							{
-								if (sayimg_1000_0_0 == null || sayimg_1000_0_0 is WzNullProperty)
-									continue;
-
-								bool isNumberIntroducePage = sayimg_1000_0_0.Name.isNumber ();
-								if (isNumberIntroducePage)
+								if (isAsk)
 								{
-									var numberIntroducePage = new SayPage ();
-									numberIntroducePage.pageIndex = pageIndex++;
-									if (isAsk)
+									sayPage.text = sayimg_1000_0_0?.ToString ();
+									sayPage.question = sayimg_1000_0_0?.ToString ();
+									if (sayimg_1000_0["stop"]?[sayimg_1000_0_0.Name] is WzImageProperty sayimg_1000_0_stop_0)
 									{
-										numberIntroducePage.text = sayimg_1000_0_0?.ToString ();
-										numberIntroducePage.question = sayimg_1000_0_0?.ToString ();
-										if (sayimg_1000_0["stop"]?[sayimg_1000_0_0.Name] is WzImageProperty sayimg_1000_0_stop_0)
-										{
-											numberIntroducePage.rightAnswerChoiceNumber = sayimg_1000_0_stop_0?["answer"];
+										sayPage.rightAnswerChoiceNumber = sayimg_1000_0_stop_0?["answer"];
+										sayPage.wrongAnswer_index_Texts = new SortedDictionary<int, string> ();
 
-											foreach (var sayimg_1000_0_stop_0_0 in sayimg_1000_0_stop_0)
+										foreach (var sayimg_1000_0_stop_0_0 in sayimg_1000_0_stop_0)
+										{
+											bool isNumber_WrongAnswer = sayimg_1000_0_stop_0_0.Name.isNumber ();
+											if (isNumber_WrongAnswer)
 											{
-												numberIntroducePage.wrongAnswer_index_Texts = new SortedDictionary<int, string> ();
-												bool isNumber_WrongAnswer = sayimg_1000_0_stop_0_0.Name.isNumber ();
-												if (isNumber_WrongAnswer)
-												{
-													numberIntroducePage.wrongAnswer_index_Texts.Add (Convert.ToInt32 (sayimg_1000_0_stop_0_0.Name), sayimg_1000_0_stop_0_0?.ToString ());
-												}
+												sayPage.wrongAnswer_index_Texts.Add (Convert.ToInt32 (sayimg_1000_0_stop_0_0.Name), sayimg_1000_0_stop_0_0?.ToString ());
 											}
-											numberIntroducePage.sayPageType = SayPageType.Ask;
-
 										}
-										else
-										{
-											numberIntroducePage.sayPageType = SayPageType.Normal;
-
-											AppDebug.LogError ($"questId:{questId} sayimg_1000_0.FullPath:{sayimg_1000_0.FullPath} sayimg_1000_0[stop]?[sayimg_1000_0_0.Name] is null");
-										}
-
-										numberIntroducePage.talkType = UINpcTalk.TalkType.SENDNEXTPREV;
-
 									}
 									else
 									{
-										numberIntroducePage.text = sayimg_1000_0_0?.ToString ();
-										numberIntroducePage.talkType = UINpcTalk.TalkType.SENDNEXTPREV;
-										sayStage.introducePages.Add (numberIntroducePage);
+										AppDebug.LogError ($"questId:{questId} sayimg_1000_0.FullPath:{sayimg_1000_0.FullPath} sayimg_1000_0[stop]?[sayimg_1000_0_0.Name] is null");
 									}
-
 								}
 								else
 								{
-									switch (sayimg_1000_0_0.Name)
-									{
-										case "yes":
-											if (sayimg_1000_0_0 == null || sayimg_1000_0_0 is WzNullProperty)
-												continue;
-											var sayimg_1000_0_yes = sayimg_1000_0_0;
-											foreach (var sayimg_1000_0_yes_0 in sayimg_1000_0_yes)
-											{
-												var numberYesPage = new SayPage ();
-												numberYesPage.pageIndex = pageIndex++;
-
-
-												numberYesPage.text = sayimg_1000_0_yes_0?.ToString ();
-												numberYesPage.talkType = UINpcTalk.TalkType.SENDNEXTPREV;
-												numberYesPage.sayPageType = SayPageType.Normal;
-
-
-												sayStage.yesPages.Add (numberYesPage);
-											}
-											break;
-										case "no":
-											if (sayimg_1000_0_0 == null || sayimg_1000_0_0 is WzNullProperty)
-												continue;
-											var sayimg_1000_0_no = sayimg_1000_0_0;
-											foreach (var sayimg_1000_0_no_0 in sayimg_1000_0_no)
-											{
-												var numberNoPage = new SayPage ();
-												numberNoPage.pageIndex = pageIndex++;
-												numberNoPage.text = sayimg_1000_0_no_0?.ToString ();
-												numberNoPage.talkType = UINpcTalk.TalkType.SENDNEXTPREV;
-												sayStage.noPages.Add (numberNoPage);
-											}
-											break;
-										case "stop":
-											if (sayimg_1000_0_0 == null || sayimg_1000_0_0 is WzNullProperty)
-												continue;
-											var sayimg_1000_0_stop = sayimg_1000_0_0;
-											foreach (var sayimg_1000_0_stop_0 in sayimg_1000_0_stop)
-											{
-												bool isNumberStopPage = sayimg_1000_0_0.Name.isNumber ();
-
-												if (isNumberStopPage)
-												{
-													var numberNoPage = new SayPage ();
-													numberNoPage.pageIndex = pageIndex++;
-													numberNoPage.text = sayimg_1000_0_stop_0?.ToString ();
-													numberNoPage.talkType = UINpcTalk.TalkType.SENDNEXTPREV;
-													sayStage.stopPages.Add (numberNoPage);
-												}
-												else
-												{
-													switch (sayimg_1000_0_stop_0.Name)
-													{
-														case "item":
-															var sayimg_1000_0_stop_item = sayimg_1000_0_stop_0;
-															var stopItemPage = new SayPage ();
-															stopItemPage.pageIndex = pageIndex++;
-															stopItemPage.text = sayimg_1000_0_stop_item["0"]?.ToString ();
-															stopItemPage.talkType = UINpcTalk.TalkType.SENDOK;
-															sayStage.stopPages.Add (stopItemPage);
-															break;
-														case "npc":
-															var sayimg_1000_0_stop_npc = sayimg_1000_0_stop_0;
-															var stopNpcPage = new SayPage ();
-															stopNpcPage.pageIndex = pageIndex++;
-															stopNpcPage.text = sayimg_1000_0_stop_npc["0"]?.ToString ();
-															stopNpcPage.talkType = UINpcTalk.TalkType.SENDOK;
-															sayStage.stopPages.Add (stopNpcPage);
-															break;
-														default:
-															break;
-													}
-												}
-
-											}
-											break;
-										default:
-											break;
-									}
+									sayPage.text = sayimg_1000_0_0?.ToString ();
 								}
-
+								sayStage.introducePages.Add (sayPage);
 							}
-						}
+							else
+							{
+								switch (sayimg_1000_0_0.Name)
+								{
+									case "yes":
+										if (sayimg_1000_0_0 == null || sayimg_1000_0_0 is WzNullProperty)
+											continue;
+										var sayimg_1000_0_yes = sayimg_1000_0_0;
+										foreach (var sayimg_1000_0_yes_0 in sayimg_1000_0_yes)
+										{
+											sayPage.pageIndex = pageIndex++;
+											sayPage.text = sayimg_1000_0_yes_0?.ToString ();
+											sayStage.yesPages.Add (sayPage);
+										}
+										break;
+									case "no":
+										if (sayimg_1000_0_0 == null || sayimg_1000_0_0 is WzNullProperty)
+											continue;
+										var sayimg_1000_0_no = sayimg_1000_0_0;
+										foreach (var sayimg_1000_0_no_0 in sayimg_1000_0_no)
+										{
+											sayPage.pageIndex = pageIndex++;
+											sayPage.text = sayimg_1000_0_no_0?.ToString ();
+											sayStage.noPages.Add (sayPage);
+										}
+										break;
+									case "stop":
+										if (sayimg_1000_0_0 == null || sayimg_1000_0_0 is WzNullProperty)
+											continue;
+										var sayimg_1000_0_stop = sayimg_1000_0_0;
+										foreach (var sayimg_1000_0_stop_0 in sayimg_1000_0_stop)
+										{
+											bool isNumberStopPage = sayimg_1000_0_stop_0.Name.isNumber ();
 
+											if (isNumberStopPage)
+											{
+												sayPage.pageIndex = pageIndex++;
+												sayPage.text = sayimg_1000_0_stop_0?.ToString ();
+											}
+											else
+											{
+												switch (sayimg_1000_0_stop_0.Name)
+												{
+													case "item":
+														var sayimg_1000_0_stop_item = sayimg_1000_0_stop_0;
+														sayPage.pageIndex = pageIndex++;
+														sayPage.text = sayimg_1000_0_stop_item["0"]?.ToString ();
+														break;
+													case "npc":
+														var sayimg_1000_0_stop_npc = sayimg_1000_0_stop_0;
+														sayPage.pageIndex = pageIndex++;
+														sayPage.text = sayimg_1000_0_stop_npc["0"]?.ToString ();
+														break;
+													default:
+														break;
+												}
+											}
+											sayStage.stopPages.Add (sayPage);
+										}
+										break;
+									default:
+										break;
+								}
+							}
+
+						}
 
 					}
 
@@ -234,6 +186,7 @@ namespace ms
 	public class SayInfo
 	{
 		public string questName { get; set; }
+		public short questId { get; set; }
 		public List<SayStage> sayStages { get; set; }
 	}
 

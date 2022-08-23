@@ -8,7 +8,7 @@ namespace ms_Unity
     public partial class FGUI_Inventory : GComponent
     {
         public Controller _c_PanelType;
-        public GButton _Btn_Home;
+        public FGUI_NavigationBar _NavigationBar;
         public FGUI_ItemInventory _ItemInventory;
         public const string URL = "ui://4916gthqfza1m3b";
 
@@ -22,8 +22,8 @@ namespace ms_Unity
             base.ConstructFromXML(xml);
 
             _c_PanelType = GetControllerAt(0);
-            _Btn_Home = (GButton)GetChildAt(6);
-            _ItemInventory = (FGUI_ItemInventory)GetChildAt(7);
+            _NavigationBar = (FGUI_NavigationBar)GetChildAt(0);
+            _ItemInventory = (FGUI_ItemInventory)GetChildAt(1);
             OnCreate();
 
         }

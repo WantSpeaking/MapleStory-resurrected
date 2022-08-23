@@ -27,12 +27,6 @@ namespace ms_Unity
 			_SetupActionButtons.UpdateIcon ();
 
 			this.onClick.Add (OnClick_SkillBook);
-			_Btn_Home.onClick.Add (OnClick_Btn_Home);
-		}
-
-		private void OnClick_Btn_Home (EventContext context)
-		{
-			UI.get ().emplace<UISkillBook> (ms.Stage.get ().get_player ().get_stats (), ms.Stage.get ().get_player ().get_skills ());
 		}
 
 		private void OnClick_SkillBook (EventContext context)
@@ -72,7 +66,7 @@ namespace ms_Unity
 
 			CancelSetupAction ();
 
-			FGUI_Manager.Instance.Get<FGUI_ActionButtons> ().UpdateIcon ();
+			FGUI_Manager.Instance.GetFGUI<FGUI_ActionButtons> ().UpdateIcon ();
 		}
 
 		private void OnClickAction (EventContext context)

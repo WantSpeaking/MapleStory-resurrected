@@ -244,10 +244,13 @@ namespace ms.Util
             if (string.IsNullOrEmpty(text)) return string.Empty;
 			//AppDebug.Log($"before replace:{@text}");
 			//_text = text.Replace('\r', ' ' );
-			_text = text.Replace("\\r", " ").Replace("\\n", " ");
-			//AppDebug.Log($"after replace:{@_text}");
+			//_text = text.Replace("\\r", " ").Replace("\\n", " ");
+			_text = text.Replace ("\\r\\n", "\\n");
+			_text = _text.Replace ("\\n", "\r\n");
+			_text = _text.Replace ("#l#l", "#l");
+			//AppDebug.Log($"after  replace:{@_text}");
 
-            //_text = Regex.Replace(text, @"\\r"," ");
+			//_text = Regex.Replace(text, @"\\r"," ");
 
 			int pos1 = 0, pos2, pos3;
 			bool end = false;
@@ -303,17 +306,17 @@ namespace ms.Util
 					{
 						buffer.Append ("</a>");
 					}
-					else if (tag == "b" || tag == "d" || tag == "g" || tag == "k" || tag == "r")
+					/*else if (tag == "b" || tag == "d" || tag == "g" || tag == "k" || tag == "r")
 					{
 						buffer.Append ("</font>");
 
-						/*if (!end)
+						*//*if (!end)
 							return "<font color=\"" + attr + "\">";
 						else
-							return "</font>";*/
+							return "</font>";*//*
 						var hexColor = HexColor.MSColorTagToHexColor (tag);
 						buffer.Insert (insertPos, $"<font color=\"{hexColor}\">");
-					}
+					}*/
 					else if (tag == "e")
 					{
 						//return end ? ("</" + tagName + ">") : ("<" + tagName + ">");

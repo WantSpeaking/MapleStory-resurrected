@@ -21,8 +21,8 @@ namespace ms_Unity
 			_Btn_Prev.onClick.Add (onClick_Btn_Prev);
 			_Btn_YES.onClick.Add (onClick_Btn_YES);
 			_Btn_No.onClick.Add (onClick_Btn_NO);
-			_Btn_Accept.onClick.Add (onClick_Btn_Next);
-			_Btn_Decline.onClick.Add (onClick_Btn_Prev);
+			_Btn_Accept.onClick.Add (onClick_Btn_Accept);
+			_Btn_Decline.onClick.Add (onClick_Btn_Decline);
 
 		}
 
@@ -30,7 +30,7 @@ namespace ms_Unity
 		{
 			//ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_NpcTalk> ();
 			UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
-			new NpcTalkMorePacket ((sbyte)type, -1).dispatch ();
+			//new NpcTalkMorePacket ((sbyte)type, -1).dispatch ();
 		}
 		private void onClick_Btn_Next (EventContext context)
 		{
@@ -63,10 +63,42 @@ namespace ms_Unity
 			{
 				if (isAsk)
 				{
+					if (chooseRightAnswer)
+					{
+						//完成任务
+						new CompleteQuestPacket (currentQuestId, currentNpcId, currentSelection).dispatch ();
+						UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+					}
+					else
+					{
+						UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+					}
+				}
+				else
+				{
+					UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+				}
+			}
+			else
+			{
+				UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+
+				new NpcTalkMorePacket ((sbyte)type, 1).dispatch ();
+			}
+
+		}
+		private void onClick_Btn_Accept (EventContext context)
+		{
+			if (isClientPage)
+			{
+				if (isAsk)
+				{
 
 				}
 				else
 				{
+					new StartQuestPacket(currentQuestId, currentNpcId).dispatch ();
+
 					UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
 				}
 			}
@@ -126,6 +158,26 @@ namespace ms_Unity
 				new NpcTalkMorePacket ((sbyte)type, 0).dispatch ();
 			}
 		}
+		private void onClick_Btn_Decline (EventContext context)
+		{
+			if (isClientPage)
+			{
+				if (isAsk)
+				{
+
+				}
+				else
+				{
+					UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+				}
+			}
+			else
+			{
+				UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+
+				new NpcTalkMorePacket ((sbyte)type, 0).dispatch ();
+			}
+		}
 		public void OnVisiblityChanged (bool isVisible, UINpcTalk uINpcTalk)
 		{
 			this.uINpcTalk = uINpcTalk;
@@ -152,19 +204,17 @@ namespace ms_Unity
 			_c_TalkType.selectedIndex = (int)uINpcTalk.type;
 		}
 
-		public void ParseSayInfo (SayInfo sayInfo, bool isQuestStarted)
+		public void BeginQuestSay (SayInfo sayInfo, bool isQuestStarted)
 		{
 			var stageIndex = isQuestStarted ? 1 : 0;
 			var sayStage = sayInfo.sayStages[stageIndex];
 			currentSayStage = sayStage;
-
+			currentQuestId = sayInfo.questId;
 			//ParseSayStage (sayStage);
 			introducePageIndex = 0;
 
 			ShowIntroducePage ();
 		}
-
-
 
 		bool isInIntroducePage => introducePageIndex < (currentSayStage?.introducePages.Count ?? 0);
 		bool isInYesPage => yesPageIndex < (currentSayStage?.yesPages.Count ?? 0);
@@ -177,11 +227,14 @@ namespace ms_Unity
 		private SayPage currentSayPage;
 		private Npc currentNpc;
 		private int currentNpcId;
+		private short currentQuestId;
+		private short currentSelection = -1;
 		bool isAsk = false;
 		int introducePageIndex = -1;
 		int yesPageIndex = -1;
 		int noPageIndex = -1;
 		int stopPageIndex = -1;
+		bool chooseRightAnswer = false;
 
 		private bool isClientPage => currentNpc?.hasQuest () ?? false;
 		public void Rest ()
@@ -190,17 +243,14 @@ namespace ms_Unity
 			currentSayPage = default;
 			currentNpc = null;
 			currentNpcId = 0;
+			currentQuestId = 0;
+			currentSelection = -1;
 			isAsk = false;
 			introducePageIndex = -1;
 			yesPageIndex = -1;
 			noPageIndex = -1;
 			stopPageIndex = -1;
-		}
-
-		public void ParseSayStage (SayStage sayStage)
-		{
-
-
+			chooseRightAnswer = false;
 		}
 
 		private void ShowIntroducePage ()
@@ -244,7 +294,15 @@ namespace ms_Unity
 			{
 				if (isAsk)
 				{
-
+					//如果 有下一个对话  
+					if (currentSayStage.introducePages.TryGet (introducePageIndex + 1, out var sayPage))
+					{
+						return UINpcTalk.TalkType.NONE;
+					}
+					else
+					{
+						return UINpcTalk.TalkType.SENDOK;
+					}
 				}
 				else
 				{
@@ -269,7 +327,10 @@ namespace ms_Unity
 							yesPageIndex = 0;
 							return UINpcTalk.TalkType.SENDOK;
 						}
-
+						else if (!hasYes && !hasNo)
+						{
+							return UINpcTalk.TalkType.SENDACCEPTDECLINE;
+						}
 					}
 				}
 
@@ -294,12 +355,12 @@ namespace ms_Unity
 					}
 					else
 					{
-/*						bool hasStop = currentSayStage.stopPages.Count != 0;
-						if (hasStop)
-						{
-							return UINpcTalk.TalkType.SENDNEXT;
-						}
-						else*/
+						/*						bool hasStop = currentSayStage.stopPages.Count != 0;
+												if (hasStop)
+												{
+													return UINpcTalk.TalkType.SENDNEXT;
+												}
+												else*/
 						{
 							return UINpcTalk.TalkType.SENDOK;
 						}
@@ -343,7 +404,7 @@ namespace ms_Unity
 		}
 
 
-		public void ParseSayPage (Npc npc, SayPage sayPage)
+		public void InitChooseQuestSayPage (Npc npc, SayPage sayPage)
 		{
 			//type = TalkType.NONE;
 			currentNpc = npc;
@@ -356,18 +417,34 @@ namespace ms_Unity
 
 		private new void onClickLink (EventContext context)
 		{
-			int.TryParse ((string)context.data, out var seletIndex);
+			short.TryParse ((string)context.data, out var seletIndex);
 			if (isClientPage)
 			{
 				//init page
 				if (pageIndex == -1)
 				{
-					var questInfo = currentNpc.BeginQuestSay (seletIndex, out var isQuestStarted);
+					var questInfo = currentNpc.GetQuestSayInfo (seletIndex, out var isQuestStarted);
 					if (questInfo != null)
 					{
-						ParseSayInfo (questInfo, isQuestStarted);
+						BeginQuestSay (questInfo, isQuestStarted);
 					}
-
+				}
+				else//ask page
+				{
+					if (isAsk)
+					{
+						var answerInex = currentSayPage.rightAnswerChoiceNumber - 1;
+						currentSelection = seletIndex;
+						chooseRightAnswer = seletIndex == answerInex;
+						if (chooseRightAnswer)//答对了,进入下一页
+						{
+							ShowIntroducePage ();
+						}
+						else//答错了,进入相应的错误 页面
+						{
+							uINpcTalk.change_text (currentNpcId, (sbyte)UINpcTalk.TalkType.SENDOK, 0, 0, currentSayPage.wrongAnswer_index_Texts[seletIndex]);
+						}
+					}
 				}
 			}
 			else

@@ -213,7 +213,7 @@ namespace ms_Unity
 			keyconfig.get ().save_staged_mappings ();
 			_SetupUseButtons.visible = false;
 			_SetupUseButtons.UpdateIcon ();
-			FGUI_Manager.Instance.Get<FGUI_ActionButtons> ()?.UpdateIcon ();
+			FGUI_Manager.Instance.GetFGUI<FGUI_ActionButtons> ()?.UpdateIcon ();
 			OnClick_Btn_Close (context);
 		}
 

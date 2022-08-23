@@ -216,6 +216,12 @@ namespace ms
 			bytes.AddRange (sbytes);
 		}
 
+		public void write_PLyerPos()
+		{
+			var playerPos = ms.Stage.get ().get_player ().get_position ();
+			write_short (playerPos.x ());
+			write_short (playerPos.y ());
+		}
 		// Function to convert hexadecimal to decimal
 		protected int hex_to_dec (string hexVal)
 		{

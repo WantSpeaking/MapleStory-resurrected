@@ -102,6 +102,30 @@ namespace ms
 					show_status (Color.Name.RED, "Mode: 0, Mode 2: " + Convert.ToString (mode2) + " is not handled.");
 				}
 			}
+			else if (mode == 1)//updateQuest
+			{
+				var quest = Stage.get ().get_player ().get_quest ();
+
+				short questId = recv.read_short ();
+
+				var status = recv.readByte ();
+				if (status == 0)
+				{
+					quest.updateQuest (questId, status, "");
+				}
+				else if(status == 1)
+				{
+					var progressData = recv.read_string ();
+					//AppDebug.Log ($"questId:{questId}\t statusId:{statusId}\t ProgressData:{ProgressData}");
+					quest.updateQuest (questId, status, progressData);
+				}
+				else if (status == 2)
+				{
+					var progressData = recv.read_long ();
+					//AppDebug.Log ($"questId:{questId}\t statusId:{statusId}\t ProgressData:{ProgressData}");
+					quest.updateQuest (questId, status, progressData.ToString());
+				}
+			}
 			else if (mode == 3)
 			{
 				bool white = recv.read_bool ();
@@ -301,8 +325,17 @@ namespace ms
 		public override void handle (InPacket recv)
 		{
 			sbyte mode1 = recv.read_byte ();
+			AppDebug.Log ($"ShowItemGainInChatHandler:{mode1}");
+			if (mode1 == 0)//showSpecialEffect Levelup
+			{
+				AppDebug.Log ($"todo showSpecialEffect Levelup");
 
-			if (mode1 == 3)
+			}
+			else if (mode1 == 1)//showOwnBerserk
+			{
+				AppDebug.Log ($"todo showOwnBerserk");
+			}
+			else if (mode1 == 3)
 			{
 				sbyte mode2 = recv.read_byte ();
 
@@ -328,22 +361,94 @@ namespace ms
 					}*/
 				}
 			}
+			else if (mode1 == 4)//showOwnPetLevelUp
+			{
+				AppDebug.Log ($"todo showSpecialEffect showOwnPetLevelUp");
+
+
+			}
+			else if (mode1 == 6)//showSpecialEffect Exp did not drop (Safety Charms) 
+			{
+				AppDebug.Log ($"todo showSpecialEffect Exp did not drop");
+
+			}
+			else if (mode1 == 7)//showSpecialEffect Enter portal sound
+			{
+				AppDebug.Log ($"todo showSpecialEffect Enter portal sound");
+
+			}
+			else if (mode1 == 8)//showSpecialEffect Job change
+			{
+				AppDebug.Log ($"todo showSpecialEffect Job change");
+
+			}
+			else if (mode1 == 9)//showSpecialEffect Quest complete
+			{
+				AppDebug.Log ($"todo showSpecialEffect Quest complete");
+
+			}
+			else if (mode1 == 10) //showSpecialEffect showOwnRecovery Recovery
+			{
+				recv.read_byte ();//some byte
+				AppDebug.Log ($"todo showSpecialEffect Recovery");
+			}
+			else if (mode1 == 11)//showSpecialEffect Buff effect 
+			{
+				AppDebug.Log ($"todo showSpecialEffect Buff effect ");
+
+			}
+			else if (mode1 == 12)//showIntro
+			{
+				AppDebug.Log ($"todo ShowItemGainInChatHandler showIntro");
+
+			}
 			else if (mode1 == 13) // card effect
 			{
 				Stage.get ().get_player ().show_effect_id (CharEffect.Id.MONSTER_CARD);
 			}
+			else if (mode1 == 14)//showSpecialEffect Monster book pickup
+			{
+				AppDebug.Log ($"todo showSpecialEffect Monster book pickup");
+
+			}
+			else if (mode1 == 15)//showSpecialEffect Equipment levelup
+			{
+				AppDebug.Log ($"todo showSpecialEffect Equipment levelup");
+
+			}
+			else if (mode1 == 16)//showSpecialEffect Maker Skill Success
+			{
+				AppDebug.Log ($"todo showSpecialEffect Maker Skill Success");
+
+			}
+			else if (mode1 == 17)//showSpecialEffect Buff effect w/ sfx
+			{
+				AppDebug.Log ($"todo showSpecialEffect Buff effect w/ sfx");
+
+			}
 			else if (mode1 == 18) // intro effect
 			{
 				recv.read_string (); // path
+			}
+			else if (mode1 == 19)//showSpecialEffect Exp card [500, 200, 50]
+			{
+				AppDebug.Log ($"todo showSpecialEffect Exp card [500, 200, 50]");
+
+			}
+			else if (mode1 == 21)//showSpecialEffect showWheelsLeft ,Wheel of destiny
+			{
+				AppDebug.Log ($"todo showSpecialEffect Wheel of destiny");
+
 			}
 			else if (mode1 == 23) // info
 			{
 				recv.read_string (); // path
 				recv.read_int (); // some int
 			}
-			else if (mode1 == 10) // idk
+			else if (mode1 == 26)//showSpecialEffect Spirit Stone
 			{
-				recv.read_byte ();//some byte
+				AppDebug.Log ($"todo showSpecialEffect Spirit Stone");
+
 			}
 			else // Buff effect
 			{

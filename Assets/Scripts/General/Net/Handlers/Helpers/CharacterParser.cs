@@ -66,20 +66,20 @@ namespace ms
 			}
 
 			//todo suppose has learned skills blew
-            skills.set_skill (Page.SWORD_ICE_BLOW, 1, 1, -1);
-            skills.set_skill (Page.SWORD_FIRE_BLOW, 1, 1, -1);
-            skills.set_skill (Page.SWORD_LIT_BLOW, 1, 1, -1);
-            skills.set_skill (Page.SWORD_HOLY_BLOW, 1, 1, -1);
+			skills.set_skill (Page.SWORD_ICE_BLOW, 1, 1, -1);
+			skills.set_skill (Page.SWORD_FIRE_BLOW, 1, 1, -1);
+			skills.set_skill (Page.SWORD_LIT_BLOW, 1, 1, -1);
+			skills.set_skill (Page.SWORD_HOLY_BLOW, 1, 1, -1);
 
-            skills.set_skill (WhiteKnight.SWORD_ICE_BLOW, 1, 1, -1);
-            skills.set_skill (WhiteKnight.SWORD_FIRE_BLOW, 1, 1, -1);
-            skills.set_skill (WhiteKnight.SWORD_LIT_BLOW, 1, 1, -1);
-            skills.set_skill (WhiteKnight.SWORD_HOLY_BLOW, 1, 1, -1);
+			skills.set_skill (WhiteKnight.SWORD_ICE_BLOW, 1, 1, -1);
+			skills.set_skill (WhiteKnight.SWORD_FIRE_BLOW, 1, 1, -1);
+			skills.set_skill (WhiteKnight.SWORD_LIT_BLOW, 1, 1, -1);
+			skills.set_skill (WhiteKnight.SWORD_HOLY_BLOW, 1, 1, -1);
 
-            skills.set_skill (Paladin.SWORD_ICE_BLOW, 1, 1, -1);
-            skills.set_skill (Paladin.SWORD_FIRE_BLOW, 1, 1, -1);
-            skills.set_skill (Paladin.SWORD_LIT_BLOW, 1, 1, -1);
-            skills.set_skill (Paladin.SWORD_HOLY_BLOW, 1, 1, -1);
+			skills.set_skill (Paladin.SWORD_ICE_BLOW, 1, 1, -1);
+			skills.set_skill (Paladin.SWORD_FIRE_BLOW, 1, 1, -1);
+			skills.set_skill (Paladin.SWORD_LIT_BLOW, 1, 1, -1);
+			skills.set_skill (Paladin.SWORD_HOLY_BLOW, 1, 1, -1);
 		}
 
 		public static void parse_cooldowns (InPacket recv, Player player)
@@ -102,28 +102,29 @@ namespace ms
 			{
 				short questId = recv.read_short ();
 				string questProgressdata = recv.read_string ();
+				quests.add_in_progress (questId, questProgressdata);
+				/*
+								if (quests.is_started (questId))
+								{
+									short qidl = quests.get_last_started ();
+									quests.add_in_progress (qidl, questId, questProgressdata);
+									//i--; // This was causing issues
+								}
+								else
+								{
+									quests.add_started (questId, questProgressdata);
+								}*/
 
-				if (quests.is_started (questId))
-				{
-					short qidl = quests.get_last_started ();
-					quests.add_in_progress (qidl, questId, questProgressdata);
-					//i--; // This was causing issues
-				}
-				else
-				{
-					quests.add_started (questId, questProgressdata);
-				}
 			}
 
-			Dictionary<short, long> completed = new Dictionary<short, long> ();
 			size = recv.read_short ();
 
-/*			for (short i = 0; i < size; i++)
+			for (short i = 0; i < size; i++)
 			{
 				short qid = recv.read_short ();
 				long time = recv.read_long ();
 				quests.add_completed (qid, time);
-			}*/
+			}
 		}
 
 		public static void parse_ring1 (InPacket recv)
@@ -227,13 +228,13 @@ namespace ms
 
 		public static void parse_areainfo (InPacket recv)
 		{
-			Dictionary < short, string > areainfo = new Dictionary<short, string> ();
+			Dictionary<short, string> areainfo = new Dictionary<short, string> ();
 			short arsize = recv.read_short ();
 
 			for (short i = 0; i < arsize; i++)
 			{
 				short area = recv.read_short ();
-				areainfo.TryAdd (area,recv.read_string ());
+				areainfo.TryAdd (area, recv.read_string ());
 			}
 		}
 	}

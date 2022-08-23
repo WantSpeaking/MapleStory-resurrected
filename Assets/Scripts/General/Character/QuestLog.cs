@@ -12,16 +12,31 @@ namespace ms
 		public QuestLog ()
 		{
 			Started = new ReadOnlyDictionary<short, string> (started);
-			In_progress = new ReadOnlyDictionary<short, System.Tuple<short, string>> (in_progress);
+			In_progress = new ReadOnlyDictionary<short, string> (in_progress);
 			Completed = new ReadOnlyDictionary<short, long> (completed);
 		}
 		public void add_started (short qid, string qdata)
 		{
 			started[qid] = qdata;
 		}
-		public void add_in_progress (short qid, short qidl, string qdata)
+		public void add_in_progress (short qid, string qdata, bool isOverlay = false)
 		{
-			in_progress[qid] = new Tuple<short, string> (qidl, qdata);
+			if (in_progress.TryGetValue(qid, out var progressData))
+			{
+				if (isOverlay)
+				{
+					in_progress[qid] = qdata;
+				}
+				else
+				{
+					in_progress[qid] += qdata;
+				}
+			}
+			else
+			{
+				in_progress[qid] = qdata;
+			}
+			
 		}
 		public void add_completed (short qid, long time)
 		{
@@ -35,7 +50,17 @@ namespace ms
 		{
 			return started.Last ().Key;
 		}
-
+		public bool is_inprogressed (short qid)
+		{
+			return in_progress.Any (pair => pair.Key == qid);
+		}
+		public void remove_inprogressed (short qid)
+		{
+			if (in_progress.ContainsKey(qid))
+			{
+				in_progress.Remove (qid);
+			}
+		}
 		public bool is_completed (short qid)
 		{
 			return completed.Any (pair => pair.Key == qid);
@@ -90,11 +115,12 @@ namespace ms
 		}
 
 		private SortedDictionary<short, string> started = new SortedDictionary<short, string> ();
-		private SortedDictionary<short, System.Tuple<short, string>> in_progress = new SortedDictionary<short, System.Tuple<short, string>> ();
+		//private SortedDictionary<short, System.Tuple<short, string>> in_progress = new SortedDictionary<short, System.Tuple<short, string>> ();
+		private SortedDictionary<short, string> in_progress = new SortedDictionary<short, string> ();
 		private SortedDictionary<short, long> completed = new SortedDictionary<short, long> ();
 
 		public ReadOnlyDictionary<short, string> Started;
-		public ReadOnlyDictionary<short, System.Tuple<short, string>> In_progress;
+		public ReadOnlyDictionary<short, string> In_progress;
 		public ReadOnlyDictionary<short, long> Completed;
 
 

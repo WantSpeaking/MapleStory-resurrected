@@ -193,11 +193,11 @@ namespace ms_Unity
 			return window;
 		}
 
-		public FG_View Get<FG_View> () where FG_View : GComponent, new()
+/*		public FG_View GetFGUI<FG_View> () where FG_View : GComponent, new()
 		{
 			type_GComponent_dict.TryGetValue (typeof (FG_View), out var window);
 			return (FG_View)window;
-		}
+		}*/
 
 		public FG_View OpenFGUI<FG_View> () where FG_View : GComponent, new()
 		{
@@ -239,6 +239,28 @@ namespace ms_Unity
 			}
 			GRoot.inst.RemoveChild (window);
 			window.visible = false;
+
+			return (FG_View)window;
+		}
+
+		public FG_View GetFGUI<FG_View> () where FG_View : GComponent, new()
+		{
+			if (!type_GComponent_dict.TryGetValue (typeof (FG_View), out var window))
+			{
+				var viewType = typeof (FG_View);
+				var name = viewType.Name;
+				if (name.StartsWith (classPrefix))
+				{
+					name = name.Remove (0, classPrefix.Length);
+				}
+				window = (GComponent)UIPackage.CreateObject (packageName, name);
+
+				type_GComponent_dict[viewType] = window;
+				FGUI_Window w = new FGUI_Window ();
+
+			}
+			//GRoot.inst.AddChild (window);
+			//window.visible = true;
 
 			return (FG_View)window;
 		}

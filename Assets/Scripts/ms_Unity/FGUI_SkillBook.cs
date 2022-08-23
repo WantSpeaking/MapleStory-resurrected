@@ -10,7 +10,7 @@ namespace ms_Unity
         public Controller _c_BT_TAB;
         public Controller _c_Tab_Visible;
         public Controller _c_SetupAction;
-        public GButton _Btn_Home;
+        public FGUI_NavigationBar _NavigationBar;
         public GList _GList_SkillInfo;
         public GTextField _Txt_RemainSP;
         public GTextField _Txt_Desc;
@@ -30,12 +30,12 @@ namespace ms_Unity
             _c_BT_TAB = GetControllerAt(0);
             _c_Tab_Visible = GetControllerAt(1);
             _c_SetupAction = GetControllerAt(2);
-            _Btn_Home = (GButton)GetChildAt(7);
-            _GList_SkillInfo = (GList)GetChildAt(15);
-            _Txt_RemainSP = (GTextField)GetChildAt(16);
-            _Txt_Desc = (GTextField)GetChildAt(17);
-            _Btn_SetupSkill = (GButton)GetChildAt(18);
-            _SetupActionButtons = (FGUI_SetupActionButtons)GetChildAt(19);
+            _NavigationBar = (FGUI_NavigationBar)GetChildAt(1);
+            _GList_SkillInfo = (GList)GetChildAt(9);
+            _Txt_RemainSP = (GTextField)GetChildAt(10);
+            _Txt_Desc = (GTextField)GetChildAt(11);
+            _Btn_SetupSkill = (GButton)GetChildAt(12);
+            _SetupActionButtons = (FGUI_SetupActionButtons)GetChildAt(13);
             OnCreate();
 
         }

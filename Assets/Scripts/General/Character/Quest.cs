@@ -19,15 +19,25 @@ namespace ms
 		}
 
 
-		QuestLog questLog;
-		CheckLog checkLog;
+		public QuestLog questLog;
+		public CheckLog checkLog;
 
 		public ReadOnlyDictionary<short, QuestInfo> AvailableQuests;
 
 		private SortedDictionary<short, QuestInfo> available_QuestId_Info_Dict = new SortedDictionary<short, QuestInfo> ();
 
-		public void GetAvailable_Quest ()
+		public bool isAvailable (short questId)
 		{
+			return available_QuestId_Info_Dict.ContainsKey (questId);
+		}
+		public void GetAvailable_Quest (bool forceGet = false)
+		{
+			if (!forceGet)
+			{
+				if (available_QuestId_Info_Dict.Count > 0)
+					return;
+			}
+
 			available_QuestId_Info_Dict.Clear ();
 			var questwz_QuestInfoimg = wz.wzFile_quest.GetObjectFromPath ($"Quest.wz/QuestInfo.img");
 			foreach (var questwz_QuestInfoimg_1000 in questwz_QuestInfoimg)
@@ -104,23 +114,70 @@ namespace ms
 					bool isFieldEnterFullfill = false;
 					foreach (var pet in checkStage0.pets)
 					{
-						isFieldEnterFullfill |= player.has_pet(pet);
+						isFieldEnterFullfill |= player.has_pet (pet);
 					}
 					isAvailable &= isFieldEnterFullfill;
 				}
 
-				foreach (var quest in checkStage0.quests)
+				//如果这个任务本身已经开始或完成，那么也是不可开始的任务
+				if (questLog.is_inprogressed (questId) || questLog.is_completed (questId))
 				{
-					isAvailable &= questLog.is_completed ((short)quest.id);
+					isAvailable &= false;
+				}
+
+				//这个任务的前置任务 符合已经开始或完成的条件，该任务才是可开始的任务
+				foreach (var checkQuest in checkStage0.quests)
+				{
+					if (checkQuest.state == 1)
+					{
+						isAvailable &= questLog.is_inprogressed ((short)checkQuest.id);
+					}
+					else if (checkQuest.state == 2)
+					{
+						isAvailable &= questLog.is_completed ((short)checkQuest.id);
+					}
 				}
 
 				if (isAvailable)
 				{
-					AppDebug.Log ($"questId:{questId}\t checkStage0: lvmin:{checkStage0.lvmin}\t lvmax:{checkStage0.lvmax}\t level{checkStage0.level}|player level:{player.get_level ()}");
+					//AppDebug.Log ($"questId:{questId}\t checkStage0: lvmin:{checkStage0.lvmin}\t lvmax:{checkStage0.lvmax}\t level{checkStage0.level}|player level:{player.get_level ()}");
 
 					available_QuestId_Info_Dict.Add (questId, questInfo);
 				}
 			}
+		}
+
+		public void updateQuest (short questId, byte status, string progressData)
+		{
+			if (status == 0)//available
+			{
+				if (questLog.is_inprogressed (questId))//remove from inprogress
+				{
+					questLog.remove_inprogressed (questId);
+				}
+
+				available_QuestId_Info_Dict.TryAdd(questId,questLog.GetQuestInfo (questId),true);//update available
+			}
+			else if (status == 1)//in progress
+			{
+				if (isAvailable (questId))//remove from available
+				{
+					available_QuestId_Info_Dict.Remove (questId);
+				}
+
+				questLog.add_in_progress (questId, progressData, true);//update in_progress
+			}
+			else if (status == 2)//complete
+			{
+				if (questLog.is_inprogressed (questId))//remove from in_progress
+				{
+					questLog.remove_inprogressed (questId);
+				}
+
+				questLog.add_completed (questId, long.Parse (progressData));//update complete
+			}
+
+			ms.Stage.get ().UpdateQuest ();
 		}
 	}
 
