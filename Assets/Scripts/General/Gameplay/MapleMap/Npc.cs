@@ -86,8 +86,12 @@ namespace ms
 
 			phobj.fhid = f;
 			set_position (new Point_short (position));
-			UpdateQuest ();
 
+			questIcon_CanStart = wz.wzFile_ui["UIWindow2.img"]["QuestIcon"]["0"];
+			questIcon_InProgressed = wz.wzFile_ui["UIWindow2.img"]["QuestIcon"]["1"];
+			questIcon_CanComplete = wz.wzFile_ui["UIWindow2.img"]["QuestIcon"]["2"];
+
+			UpdateQuest ();
 		}
 
 		private string lastDraw_Stance = string.Empty;
@@ -116,6 +120,8 @@ namespace ms
 			}
 
 			lastDraw_Stance = stance;
+
+			questIcon_Current?.draw (new DrawArgument (absp + new Point_short (0, -charHeight), flip), alpha);
 		}
 
 		// Updates the current animation and physics
@@ -139,6 +145,9 @@ namespace ms
 					set_stance (new_stance);
 				}
 			}
+
+
+			questIcon_Current?.update ();
 
 			return phobj.fhlayer;
 		}
@@ -195,8 +204,68 @@ namespace ms
 		{
 			return func;
 		}
-		SortedDictionary<int, SayInfo> available_Quests = new SortedDictionary<int, SayInfo> ();
-		SortedDictionary<int, SayInfo> inProgress_Quests = new SortedDictionary<int, SayInfo> ();
+
+		private bool check_Has_CanCompleteQuest()
+		{
+			if(!check_Has_InProgressQuest()) return false;
+
+			bool isAvailable = true;
+
+			foreach (var pair in inProgress_Quests)
+			{
+				var questId = pair.Key;
+				var checkInfo = checkLog.GetCheckInfo (questId);
+				var checkStage0 = checkInfo.checkStages[1];
+				var questInfo = questLog.GetQuestInfo (questId);
+				var player = ms.Stage.Instance.get_player ();
+
+				foreach (var item in checkStage0.items)
+				{
+					var item_count_inventory = player.get_inventory ().get_total_item_count (item.id);
+					if (item_count_inventory == 0)
+					{
+						isAvailable &= false;
+					}
+					else
+					{
+						isAvailable &= item.count <= player.get_inventory ().get_total_item_count (item.id);
+					}
+				}
+
+				foreach (var mob in checkStage0.mobs)
+				{
+					isAvailable &= false;
+				}
+
+				//这个任务的前置任务 符合已经开始或完成的条件，该任务才是可开始的任务
+				foreach (var checkQuest in checkStage0.quests)
+				{
+					if (checkQuest.state == 1)
+					{
+						isAvailable &= questLog.is_inprogressed ((short)checkQuest.id);
+					}
+					else if (checkQuest.state == 2)
+					{
+						isAvailable &= questLog.is_completed ((short)checkQuest.id);
+					}
+				}
+
+				if (isAvailable)
+					break;
+			}
+			return isAvailable;
+
+		}
+		private bool check_Has_InProgressQuest ()
+		{
+			return inProgress_Quests.Count != 0;
+		}
+		private bool check_Has_AvailableQuest ()
+		{
+			return available_Quests.Count != 0;
+		}
+		SortedDictionary<short, SayInfo> available_Quests = new SortedDictionary<short, SayInfo> ();
+		SortedDictionary<short, SayInfo> inProgress_Quests = new SortedDictionary<short, SayInfo> ();
 		QuestLog questLog => Stage.Instance.get_player ().get_questlog ();
 		CheckLog checkLog => Stage.Instance.get_player ().get_checklog ();
 		SayLog sayLog => Stage.Instance.get_player ().get_saylog ();
@@ -206,9 +275,15 @@ namespace ms
 			inProgress_Quests.Clear ();
 			available_Quests.Clear ();
 
-			foreach (var questId in questLog.In_progress.Keys)
+			foreach (var pair in questLog.In_progress)
 			{
-				inProgress_Quests.Add (questId, sayLog.GetSayInfo (questId));
+				var questId = pair.Key;
+				var sayInfo = sayLog.GetSayInfo (questId);
+				var checkInfo = checkLog.GetCheckInfo (questId);
+				if (checkInfo.checkStages[1].npc == npcid)
+				{
+					inProgress_Quests.Add (questId, sayInfo);
+				}
 			}
 
 			foreach (var pair in quest.AvailableQuests)
@@ -223,6 +298,22 @@ namespace ms
 				}
 			}
 
+			if (check_Has_CanCompleteQuest())
+			{
+				questIcon_Current = questIcon_CanComplete;
+			}
+			else if(check_Has_InProgressQuest())
+			{
+				questIcon_Current = questIcon_InProgressed;
+			}
+			else if (check_Has_AvailableQuest ())
+			{
+				questIcon_Current = questIcon_CanStart;
+			}
+			else
+			{
+				questIcon_Current = null;
+			}
 		}
 
 		StringBuilder stringBuilder = new StringBuilder ();
@@ -268,7 +359,7 @@ namespace ms
 			return sayPage;
 		}
 
-		public SayInfo? GetQuestSayInfo(short selectQuestIndex, out bool isQuestStarted)
+		public SayInfo GetQuestSayInfo(short selectQuestIndex, out bool isQuestStarted)
 		{
 			short index = 0;
 
@@ -305,6 +396,17 @@ namespace ms
 		{
 			return available_Quests.Count != 0 || inProgress_Quests.Count != 0;
 		}
+
+		Animation questIcon_CanStart;
+		Animation questIcon_InProgressed;
+		Animation questIcon_CanComplete;
+
+		Animation questIcon_Current;
+
+		public const short charWidth = 40;
+		public const short charHeight = 90;
+		public Point_short charHalf = new Point_short (charWidth / 2, charHeight / 2);
+
 		private SortedDictionary<string, Animation> animations = new SortedDictionary<string, Animation> ();
 		private SortedDictionary<string, List<string>> lines = new SortedDictionary<string, List<string>> ();
 		private List<string> states = new List<string> ();
