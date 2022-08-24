@@ -355,8 +355,6 @@ namespace ms
 
 		// Return the total count of an item
 		// Returns zero if no instances of the item was found
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: short get_total_item_count(int itemid) const
 		public short get_total_item_count (int itemid)
 		{
 			InventoryType.Id type = InventoryType.by_item_id (itemid);
@@ -374,10 +372,22 @@ namespace ms
 			return total_count;
 		}
 
+		public bool hasEnoughItem(int itemid, int count)
+		{
+			bool result = false;
+			var item_count_inventory = get_total_item_count (itemid);
+			if (item_count_inventory == 0)
+			{
+				result = false;
+			}
+			else
+			{
+				result = count <= item_count_inventory;
+			}
+			return result;
+		}
 		// Return the id of an item
 		// Returns zero if the slot is empty
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int get_item_id(InventoryType::Id type, short slot) const
 		public int get_item_id (InventoryType.Id type, short slot)
 		{
 			if (inventories[type].TryGetValue (slot, out var slotItem))
@@ -391,8 +401,6 @@ namespace ms
 		}
 
 		// Return a pointer to an equip
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Optional<const Equip> get_equip(InventoryType::Id type, short slot) const
 		public Optional<Equip> get_equip (InventoryType.Id type, short slot)
 		{
 			if (type != InventoryType.Id.EQUIPPED && type != InventoryType.Id.EQUIP)

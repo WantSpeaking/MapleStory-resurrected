@@ -119,6 +119,20 @@ namespace ms_Unity
 				}
 				_Txt_mob.text = stringBuilder.ToString ();
 			}
+
+			var items = checkInfo.checkStages[1].items;
+			if (checkInfo.checkStages[1].items.Count > 0)
+			{
+				stringBuilder.Clear ();
+
+				for (int i = 0; i < items.Count; i++)
+				{
+					var item = items[i];
+
+					stringBuilder.Append ($"已有{ItemData.get(item.id).get_name()}{ms.Stage.get().get_player().get_inventory().get_total_item_count(item.id)}个，需{item.count}个; ");
+				}
+				_Txt_item.text = stringBuilder.ToString ();
+			}
 		}
 
 		private void QuestInfo_QuestInfo_completed (EventContext context)

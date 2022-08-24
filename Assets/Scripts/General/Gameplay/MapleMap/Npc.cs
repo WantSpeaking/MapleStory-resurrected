@@ -205,7 +205,7 @@ namespace ms
 			return func;
 		}
 
-		private bool check_Has_CanCompleteQuest()
+		private bool check_Has_CanCompleteQuest(ref short canCompleteQuestId)
 		{
 			if(!check_Has_InProgressQuest()) return false;
 
@@ -221,15 +221,7 @@ namespace ms
 
 				foreach (var item in checkStage0.items)
 				{
-					var item_count_inventory = player.get_inventory ().get_total_item_count (item.id);
-					if (item_count_inventory == 0)
-					{
-						isAvailable &= false;
-					}
-					else
-					{
-						isAvailable &= item.count <= player.get_inventory ().get_total_item_count (item.id);
-					}
+					isAvailable &= player.get_inventory ().hasEnoughItem (item.id, item.count);
 				}
 
 				foreach (var mob in checkStage0.mobs)
@@ -251,7 +243,10 @@ namespace ms
 				}
 
 				if (isAvailable)
+				{
+					canCompleteQuestId = questId;
 					break;
+				}
 			}
 			return isAvailable;
 
@@ -297,10 +292,11 @@ namespace ms
 					available_Quests.Add (questId, sayInfo);
 				}
 			}
-
-			if (check_Has_CanCompleteQuest())
+			short canCompleteQuestId = 0;
+			if (check_Has_CanCompleteQuest(ref canCompleteQuestId))
 			{
 				questIcon_Current = questIcon_CanComplete;
+				ms_Unity.FGUI_Notice.ShowNotice ($"可完成任务：{questLog.GetQuestInfo(canCompleteQuestId).Name}");
 			}
 			else if(check_Has_InProgressQuest())
 			{

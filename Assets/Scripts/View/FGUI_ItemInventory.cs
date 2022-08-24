@@ -487,6 +487,9 @@ namespace ms_Unity
 		private void OnEtcsChanged (object sender, NotifyCollectionChangedEventArgs e)
 		{
 			OnCollectionChanged (sender, e, contentETC, InventoryType.Id.ETC);
+
+			//item �б仯 
+			ms.Stage.get ().UpdateQuest ();
 		}
 
 		private void OnSetupsChanged (object sender, NotifyCollectionChangedEventArgs e)

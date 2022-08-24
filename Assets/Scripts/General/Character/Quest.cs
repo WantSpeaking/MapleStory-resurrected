@@ -78,15 +78,7 @@ namespace ms
 
 				foreach (var item in checkStage0.items)
 				{
-					var item_count_inventory = player.get_inventory ().get_total_item_count (item.id);
-					if (item_count_inventory == 0)
-					{
-						isAvailable &= false;
-					}
-					else
-					{
-						isAvailable &= item.count <= player.get_inventory ().get_total_item_count (item.id);
-					}
+					isAvailable &= player.get_inventory ().hasEnoughItem (item.id, item.count);
 				}
 
 				if (checkStage0.jobs.Count > 0)

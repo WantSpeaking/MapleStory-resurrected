@@ -82,7 +82,7 @@ namespace ms
 				return;
 			}
 
-			AppDebug.Log ($"protal:name_{name},type_{type} draw postion: {position}");
+			AppDebug.Log ($"protal type:{type,-10} name:{name,-10}, draw postion: {position}");
 			animation.update ();
 			animation.draw (new DrawArgument (position + viewpos), inter);
 		}

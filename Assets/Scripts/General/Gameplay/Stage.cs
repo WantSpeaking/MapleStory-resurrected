@@ -444,6 +444,7 @@ namespace ms
 		{
 			ms.Stage.get ().get_npcs ().UpdateQuest ();
 			ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_QuestLog> ().UpdateQuest ();
+
 		}
 	}
 }
