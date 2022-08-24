@@ -310,6 +310,7 @@ namespace ms
 				physics.get_fht ().update_fh (phobj);
 			}
 
+			AppDebug.Log ($"mob id:{id} name:{name} stance:{stance}");
 			return phobj.fhlayer;
 		}
 
