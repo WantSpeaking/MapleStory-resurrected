@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Collections;
+using System.Collections.Generic;
 
 namespace ms
 {
@@ -102,6 +103,32 @@ namespace ms
 		public static bool isNumber (this string src)
 		{
 			return isInt(src) || isFloot (src) || isDouble (src);
+		}
+
+		/// <summary>
+		///  把字符串按照指定长度分割
+		/// </summary>
+		/// <param name="txtString">字符串</param>
+		/// <param name="charNumber">长度</param>
+		/// <returns></returns>
+		public static List<string> GetSeparateSubString (this string txtString, int charNumber)
+		{
+			var arrlist = new List<string>();
+			string tempStr = txtString;
+			for (int i = 0; i < tempStr.Length; i += charNumber)
+			{
+				if ((tempStr.Length - i) > charNumber)//如果是，就截取
+				{
+					arrlist.Add (tempStr.Substring (i, charNumber));
+				}
+				else
+				{
+					arrlist.Add (tempStr.Substring (i));//如果不是，就截取最后剩下的那部分
+				}
+			}
+			return arrlist;
+			//假设txtString为"我的未来不是梦",charNumber为2
+			//那么返回的是["我的"，"未来","不是"，"梦"]
 		}
 
 	}

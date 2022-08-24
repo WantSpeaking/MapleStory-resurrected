@@ -16,6 +16,8 @@ namespace ms_Unity
         public GButton _Btn_ForfeitQuest;
         public GGroup _In_progress;
         public GList _GList_QuestInfo_completed;
+        public GTextField _Txt_mob;
+        public GTextField _Txt_item;
         public const string URL = "ui://4916gthqx5bhol5";
 
         public static FGUI_QuestLog CreateInstance()
@@ -36,6 +38,8 @@ namespace ms_Unity
             _Btn_ForfeitQuest = (GButton)GetChildAt(10);
             _In_progress = (GGroup)GetChildAt(11);
             _GList_QuestInfo_completed = (GList)GetChildAt(12);
+            _Txt_mob = (GTextField)GetChildAt(13);
+            _Txt_item = (GTextField)GetChildAt(14);
             OnCreate();
 
         }

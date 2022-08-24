@@ -545,6 +545,11 @@ namespace ms
 			return get_head_position (new Point_short (position));
 		}
 
+		public static string get_name (int mobId)
+		{
+			return ms.wz.wzFile_string["Mob.img"][Convert.ToString (mobId)]["name"].ToString ();
+		}
+
 		private enum FlyDirection
 		{
 			STRAIGHT,

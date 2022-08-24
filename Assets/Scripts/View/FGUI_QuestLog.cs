@@ -1,6 +1,7 @@
 /** This is an automatically generated class by FairyGUI. Please do not modify it. **/
 
 using System;
+using System.Text;
 using FairyGUI;
 using FairyGUI.Utils;
 using ms;
@@ -28,6 +29,9 @@ namespace ms_Unity
 		private void onChanged_c_QuestState (EventContext context)
 		{
 			_Txt_Desc.text = "";
+			_Txt_mob.text = "";
+			_Txt_item.text = "";
+
 			_GList_QuestInfo_Available.selectedIndex = -1;
 			_GList_QuestInfo_in_progress.selectedIndex = -1;
 			_GList_QuestInfo_completed.selectedIndex = -1;
@@ -37,7 +41,7 @@ namespace ms_Unity
 		{
 			if (_GList_QuestInfo_in_progress.selectedIndex != -1)
 			{
-				new ForfeitQuestPacket(currentQuestId).dispatch ();
+				new ForfeitQuestPacket (currentQuestId).dispatch ();
 			}
 		}
 
@@ -88,14 +92,33 @@ namespace ms_Unity
 
 		}
 
+		StringBuilder stringBuilder = new StringBuilder ();
 		private void OnClick_QuestInfo_in_progress (EventContext context)
 		{
 			var ListItem_QuestLog = context.data as FGUI_ListItem_QuestLog;
 			var questId = (short)ListItem_QuestLog.data;
 			currentQuestId = questId;
 			var questInfo = questLog.GetQuestInfo (questId);
+			var checkInfo = checkLog.GetCheckInfo (questId);
 			_Txt_Desc.text = questInfo.Info_in_progress;
 
+			var progressData = questLog.get_inprogressed (questId);
+			var progresses = progressData.GetSeparateSubString (3);
+			var mobs = checkInfo.checkStages[1].mobs;
+
+			if (checkInfo.checkStages[1].mobs.Count > 0)
+			{
+				stringBuilder.Clear ();
+
+				for (int i = 0; i < mobs.Count; i++)
+				{
+					var mob = mobs[i];
+					int.TryParse (progresses.TryGet (i), out var progress);
+
+					stringBuilder.Append ($"已狩猎{Mob.get_name (mob.id)}{progress}只，需狩猎{mob.count}只; ");
+				}
+				_Txt_mob.text = stringBuilder.ToString ();
+			}
 		}
 
 		private void QuestInfo_QuestInfo_completed (EventContext context)
@@ -116,7 +139,9 @@ namespace ms_Unity
 		}
 
 		Quest quest => ms.Stage.Instance.get_player ().get_quest ();
-		QuestLog questLog => ms.Stage.Instance.get_player ().get_questlog ();
+		QuestLog questLog => quest.questLog;
+		CheckLog checkLog => quest.checkLog;
+
 		public void UpdateQuest ()
 		{
 			_Btn_ForfeitQuest.visible = false;

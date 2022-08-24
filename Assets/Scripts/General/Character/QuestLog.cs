@@ -21,7 +21,7 @@ namespace ms
 		}
 		public void add_in_progress (short qid, string qdata, bool isOverlay = false)
 		{
-			if (in_progress.TryGetValue(qid, out var progressData))
+			if (in_progress.TryGetValue (qid, out var progressData))
 			{
 				if (isOverlay)
 				{
@@ -36,7 +36,7 @@ namespace ms
 			{
 				in_progress[qid] = qdata;
 			}
-			
+
 		}
 		public void add_completed (short qid, long time)
 		{
@@ -54,9 +54,13 @@ namespace ms
 		{
 			return in_progress.Any (pair => pair.Key == qid);
 		}
+		public string get_inprogressed (short qid)
+		{
+			return in_progress.TryGetValue (qid);
+		}
 		public void remove_inprogressed (short qid)
 		{
-			if (in_progress.ContainsKey(qid))
+			if (in_progress.ContainsKey (qid))
 			{
 				in_progress.Remove (qid);
 			}
