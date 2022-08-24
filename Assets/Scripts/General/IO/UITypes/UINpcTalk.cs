@@ -82,7 +82,7 @@ namespace ms
 
 		public override void draw (float inter)
 		{
-			Point_short drawpos = new Point_short (position);
+			/*Point_short drawpos = new Point_short (position);
 			top.draw (drawpos);
 			drawpos.shift_y (top.height ());
 			fill.draw (new DrawArgument (new Point_short (drawpos), new Point_short (0, height)));
@@ -112,8 +112,8 @@ namespace ms
 				//text.draw(position + new Point_short(166, (short)(48 - y_adj)));
 				//text.draw(position + new Point_short(160, (short)(28 - y_adj)));
 
-				/*var posX = position.x() + 160;
-                var posY = position.y() + 28 - y_adj;*/
+				*//*var posX = position.x() + 160;
+                var posY = position.y() + 28 - y_adj;*//*
 
 				var posX = position.x () + 150;
 				var posY = position.y () + 28;
@@ -124,7 +124,7 @@ namespace ms
 				//text.draw(new Point_short((short)transformedPos.X, (short)transformedPos.Y));
 				//AppDebug.Log($"npcTalk pos:{transformedPos}");
 
-			}
+			}*/
 		}
 		public override void update ()
 		{

@@ -174,7 +174,7 @@ namespace ms
 				AppDebug.Log ("");
 			}
 
-			var _tex = src.GetBitmap ().ToTexture2D(GameUtil.get().Game.GraphicsDevice);
+			var _tex = src.GetBitmap ().ToTexture2D (GameUtil.get ().Game.GraphicsDevice);
 
 			var pivot = (Point_short)src["origin"];
 
@@ -252,7 +252,7 @@ namespace ms
 			{
 				for (ty = 0; ty < th; ty += cy)
 				{
-					animation.draw (new DrawArgument (new Point_short ((short)(ix + tx), (short)(iy + ty)), flipped, opacity / 255), alpha);
+					animation.draw (new DrawArgument (new Point_short ((short)(ix + tx), (short)(iy + ty + 200)), flipped, opacity / 255), alpha);
 					counter++;
 				}
 			}
