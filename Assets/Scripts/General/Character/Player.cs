@@ -457,6 +457,15 @@ namespace ms
 
             return buff;
         }
+
+		/// <summary>
+		/// has SOULARROW buff
+		/// </summary>
+		/// <returns></returns>
+		public bool can_useBow_withoutArrows()
+		{
+			return get_buff (Buffstat.Id.SOULARROW).IsValid;
+		}
 		// Change a skill
 		public void change_skill (int skill_id, int skill_level, int masterlevel, long expiration)
 		{

@@ -55,6 +55,14 @@
 			{
 				case Weapon.Type.BOW:
 				case Weapon.Type.CROSSBOW:
+					if (ms.Stage.get().get_player().can_useBow_withoutArrows () || (bullets != 0))
+					{
+						return ForbidReason.FBR_NONE;
+					}
+					else
+					{
+						return ForbidReason.FBR_BULLETCOST;
+					}
 				case Weapon.Type.CLAW:
 				case Weapon.Type.GUN:
 					return bullets != 0 ? ForbidReason.FBR_NONE : ForbidReason.FBR_BULLETCOST;

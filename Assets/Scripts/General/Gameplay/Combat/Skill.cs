@@ -328,14 +328,13 @@ namespace ms
 			{
 				case Weapon.Type.BOW:
 				case Weapon.Type.CROSSBOW:
-					var hasBuff_SoulArrow = player.get_buff (Buffstat.Id.SOULARROW).IsValid;
-					if (hasBuff_SoulArrow)
+					if (player.can_useBow_withoutArrows () || (bullets >= stats.bulletcost))
 					{
 						return ForbidReason.FBR_NONE;
 					}
 					else
 					{
-						return (bullets >= stats.bulletcost) ? ForbidReason.FBR_NONE : ForbidReason.FBR_BULLETCOST;
+						return ForbidReason.FBR_BULLETCOST;
 					}
 				case Weapon.Type.CLAW:
 				case Weapon.Type.GUN:

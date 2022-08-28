@@ -118,11 +118,15 @@ public class MapleStory : SingletonMono<MapleStory>
 		Session.get ().init ();
 		NxFiles.init (maplestoryFolder);
 		Window.get ().init ();
+		//Sound.init ();
+		//Music.init ();
 
 		Char.init ();
+		DamageNumber.init ();
 		MapPortals.init ();
 		Stage.get ().init ();
 		UI.get ().init ();
+
 		canStart = true;
 		//Stage.get ().load_map(100000000);
 
