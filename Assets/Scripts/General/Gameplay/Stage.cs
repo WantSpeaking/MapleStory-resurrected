@@ -148,6 +148,8 @@ namespace ms
 			Point_double viewrpos = camera.realposition (alpha);
 			double viewx = viewrpos.x ();
 			double viewy = viewrpos.y ();
+			MapleStory.Instance.viewx = viewx;
+			MapleStory.Instance.viewy = viewy;
 			backgrounds?.drawbackgrounds (viewx, viewy, alpha);
 			foreach (ms.Layer.Id id in Enum.GetValues (typeof (ms.Layer.Id)))
 			{

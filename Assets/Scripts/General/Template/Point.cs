@@ -175,7 +175,14 @@ namespace ms
             if (a == null || b == null) return new Point_short();
             return new Point_short((short)(a.x() / (b.x() == 0 ? 1 : b.x())), (short)(a.y() / (b.y() == 0 ? 1 : b.y())));
         }
-
+        public static bool operator == (Point_short a, Point_short b)
+		{
+            return a?.x() == b?.x() &&　a?.y() == b?.y();
+		}
+        public static bool operator != (Point_short a, Point_short b)
+        {
+            return a?.x ()!= b?.x () || a?.y () != b?.y ();
+        }
         /*	public static implicit operator Vector2 (Point_short x)
 			{
 				return new Vector2 (x.a.ToT<float> (), x.b.ToT<float> ());

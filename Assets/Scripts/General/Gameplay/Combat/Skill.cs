@@ -292,6 +292,7 @@ namespace ms
 			return skillid;
 		}
 
+		Player player => ms.Stage.get ().get_player ();
 		public override SpecialMove.ForbidReason can_use (int level, Weapon.Type weapon, Job job, ushort hp, ushort mp, ushort bullets)
 		{
 			if (level <= 0 || level > SkillData.get (skillid).get_masterlevel ())
@@ -327,6 +328,15 @@ namespace ms
 			{
 				case Weapon.Type.BOW:
 				case Weapon.Type.CROSSBOW:
+					var hasBuff_SoulArrow = player.get_buff (Buffstat.Id.SOULARROW).IsValid;
+					if (hasBuff_SoulArrow)
+					{
+						return ForbidReason.FBR_NONE;
+					}
+					else
+					{
+						return (bullets >= stats.bulletcost) ? ForbidReason.FBR_NONE : ForbidReason.FBR_BULLETCOST;
+					}
 				case Weapon.Type.CLAW:
 				case Weapon.Type.GUN:
 					return (bullets >= stats.bulletcost) ? ForbidReason.FBR_NONE : ForbidReason.FBR_BULLETCOST;

@@ -99,7 +99,10 @@ namespace ms
 
 			/// Skill
 			USE_SKILL = 91,
+			Cancel_Buff = 92,
+			Skill_Effect = 93,
 
+			//Quest
 			QUEST_ACTION = 107,
 
 			/// Gameplay 2

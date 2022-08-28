@@ -27,6 +27,13 @@ namespace ms_Unity
 			_SetupActionButtons.UpdateIcon ();
 
 			this.onClick.Add (OnClick_SkillBook);
+
+			_BT_TAB0.onClick.Add (() => UISkillBook.button_pressed ((ushort)ms.UISkillBook.Buttons.BT_TAB0));
+			_BT_TAB1.onClick.Add (() => UISkillBook.button_pressed ((ushort)ms.UISkillBook.Buttons.BT_TAB1));
+			_BT_TAB2.onClick.Add (() => UISkillBook.button_pressed ((ushort)ms.UISkillBook.Buttons.BT_TAB2));
+			_BT_TAB3.onClick.Add (() => UISkillBook.button_pressed ((ushort)ms.UISkillBook.Buttons.BT_TAB3));
+			_BT_TAB4.onClick.Add (() => UISkillBook.button_pressed ((ushort)ms.UISkillBook.Buttons.BT_TAB4));
+
 		}
 
 		private void OnClick_SkillBook (EventContext context)
@@ -104,14 +111,24 @@ namespace ms_Unity
 		}
 		public void OnVisiblityChanged (bool isVisible)
 		{
+			UISkillBook.Set_FGUI_SkillBook (this);
 			if (isVisible)
 			{
 				SetGList ();
 			}
 		}
 
+		public void SetJobLevelTab(int index)
+		{
+			_c_Tab_Visible.selectedIndex = index;
+		}
+
 		void SetGList ()
 		{
+			var jobLevel = (int)UISkillBook.job.get_level ();
+			_c_BT_TAB.selectedIndex = jobLevel;
+			_c_Tab_Visible.selectedIndex = jobLevel;
+
 			foreach (var child in _GList_SkillInfo.GetChildren())
 			{
 				if (child is FGUI_ListItem_SkillInfo item_SkillInfo)
@@ -121,15 +138,16 @@ namespace ms_Unity
 			}
 
 			_GList_SkillInfo.numItems = UISkillBook.skills.Count;
-
+			var string_SkillName = string.Empty;
 			foreach (var child in _GList_SkillInfo.GetChildren ())
 			{
 				if (child is FGUI_ListItem_SkillInfo item_SkillInfo)
 				{
 					item_SkillInfo._Btn_BT_SPUP0.onClick.Add(OnClick_Btn_BT_SPUP0);
+					string_SkillName = string_SkillName.append (item_SkillInfo._Txt_Name.text.Replace(" ","") +" = "+ UISkillBook.skills[_GList_SkillInfo.GetChildIndex(child)].get_id() + ",\n");
 				}
 			}
-
+			AppDebug.LogError (string_SkillName);
 			change_sp ();
 		}
 

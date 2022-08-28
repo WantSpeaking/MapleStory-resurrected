@@ -14,9 +14,9 @@ namespace ms_Unity
         }
         private void OnClick_Btn_Home (EventContext context)
         {
-            ms.UI.get ().get_element<ms.UIItemInventory> ().get ().deactivate ();
+            ms.UI.get ().get_element<ms.UIItemInventory> ().get ()?.deactivate ();
 
-            ms.UI.get ().get_element<ms.UISkillBook> ().get ().deactivate ();
+            ms.UI.get ().get_element<ms.UISkillBook> ().get ()?.deactivate ();
         }
 
     }

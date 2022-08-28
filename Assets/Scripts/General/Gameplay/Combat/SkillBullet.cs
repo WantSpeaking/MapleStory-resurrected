@@ -12,8 +12,6 @@ namespace ms
 		{
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: virtual Animation get(const Char& user, int bulletid) const = 0;
 		public abstract Animation get (Char user, int bulletid);
 
 		protected class Ball
@@ -33,8 +31,6 @@ namespace ms
 
 	public class RegularBullet : SkillBullet
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Animation get(const Char& user, int bulletid) const override
 		public override Animation get (Char user, int bulletid)
 		{
 			return BulletData.get (bulletid).get_animation ();
@@ -48,8 +44,6 @@ namespace ms
 			ball = new Ball (src["ball"]);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Animation get(const Char& user, int bulletid) const override
 		public override Animation get (Char user, int bulletid)
 		{
 			return ball.animation;
@@ -71,8 +65,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Animation get(const Char& user, int bulletid) const override
 		public override Animation get (Char user, int bulletid)
 		{
 			int level = user.get_skilllevel (skillid);
@@ -87,21 +79,6 @@ namespace ms
 			}
 
 			return anim;
-
-			/*var iter = bullets.find(level);
-
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
-			if (iter != bullets.end())
-			{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
-				return iter.second.animation;
-			}
-			else
-			{
-				return
-				{
-				};
-			}*/
 		}
 
 		private Dictionary<int, Ball> bullets = new Dictionary<int, Ball> ();

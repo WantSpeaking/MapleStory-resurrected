@@ -149,7 +149,7 @@ namespace ms
 			Point_short headpos = get_head_position (new Point_short (absp));
 			//AppDebug.Log ($"Mob draw absp:{absp}");
 			effects.drawbelow (new Point_short (absp), alpha);
-
+			moveRangeCenter = absp;
 			if (!dead)
 			{
 				float interopc = opacity.get (alpha);
@@ -174,6 +174,8 @@ namespace ms
 			effects.drawabove (new Point_short (absp), alpha);
 
 			lastDraw_Stance = (int)stance;
+
+
 		}
 
 		// Update movement and animations
@@ -532,6 +534,11 @@ namespace ms
 			return range.overlaps (bounds);
 		}
 
+		public Point_short moveRangeCenter = new Point_short();
+		public Rectangle_short get_Range()
+		{
+			return animations[stance].get_bounds (false).shift (moveRangeCenter);
+		}
 		// Check if this mob is still alive
 		public bool is_alive ()
 		{

@@ -17,8 +17,6 @@ namespace ms
             moveobj.set_y(origin.y() - 26.0);
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: void draw(double viewx, double viewy, float alpha) const
         public void draw(double viewx, double viewy, float alpha)
         {
             Point_short bulletpos = moveobj.get_absolute(viewx, viewy, alpha);

@@ -64,8 +64,8 @@ namespace ms
 
 		public Rectangle_short (Point_short leftTop, Point_short rightBottom)
 		{
-			left_top = new Point_short (leftTop.x ().ToT<short> (), leftTop.y ().ToT<short> ());
-			right_bottom = new Point_short (rightBottom.x ().ToT<short> (), rightBottom.y ().ToT<short> ());
+			left_top = new Point_short (leftTop.x (), leftTop.y ());
+			right_bottom = new Point_short (rightBottom.x (), rightBottom.y ());
 		}
 
 		public Rectangle_short (short left, short right, short top, short bottom)
@@ -164,10 +164,11 @@ namespace ms
 			return new Range_short (top (), bottom ());
 		}
 
-		public void shift (Point_short v)
+		public Rectangle_short shift (Point_short v)
 		{
 			left_top += v;
 			right_bottom += v;
+			return this;
 		}
 
 		public Rectangle_short expand (short value)

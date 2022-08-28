@@ -760,7 +760,7 @@ namespace ms
 
 			short reqJOB = equipdata.get_reqstat (MapleStat.Id.JOB);
 
-			if (!stats.get_job ().is_sub_job ((ushort)reqJOB))
+			if (!stats.get_job ().is_EquipRequiredJob ((ushort)reqJOB))
 			{
 				UI.get ().emplace<UIOk> ("Your current job\\ncannot equip the selected item.", null);
 				return false;

@@ -168,7 +168,7 @@ namespace ms
 
 						okjobs_preview.Clear ();
 
-						switch (equipdata2.get_reqstat (MapleStat.Id.JOB))
+						switch (equipdata2.get_reqstat (MapleStat.Id.JOB)/100)
 						{
 							case 0:
 								okjobs_preview.Add (0);

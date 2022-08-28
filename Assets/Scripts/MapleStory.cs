@@ -295,22 +295,26 @@ public class MapleStory : SingletonMono<MapleStory>
 	public Color fontColor = Color.black;
 	public bool enable_DrawFootHolder = false;
 	public bool enable_DrawAttackRange = false;
+	public bool enable_DrawMobRange = false;
 	public bool AddToParent = true;
 	public Rectangle_short attackRange;
 	public Rectangle_short attackRangeAfter;
 
 #if UNITY_EDITOR
+
+	public double viewx;
+	public double viewy;
 	private void DrawAttackRange ()
 	{
 		if (attackRange != null && attackRangeAfter != null && !attackRangeAfter.empty ())
 		{
-			Vector3 center = new Vector3 (attackRange.center ().x (), -attackRange.center ().y ());
+	/*		Vector3 center = new Vector3 (attackRange.center ().x (), -attackRange.center ().y ());
 			Vector3 size = new Vector3 (attackRange.width (), attackRange.height ());
 			Gizmos.color = Color.yellow;
-			Gizmos.DrawWireCube (center, size);
+			Gizmos.DrawWireCube (center, size);*/
 			//Debug.Log ($"center:{center}\t size:{size}\t attackRange:{attackRange}");
 
-			Vector3 centerAfter = new Vector3 (attackRangeAfter.center ().x (), -attackRangeAfter.center ().y ());
+			Vector3 centerAfter = new Vector3 ((float)(attackRangeAfter.center ().x () + viewx), -(attackRangeAfter.center ().y ()+(float)viewy));
 			Vector3 sizeAfter = new Vector3 (attackRangeAfter.width (), attackRangeAfter.height ());
 			Gizmos.color = Color.black;
 			Gizmos.DrawWireCube (centerAfter, sizeAfter);
@@ -365,6 +369,25 @@ public class MapleStory : SingletonMono<MapleStory>
 		//Handles.dr
 	}
 
+	private void DrawMobRange()
+	{
+		var mobs = ms.Stage.get ()?.get_mobs ()?.get_mobs();
+		if (mobs == null)
+			return;
+		foreach (var pair in mobs)
+		{
+			if (pair.Value is Mob mob)
+			{
+				var mobRange = mob.get_Range ();
+				Vector3 center = new Vector3 (mobRange.center ().x (), -mobRange.center ().y ());
+				Vector3 size = new Vector3 (mobRange.width (), mobRange.height ());
+				Gizmos.color = Color.yellow;
+				Gizmos.DrawWireCube (center, size);
+				//Debug.Log ($"center:{center}");
+			}
+		}
+	}
+
 	private void OnDrawGizmos ()
 	{
 		if (enable_DrawFootHolder)
@@ -372,6 +395,11 @@ public class MapleStory : SingletonMono<MapleStory>
 
 		if (enable_DrawAttackRange)
 			DrawAttackRange ();
+
+		if(enable_DrawMobRange)
+		{
+			DrawMobRange ();
+		}
 	}
 #endif
 

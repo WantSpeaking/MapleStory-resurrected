@@ -79,11 +79,11 @@ namespace ms
 			// White Knight
 			CHARGE = 1211002,
 			CHARGE_Fire = 1211003,
-			CHARGE_Ice   = 1211005,
-			CHARGE_Thunder   = 1211007,
+			CHARGE_Ice = 1211005,
+			CHARGE_Thunder = 1211007,
 
 			// Paladin
-            CHARGE_Holy = 1221003,
+			CHARGE_Holy = 1221003,
 			ACHILLES_PALADIN = 1220005,
 			GUARDIAN_PALADIN = 1220006,
 			ADVANCED_CHARGE = 1220010,
@@ -141,6 +141,49 @@ namespace ms
 			SEAL_FP = 2111004,
 			SPELL_BOOSTER_FP = 2111005,
 			ELEMENT_COMPOSITION_FP = 2111006,
+
+			//CLERIC - 230
+
+			//PRIEST - 231
+			//BISHOP - 232
+
+			//BOWMAN - 300
+
+			//HUNTER - 310
+			//RANGER - 311
+			RANGER_Thrust = 3110000,
+			RANGER_Puppet = 3111002,
+			RANGER_Inferno = 3111003,
+			RANGER_SilverHawk = 3111005,
+			RANGER_Strafe = 3111006,
+			RANGER_MortalBlow = 3110001,
+			RANGER_ArrowRain = 3111004,
+
+			//BOWMASTER - 312
+
+			//CROSSBOWMAN - 320
+			//SNIPER - 321
+			//CROSSBOWMASTER - 322
+
+			//THIEF - 400
+
+			//ASSASSIN - 410
+			//HERMIT - 411
+			//NIGHTLORD - 412
+
+			//BANDIT - 420
+			//CHIEFBANDIT - 421
+			//SHADOWER - 422
+
+			//PIRATE - 500
+
+			//BRAWLER - 510
+			//MARAUDER - 511
+			//BUCCANEER - 512
+
+			//GUNSLINGER - 520
+			//OUTLAW - 521
+			//CORSAIR - 522
 
 			// TODO: ?
 			FIRE_DEMON = 2121003,

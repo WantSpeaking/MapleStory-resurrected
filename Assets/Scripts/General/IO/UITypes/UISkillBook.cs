@@ -139,7 +139,7 @@ namespace ms
 
         public override void draw(float alpha)
         {
-            base.draw_sprites(alpha);
+            /*base.draw_sprites(alpha);
 
             bookicon.draw(position + new Point_short(11, 85));
             booktext.draw(position + new Point_short(173, 59));
@@ -190,7 +190,7 @@ namespace ms
 			}
             //AppDebug.Log($"after position:{position}\t skill_position_l:{skill_position_l}\t skill_position_r:{skill_position_r}");
 
-            /*for (int i = 0; i < 7; i++)
+            *//*for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 5; j++)
                 {
@@ -218,7 +218,7 @@ namespace ms
 
 
                 }
-            }*/
+            }*//*
 
             slider.draw(new Point_short(position));
 
@@ -249,7 +249,7 @@ namespace ms
                 sp_skill.draw(sp_pos + new Point_short(13, 31));
             }
 
-            base.draw_buttons(alpha);
+            base.draw_buttons(alpha);*/
         }
 
         public override void toggle_active()
@@ -731,6 +731,7 @@ namespace ms
             }
 
             change_tab(level - Job.Level.BEGINNER);
+
         }
 
         public void change_sp()
@@ -774,7 +775,7 @@ namespace ms
             set_skillpoint(false);
         }
 
-        private void change_tab(ushort new_tab)
+        public void change_tab(ushort new_tab)
         {
             buttons[(uint)((int)Buttons.BT_TAB0 + tab)].set_state(Button.State.NORMAL);
             buttons[(uint)((int)Buttons.BT_TAB0 + new_tab)].set_state(Button.State.PRESSED);
@@ -833,12 +834,12 @@ namespace ms
 
         private void show_skill(int id)
         {
-            int skill_id = id;
+/*            int skill_id = id;
             int level = skillbook.get_level(id);
             int masterlevel = skillbook.get_masterlevel(id);
             long expiration = skillbook.get_expiration(id);
 
-            UI.get().show_skill(Tooltip.Parent.SKILLBOOK, skill_id, level, masterlevel, expiration);
+            UI.get().show_skill(Tooltip.Parent.SKILLBOOK, skill_id, level, masterlevel, expiration);*/
         }
 
         private void clear_tooltip()
@@ -1075,7 +1076,12 @@ namespace ms
             }
         }
 
-        private enum Buttons : ushort
+        ms_Unity.FGUI_SkillBook fGUI_SkillBook;
+        public void Set_FGUI_SkillBook(ms_Unity.FGUI_SkillBook fGUI_SkillBook)
+		{
+            this.fGUI_SkillBook = fGUI_SkillBook;
+        }
+        public enum Buttons : ushort
         {
             BT_CLOSE,
             BT_HYPER,
@@ -1126,7 +1132,7 @@ namespace ms
         private Text booktext = new Text();
         public Text splabel = new Text();
 
-        private Job job = new Job();
+        public Job job = new Job();
         private short sp;
         private short beginner_sp;
 

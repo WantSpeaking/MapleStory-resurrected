@@ -364,7 +364,6 @@ namespace ms
 			attack.playerlevel = (short)stats.get_stat (MapleStat.Id.LEVEL);
 			attack.range = new Rectangle_short (stats.get_range ());
 			attack.bullet = inventory.get_bulletid ();
-			attack.bullet = 0;
 			attack.origin = get_position ();
 			attack.toleft = !facing_right;
 			attack.speed = (byte)get_integer_attackspeed ();
