@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using constants.skills;
 using MapleLib.WzLib;
 
 namespace ms

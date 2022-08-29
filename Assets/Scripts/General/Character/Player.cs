@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using constants.skills;
 
 namespace ms
 {
@@ -49,7 +50,7 @@ namespace ms
 
 			set_state (State.STAND);
 			set_direction (true);
-        }
+		}
 
 		public Player () : base (0, new CharLook (), "")
 		{
@@ -152,10 +153,10 @@ namespace ms
 		// Draw the player
 		public void draw (Layer.Id layer, double viewx, double viewy, float alpha)
 		{
-            foreach (var pair in buffs)
-            {
-                active_buffs.Draw (stats, pair.Value.stat, pair.Value.value);
-            }
+			foreach (var pair in buffs)
+			{
+				active_buffs.Draw (stats, pair.Value.stat, pair.Value.value);
+			}
 
 			//AppDebug.Log ($"Layer draw player :{(Layer.Id)get_layer ()}");
 			if (layer == (Layer.Id)get_layer ())
@@ -163,18 +164,18 @@ namespace ms
 				draw (viewx, viewy, alpha);
 			}
 
-         
+
 		}
 
 		// Update the player's animation, physics and states.
 		public override sbyte update (Physics physics)
-        {
-			StatusStorage.Update(Constants.TIMESTEP/1000f);
+		{
+			StatusStorage.Update (Constants.TIMESTEP / 1000f);
 
-            foreach (var pair in buffs)
-            {
-                active_buffs.Update (stats, pair.Value.stat, pair.Value.value);
-            }
+			foreach (var pair in buffs)
+			{
+				active_buffs.Update (stats, pair.Value.stat, pair.Value.value);
+			}
 
 			PlayerState pst = get_state (state);
 
@@ -209,9 +210,47 @@ namespace ms
 
 			climb_cooldown.update ();
 
+			if (cooldowns.Count > 0)
+			{
+				skillCooldown_all.Clear ();
+				skillCooldown_toBeRemoved.Clear ();
+				skillCooldown_all.AddRange (cooldowns.Keys);
+				for (int i = 0; i < cooldowns.Count; i++)
+				{
+					var skillId = skillCooldown_all[i];
+					var cooldown = cooldowns[skillId];
+					cooldown -= UnityEngine.Time.fixedDeltaTime;
+					if (cooldown < 0)
+					{
+						skillCooldown_toBeRemoved.Add (skillId);
+					}
+					cooldowns[skillId] = cooldown;
+					//AppDebug.Log ($"skillId:{skillId} cooldown:{cooldown}");
+					i++;
+				}
+				/*foreach (var pair in cooldowns)
+				{
+					var skillId = pair.Key;
+					var cooldown = pair.Value;
+					cooldown -= UnityEngine.Time.fixedDeltaTime;
+					if (cooldown < 0)
+					{
+						skillCooldown_toBeRemoved.Add (skillId);
+					}
+					cooldowns[skillId] = cooldown;
+				}*/
+
+				foreach (var skillId in skillCooldown_toBeRemoved)
+				{
+					cooldowns.Remove (skillId);
+				}
+			}
+
+
 			return get_layer ();
 		}
-
+		List<int> skillCooldown_toBeRemoved = new List<int> ();
+		List<int> skillCooldown_all = new List<int> ();
 		// Return the Character's attacking speed
 		public override sbyte get_integer_attackspeed ()
 		{
@@ -261,30 +300,47 @@ namespace ms
 		}
 
 		// Return whether the player can attack or not
-		public bool can_attack ()
+		public bool can_attack (int move_id, bool isForce = false)
 		{
-			return !attacking && !is_climbing () && !is_sitting () && look.get_equips ().has_weapon ();
+			bool isAttacking = false;
+			if (isForce)
+			{
+				if (has_cooldown (move_id))
+				{
+					isAttacking = true;
+				}
+			}
+			else
+			{
+				isAttacking = attacking;
+			}
+			return !isAttacking && !is_climbing () && !is_sitting () && look.get_equips ().has_weapon ();
 		}
 
 		// Return whether the player can use a skill or not
 		public SpecialMove.ForbidReason can_use (SpecialMove move)
 		{
-            if (move == null)
-            {
-                return SpecialMove.ForbidReason.FBR_OTHER;
-            }
+			if (move == null)
+			{
+				return SpecialMove.ForbidReason.FBR_OTHER;
+			}
+
+			if (!look.get_equips ().has_weapon ())
+			{
+				return SpecialMove.ForbidReason.FBR_OTHER;
+			}
 
 			if (move.is_skill () && state == State.PRONE)
 			{
 				return SpecialMove.ForbidReason.FBR_OTHER;
 			}
 
-            if (move.is_skill () && SkillForbid.get().IsForbid(move.get_id(),this))
-            {
-                return SpecialMove.ForbidReason.FBR_OTHER;
-            }
-            
-			if (move.is_attack () && (state == State.LADDER || state == State.ROPE))
+			if (move.is_skill () && SkillForbid.get ().IsForbid (move.get_id (), this))
+			{
+				return SpecialMove.ForbidReason.FBR_OTHER;
+			}
+
+			if (move.is_attack () && (state == State.LADDER || state == State.ROPE || state == State.SIT))
 			{
 				return SpecialMove.ForbidReason.FBR_OTHER;
 			}
@@ -326,24 +382,24 @@ namespace ms
 					case Weapon.Type.CROSSBOW:
 					case Weapon.Type.CLAW:
 					case Weapon.Type.GUN:
-					{
-						degenerate = !inventory.has_projectile ();
-						attacktype = degenerate ? Attack.Type.CLOSE : Attack.Type.RANGED;
-						break;
-					}
+						{
+							degenerate = !inventory.has_projectile ();
+							attacktype = degenerate ? Attack.Type.CLOSE : Attack.Type.RANGED;
+							break;
+						}
 					case Weapon.Type.WAND:
 					case Weapon.Type.STAFF:
-					{
-						degenerate = !skill;
-						attacktype = degenerate ? Attack.Type.CLOSE : Attack.Type.MAGIC;
-						break;
-					}
+						{
+							degenerate = !skill;
+							attacktype = degenerate ? Attack.Type.CLOSE : Attack.Type.MAGIC;
+							break;
+						}
 					default:
-					{
-						attacktype = Attack.Type.CLOSE;
-						degenerate = false;
-						break;
-					}
+						{
+							attacktype = Attack.Type.CLOSE;
+							degenerate = false;
+							break;
+						}
 				}
 			}
 
@@ -426,10 +482,10 @@ namespace ms
 		{
 			buffs[buff.stat] = buff;
 
-            foreach (var pair in buffs)
-            {
-                active_buffs.Add (stats, pair.Value.stat, pair.Value.value);
-            }
+			foreach (var pair in buffs)
+			{
+				active_buffs.Add (stats, pair.Value.stat, pair.Value.value);
+			}
 		}
 
 		// Cancel a buff
@@ -437,10 +493,10 @@ namespace ms
 		{
 			buffs[stat] = default;
 
-            foreach (var pair in buffs)
-            {
-                active_buffs.Remove (stats, pair.Value.stat, pair.Value.value);
-            }
+			foreach (var pair in buffs)
+			{
+				active_buffs.Remove (stats, pair.Value.stat, pair.Value.value);
+			}
 		}
 
 		// Return whether the buff is active
@@ -448,42 +504,45 @@ namespace ms
 		{
 			return buffs[stat].value > 0;
 		}
-        public Buff get_buff (Buffstat.Id buffId)
-        {
-            if (!buffs.TryGetValue(buffId, out var buff))
-            {
-                buff = new Buff();
-            }
+		public Buff get_buff (Buffstat.Id buffId)
+		{
+			if (!buffs.TryGetValue (buffId, out var buff))
+			{
+				buff = new Buff ();
+			}
 
-            return buff;
-        }
+			return buff;
+		}
 
 		/// <summary>
 		/// has SOULARROW buff
 		/// </summary>
 		/// <returns></returns>
-		public bool can_useBow_withoutArrows()
+		public bool can_useBow_withoutArrows ()
 		{
 			return get_buff (Buffstat.Id.SOULARROW).IsValid;
 		}
 		// Change a skill
 		public void change_skill (int skill_id, int skill_level, int masterlevel, long expiration)
 		{
-			int old_level = skillbook.get_level(skill_id);
-			skillbook.set_skill(skill_id, skill_level, masterlevel, expiration);
+			int old_level = skillbook.get_level (skill_id);
+			skillbook.set_skill (skill_id, skill_level, masterlevel, expiration);
 
 			if (old_level != skill_level)
 			{
-			    recalc_stats(false);
+				recalc_stats (false);
 			}
 		}
 
 		// Put a skill on cooldown
-		public void add_cooldown (int skill_id, int cooltime)
+		public void add_cooldown (int skill_id, float cooltime)
 		{
 			cooldowns[skill_id] = cooltime;
 		}
-
+		public void remove_cooldown (int skill_id)
+		{
+			cooldowns.Remove(skill_id);
+		}
 		// Check if a skill is on cooldown
 		public bool has_cooldown (int skill_id)
 		{
@@ -513,13 +572,13 @@ namespace ms
 		// Return the Character's level of a skill
 		public override int get_skilllevel (int skillid)
 		{
-			return skillbook.get_level(skillid);
+			return skillbook.get_level (skillid);
 			//return 30;
 		}
-        public bool has_learned_skill(int skillid)
-        {
-            return get_skilllevel(skillid) > 0;
-        }
+		public bool has_learned_skill (int skillid)
+		{
+			return get_skilllevel (skillid) > 0;
+		}
 		// Change the player's job, display the job change effect.
 		public void change_job (ushort jobid)
 		{
@@ -635,7 +694,7 @@ namespace ms
 		}
 		public Quest get_quest ()
 		{
-			return quest ??= new Quest();
+			return quest ??= new Quest ();
 		}
 
 		// Obtain a reference to the player's TeleportRock locations
@@ -657,13 +716,13 @@ namespace ms
 
 			return (float)hp / maxhp;
 		}
-		
+
 		private Inventory inventory = new Inventory ();
 		private SkillBook skillbook = new SkillBook ();
 		private QuestLog questlog = new QuestLog ();
 		private CheckLog checkLog = new CheckLog ();
 		private SayLog saylog = new SayLog ();
-		
+
 		private Quest quest;
 
 		private TeleportRock teleportrock = new TeleportRock ();
@@ -683,7 +742,7 @@ namespace ms
 		private ActiveBuffs active_buffs = new ActiveBuffs ();
 		private PassiveBuffs passive_buffs = new PassiveBuffs ();
 
-		private Dictionary<int, int> cooldowns = new Dictionary<int, int> ();
+		private Dictionary<int, float> cooldowns = new Dictionary<int, float> ();
 
 		private SortedDictionary<KeyAction.Id, bool> keysdown = new SortedDictionary<KeyAction.Id, bool> ();
 
@@ -696,73 +755,73 @@ namespace ms
 
 		private bool underwater;
 
-        public LocalStatusStorage statusStorage;
-        public LocalStatusStorage StatusStorage => statusStorage ?? (statusStorage = new LocalStatusStorage(this));
+		public LocalStatusStorage statusStorage;
+		public LocalStatusStorage StatusStorage => statusStorage ?? (statusStorage = new LocalStatusStorage (this));
 
-        private LocalStatusSettingObject CHARGE_ICE_BLOW_StatusSettingObject = new LocalStatusSettingObject();
-        public LocalStatusSetting CHARGE_ICE_BLOW_StatusSetting => CHARGE_ICE_BLOW_StatusSettingObject.GetSetting();
+		private LocalStatusSettingObject CHARGE_ICE_BLOW_StatusSettingObject = new LocalStatusSettingObject ();
+		public LocalStatusSetting CHARGE_ICE_BLOW_StatusSetting => CHARGE_ICE_BLOW_StatusSettingObject.GetSetting ();
 
-        private LocalStatusSettingObject CHARGE_FIRE_BLOW_StatusSettingObject = new LocalStatusSettingObject();
-        public LocalStatusSetting CHARGE_FIRE_BLOW_StatusSetting => CHARGE_FIRE_BLOW_StatusSettingObject.GetSetting();
+		private LocalStatusSettingObject CHARGE_FIRE_BLOW_StatusSettingObject = new LocalStatusSettingObject ();
+		public LocalStatusSetting CHARGE_FIRE_BLOW_StatusSetting => CHARGE_FIRE_BLOW_StatusSettingObject.GetSetting ();
 
-        private LocalStatusSettingObject CHARGE_LIT_BLOW_StatusSettingObject = new LocalStatusSettingObject();
-        public LocalStatusSetting CHARGE_LIT_BLOW_StatusSetting => CHARGE_LIT_BLOW_StatusSettingObject.GetSetting();
+		private LocalStatusSettingObject CHARGE_LIT_BLOW_StatusSettingObject = new LocalStatusSettingObject ();
+		public LocalStatusSetting CHARGE_LIT_BLOW_StatusSetting => CHARGE_LIT_BLOW_StatusSettingObject.GetSetting ();
 
-        private LocalStatusSettingObject CHARGE_LIT__HOLY_StatusSettingObject = new LocalStatusSettingObject();
-        public LocalStatusSetting CHARGE_LIT__HOLY_StatusSetting => CHARGE_LIT__HOLY_StatusSettingObject.GetSetting();
+		private LocalStatusSettingObject CHARGE_LIT__HOLY_StatusSettingObject = new LocalStatusSettingObject ();
+		public LocalStatusSetting CHARGE_LIT__HOLY_StatusSetting => CHARGE_LIT__HOLY_StatusSettingObject.GetSetting ();
 
-        private LocalStatusSettingObject COMBO_StatusSettingObject = new LocalStatusSettingObject();
-        public LocalStatusSetting COMBO_StatusSetting => COMBO_StatusSettingObject.GetSetting();
+		private LocalStatusSettingObject COMBO_StatusSettingObject = new LocalStatusSettingObject ();
+		public LocalStatusSetting COMBO_StatusSetting => COMBO_StatusSettingObject.GetSetting ();
 
-        public void AddChargeBlowStatus(int chargeSkillId, float duration, decimal value)
-        {
-            switch (chargeSkillId)
-            {
-                case Page.SWORD_ICE_CHARGE:
-                    StatusStorage.Add(CHARGE_ICE_BLOW_StatusSetting,duration,value,this);
-                    break;
-                case Page.SWORD_FIRE_CHARGE:
-                    StatusStorage.Add(CHARGE_FIRE_BLOW_StatusSetting,duration,value,this);
-                    break;
-                case Page.SWORD_LIT_CHARGE:
-                    StatusStorage.Add(CHARGE_LIT_BLOW_StatusSetting,duration,value,this);
-                    break;
-                case Page.SWORD_HOLY_CHARGE:
-                    StatusStorage.Add(CHARGE_LIT__HOLY_StatusSetting,duration,value,this);
-                    break;
-            }
-        }
+		public void AddChargeBlowStatus (int chargeSkillId, float duration, decimal value)
+		{
+			switch (chargeSkillId)
+			{
+				case Page.SWORD_ICE_CHARGE:
+					StatusStorage.Add (CHARGE_ICE_BLOW_StatusSetting, duration, value, this);
+					break;
+				case Page.SWORD_FIRE_CHARGE:
+					StatusStorage.Add (CHARGE_FIRE_BLOW_StatusSetting, duration, value, this);
+					break;
+				case Page.SWORD_LIT_CHARGE:
+					StatusStorage.Add (CHARGE_LIT_BLOW_StatusSetting, duration, value, this);
+					break;
+				case Page.SWORD_HOLY_CHARGE:
+					StatusStorage.Add (CHARGE_LIT__HOLY_StatusSetting, duration, value, this);
+					break;
+			}
+		}
 
-        public LocalStatus GetChargeBlowStatus(int chargeSkillId)
-        {
-            LocalStatus returnValue = null;
-            switch (chargeSkillId)
-            {
-                case Page.SWORD_ICE_CHARGE:
-                    returnValue=StatusStorage.GetLocalStatus(CHARGE_ICE_BLOW_StatusSetting);
-                    break;
-                case Page.SWORD_FIRE_CHARGE:
-                    returnValue=StatusStorage.GetLocalStatus(CHARGE_FIRE_BLOW_StatusSetting);
-                    break;
-                case Page.SWORD_LIT_CHARGE:
-                    returnValue=StatusStorage.GetLocalStatus(CHARGE_LIT_BLOW_StatusSetting);
-                    break;
-                case Page.SWORD_HOLY_CHARGE:
-                    returnValue=StatusStorage.GetLocalStatus(CHARGE_LIT__HOLY_StatusSetting);
-                    break;
-            }
+		public LocalStatus GetChargeBlowStatus (int chargeSkillId)
+		{
+			LocalStatus returnValue = null;
+			switch (chargeSkillId)
+			{
+				case Page.SWORD_ICE_CHARGE:
+					returnValue = StatusStorage.GetLocalStatus (CHARGE_ICE_BLOW_StatusSetting);
+					break;
+				case Page.SWORD_FIRE_CHARGE:
+					returnValue = StatusStorage.GetLocalStatus (CHARGE_FIRE_BLOW_StatusSetting);
+					break;
+				case Page.SWORD_LIT_CHARGE:
+					returnValue = StatusStorage.GetLocalStatus (CHARGE_LIT_BLOW_StatusSetting);
+					break;
+				case Page.SWORD_HOLY_CHARGE:
+					returnValue = StatusStorage.GetLocalStatus (CHARGE_LIT__HOLY_StatusSetting);
+					break;
+			}
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public void AddComboStatus(float duration, decimal value)
-        {
-            StatusStorage.Add(COMBO_StatusSetting,duration,value,this);
-        }
+		public void AddComboStatus (float duration, decimal value)
+		{
+			StatusStorage.Add (COMBO_StatusSetting, duration, value, this);
+		}
 
-        public LocalStatus GetComboStatus()
-        {
-            return StatusStorage.GetLocalStatus(COMBO_StatusSetting);
-        }
-    }
+		public LocalStatus GetComboStatus ()
+		{
+			return StatusStorage.GetLocalStatus (COMBO_StatusSetting);
+		}
+	}
 }

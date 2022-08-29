@@ -277,7 +277,7 @@ namespace ms
 			}
 		}
 
-		public void send_key (KeyType.Id type, int action, bool down)
+		public void send_key (KeyType.Id type, int action, bool down, bool pressing = false)
 		{
 			if (state != State.ACTIVE || !playable)
 			{
@@ -289,9 +289,9 @@ namespace ms
 					playable.get ().send_action (KeyAction.actionbyid (action), down);
 					break;
 				case KeyType.Id.SKILL:
-					if (down)
+					//if (down)
 					{
-						combat.use_move (action);
+						combat.use_move (action, down, pressing);
 					}
 					break;
 				case KeyType.Id.ITEM:

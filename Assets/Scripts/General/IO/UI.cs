@@ -174,7 +174,7 @@ namespace ms
             state.doubleclick(pos);
         }
 
-        public void send_key(int keycode, bool pressed, bool isMapleKeycode = false)
+        public void send_key(int keycode, bool pressed, bool isMapleKeycode = false, bool pressing = false)
         {
             if (canDraw == false) return;
             if ((is_key_down[GLFW_KEY.GLFW_KEY_LEFT_ALT] || is_key_down[GLFW_KEY.GLFW_KEY_RIGHT_ALT]) && (is_key_down[GLFW_KEY.GLFW_KEY_ENTER] || is_key_down[GLFW_KEY.GLFW_KEY_KP_ENTER]))
@@ -389,7 +389,7 @@ namespace ms
                     else
                     {
                         //change_state (State.GAME);//todo 2 remove later
-                        state.send_key(mapping.type, mapping.action, pressed, escape);
+                        state.send_key(mapping.type, mapping.action, pressed, escape, pressing);
                     }
                 }
             }

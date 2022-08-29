@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MapleLib.WzLib;
 
 
@@ -13,6 +14,8 @@ namespace ms
 		}
 
 		public abstract void apply (ref Char target, Attack.Type atype);
+
+		public virtual string actionStr { get; } = string.Empty;	
 	}
 
 	public class NoAction : SkillAction
@@ -48,17 +51,24 @@ namespace ms
 
 	public class SingleAction : SkillAction
 	{
+		public bool setAlerted = true;
 		public SingleAction (WzObject src)
 		{
 			action = src["action"]["0"].ToString ();
 		}
-
+		public SingleAction (string action, bool setAlerted)
+		{
+			this.action = action;
+			this.setAlerted = setAlerted;
+		}
 		public override void apply (ref Char target, Attack.Type atype)
 		{
-			target.attack (action);
+			target.attack (action, setAlerted);
 		}
 
 		private string action;
+
+		public override string actionStr => action;
 	}
 
 	public class TwoHandedAction : SkillAction
@@ -78,6 +88,9 @@ namespace ms
 		}
 
 		private BoolPair<string> actions = new BoolPair<string> ();
+
+		public override string actionStr => actions[false];
+
 	}
 
 	public class ByLevelAction : SkillAction
@@ -113,5 +126,8 @@ namespace ms
 
 		private SortedDictionary<int, string> actions = new SortedDictionary<int, string> ();
 		private int skillid;
+
+		public override string actionStr => actions.Values.FirstOrDefault();
+
 	}
 }

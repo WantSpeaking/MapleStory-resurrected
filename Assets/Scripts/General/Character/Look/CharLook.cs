@@ -595,6 +595,21 @@ namespace ms
 
             return delay;
         }
+        public ushort get_total_attackdelay ()
+        {
+            if (action != null)
+            {
+                return drawinfo.get_total_attackdelay (actionstr);
+            }
+
+            return drawinfo.get_total_delay ((Stance.Id)stance.get ());
+            
+        }
+
+        public ushort get_total_attackdelay (string actionstr)
+        {
+            return drawinfo.get_total_attackdelay (actionstr);
+        }
 
         public byte get_frame()
         {

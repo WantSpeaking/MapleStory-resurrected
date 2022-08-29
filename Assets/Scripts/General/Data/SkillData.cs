@@ -3,6 +3,7 @@ using ms.Helper;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using ms;
+using constants.skills;
 
 namespace ms
 {
@@ -207,7 +208,7 @@ namespace ms
 					int mastery = property_Skillwz_000img_skill_11111004_level_1["mastery"];
 					byte attackcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["attackCount"] ?? 1);
 					byte mobcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["mobCount"] ?? 1);
-					byte bulletcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["bulletCount"] ?? 0);
+					byte bulletcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["bulletCount"] ?? 1);
 					short bulletcost = (short)(property_Skillwz_000img_skill_11111004_level_1["bulletConsume"] ?? bulletcount);
 					int hpcost = property_Skillwz_000img_skill_11111004_level_1["hpCon"];
 					int mpcost = property_Skillwz_000img_skill_11111004_level_1["mpCon"];
@@ -332,6 +333,8 @@ namespace ms
 			{(int)SkillId.Id.RANGER_Strafe, (int)Flags.ATTACK},
 			{(int)SkillId.Id.RANGER_MortalBlow, (int)Flags.ATTACK},
 			//BOWMASTER - 312
+			{(int)Bowmaster.HURRICANE, (int)Flags.ATTACK| (int)Flags.RANGED},
+
 		};
 
 		// Get some hard-coded information

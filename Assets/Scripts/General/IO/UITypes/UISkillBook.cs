@@ -798,11 +798,14 @@ namespace ms
                 int masterlevel = skillbook.get_masterlevel(skill_id);
 
                 bool invisible = SkillData.get(skill_id).is_invisible();
-
-                if (invisible /*&& masterlevel == 0*/)
-                {
+				if ((job.isFourthJob() && masterlevel == 0)||(!job.isFourthJob () && invisible))
+				{
                     continue;
                 }
+            /*    if (invisible *//*&& masterlevel == 0*//*)
+                {
+                    continue;
+                }*/
 
                 skills.Add(new SkillDisplayMeta(skill_id, level));
                 skillcount++;

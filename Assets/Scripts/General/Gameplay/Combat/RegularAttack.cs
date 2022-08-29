@@ -5,7 +5,15 @@
 		public override void apply_useeffects ( Char user)
 		{
 		}
-
+		public override void apply_prepareEffect (Char user)
+		{
+		}
+		public override void apply_keydownEffect (Char user)
+		{
+		}
+		public override void apply_keydownendEffect (Char user)
+		{
+		}
 		public override void apply_actions ( Char user, Attack.Type type)
 		{
 			action.apply (ref user, type);
@@ -49,6 +57,10 @@
 			return 0;
 		}
 
+		public override bool has_skillPrepareEffect ()
+		{
+			return false;
+		}
 		public override SpecialMove.ForbidReason can_use (int level, Weapon.Type weapon, Job job, ushort hp, ushort mp, ushort bullets)
 		{
 			switch (weapon)
@@ -71,6 +83,10 @@
 			}
 		}
 
+		public override SkillAction get_action (Char user)
+		{
+			return action;
+		}
 		private RegularAction action = new RegularAction ();
 		private RegularBullet bullet = new RegularBullet ();
 	}

@@ -67,9 +67,9 @@ namespace ms
 			delay = 0;
 			opacities = new Tuple<byte, byte> (0, 0);
 			scales = new Tuple<short, short> (0, 0);
-			
+
 			head = new Point_short ();
-			 bounds = new Rectangle_short ();
+			bounds = new Rectangle_short ();
 			texture = new Texture ();
 		}
 
@@ -137,11 +137,11 @@ namespace ms
 			return timestep * (float)(scales.Item2 - scales.Item1) / delay;
 		}
 
-		public virtual void Dispose()
+		public virtual void Dispose ()
 		{
 			texture.Dispose ();
 		}
-		
+
 		private Point_short head;
 		private Rectangle_short bounds;
 		private Texture texture;
@@ -400,7 +400,14 @@ namespace ms
 
 			return total;
 		}
+		public int get_total_delay ()
+		{
+			foreach (var frame in frames)
+			{
 
+			}
+			return frames.Sum (frame => frame.get_delay ());
+		}
 		public Point_short get_origin ()
 		{
 			return get_frame ().get_origin ();
@@ -427,14 +434,14 @@ namespace ms
 			//return frames[0];
 		}
 
-		public virtual void Dispose()
+		public virtual void Dispose ()
 		{
 			foreach (var frame in frames)
 			{
 				frame.Dispose ();
 			}
 		}
-		
+
 		private List<Frame> frames = new List<Frame> ();
 		private bool animated;
 		private bool zigzag;

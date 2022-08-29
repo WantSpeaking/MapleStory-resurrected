@@ -52,6 +52,10 @@ namespace ms
 			emplace (Opcode.ATTACKED_RANGED, new RangedAttackHandler ());
 			emplace (Opcode.ATTACKED_MAGIC, new MagicAttackHandler ());
 
+			// Skill handlers
+			emplace (Opcode.SKILL_EFFECT, new SKILL_EFFECT_Handler ());
+			emplace (Opcode.CANCEL_SKILL_EFFECT, new CANCEL_SKILL_EFFECT_Handler ());
+			
 			//Char handleds
 			emplace (Opcode.PARTY_OPERATION, new PartyOperationHandlers ());
 			emplace (Opcode.UPDATE_PARTYMEMBER_HP, new UPDATE_PARTYMEMBER_HPHandlers ());
@@ -290,6 +294,9 @@ namespace ms
 		ATTACKED_CLOSE = 186,
 		ATTACKED_RANGED = 187,
 		ATTACKED_MAGIC = 188,
+
+		SKILL_EFFECT = 190,
+		CANCEL_SKILL_EFFECT = 191,
 
 		UPDATE_CHARLOOK = 197,
 		SHOW_FOREIGN_EFFECT = 198,

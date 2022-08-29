@@ -1008,7 +1008,7 @@ namespace FairyGUI
             pos.y = _contentRect.height - pos.y;
             TouchInfo touch = _touches[0];
 
-            if (touch.x != pos.x || touch.y != pos.y)
+            //if (touch.x != pos.x || touch.y != pos.y)
             {
                 touch.x = pos.x;
                 touch.y = pos.y;
@@ -1051,7 +1051,7 @@ namespace FairyGUI
         void HandleMouseEvents()
         {
             TouchInfo touch = _touches[0];
-            if (touch.x != _touchPosition.x || touch.y != _touchPosition.y)
+            //if (touch.x != _touchPosition.x || touch.y != _touchPosition.y)
             {
                 touch.x = _touchPosition.x;
                 touch.y = _touchPosition.y;
@@ -1126,7 +1126,7 @@ namespace FairyGUI
                 if (touch == null)
                     continue;
 
-                if (touch.x != pos.x || touch.y != pos.y)
+                //if (touch.x != pos.x || touch.y != pos.y)
                 {
                     touch.x = pos.x;
                     touch.y = pos.y;

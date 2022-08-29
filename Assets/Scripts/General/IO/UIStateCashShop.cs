@@ -48,7 +48,7 @@ namespace ms
 		public override void rightclick(Point_short pos)
 		{
 		}
-		public override void send_key(KeyType.Id type, int action, bool pressed, bool escape)
+		public override void send_key(KeyType.Id type, int action, bool pressed, bool escape, bool pressing = false)
 		{
 		}
 		public override Cursor.State send_cursor(Cursor.State cursorstate, Point_short cursorpos)

@@ -74,22 +74,45 @@ namespace ms
 			}
 		}
 		// Make the player use a special move
-		public void use_move (int move_id)
+		public void use_move (int move_id, bool down = false, bool pressing = false)
 		{
-			if (!player.can_attack ())
+			var move_id_Switched = SkillSwitcher.Instance.DoSwitch (move_id, player);
+			SpecialMove move = get_move (move_id_Switched);
+
+			if (!move.has_skillPrepareEffect () && down == false)//如果 是 普通技能 不是持续性技能，且没有按下 就返回
+				return;
+
+			if (down == true && pressing == false && move.has_skillPrepareEffect ())//begin
+			{
+				//AppDebug.Log ("begin");
+
+			}
+			else if (down == false && pressing == true && move.has_skillPrepareEffect ())//end
+			{
+				//AppDebug.Log ("end");
+				player.remove_cooldown (move_id);
+			}
+
+			if (!player.can_attack (move_id, move.has_skillPrepareEffect ()))
 			{
 				return;
 			}
 
-			var move_id_Switched = SkillSwitcher.Instance.DoSwitch (move_id, player);
-			SpecialMove move = get_move (move_id_Switched);
 			SpecialMove.ForbidReason reason = player.can_use (move);
 			Weapon.Type weapontype = player.get_stats ().get_weapontype ();
-
+		
 			switch (reason)
 			{
 				case SpecialMove.ForbidReason.FBR_NONE:
-					apply_move (move);
+					apply_move (move, down, pressing);
+					if (down == true && pressing == true && move.has_skillPrepareEffect ())//moving
+					{
+						//AppDebug.Log ("moving");
+						//if (ForceSkill.IsForce (move_id))
+						{
+							player.add_cooldown (move_id, player.get_total_attackdelay (move, move.get_action (player).actionStr));
+						}
+					}
 					break;
 				default:
 					new ForbidSkillMessage (reason, weapontype).drop ();
@@ -187,7 +210,7 @@ namespace ms
 			}
 		}
 
-		private void apply_move (SpecialMove move)
+		private void apply_move (SpecialMove move, bool down = false, bool pressing = false)
 		{
 			if (move.is_attack ())
 			{
@@ -244,7 +267,26 @@ namespace ms
 				apply_result_movement (move, result);
 
 				new AttackPacket (result).dispatch ();
+				if (down == true && pressing == false && move.has_skillPrepareEffect())//begin
+				{
+					new SkillEffectPacket (move.get_id (), Stage.get ().get_player ().get_skills ().get_masterlevel (move.get_id ()), 22, attack.toleft ? -128 : 0, 6).dispatch ();
+					move.apply_prepareEffect (player);
+					AppDebug.Log ("begin");
+				
+				}
+				else if (down == false && pressing == true && move.has_skillPrepareEffect ())//end
+				{
+					new Cancel_BuffPacket (move.get_id ()).dispatch ();
+					move.apply_keydownendEffect (player);
+					AppDebug.Log ("end");
 
+				}
+				else if (down == true && pressing == true && move.has_skillPrepareEffect ())//moving
+				{
+					move.apply_keydownEffect (player);
+					AppDebug.Log ("moving");
+
+				}
 				if (reactor_targets.Count != 0)
 				{
 					Optional<MapObject> reactor = reactor_objs.get (reactor_targets[0]);

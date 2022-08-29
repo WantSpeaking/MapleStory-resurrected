@@ -24,6 +24,10 @@ namespace ms
 
 		public JobData(int id)
 		{
+			if (id == 312)
+			{
+				AppDebug.Log ("JobData id 312");
+			}
 			string strid = string_format.extend_id(id, 3);
 			var node_SkillWZ_000img = ms.wz.wzFile_skill[strid + ".img"];
 			var strsrc = ms.wz.wzFile_string["Skill.img"][strid];

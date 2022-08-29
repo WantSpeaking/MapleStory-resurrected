@@ -64,9 +64,9 @@ namespace ms
 				//AppDebug.Log($"parse_skillbook, skill_id:{skill_id}\t level:{level}\t masterlevel:{masterlevel}\t expiration:{expiration}");//sever send skillId 100 which doesn't exist in skillWz; sever send  skillId 12 with skillLevel 0 which doesn't exist 
 				skills.set_skill (skill_id, level, masterlevel, expiration);
 			}
-
+			AppDebug.LogError ($"parse_skillbook size:{size}");
 			//todo suppose has learned skills blew
-			skills.set_skill (Page.SWORD_ICE_BLOW, 1, 1, -1);
+			/*skills.set_skill (Page.SWORD_ICE_BLOW, 1, 1, -1);
 			skills.set_skill (Page.SWORD_FIRE_BLOW, 1, 1, -1);
 			skills.set_skill (Page.SWORD_LIT_BLOW, 1, 1, -1);
 			skills.set_skill (Page.SWORD_HOLY_BLOW, 1, 1, -1);
@@ -79,7 +79,7 @@ namespace ms
 			skills.set_skill (Paladin.SWORD_ICE_BLOW, 1, 1, -1);
 			skills.set_skill (Paladin.SWORD_FIRE_BLOW, 1, 1, -1);
 			skills.set_skill (Paladin.SWORD_LIT_BLOW, 1, 1, -1);
-			skills.set_skill (Paladin.SWORD_HOLY_BLOW, 1, 1, -1);
+			skills.set_skill (Paladin.SWORD_HOLY_BLOW, 1, 1, -1);*/
 		}
 
 		public static void parse_cooldowns (InPacket recv, Player player)

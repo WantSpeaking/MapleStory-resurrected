@@ -171,6 +171,21 @@ namespace ms
 			return (ushort)(delay / fspeed);
 		}
 
+
+		public float get_total_attackdelay (SpecialMove move, string actionstr)
+		{
+			if (move is Skill skill)
+			{
+				return skill.GetKeydownEffect ().GetAniLength () / 1000f;
+			}
+			else
+			if (SkillCooldown.SkillCooldowns.TryGetValue(move.get_id(), out var cooldown))
+			{
+				return cooldown;
+			}
+			return look.get_total_attackdelay (actionstr);
+		}
+
 		public override sbyte update (Physics physics)
 		{
 			update (physics, 1.0f);
@@ -256,12 +271,14 @@ namespace ms
 			look.set_expression (expression);
 		}
 
-		public void attack (string action)
+		public void attack (string action, bool set_alerted = true)
 		{
 			look.set_action (action);
 
 			attacking = true;
-			look.set_alerted (5000);
+
+			if(set_alerted)
+				look.set_alerted (5000);
 		}
 
 		public void attack (Stance.Id stance)

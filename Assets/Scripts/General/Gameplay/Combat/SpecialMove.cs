@@ -41,7 +41,11 @@ namespace ms
 		}
 
 		public abstract void apply_useeffects( Char user);
+		public abstract void apply_prepareEffect ( Char user);
+		public abstract void apply_keydownEffect ( Char user);
+		public abstract void apply_keydownendEffect ( Char user);
 		public abstract void apply_actions( Char user, Attack.Type type);
+		public abstract SkillAction get_action(Char user);
 		public abstract void apply_stats(Char user, Attack attack);
 		public abstract void apply_hiteffects(AttackUser user, Mob target);
 		public abstract Animation get_bullet(Char user, int bulletid);
@@ -50,6 +54,7 @@ namespace ms
 		public abstract bool is_skill();
 		public abstract int get_id();
 
+		public abstract bool has_skillPrepareEffect ();
 		public abstract ForbidReason can_use(int level, Weapon.Type weapon, Job job, ushort hp, ushort mp, ushort bullets);
 	}
 }

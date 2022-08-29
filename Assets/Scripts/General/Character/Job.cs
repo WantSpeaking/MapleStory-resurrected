@@ -300,6 +300,19 @@
 			}
 		}
 
+		public bool isFourthJob ()
+		{
+			if (id == 2212)
+			{
+				return false;
+			}
+			if (id == 22170001 || id == 22171003 || id == 22171004 || id == 22181002 || id == 22181003)
+			{
+				return true;
+			}
+			return id % 10 == 2;
+		}
+
 		private string name;
 		private ushort id;
 		private Level level;

@@ -60,6 +60,10 @@ namespace ms_Unity
 			_Btn_Skill3.onTouchEnd.Add (onTouchEnd_Btn_Skill);
 			_Btn_Skill4.onTouchEnd.Add (onTouchEnd_Btn_Skill);
 
+			_Btn_Skill1.onTouchMove.Add (onTouchMove_Btn_Skill);
+			_Btn_Skill2.onTouchMove.Add (onTouchMove_Btn_Skill);
+			_Btn_Skill3.onTouchMove.Add (onTouchMove_Btn_Skill);
+			_Btn_Skill4.onTouchMove.Add (onTouchMove_Btn_Skill);
 			for (int i = 0; i < keys.Length; i++)
 			{
 				var key = keys[i];
@@ -99,13 +103,19 @@ namespace ms_Unity
 		private void OnTouchBegin_Btn_Skill (EventContext context)
 		{
 			var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
-			UI.get ().send_key ((int)clicked_ActionButton.Key, true, true);
+			UI.get ().send_key ((int)clicked_ActionButton.Key, true, true, false);
 		}
 
 		private void onTouchEnd_Btn_Skill (EventContext context)
 		{
 			var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
-			UI.get ().send_key ((int)clicked_ActionButton.Key, false, true);
+			UI.get ().send_key ((int)clicked_ActionButton.Key, false, true, true);
+		}
+		private void onTouchMove_Btn_Skill (EventContext context)
+		{
+			var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
+			UI.get ().send_key ((int)clicked_ActionButton.Key, true, true, true);
+			//AppDebug.Log ($"onTouchMove_Btn_Skill: {clicked_ActionButton.Key}");
 		}
 
 		public void UpdateIcon ()

@@ -134,7 +134,7 @@ namespace ms
 			}
 		}
 
-		public override void send_key (KeyType.Id type, int action, bool pressed, bool escape)
+		public override void send_key (KeyType.Id type, int action, bool pressed, bool escape, bool pressing = false)
 		{
 			UIElement focusedelement = get (focused);
 			if (focusedelement != null)
@@ -351,7 +351,7 @@ namespace ms
 					case KeyType.Id.ITEM:
 					case KeyType.Id.SKILL:
 					{
-						Stage.get ().send_key (type, action, pressed);
+						Stage.get ().send_key (type, action, pressed, pressing);
 						break;
 					}
 				}

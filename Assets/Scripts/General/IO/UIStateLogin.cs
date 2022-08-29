@@ -72,7 +72,7 @@ namespace ms
         {
         }
 
-        public override void send_key(KeyType.Id type, int action, bool pressed, bool escape)
+        public override void send_key(KeyType.Id type, int action, bool pressed, bool escape, bool pressing = false)
         {
             //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
             UIElement focusedelement = get(focused);
