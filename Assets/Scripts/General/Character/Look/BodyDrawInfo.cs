@@ -50,36 +50,26 @@ namespace ms
 		{
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool isattackframe() const
 		public bool isattackframe ()
 		{
 			return attackframe;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: byte get_frame() const
 		public byte get_frame ()
 		{
 			return frame;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: ushort get_delay() const
 		public ushort get_delay ()
 		{
 			return delay;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Point_short get_move() const
 		public Point_short get_move ()
 		{
 			return move;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Stance::Id get_stance() const
 		public Stance.Id get_stance ()
 		{
 			return stance;
@@ -182,7 +172,8 @@ namespace ms
 											if (part != "delay" && part != "face")
 											{
 												string zstr = property_Characterwz_00002000img_fly_0_arm["z"]?.ToString ();
-												if (string.IsNullOrEmpty (zstr)) continue;
+												if (string.IsNullOrEmpty (zstr))
+													continue;
 												Body.Layer z = Body.layer_by_name (zstr);
 
 												foreach (var property_Characterwz_00002000img_fly_0_arm_hand in property_Characterwz_00002000img_fly_0_arm["map"].WzProperties)
@@ -291,8 +282,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Point_short get_body_position(Stance::Id stance, byte frame) const
 		public Point_short get_body_position (Stance.Id stance, byte frame)
 		{
 			var pos = new Point_short ();
@@ -306,7 +295,7 @@ namespace ms
 			var pos = new Point_short ();
 			arm_positions[(int)stance].TryGetValue (frame, out pos);
 			return pos;
-			
+
 		}
 
 		public Point_short get_hand_position (Stance.Id stance, byte frame)
@@ -314,7 +303,7 @@ namespace ms
 			var pos = new Point_short ();
 			hand_positions[(int)stance].TryGetValue (frame, out pos);
 			return pos;
-			
+
 		}
 
 		public Point_short get_head_position (Stance.Id stance, byte frame)
@@ -323,7 +312,7 @@ namespace ms
 			head_positions[(int)stance].TryGetValue (frame, out pos);
 			return pos;
 
-			
+
 		}
 
 		public Point_short gethairpos (Stance.Id stance, byte frame)
@@ -331,7 +320,7 @@ namespace ms
 			var pos = new Point_short ();
 			hair_positions[(int)stance].TryGetValue (frame, out pos);
 			return pos;
-			
+
 		}
 
 		public Point_short getfacepos (Stance.Id stance, byte frame, bool flip = false)
@@ -341,10 +330,13 @@ namespace ms
 				pos = new Point_short ();
 			}
 
-			//AppDebug.Log ($"stance: {stance} \t getfacepos: {pos} frame: {frame}");
-			if (flip) pos = new Point_short ((short)-pos.x (), pos.y ());
+			if (flip)
+				pos = new Point_short ((short)-pos.x (), pos.y ());
+
+			//AppDebug.Log ($"flip:{flip} stance: {stance} \t getfacepos: {pos} frame: {frame}");
+
 			return pos;
-			
+
 		}
 
 		public byte nextframe (Stance.Id stance, byte frame)
@@ -364,9 +356,12 @@ namespace ms
 			ushort delay = 100;
 			stance_delays[(int)stance].TryGetValue (frame, out delay);
 			return delay;
-			
-		}
 
+		}
+		public ushort get_total_delay (Stance.Id stance)
+		{
+			return (ushort)stance_delays[(int)stance].Values.Sum (delay => delay);
+		}
 		public ushort get_attackdelay (string action, uint no)
 		{
 			ushort attackdelay = 0;
@@ -377,9 +372,18 @@ namespace ms
 			}
 
 			return attackdelay;
-	
-		}
 
+		}
+		public ushort get_total_attackdelay (string action)
+		{
+			ushort attackdelay = 0;
+
+			if (attack_delays.TryGetValue (action, out var delays))
+			{
+				attackdelay = (ushort)delays.Sum (delay => delay);
+			}
+			return attackdelay;
+		}
 		public byte next_actionframe (string action, byte frame)
 		{
 			byte attackdelay = 0;
@@ -392,7 +396,7 @@ namespace ms
 			return attackdelay;
 
 
-			
+
 		}
 
 		public BodyAction get_action (string action, byte frame)
@@ -402,7 +406,7 @@ namespace ms
 			actions?.TryGetValue (frame, out bodyAction);
 			return bodyAction;
 
-			
+
 		}
 
 		private Dictionary<byte, Point_short>[] body_positions = new Dictionary<byte, Point_short>[EnumUtil.GetEnumLength<Stance.Id> ()]; //todo 2 dict is null

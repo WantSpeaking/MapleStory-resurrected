@@ -438,15 +438,11 @@ namespace ms
 				source = s;
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void drop_on_stage() const override
 			public override void drop_on_stage ()
 			{
 				new Sound (Sound.Name.DRAGEND).play ();
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void drop_on_equips(EquipSlot::Id slot) const override
 			public override void drop_on_equips (EquipSlot.Id slot)
 			{
 				if (source == (int)slot)
@@ -455,8 +451,6 @@ namespace ms
 				}
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool drop_on_items(InventoryType::Id tab, EquipSlot::Id eqslot, short slot, bool equip) const override
 			public override bool drop_on_items (InventoryType.Id tab, EquipSlot.Id eqslot, short slot, bool equip)
 			{
 				if (tab != InventoryType.Id.EQUIP)
@@ -487,8 +481,6 @@ namespace ms
 				return true;
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void drop_on_bindings(Point_short, bool) const override
 			public override void drop_on_bindings (Point_short UnnamedParameter1, bool UnnamedParameter2)
 			{
 			}

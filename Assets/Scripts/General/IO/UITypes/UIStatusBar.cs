@@ -67,7 +67,7 @@ namespace ms
 
 			expbar = new Gauge (Gauge.Type.GAME, EXPBarRes.resolve ("layer:gauge"), EXPBarRes.resolve ("layer:cover"), EXPBar.resolve ("layer:effect"), exp_max, 0.0f);
 			expbar.Setbarmid_PosOffset (new Point_short (-4, 0));
-			
+
 			short pos_adj = 0;
 
 			if (VWIDTH == 1280)
@@ -382,7 +382,7 @@ namespace ms
 
 		public override void draw (float alpha)
 		{
-			base.draw_sprites (alpha);
+			/*base.draw_sprites (alpha);
 
 			for (uint i = 0; i <= (ulong)Buttons.BT_EVENT; i++)
 			{
@@ -417,7 +417,7 @@ namespace ms
 
 			namelabel.draw (position + namelabel_pos);
 
-			/*buttons[(int)Buttons.BT_FOLD_QS].draw (position + quickslot_adj);
+			*//*buttons[(int)Buttons.BT_FOLD_QS].draw (position + quickslot_adj);
 			buttons[(int)Buttons.BT_EXTEND_QS].draw (position + quickslot_adj - quickslot_qs_adj);
 
 			if (VWIDTH > 800 && VWIDTH < 1366)
@@ -429,7 +429,7 @@ namespace ms
 			{
 				quickslot[0].draw (position + quickslot_pos + quickslot_adj);
 				quickslot[1].draw (position + quickslot_pos + quickslot_adj);
-			}*/
+			}*//*
 
 			#region Menu
 
@@ -508,7 +508,7 @@ namespace ms
 				buttons[i].draw (position);
 			}
 
-			#endregion
+			#endregion*/
 		}
 
 		public override void update ()
@@ -847,7 +847,7 @@ namespace ms
 					toggle_qs (true);
 					break;
 				case Buttons.BT_MENU_QUEST:
-					UI.get ().emplace<UIQuestLog> (Stage.get ().get_player ().get_quests ());
+					UI.get ().emplace<UIQuestLog> (Stage.get ().get_player ().get_questlog ());
 
 					remove_menus ();
 					break;
@@ -890,43 +890,43 @@ namespace ms
 					break;
 				case Buttons.BT_COMMUNITY_FRIENDS:
 				case Buttons.BT_COMMUNITY_PARTY:
-				{
-					var userlist = UI.get ().get_element<UIUserList> ();
-					var tab = (id == (int)Buttons.BT_COMMUNITY_FRIENDS) ? UIUserList.Tab.FRIEND : UIUserList.Tab.PARTY;
-
-					if (!userlist)
 					{
-						UI.get ().emplace<UIUserList> ((ushort)tab);
-					}
-					else
-					{
-						var cur_tab = userlist.get ().get_tab ();
-						var is_active = userlist.get ().is_active ();
+						var userlist = UI.get ().get_element<UIUserList> ();
+						var tab = (id == (int)Buttons.BT_COMMUNITY_FRIENDS) ? UIUserList.Tab.FRIEND : UIUserList.Tab.PARTY;
 
-						if (cur_tab == (int)tab)
+						if (!userlist)
 						{
-							if (is_active)
-							{
-								userlist.get ().deactivate ();
-							}
-							else
-							{
-								userlist.get ().makeactive ();
-							}
+							UI.get ().emplace<UIUserList> ((ushort)tab);
 						}
 						else
 						{
-							if (!is_active)
+							var cur_tab = userlist.get ().get_tab ();
+							var is_active = userlist.get ().is_active ();
+
+							if (cur_tab == (int)tab)
 							{
-								userlist.get ().makeactive ();
+								if (is_active)
+								{
+									userlist.get ().deactivate ();
+								}
+								else
+								{
+									userlist.get ().makeactive ();
+								}
 							}
+							else
+							{
+								if (!is_active)
+								{
+									userlist.get ().makeactive ();
+								}
 
-							userlist.get ().change_tab ((byte)tab);
+								userlist.get ().change_tab ((byte)tab);
+							}
 						}
-					}
 
-					remove_menus ();
-				}
+						remove_menus ();
+					}
 					break;
 				case Buttons.BT_COMMUNITY_GUILD:
 					remove_menus ();
@@ -976,7 +976,7 @@ namespace ms
 
 		private const short QUICKSLOT_MAX = 211;
 
-		private float getexppercent ()
+		public float getexppercent ()
 		{
 			short level = (short)stats.get_stat (MapleStat.Id.LEVEL);
 
@@ -991,7 +991,7 @@ namespace ms
 			return (float)((double)exp / ExpTable.values[level]);
 		}
 
-		private float gethppercent ()
+		public float gethppercent ()
 		{
 			short hp = (short)stats.get_stat (MapleStat.Id.HP);
 			int maxhp = stats.get_total (EquipStat.Id.HP);
@@ -999,7 +999,7 @@ namespace ms
 			return (float)hp / maxhp;
 		}
 
-		private float getmppercent ()
+		public float getmppercent ()
 		{
 			short mp = (short)stats.get_stat (MapleStat.Id.MP);
 			int maxmp = stats.get_total (EquipStat.Id.MP);
@@ -1151,6 +1151,18 @@ namespace ms
 			return new Point_short (0, 0);
 		}
 
+		public override void OnActivityChange (bool isActive)
+		{
+			if (isActive)
+			{
+				var fgui_View = ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_StatusBar> ();
+				fgui_View.uIStatusBar = this;
+			}
+			else
+			{
+				ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_StatusBar> ();
+			}
+		}
 		private enum Buttons : ushort
 		{
 			BT_CASHSHOP,
@@ -1190,7 +1202,7 @@ namespace ms
 			BT_EVENT_DAILY
 		}
 
-		private readonly CharStats stats;
+		public readonly CharStats stats;
 
 		private Gauge expbar = new Gauge ();
 		private Gauge hpbar = new Gauge ();

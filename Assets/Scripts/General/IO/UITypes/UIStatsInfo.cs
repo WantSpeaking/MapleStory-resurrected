@@ -130,8 +130,6 @@ namespace ms
 			showdetail = false;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(float alpha) const override
 		public override void draw (float alpha)
 		{
 			base.draw_sprites (alpha);
@@ -405,7 +403,6 @@ namespace ms
 			return Button.State.NORMAL;
 		}
 
-
 		void update_ap ()
 		{
 			bool nowap = stats.get_stat (MapleStat.Id.AP) > 0;
@@ -502,7 +499,7 @@ namespace ms
 
 		bool hasap;
 
-		Text[] statlabels = new Text[(int)StatLabel.NUM_LABELS];
+		public Text[] statlabels = new Text[(int)StatLabel.NUM_LABELS];
 		Point_short[] statoffsets = new Point_short[(int)StatLabel.NUM_LABELS];
 	}
 

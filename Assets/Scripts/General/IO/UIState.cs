@@ -35,7 +35,7 @@ namespace ms
 
 		public abstract void doubleclick (Point_short pos);
 		public abstract void rightclick (Point_short pos);
-		public abstract void send_key (KeyType.Id type, int action, bool pressed, bool escape);
+		public abstract void send_key (KeyType.Id type, int action, bool pressed, bool escape, bool pressing = false);
 		//public abstract Cursor.State send_cursor (Cursor.State mst, Point_short pos);
 		public abstract void send_scroll (double yoffset);
 		public abstract void send_close ();
@@ -85,7 +85,7 @@ namespace ms
 		{
 		}
 
-		public override void send_key (KeyType.Id UnnamedParameter1, int UnnamedParameter2, bool UnnamedParameter3, bool UnnamedParameter4)
+		public override void send_key (KeyType.Id UnnamedParameter1, int UnnamedParameter2, bool UnnamedParameter3, bool UnnamedParameter4, bool pressing = false)
 		{
 		}
 

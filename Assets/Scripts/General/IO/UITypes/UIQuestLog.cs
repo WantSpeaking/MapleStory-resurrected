@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MapleLib.WzLib;
+using ms_Unity;
 
 namespace ms
 {
@@ -94,6 +95,7 @@ namespace ms
             slotrange[Buttons.TAB0] = new ValueTuple<short, short>(0, 9);
             slotrange[Buttons.TAB1] = new ValueTuple<short, short>(0, 9);
             slotrange[Buttons.TAB2] = new ValueTuple<short, short>(0, 9);
+
         }
 
         Point_short notice_position = new Point_short(0, 26);
@@ -115,7 +117,7 @@ namespace ms
                     {
                         if (index >= firstslot && index <= lastslot)
                         {
-                            var questName = GetQuestInfo(pair.Key).Name;
+                            var questName = questlog. GetQuestInfo (pair.Key).Name;
                             text_QuestEntryName.change_text(questName);
                             var tempPoint = position + questEntry_position + new Point_short(0, (short)(index * 30));
                             //AppDebug.Log($"{questName}:{tempPoint}");
@@ -138,26 +140,6 @@ namespace ms
                         var event_pos = new Point_short(9, (short)(87 + 30 * i));
 
                     }
-                    /*            var range = slotrange[(Buttons)tab];
-
-                                uint numslots = 10;
-                                uint firstslot = (uint)(range.Item1);
-                                uint lastslot = (uint)range.Item2;
-
-                                for (short i = 0; i <= MAXFULLSLOTS; i++)//position:300,160
-                                {
-                                    Point_short slotpos = get_slotpos(i);
-
-                                    if (icons.ContainsKey(i))
-                                    {
-                                        var icon = icons[i];
-
-                                        if (icon != null && i >= firstslot && i <= lastslot)
-                                        {
-                                            icon.draw(position + slotpos);
-                                        }
-                                    }
-                                }*/
                 }
                 else
                 {
@@ -166,7 +148,7 @@ namespace ms
 
                 if (currentSelected_questId != -1)
                 {
-                    var questInfo = GetQuestInfo(currentSelected_questId);
+                    var questInfo = questlog.GetQuestInfo (currentSelected_questId);
                     text_Info.change_text(questInfo.Info_started);
                     text_Info.draw(position + questInfo_position);
                 }
@@ -263,6 +245,18 @@ namespace ms
             return base.send_cursor(clicking, new Point_short(cursorpos));
         }
 
+        public override void OnActivityChange (bool isActiveAfterChange)
+        {
+            if (isActiveAfterChange)
+            {
+                ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_QuestLog> ().OnVisiblityChanged (true);
+            }
+            else
+            {
+                ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_QuestLog> ().OnVisiblityChanged (false);
+            }
+        }
+
         private short offset;
         private short event_count;
         private const short ROWS = 8;
@@ -274,20 +268,8 @@ namespace ms
         private SortedDictionary<Buttons, System.ValueTuple<short, short>> slotrange = new SortedDictionary<Buttons, System.ValueTuple<short, short>>();
         private SortedDictionary<int, QuestInfo> icons = new SortedDictionary<int, QuestInfo>();
         private List<short> questIds_Started = new List<short>();
-        private SortedDictionary<short, QuestInfo> questId_Info_Dict = new SortedDictionary<short, QuestInfo>();
-        public struct QuestInfo
-        {
-            public string Info_started { get; set; }
-            public string Info_in_progress { get; set; }
-            public string Info_completed { get; set; }
-            public string Parent { get; set; }
-            public string Name { get; set; }
-            public string DemandSummary { get; set; }
-            public string RewardSummary { get; set; }
-            public bool AutoStart { get; set; }
-            public int Area { get; set; }
-            public int Order { get; set; }
-        }
+       
+        
         private short get_QuestId(short slot)
         {
             var index = 0;
@@ -333,37 +315,7 @@ namespace ms
             return new Point_short((short)(10 + (absslot % COLUMNS) * ICON_WIDTH), (short)(51 + (absslot / COLUMNS) * ICON_HEIGHT));
         }
 
-        private QuestInfo GetQuestInfo(short questId)
-        {
-            if (!questId_Info_Dict.TryGetValue(questId, out var questInfo))
-            {
-                questInfo = new QuestInfo();
-                var wzObj_Quest = wz.wzFile_quest.GetObjectFromPath($"Quest.wz/QuestInfo.img/{questId}");
-                if (wzObj_Quest != null)
-                {
-                    var tempName = wzObj_Quest["name"]?.ToString();
-                    questInfo.Name = string.IsNullOrEmpty(tempName) ? $"name none,id:{questId}" : tempName;
-                    questInfo.Info_started = wzObj_Quest["0"]?.ToString();
-                    questInfo.Info_in_progress = wzObj_Quest["1"]?.ToString();
-                    questInfo.Info_completed = wzObj_Quest["2"]?.ToString();
-                    questInfo.Parent = wzObj_Quest["parent"]?.ToString();
-                    questInfo.DemandSummary = wzObj_Quest["demandSummary"]?.ToString();
-                    questInfo.RewardSummary = wzObj_Quest["rewardSummary"]?.ToString();
-                    questInfo.AutoStart = wzObj_Quest["2"];
-                    questInfo.Area = wzObj_Quest["2"];
-                    questInfo.Order = wzObj_Quest["2"];
-                }
-                else
-                {
-                    var tempName = $"Quest doesn't exist,id:{questId}";
-                    questInfo.Name = tempName;
-                    AppDebug.LogWarning(tempName);
-                }
-                questId_Info_Dict.Add(questId, questInfo);
-            }
-
-            return questInfo;
-        }
+        
         public override UIElement.Type get_type()
         {
             return TYPE;

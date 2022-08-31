@@ -41,6 +41,8 @@ namespace ms
         // Add an NPC to the spawn queue
         public void spawn(NpcSpawn spawn)
         {
+            onFirstSpawn ();
+
             spawns.Enqueue((spawn));
         }
 
@@ -78,7 +80,15 @@ namespace ms
                     if (pressed)
                     {
                         // TODO: Try finding dialog first
-                        new TalkToNPCPacket(npc.get_oid()).dispatch();
+                        if (npc.hasQuest())
+						{
+                            UI.get ().emplace<UINpcTalk> ();
+                            UI.get ().get_element<UINpcTalk> ().get().InitChooseQuestSayPage(npc,npc.getInitPage ());
+						}
+                        else
+						{
+                            new TalkToNPCPacket (npc.get_oid ()).dispatch ();
+                        }
 
                         return Cursor.State.IDLE;
                     }
@@ -92,6 +102,26 @@ namespace ms
             return Cursor.State.IDLE;
         }
 
+        public void UpdateQuest()
+		{
+			foreach (var pair in npcs)
+			{
+				if (pair.Value is Npc npc)
+				{
+                    npc.UpdateQuest ();
+                }
+            }
+		}
+        bool isFirstSpawn = false;
+        private void onFirstSpawn()
+		{
+            if (isFirstSpawn == false)
+			{
+                isFirstSpawn = true;
+                Stage.Instance.get_player ().get_quest ().GetAvailable_Quest ();
+            }
+
+        }
         private MapObjects npcs = new MapObjects();
 
         private Queue<NpcSpawn> spawns = new Queue<NpcSpawn>();

@@ -25,7 +25,6 @@ namespace ms
 			{
 				MobSpawn spawn = spawns.Peek ();
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 				var mobRef = mobs.get (spawn.get_oid ());
 				if (mobRef.get () is Mob mob)
 				{

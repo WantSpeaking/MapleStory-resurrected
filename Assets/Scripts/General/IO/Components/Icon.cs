@@ -73,6 +73,7 @@ namespace ms
 		{
 			this.type = t;
 			this.texture = new ms.Texture (tx);
+			nTexture = new FairyGUI.NTexture (texture.texture2D);
 			this.count = c;
 			texture.shift (new Point_short (0, 32));
 			showcount = c > -1;
@@ -151,7 +152,7 @@ namespace ms
 			if (dragged)
 			{
 				get_texture ().draw (new DrawArgument (cursorpos - cursoroffset, 0.5f));
-				GraphicsGL.Instance.Batch.DrawString(Text.base_Font, $"{cursorpos}", new Microsoft.Xna.Framework.Vector2(cursorpos.x()- cursoroffset.x(), cursorpos.y()- cursoroffset.y()), Microsoft.Xna.Framework.Color.Black);
+				//GraphicsGL.Instance.Batch.DrawString(Text.base_Font, $"{cursorpos}", new Microsoft.Xna.Framework.Vector2(cursorpos.x()- cursoroffset.x(), cursorpos.y()- cursoroffset.y()), Microsoft.Xna.Framework.Color.Black);
 			}
 		}
 
@@ -185,15 +186,17 @@ namespace ms
 			return dragged;
 		}
 
-		private Type type;
-		private bool showcount;
-		private short count;
+		public Type type;
+		public bool showcount;
+		public short count;
 
-		private Texture texture;
+		public Texture texture;
 		private bool dragged;
 		private Point_short cursoroffset = new Point_short ();
 		
 		static Charset countset = new Charset (ms.wz.wzFile_ui["Basic.img"]["ItemNo"], Charset.Alignment.LEFT);
+
+		public FairyGUI.NTexture nTexture;
 
 	}
 }

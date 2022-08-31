@@ -400,7 +400,8 @@ namespace ms
                 }
                 else
                 {
-                    id = itemids["02000000"].ToString ();//todo 2 02000000 might not exist
+                    AppDebug.LogWarning ($"Sound can't find itemid:{itemid} format_id:{fpid}");
+                    //id = itemids["02000000"].ToString ();//todo 2 02000000 might not exist
                 }
             }
         }

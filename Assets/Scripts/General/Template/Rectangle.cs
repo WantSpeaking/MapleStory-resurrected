@@ -26,158 +26,165 @@ namespace ms
 {
 	public class Rectangle_short
 	{
-		public Rectangle_short(WzObject sourceLeftTop, WzObject sourceRightBottom)
+		private Point_short left_top = new Point_short ();
+
+		private Point_short right_bottom = new Point_short ();
+
+		public Rectangle_short (WzObject sourceLeftTop, WzObject sourceRightBottom)
 		{
-			if (sourceLeftTop?.GetPoint() == null || sourceRightBottom?.GetPoint() == null)
+			if (sourceLeftTop != null)
 			{
-				left_top = new Point_short();
-				right_bottom = new Point_short();
-				return;
+				sourceLeftTop.GetPoint ();
+				if (0 == 0 && sourceRightBottom != null)
+				{
+					sourceRightBottom.GetPoint ();
+					if (0 == 0)
+					{
+						Point tempPoint1 = sourceLeftTop.GetPoint ();
+						left_top = new Point_short (tempPoint1.X.ToT<short> (), tempPoint1.Y.ToT<short> ());
+						Point tempPoint2 = sourceRightBottom.GetPoint ();
+						right_bottom = new Point_short (tempPoint2.X.ToT<short> (), tempPoint2.Y.ToT<short> ());
+						return;
+					}
+				}
 			}
-
-			var tempPoint1 = sourceLeftTop.GetPoint();
-			left_top = new Point_short(tempPoint1.X.ToT<short>(), tempPoint1.Y.ToT<short>());
-
-			var tempPoint2 = sourceRightBottom.GetPoint();
-			right_bottom = new Point_short(tempPoint2.X.ToT<short>(), tempPoint2.Y.ToT<short>());
+			left_top = new Point_short ();
+			right_bottom = new Point_short ();
 		}
 
-		public Rectangle_short(WzObject source) : this(source["lt"], source["rb"])
+		public Rectangle_short (WzObject source)
+			: this (source["lt"], source["rb"])
 		{
 		}
 
-		public Rectangle_short(Rectangle_short src) : this(src.left_top, src.right_bottom)
+		public Rectangle_short (Rectangle_short src)
+			: this (src.left_top, src.right_bottom)
 		{
 		}
 
-		public Rectangle_short(Point_short leftTop, Point_short rightBottom)
+		public Rectangle_short (Point_short leftTop, Point_short rightBottom)
 		{
-			left_top = new Point_short(leftTop.x().ToT<short>(), leftTop.y().ToT<short>());
-			right_bottom = new Point_short(rightBottom.x().ToT<short>(), rightBottom.y().ToT<short>());
+			left_top = new Point_short (leftTop.x (), leftTop.y ());
+			right_bottom = new Point_short (rightBottom.x (), rightBottom.y ());
 		}
 
-		public Rectangle_short(short left, short right, short top, short bottom)
+		public Rectangle_short (short left, short right, short top, short bottom)
 		{
-			left_top = new Point_short(left, top);
-			right_bottom = new Point_short(right, bottom);
+			left_top = new Point_short (left, top);
+			right_bottom = new Point_short (right, bottom);
 		}
 
-		public Rectangle_short()
+		public Rectangle_short ()
 		{
 		}
 
-		public void Set(short left, short right, short top, short bottom)
+		public void Set (short left, short right, short top, short bottom)
 		{
-			left_top.Set(left, top);
-			right_bottom.Set(right, bottom);
+			left_top.Set (left, top);
+			right_bottom.Set (right, bottom);
 		}
 
-		public short width()
+		public short width ()
 		{
-			return (short)(left() - right());
+			return (short)Math.Abs (left () - right ());
 		}
 
-		public short height()
+		public short height ()
 		{
-			return (short)(top() - bottom());
+			return (short)Math.Abs (top () - bottom ());
 		}
 
-		public short left()
+		public short left ()
 		{
-			return left_top.x();
+			return left_top.x ();
 		}
 
-		public short top()
+		public short top ()
 		{
-			return left_top.y();
+			return left_top.y ();
 		}
 
-		public short right()
+		public short right ()
 		{
-			return right_bottom.x();
+			return right_bottom.x ();
 		}
 
-		public short bottom()
+		public short bottom ()
 		{
-			return right_bottom.y();
+			return right_bottom.y ();
 		}
 
-		public Point_short center()
+		public Point_short center ()
 		{
-			return new Point_short((short)((left()+ right())/2), (short)((top() + bottom()) / 2));
+			return new Point_short ((short)((left () + right ()) / 2), (short)((top () + bottom ()) / 2));
 		}
 
-		public bool contains(Point_short v)
+		public bool contains (Point_short v)
 		{
-			return
-				!straight() &&
-				v.x() >= left() && v.x() <= right() &&
-				v.y() >= top() && v.y() <= bottom();
+			return !straight () && v.x () >= left () && v.x () <= right () && v.y () >= top () && v.y () <= bottom ();
 		}
 
-		public bool contains(Rectangle_short ar)
+		public bool contains (Rectangle_short ar)
 		{
-			return
-				get_horizontal().overlaps(new Range_short(ar.left(), ar.right())) &&
-				get_vertical().overlaps(new Range_short(ar.top(), ar.bottom()));
+			return get_horizontal ().overlaps (new Range_short (ar.left (), ar.right ())) && get_vertical ().overlaps (new Range_short (ar.top (), ar.bottom ()));
 		}
 
-		public bool overlaps(Rectangle_short ar)
+		public bool overlaps (Rectangle_short ar)
 		{
-			return get_horizontal().overlaps(new Range_short(ar.left(), ar.right())) && get_vertical().overlaps(new Range_short(ar.top(), ar.bottom()));
+			return get_horizontal ().overlaps (new Range_short (ar.left (), ar.right ())) && get_vertical ().overlaps (new Range_short (ar.top (), ar.bottom ()));
 		}
 
-		public bool straight()
+		public bool straight ()
 		{
 			return left_top == right_bottom;
 		}
 
-		public bool empty()
+		public bool empty ()
 		{
-			return left_top.straight() && right_bottom.straight() && straight();
+			return left_top.straight () && right_bottom.straight () && straight ();
 		}
 
-		public Point_short get_left_top()
+		public Point_short get_left_top ()
 		{
 			return left_top;
 		}
 
-		public Point_short get_right_bottom()
+		public Point_short get_right_bottom ()
 		{
 			return right_bottom;
 		}
 
-		public Range_short get_horizontal()
+		public Range_short get_horizontal ()
 		{
-			return new Range_short(left(), right());
+			return new Range_short (left (), right ());
 		}
 
-		public Range_short get_vertical()
+		public Range_short get_vertical ()
 		{
-			return new Range_short(top(), bottom());
+			return new Range_short (top (), bottom ());
 		}
 
-		public void shift(Point_short v)
+		public Rectangle_short shift (Point_short v)
 		{
-			left_top = left_top + v;
-			right_bottom = right_bottom + v;
-		}
-
-		public Rectangle_short expand(short value)
-		{
-			var expand = new Point_short(value, value);
-			left_top = left_top - expand;
-			right_bottom = right_bottom + expand;
+			left_top += v;
+			right_bottom += v;
 			return this;
 		}
-		public override string ToString()
+
+		public Rectangle_short expand (short value)
+		{
+			Point_short expand = new Point_short (value, value);
+			left_top -= expand;
+			right_bottom += expand;
+			return this;
+		}
+
+		public override string ToString ()
 		{
 			return $"[left_top:{left_top} , right_bottom{right_bottom}]";
 		}
-
-		private Point_short left_top = new Point_short();
-		private Point_short right_bottom = new Point_short();
 	}
+
 	/*public class Rectangle_short where T : unmanaged, IComparable, IComparable<T>, IEquatable<T>, IConvertible
 	{
 		public Rectangle (WzObject sourceLeftTop, WzObject sourceRightBottom)

@@ -290,7 +290,10 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 	{
 		//var encodeBuffer = System.Text.Encoding.Unicode.GetBytes (Convert.ToBase64String (buffer));
 		//Debug.Log ($"send encodeBuffer:{encodeBuffer.ToDebugLog ()}");
-		m_Client.BeginSend (buffer, 0, buffer.Length, SocketFlags.None, SendCallBack, m_Client);
+		//AppDebug.Log ($"BeginSend:{buffer.ToDebugLog ()}");
+		//m_Client.BeginSend (buffer, 0, buffer.Length, SocketFlags.None, SendCallBack, m_Client);
+		m_Client.Send (buffer);
+		OnCheckSendQueueCallBack ();
 	}
 
 	#endregion
@@ -303,8 +306,8 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 	/// <param name="ar"></param>
 	private void SendCallBack (IAsyncResult ar)
 	{
-		m_Client.EndSend (ar);
-
+		m_Client.EndSend (ar, out var socketError);
+		//AppDebug.Log ($"SendCallBack error:{socketError.GetTypeCode()}");
 		//继续检查队列
 		OnCheckSendQueueCallBack ();
 	}

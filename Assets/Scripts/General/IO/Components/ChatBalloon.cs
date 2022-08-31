@@ -1,10 +1,10 @@
 ﻿#define USE_NX
 
 using System;
+using FairyGUI;
 using MapleLib.WzLib;
-
-
-
+using ms_Unity;
+using UnityEngine;
 
 namespace ms
 {
@@ -36,6 +36,9 @@ namespace ms
 			textlabel = new Text (Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK, "", 80);
 
 			duration = 0;
+
+			fGUI_ChatBalloon = FGUI_ChatBalloon.CreateInstance ();
+			GRoot.inst.AddChild (fGUI_ChatBalloon);
 		}
 
 		public ChatBalloon () : this (0)
@@ -46,6 +49,8 @@ namespace ms
 		{
 			if (duration == 0)
 			{
+				fGUI_ChatBalloon.visible = false;
+				fGUI_ChatBalloon.text = "";
 				return;
 			}
 
@@ -54,9 +59,16 @@ namespace ms
 			short width = 20;
 			short height = 100;
 
-			frame.draw (new Point_short (position), width, height);
+			/*frame.draw (new Point_short (position), width, height);
 			arrow.draw (position);
-			textlabel.draw (position + new Point_short ((short)(-width / 2 - 8), (short)(-height + 6)));
+			textlabel.draw (position + new Point_short ((short)(-width / 2 - 8), (short)(-height + 6)));*/
+
+			Vector2 screenPos = UnityEngine.Camera.main.WorldToScreenPoint (new Vector3 (position.x (), position.y (), 1));
+			screenPos.y = screenPos.y - Screen.height;
+			fGUI_ChatBalloon.position = GRoot.inst.GlobalToLocal (screenPos);
+
+
+
 		}
 
 		public void update ()
@@ -72,7 +84,8 @@ namespace ms
 		public void change_text (string text)
 		{
 			textlabel.change_text (text);
-
+			fGUI_ChatBalloon.visible = true;
+			fGUI_ChatBalloon.text = text;
 			duration = DURATION;
 		}
 
@@ -88,6 +101,7 @@ namespace ms
 		private Text textlabel;
 		private Texture arrow;
 		private short duration;
+		private FGUI_ChatBalloon fGUI_ChatBalloon;
 	}
 
 	public class ChatBalloonHorizontal
@@ -113,8 +127,8 @@ namespace ms
 			textlabel = new Text (Text.Font.A13B, Text.Alignment.LEFT, Color.Name.BLACK);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(Point_short position) const
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: void draw(Point_short position) const
 		public void draw (Point_short position)
 		{
 			short width = (short)(textlabel.width () + 9);
@@ -169,7 +183,3 @@ namespace ms
 		private short ytile;
 	}
 }
-
-
-#if USE_NX
-#endif

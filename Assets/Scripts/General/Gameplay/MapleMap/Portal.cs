@@ -55,12 +55,12 @@ namespace ms
 
 		public Portal (Animation a, Type t, string nm, bool intramap, Point_short p, int tid, string tnm)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# does not have an equivalent to pointers to variables (in C#, the variable no longer points to the original when the original variable is re-assigned):
-//ORIGINAL LINE: this.animation = a;
-			this.animation = a;// class Portal（） 原c++传递的是Animation指针
+			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# does not have an equivalent to pointers to variables (in C#, the variable no longer points to the original when the original variable is re-assigned):
+			//ORIGINAL LINE: this.animation = a;
+			this.animation = new Animation (a);// class Portal（） 原c++传递的是Animation指针
 			this.type = t;
 			this.name = nm;
-			this.position = new ms.Point_short(p);
+			this.position = new ms.Point_short (p);
 			this.warpinfo = new ms.Portal.WarpInfo (tid, intramap, tnm, nm);
 			touched = false;
 		}
@@ -82,34 +82,32 @@ namespace ms
 				return;
 			}
 
-			//AppDebug.Log ($"protal draw postion: {position}");
+			//AppDebug.Log ($"protal type:{type,-10} name:{name,-10}, draw postion: {position}");
 			animation.update ();
-			animation.draw (new DrawArgument (position + viewpos, Constants.get ().sortingLayer_Portal, 0), inter);
+			animation.draw (new DrawArgument (position + viewpos), inter);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: string get_name() const
 		public string get_name ()
 		{
 			return name;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Portal::Type get_type() const
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: Portal::Type get_type() const
 		public Portal.Type get_type ()
 		{
 			return type;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Point_short get_position() const
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: Point_short get_position() const
 		public Point_short get_position ()
 		{
 			return position;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Rectangle_short bounds() const
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: Rectangle_short bounds() const
 		public Rectangle_short bounds ()
 		{
 			var lt = position + new Point_short (-25, -100);
@@ -118,8 +116,8 @@ namespace ms
 			return new Rectangle_short (lt, rb);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Portal::WarpInfo getwarpinfo() const
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: Portal::WarpInfo getwarpinfo() const
 		public Portal.WarpInfo getwarpinfo ()
 		{
 			return warpinfo;

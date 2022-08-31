@@ -14,6 +14,10 @@ namespace ms
 
         public abstract void apply(Char target);
 
+        public virtual int GetAniLength ()
+        {
+            return 0;
+        }
         protected class Effect
         {
             public Effect(WzObject src)//todo src["effect"]["0"] == null
@@ -27,9 +31,16 @@ namespace ms
                 target.show_attack_effect(animation, z);
             }
 
+            public int GetAniLength ()
+            {
+                return animation.get_total_delay();
+            }
+
             private Animation animation;
             private sbyte z;
         }
+
+       
     }
 
     // No animation
@@ -53,7 +64,11 @@ namespace ms
             effect.apply(target);
         }
 
-        private Effect effect;
+		public override int GetAniLength ()
+		{
+			return effect.GetAniLength ();
+		}
+		private Effect effect;
     }
 
     // An effect which displays an animation over the Character's position
@@ -69,7 +84,10 @@ namespace ms
         {
             effect.apply(target);
         }
-
+        public override int GetAniLength ()
+        {
+            return effect.GetAniLength ();
+        }
         private Effect effect;
     }
 
@@ -87,7 +105,10 @@ namespace ms
             bool twohanded = target.is_twohanded();
             effects[twohanded].apply(target);
         }
-
+        public override int GetAniLength ()
+        {
+            return effects[true].GetAniLength ();
+        }
         private BoolPair<Effect> effects;
     }
 
@@ -115,7 +136,10 @@ namespace ms
                 effect.apply(target);
             }
         }
-
+        public override int GetAniLength ()
+        {
+            return effects.TryGet(0)?.GetAniLength ()??0;
+        }
         private List<Effect> effects = new List<Effect>();
     }
 
@@ -157,6 +181,58 @@ namespace ms
         }
     }
 
+    public class PrepareEffect : SkillUseEffect
+    {
+        public int time = 960;
+        public string action = "shoot1";
+        public PrepareEffect (WzObject src)
+        {
+            this.effect = new ms.SkillUseEffect.Effect (src);
+            time = src["time"];
+            action = src["action"]?.ToString();
+
+        }
+
+        public override void apply (Char target)
+        {
+            effect.apply (target);
+        }
+
+        private Effect effect;
+    }
+    public class OnKeyDownEffect : SkillUseEffect
+    {
+        public OnKeyDownEffect (WzObject src)
+        {
+            this.effect = new ms.SkillUseEffect.Effect (src);
+        }
+
+        public override void apply (Char target)
+        {
+            effect.apply (target);
+        }
+
+        public override int GetAniLength ()
+        {
+            return effect.GetAniLength ();
+        }
+
+        private Effect effect;
+    }
+    public class OnKeyDownEndEffect : SkillUseEffect
+    {
+        public OnKeyDownEndEffect (WzObject src)
+        {
+            this.effect = new ms.SkillUseEffect.Effect (src);
+        }
+
+        public override void apply (Char target)
+        {
+            effect.apply (target);
+        }
+
+        private Effect effect;
+    }
     public class White_Knight_Charge_1211002_UseEffect : SkillUseEffect
     {
         public White_Knight_Charge_1211002_UseEffect(WzObject src)

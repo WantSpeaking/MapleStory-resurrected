@@ -1,6 +1,4 @@
-﻿#define USE_NX
-
-using System;
+﻿using System;
 using MapleLib.WzLib;
 
 
@@ -206,7 +204,3 @@ namespace ms
 		private Texture cover = new Texture ();
 	}
 }
-
-
-#if USE_NX
-#endif

@@ -83,15 +83,6 @@ namespace ms
 		public float frameDelay = 0.5f;
 		public float multiplier_timeStep = 1f;
 
-		public int sortingLayer_Default = 8;
-		public int sortingLayer_ItemDrop = 8;
-		public int sortingLayer_MesoDrop = 8;
-		public int sortingLayer_Mob = 8;
-		public int sortingLayer_Portal = 8;
-		public int sortingLayer_Effect = 8;
-		public int sortingLayer_UI = 9;
-
-
 		public string defaultSpriteDrawerName = "SpriteDrawer";
 		public BindingFlags bindingFlags_UIElementInfo = BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy;
 		public int MAX_PartyMemberCount = 6;

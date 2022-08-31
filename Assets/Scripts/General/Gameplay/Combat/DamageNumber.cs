@@ -91,7 +91,8 @@ namespace ms
 			}
 			else
 			{
-				var tempcha = charsets?[(int)type]?[false];if(tempcha == null) return;
+				var tempcha = charsets?[(int)type]?[false];
+				if(tempcha == null) return;
 				
 				charsets?[(int)type]?[false]?.draw(firstnum, new DrawArgument ( position, interopc));//todo 2 why damageNumber is null
 
@@ -149,13 +150,15 @@ namespace ms
 			{
 				charsets[i] = new BoolPairNew<Charset> ();
 			}
-			
-			charsets[(int)DamageNumber.Type.NORMAL].set(false, new Charset( ms.wz.wzFile_effect["BasicEff.img"]["NoRed1"], Charset.Alignment.LEFT));
-			charsets[(int)DamageNumber.Type.NORMAL].set(true, new Charset(ms.wz.wzFile_effect["BasicEff.img"]["NoRed0"], Charset.Alignment.LEFT));
-			charsets[(int)DamageNumber.Type.CRITICAL].set(false, new Charset(ms.wz.wzFile_effect["BasicEff.img"]["NoCri1"], Charset.Alignment.LEFT));
-			charsets[(int)DamageNumber.Type.CRITICAL].set(true, new Charset(ms.wz.wzFile_effect["BasicEff.img"]["NoCri0"], Charset.Alignment.LEFT));
-			charsets[(int)DamageNumber.Type.TOPLAYER].set(false, new Charset(ms.wz.wzFile_effect["BasicEff.img"]["NoViolet1"], Charset.Alignment.LEFT));
-			charsets[(int)DamageNumber.Type.TOPLAYER].set(true, new Charset(ms.wz.wzFile_effect["BasicEff.img"]["NoViolet0"], Charset.Alignment.LEFT));
+
+			var BasicEff = ms.wz.wzFile_effect["BasicEff.img"];
+
+			charsets[(int)DamageNumber.Type.NORMAL].set(false, new Charset(BasicEff["NoRed1"], Charset.Alignment.LEFT));
+			charsets[(int)DamageNumber.Type.NORMAL].set(true, new Charset(BasicEff["NoRed0"], Charset.Alignment.LEFT));
+			charsets[(int)DamageNumber.Type.CRITICAL].set(false, new Charset(BasicEff["NoCri1"], Charset.Alignment.LEFT));
+			charsets[(int)DamageNumber.Type.CRITICAL].set(true, new Charset(BasicEff["NoCri0"], Charset.Alignment.LEFT));
+			charsets[(int)DamageNumber.Type.TOPLAYER].set(false, new Charset(BasicEff["NoViolet1"], Charset.Alignment.LEFT));
+			charsets[(int)DamageNumber.Type.TOPLAYER].set(true, new Charset(BasicEff["NoViolet0"], Charset.Alignment.LEFT));
 		}
 
 		const uint LENGTH = 10;

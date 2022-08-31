@@ -52,6 +52,10 @@ namespace ms
 			emplace (Opcode.ATTACKED_RANGED, new RangedAttackHandler ());
 			emplace (Opcode.ATTACKED_MAGIC, new MagicAttackHandler ());
 
+			// Skill handlers
+			emplace (Opcode.SKILL_EFFECT, new SKILL_EFFECT_Handler ());
+			emplace (Opcode.CANCEL_SKILL_EFFECT, new CANCEL_SKILL_EFFECT_Handler ());
+			
 			//Char handleds
 			emplace (Opcode.PARTY_OPERATION, new PartyOperationHandlers ());
 			emplace (Opcode.UPDATE_PARTYMEMBER_HP, new UPDATE_PARTYMEMBER_HPHandlers ());
@@ -93,11 +97,15 @@ namespace ms
 			// TODO: New handlers, they need coded and moved to a proper file.
 			emplace (Opcode.CHECK_SPW_RESULT, new CheckSpwResultHandler ());
 			emplace (Opcode.FIELD_EFFECT, new FieldEffectHandler ());
+
+			//Quest
+			emplace (Opcode.UPDATE_QUEST_INFO, new UpdateQuestInfoHandler ());
+
 		}
 
 		// Forward a packet to the correct handler
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void forward(const sbyte* bytes, uint length) const
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: void forward(const sbyte* bytes, uint length) const
 		public void forward (byte[] bytes, int length)
 		{
 			//AppDebug.Log ($"forward bytes: {bytes.Length}");
@@ -122,9 +130,10 @@ namespace ms
 							Console.Write ("\n");
 						}*/
 
-				if (GameUtil.get ().enableDebugPacket && (Opcode)opcode != Opcode.SHOW_ITEM_GAIN_INCHAT && opcode != 198 && opcode != 239 && opcode != 240)
-				{
-					AppDebug.Log ($"\t Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Length}");
+				if (GameUtil.get ().enableDebugPacket && opcode != 198 && opcode != 239 && opcode != 240)
+				//if (GameUtil.get ().enableDebugPacket && (Opcode)opcode != Opcode.SHOW_ITEM_GAIN_INCHAT && opcode != 198 && opcode != 239 && opcode != 240)
+					{
+					AppDebug.Log ($"\t Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Length} \t {bytes.ToDebugLog ()}");
 				}
 			}
 
@@ -285,6 +294,9 @@ namespace ms
 		ATTACKED_CLOSE = 186,
 		ATTACKED_RANGED = 187,
 		ATTACKED_MAGIC = 188,
+
+		SKILL_EFFECT = 190,
+		CANCEL_SKILL_EFFECT = 191,
 
 		UPDATE_CHARLOOK = 197,
 		SHOW_FOREIGN_EFFECT = 198,

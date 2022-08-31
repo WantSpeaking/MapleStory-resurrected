@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-
-
-
-
+using Loxodon.Framework.Observables;
 
 namespace ms
 {
 	// The player's inventory
-	public class Inventory
+	public class Inventory : INotifyPropertyChanged
 	{
 		public enum Movement : sbyte
 		{
@@ -47,7 +45,7 @@ namespace ms
 		public Inventory ()
 		{
 			bulletslot = 0;
-			meso = 0;
+			Meso = 0;
 			running_uid = 0;
 			slotmaxima[InventoryType.Id.EQUIPPED] = (byte)Enum.GetNames (typeof (EquipSlot.Id)).Length;
 		}
@@ -58,7 +56,7 @@ namespace ms
 			totalstats.SetValue ((() => 0)); //totalstats.Clear ();
 			foreach (var iter in inventories[InventoryType.Id.EQUIPPED])
 			{
-				if (equips.TryGetValue (iter.Value.unique_id, out var equip))
+				if (equips.TryGetValue (iter.Value.Unique_id, out var equip))
 				{
 					foreach (var key in totalstats.keys)
 					{
@@ -115,7 +113,7 @@ namespace ms
 				{
 					Slot slot = iter.Value;
 
-					if (slot.count != 0 && slot.item_id / 1000 == prefix)
+					if (slot.Count != 0 && slot.Item_id / 1000 == prefix)
 					{
 						bulletslot = iter.Key;
 						break;
@@ -134,7 +132,8 @@ namespace ms
 		// Set the meso amount
 		public void set_meso (long m)
 		{
-			meso = m;
+			//meso = m;
+			Meso = m;
 		}
 
 		// Set the number of slots for a given inventory
@@ -329,7 +328,7 @@ namespace ms
 		{
 			foreach (var iter in inventories[type])
 			{
-				if (iter.Value.item_id == itemid)
+				if (iter.Value.Item_id == itemid)
 				{
 					return iter.Key;
 				}
@@ -346,7 +345,7 @@ namespace ms
 		{
 			if (inventories[type].TryGetValue (slot, out var slotItem))
 			{
-				return slotItem.count;
+				return slotItem.Count;
 			}
 			else
 			{
@@ -356,8 +355,6 @@ namespace ms
 
 		// Return the total count of an item
 		// Returns zero if no instances of the item was found
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: short get_total_item_count(int itemid) const
 		public short get_total_item_count (int itemid)
 		{
 			InventoryType.Id type = InventoryType.by_item_id (itemid);
@@ -366,24 +363,36 @@ namespace ms
 
 			foreach (var iter in inventories[type])
 			{
-				if (iter.Value.item_id == itemid)
+				if (iter.Value.Item_id == itemid)
 				{
-					total_count += iter.Value.count;
+					total_count += iter.Value.Count;
 				}
 			}
 
 			return total_count;
 		}
 
+		public bool hasEnoughItem(int itemid, int count)
+		{
+			bool result = false;
+			var item_count_inventory = get_total_item_count (itemid);
+			if (item_count_inventory == 0)
+			{
+				result = false;
+			}
+			else
+			{
+				result = count <= item_count_inventory;
+			}
+			return result;
+		}
 		// Return the id of an item
 		// Returns zero if the slot is empty
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int get_item_id(InventoryType::Id type, short slot) const
 		public int get_item_id (InventoryType.Id type, short slot)
 		{
 			if (inventories[type].TryGetValue (slot, out var slotItem))
 			{
-				return slotItem.item_id;
+				return slotItem.Item_id;
 			}
 			else
 			{
@@ -392,8 +401,6 @@ namespace ms
 		}
 
 		// Return a pointer to an equip
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Optional<const Equip> get_equip(InventoryType::Id type, short slot) const
 		public Optional<Equip> get_equip (InventoryType.Id type, short slot)
 		{
 			if (type != InventoryType.Id.EQUIPPED && type != InventoryType.Id.EQUIP)
@@ -407,7 +414,7 @@ namespace ms
 			}
 			else
 			{
-				if (!equips.TryGetValue (slotItem.unique_id, out var equipItem))
+				if (!equips.TryGetValue (slotItem.Unique_id, out var equipItem))
 				{
 					return new Optional<Equip> ();
 				}
@@ -417,6 +424,8 @@ namespace ms
 				}
 			}
 		}
+
+		public EnumMapNew<InventoryType.Id, ObservableSortedDictionary<short, Slot>> get_all_data () => inventories;
 
 		// Add an inventory slot and return the unique_id
 		private int add_slot (InventoryType.Id type, short slot, int item_id, short count, bool cash)
@@ -431,8 +440,8 @@ namespace ms
 		{
 			if (inventories[type].TryGetValue (slot, out var slotItem))
 			{
-				var temp_Slot = inventories[type][slot];
-				temp_Slot.count = count;
+				var temp_Slot = slotItem;
+				temp_Slot.Count = count;
 				inventories[type][slot] = temp_Slot;
 			}
 		}
@@ -445,12 +454,12 @@ namespace ms
 			inventories[firsttype].TryAdd (firstslot, second, true);
 			inventories[secondtype].TryAdd (secondslot, first, true);
 
-			if (inventories[firsttype][firstslot].item_id == 0)
+			if (inventories[firsttype][firstslot].Item_id == 0)
 			{
 				remove (firsttype, firstslot);
 			}
 
-			if (inventories[secondtype][secondslot].item_id == 0)
+			if (inventories[secondtype][secondslot].Item_id == 0)
 			{
 				remove (secondtype, secondslot);
 			}
@@ -464,7 +473,7 @@ namespace ms
 				return;
 			}
 
-			int unique_id = slotItem.unique_id;
+			int unique_id = slotItem.Unique_id;
 			inventories[type].Remove (slot);
 
 			switch (type)
@@ -483,23 +492,81 @@ namespace ms
 			}
 		}
 
-		private struct Slot
+		public struct Slot : INotifyPropertyChanged
 		{
 			public Slot (int uniqueID, int itemID, short count, bool cash)
 			{
-				unique_id = uniqueID;
-				item_id = itemID;
+				this.unique_id = uniqueID;
+				this.item_id = itemID;
 				this.count = count;
 				this.cash = cash;
+				_lock = new object ();
+				propertyChanged = null;
 			}
 
-			public int unique_id;
-			public int item_id;
-			public short count;
-			public bool cash;
+			private int unique_id;
+			private int item_id;
+			private short count;
+			private bool cash;
+
+			private readonly object _lock;
+			private PropertyChangedEventHandler propertyChanged;
+			public event PropertyChangedEventHandler PropertyChanged
+			{
+				add { lock (_lock) { this.propertyChanged += value; } }
+				remove { lock (_lock) { this.propertyChanged -= value; } }
+			}
+
+			public int Unique_id
+			{
+				get => unique_id; set
+				{
+					if (!object.Equals (unique_id, value))
+					{
+						unique_id = value;
+						propertyChanged?.Invoke (this, new PropertyChangedEventArgs ("Unique_id"));
+					}
+				}
+			}
+
+			public int Item_id
+			{
+				get => item_id; set
+				{
+					if (!object.Equals (item_id, value))
+					{
+						item_id = value;
+						propertyChanged?.Invoke (this, new PropertyChangedEventArgs ("Item_id"));
+					}
+				}
+			}
+			public short Count
+			{
+				get => count; set
+				{
+					if (!object.Equals (item_id, value))
+					{
+						count = value;
+						propertyChanged?.Invoke (this, new PropertyChangedEventArgs ("Count"));
+					}
+				}
+			}
+			public bool Cash
+			{
+				get => cash; set
+				{
+					if (!object.Equals (item_id, value))
+					{
+						cash = value;
+						propertyChanged?.Invoke (this, new PropertyChangedEventArgs ("Cash"));
+					}
+				}
+			}
+
+	
 		}
 
-		private EnumMapNew<InventoryType.Id, SortedDictionary<short, Slot>> inventories = new EnumMapNew<InventoryType.Id, SortedDictionary<short, Slot>> ();
+		private EnumMapNew<InventoryType.Id, ObservableSortedDictionary<short, Slot>> inventories = new EnumMapNew<InventoryType.Id, ObservableSortedDictionary<short, Slot>> ();
 		private Dictionary<int, Item> items = new Dictionary<int, Item> ();
 		private Dictionary<int, Equip> equips = new Dictionary<int, Equip> ();
 		private Dictionary<int, Pet> pets = new Dictionary<int, Pet> ();
@@ -509,5 +576,20 @@ namespace ms
 		private EnumMap<InventoryType.Id, byte> slotmaxima = new EnumMap<InventoryType.Id, byte> ();
 		private long meso;
 		private short bulletslot;
+
+		public long Meso
+		{
+			get { return meso; }
+			set
+			{
+				if (!object.Equals (meso, value))
+				{
+					meso = value;
+					PropertyChanged?.Invoke (this, new PropertyChangedEventArgs ("Meso"));
+				}
+			}
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
 	}
 }

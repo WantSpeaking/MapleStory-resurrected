@@ -6,7 +6,7 @@ namespace ms
 	{
 		public CharStats(StatsEntry s)
 		{
-			this.name = s.name;
+			this.name = s.name.Replace ("\0", "");
 			this.petids = new List<long>(s.petids);
 			this.exp = s.exp;
 			this.mapid = s.mapid;

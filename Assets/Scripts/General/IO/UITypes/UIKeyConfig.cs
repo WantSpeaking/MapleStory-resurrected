@@ -315,7 +315,14 @@ namespace ms
 		public void stage_mapping (Point_short cursorposition, Keyboard.Mapping mapping)
 		{
 			KeyConfig.Key key = key_by_position (new Point_short (cursorposition));
-			Keyboard.Mapping prior_staged = staged_mappings.TryGetValue((int)key);
+			stage_mapping (key, mapping);
+		}
+
+		public void stage_mapping (KeyConfig.Key key, Keyboard.Mapping mapping)
+		{
+			Keyboard.Mapping prior_staged = staged_mappings.TryGetValue ((int)key);
+
+			//AppDebug.Log ($"stage_mapping: key:{key} type:{mapping.type} action:{mapping.action}| prior_staged: type:{mapping.type} action:{prior_staged.action}");
 
 			if (prior_staged == mapping)
 			{
@@ -407,7 +414,6 @@ namespace ms
 
 			dirty = true;
 		}
-
 		public void unstage_mapping (Keyboard.Mapping mapping)
 		{
 			if (is_action_mapping (mapping))
@@ -1044,7 +1050,7 @@ namespace ms
 			UI.get ().clear_tooltip (Tooltip.Parent.KEYCONFIG);
 		}
 
-		private void save_staged_mappings ()
+		public void save_staged_mappings ()
 		{
 			List<System.Tuple<KeyConfig.Key, KeyType.Id, int>> updated_actions = new List<System.Tuple<KeyConfig.Key, KeyType.Id, int>> ();
 

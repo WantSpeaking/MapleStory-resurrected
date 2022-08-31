@@ -96,7 +96,7 @@ namespace ms
 			CharacterParser.parse_inventory (recv, player.get_inventory ());
 			CharacterParser.parse_skillbook (recv, player.get_skills ());
 			CharacterParser.parse_cooldowns (recv, player);
-			CharacterParser.parse_questlog (recv, player.get_quests ());
+			CharacterParser.parse_questlog (recv, player.get_questlog ());
 			CharacterParser.parse_minigame (recv);
 			CharacterParser.parse_ring1 (recv);
 			CharacterParser.parse_ring2 (recv);

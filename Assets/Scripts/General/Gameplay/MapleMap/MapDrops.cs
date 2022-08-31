@@ -46,7 +46,6 @@ namespace ms
 				int oid = spawn.get_oid ();
 
 				Optional<MapObject> drop = drops.get (oid);
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 				if (drop)
 				{
 					drop.get ().makeactive ();

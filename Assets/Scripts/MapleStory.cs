@@ -1,4 +1,8 @@
-﻿using HaCreator.Wz;
+﻿using System;
+using System.Collections.Generic;
+using HaCreator.Wz;
+using MapleLib.WzLib;
+using MapleLib.WzLib.WzProperties;
 using ms;
 using UnityEditor;
 using UnityEngine;
@@ -21,7 +25,17 @@ public class MapleStory : SingletonMono<MapleStory>
 		 spriteRenderer.sprite = TextureToSprite(GetTexrture2DFromPath(wzObject));*/
 		button_load.onClick.AddListener (OnButtonLoadClick);
 		DontDestroyOnLoad (this);
-		clearBuffer = new CommandBuffer () {name = "Clear Buffer"};
+		clearBuffer = new CommandBuffer () { name = "Clear Buffer" };
+		//Debug.Log ($"{System.DateTime.Now.ToString("yyyyMMddHH")}");
+		//System.DateTime.Parse ("2009010100");
+		//Debug.Log (System.DateTime.Parse ("2009010100"));
+
+		/*var str = $"abc\r\ndef\ngh";
+		var replaceStr = str.Replace ("\r\n", "\n").Replace ("\n", "\r\n");
+		// replaceStr = replaceStr.Replace ("\n", "\r\n");
+		Debug.Log (replaceStr);
+		Debug.Log (@replaceStr);*/
+
 	}
 
 	private void Update ()
@@ -41,8 +55,8 @@ public class MapleStory : SingletonMono<MapleStory>
 
 		Constants.get ().multiplier_timeStep = multiplier_timeStep;
 		loop ();
-		
-		
+
+
 #if BackgroundStatic
 		var playerPos = Stage.get ().get_player ()?.get_position ();
 		if (playerPos != null)
@@ -104,16 +118,46 @@ public class MapleStory : SingletonMono<MapleStory>
 		Session.get ().init ();
 		NxFiles.init (maplestoryFolder);
 		Window.get ().init ();
+		//Sound.init ();
+		//Music.init ();
 
 		Char.init ();
+		DamageNumber.init ();
 		MapPortals.init ();
 		Stage.get ().init ();
 		UI.get ().init ();
+
 		canStart = true;
 		//Stage.get ().load_map(100000000);
 
+		dictionary = DictionaryPool<string, string>.Get ();
+		foreach (var item in wz.wzFile_quest["QuestInfo.img"])
+		{
+		}
+		
+		//FindChild (wz.wzFile_quest["QuestInfo.img"]);
+		FindChild (wz.wzFile_quest["Say.img"]);
+		Debug.Log (dictionary.ToDebugLog ());
 	}
+	Dictionary<string, string> dictionary;
+	private void FindChild (WzObject wzObj)
+	{
+		if (wzObj == null)
+			return;
+		foreach (var item in wzObj)
+		{
+			if (!dictionary.ContainsKey (item.Name)/* && item is not WzSubProperty*/)
+			{
+				if (!int.TryParse (item.Name, out var result))
+				{
+					dictionary.Add (item.Name, item.FullPath);
 
+				}
+
+			}
+			FindChild (item);
+		}
+	}
 	public void update ()
 	{
 		Stage.get ().update ();
@@ -128,7 +172,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	{
 		//Window.get().begin();
 		GameUtil.Instance.DrawOrder = 0;
-		TestURPBatcher.Instance.HideAll();
+		TestURPBatcher.Instance.HideAll ();
 		Stage.get ().draw (alpha);
 		UI.get ().draw (alpha);
 		//Window.get().end();
@@ -255,22 +299,26 @@ public class MapleStory : SingletonMono<MapleStory>
 	public Color fontColor = Color.black;
 	public bool enable_DrawFootHolder = false;
 	public bool enable_DrawAttackRange = false;
+	public bool enable_DrawMobRange = false;
 	public bool AddToParent = true;
 	public Rectangle_short attackRange;
 	public Rectangle_short attackRangeAfter;
 
 #if UNITY_EDITOR
+
+	public double viewx;
+	public double viewy;
 	private void DrawAttackRange ()
 	{
 		if (attackRange != null && attackRangeAfter != null && !attackRangeAfter.empty ())
 		{
-			Vector3 center = new Vector3 (attackRange.center ().x (), -attackRange.center ().y ());
+	/*		Vector3 center = new Vector3 (attackRange.center ().x (), -attackRange.center ().y ());
 			Vector3 size = new Vector3 (attackRange.width (), attackRange.height ());
 			Gizmos.color = Color.yellow;
-			Gizmos.DrawWireCube (center, size);
+			Gizmos.DrawWireCube (center, size);*/
 			//Debug.Log ($"center:{center}\t size:{size}\t attackRange:{attackRange}");
 
-			Vector3 centerAfter = new Vector3 (attackRangeAfter.center ().x (), -attackRangeAfter.center ().y ());
+			Vector3 centerAfter = new Vector3 ((float)(attackRangeAfter.center ().x () + viewx), -(attackRangeAfter.center ().y ()+(float)viewy));
 			Vector3 sizeAfter = new Vector3 (attackRangeAfter.width (), attackRangeAfter.height ());
 			Gizmos.color = Color.black;
 			Gizmos.DrawWireCube (centerAfter, sizeAfter);
@@ -325,6 +373,25 @@ public class MapleStory : SingletonMono<MapleStory>
 		//Handles.dr
 	}
 
+	private void DrawMobRange()
+	{
+		var mobs = ms.Stage.get ()?.get_mobs ()?.get_mobs();
+		if (mobs == null)
+			return;
+		foreach (var pair in mobs)
+		{
+			if (pair.Value is Mob mob)
+			{
+				var mobRange = mob.get_Range ();
+				Vector3 center = new Vector3 (mobRange.center ().x (), -mobRange.center ().y ());
+				Vector3 size = new Vector3 (mobRange.width (), mobRange.height ());
+				Gizmos.color = Color.yellow;
+				Gizmos.DrawWireCube (center, size);
+				//Debug.Log ($"center:{center}");
+			}
+		}
+	}
+
 	private void OnDrawGizmos ()
 	{
 		if (enable_DrawFootHolder)
@@ -332,6 +399,11 @@ public class MapleStory : SingletonMono<MapleStory>
 
 		if (enable_DrawAttackRange)
 			DrawAttackRange ();
+
+		if(enable_DrawMobRange)
+		{
+			DrawMobRange ();
+		}
 	}
 #endif
 

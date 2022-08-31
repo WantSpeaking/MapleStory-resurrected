@@ -230,10 +230,10 @@ namespace ms
         {
             OnRemove();
 
-            string account_text = "";
-            string password_text = "";
+            string account_text = "admin";
+            string password_text = "admin";
 
-            if (account.isForbid && password.isForbid)
+            /*if (account.isForbid && password.isForbid)
             {
                 account_text = text_account;
                 password_text = text_password;
@@ -242,7 +242,7 @@ namespace ms
             {
                 account_text = account.get_text();
                 password_text = password.get_text();
-            }
+            }*/
 
             account.set_state(Textfield.State.DISABLED);
             password.set_state(Textfield.State.DISABLED);

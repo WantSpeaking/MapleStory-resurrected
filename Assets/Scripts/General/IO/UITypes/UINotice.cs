@@ -8,18 +8,19 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+	public enum NoticeType : byte
+	{
+		YESNO,
+		ENTERNUMBER,
+		OK
+	}
 	public abstract class UINotice : UIDragElement<PosNOTICE>
 	{
 		public const Type TYPE = UIElement.Type.NOTICE;
 		public const bool FOCUSED = true;
 		public const bool TOGGLED = false;
 
-		protected enum NoticeType : byte
-		{
-			YESNO,
-			ENTERNUMBER,
-			OK
-		}
+	
 
 		protected UINotice (string message, NoticeType t, Text.Alignment a)
 		{
@@ -392,12 +393,12 @@ namespace ms
 			{
 				if (keycode == (int)KeyAction.Id.RETURN)
 				{
-					okhandler (true);
+					okhandler?.Invoke (true);
 					deactivate ();
 				}
 				else if (escape)
 				{
-					okhandler (false);
+					okhandler.Invoke (false);
 					deactivate ();
 				}
 			}

@@ -26,8 +26,6 @@ namespace ms
 			itemid = 0;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(Point_short pos) const override
 		public override void draw (Point_short pos)
 		{
 			if (itemid == 0)
@@ -76,10 +74,10 @@ namespace ms
 
 		public bool set_item (int iid)
 		{
-			if (itemid == iid)
+/*			if (itemid == iid)
 			{
 				return false;
-			}
+			}*/
 
 			itemid = iid;
 
@@ -128,23 +126,26 @@ namespace ms
 
 			return true;
 		}
-
-		private int itemid;
-		private short fillwidth;
-		private short fillheight;
-		private short descdelta;
-		private Texture itemicon = new Texture ();
-
-		private Text name = new Text ();
-		private Text desc = new Text ();
-		private Text qual = new Text ();
-		private MapleFrame frame = new MapleFrame ();
-		private Texture cover = new Texture ();
-		private Texture baseTexture = new Texture ();
-		private Texture itemcover = new Texture ();
-		private BoolPairNew<Texture> type = new BoolPairNew<Texture> ();
-		private bool untradable;
-		private bool unique;
+		public void clear_set_item ()
+		{
+			itemid = 0;
+		}
+		public int itemid;
+		public short fillwidth;
+		public short fillheight;
+		public short descdelta;
+		public Texture itemicon = new Texture ();
+		
+		public Text name = new Text ();
+		public Text desc = new Text ();
+		public Text qual = new Text ();
+		public MapleFrame frame = new MapleFrame ();
+		public Texture cover = new Texture ();
+		public Texture baseTexture = new Texture ();
+		public Texture itemcover = new Texture ();
+		public BoolPairNew<Texture> type = new BoolPairNew<Texture> ();
+		public bool untradable;
+		public bool unique;
 	}
 }
 

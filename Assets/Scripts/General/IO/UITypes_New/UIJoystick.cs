@@ -51,13 +51,15 @@ namespace ms
             btn_Bottom.OnDown += OnDown_Bottom;
             btn_Bottom.OnUp += OnUp_Bottom;
 
-            buttons[(int)Buttons.Left] = btn_Left;
+/*            buttons[(int)Buttons.Left] = btn_Left;
             buttons[(int)Buttons.Right] = btn_Right;
             buttons[(int)Buttons.Top] = btn_Top;
-            buttons[(int)Buttons.Bottom] = btn_Bottom;
+            buttons[(int)Buttons.Bottom] = btn_Bottom;*/
 
 
             position = offset_Joystick;
+
+            ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_Joystick> ();
             //dimension = new Point_short((short)(200), (short)(200));
         }
 

@@ -85,7 +85,7 @@ namespace ms
                                         break;
                                 }
 
-                                var texture = new Texture(property_00002000img_alert_0_arm);
+                                var texture = new Texture(property_00002000img_alert_0_arm, "Player");
                                 texture.shift(shift);
                                 //AppDebug.Log (texture.get_origin ());
                                 stances[(int)stance, (int)layer][frame] = texture; //todo 2 might repeat add
@@ -100,7 +100,7 @@ namespace ms
                         {
                             Point_short shift = drawinfo.get_head_position(stance, frame) ?? new Point_short();
 
-                            var texture = new Texture(headsfnode);
+                            var texture = new Texture(headsfnode, "Player");
                             texture.shift(shift);
                             stances[(int)stance, (int)Body.Layer.HEAD]?.Add(frame, texture);
                         }

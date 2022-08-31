@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using MapleLib.WzLib;
 
 
@@ -85,6 +86,12 @@ namespace ms
 
 			phobj.fhid = f;
 			set_position (new Point_short (position));
+
+			questIcon_CanStart = wz.wzFile_ui["UIWindow2.img"]["QuestIcon"]["0"];
+			questIcon_InProgressed = wz.wzFile_ui["UIWindow2.img"]["QuestIcon"]["1"];
+			questIcon_CanComplete = wz.wzFile_ui["UIWindow2.img"]["QuestIcon"]["2"];
+
+			UpdateQuest ();
 		}
 
 		private string lastDraw_Stance = string.Empty;
@@ -113,6 +120,8 @@ namespace ms
 			}
 
 			lastDraw_Stance = stance;
+
+			questIcon_Current?.draw (new DrawArgument (absp + new Point_short (0, -charHeight), flip), alpha);
 		}
 
 		// Updates the current animation and physics
@@ -137,6 +146,9 @@ namespace ms
 				}
 			}
 
+
+			questIcon_Current?.update ();
+
 			return phobj.fhlayer;
 		}
 
@@ -156,16 +168,12 @@ namespace ms
 		}
 
 		// Check whether this is a server-sided NPC
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool isscripted() const
 		public bool isscripted ()
 		{
 			return scripted;
 		}
 
 		// Check if the NPC is in range of the cursor
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool inrange(Point_short cursorpos, Point_short viewpos) const
 		public bool inrange (Point_short cursorpos, Point_short viewpos)
 		{
 			if (!active)
@@ -186,11 +194,214 @@ namespace ms
 			return name;
 		}
 
+		public int get_id()
+		{
+			return npcid;
+		}
+
 		// Returns the NPC's function description or title
 		public string get_func ()
 		{
 			return func;
 		}
+
+		private bool check_Has_CanCompleteQuest(ref short canCompleteQuestId)
+		{
+			if(!check_Has_InProgressQuest()) return false;
+
+			bool isAvailable = true;
+
+			foreach (var pair in inProgress_Quests)
+			{
+				var questId = pair.Key;
+				var checkInfo = checkLog.GetCheckInfo (questId);
+				var checkStage0 = checkInfo.checkStages[1];
+				var questInfo = questLog.GetQuestInfo (questId);
+				var player = ms.Stage.Instance.get_player ();
+
+				foreach (var item in checkStage0.items)
+				{
+					isAvailable &= player.get_inventory ().hasEnoughItem (item.id, item.count);
+				}
+
+				foreach (var mob in checkStage0.mobs)
+				{
+					isAvailable &= false;
+				}
+
+				//这个任务的前置任务 符合已经开始或完成的条件，该任务才是可开始的任务
+				foreach (var checkQuest in checkStage0.quests)
+				{
+					if (checkQuest.state == 1)
+					{
+						isAvailable &= questLog.is_inprogressed ((short)checkQuest.id);
+					}
+					else if (checkQuest.state == 2)
+					{
+						isAvailable &= questLog.is_completed ((short)checkQuest.id);
+					}
+				}
+
+				if (isAvailable)
+				{
+					canCompleteQuestId = questId;
+					break;
+				}
+			}
+			return isAvailable;
+
+		}
+		private bool check_Has_InProgressQuest ()
+		{
+			return inProgress_Quests.Count != 0;
+		}
+		private bool check_Has_AvailableQuest ()
+		{
+			return available_Quests.Count != 0;
+		}
+		SortedDictionary<short, SayInfo> available_Quests = new SortedDictionary<short, SayInfo> ();
+		SortedDictionary<short, SayInfo> inProgress_Quests = new SortedDictionary<short, SayInfo> ();
+		QuestLog questLog => Stage.Instance.get_player ().get_questlog ();
+		CheckLog checkLog => Stage.Instance.get_player ().get_checklog ();
+		SayLog sayLog => Stage.Instance.get_player ().get_saylog ();
+		Quest quest => Stage.Instance.get_player ().get_quest ();
+		public void UpdateQuest ()
+		{
+			inProgress_Quests.Clear ();
+			available_Quests.Clear ();
+
+			foreach (var pair in questLog.In_progress)
+			{
+				var questId = pair.Key;
+				var sayInfo = sayLog.GetSayInfo (questId);
+				var checkInfo = checkLog.GetCheckInfo (questId);
+				if (checkInfo.checkStages[1].npc == npcid)
+				{
+					inProgress_Quests.Add (questId, sayInfo);
+				}
+			}
+
+			foreach (var pair in quest.AvailableQuests)
+			{
+				var questId = pair.Key;
+				var questInfo = pair.Value;
+				var sayInfo = sayLog.GetSayInfo (questId);
+				var checkInfo = checkLog.GetCheckInfo (questId);
+				if (checkInfo.checkStages[0].npc == npcid)
+				{
+					available_Quests.Add (questId, sayInfo);
+				}
+			}
+			short canCompleteQuestId = 0;
+			if (check_Has_CanCompleteQuest(ref canCompleteQuestId))
+			{
+				questIcon_Current = questIcon_CanComplete;
+				ms_Unity.FGUI_Notice.ShowNotice ($"可完成任务：{questLog.GetQuestInfo(canCompleteQuestId).Name}");
+			}
+			else if(check_Has_InProgressQuest())
+			{
+				questIcon_Current = questIcon_InProgressed;
+			}
+			else if (check_Has_AvailableQuest ())
+			{
+				questIcon_Current = questIcon_CanStart;
+			}
+			else
+			{
+				questIcon_Current = null;
+			}
+		}
+
+		StringBuilder stringBuilder = new StringBuilder ();
+		/// <summary>
+		/// 拼装 npc对话框内的string 包含 available_Quests 、inProgress_Quests 列表 以供选择
+		/// </summary>
+		/// <returns></returns>
+		public string getQuestListString ()
+		{
+			stringBuilder.Clear ();
+			var index = 0;
+
+			if (available_Quests.Count > 0)
+			{
+				//stringBuilder.Append ($"{}");
+				stringBuilder.AppendLine ($"可开始的任务");
+				foreach (var pair in available_Quests)
+				{
+
+					stringBuilder.Append ($"#L{index++}# {pair.Value.questName} #l \r\n");
+				}
+			}
+
+			if (inProgress_Quests.Count > 0)
+			{
+				//stringBuilder.Append ($"{}");
+				stringBuilder.AppendLine ($"正在进行的任务");
+				foreach (var pair in inProgress_Quests)
+				{
+					stringBuilder.Append ($"#L{index++}# {pair.Value.questName} #l \r\n");
+				}
+			}
+			return stringBuilder.ToString ();
+		}
+
+		public SayPage getInitPage()
+		{
+			var sayPage = new SayPage ();
+			sayPage.npcId = npcid;
+			sayPage.pageIndex = -1;
+			sayPage.text = getQuestListString ();
+
+			return sayPage;
+		}
+
+		public SayInfo GetQuestSayInfo(short selectQuestIndex, out bool isQuestStarted)
+		{
+			short index = 0;
+
+			if (available_Quests.Count > 0)
+			{
+				foreach (var pair in available_Quests)
+				{
+					if (index == selectQuestIndex)
+					{
+						isQuestStarted = false;
+						return pair.Value;
+					}
+					index++;
+				}
+			}
+
+			if (inProgress_Quests.Count > 0)
+			{
+				foreach (var pair in inProgress_Quests)
+				{
+					if (index == selectQuestIndex)
+					{
+						isQuestStarted = true;
+
+						return pair.Value;
+					}
+					index++;
+				}
+			}
+			isQuestStarted = false;
+			return null;
+		}
+		public bool hasQuest ()
+		{
+			return available_Quests.Count != 0 || inProgress_Quests.Count != 0;
+		}
+
+		Animation questIcon_CanStart;
+		Animation questIcon_InProgressed;
+		Animation questIcon_CanComplete;
+
+		Animation questIcon_Current;
+
+		public const short charWidth = 40;
+		public const short charHeight = 90;
+		public Point_short charHalf = new Point_short (charWidth / 2, charHeight / 2);
 
 		private SortedDictionary<string, Animation> animations = new SortedDictionary<string, Animation> ();
 		private SortedDictionary<string, List<string>> lines = new SortedDictionary<string, List<string>> ();

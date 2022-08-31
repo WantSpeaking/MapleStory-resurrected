@@ -181,6 +181,7 @@ public static class IEnumerableExt
             _stringBuilder.Append(")");
 
             _stringBuilder.Append(",");
+            _stringBuilder.AppendLine ("");
         }
 
         _stringBuilder.Append("]");

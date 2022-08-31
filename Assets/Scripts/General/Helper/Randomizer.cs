@@ -53,7 +53,7 @@ namespace ms
             {
                 return from;
             }
-            int rdIndex = rd.Next((int)from, (int)to);
+            var rdIndex = rd.NextDouble() * (to - from) + from;
             return rdIndex;
         }
         public int next_int(int to)

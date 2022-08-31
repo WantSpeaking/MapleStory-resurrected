@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FairyGUI;
+using ms;
 
 
 
@@ -9,20 +11,50 @@ namespace ms
 {
 	public class Textfield
 	{
-		public bool isForbid;
 		public enum State
 		{
 			NORMAL,
 			DISABLED,
-			FOCUSED,
+			FOCUSED
 		}
+
+		public bool isForbid;
+
+		private GTextInput gTextInput;
+
+		private string text;
+
+		private ColorLine marker = new ColorLine ();
+
+		private bool showmarker;
+
+		private ushort elapsed;
+
+		private uint markerpos;
+
+		private Rectangle_short bounds = new Rectangle_short ();
+
+		private Point_short parentpos = new Point_short ();
+
+		private uint limit;
+
+		private sbyte crypt;
+
+		private State state;
+
+		private Action<string> onreturn;
+
+		private SortedDictionary<int, Action> callbacks = new SortedDictionary<int, Action> ();
+
+		private Action ontext;
 
 		public Textfield ()
 		{
 			text = "";
 		}
 
-		public Textfield (Text.Font font, Text.Alignment alignment, Color.Name text_color, Rectangle_short bounds, uint limit) : this (font, alignment, text_color, text_color, 1.0f, new Rectangle_short (bounds) , limit)
+		public Textfield (Text.Font font, Text.Alignment alignment, Color.Name text_color, Rectangle_short bounds, uint limit)
+			: this (font, alignment, text_color, text_color, 1f, new Rectangle_short (bounds), limit)
 		{
 		}
 
@@ -30,13 +62,21 @@ namespace ms
 		{
 			this.bounds = new Rectangle_short (bounds);
 			this.limit = limit;
-			textlabel = new Text (font, alignment, text_color, "", 0, false);
-			marker = new ColorLine (12, marker_color, marker_opacity, true);
-
+			marker = new ColorLine (12, marker_color, marker_opacity, vertical: true);
 			text = "";
-			markerpos = 0;
+			markerpos = 0u;
 			crypt = 0;
 			state = State.NORMAL;
+			gTextInput = new GTextInput ();
+			gTextInput.border = 5;
+			TextFormat textFormat = new TextFormat
+			{
+				size = 30
+			};
+			gTextInput.textFormat = textFormat;
+			gTextInput.SetSize ((float)bounds.width () * Singleton<ms.Window>.Instance.ratio, (float)bounds.height () * Singleton<ms.Window>.Instance.ratio);
+			//AppDebug.Log ($"bounds:{bounds} ratio:{Singleton<ms.Window>.Instance.ratio} size x:{(float)bounds.width () * Singleton<ms.Window>.Instance.ratio}");
+			GRoot.inst.AddChild (gTextInput);
 		}
 
 		public void draw (Point_short position)
@@ -46,169 +86,107 @@ namespace ms
 
 		public void draw (Point_short position, Point_short marker_adjust)
 		{
-			if (state == State.DISABLED || isForbid)
+			if (state != State.DISABLED && !isForbid)
 			{
-				return;
+				Point_short absp = bounds.get_left_top () + position;
+				short drawPosX = absp.x ();
+				int drawPosY = -absp.y ();
+				//AppDebug.Log ($"size:{gTextInput.size }");
+				gTextInput.displayObject.SetPosition ((float)drawPosX * Singleton<ms.Window>.Instance.ratio, (float)(-drawPosY) * Singleton<ms.Window>.Instance.ratio, 0f);
 			}
-
-			Point_short absp = bounds.get_left_top () + position;
-
-			if (text.Length > 0)
-			{
-				textlabel.draw (absp);
-			}
-
-			if (state == State.FOCUSED && showmarker)
-			{
-				Point_short mpos = absp + new Point_short ((short)(textlabel.advance (markerpos) - 1), 8) + marker_adjust;
-
-				if (crypt > 0)
-				{
-					mpos.shift (1, -3);
-				}
-
-				marker.draw (mpos);
-			}
-
 		}
 
 		public void update (Point_short parent)
 		{
-			if (state == State.DISABLED || isForbid)
+			if (state != State.DISABLED && !isForbid)
 			{
-				return;
-			}
-
-			parentpos= new Point_short (parent);
-			elapsed += Constants.TIMESTEP;
-
-			if (elapsed > 256)
-			{
-				showmarker = !showmarker;
-				elapsed = 0;
+				parentpos = new Point_short (parent);
+				elapsed += 8;
+				if (elapsed > 256)
+				{
+					showmarker = !showmarker;
+					elapsed = 0;
+				}
 			}
 		}
 
 		public void send_key (KeyType.Id type, int key, bool pressed)
 		{
-			if (pressed)
+			if (!pressed)
 			{
-				if (type == KeyType.Id.ACTION)
-				{
-					switch ((KeyAction.Id)key)
+				return;
+			}
+			switch (type)
+			{
+				case KeyType.Id.ACTION:
+					switch (key)
 					{
-						case KeyAction.Id.LEFT:
-						{
-							if (markerpos > 0)
+						case 107:
+							if (markerpos != 0)
 							{
 								markerpos--;
 							}
-
 							break;
-						}
-						case KeyAction.Id.RIGHT:
-						{
+						case 108:
 							if (markerpos < text.Length)
 							{
 								markerpos++;
 							}
-
 							break;
-						}
-						case KeyAction.Id.BACK:
-						{
-							if (text.Length > 0 && markerpos > 0)
+						case 111:
+							if (text.Length > 0 && markerpos != 0)
 							{
 								text = text.Remove ((int)(markerpos - 1), 1);
-
 								markerpos--;
-
 								modifytext (text);
 							}
-
 							break;
-						}
-						case KeyAction.Id.RETURN:
-						{
+						case 113:
 							if (onreturn != null)
 							{
-								onreturn (text);
+								onreturn (gTextInput.text);
 							}
-
 							break;
-						}
-						case KeyAction.Id.SPACE:
-						{
+						case 115:
 							add_string (" ");
 							break;
-						}
-						case KeyAction.Id.HOME:
-						{
-							markerpos = 0;
+						case 117:
+							markerpos = 0u;
 							break;
-						}
-						case KeyAction.Id.END:
-						{
+						case 118:
 							markerpos = (uint)text.Length;
 							break;
-						}
-						case KeyAction.Id.DELETE:
-						{
+						case 116:
 							if (text.Length > 0 && markerpos < text.Length)
 							{
 								text = text.Remove ((int)markerpos, 1);
-
 								modifytext (text);
 							}
-
 							break;
-						}
 						default:
-						{
-							if (callbacks.Any (pair => pair.Key == key))
+							if (callbacks.Any ((KeyValuePair<int, Action> pair) => pair.Key == key))
 							{
 								callbacks[key] ();
 							}
-
 							break;
-						}
 					}
-				}
-				else if (type == KeyType.Id.TEXT)
-				{
-					if (ontext != null)
+					break;
+				case KeyType.Id.TEXT:
 					{
-						if (char.IsDigit ((char)key) || char.IsLetter ((char)key))
+						if (ontext != null && (char.IsDigit ((char)key) || char.IsLetter ((char)key)))
 						{
 							ontext ();
-							return;
+							break;
 						}
+						int ss = 1;
+						add_string (((char)key).ToString ());
+						break;
 					}
-
-					int ss = 1;
-					//stringstream ss = new stringstream ();
-					var a = (char)key;
-
-					//ss <<= a;
-
-					add_string (a.ToString ());
-				}
 			}
 		}
 
 		public void add_string (string str)
 		{
-			foreach (var c in str)
-			{
-				if (belowlimit ())
-				{
-					text = text.Insert ((int)markerpos, c.ToString ());
-
-					markerpos++;
-
-					modifytext (text);
-				}
-			}
 		}
 
 		public void set_state (State st)
@@ -216,7 +194,6 @@ namespace ms
 			if (state != st)
 			{
 				state = st;
-
 				if (state != State.DISABLED)
 				{
 					elapsed = 0;
@@ -224,12 +201,11 @@ namespace ms
 				}
 				else
 				{
-					UI.get ().remove_textfield ();
+					Singleton<UI>.get ().remove_textfield ();
 				}
-
 				if (state == State.FOCUSED)
 				{
-					UI.get ().focus_textfield (this);
+					Singleton<UI>.get ().focus_textfield (this);
 				}
 			}
 		}
@@ -237,26 +213,26 @@ namespace ms
 		public void change_text (string t)
 		{
 			modifytext (t);
-
 			markerpos = (uint)text.Length;
 		}
 
 		public void set_cryptchar (sbyte character)
 		{
 			crypt = character;
+			gTextInput.displayAsPassword = true;
 		}
 
-		public void set_enter_callback (System.Action<string> onr)
+		public void set_enter_callback (Action<string> onr)
 		{
 			onreturn = onr;
 		}
 
-		public void set_key_callback (KeyAction.Id key, System.Action action)
+		public void set_key_callback (KeyAction.Id key, Action action)
 		{
 			callbacks[(int)key] = action;
 		}
 
-		public void set_text_callback (System.Action action)
+		public void set_text_callback (Action action)
 		{
 			ontext = action;
 		}
@@ -267,7 +243,6 @@ namespace ms
 			{
 				return Cursor.State.IDLE;
 			}
-
 			if (get_bounds ().contains (cursorpos))
 			{
 				if (clicked)
@@ -276,23 +251,15 @@ namespace ms
 					{
 						set_state (State.FOCUSED);
 					}
-
 					return Cursor.State.CLICKING;
 				}
-				else
-				{
-					return Cursor.State.CANCLICK;
-				}
+				return Cursor.State.CANCLICK;
 			}
-			else
+			if (clicked && state == State.FOCUSED)
 			{
-				if (clicked && state == State.FOCUSED)
-				{
-					set_state (State.NORMAL);
-				}
-
-				return Cursor.State.IDLE;
+				set_state (State.NORMAL);
 			}
+			return Cursor.State.IDLE;
 		}
 
 		public bool empty ()
@@ -300,7 +267,7 @@ namespace ms
 			return string.IsNullOrEmpty (text);
 		}
 
-		public Textfield.State get_state ()
+		public State get_state ()
 		{
 			return state;
 		}
@@ -312,7 +279,7 @@ namespace ms
 
 		public string get_text ()
 		{
-			return text;
+			return gTextInput.text;
 		}
 
 		public bool can_copy_paste ()
@@ -320,60 +287,28 @@ namespace ms
 			if (ontext != null)
 			{
 				ontext ();
-
 				return false;
 			}
-			else
-			{
-				return true;
-			}
+			return true;
 		}
 
 		private void modifytext (string t)
 		{
-			if (crypt > 0)
-			{
-				string crypted = String.Empty;
-				crypted = crypted.insert (0, t.Length, (char)crypt);
-
-				textlabel.change_text (crypted);
-			}
-			else
-			{
-				textlabel.change_text (t);
-			}
-
-			text = t;
+			gTextInput.text = t;
 		}
 
 		private bool belowlimit ()
 		{
-			if (limit > 0)
-			{
-				return text.Length < limit;
-			}
-			else
-			{
-				ushort advance = textlabel.advance ((uint)text.Length);
-
-				return (advance + 50) < bounds.get_horizontal ().length ();
-			}
+			return false;
 		}
 
-		private Text textlabel = new Text ();
-		private string text;
-		private ColorLine marker = new ColorLine ();
-		private bool showmarker;
-		private ushort elapsed;
-		private uint markerpos;
-		private Rectangle_short bounds = new Rectangle_short ();
-		private Point_short parentpos = new Point_short ();
-		private uint limit;
-		private sbyte crypt;
-		private State state;
-
-		private System.Action<string> onreturn;
-		private SortedDictionary<int, System.Action> callbacks = new SortedDictionary<int, System.Action> ();
-		private System.Action ontext;
+		public void OnActivityChange (bool isActive)
+		{
+			if (gTextInput != null)
+			{
+				gTextInput.visible = isActive;
+			}
+		}
 	}
+
 }

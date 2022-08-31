@@ -89,6 +89,7 @@ namespace ms
 
             bool is_hit0_animation = src["hit"]?["0"]["0"]?.IsTexture () ?? false;
 
+		
 			if (bylevelhit)
 			{
 				if (hashit0 && hashit1)
@@ -155,6 +156,20 @@ namespace ms
 				action = new NoAction ();
 			}
 
+			if (src["prepare"] != null)
+			{
+				prepareEffect = new PrepareEffect (src["prepare"]);
+				action = new SingleAction (src["prepare"]["action"].ToString (), false);
+			}
+			if (src["keydown"] != null)
+			{
+				keydownEffect = new OnKeyDownEffect (src["keydown"]);
+			}
+			if (src["keydownend"] != null)
+			{
+				keydownendEffect = new OnKeyDownEndEffect (src["keydownend"]);
+			}
+
 			bool hasball = src["ball"]?.Any () ?? false;
 			bool bylevelball = src["level"]?["1"]?["ball"]?.Any () ?? false;
 
@@ -179,7 +194,18 @@ namespace ms
 
 			sound.play_use();
 		}
-
+		public override void apply_prepareEffect (Char user)
+		{
+			prepareEffect?.apply(user);
+		}
+		public override void apply_keydownEffect (Char user)
+		{
+			keydownEffect?.apply (user);
+		}
+		public override void apply_keydownendEffect (Char user)
+		{
+			keydownendEffect?.apply (user);
+		}
 		public override void apply_actions (Char user, Attack.Type type)
 		{
 			action.apply (ref user, type);
@@ -292,6 +318,11 @@ namespace ms
 			return skillid;
 		}
 
+		public override bool has_skillPrepareEffect ()
+		{
+			return prepareEffect != null;
+		}
+		Player player => ms.Stage.get ().get_player ();
 		public override SpecialMove.ForbidReason can_use (int level, Weapon.Type weapon, Job job, ushort hp, ushort mp, ushort bullets)
 		{
 			if (level <= 0 || level > SkillData.get (skillid).get_masterlevel ())
@@ -327,6 +358,14 @@ namespace ms
 			{
 				case Weapon.Type.BOW:
 				case Weapon.Type.CROSSBOW:
+					if (player.can_useBow_withoutArrows () || (bullets >= stats.bulletcost))
+					{
+						return ForbidReason.FBR_NONE;
+					}
+					else
+					{
+						return ForbidReason.FBR_BULLETCOST;
+					}
 				case Weapon.Type.CLAW:
 				case Weapon.Type.GUN:
 					return (bullets >= stats.bulletcost) ? ForbidReason.FBR_NONE : ForbidReason.FBR_BULLETCOST;
@@ -335,6 +374,15 @@ namespace ms
 			}
 		}
 
+		public override SkillAction get_action (Char user)
+		{
+			return action;
+		}
+
+		public OnKeyDownEffect GetKeydownEffect ()
+		{
+			return keydownEffect;
+		}
 		private SkillAction action;
 
 		private SkillBullet bullet;
@@ -342,6 +390,9 @@ namespace ms
 		private SkillSound sound;
 		private SkillUseEffect useeffect;
 		private SkillHitEffect hiteffect;
+		private SkillUseEffect prepareEffect;
+		private OnKeyDownEffect keydownEffect;
+		private SkillUseEffect keydownendEffect;
 
 		private int skillid;
 		private bool overregular;

@@ -5,6 +5,14 @@ using System.Linq;
 using Helper;
 using ms.Helper;
 
+using NotifyCollectionChangedEventHandler = System.Collections.Specialized.NotifyCollectionChangedEventHandler;
+using INotifyCollectionChanged = System.Collections.Specialized.INotifyCollectionChanged;
+using NotifyCollectionChangedAction = System.Collections.Specialized.NotifyCollectionChangedAction;
+using NotifyCollectionChangedEventArgs = System.Collections.Specialized.NotifyCollectionChangedEventArgs;
+using INotifyPropertyChanged = System.ComponentModel.INotifyPropertyChanged;
+using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
+using PropertyChangedEventHandler = System.ComponentModel.PropertyChangedEventHandler;
+
 public class EnumMap<T>
 {
 	private Dictionary<T, object> values { get; set; }
@@ -22,9 +30,12 @@ public class EnumMap<T>
 	}
 }
 
-public class EnumMap<T, V> : IEnumerable<KeyValuePair<T, V>> /*where V : new()*/
+public class EnumMap<T, V> : IEnumerable<KeyValuePair<T, V>> /*where V : new()*/, INotifyCollectionChanged
 {
 	public List<T> keys = new List<T> ();
+
+	public event NotifyCollectionChangedEventHandler CollectionChanged;
+
 	public Dictionary<T, V> dict { get; set; }
 
 	public EnumMap ()
@@ -100,6 +111,7 @@ public class EnumMap<T, V> : IEnumerable<KeyValuePair<T, V>> /*where V : new()*/
 	}
 }
 
+
 public class EnumMapNew<T, V> : IEnumerable<KeyValuePair<T, V>> where V : new ()
 {
 	public Dictionary<T, V> values { get; set; }
@@ -121,6 +133,7 @@ public class EnumMapNew<T, V> : IEnumerable<KeyValuePair<T, V>> where V : new ()
 		set { values[index] = value; }
 	}
 
+	public int Count => values.Count;
 	public IEnumerator<KeyValuePair<T, V>> GetEnumerator ()
 	{
 		return values.GetEnumerator ();

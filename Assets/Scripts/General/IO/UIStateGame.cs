@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-
+using ms_Unity;
 
 
 
@@ -11,6 +11,8 @@ namespace ms
 {
 	public class UIStateGame : UIState
 	{
+		FGUI_StateGame fgui_StateGame;
+
 		public UIStateGame ()
 		{
 			ushort width = Setting<Width>.get().load();
@@ -31,14 +33,18 @@ namespace ms
 			emplace<UIMiniMap> (stats);
 			emplace<UIBuffList> ();
 			emplace<UIShop> (look, inventory);
-			emplace<UIJoystick>();
-			emplace<UIActionButton>();
+	
 
 			emplace<UIKeyConfig>(Stage.get().get_player().get_inventory(), Stage.get().get_player().get_skills());
 			get(UIElement.Type.KEYCONFIG).deactivate();
 
+			emplace<UIJoystick> ();
+			emplace<UIActionButton> ();
+
 			VWIDTH = Constants.get ().get_viewwidth ();
 			VHEIGHT = Constants.get ().get_viewheight ();
+
+			fgui_StateGame = FGUI_StateGame.CreateInstance ();
 		}
 
 		public override void draw (float inter, Point_short cursor)
@@ -128,7 +134,7 @@ namespace ms
 			}
 		}
 
-		public override void send_key (KeyType.Id type, int action, bool pressed, bool escape)
+		public override void send_key (KeyType.Id type, int action, bool pressed, bool escape, bool pressing = false)
 		{
 			UIElement focusedelement = get (focused);
 			if (focusedelement != null)
@@ -244,7 +250,7 @@ namespace ms
 								}
 								case KeyAction.Id.QUESTLOG:
 								{
-									UI.get ().emplace<UIQuestLog> (Stage.get ().get_player ().get_quests ());
+									UI.get ().emplace<UIQuestLog> (Stage.get ().get_player ().get_questlog ());
 
 									break;
 								}
@@ -345,7 +351,7 @@ namespace ms
 					case KeyType.Id.ITEM:
 					case KeyType.Id.SKILL:
 					{
-						Stage.get ().send_key (type, action, pressed);
+						Stage.get ().send_key (type, action, pressed, pressing);
 						break;
 					}
 				}
@@ -568,7 +574,7 @@ namespace ms
 			UIElement.Type.SHOP
 		};
 
-		public void emplace<T> (params object[] args) where T : UIElement
+		public T emplace<T> (params object[] args) where T : UIElement
 		{
 			var type = typeof (T);
 			var uiElement_Type = (UIElement.Type)(type.GetField ("TYPE", Constants.get ().bindingFlags_UIElementInfo)?.GetRawConstantValue () ?? UIElement.Type.NONE);
@@ -578,7 +584,7 @@ namespace ms
 			var uiElementType_New = pre_add (uiElement_Type, uiElement_toggled, uiElement_focused);
 			if (uiElementType_New != UIElement.Type.NONE)
 			{
-				actual_add<T> (uiElementType_New, args);
+				return actual_add<T> (uiElementType_New, args);
 			}
 
 			if (!silent_types.Contains (uiElement_Type))
@@ -590,6 +596,8 @@ namespace ms
 
 				UI.get ().send_cursor (false);
 			}
+
+			return null;
 		}
 
 		public override UIElement.Type pre_add (UIElement.Type type, bool is_toggled, bool is_focused)
@@ -669,6 +677,7 @@ namespace ms
 			if (elements.TryAdd (type, uiElement))
 			{
 				uiElement?.OnAdd ();
+				uiElement?.OnActivityChange (uiElement.is_active());
 			}
 			return (T)uiElement;
 		}

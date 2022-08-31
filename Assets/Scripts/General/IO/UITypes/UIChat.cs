@@ -64,8 +64,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(float inter) const override
 		public override void draw(float inter)
 		{
 			base.draw(inter);
@@ -85,8 +83,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: UIElement::Type get_type() const override
 		public override UIElement.Type get_type()
 		{
 			return TYPE;

@@ -92,10 +92,13 @@ namespace ms
                     btn_Action.OnRollIn += Action_OnRollIn;
                     btn_Action.OnRollOver += Action_OnRollOver;
                     btn_Action.OnRollOut += Action_OnRollOut;
-                    buttons.Add((uint)totalIndex, btn_Action);
+                    //buttons.Add((uint)totalIndex, btn_Action);
 
                 }
             }
+
+            ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_ActionButtons> ();
+
         }
 
         private void Action_OnDown(object sender, object e)

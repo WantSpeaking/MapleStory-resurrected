@@ -11,7 +11,7 @@
 			FOURTH
 		}
 
-		public static Level get_next_level(Level level)
+		public static Level get_next_level (Level level)
 		{
 			switch (level)
 			{
@@ -26,19 +26,19 @@
 			}
 		}
 
-		public Job(ushort i)
+		public Job (ushort i)
 		{
-			change_job(i);
+			change_job (i);
 		}
-		public Job()
+		public Job ()
 		{
-			change_job(0);
+			change_job (0);
 		}
 
-		public void change_job(ushort i)
+		public void change_job (ushort i)
 		{
 			id = i;
-			name = get_name(id);
+			name = get_name (id);
 
 			if (id == 0)
 			{
@@ -61,13 +61,13 @@
 				level = Level.FOURTH;
 			}
 		}
-		public bool is_sub_job(ushort subid)
+		public bool is_sub_job (ushort subid)
 		{
 			for (int lvit = (int)Level.BEGINNER; lvit <= (int)Level.FOURTH; lvit++)
 			{
 				Level lv = (Level)lvit;
 
-				if (subid == get_subjob(lv))
+				if (subid == get_subjob (lv))
 				{
 					return true;
 				}
@@ -75,16 +75,39 @@
 
 			return false;
 		}
-		public bool can_use(int skill_id)
+
+		public bool is_EquipRequiredJob (ushort requiredJobIdPlus100)
+		{
+			switch (requiredJobIdPlus100/100)
+			{
+				case 0:
+					return true;
+				case 1:
+					return id / 100 == 1;
+				case 2:
+					return id / 100 == 2;
+				case 4:
+					return id / 100 == 3;
+				case 8:
+					return id / 100 == 4;
+				case 16:
+					return id / 100 == 5;
+				default:
+					break;
+			}
+
+			return false;
+		}
+		public bool can_use (int skill_id)
 		{
 			ushort required = (ushort)(skill_id / 10000);
-			return is_sub_job(required);
+			return is_sub_job (required);
 		}
-		public ushort get_id()
+		public ushort get_id ()
 		{
 			return id;
 		}
-		public ushort get_subjob(Level lv)
+		public ushort get_subjob (Level lv)
 		{
 			if (lv <= level)
 			{
@@ -106,15 +129,15 @@
 
 			return 0;
 		}
-		public Job.Level get_level()
+		public Job.Level get_level ()
 		{
 			return level;
 		}
-		public string get_name()
+		public string get_name ()
 		{
 			return name;
 		}
-		public EquipStat.Id get_primary(Weapon.Type weapontype)
+		public EquipStat.Id get_primary (Weapon.Type weapontype)
 		{
 			switch (id / 100)
 			{
@@ -130,7 +153,7 @@
 					return EquipStat.Id.STR;
 			}
 		}
-		public EquipStat.Id get_secondary(Weapon.Type weapontype)
+		public EquipStat.Id get_secondary (Weapon.Type weapontype)
 		{
 			switch (id / 100)
 			{
@@ -147,7 +170,7 @@
 			}
 		}
 
-		public static string get_name(ushort jid)
+		public static string get_name (ushort jid)
 		{
 			switch (jid)
 			{
@@ -275,6 +298,19 @@
 				default:
 					return "";
 			}
+		}
+
+		public bool isFourthJob ()
+		{
+			if (id == 2212)
+			{
+				return false;
+			}
+			if (id == 22170001 || id == 22171003 || id == 22171004 || id == 22181002 || id == 22181003)
+			{
+				return true;
+			}
+			return id % 10 == 2;
 		}
 
 		private string name;

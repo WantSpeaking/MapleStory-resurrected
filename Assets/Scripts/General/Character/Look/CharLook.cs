@@ -53,10 +53,10 @@ namespace ms
         private void draw(DrawArgument args, Stance.Id interstance, Expression.Id interexpression, byte interframe, byte interexpframe)
         {
            
-            if (lastDraw_interframe != -1)
+      /*      if (lastDraw_interframe != -1)
             {
                 erase(lastDraw_args, lastDraw_interstance, lastDraw_interexpression, (byte)lastDraw_interframe, lastDraw_interexpframe);
-            }
+            }*/
 
             Point_short faceshift = drawinfo.getfacepos(interstance, interframe, args.FlipX);
             DrawArgument faceargs = args + faceshift;
@@ -594,6 +594,21 @@ namespace ms
             }
 
             return delay;
+        }
+        public ushort get_total_attackdelay ()
+        {
+            if (action != null)
+            {
+                return drawinfo.get_total_attackdelay (actionstr);
+            }
+
+            return drawinfo.get_total_delay ((Stance.Id)stance.get ());
+            
+        }
+
+        public ushort get_total_attackdelay (string actionstr)
+        {
+            return drawinfo.get_total_attackdelay (actionstr);
         }
 
         public byte get_frame()

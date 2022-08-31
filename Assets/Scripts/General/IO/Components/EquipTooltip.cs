@@ -90,6 +90,7 @@ namespace ms
 			invpos_preview = 0;
 		}
 
+		public bool hasEquip;
 		public void set_equip (Tooltip.Parent parent, short ivp)
 		{
 			if (invpos == ivp)
@@ -121,7 +122,12 @@ namespace ms
 			Inventory inventory = player.get_inventory ();
 			var oequip = inventory.get_equip (invtype, invpos);
 			CharStats stats = player.get_stats ();
+			hasEquip = oequip == true;
 
+			if (oequip == false)
+			{
+				return;
+			}
 
 			if (invtype == InventoryType.Id.EQUIP)
 			{
@@ -162,7 +168,7 @@ namespace ms
 
 						okjobs_preview.Clear ();
 
-						switch (equipdata2.get_reqstat (MapleStat.Id.JOB))
+						switch (equipdata2.get_reqstat (MapleStat.Id.JOB)/100)
 						{
 							case 0:
 								okjobs_preview.Add (0);
@@ -353,10 +359,7 @@ namespace ms
 			}
 
 
-			if (oequip == false)
-			{
-				return;
-			}
+		
 
 			Equip equip2 = oequip.get ();
 
@@ -376,7 +379,7 @@ namespace ms
 
 				if (ms != MapleStat.Id.LEVEL)
 				{
-					reqstr = string_format.extend_id (equipdata3.get_reqstat (ms), 3);
+					//reqstr = string_format.extend_id (equipdata3.get_reqstat (ms), 3);
 					//reqstr = reqstr.insert (0, 3 - reqstr.Length, '0');
 				}
 
@@ -421,7 +424,7 @@ namespace ms
 					break;
 			}
 
-			prank = equip2.get_potrank ();
+			prank = equip2.get_potrank ();//稀有 传奇 物品的标记
 
 			switch (prank)
 			{
@@ -551,7 +554,7 @@ namespace ms
 				if (equip2.get_stat (es) > 0)
 				{
 					short delta = (short)(equip2.get_stat (es) - equipdata3.get_defstat (es));
-					var statstr = new StringBuilder (equip2.get_stat (es));
+					var statstr = new StringBuilder ().Append(equip2.get_stat (es));
 
 					if (delta != 0)
 					{
@@ -560,7 +563,7 @@ namespace ms
 						statstr.Append (Convert.ToString (Math.Abs (delta)) + ")");
 					}
 
-					statlabels[es] = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, EquipStat.names[(int)es] + ": " + statstr);
+					statlabels[es] = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, EquipStat.names[(int)es] + ": " + statstr.ToString());
 				}
 				else
 				{
@@ -639,7 +642,7 @@ namespace ms
 			string atkincstr = Convert.ToString (atkincnum);
 			bool atkinc_pos = true;
 
-			if (canequip[MapleStat.Id.JOB] != null)
+			if (canequip[MapleStat.Id.JOB])
 			{
 				if (atkincnum < 0)
 				{
@@ -888,67 +891,67 @@ namespace ms
 			}
 		}
 
-		private short invpos;
-		private short invpos_preview;
-		private short height;
-		private short height_preview;
-		private bool hasdesc;
-		private bool hasdesc_preview;
-		private bool hasslots;
-		private bool hasslots_preview;
-		private bool is_weapon;
-		private bool is_weapon_preview;
-		private EnumMap<MapleStat.Id, string> reqstatstrings = new EnumMap<MapleStat.Id, string> ();
-		private EnumMap<MapleStat.Id, string> reqstatstrings_preview = new EnumMap<MapleStat.Id, string> ();
-		private Texture itemicon = new Texture ();
-		private Texture itemicon_preview = new Texture ();
+		public short invpos;
+		public short invpos_preview;
+		public short height;
+		public short height_preview;
+		public bool hasdesc;
+		public bool hasdesc_preview;
+		public bool hasslots;
+		public bool hasslots_preview;
+		public bool is_weapon;
+		public bool is_weapon_preview;
+		public EnumMap<MapleStat.Id, string> reqstatstrings = new EnumMap<MapleStat.Id, string> ();
+		public EnumMap<MapleStat.Id, string> reqstatstrings_preview = new EnumMap<MapleStat.Id, string> ();
+		public Texture itemicon = new Texture ();
+		public Texture itemicon_preview = new Texture ();
 
-		private Text name = new Text ();
-		private Text name_preview = new Text ();
-		private Text desc = new Text ();
-		private Text desc_preview = new Text ();
-		private Text potflag = new Text ();
-		private Text potflag_preview = new Text ();
-		private Text category = new Text ();
-		private Text category_preview = new Text ();
-		private Text wepspeed = new Text ();
-		private Text wepspeed_preview = new Text ();
-		private Text slots = new Text ();
-		private Text slots_preview = new Text ();
-		private Text hammers = new Text ();
-		private Text hammers_preview = new Text ();
-		private Text atkinc = new Text ();
-		private Text atkinc_preview = new Text ();
-		private EnumMap<EquipStat.Id, Text> statlabels = new EnumMap<EquipStat.Id, Text> ();
-		private EnumMap<EquipStat.Id, Text> statlabels_preview = new EnumMap<EquipStat.Id, Text> ();
+		public Text name = new Text ();
+		public Text name_preview = new Text ();
+		public Text desc = new Text ();
+		public Text desc_preview = new Text ();
+		public Text potflag = new Text ();
+		public Text potflag_preview = new Text ();
+		public Text category = new Text ();
+		public Text category_preview = new Text ();
+		public Text wepspeed = new Text ();
+		public Text wepspeed_preview = new Text ();
+		public Text slots = new Text ();
+		public Text slots_preview = new Text ();
+		public Text hammers = new Text ();
+		public Text hammers_preview = new Text ();
+		public Text atkinc = new Text ();
+		public Text atkinc_preview = new Text ();
+		public EnumMap<EquipStat.Id, Text> statlabels = new EnumMap<EquipStat.Id, Text> ();
+		public EnumMap<EquipStat.Id, Text> statlabels_preview = new EnumMap<EquipStat.Id, Text> ();
 
-		private Texture top = new Texture ();
-		private Texture mid = new Texture ();
-		private Texture line = new Texture ();
-		private Texture bot = new Texture ();
-		private Texture baseTexture = new Texture ();
+		public Texture top = new Texture ();
+		public Texture mid = new Texture ();
+		public Texture line = new Texture ();
+		public Texture bot = new Texture ();
+		public Texture baseTexture = new Texture ();
 
-		private EnumMap<Equip.Potential, Texture> potential = new EnumMap<Equip.Potential, Texture> ();
-		private Equip.Potential prank;
-		private Equip.Potential prank_preview;
+		public EnumMap<Equip.Potential, Texture> potential = new EnumMap<Equip.Potential, Texture> ();
+		public Equip.Potential prank;
+		public Equip.Potential prank_preview;
 
-		private Texture cover = new Texture ();
-		private Texture itemcover = new Texture ();
-		private BoolPairNew<Texture> type = new BoolPairNew<Texture> ();
+		public Texture cover = new Texture ();
+		public Texture itemcover = new Texture ();
+		public BoolPairNew<Texture> type = new BoolPairNew<Texture> ();
 
-		private List<MapleStat.Id> requirements = new List<MapleStat.Id> ();
-		private EnumMapNew<MapleStat.Id, BoolPairNew<Texture>> reqstattextures = new EnumMapNew<MapleStat.Id, BoolPairNew<Texture>> ();
-		private EnumMap<MapleStat.Id, bool> canequip = new EnumMap<MapleStat.Id, bool> ();
-		private EnumMap<MapleStat.Id, bool> canequip_preview = new EnumMap<MapleStat.Id, bool> ();
-		private EnumMap<MapleStat.Id, Point_short> reqstatpositions = new EnumMap<MapleStat.Id, Point_short> ();
-		private BoolPairNew<Charset> reqset = new BoolPairNew<Charset> ();
-		private BoolPairNew<Charset> lvset = new BoolPairNew<Charset> ();
-		private BoolPairNew<Charset> atkincset = new BoolPairNew<Charset> ();
+		public List<MapleStat.Id> requirements = new List<MapleStat.Id> ();
+		public EnumMapNew<MapleStat.Id, BoolPairNew<Texture>> reqstattextures = new EnumMapNew<MapleStat.Id, BoolPairNew<Texture>> ();
+		public EnumMap<MapleStat.Id, bool> canequip = new EnumMap<MapleStat.Id, bool> ();
+		public EnumMap<MapleStat.Id, bool> canequip_preview = new EnumMap<MapleStat.Id, bool> ();
+		public EnumMap<MapleStat.Id, Point_short> reqstatpositions = new EnumMap<MapleStat.Id, Point_short> ();
+		public BoolPairNew<Charset> reqset = new BoolPairNew<Charset> ();
+		public BoolPairNew<Charset> lvset = new BoolPairNew<Charset> ();
+		public BoolPairNew<Charset> atkincset = new BoolPairNew<Charset> ();
 
-		private Texture jobsback = new Texture ();
-		private BoolPairNew<SortedDictionary<byte, Texture>> jobs = new BoolPairNew<SortedDictionary<byte, Texture>> (new SortedDictionary<byte, Texture> (), new SortedDictionary<byte, Texture> ());
-		private List<byte> okjobs = new List<byte> ();
-		private List<byte> okjobs_preview = new List<byte> ();
+		public Texture jobsback = new Texture ();
+		public BoolPairNew<SortedDictionary<byte, Texture>> jobs = new BoolPairNew<SortedDictionary<byte, Texture>> (new SortedDictionary<byte, Texture> (), new SortedDictionary<byte, Texture> ());
+		public List<byte> okjobs = new List<byte> ();
+		public List<byte> okjobs_preview = new List<byte> ();
 	}
 }
 

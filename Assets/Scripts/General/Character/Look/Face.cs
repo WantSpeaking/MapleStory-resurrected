@@ -76,7 +76,7 @@ namespace ms
 
 				if (exp == Expression.Id.DEFAULT)
 				{
-					expressions[(int)Expression.Id.DEFAULT].Add (0, new Frame (face_00020000img["default"]));
+					expressions[(int)Expression.Id.DEFAULT].Add (0, new Frame (face_00020000img["default"], "Player"));
 				}
 				else
 				{
@@ -88,7 +88,7 @@ namespace ms
 						{
 							byte.TryParse (property_face_00020000img_angry_0.Name, out var tempKey);
 
-							expressions[(int)exp][tempKey] = new Frame (property_face_00020000img_angry_0);
+							expressions[(int)exp][tempKey] = new Frame (property_face_00020000img_angry_0, "Player");
 							//expressions[(int)exp].Add (tempKey, new Frame (property_face_00020000img_angry_0));
 						}
 					}
@@ -102,16 +102,16 @@ namespace ms
 
 			name = ms.wz.wzFile_string["Eqp.img"]["Eqp"]["Face"][Convert.ToString (faceid)]["name"].ToString ();
 		}
-		
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(Expression::Id expression, byte frame, const DrawArgument& args) const
+
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: void draw(Expression::Id expression, byte frame, const DrawArgument& args) const
 		public void draw (Expression.Id expression, byte frame, DrawArgument args, bool drawOrErase = true)
 		{
-			
+
 			Frame frameit = null;
 			expressions[(int)expression]?.TryGetValue (frame, out frameit);
-			
+
 			if (drawOrErase)
 			{
 				frameit?.texture.draw (args);
@@ -121,24 +121,24 @@ namespace ms
 				frameit?.texture.erase ();
 			}
 
-/*//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
-			if (frameit != expressions[(int)expression].end())
-			{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
-				frameit.second.texture.draw(args);
-			}*/
+			/*//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
+						if (frameit != expressions[(int)expression].end())
+						{
+			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
+							frameit.second.texture.draw(args);
+						}*/
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: byte nextframe(Expression::Id exp, byte frame) const
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: byte nextframe(Expression::Id exp, byte frame) const
 		public byte nextframe (Expression.Id exp, byte frame)
 		{
 			var tempFrame = (byte)(frame + 1);
 			return expressions[(int)exp].ContainsKey (tempFrame) ? tempFrame : (byte)0;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: short get_delay(Expression::Id exp, byte frame) const
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: short get_delay(Expression::Id exp, byte frame) const
 		public short get_delay (Expression.Id exp, byte frame)
 		{
 			var delayit = (ushort)100;
@@ -153,8 +153,8 @@ namespace ms
 			return delayit != expressions[(int)exp].end() ? delayit.second.delay : 100;*/
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: const string& get_name() const
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: const string& get_name() const
 		public string get_name ()
 		{
 			return name;
@@ -164,10 +164,18 @@ namespace ms
 		{
 			public Texture texture = new Texture ();
 			public ushort delay;
-
+			public Frame (WzObject src, string layerMaskName)
+			{
+				Init (src, layerMaskName);
+			}
 			public Frame (WzObject src)
 			{
-				texture = new Texture (src["face"]);
+				Init (src);
+			}
+
+			private void Init (WzObject src, string layerMaskName = "Default")
+			{
+				texture = new Texture (src["face"], layerMaskName);
 
 				Point_short shift = src["face"]?["map"]?["brow"]?.GetPoint ().ToMSPoint () ?? Point_short.zero;
 				if (src.FullPath.Contains ("default"))

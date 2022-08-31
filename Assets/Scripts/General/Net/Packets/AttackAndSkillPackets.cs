@@ -17,6 +17,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
+using constants.skills;
 using ms.Helper;
 
 namespace ms
@@ -56,6 +57,10 @@ namespace ms
 				write_byte(attack.toleft.ToSByte ());
 				skip(7);
 				// TODO: skip(4); If hurricane, piercing arrow or rapidfire.
+				if (attack.skill == Bowmaster.HURRICANE || attack.skill == Marksman.PIERCING_ARROW || attack.skill == Corsair.RAPID_FIRE || attack.skill == WindArcher.HURRICANE)
+				{
+					skip (4);
+				}
 			}
 			else
 			{
@@ -139,6 +144,29 @@ namespace ms
 			}
 
 			// TODO: A point (4 bytes) could be added at the end
+		}
+	}
+
+	//Skill_Effect 93
+	public class SkillEffectPacket : OutPacket
+	{
+		public SkillEffectPacket (int skillid, int level, sbyte flags,int speed, sbyte aids) : base ((short)OutPacket.Opcode.Skill_Effect)
+		{
+			write_int (skillid);
+			write_byte ((sbyte)level);
+			write_byte (flags);
+			write_int (speed);
+			write_byte (aids);
+
+		}
+	}
+
+	//Cancel_Buff 92
+	public class Cancel_BuffPacket : OutPacket
+	{
+		public Cancel_BuffPacket (int skillid) : base ((short)OutPacket.Opcode.Cancel_Buff)
+		{
+			write_int (skillid);
 		}
 	}
 }

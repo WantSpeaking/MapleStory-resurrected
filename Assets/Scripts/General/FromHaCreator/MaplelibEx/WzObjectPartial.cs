@@ -186,26 +186,26 @@ namespace MapleLib.WzLib
 		{
 			//return GetBitmap ()?.isValid ?? false;
 
-            return GetBitmapConsideringLink() != null;
-            //return GetPngDataConsideringLink(out var pngInfo) != null;
-            //return this is WzCanvasProperty;//todo why wzObject IsTexture ,texture may be WzCanvasProperty,may be subProperty, has a child WzUolProperty
-        }
+			return GetBitmapConsideringLink () != null;
+			//return GetPngDataConsideringLink(out var pngInfo) != null;
+			//return this is WzCanvasProperty;//todo why wzObject IsTexture ,texture may be WzCanvasProperty,may be subProperty, has a child WzUolProperty
+		}
 
-        //private static List< WzImageProperty> emptyWzImagePropertyList = new List<WzImageProperty>();
-        public IEnumerator<WzImageProperty> GetEnumerator ()
+		private static List< WzImageProperty> emptyWzImagePropertyList = new List<WzImageProperty>();
+		public IEnumerator<WzImageProperty> GetEnumerator ()
 		{
 			if (this is WzImage wzImage)
 			{
 				return wzImage.WzProperties.GetEnumerator ();
 			}
-			else if (this is WzImageProperty imageProperty)
+			else if (this is WzImageProperty imageProperty && imageProperty.WzProperties != null)
 			{
 				return imageProperty.WzProperties.GetEnumerator ();
 			}
 			else
 			{
-				return default;
-				//return emptyWzImagePropertyList.GetEnumerator();
+				//return default;
+				return emptyWzImagePropertyList.GetEnumerator();
 			}
 		}
 
@@ -224,7 +224,7 @@ namespace MapleLib.WzLib
 			info = default;
 			return null;
 		}
-        /*public byte[] GetPngDataConsideringLink(out PngInfo pngInfo)
+		/*public byte[] GetPngDataConsideringLink(out PngInfo pngInfo)
         {
             if (this is WzCanvasProperty canvasProperty)
             {
@@ -236,23 +236,23 @@ namespace MapleLib.WzLib
             }
         }*/
 
-        public Bitmap GetBitmapConsideringLink ()
-        {
-	        if (this is WzCanvasProperty canvasProperty)
-	        {
-		        return canvasProperty.GetLinkedWzCanvasBitmap();
-	        }
-	        else if (this is WzPngProperty pngProperty)
-            {
-		        return pngProperty.GetBitmap ();
-	        }
-	        else
-	        {
-		        return GetBitmap();
-	        }
-        }
+		public Bitmap GetBitmapConsideringLink ()
+		{
+			if (this is WzCanvasProperty canvasProperty)
+			{
+				return canvasProperty.GetLinkedWzCanvasBitmap ();
+			}
+			else if (this is WzPngProperty pngProperty)
+			{
+				return pngProperty.GetBitmap ();
+			}
+			else
+			{
+				return GetBitmap ();
+			}
+		}
 
-        public Texture asTexture => new Texture (this);
+		public Texture asTexture => new Texture (this);
 
 	}
 
@@ -312,7 +312,7 @@ namespace MapleLib.WzLib
 			B = b;
 		}
 		public static Color White => new Color (1, 255, 255, 255);
-        public static Color Black => new Color (0, 0, 0, 0);
+		public static Color Black => new Color (0, 0, 0, 0);
 		public static Color FromArgb (int a, int r, int g, int b)
 		{
 			return new Color ((byte)a, (byte)r, (byte)g, (byte)b);

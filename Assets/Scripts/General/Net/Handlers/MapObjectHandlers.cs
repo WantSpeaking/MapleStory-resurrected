@@ -279,8 +279,6 @@ namespace ms
 	// Opcode: SPAWN_MOB_C(238)
 	public class SpawnMobControllerHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
 			sbyte mode = recv.read_byte ();

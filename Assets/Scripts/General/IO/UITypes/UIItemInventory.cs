@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Helper;
+using Loxodon.Framework.Observables;
 using MapleLib.WzLib;
 
 namespace ms
@@ -121,6 +122,8 @@ namespace ms
 			set_full (false);
 			clear_new ();
 			load_icons ();
+
+
 		}
 
 		public override void draw (float alpha)
@@ -224,19 +227,19 @@ namespace ms
 					switch (tab)
 					{
 						case InventoryType.Id.EQUIP:
-						{
-							if (can_wear_equip (slot))
 							{
-								new EquipItemPacket (slot, inventory.find_equipslot (item_id)).dispatch ();
-							}
+								if (can_wear_equip (slot))
+								{
+									new EquipItemPacket (slot, inventory.find_equipslot (item_id)).dispatch ();
+								}
 
-							break;
-						}
+								break;
+							}
 						case InventoryType.Id.USE:
-						{
-							new UseItemPacket (slot, item_id).dispatch ();
-							break;
-						}
+							{
+								new UseItemPacket (slot, item_id).dispatch ();
+								break;
+							}
 					}
 				}
 			}
@@ -328,7 +331,7 @@ namespace ms
 
 					clear_tooltip ();
 
-					AppDebug.Log($"drag_icon:{icon.get_texture ().fullPath}");
+					AppDebug.Log ($"drag_icon:{icon.get_texture ().fullPath}");
 					return Cursor.State.GRABBING;
 				}
 				else if (!ignore_tooltip)
@@ -407,39 +410,39 @@ namespace ms
 				switch ((Inventory.Modification)mode)
 				{
 					case Inventory.Modification.ADD:
-					{
-						update_slot (slot);
-
-						newtab = type;
-						newslot = slot;
-						break;
-					}
-					case Inventory.Modification.CHANGECOUNT:
-					case Inventory.Modification.ADDCOUNT:
-					{
-						var icon = get_icon (slot);
-						if (icon != null)
-						{
-							icon.set_count (arg);
-						}
-
-						break;
-					}
-					case Inventory.Modification.SWAP:
-					{
-						if (arg != slot)
 						{
 							update_slot (slot);
-							update_slot (arg);
-						}
 
-						break;
-					}
+							newtab = type;
+							newslot = slot;
+							break;
+						}
+					case Inventory.Modification.CHANGECOUNT:
+					case Inventory.Modification.ADDCOUNT:
+						{
+							var icon = get_icon (slot);
+							if (icon != null)
+							{
+								icon.set_count (arg);
+							}
+
+							break;
+						}
+					case Inventory.Modification.SWAP:
+						{
+							if (arg != slot)
+							{
+								update_slot (slot);
+								update_slot (arg);
+							}
+
+							break;
+						}
 					case Inventory.Modification.REMOVE:
-					{
-						update_slot (slot);
-						break;
-					}
+						{
+							update_slot (slot);
+							break;
+						}
 				}
 			}
 
@@ -447,22 +450,22 @@ namespace ms
 			{
 				case Inventory.Modification.ADD:
 				case Inventory.Modification.ADDCOUNT:
-				{
-					newtab = type;
-					newslot = slot;
-					break;
-				}
+					{
+						newtab = type;
+						newslot = slot;
+						break;
+					}
 				case Inventory.Modification.CHANGECOUNT:
 				case Inventory.Modification.SWAP:
 				case Inventory.Modification.REMOVE:
-				{
-					if (newslot == slot && newtab == type)
 					{
-						clear_new ();
-					}
+						if (newslot == slot && newtab == type)
+						{
+							clear_new ();
+						}
 
-					break;
-				}
+						break;
+					}
 			}
 		}
 
@@ -524,62 +527,62 @@ namespace ms
 			switch ((Buttons)buttonid)
 			{
 				case Buttons.BT_CLOSE:
-				{
-					toggle_active ();
+					{
+						toggle_active ();
 
-					return Button.State.NORMAL;
-				}
+						return Button.State.NORMAL;
+					}
 				case Buttons.BT_TAB_EQUIP:
-				{
-					tab = InventoryType.Id.EQUIP;
-					break;
-				}
+					{
+						tab = InventoryType.Id.EQUIP;
+						break;
+					}
 				case Buttons.BT_TAB_USE:
-				{
-					tab = InventoryType.Id.USE;
-					break;
-				}
+					{
+						tab = InventoryType.Id.USE;
+						break;
+					}
 				case Buttons.BT_TAB_SETUP:
-				{
-					tab = InventoryType.Id.SETUP;
-					break;
-				}
+					{
+						tab = InventoryType.Id.SETUP;
+						break;
+					}
 				case Buttons.BT_TAB_ETC:
-				{
-					tab = InventoryType.Id.ETC;
-					break;
-				}
+					{
+						tab = InventoryType.Id.ETC;
+						break;
+					}
 				case Buttons.BT_TAB_CASH:
-				{
-					tab = InventoryType.Id.CASH;
-					break;
-				}
+					{
+						tab = InventoryType.Id.CASH;
+						break;
+					}
 				case Buttons.BT_GATHER:
 				case Buttons.BT_GATHER_SM:
-				{
-					new GatherItemsPacket (tab).dispatch ();
-					break;
-				}
+					{
+						new GatherItemsPacket (tab).dispatch ();
+						break;
+					}
 				case Buttons.BT_SORT:
 				case Buttons.BT_SORT_SM:
-				{
-					new SortItemsPacket (tab).dispatch ();
-					break;
-				}
+					{
+						new SortItemsPacket (tab).dispatch ();
+						break;
+					}
 				case Buttons.BT_FULL:
 				case Buttons.BT_FULL_SM:
-				{
-					set_full (true);
+					{
+						set_full (true);
 
-					return Button.State.NORMAL;
-				}
+						return Button.State.NORMAL;
+					}
 				case Buttons.BT_SMALL:
 				case Buttons.BT_SMALL_SM:
-				{
-					set_full (false);
+					{
+						set_full (false);
 
-					return Button.State.NORMAL;
-				}
+						return Button.State.NORMAL;
+					}
 				case Buttons.BT_COIN:
 				case Buttons.BT_COIN_SM:
 				case Buttons.BT_POINT:
@@ -597,9 +600,9 @@ namespace ms
 				case Buttons.BT_TOAD:
 				case Buttons.BT_TOAD_SM:
 				case Buttons.BT_CASHSHOP:
-				{
-					return Button.State.NORMAL;
-				}
+					{
+						return Button.State.NORMAL;
+					}
 			}
 
 			if (tab != oldtab)
@@ -668,7 +671,7 @@ namespace ms
 
 				bool untradable = ItemData.get (item_id).is_untradable ();
 				bool cashitem = ItemData.get (item_id).is_cashitem ();
-				Texture texture = new Texture(ItemData.get (item_id).get_icon (false));
+				Texture texture = new Texture (ItemData.get (item_id).get_icon (false));
 				EquipSlot.Id eqslot = inventory.find_equipslot (item_id);
 
 				icons[slot] = new Icon (new ItemIcon (this, tab, eqslot, slot, item_id, count, untradable, cashitem), texture, count);
@@ -698,7 +701,7 @@ namespace ms
 			}
 		}
 
-		private bool can_wear_equip (short slot)
+		public bool can_wear_equip (short slot)
 		{
 			Player player = Stage.get ().get_player ();
 			CharStats stats = player.get_stats ();
@@ -722,30 +725,30 @@ namespace ms
 			{
 				// Male
 				case 0:
-				{
-					if (female)
 					{
-						return false;
-					}
+						if (female)
+						{
+							return false;
+						}
 
-					break;
-				}
+						break;
+					}
 				// Female
 				case 1:
-				{
-					if (!female)
 					{
-						return false;
-					}
+						if (!female)
+						{
+							return false;
+						}
 
-					break;
-				}
+						break;
+					}
 				// Unisex
 				case 2:
 				default:
-				{
-					break;
-				}
+					{
+						break;
+					}
 			}
 
 			string jobname = stats.get_jobname ();
@@ -757,7 +760,7 @@ namespace ms
 
 			short reqJOB = equipdata.get_reqstat (MapleStat.Id.JOB);
 
-			if (!stats.get_job ().is_sub_job ((ushort)reqJOB))
+			if (!stats.get_job ().is_EquipRequiredJob ((ushort)reqJOB))
 			{
 				UI.get ().emplace<UIOk> ("Your current job\\ncannot equip the selected item.", null);
 				return false;
@@ -931,146 +934,35 @@ namespace ms
 			load_icons ();
 		}
 
-		private class ItemIcon : Icon.Type
+		public override void OnAdd ()
 		{
-			public ItemIcon (UIItemInventory parent, InventoryType.Id st, EquipSlot.Id eqs, short s, int iid, short c, bool u, bool cash)
-			{
-				this.parent = parent;
-				sourcetab = st;
-				eqsource = eqs;
-				source = s;
-				item_id = iid;
-				count = c;
-				untradable = u;
-				cashitem = cash;
-			}
 
-			public override void drop_on_stage ()
-			{
-				const string dropmessage = "How many will you drop?";
-				const string untradablemessage = "This item can't be taken back once thrown away.\\nWill you still drop it?";
-				const string cashmessage = "You can't drop this item.";
-
-				if (cashitem)
-				{
-					UI.get ().emplace<UIOk> (cashmessage, null);
-				}
-				else
-				{
-					if (untradable)
-					{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Lambda expressions cannot be assigned to 'var':
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Only lambda expressions having all locals passed by reference can be converted to C#:
-//ORIGINAL LINE: var onok = [&, dropmessage](bool ok)
-						Action<bool> onok = (bool ok) =>
-						{
-							if (ok)
-							{
-								if (count <= 1)
-								{
-									new MoveItemPacket (sourcetab, source, 0, 1).dispatch ();
-								}
-								else
-								{
-									Action<int> onenter = (int qty) => { new MoveItemPacket (sourcetab, source, 0, (short)qty).dispatch (); };
-
-									UI.get ().emplace<UIEnterNumber> (dropmessage, onenter, count, count);
-								}
-							}
-						};
-
-						UI.get ().emplace<UIYesNo> (untradablemessage, onok);
-					}
-					else
-					{
-						if (count <= 1)
-						{
-							new MoveItemPacket (sourcetab, source, 0, 1).dispatch ();
-						}
-						else
-						{
-							Action<int> onenter = (int qty) => { new MoveItemPacket (sourcetab, source, 0, (short)qty).dispatch (); };
-
-							UI.get ().emplace<UIEnterNumber> (dropmessage, onenter, count, count);
-						}
-					}
-				}
-			}
-
-			public override void drop_on_equips (EquipSlot.Id eqslot)
-			{
-				switch (sourcetab)
-				{
-					case InventoryType.Id.EQUIP:
-					{
-						if (eqsource == eqslot)
-						{
-							if (parent.can_wear_equip (source))
-							{
-								new EquipItemPacket (source, eqslot).dispatch ();
-							}
-						}
-
-						new Sound (Sound.Name.DRAGEND).play ();
-						break;
-					}
-					case InventoryType.Id.USE:
-					{
-						new ScrollEquipPacket (source, eqslot).dispatch ();
-						break;
-					}
-				}
-			}
-
-			public override bool drop_on_items (InventoryType.Id tab, EquipSlot.Id eqslot, short slot, bool equip)
-			{
-				if (tab != sourcetab || slot == source)
-				{
-					return true;
-				}
-
-				new MoveItemPacket (tab, source, slot, 1).dispatch ();
-
-				return true;
-			}
-
-			public override void drop_on_bindings (Point_short cursorposition, bool remove)
-			{
-				if (sourcetab == InventoryType.Id.USE || sourcetab == InventoryType.Id.SETUP)
-				{
-					var keyconfig = UI.get ().get_element<UIKeyConfig> ();
-					Keyboard.Mapping mapping = new Keyboard.Mapping (KeyType.Id.ITEM, item_id);
-
-					if (remove)
-					{
-						keyconfig.get ().unstage_mapping (mapping);
-					}
-					else
-					{
-						keyconfig.get ().stage_mapping (cursorposition, mapping);
-					}
-				}
-			}
-
-			public override void set_count (short c)
-			{
-				count = c;
-			}
-
-			public override Icon.IconType get_type ()
-			{
-				return Icon.IconType.ITEM;
-			}
-
-			private InventoryType.Id sourcetab;
-			private EquipSlot.Id eqsource;
-			private short source;
-			private int item_id;
-			private short count;
-			private bool untradable;
-			private bool cashitem;
-			private readonly UIItemInventory parent;
 		}
+		public override void OnRemove ()
+		{
+
+
+		}
+
+		public override void OnActivityChange (bool isActiveAfterChange)
+		{
+			if (isActiveAfterChange)
+			{
+				//ms_Unity.Launcher.Instance.Open<ms_Unity.InventoryWindow> ();
+				//ms_Unity.Launcher.Instance.OpenNew<ms_Unity.InventoryWindow> ();
+				ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_Inventory> ();
+				//AppDebug.Log ("OnAdd FGUI_Inventory");
+			}
+			else
+			{
+				//ms_Unity.Launcher.Instance.Open<ms_Unity.InventoryWindow> ();
+				//ms_Unity.Launcher.Instance.OpenNew<ms_Unity.InventoryWindow> ();
+				ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_Inventory> ();
+				//AppDebug.Log ("OnRemove FGUI_Inventory");
+
+			}
+		}
+
 
 		private const ushort ROWS = 8;
 		private const ushort COLUMNS = 4;
@@ -1124,7 +1016,7 @@ namespace ms
 		private Text maplepointslabel = new Text ();
 		private Slider slider = new Slider ();
 
-		private SortedDictionary<short, Icon> icons = new SortedDictionary<short, Icon> ();
+		private ObservableSortedDictionary<short, Icon> icons = new ObservableSortedDictionary<short, Icon> ();
 		private SortedDictionary<InventoryType.Id, System.ValueTuple<short, short>> slotrange = new SortedDictionary<InventoryType.Id, System.ValueTuple<short, short>> ();
 
 		private InventoryType.Id tab;
@@ -1142,5 +1034,149 @@ namespace ms
 		private Texture full_backgrnd3;
 		private Point_short bg_dimensions;
 		private Point_short bg_full_dimensions;
+	}
+
+	public class ItemIcon : Icon.Type
+	{
+		public ItemIcon (UIItemInventory parent, InventoryType.Id st, EquipSlot.Id eqs, short s, int iid, short c, bool u, bool cash)
+		{
+			this.parent = parent;
+			sourcetab = st;
+			eqsource = eqs;
+			source = s;
+			item_id = iid;
+			count = c;
+			untradable = u;
+			cashitem = cash;
+		}
+
+		public override void drop_on_stage ()
+		{
+			const string dropmessage = "How many will you drop?";
+			const string untradablemessage = "This item can't be taken back once thrown away.\\nWill you still drop it?";
+			const string cashmessage = "You can't drop this item.";
+
+			if (cashitem)
+			{
+				//UI.get ().emplace<UIOk> (cashmessage, null);
+				ms_Unity.FGUI_OK.ShowNotice (cashmessage);
+			}
+			else
+			{
+				if (untradable)
+				{
+					Action<bool> onok = (bool ok) =>
+					{
+						if (ok)
+						{
+							if (count <= 1)
+							{
+								new MoveItemPacket (sourcetab, source, 0, 1).dispatch ();
+							}
+							else
+							{
+								Action<int> onenter = (int qty) => { new MoveItemPacket (sourcetab, source, 0, (short)qty).dispatch (); };
+
+								//UI.get ().emplace<UIEnterNumber> (dropmessage, onenter, count, count);
+								ms_Unity.FGUI_EnterNumber.ShowNotice (dropmessage, numhandler: onenter, max: count, count: count);
+							}
+						}
+					};
+
+					//UI.get ().emplace<UIYesNo> (untradablemessage, onok);
+					ms_Unity.FGUI_YesNo.ShowNotice (untradablemessage, yesnohandler: onok, max: count, count: count);
+
+				}
+				else
+				{
+					if (count <= 1)
+					{
+						new MoveItemPacket (sourcetab, source, 0, 1).dispatch ();
+					}
+					else
+					{
+						Action<int> onenter = (int qty) => { new MoveItemPacket (sourcetab, source, 0, (short)qty).dispatch (); };
+
+						//UI.get ().emplace<UIEnterNumber> (dropmessage, onenter, count, count);
+
+						ms_Unity.FGUI_EnterNumber.ShowNotice (dropmessage, numhandler: onenter, max: count, count: count);
+					}
+				}
+			}
+		}
+
+		public override void drop_on_equips (EquipSlot.Id eqslot)
+		{
+			switch (sourcetab)
+			{
+				case InventoryType.Id.EQUIP:
+					{
+						if (eqsource == eqslot)
+						{
+							if (parent.can_wear_equip (source))
+							{
+								new EquipItemPacket (source, eqslot).dispatch ();
+							}
+						}
+
+						new Sound (Sound.Name.DRAGEND).play ();
+						break;
+					}
+				case InventoryType.Id.USE:
+					{
+						new ScrollEquipPacket (source, eqslot).dispatch ();
+						break;
+					}
+			}
+		}
+
+		public override bool drop_on_items (InventoryType.Id tab, EquipSlot.Id eqslot, short slot, bool equip)
+		{
+			if (tab != sourcetab || slot == source)
+			{
+				return true;
+			}
+
+			new MoveItemPacket (tab, source, slot, 1).dispatch ();
+
+			return true;
+		}
+
+		public override void drop_on_bindings (Point_short cursorposition, bool remove)
+		{
+			if (sourcetab == InventoryType.Id.USE || sourcetab == InventoryType.Id.SETUP)
+			{
+				var keyconfig = UI.get ().get_element<UIKeyConfig> ();
+				Keyboard.Mapping mapping = new Keyboard.Mapping (KeyType.Id.ITEM, item_id);
+
+				if (remove)
+				{
+					keyconfig.get ().unstage_mapping (mapping);
+				}
+				else
+				{
+					keyconfig.get ().stage_mapping (cursorposition, mapping);
+				}
+			}
+		}
+
+		public override void set_count (short c)
+		{
+			count = c;
+		}
+
+		public override Icon.IconType get_type ()
+		{
+			return Icon.IconType.ITEM;
+		}
+
+		private InventoryType.Id sourcetab;
+		private EquipSlot.Id eqsource;
+		private short source;
+		private int item_id;
+		private short count;
+		private bool untradable;
+		private bool cashitem;
+		private readonly UIItemInventory parent;
 	}
 }

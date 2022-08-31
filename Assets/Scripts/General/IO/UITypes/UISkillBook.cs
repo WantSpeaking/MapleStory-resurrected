@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Loxodon.Framework.Observables;
 using MapleLib.WzLib;
 
 namespace ms
@@ -138,7 +139,7 @@ namespace ms
 
         public override void draw(float alpha)
         {
-            base.draw_sprites(alpha);
+            /*base.draw_sprites(alpha);
 
             bookicon.draw(position + new Point_short(11, 85));
             booktext.draw(position + new Point_short(173, 59));
@@ -189,7 +190,7 @@ namespace ms
 			}
             //AppDebug.Log($"after position:{position}\t skill_position_l:{skill_position_l}\t skill_position_r:{skill_position_r}");
 
-            /*for (int i = 0; i < 7; i++)
+            *//*for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 5; j++)
                 {
@@ -217,7 +218,7 @@ namespace ms
 
 
                 }
-            }*/
+            }*//*
 
             slider.draw(new Point_short(position));
 
@@ -248,7 +249,7 @@ namespace ms
                 sp_skill.draw(sp_pos + new Point_short(13, 31));
             }
 
-            base.draw_buttons(alpha);
+            base.draw_buttons(alpha);*/
         }
 
         public override void toggle_active()
@@ -272,7 +273,7 @@ namespace ms
 
                 if (skill_level > 0)
                 {
-                    Stage.get().get_combat().use_move(skill_id);
+                    Stage.get().get_combat().use_move(skill_id, true);
                 }
             }
         }
@@ -568,6 +569,18 @@ namespace ms
             return Button.State.NORMAL;
         }
 
+        public override void OnActivityChange (bool isActiveAfterChange)
+        {
+            if (isActiveAfterChange)
+            {
+                ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_SkillBook> ().OnVisiblityChanged(true);
+            }
+            else
+            {
+                ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_SkillBook> ().OnVisiblityChanged (false);
+            }
+        }
+
         private class SkillIcon : StatefulIcon.Type
         {
             public SkillIcon(int id)
@@ -619,7 +632,7 @@ namespace ms
             private int skill_id;
         }
 
-        private class SkillDisplayMeta
+        public class SkillDisplayMeta
         {
             public SkillDisplayMeta(int i, int l)
             {
@@ -631,13 +644,14 @@ namespace ms
                 Texture dtx = new Texture(data.get_icon(SkillData.Icon.DISABLED));
                 Texture motx = new Texture(data.get_icon(SkillData.Icon.MOUSEOVER));
                 icon = new StatefulIcon(new SkillIcon(id), ntx, dtx, motx);
+                nTexture_Icon_Normal = new FairyGUI.NTexture (ntx.texture2D);
 
-                string namestr = data.get_name();
-                string levelstr = Convert.ToString(level);
+                namestr = data.get_name();
+                levelstr = Convert.ToString(level);
 
                 name_text = new Text(Text.Font.A11M, Text.Alignment.LEFT, Color.Name.EMPEROR, namestr);
                 level_text = new Text(Text.Font.A11M, Text.Alignment.LEFT, Color.Name.EMPEROR, levelstr);
-
+                descstr = data.get_desc ();
 /*                const ushort MAX_NAME_WIDTH = 97;
                 int overhang = 3;
 
@@ -678,7 +692,32 @@ namespace ms
             private StatefulIcon icon;
             private Text name_text;
             private Text level_text;
-        }
+            string namestr;
+            string levelstr;
+
+            public FairyGUI.NTexture nTexture_Icon_Normal;
+            public string get_namestr ()
+            {
+                return namestr;
+            }
+
+            public string get_levelstr ()
+            {
+                return levelstr;
+            }
+            public string descstr { get; set; }
+			public string get_level_desc ()
+			{
+                return SkillData.get(id)?.get_level_desc(level);
+			}
+
+            public string get_full_desc ()
+			{
+                return @$"{get_level_desc ()} /n {descstr}";
+			}
+      
+
+		}
 
         private void change_job(ushort id)
         {
@@ -692,9 +731,10 @@ namespace ms
             }
 
             change_tab(level - Job.Level.BEGINNER);
+
         }
 
-        private void change_sp()
+        public void change_sp()
         {
             Job.Level joblevel = joblevel_by_tab(tab);
             ushort level = stats.get_stat(MapleStat.Id.LEVEL);
@@ -735,7 +775,7 @@ namespace ms
             set_skillpoint(false);
         }
 
-        private void change_tab(ushort new_tab)
+        public void change_tab(ushort new_tab)
         {
             buttons[(uint)((int)Buttons.BT_TAB0 + tab)].set_state(Button.State.NORMAL);
             buttons[(uint)((int)Buttons.BT_TAB0 + new_tab)].set_state(Button.State.PRESSED);
@@ -758,11 +798,14 @@ namespace ms
                 int masterlevel = skillbook.get_masterlevel(skill_id);
 
                 bool invisible = SkillData.get(skill_id).is_invisible();
-
-                if (invisible /*&& masterlevel == 0*/)
-                {
+				if ((job.isFourthJob() && masterlevel == 0)||(!job.isFourthJob () && invisible))
+				{
                     continue;
                 }
+            /*    if (invisible *//*&& masterlevel == 0*//*)
+                {
+                    continue;
+                }*/
 
                 skills.Add(new SkillDisplayMeta(skill_id, level));
                 skillcount++;
@@ -794,12 +837,12 @@ namespace ms
 
         private void show_skill(int id)
         {
-            int skill_id = id;
+/*            int skill_id = id;
             int level = skillbook.get_level(id);
             int masterlevel = skillbook.get_masterlevel(id);
             long expiration = skillbook.get_expiration(id);
 
-            UI.get().show_skill(Tooltip.Parent.SKILLBOOK, skill_id, level, masterlevel, expiration);
+            UI.get().show_skill(Tooltip.Parent.SKILLBOOK, skill_id, level, masterlevel, expiration);*/
         }
 
         private void clear_tooltip()
@@ -807,7 +850,7 @@ namespace ms
             UI.get().clear_tooltip(Tooltip.Parent.SKILLBOOK);
         }
 
-        private bool can_raise(int skill_id)
+        public bool can_raise(int skill_id)
         {
             Job.Level joblevel = joblevel_by_tab(tab);
 
@@ -893,7 +936,7 @@ namespace ms
             }
         }
 
-        private void spend_sp(int skill_id)
+        public void spend_sp(int skill_id)
         {
             new SpendSpPacket(skill_id).dispatch();
 
@@ -1036,7 +1079,12 @@ namespace ms
             }
         }
 
-        private enum Buttons : ushort
+        ms_Unity.FGUI_SkillBook fGUI_SkillBook;
+        public void Set_FGUI_SkillBook(ms_Unity.FGUI_SkillBook fGUI_SkillBook)
+		{
+            this.fGUI_SkillBook = fGUI_SkillBook;
+        }
+        public enum Buttons : ushort
         {
             BT_CLOSE,
             BT_HYPER,
@@ -1085,9 +1133,9 @@ namespace ms
         private Texture line = new Texture();
         private Texture bookicon = new Texture();
         private Text booktext = new Text();
-        private Text splabel = new Text();
+        public Text splabel = new Text();
 
-        private Job job = new Job();
+        public Job job = new Job();
         private short sp;
         private short beginner_sp;
 
@@ -1095,7 +1143,8 @@ namespace ms
         private ushort skillcount;
         private ushort offset;
 
-        private List<SkillDisplayMeta> skills = new List<SkillDisplayMeta>();
+        public ObservableList<SkillDisplayMeta> skills = new ObservableList<SkillDisplayMeta>();
+        
         private bool grabbing;
 
         private Point_short bg_dimensions = new Point_short();
@@ -1121,7 +1170,3 @@ namespace ms
         private int sp_masterlevel;
     }
 }
-
-
-#if USE_NX
-#endif

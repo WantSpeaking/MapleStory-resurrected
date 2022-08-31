@@ -131,7 +131,7 @@ namespace ms
 
 			if (index < NON_WEAPON_TYPES)
 			{
-				type = weaponTypes[index];
+				type = types[index];
 				eqslot = equipslots[index];
 			}
 			else if (index >= WEAPON_OFFSET && index < WEAPON_OFFSET + WEAPON_TYPES)

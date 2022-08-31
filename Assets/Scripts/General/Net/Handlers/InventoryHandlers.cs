@@ -48,16 +48,11 @@ namespace ms
 	// Handler for a packet which modifies the player's inventory
 	public class ModifyInventoryHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
 			recv.read_bool (); // 'updatetick'
 
 			Inventory inventory = Stage.get ().get_player ().get_inventory ();
-
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# does not allow declaring types within methods:
-
 
 			List<Mod> mods = new List<Mod> ();
 

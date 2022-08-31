@@ -80,6 +80,8 @@ namespace ms
 			NPC_TALK_MORE = 60,
 			NPC_SHOP_ACTION = 61,
 
+			MESO_DROP = 94,
+
 			/// Player Interaction
 			CHAR_INFO_REQUEST = 97,
 
@@ -97,7 +99,10 @@ namespace ms
 
 			/// Skill
 			USE_SKILL = 91,
+			Cancel_Buff = 92,
+			Skill_Effect = 93,
 
+			//Quest
 			QUEST_ACTION = 107,
 
 			/// Gameplay 2
@@ -214,6 +219,12 @@ namespace ms
 			bytes.AddRange (sbytes);
 		}
 
+		public void write_PLyerPos()
+		{
+			var playerPos = ms.Stage.get ().get_player ().get_position ();
+			write_short (playerPos.x ());
+			write_short (playerPos.y ());
+		}
 		// Function to convert hexadecimal to decimal
 		protected int hex_to_dec (string hexVal)
 		{

@@ -57,7 +57,7 @@ namespace ms
 			}
 
 
-			var backSrcProp = backsrc[$"{src["bS"]}.img"]?[animated ? "ani" : "back"]?[src["no"]?.ToString ()];
+			/*var backSrcProp = backsrc[$"{src["bS"]}.img"]?[animated ? "ani" : "back"]?[src["no"]?.ToString ()];
 			int a = src["a"];
 			bool front = src["front"];
 			BackgroundType type1 = (BackgroundType)(int)src["type"];
@@ -86,11 +86,11 @@ namespace ms
 
 				while ((_frameProp = WzInfoTools.GetRealProperty ((WzImageProperty)backSrcProp[(i++).ToString ()])) != null)
 				{
-					/*	if (_frameProp is WzSubProperty) // issue with 867119250
+					*//*	if (_frameProp is WzSubProperty) // issue with 867119250
 						{
 							frames.AddRange (LoadFrames (texturePool, _frameProp, x, y, device, ref usedProps, null));
 						}
-						else*/
+						else*//*
 					{
 						WzCanvasProperty frameProp;
 
@@ -112,7 +112,7 @@ namespace ms
 						//int delay = (int)InfoTool.GetOptionalInt (frameProp["delay"], 100);
 						frames.Add (ConvertWzCanvasProperty_To_DXObject (frameProp));
 						//bool bLoadedSpine = LoadSpineMapObjectItem ((WzImageProperty)frameProp.Parent, frameProp, device, spineAni);
-						/*bool bLoadedSpine = false;
+						*//*bool bLoadedSpine = false;
 						if (!bLoadedSpine)
 						{
 							if (frameProp.MSTag == null)
@@ -131,10 +131,10 @@ namespace ms
 									ms.Stage.Instance.texturePool.AddTextureToPool (canvasBitmapPath, (Texture2D)frameProp.MSTag);
 								}
 							}
-						}*/
+						}*//*
 						//usedProps.Add (frameProp);
 
-						/*if (frameProp.MSTagSpine != null)
+						*//*if (frameProp.MSTagSpine != null)
 						{
 							WzSpineObject spineObject = (WzSpineObject)frameProp.MSTagSpine;
 							MapleLib.WzLib.PointF origin = frameProp.GetCanvasOriginPosition ();
@@ -154,7 +154,7 @@ namespace ms
 							MapleLib.WzLib.PointF origin = frameProp.GetCanvasOriginPosition ();
 
 							frames.Add (new DXObject (x - (int)origin.X, y - (int)origin.Y, texture, delay));
-						}*/
+						}*//*
 					}
 				}
 
@@ -163,7 +163,7 @@ namespace ms
 					AppDebug.Log ($"{fullPath} frames.Count == 0");
 				}
 				backgroundItem = new BackgroundItem (cx, cy, (int)rx, (int)ry, type1, a, front, frames, flipped, 0);
-			}
+			}*/
 
 		}
 		BackgroundItem backgroundItem;
@@ -174,7 +174,7 @@ namespace ms
 				AppDebug.Log ("");
 			}
 
-			var _tex = src.GetBitmap ().ToTexture2D(GameUtil.get().Game.GraphicsDevice);
+			var _tex = src.GetBitmap ().ToTexture2D (GameUtil.get ().Game.GraphicsDevice);
 
 			var pivot = (Point_short)src["origin"];
 
@@ -252,7 +252,7 @@ namespace ms
 			{
 				for (ty = 0; ty < th; ty += cy)
 				{
-					animation.draw (new DrawArgument (new Point_short ((short)(ix + tx), (short)(iy + ty)), flipped, opacity / 255), alpha);
+					animation.draw (new DrawArgument (new Point_short ((short)(ix + tx), (short)(iy + ty + 200)), flipped, opacity / 255), alpha);
 					counter++;
 				}
 			}
