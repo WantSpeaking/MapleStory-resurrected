@@ -202,7 +202,7 @@ namespace ms
 				}
 				if (player.is_key_down (KeyAction.Id.ATTACK))
 				{
-					combat.use_move (0);
+					combat.use_move (0, true);
 				}
 				if (player.is_key_down (KeyAction.Id.SIT))
 				{

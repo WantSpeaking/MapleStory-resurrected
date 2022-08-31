@@ -273,7 +273,7 @@ namespace ms
 
                 if (skill_level > 0)
                 {
-                    Stage.get().get_combat().use_move(skill_id);
+                    Stage.get().get_combat().use_move(skill_id, true);
                 }
             }
         }
