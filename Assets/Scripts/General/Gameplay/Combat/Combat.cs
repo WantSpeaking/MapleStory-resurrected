@@ -55,7 +55,7 @@ namespace ms
 		private bool canRemoveBulletEffect (BulletEffect mb)
 		{
 			int target_oid = mb.damageeffect.target_oid;
-			AppDebug.Log ($"canRemoveBulletEffect:target_oid:{target_oid}");
+			//AppDebug.Log ($"canRemoveBulletEffect:target_oid:{target_oid}");
 			if (mobs.contains (target_oid))
 			{
 				mb.target = (mobs.get_mob_head_position (target_oid));

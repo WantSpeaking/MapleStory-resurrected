@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using Utility;
 
 public static class ComponentAutoBindToolUtility
 {

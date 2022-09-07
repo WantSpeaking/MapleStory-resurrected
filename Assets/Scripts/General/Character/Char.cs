@@ -2,10 +2,9 @@
 
 using System;
 using System.Collections.Generic;
-
-
-
-
+using NodeCanvas.BehaviourTrees;
+using NodeCanvas.Framework;
+using UnityEngine;
 
 namespace ms
 {
@@ -57,10 +56,10 @@ namespace ms
 				color = new Color (Color.Code.CWHITE);
 			}
 
-			look.draw (new DrawArgument (absp, color), alpha);
+			look.draw (new DrawArgument (absp, color).SetParent(MapGameObject), alpha);
 			//look.draw (new DrawArgument (new Point_short (absp), new Color (color),get_layer (), 0), alpha);
 
-			afterimage.draw (look.get_frame (), new DrawArgument (absp, facing_right), alpha);
+			afterimage.draw (look.get_frame (), new DrawArgument (absp, facing_right).SetParent (MapGameObject), alpha);
 
 			if ((bool)ironbody)
 			{
@@ -68,7 +67,7 @@ namespace ms
 				float scale = 1.0f + ibalpha;
 				float opacity = 1.0f - ibalpha;
 
-				look.draw (new DrawArgument (new Point_short (absp), scale, scale, opacity), alpha);
+				look.draw (new DrawArgument (new Point_short (absp), scale, scale, opacity).SetParent (MapGameObject), alpha);
 			}
 
 			foreach (var pet in pets)
@@ -202,7 +201,7 @@ namespace ms
 		{
 			float attackspeed = get_real_attackspeed ();
 
-			effects.add (toshow, new DrawArgument (facing_right), z, attackspeed);
+			effects.add (toshow, new DrawArgument (facing_right).SetParent (MapGameObject), z, attackspeed);
 		}
 
 		public void show_effect_id (CharEffect.Id toshow)
@@ -281,14 +280,14 @@ namespace ms
 				look.set_alerted (5000);
 		}
 
-		public void attack (Stance.Id stance)
+		public void attack (Stance.Id stance, Action onEnd = null, float? duration = null)
 		{
-			look.attack (stance);
+			look.attack (stance, onEnd);
 
 			attacking = true;
 			look.set_alerted (5000);
 		}
-
+	
 		public void attack (bool degenerate)
 		{
 			look.attack (degenerate);
@@ -483,6 +482,10 @@ namespace ms
 			look = (lk);
 			look_preview = (lk);
 			namelabel = new Text (Text.Font.A13M, Text.Alignment.CENTER, Color.Name.WHITE, Text.Background.NAMETAG, name);
+
+			behaviorTreeOwner = MapGameObject.AddComponent<BehaviourTreeOwner> ();
+			behaviorTreeOwner.blackboard = MapGameObject.AddComponent<Blackboard> ();
+			behaviorTreeOwner.repeat = false;
 		}
 
 		public CharLook look = new CharLook ();
@@ -504,9 +507,21 @@ namespace ms
 
 		private TimedBool ironbody = new TimedBool ();
 		private LinkedList<DamageNumber> damagenumbers = new LinkedList<DamageNumber> ();
+
+		BehaviourTreeOwner behaviorTreeOwner;
+
+		private string skillBTreePath = "SkillBTree/Skill_";
+		private Dictionary<string, Graph> skillBTreePool = new Dictionary<string, Graph> ();
+		public void PlaySkillBTree (string skillId)
+		{
+			if (!skillBTreePool.TryGetValue (skillId, out var externalBehaviorTree))
+			{
+				externalBehaviorTree = Resources.Load<Graph> ($"{skillBTreePath}{skillId}");
+				skillBTreePool.Add (skillId, externalBehaviorTree);
+			}
+
+			behaviorTreeOwner.graph = externalBehaviorTree;
+			behaviorTreeOwner.StartBehaviour ();
+		}
 	}
 }
-
-
-#if USE_NX
-#endif

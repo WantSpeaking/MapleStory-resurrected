@@ -42,7 +42,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 		return result;
 	}
 
-	public void TryDraw (ms.Texture texture, Bitmap pnginfo, Vector3 pos, Vector3 scale)
+	public void TryDraw (ms.Texture texture, Bitmap pnginfo, Vector3 pos, Vector3 scale, GameObject drawParent)
 	{
 		GameObject gobj = TryGetGObj (texture);
 		if (gobj == null || pnginfo == null)
@@ -51,6 +51,10 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 		}
 		if ((bool)gobj)
 		{
+			if (drawParent != null)
+			{
+				gobj.SetParent (drawParent.transform);
+			}
 			gobj.transform.position = pos;
 			gobj.transform.localScale = new Vector3 ((float)pnginfo.Width * scale.x, (float)pnginfo.Height * scale.y, 1f);
 			Singleton<GameUtil>.Instance.DrawOrder--;

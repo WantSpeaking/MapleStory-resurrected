@@ -19,8 +19,6 @@ namespace ms
 
 		public Sprite (WzObject src, DrawArgument args)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: this.animation = new ms.Animation(src);
 			this.animation = new ms.Animation (src);
 			this.stateargs = new DrawArgument(args);
 		}

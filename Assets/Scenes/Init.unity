@@ -1027,6 +1027,8 @@ MonoBehaviour:
   enable_DrawAttackRange: 0
   enable_DrawMobRange: 1
   AddToParent: 1
+  viewx: 0
+  viewy: 0
   placeholder0: 
   placeholder1: 
   placeholder2: 
@@ -1108,7 +1110,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 609587583}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63652bd047b00974196b8728c16ceacc, type: 3}
+  m_Script: {fileID: 11500000, guid: f05eaceeebe870a4595e51f998ed518b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Skin: {fileID: 0}

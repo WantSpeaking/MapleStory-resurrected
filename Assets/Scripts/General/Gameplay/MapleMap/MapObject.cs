@@ -1,4 +1,4 @@
-﻿
+﻿using UnityEngine;
 
 
 
@@ -7,11 +7,14 @@ namespace ms
 	// Base for objects on a map, e.g., Mobs, NPCs, Characters, etc.
 	public abstract class MapObject : System.IDisposable
 	{
+		public GameObject MapGameObject;
 		protected MapObject(int o, Point_short p )
 		{
 			this.oid = o;
 			set_position (new Point_short (p));
 			active = true;
+			MapGameObject = new GameObject ($"{GetType().Name}_{oid}");
+			//MapGameObject.AddComponent(GetType ());
 		}
 		
 		public virtual void Dispose()

@@ -168,8 +168,6 @@ namespace ms
 		}
 
 		// Return a stance which has been adjusted to the equipped weapon type
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Stance::Id adjust_stance(Stance::Id stance) const
 		public Stance.Id adjust_stance (Stance.Id stance)
 		{
 			if (clothes.TryGetValue (EquipSlot.Id.WEAPON, out var weapon))

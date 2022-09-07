@@ -104,7 +104,7 @@ namespace ms
 					++frame)*/
 						{
 							byte.TryParse (property_Characterwz_00002000img_fly_0.Name, out var frame);
-							bool isaction = property_Characterwz_00002000img_fly_0["action"]?.PropertyType == WzPropertyType.String;
+							bool isaction = property_Characterwz_00002000img_fly_0["action"] != null;
 
 							if (isaction)
 							{
@@ -276,8 +276,6 @@ namespace ms
 							}
 						}
 					}
-
-					int teff;
 				}
 			}
 		}
@@ -386,14 +384,14 @@ namespace ms
 		}
 		public byte next_actionframe (string action, byte frame)
 		{
-			byte attackdelay = 0;
+			byte nextFrame = 0;
 			body_actions.TryGetValue (action, out var actions);
 			if (actions.Any (x => x.Key == frame + 1))
 			{
-				attackdelay = (byte)(frame + 1);
+				nextFrame = (byte)(frame + 1);
 			}
 
-			return attackdelay;
+			return nextFrame;
 
 
 

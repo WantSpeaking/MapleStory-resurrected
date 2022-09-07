@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using constants.skills;
+using UnityEngine;
 
 namespace ms
 {
@@ -50,8 +51,9 @@ namespace ms
 
 			set_state (State.STAND);
 			set_direction (true);
-		}
 
+			
+		}
 		public Player () : base (0, new CharLook (), "")
 		{
 		}
@@ -823,5 +825,7 @@ namespace ms
 		{
 			return StatusStorage.GetLocalStatus (COMBO_StatusSetting);
 		}
+
+
 	}
 }

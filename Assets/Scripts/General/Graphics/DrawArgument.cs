@@ -1,5 +1,5 @@
 ﻿using MapleLib.WzLib;
-
+using UnityEngine;
 
 namespace ms
 {
@@ -93,11 +93,11 @@ namespace ms
 			this.angle = angle;
 		}
 
-        public DrawArgument (short x, short y, float rot, float opacity) : this (new Point_short (x, y))
-        {
-            this.rotation = rot;
-            this.color = new Color (1.0f, 1.0f, 1.0f, opacity);
-        }
+		public DrawArgument (short x, short y, float rot, float opacity) : this (new Point_short (x, y))
+		{
+			this.rotation = rot;
+			this.color = new Color (1.0f, 1.0f, 1.0f, opacity);
+		}
 		/*public DrawArgument (Point_short position, bool flip, float opacity, int sortingLayer, int orderInLayer) : this (position, position, flip ? -1.0f : 1.0f, 1.0f, opacity, sortingLayer, orderInLayer)
 		{
 		}
@@ -189,7 +189,8 @@ namespace ms
 				color = a.color * b.color,
 				angle = a.angle + b.angle,
 				sortingLayer = a.sortingLayer + b.sortingLayer,
-				orderInLayer = a.orderInLayer + b.orderInLayer
+				orderInLayer = a.orderInLayer + b.orderInLayer,
+				DrawParent = a.DrawParent != null ? a.DrawParent : b.DrawParent != null ? b.DrawParent : null,
 			};
 		}
 
@@ -198,12 +199,12 @@ namespace ms
 			return new DrawArgument (
 				a.pos + argpos,
 				a.center + argpos,
-				a.stretch, a.xscale, a.yscale, a.color, a.angle);
+				a.stretch, a.xscale, a.yscale, a.color, a.angle).SetParent(a.DrawParent);
 		}
 
 		public static DrawArgument operator - (DrawArgument a, Point_short argpos)
 		{
-			return new DrawArgument (a.pos - argpos, a.center - argpos, a.stretch, a.xscale, a.yscale, a.color, a.angle);
+			return new DrawArgument (a.pos - argpos, a.center - argpos, a.stretch, a.xscale, a.yscale, a.color, a.angle).SetParent (a.DrawParent);
 			/*return {
 				pos + argpos,
 				center + argpos,
@@ -248,10 +249,10 @@ namespace ms
 			return angle;
 		}
 
-        public float get_rotation ()
-        {
-            return rotation;
-        }
+		public float get_rotation ()
+		{
+			return rotation;
+		}
 		public Rectangle get_rectangle (Point_short origin, Point_short dimensions)
 		{
 			short w = stretch.x ();
@@ -298,8 +299,14 @@ namespace ms
 		private float yscale = 1;
 		private float angle;
 		private Color color;
-        private float rotation;
+		private float rotation;
 
+		public DrawArgument SetParent (GameObject DrawParent)
+		{
+			this.DrawParent = DrawParent;
+			return this;
+		}
+		public GameObject DrawParent;
 		#region to be removed later
 
 		/*public short cx;

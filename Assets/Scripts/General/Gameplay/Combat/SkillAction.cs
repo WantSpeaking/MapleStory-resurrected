@@ -45,7 +45,8 @@ namespace ms
 					break;
 			}
 
-			target.attack (degenerate);
+			//target.attack (degenerate);
+			target.PlaySkillBTree ("Test");
 		}
 	}
 
@@ -113,15 +114,6 @@ namespace ms
 			{
 				target.attack (action);
 			}
-
-			/*var iter = actions.find(level);
-
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
-			if (iter != actions.end())
-			{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Iterators are only converted within the context of 'while' and 'for' loops:
-				target.attack(iter.second);
-			}*/
 		}
 
 		private SortedDictionary<int, string> actions = new SortedDictionary<int, string> ();

@@ -254,15 +254,15 @@ namespace ms
 
             if (action == null)
             {
-                ushort delay = get_delay((Stance.Id)stance.get(), stframe.get());
-                ushort delta = (ushort)(delay - stelapsed);
+                ushort delay = get_delay((Stance.Id)stance.get(), stframe.get());//500
+                ushort delta = (ushort)(delay - stelapsed);//5
 
                 if (timestep >= delta)
                 {
-                    stelapsed = (ushort)(timestep - delta);
+                    stelapsed = (ushort)(timestep - delta);//3
 
                     byte nextframe = getnextframe((Stance.Id)stance.get(), stframe.get());
-                    float threshold = (float)delta / timestep;
+                    float threshold = (float)delta / timestep;//5/8
                     stframe.next(nextframe, threshold);
 
                     if (stframe == 0)
@@ -280,19 +280,19 @@ namespace ms
             }
             else
             {
-                ushort delay = action.get_delay();
-                ushort delta = (ushort)(delay - stelapsed);
+                ushort delay = action.get_delay();//240
+                ushort delta = (ushort)(delay - stelapsed);//5
 
                 if (timestep >= delta)
                 {
-                    stelapsed = (ushort)(timestep - delta);
+                    stelapsed = (ushort)(timestep - delta);//8-5=3
                     actframe = drawinfo.next_actionframe(actionstr, actframe);
 
                     if (actframe > 0)
                     {
                         action = drawinfo.get_action(actionstr, actframe);
 
-                        float threshold = (float)delta / timestep;
+                        float threshold = (float)delta / timestep;//5/8
                         stance.next((short)action.get_stance(), threshold);
                         stframe.next(action.get_frame(), threshold);
                     }
@@ -345,6 +345,11 @@ namespace ms
                 expelapsed += timestep;
             }
 
+			if (aniend)
+			{
+                OnEnd?.Invoke ();
+                OnEnd = null;
+            }
             return aniend;
         }
 
@@ -439,9 +444,10 @@ namespace ms
 
             weapon.get_usesound(degenerate).play();
         }
-
-        public void attack(Stance.Id newstance)
+        Action OnEnd;
+        public void attack(Stance.Id newstance, Action onEnd = null)
         {
+            OnEnd = onEnd;
             if (action != null || newstance == Stance.Id.NONE)
             {
                 return;

@@ -190,7 +190,7 @@ namespace ms
 				{
 				}
 				Vector3 localScale = new Vector3 (args.get_xscale (), -args.get_yscale (), 1f);
-				SingletonMono<TestURPBatcher>.Instance.TryDraw (this, bitmap, position, localScale);
+				SingletonMono<TestURPBatcher>.Instance.TryDraw (this, bitmap, position, localScale, args.DrawParent);
 			}
 		}
 
