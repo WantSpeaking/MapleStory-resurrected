@@ -24,7 +24,7 @@ namespace ms
 			DIE = 10
 		}
 
-		static readonly string[] stancenames = {"move", "stand", "jump", "hit1", "die1", "fly"};
+		static readonly string[] stancenames = { "move", "stand", "jump", "hit1", "die1", "fly" };
 
 		public static string nameof (Stance stance)
 		{
@@ -112,7 +112,7 @@ namespace ms
 			flydirection = FlyDirection.STRAIGHT;
 			counter = 0;
 
-			namelabel = new Text(Text.Font.A13M, Text.Alignment.CENTER, Color.Name.WHITE, Text.Background.NAMETAG, name);
+			namelabel = new Text (Text.Font.A13M, Text.Alignment.CENTER, Color.Name.WHITE, Text.Background.NAMETAG, name);
 
 			if (newspawn)
 			{
@@ -158,11 +158,11 @@ namespace ms
 
 				if (showhp)
 				{
-					namelabel.draw(absp);
+					namelabel.draw (absp);
 
 					if (!dying && hppercent > 0)
 					{
-						hpbar.draw(new Point_short (headpos), hppercent);
+						hpbar.draw (new Point_short (headpos), hppercent);
 					}
 				}
 			}
@@ -380,11 +380,11 @@ namespace ms
 
 				if (delta > 9)
 				{
-					namelabel.change_color(Color.Name.YELLOW);
+					namelabel.change_color (Color.Name.YELLOW);
 				}
 				else if (delta < -9)
 				{
-					namelabel.change_color(Color.Name.RED);
+					namelabel.change_color (Color.Name.RED);
 				}
 			}
 
@@ -426,8 +426,8 @@ namespace ms
 					break;
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: effects.add(animation, DrawArgument(shift, f), z);
+			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
+			//ORIGINAL LINE: effects.add(animation, DrawArgument(shift, f), z);
 			effects.add (animation, new DrawArgument (new Point_short (shift), f), z);
 		}
 
@@ -482,15 +482,15 @@ namespace ms
 		}
 
 		// Apply damage to the mob
-		public void apply_damage (int damage, bool toleft)
+		public void apply_damage (int damage, bool toleft, float hforce = 0, float vforce = 0)
 		{
-			hitsound.play();
+			hitsound.play ();
 
 			if (dying && stance != Stance.DIE)
 			{
 				apply_death ();
 			}
-			else if (control && is_alive () && damage >= knockback)
+			else if (control && is_alive () && damage >= knockback || (hforce != 0 || vforce != 0))
 			{
 				flip = toleft;
 				counter = 170;
@@ -500,6 +500,12 @@ namespace ms
 			}
 		}
 
+		//- is upwards 
+		public void add_Force (float hforce, float vforce)
+		{
+			phobj.hforce += hforce;
+			phobj.vforce += vforce;
+		}
 		// Create a touch damage attack to the player
 		public MobAttack create_touch_attack ()
 		{
@@ -534,8 +540,8 @@ namespace ms
 			return range.overlaps (bounds);
 		}
 
-		public Point_short moveRangeCenter = new Point_short();
-		public Rectangle_short get_Range()
+		public Point_short moveRangeCenter = new Point_short ();
+		public Rectangle_short get_Range ()
 		{
 			return animations[stance].get_bounds (false).shift (moveRangeCenter);
 		}
@@ -599,7 +605,7 @@ namespace ms
 		private void apply_death ()
 		{
 			set_stance (Stance.DIE);
-			diesound.play();
+			diesound.play ();
 			dying = true;
 		}
 
@@ -772,7 +778,7 @@ namespace ms
 		private EffectLayer effects = new EffectLayer ();
 
 		private Text namelabel;
-		private MobHpBar hpbar = new MobHpBar();
+		private MobHpBar hpbar = new MobHpBar ();
 		private Randomizer randomizer = new Randomizer ();
 
 		private TimedBool showhp = new TimedBool ();

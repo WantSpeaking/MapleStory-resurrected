@@ -40,7 +40,7 @@ namespace ms
 	        HaCreator.Program.WzManager = WzManager;
 
 			wzFile_base = add_file("base");
-            wzFile_character = add_file("character");
+            wzFile_character = add_file("character1");
             wzFile_effect = add_file("effect");
             wzFile_etc = add_file("etc");
             wzFile_item = add_file("item");

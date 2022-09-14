@@ -191,8 +191,6 @@ namespace ms
 		}
 
 		// Return the item id of the equip at the specified slot
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int get_equip(EquipSlot::Id slot) const
 		public int get_equip (EquipSlot.Id slot)
 		{
 			if (clothes.TryGetValue (slot, out var cloth) && cloth != null)
@@ -206,8 +204,6 @@ namespace ms
 		}
 
 		// Return the item id of the equipped weapon
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: int get_weapon() const
 		public int get_weapon ()
 		{
 			return get_equip (EquipSlot.Id.WEAPON);

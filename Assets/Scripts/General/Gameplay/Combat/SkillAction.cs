@@ -45,8 +45,8 @@ namespace ms
 					break;
 			}
 
-			//target.attack (degenerate);
-			target.PlaySkillBTree ("Test");
+			target.attack (degenerate);
+			//target.PlaySkillBTree ("Test");
 		}
 	}
 

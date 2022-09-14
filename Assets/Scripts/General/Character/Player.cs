@@ -436,7 +436,7 @@ namespace ms
 			{
 				ushort delay = get_attackdelay (1);
 				phobj.movexuntil (targetx, delay);
-				phobj.set_flag (PhysicsObject.Flag.TURNATEDGES);
+				phobj.set_flag (PhysicsObject.Flag.TURNATEDGES);//turn at edges
 			}
 		}
 

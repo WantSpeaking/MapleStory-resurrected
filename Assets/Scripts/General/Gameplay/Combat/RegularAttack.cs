@@ -1,4 +1,6 @@
-﻿namespace ms
+﻿using NodeCanvas.Framework;
+
+namespace ms
 {
 	public class RegularAttack : SpecialMove
 	{
@@ -89,5 +91,8 @@
 		}
 		private RegularAction action = new RegularAction ();
 		private RegularBullet bullet = new RegularBullet ();
+
+	
+
 	}
 }

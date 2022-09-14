@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -15,7 +16,7 @@ MonoBehaviour:
   Name: Weaponized Mead
   Description: 
   Notes: 
-  Type: 2
+  Type: 1
   Requirements:
     stats: []
   Prefab: {fileID: 0}
@@ -23,7 +24,11 @@ MonoBehaviour:
   ItemRarity: 0
   Durability: 0
   Modifiers:
-    stats: []
+    stats:
+    - Type: 0
+      Value: 100
+    - Type: 1
+      Value: 0
   BaseAttackDamage: 0
   BaseAttackSpeed: 0
   BaseCritChance: 0

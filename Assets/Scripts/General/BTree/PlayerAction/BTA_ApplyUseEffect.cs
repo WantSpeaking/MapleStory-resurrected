@@ -1,3 +1,4 @@
+using ms;
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
 
@@ -6,8 +7,9 @@ namespace ms_Unity
 {
 
 	[Category("PlayerAction")]
-	public class Test2 : ActionTask
+	public class BTA_ApplyUseEffect : ActionTask
 	{
+		private Player player => Stage.get ().get_player ();
 
 		//Use for initialization. This is called only once in the lifetime of the task.
 		//Return null if init was successfull. Return an error string otherwise
@@ -21,7 +23,8 @@ namespace ms_Unity
 		//EndAction can be called from anywhere.
 		protected override void OnExecute()
 		{
-			EndAction(true);
+			
+			EndAction (true);
 		}
 
 		//Called once per frame while the action is active.

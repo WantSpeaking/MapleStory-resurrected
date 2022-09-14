@@ -56,10 +56,10 @@ namespace ms
 				color = new Color (Color.Code.CWHITE);
 			}
 
-			look.draw (new DrawArgument (absp, color).SetParent(MapGameObject), alpha);
+			look.draw (new DrawArgument (absp, color).SetParent (MapGameObject), alpha);
 			//look.draw (new DrawArgument (new Point_short (absp), new Color (color),get_layer (), 0), alpha);
 
-			afterimage.draw (look.get_frame (), new DrawArgument (absp, facing_right).SetParent (MapGameObject), alpha);
+			afterimage.draw (look.get_frame (), new DrawArgument (absp, facing_right).SetParent (MapGameObject), alpha, look);
 
 			if ((bool)ironbody)
 			{
@@ -133,8 +133,22 @@ namespace ms
 				stancespeed = (ushort)(Constants.TIMESTEP * speed);
 
 			afterimage.update (look.get_frame (), stancespeed);
+			var aniend = look.update ((ushort)(stancespeed * Constants.get ().animSpeed)); //todo 2 this is action speed
+			if (aniend)
+			{
 
-			return look.update ((ushort)(stancespeed * Constants.get ().animSpeed)); //todo 2 this is action speed
+				OnAniEnd ();
+			}
+			return aniend;
+		}
+
+		void OnAniEnd ()
+		{
+			OnEnd?.Invoke (this);
+			OnEnd = null;
+			current_skill_id = 0;
+			current_afterimageName = null;
+			current_stance_name = null;
 		}
 
 		public float get_stancespeed ()
@@ -154,11 +168,16 @@ namespace ms
 			}
 		}
 
+		private float skillSpeedMultiplier = 1;
+		public void Set_SkillSpeedMultiplier (float skillSpeedMultiplier)
+		{
+			this.skillSpeedMultiplier = skillSpeedMultiplier;
+		}
 		public float get_real_attackspeed ()
 		{
 			sbyte speed = get_integer_attackspeed ();
-
-			return 1.7f - (float)(speed) / 10;
+			var real_attackspeed = 1.7f - (float)(speed) / 10;
+			return real_attackspeed * skillSpeedMultiplier;
 		}
 
 		public ushort get_attackdelay (uint no)
@@ -178,7 +197,7 @@ namespace ms
 				return skill.GetKeydownEffect ().GetAniLength () / 1000f;
 			}
 			else
-			if (SkillCooldown.SkillCooldowns.TryGetValue(move.get_id(), out var cooldown))
+			if (SkillCooldown.SkillCooldowns.TryGetValue (move.get_id (), out var cooldown))
 			{
 				return cooldown;
 			}
@@ -270,24 +289,38 @@ namespace ms
 			look.set_expression (expression);
 		}
 
-		public void attack (string action, bool set_alerted = true)
+		public void attack (string action, bool set_alerted = true, Action<Char> onEnd = null, int skill_id = 0, string afterimageName = null, string stance_name = null)
 		{
+			OnEnd = onEnd;
 			look.set_action (action);
 
 			attacking = true;
 
-			if(set_alerted)
+			if (set_alerted)
 				look.set_alerted (5000);
+
+			current_skill_id = skill_id;
+			current_afterimageName = afterimageName;
+			current_stance_name = stance_name;
+
+			//set_afterimage (skill_id);
 		}
 
-		public void attack (Stance.Id stance, Action onEnd = null, float? duration = null)
+		Action<Char> OnEnd;
+		public void attack (Stance.Id stance, Action<Char> onEnd = null, int skill_id = 0, string afterimageName = null, string stance_name = null)
 		{
-			look.attack (stance, onEnd);
+			OnEnd = onEnd;
+			look.attack (stance);
 
 			attacking = true;
 			look.set_alerted (5000);
+
+			current_skill_id = skill_id;
+			current_afterimageName = afterimageName;
+			current_stance_name = stance_name;
+			//set_afterimage (skill_id);
 		}
-	
+
 		public void attack (bool degenerate)
 		{
 			look.attack (degenerate);
@@ -296,6 +329,13 @@ namespace ms
 			look.set_alerted (5000);
 		}
 
+		int current_skill_id;
+		string current_afterimageName;
+		string current_stance_name;
+		/// <summary>
+		/// todo 应该根据 当前 技能id，stance，设置 afterImage
+		/// </summary>
+		/// <param name="skill_id"></param>
 		public void set_afterimage (int skill_id)
 		{
 			int weapon_id = look.get_equips ().get_weapon ();
@@ -305,12 +345,30 @@ namespace ms
 
 			WeaponData weapon = WeaponData.get (weapon_id);
 
-			string stance_name = Stance.names[look.get_stance ()];
-			short weapon_level = weapon.get_equipdata ().get_reqstat (MapleStat.Id.LEVEL);
-			string ai_name = weapon.get_afterimage ();
+			bool hasAfterimageId = !string.IsNullOrEmpty (current_afterimageName);
+			bool hasAfterimageStanceId = !string.IsNullOrEmpty (current_stance_name);
 
-			afterimage = new Afterimage (skill_id, ai_name, stance_name, weapon_level);
+			string stance_name = hasAfterimageStanceId ? current_stance_name : Stance.names[look.get_stance (1f)];
+			short weapon_reqlevel = weapon.get_equipdata ().get_reqstat (MapleStat.Id.LEVEL);
+			string ai_name = hasAfterimageId ? current_afterimageName : weapon.get_afterimage ();
+
+			afterimage = new Afterimage (skill_id, ai_name, stance_name, weapon_reqlevel);
+
+			AppDebug.Log ($"set_afterimage:ai_name:{ai_name}\tstance_name:{stance_name}");
 		}
+
+		/*public void set_afterimage (int skill_id)
+		{
+			int weapon_id = look.get_equips ().get_weapon ();
+
+			if (weapon_id <= 0)
+				return;
+
+			WeaponData weapon = WeaponData.get (weapon_id);
+			short weapon_reqlevel = weapon.get_equipdata ().get_reqstat (MapleStat.Id.LEVEL);
+
+			afterimage = new Afterimage (skill_id, afterimageName, stance_name, weapon_reqlevel);
+		}*/
 
 		public Afterimage get_afterimage ()
 		{
@@ -351,14 +409,14 @@ namespace ms
 				// TODO: Empty
 			}
 		}
-		public bool has_pet(int petid)
+		public bool has_pet (int petid)
 		{
 			for (int i = 0; i < pets.Length; i++)
 			{
 				var pet = pets[i];
 				if (pet != null)
 				{
-					if (pet.get_itemid() == petid)
+					if (pet.get_itemid () == petid)
 					{
 						return true;
 					}
@@ -486,8 +544,14 @@ namespace ms
 			behaviorTreeOwner = MapGameObject.AddComponent<BehaviourTreeOwner> ();
 			behaviorTreeOwner.blackboard = MapGameObject.AddComponent<Blackboard> ();
 			behaviorTreeOwner.repeat = false;
+
+			look.OnActionChanged += () => { set_afterimage (current_skill_id); };
 		}
 
+		~Char ()
+		{
+			look.OnActionChanged = null;
+		}
 		public CharLook look = new CharLook ();
 		public CharLook look_preview = new CharLook ();
 		public PetLook[] pets = new PetLook[3];
@@ -510,9 +574,9 @@ namespace ms
 
 		BehaviourTreeOwner behaviorTreeOwner;
 
-		private string skillBTreePath = "SkillBTree/Skill_";
-		private Dictionary<string, Graph> skillBTreePool = new Dictionary<string, Graph> ();
-		public void PlaySkillBTree (string skillId)
+		//private string skillBTreePath = "SkillBTree/Skill_";
+		//private Dictionary<string, Graph> skillBTreePool = new Dictionary<string, Graph> ();
+		/*public void PlaySkillBTree (string skillId)
 		{
 			if (!skillBTreePool.TryGetValue (skillId, out var externalBehaviorTree))
 			{
@@ -522,6 +586,28 @@ namespace ms
 
 			behaviorTreeOwner.graph = externalBehaviorTree;
 			behaviorTreeOwner.StartBehaviour ();
+		}*/
+		public bool PlaySkillGraph (Graph graph, SpecialMove move, int move_id)
+		{
+			bool result = false;
+			if (graph != null)
+			{
+				behaviorTreeOwner.StopBehaviour ();
+
+				//behaviorTreeOwner.blackboard.SetVariableValue(GetType().Name,this);
+				behaviorTreeOwner.repeat = false;
+
+				behaviorTreeOwner.graph = graph;
+
+				behaviorTreeOwner.StartBehaviour ();//todo 会把传入的graph产生一个新实例，所以设置变量要后设置
+
+				behaviorTreeOwner.graph.blackboard.SetVariableValue (typeof (SpecialMove).Name, move);
+				behaviorTreeOwner.graph.blackboard.SetVariableValue ("InputSD", move_id);
+
+				//AppDebug.LogError ($"PlaySkillGraph blackboard:{graph.blackboard.GetHashCode ()}\tbehaviorTreeOwner.blackboard:{behaviorTreeOwner.blackboard.GetHashCode ()}\tbehaviorTreeOwner.graph.blackboard:{behaviorTreeOwner.graph.blackboard.GetHashCode()}\t InputSD:{behaviorTreeOwner.graph.blackboard.GetVariable<int> ("InputSD").value}");
+				result = true;
+			}
+			return result;
 		}
 	}
 }

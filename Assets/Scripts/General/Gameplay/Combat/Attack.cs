@@ -60,6 +60,9 @@ namespace ms
 		public Rectangle_short range = new Rectangle_short ();
 		public float hrange = 1.0f;
 		public bool toleft = false;
+
+		public float hforce;
+		public float vforce;
 	}
 
 	public class MobAttack
@@ -88,8 +91,6 @@ namespace ms
 			this.valid = true;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: explicit operator bool() const
 		public static explicit operator bool (MobAttack ImpliedObject)
 		{
 			return ImpliedObject.valid;
@@ -127,6 +128,8 @@ namespace ms
 			stance = attack.stance;
 			bullet = attack.bullet;
 			toleft = attack.toleft;
+			hforce= attack.hforce;
+			vforce = attack.vforce;
 		}
 
 		public Attack.Type type;
@@ -144,6 +147,8 @@ namespace ms
 		public Dictionary<int, List<System.Tuple<int, bool>>> damagelines = new Dictionary<int, List<System.Tuple<int, bool>>> ();
 		public int first_oid;
 		public int last_oid;
+		public float hforce;
+		public float vforce;
 	}
 
 	public struct AttackUser

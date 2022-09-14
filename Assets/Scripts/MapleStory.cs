@@ -131,13 +131,41 @@ public class MapleStory : SingletonMono<MapleStory>
 		//Stage.get ().load_map(100000000);
 
 		dictionary = DictionaryPool<string, string>.Get ();
+		List<string> strings = new List<string> ();
+
 		foreach (var item in wz.wzFile_quest["QuestInfo.img"])
 		{
+
 		}
-		
+		foreach (var wzchar_00012000_img in wz.wzFile_character.WzDirectory.WzImages)
+		{
+			if (wzchar_00012000_img.Name.Contains(".img"))
+			{
+				foreach (var wzchar_00012000_img_fly in wzchar_00012000_img)
+				{
+					if (wzchar_00012000_img.Name.Contains ("info"))
+					{
+
+					}
+					else
+					{
+						foreach (var wzchar_00012000_img_fly_0 in wzchar_00012000_img_fly)
+						{
+							bool isaction = wzchar_00012000_img_fly_0["action"] != null;
+							if (isaction)
+							{
+								dictionary.TryAdd (wzchar_00012000_img_fly.Name, wzchar_00012000_img_fly_0["action"].ToString ());
+							}
+						}
+					}
+				}
+			}
+		}
 		//FindChild (wz.wzFile_quest["QuestInfo.img"]);
-		FindChild (wz.wzFile_quest["Say.img"]);
-		Debug.Log (dictionary.ToDebugLog ());
+		//FindChild (wz.wzFile_quest["Say.img"]);
+		//Debug.Log (dictionary.ToDebugLog ());
+		Debug.Log (dictionary.Keys.ToDebugLog ());
+		
 	}
 	Dictionary<string, string> dictionary;
 	private void FindChild (WzObject wzObj)

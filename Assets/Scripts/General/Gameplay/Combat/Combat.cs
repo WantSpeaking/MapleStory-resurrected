@@ -100,11 +100,11 @@ namespace ms
 
 			SpecialMove.ForbidReason reason = player.can_use (move);
 			Weapon.Type weapontype = player.get_stats ().get_weapontype ();
-		
+
 			switch (reason)
 			{
 				case SpecialMove.ForbidReason.FBR_NONE:
-					apply_move (move, down, pressing);
+					apply_move (move, move_id, down, pressing);
 					if (down == true && pressing == true && move.has_skillPrepareEffect ())//moving
 					{
 						//AppDebug.Log ("moving");
@@ -155,8 +155,10 @@ namespace ms
 			public bool toleft;
 			public int target_oid;
 			public int move_id;
+			public float hforce;
+			public float vforce;
 
-			public DamageEffect (AttackUser user, DamageNumber number, int damage, bool toleft, int target_oid, int move_id)
+			public DamageEffect (AttackUser user, DamageNumber number, int damage, bool toleft, int target_oid, int move_id, float hforce, float vforce)
 			{
 				this.user = new AttackUser ();
 				this.user = user;
@@ -165,6 +167,8 @@ namespace ms
 				this.toleft = toleft;
 				this.target_oid = target_oid;
 				this.move_id = move_id;
+				this.hforce = hforce;
+				this.vforce = vforce;
 			}
 		}
 
@@ -210,10 +214,15 @@ namespace ms
 			}
 		}
 
-		private void apply_move (SpecialMove move, bool down = false, bool pressing = false)
+		private void apply_move (SpecialMove move, int move_id, bool down = false, bool pressing = false)
 		{
 			if (move.is_attack ())
 			{
+				if (player.PlaySkillGraph (move.Graph, move, move_id))
+				{
+					return;
+				}
+
 				Attack attack = player.prepare_attack (move.is_skill ());
 
 				move.apply_useeffects (player);
@@ -267,12 +276,12 @@ namespace ms
 				apply_result_movement (move, result);
 
 				new AttackPacket (result).dispatch ();
-				if (down == true && pressing == false && move.has_skillPrepareEffect())//begin
+				if (down == true && pressing == false && move.has_skillPrepareEffect ())//begin
 				{
 					new SkillEffectPacket (move.get_id (), Stage.get ().get_player ().get_skills ().get_masterlevel (move.get_id ()), 22, attack.toleft ? -128 : 0, 6).dispatch ();
 					move.apply_prepareEffect (player);
 					AppDebug.Log ("begin");
-				
+
 				}
 				else if (down == false && pressing == true && move.has_skillPrepareEffect ())//end
 				{
@@ -314,7 +323,7 @@ namespace ms
 			   MultiValueDictionary<ushort, int> distances_reactors = new MultiValueDictionary<ushort, int>();
 
 			   List<int> targets_reactors = new List<int>();*/
-		private List<int> find_closest (MapObjects objs, Rectangle_short range, Point_short origin, byte objcount, bool use_mobs)
+		public List<int> find_closest (MapObjects objs, Rectangle_short range, Point_short origin, byte objcount, bool use_mobs)
 		{
 			MultiValueDictionary<ushort, int> distances = new MultiValueDictionary<ushort, int> ();
 
@@ -360,7 +369,7 @@ namespace ms
 			return targets;
 		}
 
-		private void apply_use_movement (SpecialMove move)
+		public void apply_use_movement (SpecialMove move)
 		{
 			switch ((SkillId.Id)move.get_id ())
 			{
@@ -373,7 +382,7 @@ namespace ms
 			}
 		}
 
-		private void apply_result_movement (SpecialMove move, AttackResult result)
+		public void apply_result_movement (SpecialMove move, AttackResult result)
 		{
 			switch ((SkillId.Id)move.get_id ())
 			{
@@ -417,10 +426,10 @@ namespace ms
 			damagenumbers.Last.Value.set_x (head_position.x ());
 
 			SpecialMove move = get_move (effect.move_id);
-			mobs.apply_damage (effect.target_oid, effect.damage, effect.toleft, effect.user, move);
+			mobs.apply_damage (effect.target_oid, effect.damage, effect.toleft, effect.user, move, effect.hforce, effect.vforce);
 		}
 
-		private void extract_effects (Char user, SpecialMove move, AttackResult result)
+		public void extract_effects (Char user, SpecialMove move, AttackResult result)
 		{
 			AttackUser attackuser = new AttackUser (user.get_skilllevel (move.get_id ()), user.get_level (), user.is_twohanded (), !result.toleft, user);
 
@@ -441,7 +450,7 @@ namespace ms
 
 						foreach (var number in numbers)
 						{
-							DamageEffect effect = new DamageEffect (attackuser, number, line.Value[(int)i].Item1, result.toleft, oid, move.get_id ());
+							DamageEffect effect = new DamageEffect (attackuser, number, line.Value[(int)i].Item1, result.toleft, oid, move.get_id (), result.hforce, result.vforce);
 							bulleteffects.push (user.get_attackdelay (i), new BulletEffect (effect, bullet, head));
 							i++;
 						}
@@ -455,7 +464,7 @@ namespace ms
 
 					for (byte i = 0; i < result.hitcount; i++)
 					{
-						DamageEffect effect = new DamageEffect (attackuser, new DamageNumber (), 0, false, 0, 0);
+						DamageEffect effect = new DamageEffect (attackuser, new DamageNumber (), 0, false, 0, 0, result.hforce, result.vforce);
 						bulleteffects.push (user.get_attackdelay (i), new BulletEffect (effect, bullet, target));
 					}
 				}
@@ -474,7 +483,7 @@ namespace ms
 
 						foreach (var number in numbers)
 						{
-							damageeffects.push (user.get_attackdelay (i), new DamageEffect (attackuser, number, line.Value[(int)i].Item1, result.toleft, oid, move.get_id ()));
+							damageeffects.push (user.get_attackdelay (i), new DamageEffect (attackuser, number, line.Value[(int)i].Item1, result.toleft, oid, move.get_id (), result.hforce, result.vforce));
 							i++;
 						}
 					}
@@ -507,7 +516,7 @@ namespace ms
 				return null;
 			}
 
-			if (move_id == 0)
+			if (move_id == 0 || move_id == 1)
 			{
 				return regularattack;
 			}

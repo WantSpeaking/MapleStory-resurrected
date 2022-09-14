@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a686a47eee2fa44cb0a34b5d86e4d5e, type: 3}
+  m_Name: Skill_0_OLD
+  m_EditorClassIdentifier: 
+  _serializedGraph: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":389.0697,"y":-26.17061},"$type":"NodeCanvas.BehaviourTrees.Parallel","$id":"0"},{"_action":{"skillSpeedMultiplier":{"_name":"SkillSpeedMultiplier","_targetVariableID":"04dd472e-100e-4989-a37d-908acb6648b5"},"$type":"ms_Unity.BTA_ApplyActions"},"_position":{"x":127.1666,"y":63.6664},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"1"},{"_position":{"x":530.3394,"y":56.66003},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"2"},{"_action":{"$type":"ms_Unity.BTA_GenerateAttackInfo"},"_position":{"x":223.1065,"y":199.7112},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"3"},{"_action":{"$type":"ms_Unity.BTA_ApplyUseEffect"},"_position":{"x":421.2813,"y":196.5681},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"4"},{"_action":{"mobcount":{"_value":1},"hitcount":{"_value":1},"$type":"ms_Unity.BTA_SetAttackInfo"},"_position":{"x":591.245,"y":193.5182},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"5"},{"_action":{"$type":"ms_Unity.BTA_GenerateAttackResult"},"_position":{"x":756.2245,"y":192.8242},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"6"},{"_action":{"actions":[{"valueA":{"_name":"Attack","_targetVariableID":"efaf3754-243b-4e0b-b835-c55ee2a90f4c"},"valueB":{},"$type":"NodeCanvas.Tasks.Actions.SetVariable`1[[ms.Attack,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},{"valueA":{"_name":"SpecialMove","_targetVariableID":"d31b2a3b-0968-43cb-8df6-759fc30b583f"},"valueB":{},"$type":"NodeCanvas.Tasks.Actions.SetVariable`1[[ms.SpecialMove,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}],"$type":"NodeCanvas.Framework.ActionList"},"_position":{"x":1089.808,"y":180.8656},"$type":"NodeCanvas.BehaviourTrees.ActionNode"},{"_action":{"SpecialMove":{"_name":"SpecialMove","_targetVariableID":"d31b2a3b-0968-43cb-8df6-759fc30b583f"},"$type":"ms_Unity.BTA_SkillCommonProcedure"},"_position":{"x":1263.895,"y":152.1257},"$type":"NodeCanvas.BehaviourTrees.ActionNode"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{"Combo":{"_name":"Combo","_id":"ff57f1a8-42ba-4ba9-bea1-fca07b98dcfe","$type":"NodeCanvas.Framework.Variable`1[[System.Int32,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"SkillSpeedMultiplier":{"_value":1.0,"_name":"SkillSpeedMultiplier","_id":"04dd472e-100e-4989-a37d-908acb6648b5","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Attack":{"_name":"Attack","_id":"efaf3754-243b-4e0b-b835-c55ee2a90f4c","$type":"NodeCanvas.Framework.Variable`1[[ms.Attack,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"SpecialMove":{"_value":{"$type":"ms.RegularAttack"},"_name":"SpecialMove","_id":"d31b2a3b-0968-43cb-8df6-759fc30b583f","$type":"NodeCanvas.Framework.Variable`1[[ms.SpecialMove,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}}},"derivedData":{"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
+  _objectReferences: []
+  _graphSource:
+    _version: 3.25
+    _category: 
+    _comments: 
+    _translation: {x: 86, y: 171}
+    _zoomFactor: 0.6954084
+  _haltSerialization: 0

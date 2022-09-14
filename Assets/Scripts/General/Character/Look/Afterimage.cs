@@ -11,19 +11,42 @@ namespace ms
 {
 	public class Afterimage
 	{
-		public Afterimage (int skill_id, string name, string stance_name, short level)
+		public enum Id
 		{
+			none,
+			axe,
+			barehands,
+			bow,
+			crossBow,
+			gun,
+			hit,
+			knuckle,
+			mace,
+			poleArm,
+			spear,
+			swordOL,
+			swordOS,
+			swordTL,
+			swordTS,
+		}
+		string afterImageName;
+		string stance_name;
+		public Afterimage (int skill_id, string afterImageName, string stance_name, short level)
+		{
+			this.afterImageName = afterImageName;
+			this.stance_name = stance_name;
+
 			WzObject src = null;
 
 			if (skill_id > 0)
 			{
 				string strid = string_format.extend_id (skill_id, 7);
-				src = ms.wz.wzFile_skill[strid.Substring (0, 3) + ".img"]?["skill"]?[strid]?["afterimage"]?[name]?[stance_name];
+				src = ms.wz.wzFile_skill[strid.Substring (0, 3) + ".img"]?["skill"]?[strid]?["afterimage"]?[afterImageName]?[stance_name];
 			}
 
 			if (src == null)
 			{
-				src = ms.wz.wzFile_character["Afterimage"]?[name + ".img"]?[(level / 10).ToString ()]?[stance_name];
+				src = ms.wz.wzFile_character["Afterimage"]?[afterImageName + ".img"]?[(level / 10).ToString ()]?[stance_name];
 			}
 
 			if (src == null)
@@ -43,7 +66,7 @@ namespace ms
 
 				if (frame < 255)
 				{
-					animation =new Animation (sub);
+					animation = new Animation (sub);
 					firstframe = frame;
 				}
 			}
@@ -56,8 +79,9 @@ namespace ms
 		}
 
 		//private static DrawArgument renderOrderArgs = new DrawArgument(Constants.get ().sortingLayer_Effect,0);
-		public void draw (byte stframe, DrawArgument args, float alpha)
+		public void draw (byte stframe, DrawArgument args, float alpha, CharLook charLook)
 		{
+			AppDebug.Log ($"candraw:{stframe >= firstframe} \t charLook:{charLook.get_stance()}\t afterImageName:{afterImageName}\tstance_name:{stance_name}\t stframe:{stframe}\t firstframe:{firstframe}");
 			if (!displayed && stframe >= firstframe)
 			{
 				//animation.draw (args + renderOrderArgs, alpha);
@@ -78,15 +102,11 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: byte get_first_frame() const
 		public byte get_first_frame ()
 		{
 			return firstframe;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Rectangle_short get_range() const
 		public Rectangle_short get_range ()
 		{
 			return range;

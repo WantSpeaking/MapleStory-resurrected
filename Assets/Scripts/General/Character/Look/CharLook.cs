@@ -234,6 +234,7 @@ namespace ms
             draw(new DrawArgument(position, flipped), interstance, interexpression, 0, 0);
         }
 
+        public Action OnActionChanged;
         public bool update(ushort timestep)
         {
             //AppDebug.Log ($"now:{stance.get()}\t last:{stance.last ()}");
@@ -294,7 +295,9 @@ namespace ms
 
                         float threshold = (float)delta / timestep;//5/8
                         stance.next((short)action.get_stance(), threshold);
-                        stframe.next(action.get_frame(), threshold);
+                        stframe.next(action.get_frame(), threshold);//after image 在相应的frame才会 播放 
+
+                        OnActionChanged?.Invoke ();
                     }
                     else
                     {
@@ -345,11 +348,7 @@ namespace ms
                 expelapsed += timestep;
             }
 
-			if (aniend)
-			{
-                OnEnd?.Invoke ();
-                OnEnd = null;
-            }
+		
             return aniend;
         }
 
@@ -444,10 +443,8 @@ namespace ms
 
             weapon.get_usesound(degenerate).play();
         }
-        Action OnEnd;
-        public void attack(Stance.Id newstance, Action onEnd = null)
+        public void attack(Stance.Id newstance)
         {
-            OnEnd = onEnd;
             if (action != null || newstance == Stance.Id.NONE)
             {
                 return;
@@ -626,7 +623,10 @@ namespace ms
         {
             return (Stance.Id)stance.get();
         }
-
+        public Stance.Id get_stance (float alpha)
+        {
+            return (Stance.Id)stance.get (alpha);
+        }
         public Body get_body()
         {
             return body;
@@ -810,15 +810,15 @@ namespace ms
         private List<Stance.Id>[] attack_stances =
         {
             new List<Stance.Id> {Stance.Id.NONE},
-            new List<Stance.Id> {Stance.Id.STABO1, Stance.Id.STABO2, Stance.Id.SWINGO1, Stance.Id.SWINGO2, Stance.Id.SWINGO3},
-            new List<Stance.Id> {Stance.Id.STABT1, Stance.Id.SWINGP1},
-            new List<Stance.Id> {Stance.Id.SHOOT1},
-            new List<Stance.Id> {Stance.Id.SHOOT2},
-            new List<Stance.Id> {Stance.Id.STABO1, Stance.Id.STABO2, Stance.Id.SWINGT1, Stance.Id.SWINGT2, Stance.Id.SWINGT3},
-            new List<Stance.Id> {Stance.Id.SWINGO1, Stance.Id.SWINGO2},
-            new List<Stance.Id> {Stance.Id.SWINGO1, Stance.Id.SWINGO2},
-            new List<Stance.Id> {Stance.Id.NONE},
-            new List<Stance.Id> {Stance.Id.SHOT}
+            new List<Stance.Id> {Stance.Id.STABO1, Stance.Id.STABO2, Stance.Id.SWINGO1, Stance.Id.SWINGO2, Stance.Id.SWINGO3},//1
+            new List<Stance.Id> {Stance.Id.STABT1, Stance.Id.SWINGP1},//2
+            new List<Stance.Id> {Stance.Id.SHOOT1},//3
+            new List<Stance.Id> {Stance.Id.SHOOT2},//4
+            new List<Stance.Id> {Stance.Id.STABO1, Stance.Id.STABO2, Stance.Id.SWINGT1, Stance.Id.SWINGT2, Stance.Id.SWINGT3},//5
+            new List<Stance.Id> {Stance.Id.SWINGO1, Stance.Id.SWINGO2},//6
+            new List<Stance.Id> {Stance.Id.SWINGO1, Stance.Id.SWINGO2},//7
+            new List<Stance.Id> {Stance.Id.NONE},//8
+            new List<Stance.Id> {Stance.Id.SHOT}//9
         };
 
 
@@ -860,6 +860,7 @@ namespace ms
         private Randomizer randomizer = new Randomizer();
         private TimedBool alerted = new TimedBool();
 
+        public static BodyDrawInfo get_BodyDrawInfo () => drawinfo;
         private static BodyDrawInfo drawinfo = new BodyDrawInfo();
         private static Dictionary<int, Hair> hairstyles = new Dictionary<int, Hair>();
         private static Dictionary<int, Face> facetypes = new Dictionary<int, Face>();

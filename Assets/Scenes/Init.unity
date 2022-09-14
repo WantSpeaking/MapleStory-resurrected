@@ -1024,7 +1024,7 @@ MonoBehaviour:
   fontSize: 1
   fontColor: {r: 0, g: 0, b: 0, a: 1}
   enable_DrawFootHolder: 0
-  enable_DrawAttackRange: 0
+  enable_DrawAttackRange: 1
   enable_DrawMobRange: 1
   AddToParent: 1
   viewx: 0

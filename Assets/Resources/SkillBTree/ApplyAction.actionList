@@ -1,0 +1,41 @@
+{
+    "actions": [
+        {
+            "skillSpeedMultiplier": {
+                "_name": "SkillSpeedMultiplier",
+                "_targetVariableID": "04dd472e-100e-4989-a37d-908acb6648b5"
+            },
+            "$type": "ms_Unity.BTA_ApplyActions"
+        },
+        {
+            "valueA": {
+                "_name": "S",
+                "_targetVariableID": "9e0cb736-416a-4910-84f9-671f1bfd9997"
+            },
+            "valueB": {
+                "_value": 1
+            },
+            "$type": "NodeCanvas.Tasks.Actions.SetVariable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"
+        },
+        {
+            "eventName": {
+                "_name": "Event_StartTransition",
+                "_targetVariableID": "708c9f1a-efba-45c2-9d63-26c25f8a1dd2"
+            },
+            "eventValue": {
+                "_name": "TransitionTime",
+                "_targetVariableID": "6d23be09-689d-48ae-8da4-1dd6482eaf66"
+            },
+            "delay": {
+
+            },
+            "$type": "NodeCanvas.Tasks.Actions.SendEvent`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"
+        },
+        {
+            "waitTime": {
+                "_value": 0.01
+            },
+            "$type": "NodeCanvas.Tasks.Actions.Wait"
+        }
+    ]
+}

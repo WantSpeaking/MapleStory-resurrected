@@ -204,6 +204,10 @@ namespace ms
 				{
 					combat.use_move (0, true);
 				}
+				if (player.is_key_down (KeyAction.Id.MUTE))
+				{
+					combat.use_move (1, true);
+				}
 				if (player.is_key_down (KeyAction.Id.SIT))
 				{
 					check_seats ();
@@ -317,7 +321,11 @@ namespace ms
 			Keyboard.Mapping mapping = UI.get().get_keyboard().get_maple_mapping (keycode);
 			send_key (mapping.type, mapping.action, true);
 		}
-		
+		public void send_keyUp (int keycode)
+		{
+			Keyboard.Mapping mapping = UI.get ().get_keyboard ().get_maple_mapping (keycode);
+			send_key (mapping.type, mapping.action, false);
+		}
 		public Cursor.State send_cursor (bool pressed, Point_short position)
 		{
 			Optional<UIStatusBar> statusbar = Singleton<UI>.get ().get_element<UIStatusBar> ();

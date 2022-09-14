@@ -121,12 +121,12 @@ namespace ms
 		}
 
 		// Applies damage to a mob.
-		public void apply_damage (int oid, int damage, bool toleft, AttackUser user, SpecialMove move)
+		public void apply_damage (int oid, int damage, bool toleft, AttackUser user, SpecialMove move, float hforce = 0, float vforce = 0)
 		{
 			if (mobs.get (oid).get () is Mob mob)
 			{
-				mob.apply_damage (damage, toleft);
-
+				mob.apply_damage (damage, toleft, hforce, vforce);
+				mob.add_Force (hforce, vforce);
 				// TODO: Maybe move this into the method above too?
 				move.apply_hiteffects (user, mob);
 			}

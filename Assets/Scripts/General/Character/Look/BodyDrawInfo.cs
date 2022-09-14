@@ -17,6 +17,28 @@ namespace ms
 	// This simply redirects to a different stance and frame to use
 	public class BodyAction
 	{
+		public BodyAction(string action, int p_frame, int p_delay)
+		{
+			stance = Stance.by_string(action);
+			this.frame = (byte)p_frame;
+
+			short sgndelay = (short)p_delay;
+			if (sgndelay == 0)
+			{
+				sgndelay = 100;
+			}
+
+			if (sgndelay > 0)
+			{
+				delay = (ushort)sgndelay;
+				attackframe = true;
+			}
+			else if (sgndelay < 0)
+			{
+				delay = (ushort)-sgndelay;
+				attackframe = false;
+			}
+		}
 		public BodyAction (WzObject Characterwz00002000img_airstrike_3)
 		{
 			if (Characterwz00002000img_airstrike_3.FullPath.Contains ("burster2"))
@@ -392,11 +414,31 @@ namespace ms
 			}
 
 			return nextFrame;
-
-
-
 		}
+		public void add_actionframe(string actionStr, byte frame, BodyAction action)
+		{
+			body_actions.TryAdd (actionStr);
+			body_actions[actionStr].TryAdd (frame, action);
 
+			if (action.isattackframe ())
+			{
+				if (!attack_delays.ContainsKey (actionStr))
+				{
+					var tempList = new List<ushort> ();
+					attack_delays.Add (actionStr, tempList);
+				}
+				attack_delays.TryGetValue(actionStr, out var delays);
+				var attackdelay = delays.LastOrDefault();
+				attack_delays[actionStr].Add ((ushort)(attackdelay + action.get_delay()));
+			}
+		}
+		public void remove_action (string action)
+		{
+			if (string.IsNullOrEmpty (action))
+				return;
+			body_actions.Remove (action);
+			attack_delays.Remove (action);
+		}
 		public BodyAction get_action (string action, byte frame)
 		{
 			BodyAction bodyAction = null;

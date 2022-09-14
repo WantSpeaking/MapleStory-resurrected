@@ -40,6 +40,8 @@ namespace ms_Unity
 			//_Btn_LightAttack.onClick.Add (OnClick_Btn_LightAttack);
 			_Btn_LightAttack.onTouchBegin.Add (OnTouchBegin_Btn_LightAttack);
 			_Btn_LightAttack.onTouchEnd.Add (OnTouchEnd_Btn_LightAttack);
+			_Btn_HeavyAttack.onTouchBegin.Add (OnTouchBegin_Btn_HeavyAttack);
+			_Btn_HeavyAttack.onTouchEnd.Add (OnTouchEnd_Btn_HeavyAttack);
 
 			_Btn_Jump.onClick.Add (OnClick_Btn_Jump);
 			_Btn_Dodge.onClick.Add (OnClick_Btn_Dodge);
@@ -158,14 +160,26 @@ namespace ms_Unity
 
 		private void OnTouchBegin_Btn_LightAttack (EventContext context)
 		{
-			ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, true, true);
+			//ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, true, true);
+			ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.ATTACK, true, false);
 		}
 
 		private void OnTouchEnd_Btn_LightAttack (EventContext context)
 		{
-			ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, false, true);
+			//ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, false, true);
+			ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.ATTACK, false, true);
+		}
+		private void OnTouchBegin_Btn_HeavyAttack (EventContext context)
+		{
+			//ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, true, true);
+			ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.MUTE, true, false);
 		}
 
+		private void OnTouchEnd_Btn_HeavyAttack (EventContext context)
+		{
+			//ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, false, true);
+			ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.MUTE, false, true);
+		}
 		private void OnClick_Btn_LightAttack (EventContext context)
 		{
 
