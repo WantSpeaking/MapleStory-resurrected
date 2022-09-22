@@ -51,10 +51,11 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 		}
 		if ((bool)gobj)
 		{
-			if (drawParent != null)
+			if (drawParent != null && !gobj.transform.IsChildOf (drawParent.transform))
 			{
 				gobj.SetParent (drawParent.transform);
 			}
+			gobj.SetActive (true);
 			gobj.transform.position = pos;
 			gobj.transform.localScale = new Vector3 ((float)pnginfo.Width * scale.x, (float)pnginfo.Height * scale.y, 1f);
 			Singleton<GameUtil>.Instance.DrawOrder--;
@@ -66,8 +67,10 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 	{
 		foreach (GameObject gobj in texture_GObj_Dict.Values)
 		{
-			Vector3 originalPos = gobj.transform.position;
-			gobj.transform.position = new Vector3 (originalPos.x, originalPos.y, 1f);
+			/*Vector3 originalPos = gobj.transform.position;
+			gobj.transform.position = new Vector3 (originalPos.x, originalPos.y, 1f);*/
+
+			gobj.SetActive (false);
 		}
 	}
 

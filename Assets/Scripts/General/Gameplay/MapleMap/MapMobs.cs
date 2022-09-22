@@ -69,9 +69,9 @@ namespace ms
 		}
 
 		// Update who a mob is controlled by.
-		public void set_control (int oid, bool control)
+		public void set_control (int oid, sbyte mode)
 		{
-			sbyte mode = (sbyte)(control ? 1 : 0);
+			//sbyte mode = (sbyte)(control ? 1 : 0);
 
 			if (mobs.get (oid).get () is Mob mob)
 			{

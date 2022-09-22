@@ -474,7 +474,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 		catch (Exception ex)
 		{
 			//客户端断开连接
-			Debug.Log ($"服务器{m_Client.RemoteEndPoint}断开连接\t Message:{ex.Message} {ex.Data} {ex.StackTrace}");
+			//Debug.Log ($"服务器{m_Client.RemoteEndPoint}断开连接\t Message:{ex.Message} {ex.Data} {ex.StackTrace}");
 		}
 	}
 

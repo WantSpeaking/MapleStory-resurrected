@@ -30,12 +30,13 @@ MonoBehaviour:
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"RemainTransitionTime":{"_value":0.1,"_name":"RemainTransitionTime","_id":"ea47379a-5f81-400c-b631-142781659c34","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"TransitionTime":{"_value":0.1,"_name":"TransitionTime","_id":"6d23be09-689d-48ae-8da4-1dd6482eaf66","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Event_StartTransition":{"_value":"StartTransition","_name":"Event_StartTransition","_id":"708c9f1a-efba-45c2-9d63-26c25f8a1dd2","$type":"NodeCanvas.Framework.Variable`1[[System.String,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"StopBehaviourWhenEnter":{"_value":true,"_name":"StopBehaviourWhenEnter","_id":"15866fc5-3763-44c0-9212-8063feebd94d","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}},"derivedData":{"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
   _objectReferences: []
   _graphSource:
     _version: 3.25
     _category: 
     _comments: 
-    _translation: {x: -123, y: -493}
+    _translation: {x: 397, y: -11}
     _zoomFactor: 0.7908051
   _haltSerialization: 0

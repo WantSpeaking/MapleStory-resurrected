@@ -103,8 +103,6 @@ namespace ms
 	// Opcode: REMOVE_CHAR(161)
 	public class RemoveCharHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
 			int cid = recv.read_int ();
@@ -117,8 +115,6 @@ namespace ms
 	// Opcode: SPAWN_PET(168)
 	public class SpawnPetHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
 			int cid = recv.read_int ();
@@ -222,8 +218,6 @@ namespace ms
 	// Opcode: SPAWN_MOB(236)
 	public class SpawnMobHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
 			int oid = recv.read_int ();
@@ -264,8 +258,6 @@ namespace ms
 	// Opcode: KILL_MOB(237)
 	public class KillMobHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
 			int oid = recv.read_int ();
@@ -284,24 +276,26 @@ namespace ms
 			sbyte mode = recv.read_byte ();
 			int oid = recv.read_int ();
 
-			if (mode == 0)
+			if (mode == 0)//makeInvis, 怪物不在附近，取消控制 
 			{
-				Stage.get ().get_mobs ().set_control (oid, false);
+				Stage.get ().get_mobs ().set_control (oid, 0);
 			}
-			else
+			else if (mode == 2 || mode == 1)//requestController
 			{
+				var aggro = mode == 2;//server mplew.write(aggro ? 2 : 1);
+
 				if (recv.available ())
 				{
-					recv.skip (1);
-
+					var controllerIsNull = recv.read_byte () == 5;//server mplew.write(life.getController() == null ? 5 : 1);
+					Stage.get ().get_mobs ().set_control (oid, mode);
 					int id = recv.read_int ();
 
-					recv.skip (16);
+					recv.skip (16);//encodeTemporary buffs
 
 					Point_short position = recv.read_point ();
 					sbyte stance = recv.read_byte ();
 
-					recv.skip (2);
+					recv.skip (2);//Origin FH //life.getStartFh()
 
 					ushort fh = (ushort)recv.read_short ();
 					sbyte effect = recv.read_byte ();
@@ -319,7 +313,7 @@ namespace ms
 
 					sbyte team = recv.read_byte ();
 
-					recv.skip (4);
+					recv.skip (4);// getItemEffect
 
 					Stage.get ().get_mobs ().spawn (new MobSpawn (oid, id, mode, stance, fh, effect == -2, team, position));
 				}

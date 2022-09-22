@@ -73,7 +73,12 @@ namespace ms_Unity
 			//AppDebug.LogError ($"OnExecute ownerSystemBlackboard:{this.ownerSystemBlackboard.GetHashCode ()}\tblackboard:{blackboard.GetHashCode ()}\tblackboard.InputSD:{blackboard.GetVariable<int> ("InputSD").value}");
 			player.Set_SkillSpeedMultiplier (skillSpeedMultiplier.GetValue ());
 
-			if (StanceId != Stance.Id.NONE)
+			if (StanceId == Stance.Id.NONE && ActionId == CharAction.Id.NONE && string.IsNullOrEmpty (actionName))
+			{
+				move.apply_actions (player,attack.type);
+				EndAction (true);
+			}
+			else if (StanceId != Stance.Id.NONE)
 			{
 				player.attack (StanceId, OnAttackEnd, move.get_id (), hasAfterimageId ? $"{AfterimageId}" : "", hasAfterimageStanceId ? StanceId.ToString () : "");
 			}

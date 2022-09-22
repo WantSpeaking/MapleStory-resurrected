@@ -30,28 +30,21 @@ namespace ms
 
 		private Point_short right_bottom = new Point_short ();
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sourceLeftTop">["range"]["lt"]</param>
+		/// <param name="sourceRightBottom">["range"]["rb"]</param>
 		public Rectangle_short (WzObject sourceLeftTop, WzObject sourceRightBottom)
 		{
-			if (sourceLeftTop != null)
-			{
-				sourceLeftTop.GetPoint ();
-				if (0 == 0 && sourceRightBottom != null)
-				{
-					sourceRightBottom.GetPoint ();
-					if (0 == 0)
-					{
-						Point tempPoint1 = sourceLeftTop.GetPoint ();
-						left_top = new Point_short (tempPoint1.X.ToT<short> (), tempPoint1.Y.ToT<short> ());
-						Point tempPoint2 = sourceRightBottom.GetPoint ();
-						right_bottom = new Point_short (tempPoint2.X.ToT<short> (), tempPoint2.Y.ToT<short> ());
-						return;
-					}
-				}
-			}
-			left_top = new Point_short ();
-			right_bottom = new Point_short ();
+			left_top = sourceLeftTop?.GetPoint ().ToMSPoint () ?? Point_short.zero;
+			right_bottom = sourceRightBottom?.GetPoint ().ToMSPoint () ?? Point_short.zero;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="source">["range"]</param>
 		public Rectangle_short (WzObject source)
 			: this (source["lt"], source["rb"])
 		{

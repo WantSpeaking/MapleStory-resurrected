@@ -173,10 +173,10 @@ namespace ms
 	public class MoveMobPacket : MovementPacket
 	{
 		// Updates a mob's position with the server
-		public MoveMobPacket (int oid, short type, sbyte skillb, sbyte skill0, sbyte skill1, sbyte skill2, sbyte skill3, sbyte skill4, Point_short startpos, Movement movement) : base (OutPacket.Opcode.MOVE_MONSTER)
+		public MoveMobPacket (int objectid, short moveid, sbyte skillb, sbyte skill0, sbyte skill1, sbyte skill2, sbyte skill3, sbyte skill4, Point_short startpos, Movement movement) : base (OutPacket.Opcode.MOVE_MONSTER)
 		{
-			write_int (oid);
-			write_short (type);
+			write_int (objectid);
+			write_short (moveid);
 			write_byte (skillb);
 			write_byte (skill0);
 			write_byte (skill1);
@@ -184,7 +184,7 @@ namespace ms
 			write_byte (skill3);
 			write_byte (skill4);
 
-			skip (13);
+			skip (13);//slea.skip(8);slea.readByte();slea.readInt();
 
 			write_point (new Point_short (startpos));
 

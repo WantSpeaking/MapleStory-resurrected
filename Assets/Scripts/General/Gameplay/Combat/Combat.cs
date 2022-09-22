@@ -52,25 +52,25 @@ namespace ms
 			damagenumbers.remove_if ((DamageNumber dn) => dn.update ());
 		}
 
-		private bool canRemoveBulletEffect (BulletEffect mb)
+		private bool canRemoveBulletEffect (BulletEffect bulletEffect)
 		{
-			int target_oid = mb.damageeffect.target_oid;
+			int target_oid = bulletEffect.damageeffect.target_oid;
 			//AppDebug.Log ($"canRemoveBulletEffect:target_oid:{target_oid}");
 			if (mobs.contains (target_oid))
 			{
-				mb.target = (mobs.get_mob_head_position (target_oid));
-				bool apply = mb.bullet.update (mb.target);
+				bulletEffect.target = mobs.get_mob_head_position (target_oid);
+				bool apply = bulletEffect.bullet.update (bulletEffect.target);
 
 				if (apply)
 				{
-					apply_damage_effect (mb.damageeffect);
+					apply_damage_effect (bulletEffect.damageeffect);
 				}
 
 				return apply;
 			}
 			else
 			{
-				return mb.bullet.update (mb.target);
+				return bulletEffect.bullet.update (bulletEffect.target);
 			}
 		}
 		// Make the player use a special move
@@ -218,7 +218,7 @@ namespace ms
 		{
 			if (move.is_attack ())
 			{
-				if (player.PlaySkillGraph (move.Graph, move, move_id))
+				if (player.PlaySkillBTree (move.BTree, move, move_id))
 				{
 					return;
 				}

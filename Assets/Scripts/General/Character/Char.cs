@@ -354,7 +354,7 @@ namespace ms
 
 			afterimage = new Afterimage (skill_id, ai_name, stance_name, weapon_reqlevel);
 
-			AppDebug.Log ($"set_afterimage:ai_name:{ai_name}\tstance_name:{stance_name}");
+			//AppDebug.Log ($"set_afterimage:ai_name:{ai_name}\tstance_name:{stance_name}");
 		}
 
 		/*public void set_afterimage (int skill_id)
@@ -426,7 +426,7 @@ namespace ms
 		}
 		public virtual bool is_invincible ()
 		{
-			return invincible == true;
+			return invincible == false;
 		}
 
 		public bool is_sitting ()
@@ -587,23 +587,31 @@ namespace ms
 			behaviorTreeOwner.graph = externalBehaviorTree;
 			behaviorTreeOwner.StartBehaviour ();
 		}*/
-		public bool PlaySkillGraph (Graph graph, SpecialMove move, int move_id)
+		public bool PlaySkillBTree (BehaviourTree BTree, SpecialMove move, int move_id)
 		{
 			bool result = false;
-			if (graph != null)
+			if (BTree != null)
 			{
-				behaviorTreeOwner.StopBehaviour ();
+				var StopBehaviourWhenEnter = BTree.blackboard.GetVariable<bool> ("StopBehaviourWhenEnter")?.value??false;
+				if (StopBehaviourWhenEnter)
+				{
+					behaviorTreeOwner.StopBehaviour ();
+					//AppDebug.LogError ($"StopBehaviour");
+
+				}
 
 				//behaviorTreeOwner.blackboard.SetVariableValue(GetType().Name,this);
 				behaviorTreeOwner.repeat = false;
+				//AppDebug.LogError ($"after1 graph: {behaviorTreeOwner.graph?.GetHashCode ()}");
 
-				behaviorTreeOwner.graph = graph;
+				//behaviorTreeOwner.graph = BTree;
+				//AppDebug.LogError ($"after2 graph: {behaviorTreeOwner.graph?.GetHashCode ()}");
 
-				behaviorTreeOwner.StartBehaviour ();//todo 会把传入的graph产生一个新实例，所以设置变量要后设置
+				behaviorTreeOwner.StartBehaviour (BTree);//todo 会把传入的graph产生一个新实例，所以设置变量要后设置
 
 				behaviorTreeOwner.graph.blackboard.SetVariableValue (typeof (SpecialMove).Name, move);
 				behaviorTreeOwner.graph.blackboard.SetVariableValue ("InputSD", move_id);
-
+				//AppDebug.LogError ($"after3 graph: {behaviorTreeOwner.graph?.GetHashCode ()}");
 				//AppDebug.LogError ($"PlaySkillGraph blackboard:{graph.blackboard.GetHashCode ()}\tbehaviorTreeOwner.blackboard:{behaviorTreeOwner.blackboard.GetHashCode ()}\tbehaviorTreeOwner.graph.blackboard:{behaviorTreeOwner.graph.blackboard.GetHashCode()}\t InputSD:{behaviorTreeOwner.graph.blackboard.GetVariable<int> ("InputSD").value}");
 				result = true;
 			}

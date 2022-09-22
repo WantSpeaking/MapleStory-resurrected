@@ -81,7 +81,7 @@ namespace ms
 		//private static DrawArgument renderOrderArgs = new DrawArgument(Constants.get ().sortingLayer_Effect,0);
 		public void draw (byte stframe, DrawArgument args, float alpha, CharLook charLook)
 		{
-			AppDebug.Log ($"candraw:{stframe >= firstframe} \t charLook:{charLook.get_stance()}\t afterImageName:{afterImageName}\tstance_name:{stance_name}\t stframe:{stframe}\t firstframe:{firstframe}");
+			//AppDebug.Log ($"candraw:{stframe >= firstframe} \t charLook:{charLook.get_stance()}\t afterImageName:{afterImageName}\tstance_name:{stance_name}\t stframe:{stframe}\t firstframe:{firstframe}");
 			if (!displayed && stframe >= firstframe)
 			{
 				//animation.draw (args + renderOrderArgs, alpha);

@@ -4,36 +4,34 @@ using System;
 using System.Collections.Generic;
 using MapleLib.WzLib;
 using ms.Helper;
-
-
-
-
+using NodeCanvas.BehaviourTrees;
+using NodeCanvas.Framework;
 
 namespace ms
 {
+	public enum MobStance : byte
+	{
+		MOVE = 2,
+		STAND = 4,
+		JUMP = 6,
+		HIT = 8,
+		DIE = 10
+	}
+
 	public class Mob : MapObject
 	{
 		public const uint NUM_STANCES = 6;
 
-		public enum Stance : byte
-		{
-			MOVE = 2,
-			STAND = 4,
-			JUMP = 6,
-			HIT = 8,
-			DIE = 10
-		}
-
 		static readonly string[] stancenames = { "move", "stand", "jump", "hit1", "die1", "fly" };
 
-		public static string nameof (Stance stance)
+		public static string nameof (MobStance stance)
 		{
 			int index = ((int)stance - 1) / 2;
 
 			return stancenames[index];
 		}
 
-		public static byte value_of (Stance stance, bool flip)
+		public static byte value_of (MobStance stance, bool flip)
 		{
 			return (byte)(flip ? stance : stance + 1);
 		}
@@ -66,18 +64,18 @@ namespace ms
 
 			if (canfly)
 			{
-				animations[Stance.STAND] = src["fly"];
-				animations[Stance.MOVE] = src["fly"];
+				animations[MobStance.STAND] = src["fly"];
+				animations[MobStance.MOVE] = src["fly"];
 			}
 			else
 			{
-				animations[Stance.STAND] = src["stand"];
-				animations[Stance.MOVE] = src["move"];
+				animations[MobStance.STAND] = src["stand"];
+				animations[MobStance.MOVE] = src["move"];
 			}
 
-			animations[Stance.JUMP] = src["jump"];
-			animations[Stance.HIT] = src["hit1"];
-			animations[Stance.DIE] = src["die1"];
+			animations[MobStance.JUMP] = src["jump"];
+			animations[MobStance.HIT] = src["hit1"];
+			animations[MobStance.DIE] = src["die1"];
 
 			name = ms.wz.wzFile_string["Mob.img"][Convert.ToString (mid)]["name"].ToString ();
 
@@ -125,20 +123,33 @@ namespace ms
 				opacity.set (1.0f);
 			}
 
-			if (control && stance == Stance.STAND)
+			if (control && stance == MobStance.STAND)
 			{
 				next_move ();
+			}
+
+			int i = 1;
+			while (src[$"attack{i}"] != null)
+			{
+				var mobAttack = new MobAttack (src[$"attack{i}"], id, oid);
+				mobAttacks.Add (mobAttack);
+				i++;
 			}
 		}
 
 		private int lastDraw_Stance = -1;
 
+		private Animation mobAttackAni;
+		public void Set_MobAttackAni(Animation ani)
+		{
+			mobAttackAni = ani;
+		}
 		// Draw the mob
 		public override void draw (double viewx, double viewy, float alpha)
 		{
 			if (lastDraw_Stance != -1)
 			{
-				animations[(Stance)lastDraw_Stance].eraseAllFrame ();
+				animations[(MobStance)lastDraw_Stance].eraseAllFrame ();
 			}
 
 #if BackgroundStatic
@@ -149,12 +160,19 @@ namespace ms
 			Point_short headpos = get_head_position (new Point_short (absp));
 			//AppDebug.Log ($"Mob draw absp:{absp}");
 			effects.drawbelow (new Point_short (absp), alpha);
-			moveRangeCenter = absp;
+			mobAbsolutePos = absp;
 			if (!dead)
 			{
 				float interopc = opacity.get (alpha);
 
-				animations[stance].draw (new DrawArgument (new Point_short (absp), flip && !noflip, interopc), alpha);
+				if (mobAttackAni != null)
+				{
+					mobAttackAni.draw (new DrawArgument (absp, flip && !noflip, interopc).SetParent (MapGameObject), alpha);
+				}
+				else
+				{
+					animations[stance].draw (new DrawArgument (absp, flip && !noflip, interopc).SetParent (MapGameObject), alpha);
+				}
 
 				if (showhp)
 				{
@@ -168,7 +186,7 @@ namespace ms
 			}
 			else
 			{
-				animations[Stance.DIE].eraseAllFrame ();
+				animations[MobStance.DIE].eraseAllFrame ();
 			}
 
 			effects.drawabove (new Point_short (absp), alpha);
@@ -186,9 +204,18 @@ namespace ms
 				return phobj.fhlayer;
 			}
 
-			bool aniend = animations[stance].update ();
+			bool aniend = false;
+			if (mobAttackAni != null)
+			{
+				//aniend = mobAttackAni.update ();
+				 mobAttackAni.update ();
+			}
+			else
+			{
+				aniend = animations[stance].update ();
+			}
 
-			if (aniend && stance == Stance.DIE)
+			if (aniend && stance == MobStance.DIE)
 			{
 				dead = true;
 			}
@@ -234,16 +261,16 @@ namespace ms
 						flip = !flip;
 						phobj.set_flag (PhysicsObject.Flag.TURNATEDGES);
 
-						if (stance == Stance.HIT)
+						if (stance == MobStance.HIT)
 						{
-							set_stance (Stance.STAND);
+							set_stance (MobStance.STAND);
 						}
 					}
 				}
 
 				switch (stance)
 				{
-					case Stance.MOVE:
+					case MobStance.MOVE:
 						if (canfly)
 						{
 							phobj.hforce = flip ? flyspeed : -flyspeed;
@@ -264,7 +291,7 @@ namespace ms
 						}
 
 						break;
-					case Stance.HIT:
+					case MobStance.HIT:
 						if (canmove)
 						{
 							double KBFORCE = phobj.onground ? 0.2 : 0.1;
@@ -272,7 +299,7 @@ namespace ms
 						}
 
 						break;
-					case Stance.JUMP:
+					case MobStance.JUMP:
 						phobj.vforce = -5.0;
 						break;
 				}
@@ -283,26 +310,35 @@ namespace ms
 				{
 					counter++;
 
-					bool next;
-
-					switch (stance)
+					if (BTree != null)
 					{
-						case Stance.HIT:
-							next = counter > 200;
-							break;
-						case Stance.JUMP:
-							next = phobj.onground;
-							break;
-						default:
-							next = aniend && counter > 200;
-							break;
+						Agent.Tick ();
 					}
-
-					if (next)
+					else
 					{
-						next_move ();
-						update_movement ();
-						counter = 0;
+						//是否可以切换到下个动作
+						bool next;
+
+						switch (stance)
+						{
+							case MobStance.HIT:
+								next = counter > 200;
+								break;
+							case MobStance.JUMP:
+								next = phobj.onground;
+								break;
+							default:
+								next = aniend && counter > 200;
+								break;
+						}
+
+						if (next)
+						{
+							//如果能切换，要切换到什么动作
+							next_move ();
+							update_movement ();
+							counter = 0;
+						}
 					}
 				}
 			}
@@ -426,8 +462,6 @@ namespace ms
 					break;
 			}
 
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-			//ORIGINAL LINE: effects.add(animation, DrawArgument(shift, f), z);
 			effects.add (animation, new DrawArgument (new Point_short (shift), f), z);
 		}
 
@@ -486,7 +520,7 @@ namespace ms
 		{
 			hitsound.play ();
 
-			if (dying && stance != Stance.DIE)
+			if (dying && stance != MobStance.DIE)
 			{
 				apply_death ();
 			}
@@ -494,7 +528,7 @@ namespace ms
 			{
 				flip = toleft;
 				counter = 170;
-				set_stance (Stance.HIT);
+				set_stance (MobStance.HIT);
 
 				update_movement ();
 			}
@@ -540,17 +574,20 @@ namespace ms
 			return range.overlaps (bounds);
 		}
 
-		public Point_short moveRangeCenter = new Point_short ();
+		public Point_short mobAbsolutePos = new Point_short ();
 		public Rectangle_short get_Range ()
 		{
-			return animations[stance].get_bounds (false).shift (moveRangeCenter);
+			return animations[stance].get_bounds (false).shift (mobAbsolutePos);
 		}
 		// Check if this mob is still alive
 		public bool is_alive ()
 		{
 			return active && !dying;
 		}
-
+		public bool is_Controlled ()
+		{
+			return control;
+		}
 		// Return the head position
 		public Point_short get_head_position ()
 		{
@@ -572,6 +609,10 @@ namespace ms
 			NUM_DIRECTIONS
 		}
 
+		public void set_flip(bool flip)
+		{
+			this.flip = flip;
+		}
 		// Set the stance by byte value
 		private void set_stance (byte stancebyte)
 		{
@@ -582,16 +623,16 @@ namespace ms
 				stancebyte -= 1;
 			}
 
-			if (stancebyte < (int)Stance.MOVE)
+			if (stancebyte < (int)MobStance.MOVE)
 			{
-				stancebyte = (int)Stance.MOVE;
+				stancebyte = (int)MobStance.MOVE;
 			}
 
-			set_stance ((Stance)stancebyte);
+			set_stance ((MobStance)stancebyte);
 		}
 
 		// Set the stance by enumeration value
-		private void set_stance (Stance newstance)
+		private void set_stance (MobStance newstance)
 		{
 			if (stance != newstance)
 			{
@@ -604,7 +645,7 @@ namespace ms
 		// Start the death animation
 		private void apply_death ()
 		{
-			set_stance (Stance.DIE);
+			set_stance (MobStance.DIE);
 			diesound.play ();
 			dying = true;
 		}
@@ -616,30 +657,30 @@ namespace ms
 			{
 				switch (stance)
 				{
-					case Stance.HIT:
-					case Stance.STAND:
-						set_stance (Stance.MOVE);
+					case MobStance.HIT:
+					case MobStance.STAND:
+						set_stance (MobStance.MOVE);
 						flip = randomizer.next_bool ();
 						break;
-					case Stance.MOVE:
-					case Stance.JUMP:
+					case MobStance.MOVE:
+					case MobStance.JUMP:
 						if (canjump && phobj.onground && randomizer.below (0.25f))
 						{
-							set_stance (Stance.JUMP);
+							set_stance (MobStance.JUMP);
 						}
 						else
 						{
 							switch (randomizer.next_int (3))
 							{
 								case 0:
-									set_stance (Stance.STAND);
+									set_stance (MobStance.STAND);
 									break;
 								case 1:
-									set_stance (Stance.MOVE);
+									set_stance (MobStance.MOVE);
 									flip = false;
 									break;
 								case 2:
-									set_stance (Stance.MOVE);
+									set_stance (MobStance.MOVE);
 									flip = true;
 									break;
 							}
@@ -648,14 +689,14 @@ namespace ms
 						break;
 				}
 
-				if (stance == Stance.MOVE && canfly)
+				if (stance == MobStance.MOVE && canfly)
 				{
 					flydirection = randomizer.next_enum (FlyDirection.NUM_DIRECTIONS);
 				}
 			}
 			else
 			{
-				set_stance (Stance.STAND);
+				set_stance (MobStance.STAND);
 			}
 		}
 
@@ -751,7 +792,7 @@ namespace ms
 			animations.Clear ();
 		}
 
-		private SortedDictionary<Stance, Animation> animations = new SortedDictionary<Stance, Animation> ();
+		private SortedDictionary<MobStance, Animation> animations = new SortedDictionary<MobStance, Animation> ();
 
 		private string name;
 
@@ -793,7 +834,7 @@ namespace ms
 		private bool dead;
 		private bool control;
 		private bool aggro;
-		private Stance stance;
+		private MobStance stance;
 		private bool flip;
 		private FlyDirection flydirection;
 		private float walkforce;
@@ -801,5 +842,65 @@ namespace ms
 		private bool fading;
 		private bool fadein;
 		private Linear_float opacity = new Linear_float ();
+
+		public MobAttack get_MobAttack (int index)
+		{
+			return mobAttacks.TryGet (index);
+		}
+
+		private List<MobAttack> mobAttacks = new List<MobAttack> ();
+
+		protected BehaviourTree btree;
+		public BehaviourTree BTree => btree ??= ResourcesManager.Instance.GetMobBTree (id.ToString ());
+
+		BehaviourTreeOwner agent;
+		public BehaviourTreeOwner Agent
+		{
+			get
+			{
+				if (agent == null)
+				{
+					agent = MapGameObject.AddComponent<BehaviourTreeOwner> ();
+					agent.blackboard = MapGameObject.AddComponent<Blackboard> ();
+					agent.repeat = false;
+					PlayMobBTree (BTree, this);
+				}
+
+				return agent;
+			}
+			set => agent = value;
+		}
+
+
+		public bool PlayMobBTree (BehaviourTree BTree, Mob mob)
+		{
+			bool result = false;
+			if (BTree != null)
+			{
+				var StopBehaviourWhenEnter = BTree.blackboard.GetVariable<bool> ("StopBehaviourWhenEnter")?.value ?? false;
+				if (StopBehaviourWhenEnter)
+				{
+					Agent.StopBehaviour ();
+					//AppDebug.LogError ($"StopBehaviour");
+
+				}
+
+				//behaviorTreeOwner.blackboard.SetVariableValue(GetType().Name,this);
+				Agent.repeat = false;
+				//AppDebug.LogError ($"after1 graph: {behaviorTreeOwner.graph?.GetHashCode ()}");
+
+				//behaviorTreeOwner.graph = BTree;
+				//AppDebug.LogError ($"after2 graph: {behaviorTreeOwner.graph?.GetHashCode ()}");
+
+				Agent.StartBehaviour (BTree, Graph.UpdateMode.Manual, null);//todo 会把传入的graph产生一个新实例，所以设置变量要后设置
+
+				Agent.graph.blackboard.SetVariableValue (typeof (Mob).Name, mob);
+				//BehaviorTreeOwner.graph.blackboard.SetVariableValue ("InputSD", move_id);
+				//AppDebug.LogError ($"after3 graph: {behaviorTreeOwner.graph?.GetHashCode ()}");
+				//AppDebug.LogError ($"PlaySkillGraph blackboard:{graph.blackboard.GetHashCode ()}\tbehaviorTreeOwner.blackboard:{behaviorTreeOwner.blackboard.GetHashCode ()}\tbehaviorTreeOwner.graph.blackboard:{behaviorTreeOwner.graph.blackboard.GetHashCode()}\t InputSD:{behaviorTreeOwner.graph.blackboard.GetVariable<int> ("InputSD").value}");
+				result = true;
+			}
+			return result;
+		}
 	}
 }

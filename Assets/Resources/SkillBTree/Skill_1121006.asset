@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a686a47eee2fa44cb0a34b5d86e4d5e, type: 3}
+  m_Name: Skill_1121006
+  m_EditorClassIdentifier: 
+  _serializedGraph: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_condition":{"valueA":{"_name":"Combo","_targetVariableID":"ff57f1a8-42ba-4ba9-bea1-fca07b98dcfe"},"checkType":2,"valueB":{"_name":"MaxCombo","_targetVariableID":"5ec6c781-850b-492d-85d7-1548768bd4de"},"$type":"NodeCanvas.Tasks.Conditions.CheckInt"},"_position":{"x":283.8591,"y":-237.9579},"$type":"NodeCanvas.BehaviourTrees.ConditionalEvaluator","$id":"0"},{"dynamic":true,"_position":{"x":328.261,"y":-124.5416},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"1"},{"_action":{"valueA":{"_name":"Combo","_targetVariableID":"ff57f1a8-42ba-4ba9-bea1-fca07b98dcfe"},"Operation":1,"valueB":{"_value":1},"$type":"NodeCanvas.Tasks.Actions.SetInt"},"_position":{"x":-63.95069,"y":52.4157},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"2"},{"_action":{"$type":"ms_Unity.BTA_SkillCommonProcedure"},"_position":{"x":62.56871,"y":56.03549},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"3"},{"_action":{"offectX":{"_value":5.0},"offectY":{},"duration":{"_value":1},"$type":"ms_Unity.BTA_PlayerMove"},"_position":{"x":271.5607,"y":49.06349},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"4"},{"_condition":{"valueA":{"_name":"Combo","_targetVariableID":"ff57f1a8-42ba-4ba9-bea1-fca07b98dcfe"},"checkType":3,"valueB":{"_name":"MaxCombo","_targetVariableID":"5ec6c781-850b-492d-85d7-1548768bd4de"},"$type":"NodeCanvas.Tasks.Conditions.CheckInt"},"_position":{"x":409.5883,"y":49.06022},"$type":"NodeCanvas.BehaviourTrees.ConditionalEvaluator","$id":"5"},{"_position":{"x":456.8086,"y":184.045},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"6"},{"_action":{"cooldown":{"_name":"Cooldown","_targetVariableID":"0cebf4c0-6511-4d95-aaf1-269fdaec0023"},"$type":"ms_Unity.BTA_AddSkillCooldown"},"_position":{"x":254.9458,"y":305.8615},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"7"},{"_action":{"waitTime":{"_name":"Cooldown","_targetVariableID":"0cebf4c0-6511-4d95-aaf1-269fdaec0023"},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":431.0201,"y":305.2325},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"8"},{"_action":{"valueA":{"_name":"Combo","_targetVariableID":"ff57f1a8-42ba-4ba9-bea1-fca07b98dcfe"},"valueB":{},"$type":"NodeCanvas.Tasks.Actions.SetInt"},"_position":{"x":591.8866,"y":306.9646},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"9"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"7"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"8"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"9"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{"SkillSpeedMultiplier":{"_value":2.0,"_name":"SkillSpeedMultiplier","_id":"04dd472e-100e-4989-a37d-908acb6648b5","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Attack":{"_value":{"mindamage":19.0,"maxdamage":34.0,"critical":0.05,"accuracy":128,"playerlevel":14,"hitcount":2,"mobcount":1,"speed":4,"stance":21,"origin":{},"range":{}},"_name":"Attack","_id":"efaf3754-243b-4e0b-b835-c55ee2a90f4c","$type":"NodeCanvas.Framework.Variable`1[[ms.Attack,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"SpecialMove":{"_value":{"$type":"ms.RegularAttack"},"_name":"SpecialMove","_id":"d31b2a3b-0968-43cb-8df6-759fc30b583f","$type":"NodeCanvas.Framework.Variable`1[[ms.SpecialMove,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"InputSD":{"_value":1,"_name":"InputSD","_id":"4666fcf9-6c9e-47d9-8ce0-998aef7f969b","$type":"NodeCanvas.Framework.Variable`1[[System.Int32,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"S":{"_name":"S","_id":"9e0cb736-416a-4910-84f9-671f1bfd9997","$type":"NodeCanvas.Framework.Variable`1[[System.Int32,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"D":{"_name":"D","_id":"84fb7429-8f77-4e42-b7e0-82359e31fd9d","$type":"NodeCanvas.Framework.Variable`1[[System.Int32,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"RemainTransitionTime":{"_value":0.1,"_name":"RemainTransitionTime","_id":"ea47379a-5f81-400c-b631-142781659c34","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"TransitionTime":{"_value":0.1,"_name":"TransitionTime","_id":"6d23be09-689d-48ae-8da4-1dd6482eaf66","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Event_StartTransition":{"_value":"StartTransition","_name":"Event_StartTransition","_id":"708c9f1a-efba-45c2-9d63-26c25f8a1dd2","$type":"NodeCanvas.Framework.Variable`1[[System.String,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Combo":{"_name":"Combo","_id":"ff57f1a8-42ba-4ba9-bea1-fca07b98dcfe","$type":"NodeCanvas.Framework.Variable`1[[System.Int32,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"MaxCombo":{"_value":2,"_name":"MaxCombo","_id":"5ec6c781-850b-492d-85d7-1548768bd4de","$type":"NodeCanvas.Framework.Variable`1[[System.Int32,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Cooldown":{"_value":1.0,"_name":"Cooldown","_id":"0cebf4c0-6511-4d95-aaf1-269fdaec0023","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}},"derivedData":{"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
+  _objectReferences: []
+  _graphSource:
+    _version: 3.25
+    _category: 
+    _comments: 
+    _translation: {x: 77, y: 286}
+    _zoomFactor: 0.9227058
+  _haltSerialization: 0

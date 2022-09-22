@@ -81,7 +81,16 @@ namespace ms
                 vspeed = Constants.TIMESTEP * vdelta / delay;
             }
         }
-
+        public void moveuntil (double destinationX, double destinationY, ushort delay)
+        {
+            if (delay != 0)
+            {
+                double hdelta = destinationX - x.get ();
+                double vdelta = destinationY - y.get ();
+                hspeed = Constants.TIMESTEP * hdelta / delay;
+                vspeed = Constants.TIMESTEP * vdelta / delay;
+            }
+        }
         public bool hmobile()
         {
             return hspeed != 0.0;

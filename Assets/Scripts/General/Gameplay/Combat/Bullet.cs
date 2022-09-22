@@ -9,6 +9,10 @@ namespace ms
     // Represents a projectile on a map
     public class Bullet
     {
+        public Bullet (Animation a)
+        {
+            animation = new Animation (a);
+        }
         public Bullet(Animation a, Point_short origin, bool toleft)
         {
             animation = new Animation(a);
@@ -16,7 +20,17 @@ namespace ms
             moveobj.set_x(origin.x() + (toleft ? -30.0 : 30.0));
             moveobj.set_y(origin.y() - 26.0);
         }
+        public void set_Ray(Point_short origin, bool toleft)
+		{
+            moveobj.set_x (origin.x () + (toleft ? -30.0 : 30.0));
+            moveobj.set_y (origin.y () - 26.0);
+        }
 
+        public void set_Ray (double originX, double originY, bool toleft)
+        {
+            moveobj.set_x (originX + (toleft ? -30.0 : 30.0));
+            moveobj.set_y (originY - 26.0);
+        }
         public void draw(double viewx, double viewy, float alpha)
         {
             Point_short bulletpos = moveobj.get_absolute(viewx, viewy, alpha);

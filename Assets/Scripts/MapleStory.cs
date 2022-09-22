@@ -336,6 +336,7 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	public double viewx;
 	public double viewy;
+	public float alpha;
 	private void DrawAttackRange ()
 	{
 		if (attackRange != null && attackRangeAfter != null && !attackRangeAfter.empty ())

@@ -1,4 +1,5 @@
 [
+    "ms.Mob",
     "System.Boolean",
     "System.Int32",
     "System.Object",
@@ -49,6 +50,5 @@
     "UnityEngine.SceneManagement.SceneManager",
     "UnityEngine.UI.Button",
     "UnityEngine.UI.Slider",
-    "ms.Attack",
-    "ms.SpecialMove"
+    "ms.MobStance"
 ]

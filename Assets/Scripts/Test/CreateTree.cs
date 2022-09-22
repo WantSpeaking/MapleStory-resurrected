@@ -9,6 +9,11 @@ using System.Collections.Generic;
 public class CreateTree : MonoBehaviour
 {
 	[EnumToggleButtons]
+	public Stance.Id StanceId = Stance.Id.SWINGO1;
+
+	public int placeholder;
+
+	[EnumToggleButtons]
 	public CharAction.Id ActionId = CharAction.Id.savage;
 	/*public ExternalBehaviorTree behaviorTree;
 	private void Start ()

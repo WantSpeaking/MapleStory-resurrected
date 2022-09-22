@@ -43,6 +43,9 @@ namespace ms_Unity
 			_Btn_HeavyAttack.onTouchBegin.Add (OnTouchBegin_Btn_HeavyAttack);
 			_Btn_HeavyAttack.onTouchEnd.Add (OnTouchEnd_Btn_HeavyAttack);
 
+			_Btn_Dodge.onTouchBegin.Add (OnTouchBegin_Btn_DodgeAttack);
+			_Btn_Dodge.onTouchEnd.Add (OnTouchEnd_Btn_DodgeAttack);
+
 			_Btn_Jump.onClick.Add (OnClick_Btn_Jump);
 			_Btn_Dodge.onClick.Add (OnClick_Btn_Dodge);
 			_Btn_PickUp.onClick.Add (OnClick_Btn_PickUp);
@@ -180,6 +183,16 @@ namespace ms_Unity
 			//ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, false, true);
 			ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.MUTE, false, true);
 		}
+		private void OnTouchBegin_Btn_DodgeAttack (EventContext context)
+		{
+			ms.Stage.get ().get_combat ().use_move (1121006, true, false);
+		}
+
+		private void OnTouchEnd_Btn_DodgeAttack (EventContext context)
+		{
+			ms.Stage.get ().get_combat ().use_move (1121006, false, true);
+		}
+
 		private void OnClick_Btn_LightAttack (EventContext context)
 		{
 

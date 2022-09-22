@@ -1,23 +1,5 @@
 ﻿using System.Collections.Generic;
-
-//////////////////////////////////////////////////////////////////////////////////
-//	This file is part of the continued Journey MMORPG client					//
-//	Copyright (C) 2015-2019  Daniel Allendorf, Ryan Payton						//
-//																				//
-//	This program is free software: you can redistribute it and/or modify		//
-//	it under the terms of the GNU Affero General Public License as published by	//
-//	the Free Software Foundation, either version 3 of the License, or			//
-//	(at your option) any later version.											//
-//																				//
-//	This program is distributed in the hope that it will be useful,				//
-//	but WITHOUT ANY WARRANTY = without even the implied warranty of				//
-//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the				//
-//	GNU Affero General Public License for more details.							//
-//																				//
-//	You should have received a copy of the GNU Affero General Public License	//
-//	along with this program.  If not, see <https://www.gnu.org/licenses/>.		//
-//////////////////////////////////////////////////////////////////////////////////
-
+using MapleLib.WzLib;
 
 namespace ms
 {
@@ -73,7 +55,23 @@ namespace ms
 		public int mobid = 0;
 		public int oid = 0;
 		public Point_short origin = new Point_short ();
-		public bool valid = false; 
+		public bool valid = false;
+
+		public bool hasBall;
+		public bool hasEffect;
+
+		public Rectangle_short range = new Rectangle_short ();
+		public Animation effect = new Animation ();
+		public Animation hit = new Animation ();
+		public Animation ball = new Animation ();
+		public Animation mobAttackAni = new Animation ();
+
+		public int conMP = 0;
+		public int effectAfter = 0;
+		public int attackAfter = 0;
+		public int magic = 0;
+		public int deadlyAttack = 0;
+		public int doFirst = 0;
 
 		// Create a mob attack for touch damage
 		public MobAttack ()
@@ -85,13 +83,50 @@ namespace ms
 		{
 			this.type = Attack.Type.CLOSE;
 			this.watk = watk;
-			this.origin = new ms.Point_short(origin);
+			this.origin = new ms.Point_short (origin);
 			this.mobid = mobid;
 			this.oid = oid;
 			this.valid = true;
 		}
 
-		public static explicit operator bool (MobAttack ImpliedObject)
+		public MobAttack (WzObject src, int mobid, int oid)
+		{
+			mobAttackAni = src;
+
+			var info = src["info"];
+			if (info?["range"]?["r"])
+			{
+				short r = src["info"]["range"]["r"];
+				range = new ms.Rectangle_short (new Point_short ((short)-r, (short)-r), new Point_short (r, r));
+			}
+			else
+			{
+				range = new ms.Rectangle_short (src["info"]["range"]);
+			}
+
+			hasBall = info?["ball"] != null;
+			hasEffect = info?["effect"] != null;
+
+			effect = info?["effect"];
+			hit = info?["hit"];
+			ball = info?["ball"];
+
+			conMP = info?["conMP"];
+			effectAfter = info?["effectAfter"];
+			attackAfter = info?["attackAfter"];
+			magic = info?["magic"];
+			deadlyAttack = info?["deadlyAttack"];
+			doFirst = info?["doFirst"];
+			magic = info?["magic"];
+
+			type = (Attack.Type)(int)(info?["type"] ?? 0);
+
+			this.mobid = mobid;
+			this.oid = oid;
+			valid = true;
+		}
+
+		public static implicit operator bool (MobAttack ImpliedObject)
 		{
 			return ImpliedObject.valid;
 		}
@@ -128,7 +163,7 @@ namespace ms
 			stance = attack.stance;
 			bullet = attack.bullet;
 			toleft = attack.toleft;
-			hforce= attack.hforce;
+			hforce = attack.hforce;
 			vforce = attack.vforce;
 		}
 
@@ -157,7 +192,7 @@ namespace ms
 		public ushort level;
 		public bool secondweapon;
 		public bool flip;
-        public Char user;
+		public Char user;
 		public AttackUser (int skilllevel, ushort level, bool secondweapon, bool flip, Char user)
 		{
 			this.skilllevel = skilllevel;

@@ -138,6 +138,9 @@ namespace ms
 			camera.set_view (mapinfo?.get_walls (), mapinfo?.get_borders ());
 		}
 
+		public double viewx;
+		public double viewy;
+		public float alpha;
 		public void draw (float alpha)
 		{
 			if (state != State.ACTIVE)
@@ -146,10 +149,13 @@ namespace ms
 			}
 			Point_short viewpos = camera.position (alpha);
 			Point_double viewrpos = camera.realposition (alpha);
-			double viewx = viewrpos.x ();
-			double viewy = viewrpos.y ();
+			viewx = viewrpos.x ();
+			viewy = viewrpos.y ();
+			this.alpha = alpha;
 			MapleStory.Instance.viewx = viewx;
 			MapleStory.Instance.viewy = viewy;
+			MapleStory.Instance.alpha = alpha;
+
 			backgrounds?.drawbackgrounds (viewx, viewy, alpha);
 			foreach (ms.Layer.Id id in Enum.GetValues (typeof (ms.Layer.Id)))
 			{
@@ -218,8 +224,19 @@ namespace ms
 				}
 			}
 			if (!player.is_invincible ())
+				return;
+
+			var oid_id = mobs.find_colliding (player.get_phobj ());
+			if (oid_id != 0)
 			{
+				MobAttack attack = mobs.create_attack (oid_id);
+				if (attack)
+				{
+					MobAttackResult result = player.damage (attack);
+					new TakeDamagePacket (result, TakeDamagePacket.From.TOUCH).dispatch ();
+				}
 			}
+
 		}
 
 		public void show_character_effect (int cid, CharEffect.Id effect)
@@ -318,7 +335,7 @@ namespace ms
 
 		public void send_keyDown (int keycode)
 		{
-			Keyboard.Mapping mapping = UI.get().get_keyboard().get_maple_mapping (keycode);
+			Keyboard.Mapping mapping = UI.get ().get_keyboard ().get_maple_mapping (keycode);
 			send_key (mapping.type, mapping.action, true);
 		}
 		public void send_keyUp (int keycode)

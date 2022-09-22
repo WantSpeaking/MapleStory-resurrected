@@ -18,6 +18,7 @@
 
 
 
+using NodeCanvas.BehaviourTrees;
 using NodeCanvas.Framework;
 
 namespace ms
@@ -59,8 +60,8 @@ namespace ms
 		public abstract bool has_skillPrepareEffect ();
 		public abstract ForbidReason can_use (int level, Weapon.Type weapon, Job job, ushort hp, ushort mp, ushort bullets);
 
-		protected Graph graph;
-		public Graph Graph => graph ??= ResourcesManager.Instance.GetSkillGraph (get_id ().ToString ());
+		protected BehaviourTree graph;
+		public BehaviourTree BTree => graph ??= ResourcesManager.Instance.GetSkillBTree (get_id ().ToString ());
 
 	}
 }

@@ -9,8 +9,7 @@ namespace ms_Unity
 	[Category ("PlayerAction")]
 	public class BTA_SkillCommonProcedure : ActionTask
 	{
-		public BBParameter<SpecialMove> SpecialMove;
-		private SpecialMove move => SpecialMove.value;
+		private SpecialMove move => blackboard.GetVariable<SpecialMove> (typeof (SpecialMove).Name).value;
 
 		private Player player => Stage.get ().get_player ();
 		private MapChars chars => Stage.get().get_chars();
