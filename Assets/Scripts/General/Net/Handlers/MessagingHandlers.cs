@@ -187,7 +187,7 @@ namespace ms
 		public override void handle (InPacket recv)
 		{
 			//todo 2 recv.inspect_bool ();
-			/*sbyte type = recv.read_byte ();
+			sbyte type = recv.read_byte ();
 			bool servermessage = recv.inspect_bool ();
 
 			if (servermessage)
@@ -210,12 +210,12 @@ namespace ms
 			{
 				recv.read_int (); // npcid
 			}
-			
+
 			var messenger = UI.get ().get_element<UIStatusMessenger> ();
 			if (messenger)
 			{
-				messenger.get ().show_status(Color.Name.WHITE, message);
-			}*/
+				messenger.get ().show_status (Color.Name.WHITE, message);
+			}
 		}
 	}
 

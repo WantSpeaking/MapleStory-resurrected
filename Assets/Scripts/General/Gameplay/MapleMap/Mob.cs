@@ -100,7 +100,7 @@ namespace ms
 			set_position (new Point_short (position));
 			set_control (mode);
 			phobj.fhid = fh;
-			phobj.set_flag (PhysicsObject.Flag.TURNATEDGES);
+			//phobj.set_flag (PhysicsObject.Flag.TURNATEDGES);
 
 			hppercent = 0;
 			dying = false;
@@ -255,7 +255,7 @@ namespace ms
 			if (!dying)
 			{
 				if (!canfly)
-				{
+	/*			{
 					if (phobj.is_flag_not_set (PhysicsObject.Flag.TURNATEDGES))
 					{
 						flip = !flip;
@@ -266,7 +266,7 @@ namespace ms
 							set_stance (MobStance.STAND);
 						}
 					}
-				}
+				}*/
 
 				switch (stance)
 				{
@@ -595,7 +595,10 @@ namespace ms
 
 			return get_head_position (new Point_short (position));
 		}
-
+		public PhysicsObject get_phobj()
+		{
+			return phobj;
+		}
 		public static string get_name (int mobId)
 		{
 			return ms.wz.wzFile_string["Mob.img"][Convert.ToString (mobId)]["name"].ToString ();
@@ -632,7 +635,7 @@ namespace ms
 		}
 
 		// Set the stance by enumeration value
-		private void set_stance (MobStance newstance)
+		public void set_stance (MobStance newstance)
 		{
 			if (stance != newstance)
 			{
@@ -843,9 +846,14 @@ namespace ms
 		private bool fadein;
 		private Linear_float opacity = new Linear_float ();
 
-		public MobAttack get_MobAttack (int index)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="attackNumber"></param>
+		/// <returns></returns>
+		public MobAttack get_MobAttack (int attackNumber)
 		{
-			return mobAttacks.TryGet (index);
+			return mobAttacks.TryGet (attackNumber - 1);
 		}
 
 		private List<MobAttack> mobAttacks = new List<MobAttack> ();

@@ -135,16 +135,12 @@ namespace ms
 	// The standing state
 	public class PlayerStandState : PlayerState
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void initialize(Player& player) const override
 		public override void initialize (Player player)
 		{
 			player.get_phobj ().type = PhysicsObject.Type.NORMAL;
 			//if(!haswalkinput (player)) player.get_phobj ().hspeed = 0;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void send_action(Player& player, KeyAction::Id ka, bool down) const override
 		public override void send_action (Player player, KeyAction.Id ka, bool down)
 		{
 			if (player.is_attacking ())
@@ -160,8 +156,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void update(Player& player) const override
 		public override void update (Player player)
 		{
 			if (player.get_phobj ().enablejd == false)

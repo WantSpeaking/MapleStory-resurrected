@@ -71,7 +71,8 @@ namespace ms
 
 		public short VIEWHEIGHT_CashShop { get; set; } = 768;
 
-		public const ushort TIMESTEP = 8;
+		//public const ushort TIMESTEP = 8;//original is 8
+		public const ushort TIMESTEP = 8;//original is 8
 
 		public float walkSpeed = 1;
 		public float jumpSpeed = 1;

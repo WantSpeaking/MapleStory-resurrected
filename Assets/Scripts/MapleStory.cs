@@ -38,7 +38,7 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	}
 
-	private void Update ()
+	protected override void OnUpdate ()
 	{
 		/*clearBuffer.Clear ();
 		clearBuffer.ClearRenderTarget (true, true, clearColor);
@@ -54,15 +54,42 @@ public class MapleStory : SingletonMono<MapleStory>
 		Constants.get ().frameDelay = frameDelay;
 
 		Constants.get ().multiplier_timeStep = multiplier_timeStep;
-		loop ();
+		//loop ();
 
+		if (running ())
+		{
+			var elapsed = Timer.get ().stop ();
 
+			var accumulator_before = accumulator;
+			var accumulator_plus_elapsed = accumulator + elapsed;
+			// Update game with constant timestep as many times as possible.
+			for (accumulator += elapsed; accumulator >= timestep; accumulator -= timestep)
+			{
+				//update ();
+				//Debug.Log ($"{DateTime.Now.Millisecond}");
+
+			}
+
+			// Draw the game. Interpolate to account for remaining time.
+			float alpha = Mathf.Clamp01 (accumulator * multiplier_elapsed / timestep);
+			//Debug.Log ($"elapsed:{elapsed} \t timestep:{timestep} \t accumulator:{accumulator} \t alpha:{alpha}");
+			draw (alpha);
+			//Debug.Log ($"deltaTime:{Time.deltaTime * 1000}\t accumulator_before:{accumulator_before}\t elapsed:{elapsed}\t  accumulator_plus_elapsed:{accumulator_plus_elapsed}\t accumulator:{accumulator}\t  alpha:{alpha}");
+		}
 #if BackgroundStatic
 		var playerPos = Stage.get ().get_player ()?.get_position ();
 		if (playerPos != null)
 			UnityEngine.Camera.main.transform.position = new Vector3 (playerPos.x (), -playerPos.y (), -1);
 #endif
 
+	}
+
+	private void FixedUpdate ()
+	{
+		if (running ())
+		{
+			update ();
+		}
 	}
 
 	private void OnGUI ()
@@ -73,13 +100,6 @@ public class MapleStory : SingletonMono<MapleStory>
 		}
 	}
 
-	private void FixedUpdate ()
-	{
-		if (running ())
-		{
-			//update ();
-		}
-	}
 
 	CommandBuffer clearBuffer;
 	public UnityEngine.Color clearColor = UnityEngine.Color.magenta;
@@ -203,6 +223,9 @@ public class MapleStory : SingletonMono<MapleStory>
 		TestURPBatcher.Instance.HideAll ();
 		Stage.get ().draw (alpha);
 		UI.get ().draw (alpha);
+
+		if(enable_DebugPlayerPos)
+			AppDebug.Log (Stage.get ().get_player ()?.get_position ());
 		//Window.get().end();
 	}
 
@@ -234,7 +257,8 @@ public class MapleStory : SingletonMono<MapleStory>
 			for (accumulator += elapsed; accumulator >= timestep; accumulator -= timestep)
 			{
 				update ();
-				//Debug.Log ("update");bt`
+				Debug.Log ($"{DateTime.Now.Millisecond}");
+
 			}
 
 			// Draw the game. Interpolate to account for remaining time.
@@ -328,6 +352,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	public bool enable_DrawFootHolder = false;
 	public bool enable_DrawAttackRange = false;
 	public bool enable_DrawMobRange = false;
+	public bool enable_DebugPlayerPos = false;
 	public bool AddToParent = true;
 	public Rectangle_short attackRange;
 	public Rectangle_short attackRangeAfter;

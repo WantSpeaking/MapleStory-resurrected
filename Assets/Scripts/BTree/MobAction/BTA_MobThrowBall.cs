@@ -11,8 +11,8 @@ namespace ms_Unity
 	[Category ("MobAction")]
 	public class BTA_MobThrowBall : ActionTask
 	{
-		public BBParameter<Vector3> axis;
-		public BBParameter<float> rotateSpeed = 1f;
+		public BBParameter<float> duration = 1f;
+
 		private Mob mob;
 		private Player player;
 		private MobAttack mobAttack;
@@ -26,7 +26,7 @@ namespace ms_Unity
 		protected override string OnInit ()
 		{
 			mob = blackboard.GetVariable<Mob> (typeof (Mob).Name).value;
-			mobAttack = mob.get_MobAttack (1);
+			mobAttack = mob.get_MobAttack (2);
 			ball = mobAttack.ball;
 			attackAnimation = mobAttack.mobAttackAni;
 
@@ -45,7 +45,7 @@ namespace ms_Unity
 			mob.set_flip (!facingLeft);
 			mob.Set_MobAttackAni (attackAnimation);
 
-			GTween.To (mob.get_head_position ().ToUnityVector2 (), player.get_position ().ToUnityVector2 (), rotateSpeed.value)
+			GTween.To (mob.get_head_position ().ToUnityVector2 (), player.get_position ().ToUnityVector2 (), duration.value)
 				.SetRepeat (1, true)
 				.SetSnapping (true)
 				.OnStart (t => { })

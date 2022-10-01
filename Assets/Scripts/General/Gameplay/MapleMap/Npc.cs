@@ -275,7 +275,7 @@ namespace ms
 				var questId = pair.Key;
 				var sayInfo = sayLog.GetSayInfo (questId);
 				var checkInfo = checkLog.GetCheckInfo (questId);
-				if (checkInfo.checkStages[1].npc == npcid)
+				if (checkInfo.checkStages.TryGet(1).npc == npcid)
 				{
 					inProgress_Quests.Add (questId, sayInfo);
 				}

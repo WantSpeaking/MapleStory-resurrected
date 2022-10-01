@@ -152,12 +152,12 @@ namespace ms
 
 		private FootholdTree fht;
 		
-		const double GRAVFORCE = 0.14;
-		const double SWIMGRAVFORCE = 0.03;
-		const double FRICTION = 0.3;
-		const double SLOPEFACTOR = 0.1;
-		const double GROUNDSLIP = 3.0;
-		const double FLYFRICTION = 0.05;
-		const double SWIMFRICTION = 0.08;
+		public const double GRAVFORCE = 0.14;
+		public const double SWIMGRAVFORCE = 0.03;
+		public const double FRICTION = 0.3;
+		public const double SLOPEFACTOR = 0.1;
+		public const double GROUNDSLIP = 3.0;
+		public const double FLYFRICTION = 0.05;
+		public const double SWIMFRICTION = 0.08;
 	}
 }
