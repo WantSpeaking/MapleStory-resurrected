@@ -184,7 +184,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		//FindChild (wz.wzFile_quest["QuestInfo.img"]);
 		//FindChild (wz.wzFile_quest["Say.img"]);
 		//Debug.Log (dictionary.ToDebugLog ());
-		Debug.Log (dictionary.Keys.ToDebugLog ());
+		//Debug.Log (dictionary.Keys.ToDebugLog ());
 		
 	}
 	Dictionary<string, string> dictionary;
@@ -221,6 +221,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		//Window.get().begin();
 		GameUtil.Instance.DrawOrder = 0;
 		TestURPBatcher.Instance.HideAll ();
+		TextManager.Instance.HideAll ();
 		Stage.get ().draw (alpha);
 		UI.get ().draw (alpha);
 

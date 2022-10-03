@@ -547,34 +547,7 @@ namespace ms_Unity
 						FGUI_View.MonoBehaviour_View.SetDataContext (item);*/
 			tab = typeId;
 			update_slot (keyValuePair.Key);
-			if (icons[tab].TryGetValue (keyValuePair.Key, out var icon))
-			{
-				ms.Inventory.Slot slot = keyValuePair.Value;
-				index = keyValuePair.Key - 1;
-				FGUI_Itemed_ListItem FGUI_View = null;
-				NTexture nTexture = null;
-				short count = icon.count;
-
-				if (index >= parent.numChildren)
-				{
-					FGUI_View = parent.AddItemFromPool () as FGUI_Itemed_ListItem;
-				}
-				else
-				{
-					FGUI_View = parent.GetChildAt (index) as FGUI_Itemed_ListItem;
-				}
-
-				FGUI_View._c_InventoryTypeId.selectedIndex = (int)tab;
-				FGUI_View._c_count.selectedIndex = count > 1 ? 1 : 0;
-				FGUI_View.text = count.ToString ();
-				nTexture = new NTexture (icon.get_texture ().texture2D);
-				var iconGLoader = FGUI_View.GetChild ("icon")?.asLoader;
-				if (iconGLoader != null)
-					iconGLoader.texture = nTexture;
-			}
-
-
-
+			update_slot_FGUI (keyValuePair.Key, parent);
 
 			/*var itemViewGo = Instantiate (this.itemTemplate);
 			itemViewGo.GList.SetParent (parent, false);
@@ -624,31 +597,20 @@ namespace ms_Unity
 
 		protected virtual void ReplaceItem (int index, object oldItem, object item, GList parent, InventoryType.Id typeId)
 		{
-			var keyValuePair = (KeyValuePair<short, ms.Inventory.Slot>)oldItem;
-			var keyValuePair2 = (KeyValuePair<short, ms.Inventory.Slot>)item;
+			var keyValuePair_Old = (KeyValuePair<short, ms.Inventory.Slot>)oldItem;
+			var keyValuePair_New = (KeyValuePair<short, ms.Inventory.Slot>)item;
 
 			//AppDebug.Log ($"Count1:{keyValuePair.Value.Count} Count2:{keyValuePair2.Value.Count}");
 
 			tab = typeId;
-			update_slot (keyValuePair.Key);
-			if (icons[tab].TryGetValue (keyValuePair.Key, out var icon))
-			{
-				index = keyValuePair.Key - 1;
-				FGUI_Itemed_ListItem FGUI_View = null;
-				short count = icon.count;
 
-				if (index >= parent.numChildren)
-				{
-					FGUI_View = parent.AddItemFromPool () as FGUI_Itemed_ListItem;
-				}
-				else
-				{
-					FGUI_View = parent.GetChildAt (index) as FGUI_Itemed_ListItem;
-				}
-				FGUI_View._c_InventoryTypeId.selectedIndex = (int)tab;
-				FGUI_View._c_count.selectedIndex = count > 1 ? 1 : 0;
-				FGUI_View.text = count.ToString ();
-			}
+			//update_slot (keyValuePair_Old.Key);
+			update_slot (keyValuePair_New.Key);
+
+			//update_slot_FGUI (keyValuePair_Old.Key, parent);
+			update_slot_FGUI (keyValuePair_New.Key, parent);
+
+			
 		}
 
 		protected virtual void MoveItem (int oldIndex, int index, object item, GList parent)
@@ -706,6 +668,32 @@ namespace ms_Unity
 			}
 		}
 
+		private void update_slot_FGUI (short Key, GList glist)
+		{
+			if (icons[tab].TryGetValue (Key, out var icon))
+			{
+				var index = Key - 1;
+				FGUI_Itemed_ListItem FGUI_View = null;
+				NTexture nTexture = null;
+				short count = icon.count;
+
+				if (index >= glist.numChildren)
+				{
+					FGUI_View = glist.AddItemFromPool () as FGUI_Itemed_ListItem;
+				}
+				else
+				{
+					FGUI_View = glist.GetChildAt (index) as FGUI_Itemed_ListItem;
+				}
+				FGUI_View._c_InventoryTypeId.selectedIndex = (int)tab;
+				FGUI_View._c_count.selectedIndex = count > 1 ? 1 : 0;
+				FGUI_View.text = count.ToString ();
+				nTexture = icon.get_texture ().nTexture;
+				var iconGLoader = FGUI_View.GetChild ("icon")?.asLoader;
+				if (iconGLoader != null)
+					iconGLoader.texture = nTexture;
+			}
+		}
 		public override void Dispose ()
 		{
 			base.Dispose ();

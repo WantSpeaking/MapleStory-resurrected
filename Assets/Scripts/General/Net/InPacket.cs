@@ -120,6 +120,9 @@ namespace ms
         {
             string ret = string.Empty;
 
+            if (count > arr.Length - pos)
+                return ret;
+
             ret = Encoding.GetEncoding("GBK").GetString(arr, pos, count);
             pos += count;
             bytesRead += count;

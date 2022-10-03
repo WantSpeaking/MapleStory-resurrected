@@ -224,10 +224,23 @@ namespace ms
 			return result;
 		}
 
+		private static Dictionary<Text, GTextField> gTextFields = new Dictionary<Text, GTextField> ();
 		public static void Init ()
 		{
 		}
-
+		public static void HideAllGText ()
+		{
+			foreach (var gTextField in gTextFields.Values)
+			{
+				gTextField.visible = false;
+			}
+		}
+		private int FontToSize (Font font)
+		{
+			var sizeStr = font.ToString ().Substring (1, 2);
+			int.TryParse (sizeStr, out var size);
+			return (int)(size / 11f * 30);
+		}
 		public Text (Font f, Alignment a, ms.Color.Name c, Background b, string t = "", ushort mw = 0, bool fm = true, short la = 0)
 		{
 			font = f;
@@ -237,16 +250,6 @@ namespace ms
 			maxwidth = mw;
 			formatted = fm;
 			line_adj = la;
-			CreateGRichText (t);
-			GRoot.inst.AddChild (gRichTextField);
-			float[] msColor = ms.Color.colors[(uint)color];
-			UnityEngine.Color monoColor = new UnityEngine.Color (msColor[0], msColor[1], msColor[2], 1f);
-			var textFormat = gRichTextField.textFormat;
-			textFormat.color = monoColor;
-			textFormat.size = 30;
-			gRichTextField.textFormat = textFormat;
-			gRichTextField.pivotX = 0.5f;
-			gRichTextField.pivotAsAnchor = true;
 
 			change_text (t);
 		}
@@ -268,7 +271,10 @@ namespace ms
 
 		public void draw (DrawArgument args, Range_short vertical)
 		{
-			if (string.IsNullOrEmpty (text))
+			TextManager.Instance.TryDraw (this, text, args, vertical);
+
+
+			/*if (string.IsNullOrEmpty (text))
 			{
 				return;
 			}
@@ -280,6 +286,8 @@ namespace ms
 			useFguiText = true;
 			if (useFguiText)
 			{
+				gRichTextField.visible = true;
+
 				var screenPos = UnityEngine.Camera.main.WorldToScreenPoint (new UnityEngine.Vector3 (args.getpos ().x (), args.getpos ().y (), 1));
 				screenPos.y = screenPos.y - UnityEngine.Screen.height;
 				gRichTextField.position = GRoot.inst.GlobalToLocal (screenPos);
@@ -293,7 +301,7 @@ namespace ms
 			if (background == Background.NAMETAG)
 			{
 			}
-			Singleton<ms.GraphicsGL>.get ().Batch.DrawString (spriteFont, text, new Microsoft.Xna.Framework.Vector2 (drawPosX, drawPosY), monoColor, 0f, Microsoft.Xna.Framework.Vector2.Zero, fontSizeScaler, SpriteEffects.None, 0f);
+			Singleton<ms.GraphicsGL>.get ().Batch.DrawString (spriteFont, text, new Microsoft.Xna.Framework.Vector2 (drawPosX, drawPosY), monoColor, 0f, Microsoft.Xna.Framework.Vector2.Zero, fontSizeScaler, SpriteEffects.None, 0f);*/
 		}
 
 		public void change_text (string t, bool setGRichText = true)
@@ -370,21 +378,33 @@ namespace ms
 			}
 		}
 
-		public void CreateGRichText (string t)
+		public GRichTextField CreateGRichText ()
 		{
 			useFguiText = true;
 			gRichTextField = new GRichTextField ();
-			gRichTextField.textFormat.size = (int)FontTypeToSize (font);
-			float[] msColor = ms.Color.colors[(uint)color];
-			Microsoft.Xna.Framework.Color monoColor = new Microsoft.Xna.Framework.Color (msColor[0], msColor[1], msColor[2], 1f);
-			gRichTextField.textFormat.color = new UnityEngine.Color ((int)monoColor.R, (int)monoColor.G, (int)monoColor.B, (int)monoColor.A);
-			gRichTextField.align = (AlignType)alignment;
+			//gRichTextField.textFormat.size = (int)FontTypeToSize (font);
+			//Microsoft.Xna.Framework.Color monoColor = new Microsoft.Xna.Framework.Color (msColor[0], msColor[1], msColor[2], 1f);
+			//gRichTextField.textFormat.color = new UnityEngine.Color (msColor[0], msColor[1], msColor[2], 1f);
+
 			if (maxwidth != 0)
 			{
 				gRichTextField.autoSize = AutoSizeType.Height;
 				gRichTextField.width = (int)maxwidth;
 			}
+			gRichTextField.align = (AlignType)alignment;
 			gRichTextField.onClickLink.Add (onClickLink);
+			gRichTextField.pivotX = 0.5f;
+			gRichTextField.pivotAsAnchor = true;
+
+			var textFormat = gRichTextField.textFormat;
+			float[] msColor = ms.Color.colors[(uint)color];
+			textFormat.color = new UnityEngine.Color (msColor[0], msColor[1], msColor[2], 1f);
+			textFormat.size = FontToSize (font);
+			gRichTextField.textFormat = textFormat;
+
+			GRoot.inst.AddChild (gRichTextField);
+
+			return gRichTextField;
 		}
 
 		public void AddGRichTextToGRoot ()

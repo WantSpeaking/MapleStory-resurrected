@@ -156,13 +156,13 @@ public static class IEnumerableExt
     {
         _stringBuilder.Clear();
         _stringBuilder.Append('[');
-        _stringBuilder.AppendLine ("");
+        //_stringBuilder.AppendLine ("");
 
         foreach (var e in enumerable)
         {
             _stringBuilder.Append(e);
             _stringBuilder.Append(',');
-            _stringBuilder.AppendLine ("");
+            //_stringBuilder.AppendLine ("");
         }
 
         _stringBuilder.Append(']');
