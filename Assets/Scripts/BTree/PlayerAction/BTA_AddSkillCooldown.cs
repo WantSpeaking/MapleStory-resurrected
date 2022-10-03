@@ -26,7 +26,7 @@ namespace ms_Unity
 		//EndAction can be called from anywhere.
 		protected override void OnExecute ()
 		{
-			
+			player.add_cooldown(move.get_id(),cooldown.value);	
 
 			EndAction (true);
 		}
