@@ -14,6 +14,7 @@ namespace ms_Unity
         public GTextField _Txt_Name;
         public GTextField _Txt_Level;
         public GButton _Btn_BT_SPUP0;
+        public GButton _Btn_SetupSkill;
         public const string URL = "ui://4916gthqsxcsokv";
 
         public static FGUI_ListItem_SkillInfo CreateInstance()
@@ -32,6 +33,7 @@ namespace ms_Unity
             _Txt_Name = (GTextField)GetChildAt(11);
             _Txt_Level = (GTextField)GetChildAt(12);
             _Btn_BT_SPUP0 = (GButton)GetChildAt(13);
+            _Btn_SetupSkill = (GButton)GetChildAt(14);
             OnCreate();
 
         }

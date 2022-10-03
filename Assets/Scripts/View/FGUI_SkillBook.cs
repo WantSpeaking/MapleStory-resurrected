@@ -134,6 +134,7 @@ namespace ms_Unity
 				if (child is FGUI_ListItem_SkillInfo item_SkillInfo)
 				{
 					item_SkillInfo._Btn_BT_SPUP0.onClick.Clear ();
+					item_SkillInfo._Btn_SetupSkill.onClick.Clear ();
 				}
 			}
 
@@ -144,6 +145,7 @@ namespace ms_Unity
 				if (child is FGUI_ListItem_SkillInfo item_SkillInfo)
 				{
 					item_SkillInfo._Btn_BT_SPUP0.onClick.Add(OnClick_Btn_BT_SPUP0);
+					item_SkillInfo._Btn_SetupSkill.onClick.Add(OnClick_Btn_SetupSkill);
 					string_SkillName = string_SkillName.append (item_SkillInfo._Txt_Name.text.Replace(" ","") +" = "+ UISkillBook.skills[_GList_SkillInfo.GetChildIndex(child)].get_id() + ",\n");
 				}
 			}
@@ -159,7 +161,10 @@ namespace ms_Unity
 			change_sp ();
 			((GObject)context.sender).visible = UISkillBook.can_raise (skillInfo.get_id ());
 		}
-
+		private void OnClick_Btn_SetupSkill (EventContext context)
+		{
+			_c_SetupAction.selectedIndex = 1;
+		}
 		private void ItemRenderer (int index, GObject item)
 		{
 			var skillInfo = UISkillBook.skills[index];
@@ -168,6 +173,7 @@ namespace ms_Unity
 			glistItem._Txt_Name.text = skillInfo.get_namestr ();
 			glistItem._Txt_Level.SetVar ("level", skillInfo.get_levelstr ()).FlushVars();
 			glistItem._Btn_BT_SPUP0.visible = UISkillBook.can_raise (skillInfo.get_id ());
+			glistItem._Btn_SetupSkill.visible = !SkillData.get (skillInfo.get_id ()).is_passive();
 		}
 	}
 }
