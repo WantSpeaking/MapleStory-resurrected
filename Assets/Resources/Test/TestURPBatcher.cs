@@ -7,6 +7,7 @@ using MapleLib.WzLib;
 using ms;
 using UnityEngine;
 using Camera = UnityEngine.Camera;
+using ms_Unity;
 
 public class TestURPBatcher : SingletonMono<TestURPBatcher>
 {
@@ -18,6 +19,11 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 
 	public ConcurrentDictionary<ms.Texture, GameObject> texture_GObj_Dict = new ConcurrentDictionary<ms.Texture, GameObject> ();
 
+	public ConcurrentDictionary<string, Material> path_Material_Dict = new ConcurrentDictionary<string, Material> ();
+
+	public UnityPool<GameObject> _GObj_Pool = new UnityPool<GameObject> ();
+	public UnityPool<Material> _Material_Pool = new UnityPool<Material> ();
+
 	public GameObject test;
 
 	private GRichTextField gRichTextField;
@@ -27,7 +33,6 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 	UnityObjectPool<GameObject> pool = new UnityObjectPool<GameObject> ();
 	public GameObject TryGetGObj (ms.Texture hashCode, Func<GameObject> create = null)
 	{
-		
 		if (!texture_GObj_Dict.TryGetValue (hashCode, out var result))
 		{
 			result = create?.Invoke ();
@@ -67,7 +72,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 
 	public void HideAll ()
 	{
-		AppDebug.LogError ($"texture_GObj_Dict.Count:{texture_GObj_Dict.Count}");
+		//AppDebug.LogError ($"texture_GObj_Dict.Count:{texture_GObj_Dict.Count}\t _GObj_Pool.count:{_GObj_Pool.count}\t _Material_Pool.count:{_Material_Pool.count}");
 		//Clear ();
 		foreach (GameObject gobj in texture_GObj_Dict.Values)
 		{
@@ -79,22 +84,23 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 	}
 
 	List<ms.Texture> textures = new List<ms.Texture> ();
-	public void Clear()
+	public void Clear ()
 	{
-		textures.Clear ();
-		foreach (var pair in texture_GObj_Dict)
-		{
-			if (pair.Value == null)//if gameobj is destoried
-			{
-				textures.Add (pair.Key);
-			}
-		}
+		/*textures.Clear ();
+		
 
 		foreach (var key in textures)
 		{
 			texture_GObj_Dict.Remove (key, out var gameObject);
+		}*/
+
+		foreach (var pair in texture_GObj_Dict)
+		{
+			_Material_Pool.ReturnObject (pair.Key.fullPath, pair.Value.GetComponent<MeshRenderer> ().material);
+			_GObj_Pool.ReturnObject (pair.Key.fullPath, pair.Value);
+			pair.Value.SetActive (false);
 		}
-		//texture_GObj_Dict.Clear ();
+		texture_GObj_Dict.Clear ();
 	}
 
 	private GameObject Parent;
@@ -105,9 +111,14 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 			Parent = new GameObject ("Parent");
 		}
 
-		Material tempMaterial = new Material (presetMaterial);
+		//Material tempMaterial = new Material (presetMaterial);
+		Material tempMaterial = _Material_Pool.GetObject (tex.fullPath, CreateMaterial);
 		tempMaterial.mainTexture = tex.texture2D;
-		GameObject tempObj = UnityEngine.Object.Instantiate (prefeb);
+
+		//GameObject tempObj = UnityEngine.Object.Instantiate (prefeb);
+
+		GameObject tempObj = _GObj_Pool.GetObject (tex.fullPath, CreateGObj);
+		tempObj.SetActive (true);
 		tempObj.name = tex.fullPath;
 		tempObj.GetComponent<MeshRenderer> ().material = tempMaterial;
 		tempObj.SetParent (Parent.transform);
@@ -115,6 +126,15 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 		return tempObj;
 	}
 
+	private GameObject CreateGObj ()
+	{
+		return UnityEngine.Object.Instantiate (prefeb);
+	}
+
+	private Material CreateMaterial ()
+	{
+		return new Material (presetMaterial);
+	}
 	private void Awake ()
 	{
 		//GRoot.inst.container.renderMode = RenderMode.WorldSpace;

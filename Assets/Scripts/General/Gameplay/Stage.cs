@@ -113,6 +113,7 @@ namespace ms
 			mobs.clear ();
 			drops.clear ();
 			reactors.clear ();
+			TestURPBatcher.Instance.Clear ();
 		}
 
 		private void load_map (int mapid)
