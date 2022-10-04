@@ -109,7 +109,7 @@ namespace ms
 			if (animations.count (stance) > 0)
 			{
 				//animations[stance].draw (new DrawArgument (new Point_short (absp), flip, 8, 0), alpha);
-				animations[stance].draw (new DrawArgument (new Point_short (absp), flip), alpha);
+				animations[stance].draw (new DrawArgument (new Point_short (absp), flip).SetParent (MapGameObject), alpha);
 			}
 
 			if (!hidename)
@@ -121,7 +121,7 @@ namespace ms
 
 			lastDraw_Stance = stance;
 
-			questIcon_Current?.draw (new DrawArgument (absp + new Point_short (0, -charHeight), flip), alpha);
+			questIcon_Current?.draw (new DrawArgument (absp + new Point_short (0, -charHeight), flip).SetParent (MapGameObject), alpha);
 		}
 
 		// Updates the current animation and physics
@@ -194,7 +194,7 @@ namespace ms
 			return name;
 		}
 
-		public int get_id()
+		public int get_id ()
 		{
 			return npcid;
 		}
@@ -205,9 +205,10 @@ namespace ms
 			return func;
 		}
 
-		private bool check_Has_CanCompleteQuest(ref short canCompleteQuestId)
+		private bool check_Has_CanCompleteQuest (ref short canCompleteQuestId)
 		{
-			if(!check_Has_InProgressQuest()) return false;
+			if (!check_Has_InProgressQuest ())
+				return false;
 
 			bool isAvailable = true;
 
@@ -275,7 +276,7 @@ namespace ms
 				var questId = pair.Key;
 				var sayInfo = sayLog.GetSayInfo (questId);
 				var checkInfo = checkLog.GetCheckInfo (questId);
-				if (checkInfo.checkStages.TryGet(1).npc == npcid)
+				if (checkInfo.checkStages.TryGet (1).npc == npcid)
 				{
 					inProgress_Quests.Add (questId, sayInfo);
 				}
@@ -293,12 +294,12 @@ namespace ms
 				}
 			}
 			short canCompleteQuestId = 0;
-			if (check_Has_CanCompleteQuest(ref canCompleteQuestId))
+			if (check_Has_CanCompleteQuest (ref canCompleteQuestId))
 			{
 				questIcon_Current = questIcon_CanComplete;
-				ms_Unity.FGUI_Notice.ShowNotice ($"可完成任务：{questLog.GetQuestInfo(canCompleteQuestId).Name}");
+				ms_Unity.FGUI_Notice.ShowNotice ($"可完成任务：{questLog.GetQuestInfo (canCompleteQuestId).Name}");
 			}
-			else if(check_Has_InProgressQuest())
+			else if (check_Has_InProgressQuest ())
 			{
 				questIcon_Current = questIcon_InProgressed;
 			}
@@ -345,7 +346,7 @@ namespace ms
 			return stringBuilder.ToString ();
 		}
 
-		public SayPage getInitPage()
+		public SayPage getInitPage ()
 		{
 			var sayPage = new SayPage ();
 			sayPage.npcId = npcid;
@@ -355,7 +356,7 @@ namespace ms
 			return sayPage;
 		}
 
-		public SayInfo GetQuestSayInfo(short selectQuestIndex, out bool isQuestStarted)
+		public SayInfo GetQuestSayInfo (short selectQuestIndex, out bool isQuestStarted)
 		{
 			short index = 0;
 

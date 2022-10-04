@@ -56,7 +56,7 @@ namespace ms
 			phobj.hspeed = lastmove.xpos - phobj.crnt_x ();
 			phobj.vspeed = lastmove.ypos - phobj.crnt_y ();
 			phobj.move ();
-			
+
 			physics.get_fht ().update_fh (phobj);
 
 			bool aniend = base.update (physics, get_stancespeed ());
@@ -96,7 +96,7 @@ namespace ms
 		// Update the character look.
 		public void update_look (LookEntry newlook)
 		{
-			look =new CharLook(newlook);
+			look = new CharLook (newlook);
 
 			byte laststate = lastmove.newstate;
 			set_state (laststate);
@@ -121,7 +121,7 @@ namespace ms
 			{
 				return 0;
 			}
-			
+
 
 			return skilllevels[skillid];
 		}

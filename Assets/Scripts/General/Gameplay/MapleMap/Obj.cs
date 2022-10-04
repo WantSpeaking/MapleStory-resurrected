@@ -39,7 +39,10 @@ namespace ms
 		{
 			animation.update ();
 		}
+		public void ClearDisplayObj()
+		{
 
+		}
 		// Draw the object at the specified position
 		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 		//ORIGINAL LINE: void draw(Point_short viewpos, float inter) const

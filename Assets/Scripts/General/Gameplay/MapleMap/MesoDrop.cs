@@ -20,7 +20,7 @@ namespace ms
 
 			Point_short absp = phobj.get_absolute(viewx, viewy, alpha);
 			//icon.draw(new DrawArgument(angle.get(alpha), absp, opacity.get(alpha),Constants.get ().sortingLayer_MesoDrop,0), alpha);
-			icon.draw(new DrawArgument(angle.get(alpha), absp, opacity.get(alpha)), alpha);
+			icon.draw(new DrawArgument(angle.get(alpha), absp, opacity.get(alpha)).SetParent(MapGameObject), alpha);
 		}
 
 		public override void Dispose ()

@@ -52,7 +52,8 @@ namespace ms
 			set_state (State.STAND);
 			set_direction (true);
 
-			
+			GameObject.DontDestroyOnLoad (MapGameObject);
+			//MapGameObject.SetParent (MapleStory.Instance.gameObject);
 		}
 		public Player () : base (0, new CharLook (), "")
 		{

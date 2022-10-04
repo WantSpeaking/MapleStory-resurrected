@@ -124,7 +124,7 @@ namespace ms
 				//AppDebug.Log ($"frame FullPath:{temp?.FullPath}\t get_bounds:{bounds} ");
 			}
 			return new Rectangle_short (bounds);
-			return bounds;
+			//return bounds;
 		}
 
 		public float opcstep (ushort timestep)
@@ -380,7 +380,14 @@ namespace ms
 				return false;
 			}
 		}
-
+		public void ClearDisplayObj ()
+		{
+			foreach (var frame in frames)
+			{
+				
+				//frame.erase
+			}
+		}
 		private ushort get_delay (short frame_id)
 		{
 			return (ushort)(frame_id < frames.Count ? frames[frame_id].get_delay () : 0);

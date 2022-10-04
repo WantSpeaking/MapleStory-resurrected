@@ -24,7 +24,7 @@ namespace ms
             if (icon == null)
                 AppDebug.Log($"ItemDrop icon == null");
             //icon?.draw(new DrawArgument(angle.get(alpha), absp, opacity.get(alpha), Constants.get().sortingLayer_ItemDrop, 0));
-            icon?.draw(new DrawArgument(angle.get(alpha), absp, opacity.get(alpha)));
+            icon?.draw(new DrawArgument(angle.get(alpha), absp, opacity.get(alpha)).SetParent(MapGameObject));
         }
 
         public override void Dispose()

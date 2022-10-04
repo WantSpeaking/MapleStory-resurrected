@@ -34,21 +34,19 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(double viewx, double viewy, float alpha) const override
 		public override void draw (double viewx, double viewy, float alpha)
 		{
 			Point_short absp = phobj.get_absolute (viewx, viewy, alpha);
 			Point_short shift = new Point_short (0, normal.get_origin ().y ());
-
+			var drawArgum = new DrawArgument (absp - shift).SetParent (MapGameObject);
 			if (animation_ended)
 			{
 				// TODO: Handle 'default' animations (horntail reactor floating)
-				normal.draw (absp - shift, alpha);
+				normal.draw (drawArgum, alpha);
 			}
 			else
 			{
-				animations[(sbyte)(state - 1)].draw (new DrawArgument (absp - shift), 1.0F);
+				animations[(sbyte)(state - 1)].draw (drawArgum, 1.0F);
 			}
 		}
 
@@ -89,16 +87,16 @@ namespace ms
 			animation_ended = false;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool is_hittable() const
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: bool is_hittable() const
 		public bool is_hittable ()
 		{
 			return hittable;
 		}
 
 		// Check if this mob collides with the specified rectangle
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool is_in_range(const Rectangle_short& range) const
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: bool is_in_range(const Rectangle_short& range) const
 		public bool is_in_range (Rectangle_short range)
 		{
 			if (!active)

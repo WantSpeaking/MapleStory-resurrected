@@ -24,8 +24,10 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 
 	private GTextInput gTextInput;
 
+	UnityObjectPool<GameObject> pool = new UnityObjectPool<GameObject> ();
 	public GameObject TryGetGObj (ms.Texture hashCode, Func<GameObject> create = null)
 	{
+		
 		if (!texture_GObj_Dict.TryGetValue (hashCode, out var result))
 		{
 			result = create?.Invoke ();
@@ -65,6 +67,8 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 
 	public void HideAll ()
 	{
+		AppDebug.LogError ($"texture_GObj_Dict.Count:{texture_GObj_Dict.Count}");
+		//Clear ();
 		foreach (GameObject gobj in texture_GObj_Dict.Values)
 		{
 			/*Vector3 originalPos = gobj.transform.position;
@@ -74,6 +78,25 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 		}
 	}
 
+	List<ms.Texture> textures = new List<ms.Texture> ();
+	public void Clear()
+	{
+		textures.Clear ();
+		foreach (var pair in texture_GObj_Dict)
+		{
+			if (pair.Value == null)//if gameobj is destoried
+			{
+				textures.Add (pair.Key);
+			}
+		}
+
+		foreach (var key in textures)
+		{
+			texture_GObj_Dict.Remove (key, out var gameObject);
+		}
+		//texture_GObj_Dict.Clear ();
+	}
+
 	private GameObject Parent;
 	private GameObject Create (ms.Texture tex)
 	{
@@ -81,6 +104,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 		{
 			Parent = new GameObject ("Parent");
 		}
+
 		Material tempMaterial = new Material (presetMaterial);
 		tempMaterial.mainTexture = tex.texture2D;
 		GameObject tempObj = UnityEngine.Object.Instantiate (prefeb);

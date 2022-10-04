@@ -73,8 +73,6 @@ namespace ms
 				case 2:
 					angle.set (0.0f);
 					state = Drop.State.PICKEDUP;
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# does not have an equivalent to pointers to variables (in C#, the variable no longer points to the original when the original variable is re-assigned):
-//ORIGINAL LINE: looter = lt;
 					looter = lt;
 					phobj.vspeed = -4.5f;
 					phobj.type = PhysicsObject.Type.NORMAL;
@@ -82,8 +80,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Rectangle_short bounds() const
 		public Rectangle_short bounds ()
 		{
 			var lt = get_position ();

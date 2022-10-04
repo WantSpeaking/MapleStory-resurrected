@@ -7,6 +7,7 @@ using ms;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Utility.Inspector;
@@ -26,6 +27,9 @@ public class MapleStory : SingletonMono<MapleStory>
 		button_load.onClick.AddListener (OnButtonLoadClick);
 		DontDestroyOnLoad (this);
 		clearBuffer = new CommandBuffer () { name = "Clear Buffer" };
+
+		UnityEngine.SceneManagement.SceneManager.LoadScene (GameSceneName);
+		UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
 		//Debug.Log ($"{System.DateTime.Now.ToString("yyyyMMddHH")}");
 		//System.DateTime.Parse ("2009010100");
 		//Debug.Log (System.DateTime.Parse ("2009010100"));
@@ -36,6 +40,11 @@ public class MapleStory : SingletonMono<MapleStory>
 		Debug.Log (replaceStr);
 		Debug.Log (@replaceStr);*/
 
+	}
+
+	private void OnSceneLoaded (Scene arg0, LoadSceneMode arg1)
+	{
+		canStart = true;
 	}
 
 	protected override void OnUpdate ()
@@ -98,6 +107,11 @@ public class MapleStory : SingletonMono<MapleStory>
 		{
 			Window.get ().HandleGUIEvents (Event.current);
 		}
+
+		if (GUI.Button(new Rect(0,0,200,100),"Reload"))
+		{
+			UnityEngine.SceneManagement.SceneManager.LoadScene (UnityEngine.SceneManagement.SceneManager.GetActiveScene ().name);
+		}
 	}
 
 
@@ -107,7 +121,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	private void OnPostRender ()
 	{
 	}
-
+	public string GameSceneName = "Game";
 	public void init ()
 	{
 		/*if (Error error = Session.get().init())
@@ -134,6 +148,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		DamageNumber.init();
 		MapPortals.init();
 		*/
+
 		maplestoryFolder = Constants.get ().path_MapleStoryFolder;
 		Session.get ().init ();
 		NxFiles.init (maplestoryFolder);
@@ -230,7 +245,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		//Window.get().end();
 	}
 
-	private bool canStart = false;
+	public bool canStart = false;
 
 	public bool running ()
 	{

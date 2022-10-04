@@ -999,6 +999,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clearColor: {r: 1, g: 0, b: 1, a: 1}
+  GameSceneName: Game
+  canStart: 0
   target: {fileID: 8400000, guid: 1eb4d1811e6ead943a0bb73b3d722e2d, type: 2}
   prefab_SpriteDrawer: {fileID: 396630667909382766, guid: 871971db59652a3448352f044903c321, type: 3}
   enableDebugPacket: 0
@@ -1026,9 +1028,11 @@ MonoBehaviour:
   enable_DrawFootHolder: 0
   enable_DrawAttackRange: 1
   enable_DrawMobRange: 1
+  enable_DebugPlayerPos: 0
   AddToParent: 1
   viewx: 0
   viewy: 0
+  alpha: 0
   placeholder0: 
   placeholder1: 
   placeholder2: 
@@ -2220,7 +2224,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1326867174}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 400, y: -300, z: -999}
+  m_LocalPosition: {x: 400, y: -300, z: -9999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2293,7 +2297,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 9999
   field of view: 60
   orthographic: 1
   orthographic size: 300

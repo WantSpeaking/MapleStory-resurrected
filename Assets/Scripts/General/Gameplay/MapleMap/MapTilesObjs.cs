@@ -37,8 +37,6 @@ namespace ms
             }
         }
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: void draw(Point_short viewpos, float alpha) const
         public void draw(Point_short viewpos, float alpha)
         {
             foreach (var pair in objs)
@@ -74,6 +72,16 @@ namespace ms
                      obj.update();
                  }
              }
+        }
+        public void ClearDisplayObj ()
+		{
+            foreach (var iter in objs)
+            {
+                foreach (var obj in iter.Value)
+                {
+                    obj.update ();
+                }
+            }
         }
 
         private MultiValueDictionary<byte, Tile> tiles = new MultiValueDictionary<byte, Tile>();
@@ -137,8 +145,6 @@ namespace ms
             }
         }*/
 
-        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: void draw(Layer::Id layer, Point_short viewpos, float alpha) const
         public void draw(Layer.Id layer, Point_short viewpos, float alpha)
         {
             layers[layer]?.draw(viewpos, alpha);

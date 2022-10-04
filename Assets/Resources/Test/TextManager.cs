@@ -64,6 +64,11 @@ public class TextManager : SingletonMono<TextManager>
 		}
 	}
 
+	public void Clear ()
+	{
+		texture_GObj_Dict.Clear ();
+	}
+
 	private GComponent parent;
 	private GComponent Parent
 	{
@@ -73,6 +78,7 @@ public class TextManager : SingletonMono<TextManager>
 			{
 				parent = new GComponent ();
 				parent.name = "TextParent";
+				parent.displayObject.name = "TextParent";
 				GRoot.inst.AddChild (parent);
 			}
 			return parent;

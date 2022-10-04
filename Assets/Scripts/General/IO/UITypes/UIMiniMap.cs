@@ -56,7 +56,7 @@ namespace ms
 
 		public override void draw (float alpha)
 		{
-			if (type == (int)Type.MIN)
+			/*if (type == (int)Type.MIN)
 			{
 				foreach (var sprite in min_sprites)
 				{
@@ -117,12 +117,12 @@ namespace ms
 				}
 			}
 
-			base.draw (alpha);
+			base.draw (alpha);*/
 		}
 
 		public override void update ()
 		{
-			int mid = Stage.get ().get_mapid ();
+			/*int mid = Stage.get ().get_mapid ();
 
 			if (mid != mapid)
 			{
@@ -197,7 +197,7 @@ namespace ms
 				selected_marker.update ();
 			}
 
-			base.update ();
+			base.update ();*/
 		}
 
 		public override void remove_cursor ()
