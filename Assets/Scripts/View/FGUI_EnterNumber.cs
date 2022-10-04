@@ -93,23 +93,21 @@ namespace ms_Unity
 			GRoot.inst.HidePopup (this);
 
 		}
-		public static void ShowNotice (string message, NoticeType t = NoticeType.ENTERNUMBER, Text.Alignment a = Text.Alignment.CENTER, long max = 0, long count = 0, System.Action<int> numhandler = null)
+		public static void ShowNotice (string message, System.Action<int> nh, long m, long quantity)
 		{
 			var thisNotice = ms_Unity.FGUI_Manager.Instance.OpenFGUI<FGUI_EnterNumber> () as FGUI_EnterNumber;
 			GRoot.inst.ShowPopup (thisNotice);
 
 			thisNotice.message = message;
-			thisNotice.t = t;
-			thisNotice.a = a;
-			thisNotice.max = max;
-			thisNotice.count = count;
-			thisNotice.numhandler = numhandler;
+			thisNotice.max = m;
+			thisNotice.count = quantity;
+			thisNotice.numhandler = nh;
 
-			thisNotice._c_NoticeType.selectedIndex = (int)t;
 			thisNotice.Center ();
 
-			thisNotice.text = message;
-			thisNotice._gTextInput_Number.text = max.ToString ();
+			thisNotice._tet_message.text = message;
+
+			thisNotice._gTextInput_Number.text = m.ToString ();
 		}
 	}
 }

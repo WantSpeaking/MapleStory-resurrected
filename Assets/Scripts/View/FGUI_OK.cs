@@ -17,24 +17,23 @@ namespace ms_Unity
 
 		public void OnCreate ()
 		{
-
-
+			this._Btn_Yes.onClick.Add (deactivate);
 		}
-
-		public static void ShowNotice (string message, NoticeType t = NoticeType.OK, Text.Alignment a = Text.Alignment.CENTER, int max = 0, int count = 0, System.Action<bool> okhandler = null)
+		private void deactivate ()
+		{
+			ms_Unity.FGUI_Manager.Instance.CloseFGUI<FGUI_OK> ();
+			GRoot.inst.HidePopup (this);
+		}
+		public static void ShowNotice (string message, System.Action<bool> okhandler = null)
 		{
 			var thisNotice = ms_Unity.FGUI_Manager.Instance.OpenFGUI<FGUI_OK> () as FGUI_OK;
 
 			thisNotice.message = message;
-			thisNotice.t = t;
-			thisNotice.a = a;
-			thisNotice.max = max;
-			thisNotice.count = count;
 			thisNotice.okhandler = okhandler;
 
-			thisNotice._c_NoticeType.selectedIndex = (int)t;
-			thisNotice.Center ();
+			thisNotice._tet_message.text = message;
 
+			thisNotice.Center ();
 		}
 	}
 }

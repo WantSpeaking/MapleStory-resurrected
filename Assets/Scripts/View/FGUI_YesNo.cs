@@ -21,18 +21,16 @@ namespace ms_Unity
 
 		}
 
-		public static void ShowNotice (string message, NoticeType t = NoticeType.ENTERNUMBER, Text.Alignment a = Text.Alignment.CENTER, int max = 0, int count = 0, System.Action<bool> yesnohandler = null)
+		public static void ShowNotice (string message, System.Action<bool> yh = null, Text.Alignment alignment = Text.Alignment.CENTER)
 		{
 			var thisNotice = ms_Unity.FGUI_Manager.Instance.OpenFGUI<FGUI_YesNo> () as FGUI_YesNo;
 
 			thisNotice.message = message;
-			thisNotice.t = t;
-			thisNotice.a = a;
-			thisNotice.max = max;
-			thisNotice.count = count;
-			thisNotice.yesnohandler = yesnohandler;
+			thisNotice.a = alignment;
+			thisNotice.yesnohandler = yh;
 
-			thisNotice._c_NoticeType.selectedIndex = (int)t;
+			thisNotice._tet_message.text = message;
+
 			thisNotice.Center ();
 
 		}

@@ -521,8 +521,9 @@ namespace ms
 						}
 					};
 
-					UI.get ().emplace<UIOk> (message, onok);
-					break;
+						ms_Unity.FGUI_OK.ShowNotice (message, onok);
+					//UI.get ().emplace<UIOk> (message, onok);
+						break;
 				}
 				case Buttons.DELETE:
 				{
@@ -536,8 +537,9 @@ namespace ms
 							clear ();
 						}
 					};
+					ms_Unity.FGUI_OK.ShowNotice (message, onok);
 
-					UI.get ().emplace<UIOk> (message, onok);
+					//UI.get ().emplace<UIOk> (message, onok);
 					break;
 				}
 				case Buttons.KEYSETTING:
@@ -1020,8 +1022,9 @@ namespace ms
 						close ();
 					}
 				};
+				ms_Unity.FGUI_OK.ShowNotice (message, onok);
 
-				UI.get ().emplace<UIOk> (message, onok);
+				//UI.get ().emplace<UIOk> (message, onok);
 			}
 			else
 			{

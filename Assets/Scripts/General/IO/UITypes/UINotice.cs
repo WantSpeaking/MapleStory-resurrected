@@ -20,7 +20,7 @@ namespace ms
 		public const bool FOCUSED = true;
 		public const bool TOGGLED = false;
 
-	
+
 
 		protected UINotice (string message, NoticeType t, Text.Alignment a)
 		{
@@ -238,7 +238,7 @@ namespace ms
 			buttons[(int)Buttons.OK] = new MapleButton (src["BtOK4"], 156, pos_y);
 			buttons[(int)Buttons.CANCEL] = new MapleButton (src["BtCancel4"], 198, pos_y);
 
-			numfield = new Textfield (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.BLACK, new Rectangle_short (24, 232, numfieldTop(), (short)(belowtext + 20)), 10);
+			numfield = new Textfield (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.BLACK, new Rectangle_short (24, 232, numfieldTop (), (short)(belowtext + 20)), 10);
 			numfield.change_text (Convert.ToString (quantity));
 
 			numfield.set_enter_callback ((string numstr) => { handlestring (numstr); });
@@ -316,7 +316,7 @@ namespace ms
 			int num = -1;
 			bool has_only_digits = (numstr.find_first_not_of ("0123456789") == -1);
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Lambda expressions cannot be assigned to 'var':
+			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Lambda expressions cannot be assigned to 'var':
 			Action<bool> okhandler = (bool UnnamedParameter1) =>
 			{
 				numfield.set_state (Textfield.State.FOCUSED);
@@ -326,7 +326,9 @@ namespace ms
 			if (!has_only_digits)
 			{
 				numfield.set_state (Textfield.State.DISABLED);
-				UI.get ().emplace<UIOk> ("Only numbers are allowed.", okhandler);
+
+				ms_Unity.FGUI_OK.ShowNotice ("Only numbers are allowed.", okhandler);
+				//UI.get ().emplace<UIOk> ("Only numbers are allowed.", okhandler);
 				return;
 			}
 			else
@@ -337,13 +339,15 @@ namespace ms
 			if (num < 1)
 			{
 				numfield.set_state (Textfield.State.DISABLED);
-				UI.get ().emplace<UIOk> ("You may only enter a number equal to or higher than 1.", okhandler);
+				ms_Unity.FGUI_OK.ShowNotice ("You may only enter a number equal to or higher than 1.", okhandler);
+				//UI.get ().emplace<UIOk> ("You may only enter a number equal to or higher than 1.", okhandler);
 				return;
 			}
 			else if (num > max)
 			{
 				numfield.set_state (Textfield.State.DISABLED);
-				UI.get ().emplace<UIOk> ("You may only enter a number equal to or lower than " + Convert.ToString (max) + ".", okhandler);
+				ms_Unity.FGUI_OK.ShowNotice ("You may only enter a number equal to or lower than " + Convert.ToString (max) + ".", okhandler);
+				//UI.get ().emplace<UIOk> ("You may only enter a number equal to or lower than " + Convert.ToString (max) + ".", okhandler);
 				return;
 			}
 			else
@@ -431,7 +435,3 @@ namespace ms
 		private System.Action<bool> okhandler;
 	}
 }
-
-
-#if USE_NX
-#endif

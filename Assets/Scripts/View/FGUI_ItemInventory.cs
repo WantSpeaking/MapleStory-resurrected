@@ -238,7 +238,7 @@ namespace ms_Unity
 		private void OnClick_Btn_Meso (EventContext context)
 		{
 			var dropCount = Math.Min (ms.Stage.Instance.get_player ().get_inventory ().get_meso (), 50000);
-			FGUI_EnterNumber.ShowNotice ("您想扔出多少金币？", NoticeType.ENTERNUMBER, max: dropCount, count: dropCount, numhandler: (meso) => new MesoDropPackets (meso).dispatch ());
+			FGUI_EnterNumber.ShowNotice ("您想扔出多少金币？", (meso) => new MesoDropPackets (meso).dispatch (), (int)dropCount, (int)dropCount);
 		}
 		private void DropMeso (int count)
 		{

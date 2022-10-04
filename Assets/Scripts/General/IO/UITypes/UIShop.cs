@@ -858,7 +858,8 @@ namespace ms
 						new NpcShopActionPacket (slot, itemid, shortqty, true).dispatch ();
 					};
 
-					UI.get ().emplace<UIEnterNumber> (question, onenter, buyable, 1);
+					ms_Unity.FGUI_EnterNumber.ShowNotice (question, onenter, buyable, 1);
+					//UI.get ().emplace<UIEnterNumber> (question, onenter, buyable, 1);
 				}
 				else if (buyable > 0)
 				{
@@ -874,8 +875,8 @@ namespace ms
 							new NpcShopActionPacket (slot, itemid, 1, true).dispatch ();
 						}
 					};
-
-					UI.get ().emplace<UIYesNo> (question, ondecide);
+					ms_Unity.FGUI_YesNo.ShowNotice (question, ondecide);
+					//UI.get ().emplace<UIYesNo> (question, ondecide);
 				}
 			}
 
@@ -1007,7 +1008,8 @@ namespace ms
 						new NpcShopActionPacket (slot, itemid, shortqty, false).dispatch ();
 					};
 
-					UI.get ().emplace<UIEnterNumber> (question, onenter, sellable, 1);
+					ms_Unity.FGUI_EnterNumber.ShowNotice (question, onenter, sellable, 1);
+					//UI.get ().emplace<UIEnterNumber> (question, onenter, sellable, 1);
 				}
 				else if (sellable > 0)
 				{
@@ -1029,8 +1031,8 @@ namespace ms
 							new NpcShopActionPacket (slot, itemid, 1, false).dispatch ();
 						}
 					};
-
-					UI.get ().emplace<UIYesNo> (question, ondecide);
+					ms_Unity.FGUI_YesNo.ShowNotice (question, ondecide);
+					//UI.get ().emplace<UIYesNo> (question, ondecide);
 				}
 			}
 

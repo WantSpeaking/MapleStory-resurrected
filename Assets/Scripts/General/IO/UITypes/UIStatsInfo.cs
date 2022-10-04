@@ -366,8 +366,9 @@ namespace ms
 						}
 					};
 
-					UI.get ().emplace<UIYesNo> (message, yesnohandler, Text.Alignment.LEFT);
-					break;
+						ms_Unity.FGUI_YesNo.ShowNotice (message, yesnohandler, Text.Alignment.LEFT);
+					//UI.get ().emplace<UIYesNo> (message, yesnohandler, Text.Alignment.LEFT);
+						break;
 				}
 				case Buttons.BT_HYPERSTATOPEN:
 				{
@@ -377,8 +378,9 @@ namespace ms
 				{
 					if (player.get_level () < 140)
 					{
-						UI.get ().emplace<UIOk> ("You can use the Hyper Stat at Lv. 140 and above.", null);
-					}
+						ms_Unity.FGUI_OK.ShowNotice ("You can use the Hyper Stat at Lv. 140 and above.", null);
+						//UI.get ().emplace<UIOk> ("You can use the Hyper Stat at Lv. 140 and above.", null);
+						}
 
 					break;
 				}

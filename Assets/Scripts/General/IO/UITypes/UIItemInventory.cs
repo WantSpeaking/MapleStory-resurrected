@@ -710,7 +710,8 @@ namespace ms
 
 			if (alerted)
 			{
-				UI.get ().emplace<UIOk> ("You cannot complete this action right now.\\nEvade the attack and try again.", null);
+				ms_Unity.FGUI_OK.ShowNotice ("You cannot complete this action right now.\\nEvade the attack and try again.", null);
+				//UI.get ().emplace<UIOk> ("You cannot complete this action right now.\\nEvade the attack and try again.", null);
 				return false;
 			}
 
@@ -762,7 +763,8 @@ namespace ms
 
 			if (!stats.get_job ().is_EquipRequiredJob ((ushort)reqJOB))
 			{
-				UI.get ().emplace<UIOk> ("Your current job\\ncannot equip the selected item.", null);
+				ms_Unity.FGUI_OK.ShowNotice ("Your current job\\ncannot equip the selected item.", null);
+				//UI.get ().emplace<UIOk> ("Your current job\\ncannot equip the selected item.", null);
 				return false;
 			}
 
@@ -802,7 +804,8 @@ namespace ms
 
 			if (i > 0)
 			{
-				UI.get ().emplace<UIOk> ("Your stats are too low to equip this item\\nor you do not meet the job requirement.", null);
+				ms_Unity.FGUI_OK.ShowNotice ("Your stats are too low to equip this item\\nor you do not meet the job requirement.");
+				//UI.get ().emplace<UIOk> ("Your stats are too low to equip this item\\nor you do not meet the job requirement.", null);
 				return false;
 			}
 
@@ -1078,13 +1081,13 @@ namespace ms
 								Action<int> onenter = (int qty) => { new MoveItemPacket (sourcetab, source, 0, (short)qty).dispatch (); };
 
 								//UI.get ().emplace<UIEnterNumber> (dropmessage, onenter, count, count);
-								ms_Unity.FGUI_EnterNumber.ShowNotice (dropmessage, numhandler: onenter, max: count, count: count);
+								ms_Unity.FGUI_EnterNumber.ShowNotice (dropmessage, onenter, count, count);
 							}
 						}
 					};
 
 					//UI.get ().emplace<UIYesNo> (untradablemessage, onok);
-					ms_Unity.FGUI_YesNo.ShowNotice (untradablemessage, yesnohandler: onok, max: count, count: count);
+					ms_Unity.FGUI_YesNo.ShowNotice (untradablemessage, onok);
 
 				}
 				else
@@ -1099,7 +1102,7 @@ namespace ms
 
 						//UI.get ().emplace<UIEnterNumber> (dropmessage, onenter, count, count);
 
-						ms_Unity.FGUI_EnterNumber.ShowNotice (dropmessage, numhandler: onenter, max: count, count: count);
+						ms_Unity.FGUI_EnterNumber.ShowNotice (dropmessage, onenter, count,  count);
 					}
 				}
 			}
