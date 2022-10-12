@@ -5,6 +5,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+	[Beebyte.Obfuscator.Skip]
 	public class UIContextMenu : UIElement
 	{
 		public const Type TYPE = UIElement.Type.ContextMenu;

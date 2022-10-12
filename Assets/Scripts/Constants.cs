@@ -93,10 +93,10 @@ namespace ms
 		public string path_SettingFileFolder = @"D:\Program Files (x86)\MapleStory";
 
 #elif UNITY_ANDROID || ANDROID
-		//public string path_MapleStoryFolder = $"{Application.persistentDataPath}";
-		//public string path_SettingFileFolder = $"{Application.persistentDataPath}";
-		public string path_MapleStoryFolder = $"/storage/emulated/0/Download";
-		public string path_SettingFileFolder = $"/storage/emulated/0/Download";
+		public string path_MapleStoryFolder = $"{UnityEngine.Application.persistentDataPath}";
+		public string path_SettingFileFolder = $"{UnityEngine.Application.persistentDataPath}";
+		//public string path_MapleStoryFolder = $"/storage/emulated/0/Download";
+		//public string path_SettingFileFolder = $"/storage/emulated/0/Download";
 #else
 		//public string path_MapleStoryFolder = $"/storage/emulated/0/Android/data/MapleStory_resurrected_MonoGame_Android.MapleStory_resurrected_MonoGame_Android/files";
 		//public string path_MapleStoryFolder = $"/storage/emulated/0/Download";

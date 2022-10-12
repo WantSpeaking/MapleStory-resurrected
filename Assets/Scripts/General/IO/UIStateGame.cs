@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Beebyte.Obfuscator;
 using ms_Unity;
 
 
@@ -9,6 +10,7 @@ using ms_Unity;
 
 namespace ms
 {
+	[Skip]
 	public class UIStateGame : UIState
 	{
 		FGUI_StateGame fgui_StateGame;

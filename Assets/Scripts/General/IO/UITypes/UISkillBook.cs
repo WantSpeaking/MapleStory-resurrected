@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Beebyte.Obfuscator;
 using Loxodon.Framework.Observables;
 using MapleLib.WzLib;
 
 namespace ms
 {
+    [Skip]
     public class UISkillBook : UIDragElement<PosSKILL>
     {
         public const Type TYPE = UIElement.Type.SKILLBOOK;

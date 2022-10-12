@@ -1,5 +1,6 @@
 ﻿#define USE_NX
 
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 using ms.Util;
 
@@ -8,6 +9,7 @@ using ms.Util;
 
 namespace ms
 {
+    [Skip]
     public class UILogin : UIElement
     {
         public const Type TYPE = UIElement.Type.LOGIN;
@@ -20,6 +22,7 @@ namespace ms
 
         public UILogin() : base(new Point_short(0, 0), new Point_short(800, 600))
         {
+            AppDebug.Log("UILogin().ctor");
             this.signboard_pos = new Point_short(389, 333);
             new LoginStartPacket().dispatch();
 
@@ -107,12 +110,12 @@ namespace ms
 
             saveid = Setting<SaveLogin>.get().load();
 
-            if (saveid)
+  /*          if (saveid)
             {
                 account.change_text(Setting<DefaultAccount>.get().load());
                 password.set_state(Textfield.State.FOCUSED);
             }
-            else
+            else*/
             {
                 account.set_state(Textfield.State.FOCUSED);
             }
@@ -152,8 +155,8 @@ namespace ms
             }
 
             checkbox[saveid].draw(position + signboard_pos + new Point_short(-101, 7));
-            GraphicsGL.Instance.DrawWireRectangle(account.get_bounds().get_left_top().x(), account.get_bounds().get_left_top().y(), account.get_bounds().width(), account.get_bounds().height(), Microsoft.Xna.Framework.Color.Yellow, 1);
-            GraphicsGL.Instance.DrawWireRectangle(password.get_bounds().get_left_top().x(), password.get_bounds().get_left_top().y(), password.get_bounds().width(), password.get_bounds().height(), Microsoft.Xna.Framework.Color.Yellow, 1);
+            //GraphicsGL.Instance.DrawWireRectangle(account.get_bounds().get_left_top().x(), account.get_bounds().get_left_top().y(), account.get_bounds().width(), account.get_bounds().height(), Microsoft.Xna.Framework.Color.Yellow, 1);
+            //GraphicsGL.Instance.DrawWireRectangle(password.get_bounds().get_left_top().x(), password.get_bounds().get_left_top().y(), password.get_bounds().width(), password.get_bounds().height(), Microsoft.Xna.Framework.Color.Yellow, 1);
         }
 
         public override void update()
@@ -230,10 +233,11 @@ namespace ms
         {
             OnRemove();
 
-            string account_text = "admin";
-            string password_text = "admin";
-
-            /*if (account.isForbid && password.isForbid)
+			/* string account_text = "admin";
+             string password_text = "admin";*/
+			string account_text = "";
+			string password_text = "";
+			if (account.isForbid && password.isForbid)
             {
                 account_text = text_account;
                 password_text = text_password;
@@ -242,7 +246,7 @@ namespace ms
             {
                 account_text = account.get_text();
                 password_text = password.get_text();
-            }*/
+            }
 
             account.set_state(Textfield.State.DISABLED);
             password.set_state(Textfield.State.DISABLED);

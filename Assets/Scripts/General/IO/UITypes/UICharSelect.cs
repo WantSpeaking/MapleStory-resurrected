@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Beebyte.Obfuscator;
 using Helper;
 using MapleLib.WzLib;
 using ms.Helper;
@@ -12,6 +13,7 @@ using ms.Helper;
 
 namespace ms
 {
+	[Skip]
 	// The character selection screen
 	public class UICharSelect : UIElement
 	{

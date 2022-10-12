@@ -4,12 +4,14 @@ using System;
 using System.Collections.Generic;
 using Helper;
 using MapleLib.WzLib;
+using Beebyte.Obfuscator;
 
 
 
 
 namespace ms
 {
+	[Skip]
 	public class UIStatsInfo : UIDragElement<PosSTATS>
 	{
 		public const Type TYPE = UIElement.Type.STATSINFO;

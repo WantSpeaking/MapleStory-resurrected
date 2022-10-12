@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HaCreator;
-using HaCreator.MapEditor;
-using HaCreator.MapSimulator;
 using HaCreator.Wz;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
@@ -62,11 +60,6 @@ namespace ms
 
 		private long expBefore;
 
-		public MapSimulator maplesimulator;
-
-		public TexturePool texturePool = new TexturePool ();
-
-		public MultiBoard multiBoard = new MultiBoard ();
 
 		public Stage ()
 		{
@@ -189,7 +182,6 @@ namespace ms
 				return;
 			}
 			combat.update ();
-			maplesimulator?.Update (Singleton<GameUtil>.Instance.Game.gameTime, camera);
 			effect?.update ();
 			tilesobjs.update ();
 			reactors.update (physics);

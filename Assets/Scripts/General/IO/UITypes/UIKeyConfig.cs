@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Beebyte.Obfuscator;
 using Helper;
 using MapleLib.WzLib;
 
@@ -11,6 +12,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+	[Skip]
 	public class UIKeyConfig : UIDragElement<PosKEYCONFIG>
 	{
 		public const Type TYPE = UIElement.Type.KEYCONFIG;

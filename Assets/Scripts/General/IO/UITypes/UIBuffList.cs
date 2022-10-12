@@ -3,10 +3,7 @@
 using System.Collections.Generic;
 using MapleLib.WzLib;
 using System.Linq;
-
-
-
-
+using Beebyte.Obfuscator;
 
 namespace ms
 {
@@ -70,7 +67,7 @@ namespace ms
         private float opcstep;
     }
 
-
+    [Skip]
     public class UIBuffList : UIElement
     {
         public const Type TYPE = UIElement.Type.BUFFLIST;

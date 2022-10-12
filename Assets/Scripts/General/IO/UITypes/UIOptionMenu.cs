@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 
 
@@ -9,6 +10,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+    [Skip]
     public class UIOptionMenu : UIDragElement<PosOPTIONMENU>
     {
         public const Type TYPE = UIElement.Type.OPTIONMENU;

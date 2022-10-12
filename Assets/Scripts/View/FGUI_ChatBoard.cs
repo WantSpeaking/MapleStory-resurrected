@@ -15,7 +15,7 @@ namespace ms_Unity
 		public void OnCreate ()
 		{
 			_txt_ChatInput.onSubmit.Add (OnSubmit_ChatInput);
-			
+			_txt_ChatInput.onChanged.Add (OnSubmit_ChatInput);
 		}
 
 		private void OnSubmit_ChatInput (EventContext context)

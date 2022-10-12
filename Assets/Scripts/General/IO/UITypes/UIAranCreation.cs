@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 
 
@@ -12,6 +13,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+	[Skip]
 	public class UIAranCreation : UIElement
 	{
 		public const Type TYPE = UIElement.Type.CLASSCREATION;
@@ -363,7 +365,6 @@ namespace ms
 
 					new CreateCharPacket(cname, 2, cface, chair, chairc, cskin, ctop, cbot, cshoe, cwep, female).dispatch();
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Lambda expressions cannot be assigned to 'var':
 					Action<bool> onok = (bool alternate) =>
 					{
 						new Sound(Sound.Name.SCROLLUP).play();
@@ -383,7 +384,6 @@ namespace ms
 				}
 				else
 				{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Lambda expressions cannot be assigned to 'var':
 					Action onok = () =>
 					{
 						namechar.set_state(Textfield.State.FOCUSED);

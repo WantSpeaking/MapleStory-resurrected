@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using System.Collections;
 using ms;
 using Sirenix.OdinInspector;
@@ -15,7 +15,7 @@ public class CreateTree : MonoBehaviour
 
 	[EnumToggleButtons]
 	public CharAction.Id ActionId = CharAction.Id.savage;
-	/*public ExternalBehaviorTree behaviorTree;
+	*//*public ExternalBehaviorTree behaviorTree;
 	private void Start ()
 	{
 		var bt = gameObject.AddComponent<BehaviorTree> ();
@@ -60,7 +60,7 @@ public class CreateTree : MonoBehaviour
 		{
 			get { return this.inlineSelector ?? (this.inlineSelector = new EnumSelector<KeyCode> ()); }
 			set { }
-		}*/
+		}*//*
 	ms.CharAction.Id someValue;
 	List<ms.CharAction.Id> source = new List<CharAction.Id> () { ms.CharAction.Id.airstrike, ms.CharAction.Id.alert2 };
 	void OnGUI ()
@@ -81,4 +81,4 @@ public class CreateTree : MonoBehaviour
 	// All Odin Selectors can be rendered anywhere with Odin.
 	[ShowInInspector]
 	MySelector inlineSelector;
-}
+}*/

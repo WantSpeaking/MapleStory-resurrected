@@ -216,9 +216,12 @@ namespace ms
 			// Read the port address in a string
 			string portstr = (recv.read_short ()).ToString ();
 
+			string HOST = Setting<ServerIP>.get ().load ();
+			string PORT = Setting<ServerPort>.get ().load ();
+
 			// Attempt to reconnect to the server
-			AppDebug.Log ($"Attempt to reconnect to the server (addrstr:{addrstr}\r portstr:{portstr})");
-			Session.get ().reconnect (addrstr.ToString (), portstr);
+			AppDebug.Log ($"Attempt to reconnect to the server (addrstr:{HOST}\r portstr:{portstr})");
+			Session.get ().reconnect (HOST, portstr);
 		}
 	}
 }

@@ -2,6 +2,7 @@
 
 using System;
 using Attributes;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 
 
@@ -9,6 +10,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+	[Skip]
 	public class UIKeyConfirm : UIElement
 	{
 		public const Type TYPE = UIElement.Type.LOGINNOTICE_CONFIRM;
@@ -51,8 +53,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: UIElement::Type get_type() const override
 		public override UIElement.Type get_type ()
 		{
 			return TYPE;
@@ -81,7 +81,7 @@ namespace ms
 		private System.Action okhandler;
 		private bool login;
 	}
-
+	[Skip]
 	public class UIKeySelect : UIElement
 	{
 		public const Type TYPE = UIElement.Type.KEYSELECT;
@@ -125,8 +125,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: UIElement::Type get_type() const override
 		public override UIElement.Type get_type ()
 		{
 			return TYPE;
@@ -136,37 +134,34 @@ namespace ms
 		{
 			switch ((Buttons)buttonid)
 			{
-				default:
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# does not allow fall-through from a non-empty 'case':
 				case Buttons.CLOSE:
 					deactivate ();
 					break;
 				case Buttons.TYPEA:
 				case Buttons.TYPEB:
-				{
-					bool alternate = (buttonid == (int)Buttons.TYPEA) ? false : true;
+					{
+						bool alternate = (buttonid == (int)Buttons.TYPEA) ? false : true;
 
-					if (alternate)
-					{
-						buttons[(int)Buttons.TYPEA].set_state (Button.State.DISABLED);
-					}
-					else
-					{
-						buttons[(int)Buttons.TYPEB].set_state (Button.State.DISABLED);
-					}
-
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Lambda expressions cannot be assigned to 'var':
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Only lambda expressions having all locals passed by reference can be converted to C#:
-//ORIGINAL LINE: var onok = [&, alternate]()
-					Action onok = () =>
-					{
-						okhandler (alternate);
+						if (alternate)
+						{
+							buttons[(int)Buttons.TYPEA].set_state (Button.State.DISABLED);
+						}
+						else
+						{
+							buttons[(int)Buttons.TYPEB].set_state (Button.State.DISABLED);
+						}
+						okhandler?.Invoke (alternate);
 						deactivate ();
-					};
+						/*	Action onok = () =>
+						{
+							okhandler (alternate);
+							deactivate ();
+						};
 
-					UI.get ().emplace<UIKeyConfirm> (alternate, onok, login);
-					break;
-				}
+
+						UI.get ().emplace<UIKeyConfirm> (alternate, onok, login);*/
+						break;
+					}
 			}
 
 			return Button.State.DISABLED;
@@ -182,7 +177,7 @@ namespace ms
 		private System.Action<bool> okhandler;
 		private bool login;
 	}
-
+	[Skip]
 	public class UIClassConfirm : UIElement
 	{
 		public const Type TYPE = UIElement.Type.LOGINNOTICE;
@@ -269,8 +264,8 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: UIElement::Type get_type() const override
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: UIElement::Type get_type() const override
 		public override UIElement.Type get_type ()
 		{
 			return TYPE;
@@ -296,7 +291,7 @@ namespace ms
 
 		private System.Action okhandler;
 	}
-
+	[Skip]
 	public class UIQuitConfirm : UIElement
 	{
 		public const Type TYPE = UIElement.Type.LOGINNOTICE;
@@ -334,8 +329,8 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: UIElement::Type get_type() const override
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: UIElement::Type get_type() const override
 		public override UIElement.Type get_type ()
 		{
 			return TYPE;
@@ -360,7 +355,7 @@ namespace ms
 		}
 	}
 
-	[UIElement (UIElement.Type.LOGINNOTICE, true, false)]
+	[Skip]
 	public class UILoginNotice : UIElement
 	{
 		//public override Type TYPE => UIElement.Type.LOGINNOTICE;
@@ -538,8 +533,8 @@ namespace ms
 			position = new Point_short (275, 209);
 			dimension = new Texture (backgrnd).get_dimensions ();
 		}
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The implementation of the following method could not be found:
-//		UILoginNotice(ushort message, System.Action okhandler) : UILoginNotice(message, okhandler, () => TangibleLambdaToken67UILoginNotice(ushort message);
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The implementation of the following method could not be found:
+		//		UILoginNotice(ushort message, System.Action okhandler) : UILoginNotice(message, okhandler, () => TangibleLambdaToken67UILoginNotice(ushort message);
 
 		public override void send_key (int keycode, bool pressed, bool escape)
 		{
@@ -566,8 +561,8 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: UIElement::Type get_type() const override
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: UIElement::Type get_type() const override
 		public override UIElement.Type get_type ()
 		{
 			return TYPE;

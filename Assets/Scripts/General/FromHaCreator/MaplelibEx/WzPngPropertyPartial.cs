@@ -6,7 +6,6 @@ using System.IO.Compression;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using MapleLib.Helpers;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace MapleLib.WzLib.WzProperties
 {
@@ -394,18 +393,9 @@ namespace MapleLib.WzLib.WzProperties
             }
         }*/
 
-		/// <summary>
-		/// Wz PNG format to Microsoft.Xna.Framework.Graphics.SurfaceFormat
-		/// https://github.com/Kagamia/WzComparerR2/search?q=wzlibextension
-		/// </summary>
-		/// <param name="pngform"></param>
-		/// <returns></returns>
-		public SurfaceFormat GetXNASurfaceFormat ()
-		{
-			return XnaFormatHelper.RawPng_To_XNASurfaceFormat (Format);
-		}
+	
 
-		public void ParsePng (bool saveInMemory, Texture2D texture2d = null)
+		public void ParsePng (bool saveInMemory/*, Texture2D texture2d = null*/)
 		{
 			byte[] rawBytes = GetRawImage (saveInMemory);
 			byte[] decodedBytes = null;
@@ -517,12 +507,12 @@ namespace MapleLib.WzLib.WzProperties
 				bmp = new Bitmap (decodedBytes, width, height, Format);
 				if (bmp != null)
 				{
-					if (texture2d != null)
+			/*		if (texture2d != null)
 					{
 						Microsoft.Xna.Framework.Rectangle rect = new Microsoft.Xna.Framework.Rectangle (Microsoft.Xna.Framework.Point.Zero,
 							new Microsoft.Xna.Framework.Point (width, height));
 						texture2d.SetData (0, 0, rect, rawBytes, 0, rawBytes.Length);
-					}
+					}*/
 				}
 
 				_data = decodedBytes;
@@ -662,7 +652,7 @@ namespace MapleLib.WzLib.WzProperties
 		{
 			//if (_data ==null)
 			{
-				ParsePng(false, null);
+				ParsePng(false);
 			}
 			return _data;	
 		}

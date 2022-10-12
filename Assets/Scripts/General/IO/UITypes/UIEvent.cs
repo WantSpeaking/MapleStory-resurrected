@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 using ms.Helper;
 
 namespace ms
 {
+	[Skip]
 	public class UIEvent : UIDragElement<PosEVENT>
 	{
 		public const Type TYPE = UIElement.Type.EVENT;

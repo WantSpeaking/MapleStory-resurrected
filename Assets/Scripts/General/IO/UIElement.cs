@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-
-
-
-
+using Beebyte.Obfuscator;
 
 namespace ms
 {
+    [Skip]
     // Base class for all types of user interfaces on screen.
     public abstract class UIElement : System.IDisposable
     {

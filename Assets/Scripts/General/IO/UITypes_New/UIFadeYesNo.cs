@@ -7,6 +7,7 @@ using ms;
 
 namespace ms
 {
+	[Beebyte.Obfuscator.Skip]
 	public abstract class FadeYesNoInfo_Base : UIElement
 	{
 		private enum Buttons : uint
@@ -100,7 +101,7 @@ namespace ms
 		// 8 seconds
 		private const long FADE_DURATION = 8_000;
 	}
-
+	[Beebyte.Obfuscator.Skip]
 	public class UIFadeYesNo_PartyInvite : FadeYesNoInfo_Base
 	{
 		public const Type TYPE = UIElement.Type.FadeYesNo_PartyInvite;

@@ -2,12 +2,14 @@
 
 using System;
 using System.Collections.Generic;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 
 
 
 namespace ms
 {
+    [Skip]
     public class UICashShop : UIElement
     {
         public const Type TYPE = UIElement.Type.CASHSHOP;

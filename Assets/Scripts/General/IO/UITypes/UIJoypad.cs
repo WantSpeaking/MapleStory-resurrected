@@ -1,5 +1,6 @@
 ﻿#define USE_NX
 
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 
 
@@ -9,6 +10,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+	[Skip]
 	public class UIJoypad : UIDragElement<PosJOYPAD>
 	{
 		public const Type TYPE = UIElement.Type.JOYPAD;

@@ -63,13 +63,13 @@ namespace ms
 
 			if (hide_counter < HIDE_AFTER)
 			{
-				animations[state].draw (position, alpha);
+				animations[state]?.draw (position, alpha);
 			}
 		}
 
 		public void update ()
 		{
-			animations[state].update ();
+			animations[state]?.update ();
 
 			switch (state)
 			{
@@ -92,7 +92,7 @@ namespace ms
 			{
 				state = s;
 
-				animations[state].reset ();
+				animations[state]?.reset ();
 				hide_counter = 0;
 			}
 		}

@@ -1,6 +1,7 @@
 ﻿#define USE_NX
 
 using System;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 
 
@@ -8,6 +9,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+    [Skip]
     public class UIQuit : UIElement
     {
         public const Type TYPE = UIElement.Type.QUIT;

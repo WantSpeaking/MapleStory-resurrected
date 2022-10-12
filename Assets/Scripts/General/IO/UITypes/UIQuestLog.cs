@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 using ms_Unity;
 
 namespace ms
 {
+    [Skip]
     public class UIQuestLog : UIDragElement<PosQUEST>
     {
         public const Type TYPE = UIElement.Type.QUESTLOG;

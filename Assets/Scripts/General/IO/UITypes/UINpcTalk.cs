@@ -1,10 +1,12 @@
 ﻿using System;
+using Beebyte.Obfuscator;
 using Helper;
 using MapleLib.WzLib;
 using ms.Util;
 
 namespace ms
 {
+	[Skip]
 	public class UINpcTalk : UIElement
 	{
 		public enum TalkType : sbyte
@@ -486,24 +488,24 @@ namespace ms
 
 		private const short MAX_HEIGHT = 248;
 
-		public override void OnAdd ()
+	/*	public override void OnAdd ()
 		{
 			text?.AddGRichTextToGRoot ();
 
 			if (text != null)
 				text.onClickLinkHandler = OnClickLink;
-		}
+		}*/
 
-		public override void OnRemove ()
+/*		public override void OnRemove ()
 		{
 			if (text != null)
 				text.onClickLinkHandler = null;
 			text?.Dispose ();
-		}
+		}*/
 
 		public override void OnActivityChange (bool isActive)
 		{
-			text?.OnActivityChange (isActive);
+			//text?.OnActivityChange (isActive);
 
 			if (isActive)
 			{
@@ -515,10 +517,10 @@ namespace ms
 			}
 		}
 
-		private void OnClickLink (int selection)
+/*		private void OnClickLink (int selection)
 		{
 			new NpcTalkMorePacket (selection).dispatch ();
-		}
+		}*/
 
 
 		public void InitChooseQuestSayPage (Npc npc, SayPage sayPage)

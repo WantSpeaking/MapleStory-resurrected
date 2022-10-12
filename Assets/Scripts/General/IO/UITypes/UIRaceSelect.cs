@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 
 
@@ -8,6 +9,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+    [Skip]
     // Race selection screen
     public class UIRaceSelect : UIElement
     {

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using Attributes;
+using Beebyte.Obfuscator;
 using Helper;
 
 namespace ms
 {
+    [Skip]
     public class UI : Singleton<UI>
     {
         public enum State
@@ -25,8 +27,17 @@ namespace ms
 
         public void init()
         {
-            cursor.init();
-            change_state(State.LOGIN);
+            try
+            {
+                AppDebug.Log ("start UI.init");
+                cursor.init ();
+                change_state (State.LOGIN);
+            }
+            catch (Exception ex)
+            {
+                AppDebug.LogError (ex.Message);
+            }
+            
         }
 
         public void draw(float alpha)

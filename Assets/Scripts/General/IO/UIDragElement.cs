@@ -18,8 +18,11 @@
 
 
 
+using Beebyte.Obfuscator;
+
 namespace ms
 {
+	[Skip]
 	// Base class for UI Windows which can be moved with the mouse cursor.
 	public abstract class UIDragElement <T>: UIElement where T : Configuration.PointEntry, new ()
 	{

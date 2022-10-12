@@ -1,6 +1,7 @@
 ﻿#define USE_NX
 
 using System.Collections.Generic;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 
 
@@ -9,6 +10,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+	[Skip]
 	public class UIChannel : UIDragElement<PosCHANNEL>
 	{
 		public const Type TYPE = UIElement.Type.CHANNEL;

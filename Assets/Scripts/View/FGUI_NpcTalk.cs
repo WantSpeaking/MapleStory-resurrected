@@ -190,7 +190,7 @@ namespace ms_Unity
 			{
 				Rest ();
 			}
-			AppDebug.Log ($"uINpcTalk OnVisiblityChanged isVisible:{isVisible}");
+			//AppDebug.Log ($"uINpcTalk OnVisiblityChanged isVisible:{isVisible}");
 
 		}
 

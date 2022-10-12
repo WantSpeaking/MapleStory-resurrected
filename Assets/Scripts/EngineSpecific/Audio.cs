@@ -520,21 +520,21 @@ namespace ms
 
             var data = ad.GetBytes ();
 
-            if (data != null)
-            {
-                var id = ad.FullPath;
+			if (data != null)
+			{
+				var id = ad.FullPath;
 
-                if (samples.ContainsKey (ad.FullPath))
-                {
-                    return string.Empty;
-                }
+				if (samples.ContainsKey (ad.FullPath))
+				{
+					return string.Empty;
+				}
 
-                samples[id] = Bass.BASS_SampleLoad (data, 0, data.Length, 65535, BASSFlag.BASS_SAMPLE_OVER_POS);
+				samples[id] = Bass.BASS_SampleLoad (data, 0, data.Length, 65535, BASSFlag.BASS_SAMPLE_OVER_POS);
 
-                return id;
-            }
-            else
-            {
+				return id;
+			}
+			else
+			{
                 return string.Empty;
             }
         }
@@ -596,30 +596,30 @@ namespace ms
         GCHandle _hGCFile;
         public void play (string path)
         {
- /*           if (path == play_bgmpath)
-            {
-                return;
-            }
+			if (path == play_bgmpath)
+			{
+				return;
+			}
 
-            var ad = ms.wz.wzFile_sound.GetObjectFromPath (Path.Combine ("Sound.wz", path).Replace ('\\', '/'));
-            var data = ad?.GetBytes ();
+			var ad = ms.wz.wzFile_sound.GetObjectFromPath (Path.Combine ("Sound.wz", path).Replace ('\\', '/'));
+			var data = ad?.GetBytes ();
 
-            if (data != null)
-            {
-                if (play_stream != 0)
-                {
-                    Bass.BASS_ChannelStop (play_stream);
-                    Bass.BASS_StreamFree (play_stream);
-                    _hGCFile.Free ();
-                }
+			if (data != null)
+			{
+				if (play_stream != 0)
+				{
+					Bass.BASS_ChannelStop (play_stream);
+					Bass.BASS_StreamFree (play_stream);
+					_hGCFile.Free ();
+				}
 
-                _hGCFile = GCHandle.Alloc (data, GCHandleType.Pinned);
-                play_stream = Bass.BASS_StreamCreateFile (_hGCFile.AddrOfPinnedObject (), 0, data.Length, BASSFlag.BASS_SAMPLE_LOOP | BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_SAMPLE_MONO);
-                Bass.BASS_ChannelPlay (play_stream, true);
+				_hGCFile = GCHandle.Alloc (data, GCHandleType.Pinned);
+				play_stream = Bass.BASS_StreamCreateFile (_hGCFile.AddrOfPinnedObject (), 0, data.Length, BASSFlag.BASS_SAMPLE_LOOP | BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_SAMPLE_MONO);
+				Bass.BASS_ChannelPlay (play_stream, true);
 
-                play_bgmpath = path;
-            }*/
-        }
+				play_bgmpath = path;
+			}
+		}
 
         private int play_once_stream = 0;
 
@@ -651,8 +651,8 @@ namespace ms
                 IntPtr pData = Marshal.UnsafeAddrOfPinnedArrayElement (data, 0);
                 play_once_stream = Bass.BASS_StreamCreateFile (pData, 0, data.Length, BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_SAMPLE_LOOP);
                 Bass.BASS_ChannelPlay (play_once_stream, true);
-
-                /*File.WriteAllBytes("D:\\test.dat", data);
+				
+				/*File.WriteAllBytes("D:\\test.dat", data);
 
                 GCHandle pinnedObject = GCHandle.Alloc(data, GCHandleType.Pinned);
                 IntPtr pinnedObjectPtr = pinnedObject.AddrOfPinnedObject();
@@ -662,7 +662,7 @@ namespace ms
                 Bass.BASS_ChannelPlay(play_once_stream, true);*/
 
 
-                play_once_bgmpath = path;
+				play_once_bgmpath = path;
             }
         }
 
@@ -691,7 +691,10 @@ namespace ms
         {
             return Bass.BASS_SetConfig (BASSConfig.BASS_CONFIG_GVOL_STREAM, vol * 100);
         }
-
+		public void Quit()
+		{
+			Bass.BASS_Free ();
+		}
         //private string path;
     }
 }

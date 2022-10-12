@@ -18,6 +18,8 @@
 //# include "NxFiles.h"
 
 
+using System;
+
 namespace ms
 {
 	public class NxFiles
@@ -76,7 +78,16 @@ namespace ms
 		}*/
 		public static void init (string suffix)
 		{
-			ms.wz.load_all(suffix);
+			try
+			{
+				AppDebug.Log ("start NxFiles.init");
+				ms.wz.load_all (suffix);
+
+			}
+			catch(Exception ex)
+			{
+				AppDebug.LogError (ex.Message);
+			}
 		}
 		
 	}

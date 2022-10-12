@@ -78,6 +78,7 @@ namespace ms
 		{
             try
             {
+				AppDebug.Log ($"start load config");
 				var file = File.OpenText(Path.Combine(Constants.get().path_SettingFileFolder, FILENAME)) /*new ifstream (FILENAME)*/;
 
 				//if (file.is_open ())
@@ -98,6 +99,8 @@ namespace ms
 							//AppDebug.Log ($"key:{line.Substring (0, split - 1)}\t value:{line.Substring (split + 2)}");
 							//AppDebug.Log ($"{line}");
 							rawsettings.Add(line.Substring(0, split - 1).Trim(), line.Substring(split + 2).Trim());
+							//AppDebug.Log ($"{line.Substring (0, split - 1).Trim ()}  {line.Substring (split + 2).Trim ()}");
+
 						}
 					}
 				}
@@ -595,7 +598,7 @@ namespace ms
 	// Port which the client will connect to
 	public class ServerPort : Configuration.StringEntry
 	{
-		public ServerPort () : base ("ServerPort", "8484")
+		public ServerPort () : base ("ServerPort", "8485")
 		{
 		}
 	}

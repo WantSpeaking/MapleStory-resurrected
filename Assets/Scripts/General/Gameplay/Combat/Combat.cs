@@ -218,6 +218,10 @@ namespace ms
 		{
 			if (move.is_attack ())
 			{
+				if (move.get_id() == 0)
+				{
+
+				}
 				if (player.PlaySkillBTree (move.BTree, move, move_id))
 				{
 					return;

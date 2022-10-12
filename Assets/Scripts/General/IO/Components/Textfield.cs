@@ -20,7 +20,11 @@ namespace ms
 
 		public bool isForbid;
 
-		private GTextInput gTextInput;
+		private GTextInput gTextInput
+		{
+			get => TextInputManager.Instance.TryGet(this, CreateGTextInput);
+		}
+		//private GTextInput _gTextInput
 
 		private string text;
 
@@ -67,21 +71,12 @@ namespace ms
 			markerpos = 0u;
 			crypt = 0;
 			state = State.NORMAL;
-			gTextInput = new GTextInput ();
-			gTextInput.border = 5;
-			TextFormat textFormat = new TextFormat
-			{
-				size = 30
-			};
-			gTextInput.textFormat = textFormat;
-			gTextInput.SetSize ((float)bounds.width () * Singleton<ms.Window>.Instance.ratio, (float)bounds.height () * Singleton<ms.Window>.Instance.ratio);
-			//AppDebug.Log ($"bounds:{bounds} ratio:{Singleton<ms.Window>.Instance.ratio} size x:{(float)bounds.width () * Singleton<ms.Window>.Instance.ratio}");
-			GRoot.inst.AddChild (gTextInput);
+
 		}
 
 		public void draw (Point_short position)
 		{
-			draw (new Point_short (position), new Point_short (0, 0));
+			draw (position, Point_short.zero);
 		}
 
 		public void draw (Point_short position, Point_short marker_adjust)
@@ -89,10 +84,11 @@ namespace ms
 			if (state != State.DISABLED && !isForbid)
 			{
 				Point_short absp = bounds.get_left_top () + position;
+				/*Point_short absp = bounds.get_left_top () + position;
 				short drawPosX = absp.x ();
 				int drawPosY = -absp.y ();
-				//AppDebug.Log ($"size:{gTextInput.size }");
-				gTextInput.displayObject.SetPosition ((float)drawPosX * Singleton<ms.Window>.Instance.ratio, (float)(-drawPosY) * Singleton<ms.Window>.Instance.ratio, 0f);
+				gTextInput.displayObject.SetPosition ((float)drawPosX * Singleton<ms.Window>.Instance.ratio, (float)(-drawPosY) * Singleton<ms.Window>.Instance.ratio, 0f);*/
+				TextInputManager.Instance.TryDraw (this, absp, out var gTextInput);
 			}
 		}
 
@@ -308,6 +304,21 @@ namespace ms
 			{
 				gTextInput.visible = isActive;
 			}
+		}
+
+		public GTextInput CreateGTextInput ()
+		{
+			var gTextInput = new GTextInput ();
+			//gTextInput.border = 5;
+			TextFormat textFormat = new TextFormat
+			{
+				size = 30
+			};
+			gTextInput.textFormat = textFormat;
+			gTextInput.SetSize ((float)bounds.width () * Singleton<ms.Window>.Instance.ratio, (float)bounds.height () * Singleton<ms.Window>.Instance.ratio);
+			//AppDebug.Log ($"bounds:{bounds} ratio:{Singleton<ms.Window>.Instance.ratio} size x:{(float)bounds.width () * Singleton<ms.Window>.Instance.ratio}");
+			GRoot.inst.AddChild (gTextInput);
+			return gTextInput;
 		}
 	}
 

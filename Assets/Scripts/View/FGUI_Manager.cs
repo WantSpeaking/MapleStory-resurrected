@@ -174,31 +174,6 @@ namespace ms_Unity
 		[NonSerialized]
 		public string classPrefix = "FGUI_";
 
-		public GComponent OpenFGUI<FG_View, Mono_View> () where FG_View : GComponent, new() where Mono_View : MonoBehaviour
-		{
-			if (!type_GComponent_dict.TryGetValue (typeof (FG_View), out var window))
-			{
-				var viewType = typeof (FG_View);
-				var name = viewType.Name;
-				if (name.StartsWith (classPrefix))
-				{
-					name = name.Remove (0, classPrefix.Length);
-				}
-				window = (GComponent)UIPackage.CreateObject (packageName, name);
-				GRoot.inst.AddChild (window);
-				window.displayObject.gameObject.AddComponent (typeof (Mono_View));
-				type_GComponent_dict[viewType] = window;
-			}
-
-			return window;
-		}
-
-/*		public FG_View GetFGUI<FG_View> () where FG_View : GComponent, new()
-		{
-			type_GComponent_dict.TryGetValue (typeof (FG_View), out var window);
-			return (FG_View)window;
-		}*/
-
 		public FG_View OpenFGUI<FG_View> () where FG_View : GComponent, new()
 		{
 			if (!type_GComponent_dict.TryGetValue (typeof (FG_View), out var window))
@@ -215,8 +190,10 @@ namespace ms_Unity
 				FGUI_Window w = new FGUI_Window ();
 				
 			}
-			GRoot.inst.AddChild (window);
+			window.SetSize (GRoot.inst.width, GRoot.inst.height);
+			window.AddRelation (GRoot.inst, RelationType.Size);
 			window.visible = true;
+			GRoot.inst.AddChild (window);
 
 			return (FG_View)window;
 		}

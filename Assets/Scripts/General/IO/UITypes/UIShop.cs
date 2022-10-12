@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 using ms.Helper;
 
@@ -10,6 +11,7 @@ using ms.Helper;
 
 namespace ms
 {
+	[Skip]
 	public class UIShop : UIDragElement<PosSHOP>
 	{
 		public const Type TYPE = UIElement.Type.SHOP;

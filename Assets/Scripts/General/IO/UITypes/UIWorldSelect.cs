@@ -11,6 +11,7 @@ using ms.Helper;
 
 namespace ms
 {
+	[Beebyte.Obfuscator.Skip]
 	public class UIWorldSelect : UIElement
 	{
 		public const Type TYPE = UIElement.Type.WORLDSELECT;

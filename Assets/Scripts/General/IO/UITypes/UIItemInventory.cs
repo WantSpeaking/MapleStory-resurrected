@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Beebyte.Obfuscator;
 using Helper;
 using Loxodon.Framework.Observables;
 using MapleLib.WzLib;
 
 namespace ms
 {
+	[Skip]
 	// The Item inventory
 	public class UIItemInventory : UIDragElement<PosINV>
 	{

@@ -10,42 +10,55 @@ using Camera = UnityEngine.Camera;
 
 public class TextManager : SingletonMono<TextManager>
 {
-	public ConcurrentDictionary<ms.Text, GRichTextField> texture_GObj_Dict = new ConcurrentDictionary<ms.Text, GRichTextField> ();
+	public ConcurrentDictionary<ms.Text, GRichTextField> msText_GRichText_Dict = new ConcurrentDictionary<ms.Text, GRichTextField> ();
+	public ConcurrentDictionary<ms.Textfield, GTextInput> msTextfield_GTextInput_Dict = new ConcurrentDictionary<ms.Textfield, GTextInput> ();
 
-	public GRichTextField TryGetGText (ms.Text hashCode, Func<GRichTextField> create = null)
+	public GRichTextField TryGetGRichText (ms.Text hashCode, Func<GRichTextField> create = null)
 	{
-		if (!texture_GObj_Dict.TryGetValue (hashCode, out var result))
+		if (!msText_GRichText_Dict.TryGetValue (hashCode, out var result))
 		{
 			result = create?.Invoke ();
 			Parent.AddChild (result);
 			if (result != null)
 			{
-				texture_GObj_Dict.TryAdd (hashCode, result);
+				msText_GRichText_Dict.TryAdd (hashCode, result);
 			}
 		}
 		else if (result == null)
 		{
-			texture_GObj_Dict.TryRemove (hashCode, out var _);
+			msText_GRichText_Dict.TryRemove (hashCode, out var _);
 		}
 		return result;
 	}
-
+	public GTextInput TryGetGTextInput (ms.Textfield hashCode, Func<GTextInput> create = null)
+	{
+		if (!msTextfield_GTextInput_Dict.TryGetValue (hashCode, out var result))
+		{
+			result = create?.Invoke ();
+			Parent.AddChild (result);
+			if (result != null)
+			{
+				msTextfield_GTextInput_Dict.TryAdd (hashCode, result);
+			}
+		}
+		else if (result == null)
+		{
+			msTextfield_GTextInput_Dict.TryRemove (hashCode, out var _);
+		}
+		return result;
+	}
 	public void TryDraw (ms.Text texture, string text, DrawArgument args, Range_short vertical)
 	{
-		if (string.IsNullOrEmpty (text))
+	/*	if (string.IsNullOrEmpty (text))
 		{
-			return;
-		}
+			return false;
+		}*/
 
-		GRichTextField gRichTextField = TryGetGText (texture, texture.CreateGRichText);
+		var gRichTextField = TryGetGRichText (texture, texture.CreateGRichText);
 
 		if (gRichTextField != null)
 		{
 			gRichTextField.visible = true;
-
-
-			short drawPosX = args.getpos ().x ();
-			int drawPosY = -args.getpos ().y ();
 
 			var screenPos = UnityEngine.Camera.main.WorldToScreenPoint (new UnityEngine.Vector3 (args.getpos ().x (), args.getpos ().y (), 1));
 			screenPos.y = screenPos.y - UnityEngine.Screen.height;
@@ -54,11 +67,13 @@ public class TextManager : SingletonMono<TextManager>
 			//gRichTextField.SetPosition ((float)drawPosX * Singleton<ms.Window>.Instance.ratio, (float)(-drawPosY) * Singleton<ms.Window>.Instance.ratio, -99f);
 			gRichTextField.text = text;
 		}
+
+		//return gRichTextField;
 	}
 
 	public void HideAll ()
 	{
-		foreach (GRichTextField gobj in texture_GObj_Dict.Values)
+		foreach (GRichTextField gobj in msText_GRichText_Dict.Values)
 		{
 			gobj.visible = false;
 		}
@@ -66,7 +81,7 @@ public class TextManager : SingletonMono<TextManager>
 
 	public void Clear ()
 	{
-		texture_GObj_Dict.Clear ();
+		msText_GRichText_Dict.Clear ();
 	}
 
 	private GComponent parent;

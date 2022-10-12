@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using Helper;
 using MapleLib.WzLib;
-using Microsoft.Xna.Framework.Input;
 
 namespace ms
 {
+    [Beebyte.Obfuscator.Skip]
     public class UIJoystick : UIElement
     {
         public const Type TYPE = UIElement.Type.Joystick;
@@ -65,42 +65,42 @@ namespace ms
 
         private void OnUp_Bottom(object sender, object e)
         {
-            send_key(Keys.Down, false);
+            //send_key(Keys.Down, false);
         }
 
         private void OnDown_Bottom(object sender, object e)
         {
-            send_key(Keys.Down, true);
+            //send_key(Keys.Down, true);
         }
 
         private void OnUp_Top(object sender, object e)
         {
-            send_key(Keys.Up, false);
+            //send_key(Keys.Up, false);
         }
 
         private void OnDown_Top(object sender, object e)
         {
-            send_key(Keys.Up, true);
+            //send_key(Keys.Up, true);
         }
 
         private void OnUp_Right(object sender, object e)
         {
-            send_key(Keys.Right, false);
+            //send_key(Keys.Right, false);
         }
 
         private void OnDown_Right(object sender, object e)
         {
-            send_key(Keys.Right, true);
+            //send_key(Keys.Right, true);
         }
 
         private void OnUp_Left(object sender, object e)
         {
-            send_key(Keys.Left, false);
+            //send_key(Keys.Left, false);
         }
 
         private void OnDown_Left(object sender, object e)
         {
-            send_key(Keys.Left, true);
+            //send_key(Keys.Left, true);
         }
 
         public override Type get_type()
@@ -108,10 +108,10 @@ namespace ms
             return TYPE;
         }
 
-        private void send_key(Keys keys, bool pressed)
+     /*   private void send_key(Keys keys, bool pressed)
         {
             UI.get().send_key(GLFW_Util.XNAKeyCodeToGLFW_KEY(keys), pressed);
-        }
+        }*/
 
         public override bool is_in_range(Point_short cursorpos)
         {

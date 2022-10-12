@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 using ms.Util;
 
@@ -11,6 +12,7 @@ using ms.Util;
 
 namespace ms
 {
+	[Skip]
 	public class UIExplorerCreation : UIElement
 	{
 		public const Type TYPE = UIElement.Type.CLASSCREATION;

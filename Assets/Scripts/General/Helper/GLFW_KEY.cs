@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework.Input;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Helper
 {
@@ -265,10 +264,14 @@ namespace Helper
 		public static int UnityKeyCodeToGLFW_KEY (KeyCode keyCode)
 		{
 			//arrow key 
-			if (keyCode == KeyCode.UpArrow) return (int)GLFW_KEY.GLFW_KEY_UP;
-			if (keyCode == KeyCode.DownArrow) return (int)GLFW_KEY.GLFW_KEY_DOWN;
-			if (keyCode == KeyCode.RightArrow) return (int)GLFW_KEY.GLFW_KEY_RIGHT;
-			if (keyCode == KeyCode.LeftArrow) return (int)GLFW_KEY.GLFW_KEY_LEFT;
+			if (keyCode == KeyCode.UpArrow)
+				return (int)GLFW_KEY.GLFW_KEY_UP;
+			if (keyCode == KeyCode.DownArrow)
+				return (int)GLFW_KEY.GLFW_KEY_DOWN;
+			if (keyCode == KeyCode.RightArrow)
+				return (int)GLFW_KEY.GLFW_KEY_RIGHT;
+			if (keyCode == KeyCode.LeftArrow)
+				return (int)GLFW_KEY.GLFW_KEY_LEFT;
 
 			//A-Z
 			if ((int)keyCode >= 97 && (int)keyCode <= 122)
@@ -276,153 +279,26 @@ namespace Helper
 				return (int)keyCode - 32;
 			}
 
-			if (keyCode == KeyCode.Space) return (int)GLFW_KEY.GLFW_KEY_SPACE;
-			if (keyCode == KeyCode.LeftAlt) return (int)GLFW_KEY.GLFW_KEY_LEFT_ALT;
-			if (keyCode == KeyCode.LeftShift) return (int)GLFW_KEY.GLFW_KEY_LEFT_SHIFT;
-			if (keyCode == KeyCode.LeftControl) return (int)GLFW_KEY.GLFW_KEY_LEFT_CONTROL;
+			if (keyCode == KeyCode.Space)
+				return (int)GLFW_KEY.GLFW_KEY_SPACE;
+			if (keyCode == KeyCode.LeftAlt)
+				return (int)GLFW_KEY.GLFW_KEY_LEFT_ALT;
+			if (keyCode == KeyCode.LeftShift)
+				return (int)GLFW_KEY.GLFW_KEY_LEFT_SHIFT;
+			if (keyCode == KeyCode.LeftControl)
+				return (int)GLFW_KEY.GLFW_KEY_LEFT_CONTROL;
 
-			if (keyCode == KeyCode.Escape) return (int)GLFW_KEY.GLFW_KEY_ESCAPE;
-			if (keyCode == KeyCode.Tab) return (int)GLFW_KEY.GLFW_KEY_TAB;
-			if (keyCode == KeyCode.Return) return (int)GLFW_KEY.GLFW_KEY_ENTER;
-			if (keyCode == KeyCode.KeypadEnter) return (int)GLFW_KEY.GLFW_KEY_KP_ENTER;
+			if (keyCode == KeyCode.Escape)
+				return (int)GLFW_KEY.GLFW_KEY_ESCAPE;
+			if (keyCode == KeyCode.Tab)
+				return (int)GLFW_KEY.GLFW_KEY_TAB;
+			if (keyCode == KeyCode.Return)
+				return (int)GLFW_KEY.GLFW_KEY_ENTER;
+			if (keyCode == KeyCode.KeypadEnter)
+				return (int)GLFW_KEY.GLFW_KEY_KP_ENTER;
 
 
 			return (int)keyCode;
-		}
-
-		public static int XNAKeyCodeToGLFW_KEY (Keys keyCode)
-		{
-			//AppDebug.Log ($"XNAKeyCode:{keyCode}");
-
-
-			//F1-F24
-			if ((int)keyCode >= 112 && (int)keyCode <= 135)
-			{
-				return (int)keyCode + 178;
-			}
-
-			//1-0
-			if ((int)keyCode >= 48 && (int)keyCode <= 57)
-			{
-				return (int)keyCode;
-			}
-
-			//A-Z
-			if ((int)keyCode >= 65 && (int)keyCode <= 90)
-			{
-				return (int)keyCode;
-			}
-
-
-			#region ctrl key ` <--> backspace
-
-			if (keyCode == Keys.Escape)
-				return (int)GLFW_KEY.GLFW_KEY_ESCAPE;
-			if (keyCode == Keys.OemTilde)
-				return (int)GLFW_KEY.GLFW_KEY_GRAVE_ACCENT;
-			if (keyCode == Keys.Tab)
-				return (int)GLFW_KEY.GLFW_KEY_TAB;
-			if (keyCode == Keys.CapsLock)
-				return (int)GLFW_KEY.GLFW_KEY_CAPS_LOCK;
-
-			if (keyCode == Keys.LeftAlt)
-				return (int)GLFW_KEY.GLFW_KEY_LEFT_ALT;
-			if (keyCode == Keys.LeftShift)
-				return (int)GLFW_KEY.GLFW_KEY_LEFT_SHIFT;
-			if (keyCode == Keys.LeftControl)
-				return (int)GLFW_KEY.GLFW_KEY_LEFT_CONTROL;
-
-			if (keyCode == Keys.Space)
-				return (int)GLFW_KEY.GLFW_KEY_SPACE;
-
-			if (keyCode == Keys.RightAlt)
-				return (int)GLFW_KEY.GLFW_KEY_RIGHT_ALT;
-			if (keyCode == Keys.Apps)
-				return (int)GLFW_KEY.GLFW_KEY_MENU;
-			if (keyCode == Keys.RightControl)
-				return (int)GLFW_KEY.GLFW_KEY_RIGHT_CONTROL;
-			if (keyCode == Keys.RightShift)
-				return (int)GLFW_KEY.GLFW_KEY_RIGHT_SHIFT;
-
-
-			if (keyCode == Keys.Enter)
-				return (int)GLFW_KEY.GLFW_KEY_ENTER;
-			if (keyCode == Keys.OemPipe)
-				return (int)GLFW_KEY.GLFW_KEY_BACKSLASH;
-			if (keyCode == Keys.Back)
-				return (int)GLFW_KEY.GLFW_KEY_BACKSPACE;
-
-			#endregion
-
-			#region punctuation mark
-
-			if (keyCode == Keys.OemMinus)
-				return (int)GLFW_KEY.GLFW_KEY_MINUS;
-			if (keyCode == Keys.OemPlus)
-				return (int)GLFW_KEY.GLFW_KEY_EQUAL;
-
-			if (keyCode == Keys.OemOpenBrackets)
-				return (int)GLFW_KEY.GLFW_KEY_LEFT_BRACKET;
-			if (keyCode == Keys.OemCloseBrackets)
-				return (int)GLFW_KEY.GLFW_KEY_RIGHT_BRACKET;
-
-			if (keyCode == Keys.OemSemicolon)
-				return (int)GLFW_KEY.GLFW_KEY_SEMICOLON;
-			if (keyCode == Keys.OemSemicolon)
-				return (int)GLFW_KEY.GLFW_KEY_APOSTROPHE;
-
-			if (keyCode == Keys.OemComma)
-				return (int)GLFW_KEY.GLFW_KEY_COMMA;
-			if (keyCode == Keys.OemPeriod)
-				return (int)GLFW_KEY.GLFW_KEY_PERIOD;
-			if (keyCode == Keys.OemQuestion)
-				return (int)GLFW_KEY.GLFW_KEY_SLASH;
-
-			#endregion
-
-			#region arrow key
-
-			//arrow key 
-			if (keyCode == Keys.Up)
-				return (int)GLFW_KEY.GLFW_KEY_UP;
-			if (keyCode == Keys.Down)
-				return (int)GLFW_KEY.GLFW_KEY_DOWN;
-			if (keyCode == Keys.Right)
-				return (int)GLFW_KEY.GLFW_KEY_RIGHT;
-			if (keyCode == Keys.Left)
-				return (int)GLFW_KEY.GLFW_KEY_LEFT;
-
-
-			#endregion
-
-			#region keypad
-
-			if (keyCode == Keys.Home)
-				return (int)GLFW_KEY.GLFW_KEY_HOME;
-			if (keyCode == Keys.End)
-				return (int)GLFW_KEY.GLFW_KEY_END;
-			if (keyCode == Keys.PageUp)
-				return (int)GLFW_KEY.GLFW_KEY_PAGE_UP;
-			if (keyCode == Keys.PageDown)
-				return (int)GLFW_KEY.GLFW_KEY_PAGE_DOWN;
-			if (keyCode == Keys.Insert)
-				return (int)GLFW_KEY.GLFW_KEY_INSERT;
-			if (keyCode == Keys.Delete)
-				return (int)GLFW_KEY.GLFW_KEY_DELETE;
-			if (keyCode == Keys.Add)
-				return (int)GLFW_KEY.GLFW_KEY_KP_ADD;
-			if (keyCode == Keys.Subtract)
-				return (int)GLFW_KEY.GLFW_KEY_KP_SUBTRACT;
-			if (keyCode == Keys.Divide)
-				return (int)GLFW_KEY.GLFW_KEY_KP_DIVIDE;
-			if (keyCode == Keys.Multiply)
-				return (int)GLFW_KEY.GLFW_KEY_KP_MULTIPLY;
-			if (keyCode == Keys.PrintScreen)
-				return (int)GLFW_KEY.GLFW_KEY_PRINT_SCREEN;
-
-			#endregion
-
-			return (int)0;
 		}
 	}
 }

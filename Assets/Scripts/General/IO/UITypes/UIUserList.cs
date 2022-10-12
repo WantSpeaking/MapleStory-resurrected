@@ -9,6 +9,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+	[Beebyte.Obfuscator.Skip]
 	public class UIUserList : UIDragElement<PosUSERLIST>
 	{
 		public const Type TYPE = UIElement.Type.USERLIST;

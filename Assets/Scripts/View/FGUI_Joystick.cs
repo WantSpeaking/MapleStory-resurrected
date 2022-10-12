@@ -1,7 +1,6 @@
 ﻿using System;
 using FairyGUI;
 using Helper;
-using Microsoft.Xna.Framework.Input;
 using ms;
 using UnityEngine;
 
@@ -172,10 +171,10 @@ namespace ms_Unity
 
 		void ReleaseKey ()
 		{
-			UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Up), false);
-			UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Down), false);
-			UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Left), false);
-			UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Right), false);
+			UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY (KeyCode.UpArrow), false);
+			UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY (KeyCode.DownArrow), false);
+			UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY (KeyCode.LeftArrow), false);
+			UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY (KeyCode.RightArrow), false);
 		}
 
 		private void __joystickMove (float degree)
@@ -186,20 +185,20 @@ namespace ms_Unity
 			if (absDegree > 0 && absDegree < 45)
 			{
 				//AppDebug.Log ($"right");
-				UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Right), true);
+				UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY (KeyCode.RightArrow), true);
 			}
 			else if (absDegree > 45 && absDegree < 135)
 			{
 				if (degree < 0)
 				{
 					//AppDebug.Log ($"up");
-					UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Up), true);
+					UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY (KeyCode.UpArrow), true);
 
 				}
 				else
 				{
 					//AppDebug.Log ($"down");
-					UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Down), true);
+					UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY (KeyCode.DownArrow), true);
 
 				}
 			}
@@ -207,7 +206,7 @@ namespace ms_Unity
 			if (absDegree > 135 && absDegree <= 180)
 			{
 				//AppDebug.Log ($"left");
-				UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Left), true);
+				UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY (KeyCode.LeftArrow), true);
 
 			}
 

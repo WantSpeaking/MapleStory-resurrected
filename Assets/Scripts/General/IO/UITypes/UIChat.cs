@@ -1,6 +1,7 @@
 ﻿#define USE_NX
 
 using System;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 
 
@@ -9,6 +10,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+	[Skip]
 	public class UIChat : UIDragElement<PosMAPLECHAT>
 	{
 		public const Type TYPE = UIElement.Type.CHAT;
@@ -131,6 +133,7 @@ namespace ms
 		private Text name_right = new Text();
 	}
 
+	[Skip]
 	public class UIRank : UIDragElement<PosMAPLECHAT>
 	{
 		public const Type TYPE = UIElement.Type.CHATRANK;

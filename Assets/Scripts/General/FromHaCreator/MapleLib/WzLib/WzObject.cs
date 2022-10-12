@@ -218,7 +218,7 @@ namespace MapleLib.WzLib
 
         public virtual byte[] GetBytes()
         {
-            AppDebug.Log($"GetBytes NotImplement, FullPath: {FullPath}");
+            AppDebug.LogWarning($"GetBytes NotImplement, FullPath: {FullPath}");
             return null;
             //throw new NotImplementedException();
         }

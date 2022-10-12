@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using FairyGUI;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using ms.Util;
 //using SpriteFontPlus;
 //using FairyGUI;
@@ -134,17 +132,9 @@ namespace ms
 			}
 		}
 
-		private static EnumMap<Font, SpriteFont> font_map = new EnumMap<Font, SpriteFont> ();
-
-		public static SpriteFont Font_A11M;
-
-		public static SpriteFont base_Font;
-
-		public static SpriteFont base_BoldFont;
 
 		private static float base_FontSize = 14f;
 
-		public static Microsoft.Xna.Framework.Color nameTagColor = new Microsoft.Xna.Framework.Color (0f, 0f, 0f, 0.6f);
 
 		private Font font;
 
@@ -224,22 +214,15 @@ namespace ms
 			return result;
 		}
 
-		private static Dictionary<Text, GTextField> gTextFields = new Dictionary<Text, GTextField> ();
 		public static void Init ()
 		{
 		}
-		public static void HideAllGText ()
-		{
-			foreach (var gTextField in gTextFields.Values)
-			{
-				gTextField.visible = false;
-			}
-		}
+	
 		private int FontToSize (Font font)
 		{
 			var sizeStr = font.ToString ().Substring (1, 2);
 			int.TryParse (sizeStr, out var size);
-			return (int)(size / 11f * 30);
+			return (int)(size / 11f * 20);
 		}
 		public Text (Font f, Alignment a, ms.Color.Name c, Background b, string t = "", ushort mw = 0, bool fm = true, short la = 0)
 		{
@@ -272,7 +255,6 @@ namespace ms
 		public void draw (DrawArgument args, Range_short vertical)
 		{
 			TextManager.Instance.TryDraw (this, text, args, vertical);
-
 
 			/*if (string.IsNullOrEmpty (text))
 			{
@@ -378,34 +360,6 @@ namespace ms
 			}
 		}
 
-		public GRichTextField CreateGRichText ()
-		{
-			useFguiText = true;
-			gRichTextField = new GRichTextField ();
-			//gRichTextField.textFormat.size = (int)FontTypeToSize (font);
-			//Microsoft.Xna.Framework.Color monoColor = new Microsoft.Xna.Framework.Color (msColor[0], msColor[1], msColor[2], 1f);
-			//gRichTextField.textFormat.color = new UnityEngine.Color (msColor[0], msColor[1], msColor[2], 1f);
-
-			if (maxwidth != 0)
-			{
-				gRichTextField.autoSize = AutoSizeType.Height;
-				gRichTextField.width = (int)maxwidth;
-			}
-			gRichTextField.align = (AlignType)alignment;
-			gRichTextField.onClickLink.Add (onClickLink);
-			gRichTextField.pivotX = 0.5f;
-			gRichTextField.pivotAsAnchor = true;
-
-			var textFormat = gRichTextField.textFormat;
-			float[] msColor = ms.Color.colors[(uint)color];
-			textFormat.color = new UnityEngine.Color (msColor[0], msColor[1], msColor[2], 1f);
-			textFormat.size = FontToSize (font);
-			gRichTextField.textFormat = textFormat;
-
-			GRoot.inst.AddChild (gRichTextField);
-
-			return gRichTextField;
-		}
 
 		public void AddGRichTextToGRoot ()
 		{
@@ -448,8 +402,38 @@ namespace ms
 			{
 				return 0.0;
 			}
-			return Math.Round (new Microsoft.Xna.Framework.Vector2 (0f, 0f).X * letterSpacingScaler);
+			return t.Length * letterSpacingScaler;
 		}
+
+		public GRichTextField CreateGRichText ()
+		{
+			useFguiText = true;
+			gRichTextField = new GRichTextField ();
+			//gRichTextField.textFormat.size = (int)FontTypeToSize (font);
+			//Microsoft.Xna.Framework.Color monoColor = new Microsoft.Xna.Framework.Color (msColor[0], msColor[1], msColor[2], 1f);
+			//gRichTextField.textFormat.color = new UnityEngine.Color (msColor[0], msColor[1], msColor[2], 1f);
+
+			if (maxwidth != 0)
+			{
+				gRichTextField.autoSize = AutoSizeType.Height;
+				gRichTextField.width = (int)maxwidth;
+			}
+			gRichTextField.align = (AlignType)alignment;
+			gRichTextField.onClickLink.Add (onClickLink);
+			gRichTextField.pivotX = 0.5f;
+			gRichTextField.pivotAsAnchor = true;
+
+			var textFormat = gRichTextField.textFormat;
+			float[] msColor = ms.Color.colors[(uint)color];
+			textFormat.color = new UnityEngine.Color (msColor[0], msColor[1], msColor[2], 1f);
+			textFormat.size = FontToSize (font);
+			gRichTextField.textFormat = textFormat;
+
+			GRoot.inst.AddChild (gRichTextField);
+
+			return gRichTextField;
+		}
+
 	}
 
 }

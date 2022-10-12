@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using HaCreator.Wz;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
@@ -28,8 +29,41 @@ public class MapleStory : SingletonMono<MapleStory>
 		DontDestroyOnLoad (this);
 		clearBuffer = new CommandBuffer () { name = "Clear Buffer" };
 
-		UnityEngine.SceneManagement.SceneManager.LoadScene (GameSceneName);
-		UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+		//UnityEngine.SceneManagement.SceneManager.LoadScene (GameSceneName);
+		//UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+
+
+#if UNITY_EDITOR
+		/*CopyStreamingAssetToPersistent.CopyResourcesFile ("WZ/", "Map", ".wz");
+		CopyStreamingAssetToPersistent.CopyResourcesFile ("WZ/", "Sound", ".wz");
+		CopyStreamingAssetToPersistent.CopyResourcesFile ("WZ/", "UI_New", ".wz");
+
+		CopyStreamingAssetToPersistent.CopyFile ("Settings");
+		CopyStreamingAssetToPersistent.CopyFile ("Base.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("Character1.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("Effect.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("Etc.wz");
+
+
+		CopyStreamingAssetToPersistent.CopyFile ("Item.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("List.wz");
+		//CopyStreamingAssetToPersistent.CopyFile ("Map.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("Map001.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("MapLatest.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("Mob.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("Morph.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("Npc.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("Quest.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("Reactor.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("Skill.wz");
+		//CopyStreamingAssetToPersistent.CopyFile ("Sound.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("String.wz");
+		//CopyStreamingAssetToPersistent.CopyFile ("UI_New.wz");
+		CopyStreamingAssetToPersistent.CopyFile ("UI_Endless.wz");*/
+#elif UNITY_ANDROID
+
+		
+#endif
 		//Debug.Log ($"{System.DateTime.Now.ToString("yyyyMMddHH")}");
 		//System.DateTime.Parse ("2009010100");
 		//Debug.Log (System.DateTime.Parse ("2009010100"));
@@ -40,6 +74,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		Debug.Log (replaceStr);
 		Debug.Log (@replaceStr);*/
 
+		main ();
 	}
 
 	private void OnSceneLoaded (Scene arg0, LoadSceneMode arg1)
@@ -100,18 +135,122 @@ public class MapleStory : SingletonMono<MapleStory>
 			update ();
 		}
 	}
-
+	public GameObject RuntimeHierarchyInspector;
 	private void OnGUI ()
 	{
+		/*if (GUI.Button (new Rect (200, 0, 200, 100), "开始"))
+		{
+			main ();
+			//UnityEngine.SceneManagement.SceneManager.LoadScene (UnityEngine.SceneManagement.SceneManager.GetActiveScene ().name);
+		}
+		if (GUI.Button (new Rect (400, 0, 200, 100), "显示监视面板"))
+		{
+			RuntimeHierarchyInspector.SetActive (true);
+		}
+		if (GUI.Button (new Rect (600, 0, 200, 100), "隐藏监视面板"))
+		{
+			RuntimeHierarchyInspector.SetActive (false);
+		}
+
+		if (GUI.Button (new Rect (400, 100, 200, 100), "Item"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("Item.wz");
+		}
+		if (GUI.Button (new Rect (600, 100, 200, 100), "List"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("List.wz");
+		}
+		if (GUI.Button (new Rect (800, 100, 200, 100), "Map"))
+		{
+			//CopyStreamingAssetToPersistent.CopyFile ("Map.wz");
+			CopyStreamingAssetToPersistent.CopyResourcesFile ("WZ/", "Map", ".wz");
+
+		}
+		if (GUI.Button (new Rect (1000, 100, 200, 100), "Map001"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("Map001.wz");
+		}
+		if (GUI.Button (new Rect (1200, 100, 200, 100), "MapLatest"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("MapLatest.wz");
+		}
+
+		if (GUI.Button (new Rect (400, 200, 200, 100), "Mob"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("Mob.wz");
+		}
+		if (GUI.Button (new Rect (600, 200, 200, 100), "Morph"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("Morph.wz");
+		}
+		if (GUI.Button (new Rect (800, 200, 200, 100), "Npc"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("Npc.wz");
+		}
+		if (GUI.Button (new Rect (1000, 200, 200, 100), "Quest"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("Quest.wz");
+		}
+		if (GUI.Button (new Rect (1200, 200, 200, 100), "Reactor"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("Reactor.wz");
+		}
+
+		if (GUI.Button (new Rect (400, 300, 200, 100), "Skill"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("Skill.wz");
+		}
+		if (GUI.Button (new Rect (600, 300, 200, 100), "Sound"))
+		{
+			//CopyStreamingAssetToPersistent.CopyFile ("Sound.wz");
+			CopyStreamingAssetToPersistent.CopyResourcesFile ("WZ/", "Sound", ".wz");
+
+		}
+		if (GUI.Button (new Rect (800, 300, 200, 100), "String"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("String.wz");
+		}
+		if (GUI.Button (new Rect (1000, 300, 200, 100), "TamingMob"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("TamingMob.wz");
+		}
+		if (GUI.Button (new Rect (1200, 300, 200, 100), "UI_New"))
+		{
+			//CopyStreamingAssetToPersistent.CopyFile ("UI_New.wz");
+			CopyStreamingAssetToPersistent.CopyResourcesFile ("WZ/", "UI_New", ".wz");
+		}
+		if (GUI.Button (new Rect (1400, 300, 200, 100), "UI_Endless"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("UI_Endless.wz");
+		}
+
+		if (GUI.Button (new Rect (400, 400, 200, 100), "Settings"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("Settings");
+		}
+		if (GUI.Button (new Rect (600, 400, 200, 100), "Base"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("Base.wz");
+		}
+		if (GUI.Button (new Rect (800, 400, 200, 100), "Character1"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("Character1.wz");
+		}
+		if (GUI.Button (new Rect (1000, 400, 200, 100), "Effect"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("Effect.wz");
+		}
+		if (GUI.Button (new Rect (1200, 400, 200, 100), "Etc"))
+		{
+			CopyStreamingAssetToPersistent.CopyFile ("Etc.wz");
+		}*/
+
 		if (running ())
 		{
 			Window.get ().HandleGUIEvents (Event.current);
 		}
 
-		if (GUI.Button(new Rect(0,0,200,100),"Reload"))
-		{
-			UnityEngine.SceneManagement.SceneManager.LoadScene (UnityEngine.SceneManagement.SceneManager.GetActiveScene ().name);
-		}
+
 	}
 
 
@@ -153,8 +292,8 @@ public class MapleStory : SingletonMono<MapleStory>
 		Session.get ().init ();
 		NxFiles.init (maplestoryFolder);
 		Window.get ().init ();
-		//Sound.init ();
-		//Music.init ();
+		Sound.init ();
+		Music.init ();
 
 		Char.init ();
 		DamageNumber.init ();
@@ -174,7 +313,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		}
 		foreach (var wzchar_00012000_img in wz.wzFile_character.WzDirectory.WzImages)
 		{
-			if (wzchar_00012000_img.Name.Contains(".img"))
+			if (wzchar_00012000_img.Name.Contains (".img"))
 			{
 				foreach (var wzchar_00012000_img_fly in wzchar_00012000_img)
 				{
@@ -200,7 +339,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		//FindChild (wz.wzFile_quest["Say.img"]);
 		//Debug.Log (dictionary.ToDebugLog ());
 		//Debug.Log (dictionary.Keys.ToDebugLog ());
-		
+
 	}
 	Dictionary<string, string> dictionary;
 	private void FindChild (WzObject wzObj)
@@ -237,10 +376,11 @@ public class MapleStory : SingletonMono<MapleStory>
 		GameUtil.Instance.DrawOrder = 0;
 		TestURPBatcher.Instance.HideAll ();
 		TextManager.Instance.HideAll ();
+		TextInputManager.Instance.HideAll ();
 		Stage.get ().draw (alpha);
 		UI.get ().draw (alpha);
 
-		if(enable_DebugPlayerPos)
+		if (enable_DebugPlayerPos)
 			AppDebug.Log (Stage.get ().get_player ()?.get_position ());
 		//Window.get().end();
 	}
@@ -301,7 +441,11 @@ public class MapleStory : SingletonMono<MapleStory>
 		CharlistRequestPacket ();
 		SelectCharPacket ();*/
 	}
-
+	private void OnApplicationQuit ()
+	{
+		Sound.close ();
+		//Music.get ().Quit ();
+	}
 	#region Will be removed later
 
 	public RenderTexture target;
@@ -372,23 +516,24 @@ public class MapleStory : SingletonMono<MapleStory>
 	public bool AddToParent = true;
 	public Rectangle_short attackRange;
 	public Rectangle_short attackRangeAfter;
-
-#if UNITY_EDITOR
-
 	public double viewx;
 	public double viewy;
 	public float alpha;
+
+#if UNITY_EDITOR
+
+
 	private void DrawAttackRange ()
 	{
 		if (attackRange != null && attackRangeAfter != null && !attackRangeAfter.empty ())
 		{
-	/*		Vector3 center = new Vector3 (attackRange.center ().x (), -attackRange.center ().y ());
-			Vector3 size = new Vector3 (attackRange.width (), attackRange.height ());
-			Gizmos.color = Color.yellow;
-			Gizmos.DrawWireCube (center, size);*/
+			/*		Vector3 center = new Vector3 (attackRange.center ().x (), -attackRange.center ().y ());
+					Vector3 size = new Vector3 (attackRange.width (), attackRange.height ());
+					Gizmos.color = Color.yellow;
+					Gizmos.DrawWireCube (center, size);*/
 			//Debug.Log ($"center:{center}\t size:{size}\t attackRange:{attackRange}");
 
-			Vector3 centerAfter = new Vector3 ((float)(attackRangeAfter.center ().x () + viewx), -(attackRangeAfter.center ().y ()+(float)viewy));
+			Vector3 centerAfter = new Vector3 ((float)(attackRangeAfter.center ().x () + viewx), -(attackRangeAfter.center ().y () + (float)viewy));
 			Vector3 sizeAfter = new Vector3 (attackRangeAfter.width (), attackRangeAfter.height ());
 			Gizmos.color = Color.black;
 			Gizmos.DrawWireCube (centerAfter, sizeAfter);
@@ -443,9 +588,9 @@ public class MapleStory : SingletonMono<MapleStory>
 		//Handles.dr
 	}
 
-	private void DrawMobRange()
+	private void DrawMobRange ()
 	{
-		var mobs = ms.Stage.get ()?.get_mobs ()?.get_mobs();
+		var mobs = ms.Stage.get ()?.get_mobs ()?.get_mobs ();
 		if (mobs == null)
 			return;
 		foreach (var pair in mobs)
@@ -470,7 +615,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		if (enable_DrawAttackRange)
 			DrawAttackRange ();
 
-		if(enable_DrawMobRange)
+		if (enable_DrawMobRange)
 		{
 			DrawMobRange ();
 		}

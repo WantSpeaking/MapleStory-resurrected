@@ -2,10 +2,10 @@
 
 using System;
 using MapleLib.WzLib;
-using Microsoft.Xna.Framework;
 
 namespace ms
 {
+	[Beebyte.Obfuscator.Skip]
 	public class UIPartySideMenu : UIElement
 	{
 		public const Type TYPE = UIElement.Type.PartySideMenu;

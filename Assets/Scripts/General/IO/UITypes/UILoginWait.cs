@@ -1,12 +1,11 @@
 ﻿#define USE_NX
 
 using System;
-
-
-
+using Beebyte.Obfuscator;
 
 namespace ms
 {
+	[Skip]
 	public class UILoginWait : UIElement
 	{
 		public const Type TYPE = UIElement.Type.LOGINWAIT;

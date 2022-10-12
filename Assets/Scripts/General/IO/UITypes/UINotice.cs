@@ -1,6 +1,7 @@
 ﻿#define USE_NX
 
 using System;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 
 
@@ -14,6 +15,7 @@ namespace ms
 		ENTERNUMBER,
 		OK
 	}
+	[Skip]
 	public abstract class UINotice : UIDragElement<PosNOTICE>
 	{
 		public const Type TYPE = UIElement.Type.NOTICE;
@@ -145,7 +147,7 @@ namespace ms
 		private NoticeType type;
 		private Text.Alignment alignment;
 	}
-
+	[Skip]
 	public class UIYesNo : UINotice
 	{
 		public UIYesNo (params object[] args) : this ((string)args[0], (Action<bool>)args[1], (Text.Alignment)args[2])
@@ -218,7 +220,7 @@ namespace ms
 
 		private System.Action<bool> yesnohandler;
 	}
-
+	[Skip]
 	public class UIEnterNumber : UINotice
 	{
 		public UIEnterNumber (params object[] args) : this ((string)args[0], (Action<int>)args[1], (int)args[2], (int)args[3])
@@ -369,7 +371,7 @@ namespace ms
 		private Textfield numfield = new Textfield ();
 		private int max;
 	}
-
+	[Skip]
 	public class UIOk : UINotice
 	{
 		public UIOk (params object[] args) : this ((string)args[0], (Action<bool>)args[1])

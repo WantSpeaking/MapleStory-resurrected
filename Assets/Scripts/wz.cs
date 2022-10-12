@@ -37,7 +37,6 @@ namespace ms
         public static void load_all(string wzPath)
         {
 	        WzManager ??= new WzFileManager(wzPath);
-	        HaCreator.Program.WzManager = WzManager;
 
 			wzFile_base = add_file("base");
             wzFile_character = add_file("character1");
@@ -50,29 +49,14 @@ namespace ms
             wzFile_map001 = add_file("Map001");
             wzFile_mob = add_file("mob");
             wzFile_npc = add_file("npc");
-            wzFile_skill = add_file("skill");
+			wzFile_quest = add_file ("Quest");
+			wzFile_reactor = add_file ("Reactor");
+			wzFile_skill = add_file("skill");
             wzFile_sound = add_file("sound");
             wzFile_string = add_file("string");
-            wzFile_ui = add_file("ui-new");
+            wzFile_ui = add_file("UI_New");
 			wzFile_UI_Endless = add_file("UI_Endless");
-			wzFile_quest = add_file("Quest");
-			wzFile_reactor = add_file ( "Reactor");
-
-			Program.WzManager.LoadWzFile ("map");
-			Program.WzManager.ExtractMapMarks ();
-			Program.WzManager.ExtractPortals ();
-			Program.WzManager.ExtractTileSets ();
-			//Program.WzManager.ExtractObjSets ();
-			//Program.WzManager.ExtractBackgroundSets ();
-
-			foreach (string mapwzFile in WzFileManager.MAP_WZ_FILES)
-			{
-				if (Program.WzManager.LoadWzFile (mapwzFile.ToLower ()))
-				{
-					Program.WzManager.ExtractBackgroundSets ();
-					Program.WzManager.ExtractObjSets ();
-				}
-			}
+		
 			/*if (exists("Base.nx"))
 			{
 				baseWz = add_file("Base.nx");

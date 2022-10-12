@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using Helper;
 using MapleLib.WzLib;
-using Microsoft.Xna.Framework.Input;
 
 namespace ms
 {
+    [Beebyte.Obfuscator.Skip]
     public class UIActionButton : UIElement
     {
         public const Type TYPE = UIElement.Type.ActionButton;

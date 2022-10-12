@@ -1,5 +1,6 @@
 ﻿#define USE_NX
 
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 
 
@@ -7,6 +8,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+	[Skip]
 	public class UIRegion : UIElement
 	{
 		public const Type TYPE = UIElement.Type.REGION;

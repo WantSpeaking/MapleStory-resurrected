@@ -11,7 +11,6 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
-using Microsoft.Xna.Framework.Graphics;
 using ms;
 using ms.Helper;
 using Texture = ms.Texture;
@@ -266,7 +265,6 @@ namespace MapleLib.WzLib
 		public int width;
 		public int height;
 		public int format;
-		public SurfaceFormat surfaceFormat;
 	}
 
 	public struct WavInfo

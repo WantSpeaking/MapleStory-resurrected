@@ -4,6 +4,7 @@ using ms;
 
 namespace ms
 {
+	[Beebyte.Obfuscator.Skip]
 	public class UIPartyMember_HP : UIDragElement<PosPartyMemberHP>
 	{
 		public const Type TYPE = UIElement.Type.PartyMember_HP;

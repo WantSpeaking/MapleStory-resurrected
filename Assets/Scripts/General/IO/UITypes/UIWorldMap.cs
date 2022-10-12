@@ -9,6 +9,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+	[Beebyte.Obfuscator.Skip]
 	public class UIWorldMap : UIDragElement<PosMAP>
 	{
 		public const Type TYPE = UIElement.Type.WORLDMAP;

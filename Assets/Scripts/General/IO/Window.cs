@@ -55,7 +55,16 @@ namespace ms
 
 		public Error init ()
 		{
-			fullscreen = ms.Setting<Fullscreen>.get ().load ();
+			try
+			{
+				AppDebug.Log ("start Window.init");
+				fullscreen = ms.Setting<Fullscreen>.get ().load ();
+			}
+			catch (Exception ex)
+			{
+				AppDebug.LogError (ex.Message);
+			}
+
 			return initwindow ();
 		}
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Beebyte.Obfuscator;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -22,6 +23,7 @@ using System.Collections.Generic;
 
 namespace ms
 {
+	[Skip]
 	public abstract class UIState : System.IDisposable
 	{
 		public virtual void Dispose ()
@@ -65,6 +67,7 @@ namespace ms
 		}*/
 	}
 
+	[Skip]
 	public class UIStateNull : UIState
 	{
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 
 
@@ -9,6 +10,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
+	[Skip]
 	// Keyboard which is used via the mouse
 	// The game uses this for PIC/PIN input
 	public class UISoftKey : UIElement

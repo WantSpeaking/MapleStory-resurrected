@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
-
-
-
-
-
+using Beebyte.Obfuscator;
 
 namespace ms
 {
@@ -40,7 +36,7 @@ namespace ms
 		private const long FADE_DURATION = 8_000;
 	}
 
-
+	[Skip]
 	public class UIStatusMessenger : UIElement
 	{
 		public const Type TYPE = UIElement.Type.STATUSMESSENGER;

@@ -4,16 +4,11 @@ using MapleLib.WzLib;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HaCreator.MapSimulator.Objects.FieldObject;
-using HaCreator.Wz;
-using HaSharedLibrary.Render.DX;
 using ms.Helper;
 using MapleLib.WzLib;
-using MapleLib.WzLib.Spine;
 using MapleLib.WzLib.WzProperties;
 using MapleLib.WzLib.WzStructure;
 using MapleLib.WzLib.WzStructure.Data;
-using Microsoft.Xna.Framework.Graphics;
 
 
 namespace ms
@@ -166,24 +161,7 @@ namespace ms
 			}*/
 
 		}
-		BackgroundItem backgroundItem;
-		private DXObject ConvertWzCanvasProperty_To_DXObject (WzCanvasProperty src)
-		{
-			if (fullPath == "map.wz\\Back\\midForest.img\\back\\0")
-			{
-				AppDebug.Log ("");
-			}
-
-			var _tex = src.GetBitmap ().ToTexture2D (GameUtil.get ().Game.GraphicsDevice);
-
-			var pivot = (Point_short)src["origin"];
-
-			if (_tex == null)
-			{
-				AppDebug.Log ("");
-			}
-			return new DXObject ((int)(x - pivot.x ()), (int)(y - pivot.y ()), _tex);
-		}
+		
 
 		public void draw (double viewx, double viewy, float alpha, int sortingLayer)
 		{
