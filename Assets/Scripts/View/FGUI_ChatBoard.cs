@@ -1,5 +1,6 @@
 /** This is an automatically generated class by FairyGUI. Please do not modify it. **/
 
+using System.Linq;
 using System.Text;
 using FairyGUI;
 using FairyGUI.Utils;
@@ -15,7 +16,8 @@ namespace ms_Unity
 		public void OnCreate ()
 		{
 			_txt_ChatInput.onSubmit.Add (OnSubmit_ChatInput);
-			_txt_ChatInput.onChanged.Add (OnSubmit_ChatInput);
+			_Btn_SendMessage.onClick.Add (OnSubmit_ChatInput);
+			//_txt_ChatInput.onChanged.Add (OnSubmit_ChatInput);
 		}
 
 		private void OnSubmit_ChatInput (EventContext context)
@@ -54,11 +56,12 @@ namespace ms_Unity
 				textCount = chatBar.rowtexts.Count;
 				stringBuilder.Clear ();
 
-				foreach (var text in chatBar.rowtexts.Values)
-				{
-					stringBuilder.AppendLine (text.get_text ());
-				}
-				_txt_Chat.text = stringBuilder.ToString ();
+				/*				foreach (var text in chatBar.rowtexts.Values)
+								{
+									stringBuilder.AppendLine (text.get_text ());
+								}
+								_txt_Chat.text = stringBuilder.ToString ();*/
+				_txt_Chat.text = chatBar.rowtexts.Values.Last ()?.get_text ();
 			}
 
 		}

@@ -149,7 +149,7 @@ namespace ms_Unity
 					string_SkillName = string_SkillName.append (item_SkillInfo._Txt_Name.text.Replace(" ","") +" = "+ UISkillBook.skills[_GList_SkillInfo.GetChildIndex(child)].get_id() + ",\n");
 				}
 			}
-			AppDebug.LogError (string_SkillName);
+			//AppDebug.LogError (string_SkillName);
 			change_sp ();
 		}
 

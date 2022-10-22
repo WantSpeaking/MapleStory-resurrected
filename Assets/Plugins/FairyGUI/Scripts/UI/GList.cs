@@ -3044,7 +3044,7 @@ namespace FairyGUI
                         string target = buffer.ReadS();
                         int propertyId = buffer.ReadShort();
                         string value = buffer.ReadS();
-                        GObject obj2 = ((GComponent)obj).GetChildByPath(target);
+                        GObject obj2 = ((GComponent)obj).GetFromPath(target);
                         if (obj2 != null)
                         {
                             if (propertyId == 0)

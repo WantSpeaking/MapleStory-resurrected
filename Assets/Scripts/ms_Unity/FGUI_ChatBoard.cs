@@ -9,6 +9,7 @@ namespace ms_Unity
     {
         public GRichTextField _txt_Chat;
         public GTextInput _txt_ChatInput;
+        public GButton _Btn_SendMessage;
         public const string URL = "ui://4916gthqsxcsokx";
 
         public static FGUI_ChatBoard CreateInstance()
@@ -22,6 +23,7 @@ namespace ms_Unity
 
             _txt_Chat = (GRichTextField)GetChildAt(2);
             _txt_ChatInput = (GTextInput)GetChildAt(3);
+            _Btn_SendMessage = (GButton)GetChildAt(4);
             OnCreate();
 
         }

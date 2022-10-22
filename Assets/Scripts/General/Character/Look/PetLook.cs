@@ -211,6 +211,7 @@ namespace ms
 
         private PhysicsObject phobj = new PhysicsObject();
         //private Text namelabel = new Text();
+        public ushort Closeness { get; set; }
     }
 }
 

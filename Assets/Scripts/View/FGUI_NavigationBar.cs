@@ -2,6 +2,7 @@
 
 using FairyGUI;
 using FairyGUI.Utils;
+using Helper;
 
 namespace ms_Unity
 {
@@ -14,9 +15,12 @@ namespace ms_Unity
         }
         private void OnClick_Btn_Home (EventContext context)
         {
-            ms.UI.get ().get_element<ms.UIItemInventory> ().get ()?.deactivate ();
+            ms.UI.get ().send_key ((int)GLFW_Util.GLFW_KEY_ESCAPE, true);
+           /* ms.UI.get ().get_element<ms.UIItemInventory> ().get ()?.deactivate ();
 
             ms.UI.get ().get_element<ms.UISkillBook> ().get ()?.deactivate ();
+
+            ms.UI.get ().get_element<ms.UIQuestLog> ().get ()?.deactivate ();*/
         }
 
     }

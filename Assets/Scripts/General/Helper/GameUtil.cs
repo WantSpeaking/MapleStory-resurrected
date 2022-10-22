@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameUtil :Singleton<GameUtil>
+public class GameUtil : SingletonMono<GameUtil>
 {
 	public int DrawOrder;
-	public bool enableDebugPacket;
+	public bool enableDebugPacket = true;
+	public bool TestMode = true;
 }

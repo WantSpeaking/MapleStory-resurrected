@@ -16,7 +16,7 @@ namespace ms
             set_body(entry.skin);
             set_hair(entry.hairid);
             set_face(entry.faceid);
-            AppDebug.Log($"CharLook entry.equips:{entry.equips.ToDebugLog()}");
+            //AppDebug.Log($"CharLook entry.equips:{entry.equips.ToDebugLog()}");
 
             foreach (var equip in entry.equips)
             {

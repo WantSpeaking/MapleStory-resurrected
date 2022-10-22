@@ -4,23 +4,24 @@
 namespace ms
 {
 	// Handler for a packet which contains NPC dialog
-	public class NpcDialogueHandler : PacketHandler
+	public class NpcTalkHandler : PacketHandler
 	{
 		public override void handle(InPacket recv)
 		{
-			recv.skip(1);
+			recv.skip(1);//nSpeakerTypeID most times is 4
 
 			int npcid = recv.read_int();
-			sbyte msgtype = recv.read_byte(); // 0 - textonly, 1 - yes/no, 4 - selection, 12 - accept/decline
+			sbyte msgtype = recv.read_byte(); // 0 - textonly, 1 - sendYesNo, 4 - sendSimple (selection),7 - getNPCTalkStyle, 12 - sendAcceptDecline
 			sbyte speaker = recv.read_byte();
 			string text = recv.read_string();
 
-			short style = 0;
+			short style = 0;//00 00(0) - sendOk,00 01(256)-sendNext, 01 00(1)-sendPrev,01 01(257)-sendNextPrev,
 
 			if (msgtype == 0 && recv.length() > 0)
 			{
 				style = recv.read_short();
 			}
+			AppDebug.Log ($"style: {style}");
 
 			UI.get().emplace<UINpcTalk>();
 			UI.get().enable();

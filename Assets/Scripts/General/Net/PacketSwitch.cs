@@ -85,7 +85,7 @@ namespace ms
 			emplace (Opcode.SORT_RESULT, new SortResultHandler ());
 
 			// NPC Interaction Handlers
-			emplace (Opcode.NPC_DIALOGUE, new NpcDialogueHandler ());
+			emplace (Opcode.NPC_TALK, new NpcTalkHandler ());
 			emplace (Opcode.OPEN_NPC_SHOP, new OpenNpcShopHandler ());
 
 			// Player Interaction
@@ -325,7 +325,7 @@ namespace ms
 		REMOVE_REACTOR = 280,
 
 		/// NPC Interaction
-		NPC_DIALOGUE = 304,
+		NPC_TALK = 304,
 		OPEN_NPC_SHOP = 305,
 		CONFIRM_SHOP_TRANSACTION = 306,
 		KEYMAP = 335,

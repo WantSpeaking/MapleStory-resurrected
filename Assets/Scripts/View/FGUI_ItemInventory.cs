@@ -182,7 +182,7 @@ namespace ms_Unity
 					foreach (var slotIndex_slot in type_dict.Value)
 					{
 
-						AppDebug.Log ($"type:{type} slotIndex:{slotIndex_slot.Key} slotname:{ItemData.get (slotIndex_slot.Value.Item_id)?.get_name ()}");
+						//AppDebug.Log ($"type:{type} slotIndex:{slotIndex_slot.Key} slotname:{ItemData.get (slotIndex_slot.Value.Item_id)?.get_name ()}");
 					}
 				}
 			}
@@ -500,6 +500,9 @@ namespace ms_Unity
 		private void OnUsesChanged (object sender, NotifyCollectionChangedEventArgs e)
 		{
 			OnCollectionChanged (sender, e, contentUSE, InventoryType.Id.USE);
+
+			//Uses �б仯 
+			ms.Stage.get ().UpdateQuest ();
 		}
 
 		protected void OnEquippedsChanged (object sender, NotifyCollectionChangedEventArgs e)

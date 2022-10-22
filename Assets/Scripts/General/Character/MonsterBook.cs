@@ -21,6 +21,8 @@ namespace ms
 		{
 			cards[card] = level;
 		}
+
+		public int TotalCards => cards.Count;
 		private int cover;
 		private SortedDictionary<short, sbyte> cards = new SortedDictionary<short, sbyte>();
 	}

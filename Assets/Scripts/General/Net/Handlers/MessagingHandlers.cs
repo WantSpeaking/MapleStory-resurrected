@@ -1,7 +1,5 @@
 ﻿using System;
-
-
-
+using client;
 
 namespace ms
 {
@@ -106,25 +104,31 @@ namespace ms
 			{
 				var quest = Stage.get ().get_player ().get_quest ();
 
-				short questId = recv.read_short ();
+				short qid = recv.read_short ();
+
+				MapleQuestStatus qs = MapleCharacter.Player.getQuest (qid);
 
 				var status = recv.readByte ();
 				if (status == 0)
 				{
-					quest.updateQuest (questId, status, "");
+					qs.status = MapleQuestStatus.Status.NOT_STARTED;
 				}
 				else if(status == 1)
 				{
 					var progressData = recv.read_string ();
 					//AppDebug.Log ($"questId:{questId}\t statusId:{statusId}\t ProgressData:{ProgressData}");
-					quest.updateQuest (questId, status, progressData);
+					qs.status = MapleQuestStatus.Status.STARTED;
+					qs.setProgress (qid, progressData);
 				}
 				else if (status == 2)
 				{
 					var progressData = recv.read_long ();
 					//AppDebug.Log ($"questId:{questId}\t statusId:{statusId}\t ProgressData:{ProgressData}");
-					quest.updateQuest (questId, status, progressData.ToString());
+					qs.status = MapleQuestStatus.Status.COMPLETED;
+					qs.CompletionTime = long.Parse (progressData.ToString ());
 				}
+
+				ms.Stage.get ().UpdateQuest ();//get_npcs.UpdateQuest FGUI_QuestLog.UpdateQuest
 			}
 			else if (mode == 3)
 			{

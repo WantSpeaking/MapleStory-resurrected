@@ -90,6 +90,21 @@ public static class IEnumerableExt
         }
     }
 
+    public static void TryAdd<T, V> (this SortedDictionary<T, V> dictionary, T key, V value, bool refreshValue = false)
+    {
+        if (dictionary.ContainsKey (key))
+        {
+            if (refreshValue)
+            {
+                dictionary[key] = value;
+            }
+        }
+        else
+        {
+            dictionary.Add (key, value);
+        }
+    }
+
     public static V TryGetValue<T, V>(this IDictionary<T, V> dictionary, T key)
     {
         dictionary.TryGetValue(key, out var value);

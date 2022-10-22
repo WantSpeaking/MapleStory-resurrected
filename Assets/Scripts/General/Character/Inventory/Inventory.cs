@@ -352,7 +352,21 @@ namespace ms
 				return 0;
 			}
 		}
+		public short get_total_item_count (InventoryType.Id type, int itemid)
+		{
 
+			short total_count = 0;
+
+			foreach (var iter in inventories[type])
+			{
+				if (iter.Value.Item_id == itemid)
+				{
+					total_count += iter.Value.Count;
+				}
+			}
+
+			return total_count;
+		}
 		// Return the total count of an item
 		// Returns zero if no instances of the item was found
 		public short get_total_item_count (int itemid)

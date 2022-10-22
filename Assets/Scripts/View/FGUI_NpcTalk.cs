@@ -1,8 +1,10 @@
 /** This is an automatically generated class by FairyGUI. Please do not modify it. **/
 
+using client;
 using FairyGUI;
 using FairyGUI.Utils;
 using ms;
+using server.quest;
 using Utility;
 namespace ms_Unity
 {
@@ -30,112 +32,220 @@ namespace ms_Unity
 		{
 			//ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_NpcTalk> ();
 			UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
-			//new NpcTalkMorePacket ((sbyte)type, -1).dispatch ();
-		}
-		private void onClick_Btn_Next (EventContext context)
-		{
 			if (isClientPage)
 			{
-				if (isInIntroducePage)
+				if (isInScriptedMode)
 				{
-					ShowIntroducePage ();
-				}
-				else if (isInYesPage)
-				{
-					ShowYesPage ();
-				}
-				else if (isInNoPage)
-				{
-					ShowNoPage ();
+					new NpcTalkMorePacket (rawMsgtype, -1).dispatch ();
 				}
 			}
 			else
 			{
-				UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
-
-				new NpcTalkMorePacket ((sbyte)type, 1).dispatch ();
+				new NpcTalkMorePacket (rawMsgtype, -1).dispatch ();
 			}
-
 		}
 		private void onClick_Btn_OK (EventContext context)
 		{
 			if (isClientPage)
 			{
-				if (isAsk)
+				if (isInScriptedMode)
 				{
-					if (chooseRightAnswer)
+					new NpcTalkMorePacket (rawMsgtype, 1).dispatch ();
+					UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+				}
+				else
+				{
+					if (isAsk)
 					{
-						//完成任务
-						new CompleteQuestPacket (currentQuestId, currentNpcId, currentSelection).dispatch ();
+						if (chooseRightAnswer)
+						{
+							//完成任务
+							new CompleteQuestPacket (currentQuestId, currentNpcId, currentSelection).dispatch ();
+							UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+						}
+						else
+						{
+							UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+						}
+					}
+					else
+					{
+						if (currentSayStageIndex == 1)
+						{
+							//完成任务
+							new CompleteQuestPacket (currentQuestId, currentNpcId).dispatch ();
+						}
 						UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+					}
+				}
+					
+			}
+			else
+			{
+				UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+
+				new NpcTalkMorePacket (rawMsgtype, 1).dispatch ();
+			}
+
+		}
+
+		private void onClick_Btn_Accept (EventContext context)
+		{
+			if (isClientPage)
+			{
+				if (isInScriptedMode)
+				{
+					new NpcTalkMorePacket (rawMsgtype, 1).dispatch ();
+				}
+				else
+				{
+					if (isAsk)
+					{
+
+					}
+					else
+					{
+						if (currentSayStageIndex == 0)
+						{
+							new StartQuestPacket (currentQuestId, currentNpcId).dispatch ();
+							AppDebug.Log ($"StartQuest ID:{currentQuestId}, NpcId:{currentNpcId}");
+						}
+
+						UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+					}
+				}
+				
+			}
+			else
+			{
+				UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+
+				new NpcTalkMorePacket (rawMsgtype, 1).dispatch ();
+			}
+
+		}
+		private void onClick_Btn_Decline (EventContext context)
+		{
+			if (isClientPage)
+			{
+				if (isInScriptedMode)
+				{
+					new NpcTalkMorePacket (rawMsgtype, 0).dispatch ();
+				}
+				{
+					if (isAsk)
+					{
+
 					}
 					else
 					{
 						UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
 					}
 				}
-				else
-				{
-					UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
-				}
+
 			}
 			else
 			{
 				UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
 
-				new NpcTalkMorePacket ((sbyte)type, 1).dispatch ();
+				new NpcTalkMorePacket (rawMsgtype, 0).dispatch ();
 			}
-
 		}
-		private void onClick_Btn_Accept (EventContext context)
+
+		private void onClick_Btn_Next (EventContext context)
 		{
 			if (isClientPage)
 			{
-				if (isAsk)
+				if (isInScriptedMode)
 				{
-
+					new NpcTalkMorePacket (rawMsgtype, 1).dispatch ();
 				}
 				else
 				{
-					new StartQuestPacket(currentQuestId, currentNpcId).dispatch ();
-
-					UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+					if (currentSayStageIndex == 0)
+					{
+						if (isInIntroducePage)
+						{
+							ShowIntroducePage ();
+						}
+						else if (isInYesPage)
+						{
+							ShowYesPage ();
+						}
+						else if (isInNoPage)
+						{
+							ShowNoPage ();
+						}
+					}
+					else if (currentSayStageIndex == 1)
+					{
+						if (0 <= introducePageIndex && introducePageIndex < currentSayStage.introducePages.Count)
+						{
+							ShowIntroducePage ();
+						}
+						else if (0 <= yesPageIndex && yesPageIndex < currentSayStage.yesPages.Count)
+						{
+							ShowYesPage ();
+						}
+					}
 				}
+
 			}
 			else
 			{
 				UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
 
-				new NpcTalkMorePacket ((sbyte)type, 1).dispatch ();
+				new NpcTalkMorePacket (rawMsgtype, 1).dispatch ();
 			}
 
 		}
 		private void onClick_Btn_Prev (EventContext context)
 		{
-			UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
+			if (isClientPage)
+			{
+				if (isInScriptedMode)
+				{
+					new NpcTalkMorePacket (rawMsgtype, 0).dispatch ();
+				}
+				else
+				{
+					
+				}
 
-			//ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_NpcTalk> ();
+			}
+			else
+			{
+				UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
 
-			new NpcTalkMorePacket ((sbyte)type, 0).dispatch ();
+				new NpcTalkMorePacket (rawMsgtype, 0).dispatch ();
+			}
 		}
+
 		private void onClick_Btn_YES (EventContext context)
 		{
 			if (isClientPage)
 			{
-				if (isAsk)
+				if (isInScriptedMode)
 				{
-
+					new NpcTalkMorePacket (rawMsgtype, 1).dispatch ();
 				}
 				else
 				{
-					ShowYesPage ();
+					if (isAsk)
+					{
+
+					}
+					else
+					{
+						ShowYesPage ();
+					}
 				}
 			}
 			else
 			{
 				UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
 
-				new NpcTalkMorePacket ((sbyte)type, 1).dispatch ();
+				new NpcTalkMorePacket (rawMsgtype, 1).dispatch ();
 			}
 		}
 		private void onClick_Btn_NO (EventContext context)
@@ -155,138 +265,11 @@ namespace ms_Unity
 			{
 				UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
 
-				new NpcTalkMorePacket ((sbyte)type, 0).dispatch ();
-			}
-		}
-		private void onClick_Btn_Decline (EventContext context)
-		{
-			if (isClientPage)
-			{
-				if (isAsk)
-				{
-
-				}
-				else
-				{
-					UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
-				}
-			}
-			else
-			{
-				UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
-
-				new NpcTalkMorePacket ((sbyte)type, 0).dispatch ();
-			}
-		}
-		public void OnVisiblityChanged (bool isVisible, UINpcTalk uINpcTalk)
-		{
-			this.uINpcTalk = uINpcTalk;
-			uINpcTalk.SetFGUI_NpcTalk (this);
-			if (isVisible)
-			{
-				//SetGList ();
-			}
-			else
-			{
-				Rest ();
-			}
-			//AppDebug.Log ($"uINpcTalk OnVisiblityChanged isVisible:{isVisible}");
-
-		}
-
-		public void change_text ()
-		{
-			_GLoader_speaker.texture = uINpcTalk.speaker.nTexture;
-			_GLoader_nametag.texture = uINpcTalk.nametag.nTexture;
-			_Txt_name.text = uINpcTalk.name.get_text ();
-			_Txt_text.text = uINpcTalk.text.get_text ();
-
-			_c_TalkType.selectedIndex = (int)uINpcTalk.type;
-		}
-
-		public void BeginQuestSay (SayInfo sayInfo, bool isQuestStarted)
-		{
-			var stageIndex = isQuestStarted ? 1 : 0;
-			var sayStage = sayInfo.sayStages[stageIndex];
-			currentSayStage = sayStage;
-			currentQuestId = sayInfo.questId;
-			//ParseSayStage (sayStage);
-			introducePageIndex = 0;
-
-			ShowIntroducePage ();
-		}
-
-		bool isInIntroducePage => introducePageIndex < (currentSayStage?.introducePages.Count ?? 0);
-		bool isInYesPage => yesPageIndex < (currentSayStage?.yesPages.Count ?? 0);
-		bool isInNoPage => noPageIndex < (currentSayStage?.noPages.Count ?? 0);
-
-		SayStage currentSayStage;
-
-
-		private int pageIndex = -2;
-		private SayPage currentSayPage;
-		private Npc currentNpc;
-		private int currentNpcId;
-		private short currentQuestId;
-		private short currentSelection = -1;
-		bool isAsk = false;
-		int introducePageIndex = -1;
-		int yesPageIndex = -1;
-		int noPageIndex = -1;
-		int stopPageIndex = -1;
-		bool chooseRightAnswer = false;
-
-		private bool isClientPage => currentNpc?.hasQuest () ?? false;
-		public void Rest ()
-		{
-			pageIndex = -2;
-			currentSayPage = default;
-			currentNpc = null;
-			currentNpcId = 0;
-			currentQuestId = 0;
-			currentSelection = -1;
-			isAsk = false;
-			introducePageIndex = -1;
-			yesPageIndex = -1;
-			noPageIndex = -1;
-			stopPageIndex = -1;
-			chooseRightAnswer = false;
-		}
-
-		private void ShowIntroducePage ()
-		{
-			if (currentSayStage.introducePages.TryGet (introducePageIndex, out var sayPage))
-			{
-				pageIndex = sayPage.pageIndex;
-				currentSayPage = sayPage;
-				isAsk = sayPage.sayPageType == SayPageType.Ask;
-				uINpcTalk.change_text (currentNpcId, (sbyte)GetIntroduceTalkType (), 0, 0, currentSayPage.text);
-				introducePageIndex++;
+				new NpcTalkMorePacket (rawMsgtype, 0).dispatch ();
 			}
 		}
 
-		private void ShowYesPage ()
-		{
-			if (currentSayStage.yesPages.TryGet (yesPageIndex, out var sayPage))
-			{
-				pageIndex = sayPage.pageIndex;
-				currentSayPage = sayPage;
-				isAsk = sayPage.sayPageType == SayPageType.Ask;
-				uINpcTalk.change_text (currentNpcId, (sbyte)GetYesTalkType (), 0, 0, currentSayPage.text);
-				yesPageIndex++;
-			}
-		}
-		private void ShowNoPage ()
-		{
-			if (currentSayStage.noPages.TryGet (noPageIndex, out var sayPage))
-			{
-				pageIndex = sayPage.pageIndex;
-				currentSayPage = sayPage;
-				isAsk = sayPage.sayPageType == SayPageType.Ask;
-				uINpcTalk.change_text (currentNpcId, (sbyte)GetNoTalkType (), 0, 0, currentSayPage.text);
-				noPageIndex++;
-			}
-		}
+
 
 		UINpcTalk.TalkType GetIntroduceTalkType ()
 		{
@@ -301,35 +284,55 @@ namespace ms_Unity
 					}
 					else
 					{
-						return UINpcTalk.TalkType.SENDOK;
+						return UINpcTalk.TalkType.SendOk;
 					}
 				}
 				else
 				{
 
-					//如果 有下一个对话 
+					//如果 有下一个introduce对话 
 					if (currentSayStage.introducePages.TryGet (introducePageIndex + 1, out var sayPage))
 					{
-						return UINpcTalk.TalkType.SENDNEXT;
+						return UINpcTalk.TalkType.SendNext;
 					}
 					else
 					{
-						bool hasYes = currentSayStage.yesPages.Count != 0;
-						bool hasNo = currentSayStage.noPages.Count != 0 || currentSayStage.stopPages.Count != 0;
-						if (hasYes && hasNo)
+						if (currentSayStageIndex == 0)
 						{
-							yesPageIndex = 0;
-							noPageIndex = 0;
-							return UINpcTalk.TalkType.SENDYESNO;
+							bool hasYes = currentSayStage.yesPages.Count != 0;
+							bool hasNo = currentSayStage.noPages.Count != 0 || currentSayStage.stopPages.Count != 0;
+							if (hasYes && hasNo)
+							{
+								yesPageIndex = 0;
+								noPageIndex = 0;
+								return UINpcTalk.TalkType.SendYesNo;
+							}
+							else if (hasYes && !hasNo)
+							{
+								yesPageIndex = 0;
+								return UINpcTalk.TalkType.SendOk;
+							}
+							else if (!hasYes && !hasNo)
+							{
+								return UINpcTalk.TalkType.SendAcceptDecline;
+							}
 						}
-						else if (hasYes && !hasNo)
+						else if (currentSayStageIndex == 1)
 						{
-							yesPageIndex = 0;
-							return UINpcTalk.TalkType.SENDOK;
-						}
-						else if (!hasYes && !hasNo)
-						{
-							return UINpcTalk.TalkType.SENDACCEPTDECLINE;
+							if (yesPageIndex <= 0)
+							{
+								yesPageIndex = 0;
+							}
+
+							//如果 有下一个yes对话 
+							if (currentSayStage.yesPages.TryGet (yesPageIndex, out var yesPage))
+							{
+								return UINpcTalk.TalkType.SendNext;
+							}
+							else
+							{
+								return UINpcTalk.TalkType.SendOk;
+							}
 						}
 					}
 				}
@@ -351,19 +354,16 @@ namespace ms_Unity
 					//如果 有下一个对话 
 					if (currentSayStage.yesPages.TryGet (yesPageIndex + 1, out var sayPage))
 					{
-						return UINpcTalk.TalkType.SENDNEXT;
+						return UINpcTalk.TalkType.SendNext;
 					}
 					else
 					{
-						/*						bool hasStop = currentSayStage.stopPages.Count != 0;
-												if (hasStop)
-												{
-													return UINpcTalk.TalkType.SENDNEXT;
-												}
-												else*/
+						if (currentSayStageIndex == 0)
 						{
-							return UINpcTalk.TalkType.SENDOK;
+							return UINpcTalk.TalkType.SendAcceptDecline;
 						}
+
+						return UINpcTalk.TalkType.SendOk;
 					}
 				}
 			}
@@ -372,7 +372,7 @@ namespace ms_Unity
 		}
 		UINpcTalk.TalkType GetNoTalkType ()
 		{
-			if (yesPageIndex != -1)
+			if (noPageIndex != -1)
 			{
 				if (isAsk)
 				{
@@ -383,18 +383,18 @@ namespace ms_Unity
 					//如果 有下一个对话 
 					if (currentSayStage.noPages.TryGet (noPageIndex + 1, out var sayPage))
 					{
-						return UINpcTalk.TalkType.SENDNEXT;
+						return UINpcTalk.TalkType.SendNext;
 					}
 					else
 					{
 						bool hasStopPage = currentSayStage.stopPages.Count != 0;
 						if (hasStopPage)
 						{
-							return UINpcTalk.TalkType.SENDNEXT;
+							return UINpcTalk.TalkType.SendNext;
 						}
 						else
 						{
-							return UINpcTalk.TalkType.SENDOK;
+							return UINpcTalk.TalkType.SendOk;
 						}
 					}
 				}
@@ -402,9 +402,13 @@ namespace ms_Unity
 
 			return UINpcTalk.TalkType.NONE;
 		}
+		UINpcTalk.TalkType GetStopTalkType ()
+		{
+			return UINpcTalk.TalkType.SendOk;
+		}
 
 
-		public void InitChooseQuestSayPage (Npc npc, SayPage sayPage)
+		public void BeginChooseQuestSay (Npc npc, SayPage sayPage)
 		{
 			//type = TalkType.NONE;
 			currentNpc = npc;
@@ -412,6 +416,91 @@ namespace ms_Unity
 			pageIndex = sayPage.pageIndex;
 
 			currentSayPage = sayPage;
+		}
+		public void BeginQuestSay (MapleQuest mapleQuest, bool isQuestStarted, int npcId)
+		{
+			AppDebug.Log ($"Choosed Quest {mapleQuest.Id}\t {mapleQuest.Name} isQuestStarted:{isQuestStarted}");
+			var stageIndex = isQuestStarted ? 1 : 0;
+			var sayStage = mapleQuest.GetSayStage(stageIndex);
+			currentSayStage = sayStage;
+			isAsk = sayStage.isAsk;
+			currentQuestId = mapleQuest.Id;
+			//ParseSayStage (sayStage);
+			introducePageIndex = 0;
+
+			if (isInScriptedMode)
+			{
+				if (currentSayStageIndex == 0)
+				{
+					new ScriptedStartQuest (currentQuestId, npcId).dispatch ();
+				}
+				else if (currentSayStageIndex == 1)
+				{
+					new ScriptedEndQuest (currentQuestId, npcId).dispatch ();
+				}
+			}
+			else
+			{
+				if (!isQuestStarted)
+				{
+					ShowIntroducePage ();
+				}
+				else//in progress
+				{
+					var canComplete = MapleQuest.getInstance (mapleQuest.Id).canComplete (MapleCharacter.Player, currentNpcId);
+					if (canComplete)
+					{
+						ShowIntroducePage ();
+					}
+					else
+					{
+						stopPageIndex = 0;
+						ShowStopPage ();
+					}
+				}
+			}
+		}
+
+
+		private void ShowIntroducePage ()
+		{
+			if (currentSayStage.introducePages.TryGet (introducePageIndex, out var sayPage))
+			{
+				pageIndex = sayPage.Value.pageIndex;
+				currentSayPage = sayPage.Value;
+				uINpcTalk.change_text (currentNpcId, GetIntroduceTalkType (), 0, 0, currentSayPage.text);
+				introducePageIndex++;
+			}
+		}
+		private void ShowYesPage ()
+		{
+			if (currentSayStage.yesPages.TryGet (yesPageIndex, out var sayPage))
+			{
+				pageIndex = sayPage.pageIndex;
+				currentSayPage = sayPage;
+				uINpcTalk.change_text (currentNpcId, GetYesTalkType (), 0, 0, currentSayPage.text);
+				yesPageIndex++;
+			}
+		}
+		private void ShowNoPage ()
+		{
+			if (currentSayStage.noPages.TryGet (noPageIndex, out var sayPage))
+			{
+				pageIndex = sayPage.pageIndex;
+				currentSayPage = sayPage;
+				uINpcTalk.change_text (currentNpcId, GetNoTalkType (), 0, 0, currentSayPage.text);
+				noPageIndex++;
+			}
+		}
+		private void ShowStopPage ()
+		{
+			if (currentSayStage.stopPages.TryGet (stopPageIndex, out var sayPage))
+			{
+				pageIndex = sayPage.pageIndex;
+				currentSayPage = sayPage;
+				uINpcTalk.change_text (currentNpcId, GetStopTalkType (), 0, 0, currentSayPage.text);
+				stopPageIndex++;
+			}
 		}
 
 
@@ -426,7 +515,7 @@ namespace ms_Unity
 					var questInfo = currentNpc.GetQuestSayInfo (seletIndex, out var isQuestStarted);
 					if (questInfo != null)
 					{
-						BeginQuestSay (questInfo, isQuestStarted);
+						BeginQuestSay (questInfo, isQuestStarted, currentNpc.get_id());
 					}
 				}
 				else//ask page
@@ -442,7 +531,7 @@ namespace ms_Unity
 						}
 						else//答错了,进入相应的错误 页面
 						{
-							uINpcTalk.change_text (currentNpcId, (sbyte)UINpcTalk.TalkType.SENDOK, 0, 0, currentSayPage.wrongAnswer_index_Texts[seletIndex]);
+							uINpcTalk.change_text (currentNpcId, UINpcTalk.TalkType.SendOk, 0, 0, currentSayPage.wrongAnswer_index_Texts[seletIndex]);
 						}
 					}
 				}
@@ -454,5 +543,73 @@ namespace ms_Unity
 				AppDebug.Log ($"onClickLink,L{context.data}");
 			}
 		}
+		public void OnVisiblityChanged (bool isVisible, UINpcTalk uINpcTalk)
+		{
+			this.uINpcTalk = uINpcTalk;
+			uINpcTalk.SetFGUI_NpcTalk (this);
+			if (isVisible)
+			{
+				//SetGList ();
+			}
+			else
+			{
+				Rest ();
+			}
+			//AppDebug.Log ($"uINpcTalk OnVisiblityChanged isVisible:{isVisible}");
+
+		}
+		public sbyte rawMsgtype;
+		public void change_text ()
+		{
+			_GLoader_speaker.texture = uINpcTalk.speaker.nTexture;
+			_GLoader_nametag.texture = uINpcTalk.nametag.nTexture;
+			_Txt_name.text = uINpcTalk.name.get_text ();
+			_Txt_text.text = uINpcTalk.text.get_text ();
+
+			_c_TalkType.selectedIndex = (int)uINpcTalk.type;
+			rawMsgtype = uINpcTalk.rawMsgtype;
+		}
+		public void Rest ()
+		{
+			pageIndex = -2;
+			currentSayPage = default;
+			currentNpc = null;
+			currentNpcId = 0;
+			currentQuestId = 0;
+			currentSelection = -1;
+			isAsk = false;
+			introducePageIndex = -1;
+			yesPageIndex = -1;
+			noPageIndex = -1;
+			stopPageIndex = -1;
+			chooseRightAnswer = false;
+		}
+
+
+		/// <summary>
+		/// 空的 只有 Sayinfo.img/QuestId/0或1
+		/// </summary>
+		private bool isInScriptedMode => currentSayStage.introducePages.Count == 0 && currentSayStage.yesPages.Count == 0;
+		private bool isClientPage => currentNpc?.hasQuest () ?? false;
+
+		private bool isInIntroducePage => introducePageIndex < (currentSayStage?.introducePages.Count ?? 0);
+		private bool isInYesPage => yesPageIndex < (currentSayStage?.yesPages.Count ?? 0);
+		private bool isInNoPage => noPageIndex < (currentSayStage?.noPages.Count ?? 0);
+		private SayStage currentSayStage;
+		private int currentSayStageIndex => currentSayStage?.stageIndex ?? 0;
+		Quest quest => ms.Stage.Instance.get_player ().get_quest ();
+
+		private int pageIndex = -2;
+		private SayPage currentSayPage;
+		private Npc currentNpc;
+		private int currentNpcId;
+		private short currentQuestId;
+		private short currentSelection = -1;
+		bool isAsk = false;
+		int introducePageIndex = -1;
+		int yesPageIndex = -1;
+		int noPageIndex = -1;
+		int stopPageIndex = -1;
+		bool chooseRightAnswer = false;
 	}
 }

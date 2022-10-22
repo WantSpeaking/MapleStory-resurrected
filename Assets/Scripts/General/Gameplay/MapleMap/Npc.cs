@@ -4,11 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using client;
 using MapleLib.WzLib;
-
-
-
-
+using server.quest;
 
 namespace ms
 {
@@ -19,6 +17,8 @@ namespace ms
 		// Constructs an NPC by combining data from game files with data sent by the server
 		public Npc (int id, int o, bool fl, ushort f, bool cnt, Point_short position) : base (o, position)
 		{
+			//AppDebug.Log ($"npc {id} on ctor");
+
 			string strid = Convert.ToString (id);
 			strid = strid.insert (0, 7 - strid.Length, '0');
 			strid = strid.append (".img");
@@ -207,42 +207,16 @@ namespace ms
 
 		private bool check_Has_CanCompleteQuest (ref short canCompleteQuestId)
 		{
-			if (!check_Has_InProgressQuest ())
+			if (!check_Has_StartedQuest ())
 				return false;
 
-			bool isAvailable = true;
-
-			foreach (var pair in inProgress_Quests)
+			bool isAvailable = false;
+			foreach (var pair in started_Quests)
 			{
 				var questId = pair.Key;
-				var checkInfo = checkLog.GetCheckInfo (questId);
-				var checkStage0 = checkInfo.checkStages[1];
-				var questInfo = questLog.GetQuestInfo (questId);
-				var player = ms.Stage.Instance.get_player ();
+				var mapleQuest = pair.Value;
 
-				foreach (var item in checkStage0.items)
-				{
-					isAvailable &= player.get_inventory ().hasEnoughItem (item.id, item.count);
-				}
-
-				foreach (var mob in checkStage0.mobs)
-				{
-					isAvailable &= false;
-				}
-
-				//这个任务的前置任务 符合已经开始或完成的条件，该任务才是可开始的任务
-				foreach (var checkQuest in checkStage0.quests)
-				{
-					if (checkQuest.state == 1)
-					{
-						isAvailable &= questLog.is_inprogressed ((short)checkQuest.id);
-					}
-					else if (checkQuest.state == 2)
-					{
-						isAvailable &= questLog.is_completed ((short)checkQuest.id);
-					}
-				}
-
+				isAvailable = mapleQuest.canComplete (MapleCharacter.Player, npcid);
 				if (isAvailable)
 				{
 					canCompleteQuestId = questId;
@@ -250,60 +224,68 @@ namespace ms
 				}
 			}
 			return isAvailable;
+		}
 
-		}
-		private bool check_Has_InProgressQuest ()
+		private bool check_Has_StartedQuest ()
 		{
-			return inProgress_Quests.Count != 0;
+			return started_Quests.Count != 0;
 		}
-		private bool check_Has_AvailableQuest ()
+		private bool check_Has_CanStartQuest ()
 		{
-			return available_Quests.Count != 0;
+			return canStarted_Quests.Count != 0;
 		}
-		SortedDictionary<short, SayInfo> available_Quests = new SortedDictionary<short, SayInfo> ();
-		SortedDictionary<short, SayInfo> inProgress_Quests = new SortedDictionary<short, SayInfo> ();
+		SortedDictionary<short, MapleQuest> canStarted_Quests = new SortedDictionary<short, MapleQuest> ();
+		SortedDictionary<short, MapleQuest> started_Quests = new SortedDictionary<short, MapleQuest> ();
 		QuestLog questLog => Stage.Instance.get_player ().get_questlog ();
 		CheckLog checkLog => Stage.Instance.get_player ().get_checklog ();
 		SayLog sayLog => Stage.Instance.get_player ().get_saylog ();
 		Quest quest => Stage.Instance.get_player ().get_quest ();
-		public void UpdateQuest ()
+
+		public void UpdateQuest (bool noticeUpdate = false)
 		{
-			inProgress_Quests.Clear ();
-			available_Quests.Clear ();
+			canStarted_Quests.Clear ();
+			started_Quests.Clear ();
 
-			foreach (var pair in questLog.In_progress)
+			MapleCharacter.Player.RefreshCanStarted_Quest ();
+			MapleCharacter.Player.LogAllQuest ();
+			
+			foreach (var qs in MapleCharacter.Player.CanStartedQuests)
 			{
-				var questId = pair.Key;
-				var sayInfo = sayLog.GetSayInfo (questId);
-				var checkInfo = checkLog.GetCheckInfo (questId);
-				if (checkInfo.checkStages.TryGet (1).npc == npcid)
+				var questId = qs.Key;
+				//var sayInfo = sayLog.GetSayInfo (questId);
+
+				//var checkInfo = checkLog.GetCheckInfo (questId);
+				if (qs.Value.getStartReqNpc () == npcid)
 				{
-					inProgress_Quests.Add (questId, sayInfo);
+					canStarted_Quests.Add (questId, MapleQuest.getInstance (qs.Value.Id));
 				}
 			}
 
-			foreach (var pair in quest.AvailableQuests)
+			foreach (var qs in MapleCharacter.Player.getStartedQuests ())
 			{
-				var questId = pair.Key;
-				var questInfo = pair.Value;
-				var sayInfo = sayLog.GetSayInfo (questId);
-				var checkInfo = checkLog.GetCheckInfo (questId);
-				if (checkInfo.checkStages[0].npc == npcid)
+				var questId = qs.QuestID;
+				//var checkInfo = checkLog.GetCheckInfo (questId);
+
+				var questNpcId = qs.Npc;
+				//var questNpcId = checkInfo.checkStages.TryGet (1).npc != 0 ? checkInfo.checkStages.TryGet (1).npc : checkInfo.checkStages.TryGet (0).npc;
+				if (questNpcId == npcid)
 				{
-					available_Quests.Add (questId, sayInfo);
+					started_Quests.Add (questId, MapleQuest.getInstance (qs.QuestID));
 				}
 			}
+
 			short canCompleteQuestId = 0;
 			if (check_Has_CanCompleteQuest (ref canCompleteQuestId))
 			{
 				questIcon_Current = questIcon_CanComplete;
-				ms_Unity.FGUI_Notice.ShowNotice ($"可完成任务：{questLog.GetQuestInfo (canCompleteQuestId).Name}");
+				if (noticeUpdate)
+					ms_Unity.FGUI_Notice.ShowNotice ($"可完成任务：{MapleQuest.getInstance (canCompleteQuestId).Name}");
 			}
-			else if (check_Has_InProgressQuest ())
+			else if (check_Has_StartedQuest ())
 			{
 				questIcon_Current = questIcon_InProgressed;
 			}
-			else if (check_Has_AvailableQuest ())
+			else if (check_Has_CanStartQuest ())
 			{
 				questIcon_Current = questIcon_CanStart;
 			}
@@ -323,24 +305,24 @@ namespace ms
 			stringBuilder.Clear ();
 			var index = 0;
 
-			if (available_Quests.Count > 0)
+			if (canStarted_Quests.Count > 0)
 			{
 				//stringBuilder.Append ($"{}");
 				stringBuilder.AppendLine ($"可开始的任务");
-				foreach (var pair in available_Quests)
+				foreach (var pair in canStarted_Quests)
 				{
 
-					stringBuilder.Append ($"#L{index++}# {pair.Value.questName} #l \r\n");
+					stringBuilder.Append ($"#L{index++}# {pair.Value.Name} #l \r\n");
 				}
 			}
 
-			if (inProgress_Quests.Count > 0)
+			if (started_Quests.Count > 0)
 			{
 				//stringBuilder.Append ($"{}");
 				stringBuilder.AppendLine ($"正在进行的任务");
-				foreach (var pair in inProgress_Quests)
+				foreach (var pair in started_Quests)
 				{
-					stringBuilder.Append ($"#L{index++}# {pair.Value.questName} #l \r\n");
+					stringBuilder.Append ($"#L{index++}# {pair.Value.Name} #l \r\n");
 				}
 			}
 			return stringBuilder.ToString ();
@@ -356,13 +338,13 @@ namespace ms
 			return sayPage;
 		}
 
-		public SayInfo GetQuestSayInfo (short selectQuestIndex, out bool isQuestStarted)
+		public MapleQuest GetQuestSayInfo (short selectQuestIndex, out bool isQuestStarted)
 		{
 			short index = 0;
 
-			if (available_Quests.Count > 0)
+			if (canStarted_Quests.Count > 0)
 			{
-				foreach (var pair in available_Quests)
+				foreach (var pair in canStarted_Quests)
 				{
 					if (index == selectQuestIndex)
 					{
@@ -373,9 +355,9 @@ namespace ms
 				}
 			}
 
-			if (inProgress_Quests.Count > 0)
+			if (started_Quests.Count > 0)
 			{
-				foreach (var pair in inProgress_Quests)
+				foreach (var pair in started_Quests)
 				{
 					if (index == selectQuestIndex)
 					{
@@ -391,7 +373,8 @@ namespace ms
 		}
 		public bool hasQuest ()
 		{
-			return available_Quests.Count != 0 || inProgress_Quests.Count != 0;
+			UpdateQuest ();
+			return canStarted_Quests.Count != 0 || started_Quests.Count != 0;
 		}
 
 		Animation questIcon_CanStart;

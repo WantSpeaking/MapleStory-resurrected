@@ -29,7 +29,7 @@ namespace ms
 
 			}
 			else
-			if (mode1 == 8)//updateQuestInfo updateQuestFinish //0x0A in v95
+			if (mode1 == 8)//updateQuestInfo updateQuestFinish //0x0A in v95//杰克与苹果 接完任务后头顶的提示吃血瓶
 			{
 				var questId = recv.readShort ();
 				var npcId = recv.readInt ();

@@ -13,7 +13,7 @@ namespace ms_Unity
 
 		public void OnCreate ()
 		{
-			
+
 		}
 
 		public static void ShowNotice (string message)
@@ -21,8 +21,9 @@ namespace ms_Unity
 			var thisNotice = ms_Unity.FGUI_Manager.Instance.OpenFGUI<FGUI_Notice> () as FGUI_Notice;
 
 			thisNotice.message = message;
+			thisNotice._tet_message.text = message;
 			thisNotice.Center ();
-			thisNotice._t_Show.Play ();
+			thisNotice._t_Show.Play (() => ms_Unity.FGUI_Manager.Instance.CloseFGUI<FGUI_Notice> ());
 		}
 	}
 }

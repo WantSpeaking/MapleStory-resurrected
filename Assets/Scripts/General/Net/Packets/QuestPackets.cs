@@ -87,6 +87,8 @@ namespace ms
 	{
 		public StartQuestPacket (short questid, int npc) : base ((short)OutPacket.Opcode.QUEST_ACTION)
 		{
+			AppDebug.Log ($"开始任务：{questid}，npc：{npc}");
+
 			var action = (sbyte)QuestActionType.StartQuest;
 
 			write_byte (action);
@@ -102,6 +104,8 @@ namespace ms
 	{
 		public CompleteQuestPacket (short questid, int npc, int selection = -1) : base ((short)OutPacket.Opcode.QUEST_ACTION)
 		{
+			AppDebug.Log ($"完成任务：{questid}，npc：{npc},selection:{selection}");
+
 			var action = (sbyte)QuestActionType.CompleteQuest;
 
 			write_byte (action);
@@ -117,16 +121,50 @@ namespace ms
 		}
 
 	}
-	
+
 	public class ForfeitQuestPacket : OutPacket
 	{
 		public ForfeitQuestPacket (short questid) : base ((short)OutPacket.Opcode.QUEST_ACTION)
 		{
+			AppDebug.Log ($"放弃任务：{questid}");
+
 			var action = (sbyte)QuestActionType.ForfeitQuest;
 
 			write_byte (action);
 			write_short (questid);
 		}
 
+	}
+
+	public class ScriptedStartQuest : OutPacket
+	{
+		public ScriptedStartQuest (short questid, int npc) : base ((short)OutPacket.Opcode.QUEST_ACTION)
+		{
+			AppDebug.Log ($"ScriptedStartQuest：{questid}");
+
+			var action = (sbyte)QuestActionType.ScriptedStartQuest;
+
+			write_byte (action);
+			write_short (questid);
+
+			write_int (npc);
+			write_PLyerPos ();
+		}
+	}
+
+	public class ScriptedEndQuest : OutPacket
+	{
+		public ScriptedEndQuest (short questid, int npc) : base ((short)OutPacket.Opcode.QUEST_ACTION)
+		{
+			AppDebug.Log ($"ScriptedEndQuest：{questid}");
+
+			var action = (sbyte)QuestActionType.ScriptedEndQuest;
+
+			write_byte (action);
+			write_short (questid);
+
+			write_int (npc);
+			write_PLyerPos ();
+		}
 	}
 }

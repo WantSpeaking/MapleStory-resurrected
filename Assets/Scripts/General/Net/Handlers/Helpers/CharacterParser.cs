@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using client;
 
 namespace ms
 {
@@ -64,7 +65,7 @@ namespace ms
 				//AppDebug.Log($"parse_skillbook, skill_id:{skill_id}\t level:{level}\t masterlevel:{masterlevel}\t expiration:{expiration}");//sever send skillId 100 which doesn't exist in skillWz; sever send  skillId 12 with skillLevel 0 which doesn't exist 
 				skills.set_skill (skill_id, level, masterlevel, expiration);
 			}
-			AppDebug.LogError ($"parse_skillbook size:{size}");
+			//AppDebug.LogError ($"parse_skillbook size:{size}");
 			//todo suppose has learned skills blew
 			/*skills.set_skill (Page.SWORD_ICE_BLOW, 1, 1, -1);
 			skills.set_skill (Page.SWORD_FIRE_BLOW, 1, 1, -1);
@@ -96,13 +97,16 @@ namespace ms
 
 		public static void parse_questlog (InPacket recv, QuestLog quests)
 		{
-			short size = recv.read_short ();
+			short startedSize = recv.read_short ();
 
-			for (short i = 0; i < size; i++)
+			for (short i = 0; i < startedSize; i++)
 			{
-				short questId = recv.read_short ();
+				short qid = recv.read_short ();
 				string questProgressdata = recv.read_string ();
-				quests.add_in_progress (questId, questProgressdata);
+				//quests.add_started (qid, questProgressdata);
+				MapleQuestStatus qs = new MapleQuestStatus (qid, MapleQuestStatus.Status.STARTED);
+				qs.setProgress (qid, questProgressdata);
+				MapleCharacter.Player.updateQuestStatus (qs);
 				/*
 								if (quests.is_started (questId))
 								{
@@ -117,13 +121,28 @@ namespace ms
 
 			}
 
-			size = recv.read_short ();
+			var completedSize = recv.read_short ();
 
-			for (short i = 0; i < size; i++)
+			for (short i = 0; i < completedSize; i++)
 			{
 				short qid = recv.read_short ();
 				long time = recv.read_long ();
-				quests.add_completed (qid, time);
+				//quests.add_completed (qid, time);
+
+				MapleQuestStatus qs = new MapleQuestStatus (qid, MapleQuestStatus.Status.COMPLETED);
+				qs.CompletionTime = time;
+				MapleCharacter.Player.updateQuestStatus (qs);
+			}
+
+
+			var notStartedSize = recv.read_short ();
+
+			for (short i = 0; i < notStartedSize; i++)
+			{
+				short qid = recv.read_short ();
+				//quests.add_notStarted (qid);
+				MapleQuestStatus qs = new MapleQuestStatus (qid, MapleQuestStatus.Status.NOT_STARTED);
+				MapleCharacter.Player.updateQuestStatus (qs);
 			}
 		}
 

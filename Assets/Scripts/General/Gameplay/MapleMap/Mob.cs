@@ -255,7 +255,7 @@ namespace ms
 			if (!dying)
 			{
 				if (!canfly)
-	/*			{
+				{
 					if (phobj.is_flag_not_set (PhysicsObject.Flag.TURNATEDGES))
 					{
 						flip = !flip;
@@ -266,7 +266,7 @@ namespace ms
 							set_stance (MobStance.STAND);
 						}
 					}
-				}*/
+				}
 
 				switch (stance)
 				{

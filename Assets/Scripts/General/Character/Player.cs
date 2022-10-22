@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using client;
 using constants.skills;
+using server.quest;
 using UnityEngine;
 
 namespace ms
@@ -699,7 +701,7 @@ namespace ms
 		{
 			return quest ??= new Quest ();
 		}
-
+		
 		// Obtain a reference to the player's TeleportRock locations
 		public TeleportRock get_teleportrock ()
 		{
@@ -827,6 +829,6 @@ namespace ms
 			return StatusStorage.GetLocalStatus (COMBO_StatusSetting);
 		}
 
-
+		public long Meso => inventory.get_meso ();
 	}
 }

@@ -1,12 +1,5 @@
 {
   "dependencies": {
-    "com.liuocean.luban_gui": {
-      "version": "https://github.com/LiuOcean/Luban_Unity_GUI.git?path=Assets/",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "8928084dc43208c1034081bfef10c468ef52efdc"
-    },
     "com.unity.burst": {
       "version": "1.7.1",
       "depth": 1,

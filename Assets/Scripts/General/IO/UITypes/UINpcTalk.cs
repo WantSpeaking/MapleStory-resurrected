@@ -12,16 +12,18 @@ namespace ms
 		public enum TalkType : sbyte
 		{
 			NONE = -1,
-			SENDOK,
-			SENDYESNO,
+			SendOk = 0,//textonly
+			SendYesNo = 1,//yes/no
 
 			// TODO: Unconfirmed
-			SENDNEXT,
-			SENDNEXTPREV,
-			SENDACCEPTDECLINE,
-			SENDGETTEXT,
-			SENDGETNUMBER,
-			SENDSIMPLE,
+			SendNext,
+			SendNextPrev,
+			SendAcceptDecline,
+			SendGetText,
+			SendGetNumber,
+			SendSimple,
+			SendPrev,
+			SendStyle
 		}
 
 		public const Type TYPE = UIElement.Type.NPCTALK;
@@ -187,7 +189,7 @@ namespace ms
 			{
 				deactivate ();
 
-				new NpcTalkMorePacket ((sbyte)type, 0).dispatch ();
+				new NpcTalkMorePacket (rawMsgtype, 0).dispatch ();
 			}
 		}
 
@@ -196,10 +198,8 @@ namespace ms
 			return TYPE;
 		}
 
-		public void change_text (int npcid, sbyte msgtype, short style, sbyte speakerbyte, string tx)
+		public void change_text (int npcid, TalkType talkType, short style, sbyte speakerbyte, string tx)
 		{
-			type = get_by_value (msgtype);
-
 			timestep = 0;
 			draw_text = true;
 			formatted_text_pos = 0;
@@ -208,7 +208,7 @@ namespace ms
 			//text = new Text(Text.Font.A12M, Text.Alignment.LEFT, Color.Name.DARKGREY, formatted_text, 320);
 			text.change_text (tx);
 			AppDebug.Log ($"npcid:{npcid} talk:{text.get_text ()}");
-			AppDebug.Log ($"npcid:{npcid} formatted_talk:{text.get_text ()}");
+			//AppDebug.Log ($"npcid:{npcid} formatted_talk:{text.get_text ()}");
 
 			short text_height = text.height ();
 
@@ -265,13 +265,13 @@ namespace ms
 
 			switch (type)
 			{
-				case TalkType.SENDOK:
+				case TalkType.SendOk:
 					{
 						buttons[(int)Buttons.OK].set_position (new Point_short (471, y_cord));
 						buttons[(int)Buttons.OK].set_active (true);
 						break;
 					}
-				case TalkType.SENDYESNO:
+				case TalkType.SendYesNo:
 					{
 						Point_short yes_position = new Point_short (389, y_cord);
 
@@ -282,12 +282,12 @@ namespace ms
 						buttons[(int)Buttons.NO].set_active (true);
 						break;
 					}
-				case TalkType.SENDNEXT:
-				case TalkType.SENDNEXTPREV:
-				case TalkType.SENDACCEPTDECLINE:
-				case TalkType.SENDGETTEXT:
-				case TalkType.SENDGETNUMBER:
-				case TalkType.SENDSIMPLE:
+				case TalkType.SendNext:
+				case TalkType.SendNextPrev:
+				case TalkType.SendAcceptDecline:
+				case TalkType.SendGetText:
+				case TalkType.SendGetNumber:
+				case TalkType.SendSimple:
 				default:
 					{
 						break;
@@ -298,9 +298,14 @@ namespace ms
 			dimension = new Point_short (top.width (), (short)(height + 120));
 
 			fGUI_NpcTalk.change_text ();
+		}
+		public sbyte rawMsgtype;
 
-			/*text.TextWidth = 500;
-            text.TextHeight = height;*/
+		public void change_text (int npcid, sbyte msgtype, short style, sbyte speakerbyte, string tx)
+		{
+			rawMsgtype = msgtype;
+			type = get_by_value (msgtype, style);
+			change_text (npcid, type, style, speakerbyte, tx);
 		}
 
 		public override Button.State button_pressed (ushort buttonid)
@@ -424,14 +429,53 @@ namespace ms
 			return Button.State.NORMAL;
 		}
 
-		private UINpcTalk.TalkType get_by_value (sbyte value)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="msgtype">0 - textonly, 1 - sendYesNo, 4 - sendSimple (selection),7 - sendStyle, 12 - sendAcceptDecline</param>
+		/// <param name="style">//00 00(0) - sendOk,00 01(256)-sendNext, 01 00(1)-sendPrev,01 01(257)-sendNextPrev,</param>
+		/// <returns></returns>
+		private UINpcTalk.TalkType get_by_value (sbyte msgtype, short style)
 		{
-			if (value > (int)TalkType.NONE && value < EnumUtil.GetEnumLength<TalkType> ())
+			switch (msgtype)
+			{
+				case 0:// 0 - textonly
+					switch (style)
+					{
+						case 0:
+							return TalkType.SendOk;
+						case 1:
+							return TalkType.SendPrev;
+						case 256:
+							return TalkType.SendNext;
+						case 257:
+							return TalkType.SendNextPrev;
+						default:
+							return TalkType.SendNext;
+					}
+					return TalkType.SendNext;
+				case 1://SENDYESNO
+					return TalkType.SendYesNo;
+				case 2://SENDGETTEXT
+					return TalkType.SendGetText;
+				case 3://SendGetNumber
+					return TalkType.SendGetNumber;
+				case 4:// SendSimple (selection)
+					return TalkType.SendSimple;
+				case 7:// SendStyle
+					return TalkType.SendStyle;
+				case 12:// SendAcceptDecline
+					return TalkType.SendAcceptDecline;
+				default:
+					return TalkType.SendNext;
+			}
+
+			/*if (value > (int)TalkType.NONE && value < EnumUtil.GetEnumLength<TalkType> ())
 			{
 				return (TalkType)value;
 			}
 
-			return TalkType.NONE;
+			return TalkType.NONE;*/
 		}
 
 		// TODO: Move this to GraphicsGL?11
@@ -488,20 +532,20 @@ namespace ms
 
 		private const short MAX_HEIGHT = 248;
 
-	/*	public override void OnAdd ()
-		{
-			text?.AddGRichTextToGRoot ();
+		/*	public override void OnAdd ()
+			{
+				text?.AddGRichTextToGRoot ();
 
-			if (text != null)
-				text.onClickLinkHandler = OnClickLink;
-		}*/
+				if (text != null)
+					text.onClickLinkHandler = OnClickLink;
+			}*/
 
-/*		public override void OnRemove ()
-		{
-			if (text != null)
-				text.onClickLinkHandler = null;
-			text?.Dispose ();
-		}*/
+		/*		public override void OnRemove ()
+				{
+					if (text != null)
+						text.onClickLinkHandler = null;
+					text?.Dispose ();
+				}*/
 
 		public override void OnActivityChange (bool isActive)
 		{
@@ -517,17 +561,17 @@ namespace ms
 			}
 		}
 
-/*		private void OnClickLink (int selection)
-		{
-			new NpcTalkMorePacket (selection).dispatch ();
-		}*/
+		/*		private void OnClickLink (int selection)
+				{
+					new NpcTalkMorePacket (selection).dispatch ();
+				}*/
 
 
 		public void InitChooseQuestSayPage (Npc npc, SayPage sayPage)
 		{
 			//type = TalkType.NONE;
-			fGUI_NpcTalk.InitChooseQuestSayPage (npc, sayPage);
-			change_text (sayPage.npcId, -1, 0, 0, sayPage.text);
+			fGUI_NpcTalk.BeginChooseQuestSay (npc, sayPage);
+			change_text (sayPage.npcId, TalkType.NONE, 0, 0, sayPage.text);
 		}
 
 		private enum Buttons

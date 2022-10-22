@@ -20,6 +20,10 @@ namespace ms
 		{
 			return oid;
 		}
+		public int get_id ()
+		{
+			return id;
+		}
 		public MapObject instantiate(Physics physics)
 		{
 			var spawnposition = physics.get_y_below(new Point_short (position));

@@ -408,7 +408,7 @@ namespace FairyGUI
             return null;
         }
 
-        public GObject GetChildByPath(string path)
+        public GObject GetFromPath(string path)
         {
             string[] arr = path.Split('.');
             int cnt = arr.Length;
@@ -1651,7 +1651,7 @@ namespace FairyGUI
                     string target = buffer.ReadS();
                     int propertyId = buffer.ReadShort();
                     string value = buffer.ReadS();
-                    GObject obj = this.GetChildByPath(target);
+                    GObject obj = this.GetFromPath(target);
                     if (obj != null)
                     {
                         if (propertyId == 0)

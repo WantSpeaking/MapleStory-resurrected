@@ -47,6 +47,10 @@ public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
 		set { instance = value; }
 	}
 
+	public static T get()
+	{
+		return Instance;
+	}
 	#endregion
 
 	void Awake ()

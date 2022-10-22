@@ -246,7 +246,7 @@ namespace ms
 
 		public void speak (string line)
 		{
-			AppDebug.Log ($"speak:!item 2000003 {line}");
+			//AppDebug.Log ($"speak:!item 2000003 {line}");
 			chatballoon.change_text (line);
 		}
 

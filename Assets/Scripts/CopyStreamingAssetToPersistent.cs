@@ -72,6 +72,37 @@ public class CopyStreamingAssetToPersistent : Singleton<CopyStreamingAssetToPers
 			File.Copy (Application.streamingAssetsPath + "/" + fileName, Application.persistentDataPath + "/" + fileName, true);
 		}
 	}
+	public static void CopyFile (string fileName, string destinationFolder)
+	{
+/*		if (File.Exists (Application.persistentDataPath + "/" + fileName))
+		{
+			return;
+		}*/
+		if (Application.platform == RuntimePlatform.Android)
+		{
+
+			using (UnityWebRequest request = UnityWebRequest.Get (Application.streamingAssetsPath + "/" + fileName))
+			{
+				request.timeout = 3;
+				request.downloadHandler = new DownloadHandlerFile (destinationFolder + "/" + fileName);//直接将文件下载到外存
+				request.SendWebRequest ();
+
+				float time = Time.time;
+				//下载完成后执行的回调
+				while (!request.isDone)
+				{
+				}
+				request.Abort ();
+				//默认值是true，调用该方法不需要设置Dispose()，Unity就会自动在完成后调用Dispose()释放资源。
+				request.disposeDownloadHandlerOnDispose = true;
+				request.Dispose ();
+			}
+		}
+		else
+		{
+			File.Copy (Application.streamingAssetsPath + "/" + fileName, Application.persistentDataPath + "/" + fileName, true);
+		}
+	}
 	public static void CopyResourcesFile (string source_pathFolder, string source_fileName, string save_FilenameExtension)
 	{
 		var path = source_pathFolder + source_fileName;

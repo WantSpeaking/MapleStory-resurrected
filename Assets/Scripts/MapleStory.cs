@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using HaCreator.Wz;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using ms;
+using server.quest;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -18,6 +20,7 @@ using Timer = ms.Timer;
 
 public class MapleStory : SingletonMono<MapleStory>
 {
+	string message;
 	private void Start ()
 	{
 		/* wzFileManager = new WzFileManager();
@@ -26,8 +29,6 @@ public class MapleStory : SingletonMono<MapleStory>
 		 Debug.LogFormat("Width:{0}\t Height:{1}", wzObject?.GetBitmap()?.Width, wzObject?.GetBitmap()?.Height);
 		 spriteRenderer.sprite = TextureToSprite(GetTexrture2DFromPath(wzObject));*/
 		button_load.onClick.AddListener (OnButtonLoadClick);
-		DontDestroyOnLoad (this);
-		clearBuffer = new CommandBuffer () { name = "Clear Buffer" };
 
 		//UnityEngine.SceneManagement.SceneManager.LoadScene (GameSceneName);
 		//UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
@@ -73,8 +74,6 @@ public class MapleStory : SingletonMono<MapleStory>
 		// replaceStr = replaceStr.Replace ("\n", "\r\n");
 		Debug.Log (replaceStr);
 		Debug.Log (@replaceStr);*/
-
-		main ();
 	}
 
 	private void OnSceneLoaded (Scene arg0, LoadSceneMode arg1)
@@ -136,8 +135,32 @@ public class MapleStory : SingletonMono<MapleStory>
 		}
 	}
 	public GameObject RuntimeHierarchyInspector;
+	bool initError;
+
 	private void OnGUI ()
 	{
+		GUI.skin.label.fontSize = fontSize;
+		GUI.color = Color.black;
+		GUILayout.BeginVertical ();
+
+		if (initError)
+		{
+			if (GUILayout.Button (message))
+			{
+				initError = false;
+			}
+		}
+		
+		GUILayout.EndVertical ();
+
+		if (running ())
+		{
+			Window.get ().HandleGUIEvents (Event.current);
+		}
+
+
+		//Debug.Log ($"{FairyGUI.Stage.inst.touchTarget} {FairyGUI.Stage.inst.touchTarget?.name}", FairyGUI.Stage.inst.touchTarget?.gameObject);
+
 		/*if (GUI.Button (new Rect (200, 0, 200, 100), "开始"))
 		{
 			main ();
@@ -245,21 +268,10 @@ public class MapleStory : SingletonMono<MapleStory>
 			CopyStreamingAssetToPersistent.CopyFile ("Etc.wz");
 		}*/
 
-		if (running ())
-		{
-			Window.get ().HandleGUIEvents (Event.current);
-		}
 
 
 	}
 
-
-	CommandBuffer clearBuffer;
-	public UnityEngine.Color clearColor = UnityEngine.Color.magenta;
-
-	private void OnPostRender ()
-	{
-	}
 	public string GameSceneName = "Game";
 	public void init ()
 	{
@@ -287,21 +299,34 @@ public class MapleStory : SingletonMono<MapleStory>
 		DamageNumber.init();
 		MapPortals.init();
 		*/
+		try
+		{
+			maplestoryFolder = Constants.get ().path_MapleStoryFolder;
+			Session.get ().init ();
+			NxFiles.init (maplestoryFolder);
+			Window.get ().init ();
+			Sound.init ();
+			Music.init ();
 
-		maplestoryFolder = Constants.get ().path_MapleStoryFolder;
-		Session.get ().init ();
-		NxFiles.init (maplestoryFolder);
-		Window.get ().init ();
-		Sound.init ();
-		Music.init ();
+			Char.init ();
+			DamageNumber.init ();
+			MapPortals.init ();
+			Stage.get ().init ();
+			UI.get ().init ();
+			MapleQuest.loadAllQuest ();
 
-		Char.init ();
-		DamageNumber.init ();
-		MapPortals.init ();
-		Stage.get ().init ();
-		UI.get ().init ();
+			canStart = true;
+			button_load.gameObject.SetActive (false);
 
-		canStart = true;
+		}
+		catch (Exception ex)
+		{
+			initError = true;
+			message = "初始化错误，数据包不存在，或则权限不足无法读取，请开启文件读写权限：";
+			message += ex.Message;
+			button_load.gameObject.SetActive (true);
+		}
+
 		//Stage.get ().load_map(100000000);
 
 		dictionary = DictionaryPool<string, string>.Get ();
@@ -367,7 +392,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		Session.get ().read ();
 		Window.get ().check_events ();
 		Window.get ().update ();
-
+		TimerManager.get ().update ();
 	}
 
 	public void draw (float alpha)
@@ -425,22 +450,6 @@ public class MapleStory : SingletonMono<MapleStory>
 		}
 	}
 
-	private void main ()
-	{
-#if !UNITY_EDITOR
-		maplestoryFolder = inpuField_MapleFolder.text;
-		account = inpuField_MapAccount.text;
-		password = inpuField_MapPassword.text;
-		characterIdToLoad = int.Parse (inpuField_MapCharacter.text);
-#endif
-
-		init ();
-		/*LoginStartPacket();
-		LoginPacket ();
-		ServerStatusRequestPacket ();
-		CharlistRequestPacket ();
-		SelectCharPacket ();*/
-	}
 	private void OnApplicationQuit ()
 	{
 		Sound.close ();
@@ -502,7 +511,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	private void OnButtonLoadClick ()
 	{
 		//Configuration.get ().set_hwid ("2EFDB98799DD_CB4F4F88", ref fds);
-		main ();
+		init ();
 	}
 
 	private GUIStyle labelStyle = new GUIStyle ();

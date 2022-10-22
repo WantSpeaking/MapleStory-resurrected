@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Beebyte.Obfuscator;
+using client;
 using MapleLib.WzLib;
 using ms_Unity;
+using server.quest;
 
 namespace ms
 {
@@ -109,17 +111,17 @@ namespace ms
 
             if (tab == (int)Buttons.TAB0)
             {
-                if (questlog.Started.Count > 0)
+                if (MapleCharacter.Player.getStartedQuests ().Count > 0)
                 {
                     var index = 0;
                     var range = slotrange[(Buttons)tab];
                     uint firstslot = (uint)(range.Item1);
                     uint lastslot = (uint)range.Item2;
-                    foreach (var pair in questlog.Started)
+                    foreach (var pair in MapleCharacter.Player.getStartedQuests ())
                     {
                         if (index >= firstslot && index <= lastslot)
                         {
-                            var questName = questlog. GetQuestInfo (pair.Key).Name;
+                            var questName = MapleQuest.getInstance (pair.QuestID).Name;
                             text_QuestEntryName.change_text(questName);
                             var tempPoint = position + questEntry_position + new Point_short(0, (short)(index * 30));
                             //AppDebug.Log($"{questName}:{tempPoint}");
@@ -129,7 +131,7 @@ namespace ms
                         index++;
                     }
 
-                    event_count = (short)questlog.Started.Count;
+                    event_count = (short)MapleCharacter.Player.getStartedQuests ().Count;
                     for (uint i = 0; i < ROWS; i++)
                     {
                         short slot = (short)(i + offset);
@@ -150,7 +152,7 @@ namespace ms
 
                 if (currentSelected_questId != -1)
                 {
-                    var questInfo = questlog.GetQuestInfo (currentSelected_questId);
+                    var questInfo = MapleQuest.getInstance (currentSelected_questId);
                     text_Info.change_text(questInfo.Info_started);
                     text_Info.draw(position + questInfo_position);
                 }
@@ -210,9 +212,9 @@ namespace ms
         {
             base.update();
 
-            if (event_count != questlog.Started.Count)
+            if (event_count != MapleCharacter.Player.getStartedQuests ().Count)
             {
-                event_count = (short)questlog.Started.Count;
+                event_count = (short)MapleCharacter.Player.getStartedQuests ().Count;
                 slider.setrows(ROWS, event_count);
             }
         }
@@ -268,18 +270,18 @@ namespace ms
         private const ushort ICON_WIDTH = 80;
         private const ushort ICON_HEIGHT = 30;
         private SortedDictionary<Buttons, System.ValueTuple<short, short>> slotrange = new SortedDictionary<Buttons, System.ValueTuple<short, short>>();
-        private SortedDictionary<int, QuestInfo> icons = new SortedDictionary<int, QuestInfo>();
+        private SortedDictionary<int, MapleQuest> icons = new SortedDictionary<int, MapleQuest>();
         private List<short> questIds_Started = new List<short>();
        
         
         private short get_QuestId(short slot)
         {
             var index = 0;
-            foreach (var pair in questlog.Started)
+            foreach (var pair in MapleCharacter.Player.getStartedQuests ())
             {
                 if (index == slot)
                 {
-                    return pair.Key;
+                    return pair.QuestID;
                 }
                 index++;
             }

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-
-
-
+using server.quest;
 
 namespace ms
 {
@@ -41,7 +39,7 @@ namespace ms
         // Add an NPC to the spawn queue
         public void spawn(NpcSpawn spawn)
         {
-            onFirstSpawn ();
+            //onFirstSpawn (spawn);
 
             spawns.Enqueue((spawn));
         }
@@ -108,17 +106,17 @@ namespace ms
 			{
 				if (pair.Value is Npc npc)
 				{
-                    npc.UpdateQuest ();
+                    npc.UpdateQuest (true);
                 }
             }
 		}
         bool isFirstSpawn = false;
-        private void onFirstSpawn()
+        private void onFirstSpawn(NpcSpawn spawn)
 		{
             if (isFirstSpawn == false)
 			{
                 isFirstSpawn = true;
-                Stage.Instance.get_player ().get_quest ().GetAvailable_Quest ();
+                AppDebug.Log ($"npc {spawn.get_id()} onFirstSpawn");
             }
 
         }

@@ -26,7 +26,7 @@ namespace ms
 	/// <summary>
 	/// Base class for attacks and buffs
 	/// </summary>
-	public abstract class SpecialMove : System.IDisposable
+	public class SpecialMove : System.IDisposable
 	{
 		public enum ForbidReason
 		{
@@ -43,22 +43,22 @@ namespace ms
 		{
 		}
 
-		public abstract void apply_useeffects (Char user);
-		public abstract void apply_prepareEffect (Char user);
-		public abstract void apply_keydownEffect (Char user);
-		public abstract void apply_keydownendEffect (Char user);
-		public abstract void apply_actions (Char user, Attack.Type type);
-		public abstract SkillAction get_action (Char user);
-		public abstract void apply_stats (Char user, Attack attack);
-		public abstract void apply_hiteffects (AttackUser user, Mob target);
-		public abstract Animation get_bullet (Char user, int bulletid);
+		public virtual void apply_useeffects (Char user) { }
+		public virtual void apply_prepareEffect (Char user) { }
+		public virtual void apply_keydownEffect (Char user) { }
+		public virtual void apply_keydownendEffect (Char user) { }
+		public virtual void apply_actions (Char user, Attack.Type type) { }
+		public virtual SkillAction get_action (Char user) { return null; }
+		public virtual void apply_stats (Char user, Attack attack) { }
+		public virtual void apply_hiteffects (AttackUser user, Mob target) { }
+		public virtual Animation get_bullet (Char user, int bulletid) { return null; }
 
-		public abstract bool is_attack ();
-		public abstract bool is_skill ();
-		public abstract int get_id ();
+		public virtual bool is_attack () { return false; }
+		public virtual bool is_skill () { return false; }
+		public virtual int get_id () { return 0; }
 
-		public abstract bool has_skillPrepareEffect ();
-		public abstract ForbidReason can_use (int level, Weapon.Type weapon, Job job, ushort hp, ushort mp, ushort bullets);
+		public virtual bool has_skillPrepareEffect () { return false; }
+		public virtual ForbidReason can_use (int level, Weapon.Type weapon, Job job, ushort hp, ushort mp, ushort bullets) { return ForbidReason.FBR_NONE; }
 
 		protected BehaviourTree graph;
 		public BehaviourTree BTree => graph ??= ResourcesManager.Instance.GetSkillBTree (get_id ().ToString ());

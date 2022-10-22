@@ -22,7 +22,7 @@ namespace ms
 
         public UILogin() : base(new Point_short(0, 0), new Point_short(800, 600))
         {
-            AppDebug.Log("UILogin().ctor");
+            //AppDebug.Log("UILogin().ctor");
             this.signboard_pos = new Point_short(389, 333);
             new LoginStartPacket().dispatch();
 
@@ -233,20 +233,28 @@ namespace ms
         {
             OnRemove();
 
-			/* string account_text = "admin";
-             string password_text = "admin";*/
+			
 			string account_text = "";
 			string password_text = "";
-			if (account.isForbid && password.isForbid)
-            {
-                account_text = text_account;
-                password_text = text_password;
+			if (GameUtil.Instance.TestMode)
+			{
+				account_text = "admin";
+				password_text = "admin";
+			}
+			else
+			{
+                if (account.isForbid && password.isForbid)
+                {
+                    account_text = text_account;
+                    password_text = text_password;
+                }
+                else
+                {
+                    account_text = account.get_text ();
+                    password_text = password.get_text ();
+                }
             }
-            else
-            {
-                account_text = account.get_text();
-                password_text = password.get_text();
-            }
+       
 
             account.set_state(Textfield.State.DISABLED);
             password.set_state(Textfield.State.DISABLED);

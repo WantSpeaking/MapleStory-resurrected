@@ -33,7 +33,7 @@ namespace ms
 						if (checkimg_1000_0 == null)
 						{
 							//4940
-							AppDebug.LogError ($"Quest.wz/Check.img/{questId}/{i} is null");
+							AppDebug.LogWarning ($"Quest.wz/Check.img/{questId}/{i} is null");
 							continue;
 						}
 						var checkStage = new CheckStage ();
@@ -246,6 +246,9 @@ namespace ms
 	public struct CheckRequireQuest
 	{
 		public int id { get; set; }
+		/// <summary>
+		/// 0:unstarted 1:started 2:completed
+		/// </summary>
 		public int state { get; set; }
 
 	}

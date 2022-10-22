@@ -24,10 +24,80 @@ using Priority_Queue;
 
 namespace ms
 {
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
-//ORIGINAL LINE: template <typename T>
+	public class TimedQueue
+	{
+		public TimedQueue ()
+		{
+			time = 0;
+		}
+		public TimedQueue (System.Action in_action)
+		{
+			this.action = in_action;
+			time = 0;
+		}
+
+		public Timed register (Action in_action, long delay)
+		{
+			this.action = in_action;
+			var handle = new Timed (time + delay);
+			queue.Enqueue (handle, time + delay);
+			return handle;
+		}
+
+		public void push (long delay)
+		{
+			queue.Enqueue (new Timed (time + delay), time + delay);
+		}
+
+		public void update (long timestep = Constants.TIMESTEP)
+		{
+			time += timestep;
+
+			for (; queue.Count > 0; queue.Dequeue ())
+			{
+				Timed top = queue.First;
+
+				if (top.isValid)
+				{
+					if (top.when > time)
+					{
+						break;
+					}
+
+					action?.Invoke ();
+				}
+			}
+
+			time += timestep;
+		}
+
+		public class Timed
+		{
+			public long when;
+			public bool isValid { get; set; }
+			public Timed (long w)
+			{
+				this.when = w;
+				isValid = true;
+			}
+
+			public void cancel (bool result)
+			{
+				isValid = false;
+			}
+		}
+
+		private readonly SimplePriorityQueue<Timed, long> queue = new ();
+		private System.Action action;
+		private long time;
+	}
+
 	public class TimedQueue<T>
 	{
+		public TimedQueue ()
+		{
+			time = 0;
+		}
 		public TimedQueue (System.Action<T> in_action)
 		{
 			this.action = in_action;
@@ -36,14 +106,14 @@ namespace ms
 
 		public void push (long delay, T t)
 		{
-			queue.Enqueue (new Timed(time + delay, t),time + delay);
+			queue.Enqueue (new Timed (time + delay, t), time + delay);
 		}
 
-/*//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++11 variadic templates:
-		public void emplace<typename...Args>(long delay, Args & ...args)
-		{
-			queue.Enqueue(time + delay, move(args)...);
-		}*/
+		/*//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++11 variadic templates:
+				public void emplace<typename...Args>(long delay, Args & ...args)
+				{
+					queue.Enqueue(time + delay, move(args)...);
+				}*/
 		public void update (long timestep = Constants.TIMESTEP)
 		{
 			time += timestep;
@@ -59,7 +129,7 @@ namespace ms
 
 				action (top.value);
 			}
-			
+
 			time += timestep;
 		}
 
@@ -74,13 +144,13 @@ namespace ms
 				this.value = v;
 			}
 
-/*
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++11 variadic templates:
-			public Timed<typename...Args>(long w, Args & ...args)
-			{
-				this.when = {w};
-				this.value = {forward<Args>(args)...};
-			}*/
+			/*
+			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: There is no equivalent in C# to C++11 variadic templates:
+						public Timed<typename...Args>(long w, Args & ...args)
+						{
+							this.when = {w};
+							this.value = {forward<Args>(args)...};
+						}*/
 		}
 
 		/*private class TimedComparator<V>:IComparer<V>
@@ -108,7 +178,7 @@ namespace ms
 			}
 		}*/
 
-		private SimplePriorityQueue<Timed,long> queue = new SimplePriorityQueue<Timed,long> ();
+		private SimplePriorityQueue<Timed, long> queue = new SimplePriorityQueue<Timed, long> ();
 		private readonly System.Action<T> action;
 		private long time;
 	}
