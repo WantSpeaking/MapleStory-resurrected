@@ -31,7 +31,7 @@ namespace ms
             return file;
         }
 
-        public static WzFile wzFile_base, wzFile_character, wzFile_effect, wzFile_etc, wzFile_item, wzFile_map, wzFile_wzFile_mapPretty, wzFile_mapLatest, wzFile_map001, wzFile_mob, wzFile_morph, wzFile_npc, wzFile_quest, wzFile_reactor, wzFile_skill, wzFile_sound, wzFile_string, wzFile_tamingmob, wzFile_ui, wzFile_UI_Endless;
+        public static WzFile wzFile_base, wzFile_character, wzFile_effect, wzFile_etc, wzFile_item, wzFile_map, wzFile_wzFile_mapPretty, wzFile_mapLatest, wzFile_map001, wzFile_mob, wzFile_morph, wzFile_npc, wzFile_quest, wzFile_reactor, wzFile_skill, wzFile_SkillMy1, wzFile_sound, wzFile_string, wzFile_tamingmob, wzFile_ui, wzFile_UI_Endless;
         //NXNode baseFile, character, effect, etc, item, map, mapPretty, mapLatest, map001, mob, morph, npc, quest, reactor, skill, sound, stringFile, tamingmob, ui;
 
         public static void load_all(string wzPath)
@@ -52,7 +52,8 @@ namespace ms
 			wzFile_quest = add_file ("Quest");
 			wzFile_reactor = add_file ("Reactor");
 			wzFile_skill = add_file("skill");
-            wzFile_sound = add_file("sound");
+			wzFile_SkillMy1 = add_file("SkillMy1");
+			wzFile_sound = add_file("sound");
             wzFile_string = add_file("string");
             wzFile_ui = add_file("UI_New");
 			wzFile_UI_Endless = add_file("UI_Endless");
@@ -103,5 +104,34 @@ namespace ms
 				//throw runtime_error("Failed to locate nx files.");
 			}*/
 		}
-    }
+
+		public static readonly string[] SKILL_WZ_FILES = {
+			"Skill",
+			"SkillMy1"
+		};
+		/// <summary>
+		/// $"{jobid}.img"
+		/// </summary>
+		/// <param name="imgName"></param>
+		/// <returns></returns>
+		public static WzImage findSkillImage(string imgName)
+		{
+			foreach (string skillWzFile in SKILL_WZ_FILES)
+			{
+				string mapWzFile_ = skillWzFile.ToLower ();
+				if (WzManager.wzFiles.ContainsKey (mapWzFile_))
+				{
+					WzObject mapImage = (WzImage)WzManager[mapWzFile_]?[imgName];
+
+					if (mapImage != null)
+					{
+						return (WzImage)mapImage;
+					}
+				}
+			}
+			return null;
+		}
+
+
+	}
 }

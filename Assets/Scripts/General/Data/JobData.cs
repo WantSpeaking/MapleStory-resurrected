@@ -29,7 +29,7 @@ namespace ms
 				AppDebug.Log ("JobData id 312");
 			}
 			string strid = string_format.extend_id(id, 3);
-			var node_SkillWZ_000img = ms.wz.wzFile_skill[strid + ".img"];
+			var node_SkillWZ_000img = ms.wz.findSkillImage(strid + ".img");
 			var strsrc = ms.wz.wzFile_string["Skill.img"][strid];
 
 			if (node_SkillWZ_000img == null)

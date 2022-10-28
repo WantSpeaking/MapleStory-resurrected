@@ -18,17 +18,19 @@ namespace ms
 			SkillData data = SkillData.get (skillid);
 
 			string strid;
-
+			string jobid;
 			if (skillid < 10000000)
 			{
 				strid = string_format.extend_id (skillid, 7);
+				jobid = strid.Substring (0, 3);
 			}
 			else
 			{
 				strid = Convert.ToString (skillid);
+				jobid = (id / 10000).ToString ();
 			}
 
-			WzObject src = ms.wz.wzFile_skill[strid.Substring (0, 3) + ".img"]["skill"][strid];
+			WzObject src = ms.wz.findSkillImage(jobid + ".img")["skill"][strid];
 
 			projectile = true;
 			overregular = false;
@@ -325,7 +327,7 @@ namespace ms
 		Player player => ms.Stage.get ().get_player ();
 		public override SpecialMove.ForbidReason can_use (int level, Weapon.Type weapon, Job job, ushort hp, ushort mp, ushort bullets)
 		{
-			if (level <= 0 || level > SkillData.get (skillid).get_masterlevel ())
+			/*if (level <= 0 || level > SkillData.get (skillid).get_masterlevel ())
 			{
 				return ForbidReason.FBR_OTHER;
 			}
@@ -371,7 +373,8 @@ namespace ms
 					return (bullets >= stats.bulletcost) ? ForbidReason.FBR_NONE : ForbidReason.FBR_BULLETCOST;
 				default:
 					return ForbidReason.FBR_NONE;
-			}
+			}*/
+			return ForbidReason.FBR_NONE;
 		}
 
 		public override SkillAction get_action (Char user)

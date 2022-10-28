@@ -61,7 +61,7 @@ namespace ms
 		public virtual ForbidReason can_use (int level, Weapon.Type weapon, Job job, ushort hp, ushort mp, ushort bullets) { return ForbidReason.FBR_NONE; }
 
 		protected BehaviourTree graph;
-		public BehaviourTree BTree => graph ??= ResourcesManager.Instance.GetSkillBTree (get_id ().ToString ());
+		public virtual BehaviourTree BTree => graph ??= ResourcesManager.Instance.GetSkillBTree (get_id ().ToString ());
 
 	}
 }

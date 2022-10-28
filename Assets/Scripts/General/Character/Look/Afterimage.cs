@@ -41,7 +41,7 @@ namespace ms
 			if (skill_id > 0)
 			{
 				string strid = string_format.extend_id (skill_id, 7);
-				src = ms.wz.wzFile_skill[strid.Substring (0, 3) + ".img"]?["skill"]?[strid]?["afterimage"]?[afterImageName]?[stance_name];
+				src = ms.wz.findSkillImage(strid.Substring (0, 3) + ".img")?["skill"]?[strid]?["afterimage"]?[afterImageName]?[stance_name];
 			}
 
 			if (src == null)

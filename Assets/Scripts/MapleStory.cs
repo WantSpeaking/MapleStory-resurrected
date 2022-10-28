@@ -150,7 +150,7 @@ public class MapleStory : SingletonMono<MapleStory>
 				initError = false;
 			}
 		}
-		
+
 		GUILayout.EndVertical ();
 
 		if (running ())
@@ -686,6 +686,18 @@ public class MapleStory : SingletonMono<MapleStory>
 		new PlayerLoginPacket (1).dispatch ();
 	}*/
 
+	[Button ("Test", "Test")]
+	public string placeholder6;
+	public string expressionString = "80+3*x";
+
+	public string Argument_Name = "x";
+	public double Argument_Value = 1;
+	void Test ()
+	{
+		var e = new org.mariuszgromada.math.mxparser.Expression (expressionString);
+		e.addArguments (new org.mariuszgromada.math.mxparser.Argument (Argument_Name, Argument_Value));
+		Debug.Log (e.calculate ());
+	}
 	#endregion
 
 	#endregion

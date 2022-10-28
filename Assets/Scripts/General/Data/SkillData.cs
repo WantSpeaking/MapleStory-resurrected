@@ -4,6 +4,9 @@ using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using ms;
 using constants.skills;
+using System.Linq;
+using org.mariuszgromada.math.mxparser;
+using Expression = org.mariuszgromada.math.mxparser.Expression;
 
 namespace ms
 {
@@ -49,6 +52,22 @@ namespace ms
 			}
 		}
 
+		public class SkillCommonInfo
+		{
+			public Rectangle_short range { get; set; }
+
+			public string damage_Expression { get; set; }
+			public string attackCount_Expression { get; set; }
+			public string mobCount_Expression { get; set; }
+			public string mpCon_Expression { get; set; }
+			
+			public double damage()
+			{
+				var e = new org.mariuszgromada.math.mxparser.Expression (damage_Expression);
+				return e.calculate ();
+			}
+		}
+
 		// Skill flags, unfortunately these just have to be hard-coded
 		public enum Flags
 		{
@@ -64,6 +83,128 @@ namespace ms
 			DISABLED,
 			MOUSEOVER,
 			NUM_ICONS
+		}
+
+		
+
+		// Load a skill from the game files
+		public SkillData (int id)
+		{
+			/// Locate sources
+
+			string strid;
+			string jobid;
+			if (id > 0 && id <= 9999999)
+			{
+				strid = string_format.extend_id (id, 7);
+				jobid = strid.Substring (0, 3);
+			}
+			else
+			{
+				/*	strid = string_format.extend_id (id, 8);
+					jobid = strid.Substring (0, 4);*/
+				strid = id.ToString ();
+				jobid = (id / 10000).ToString ();
+			}
+
+			var node_Skillwz_1111img_skill_11111004 = wz.findSkillImage ($"{jobid}.img")["skill"][strid];
+			var node_Stringwz_Skillimg_000 = wz.wzFile_string["Skill.img"][strid];
+
+			if (node_Skillwz_1111img_skill_11111004 == null)//sever send skillId 100 ,or others ,which doesn't exist in skillWz
+			{
+				return;
+			}
+
+			/// Load icons
+			icons = new[] { new Texture (node_Skillwz_1111img_skill_11111004["icon"]), new Texture (node_Skillwz_1111img_skill_11111004["iconDisabled"]), new Texture (node_Skillwz_1111img_skill_11111004["iconMouseOver"]) };
+
+			/// Load strings
+			name = node_Stringwz_Skillimg_000?["name"]?.ToString () ?? "name is null";//todo 2 newly added skill name is null
+			desc = node_Stringwz_Skillimg_000?["desc"]?.ToString () ?? "desc is null";
+
+			if (node_Stringwz_Skillimg_000 is WzImageProperty property_Stringwz_Skillimg_000)
+			{
+				var childNodeCount = property_Stringwz_Skillimg_000.WzProperties.Count;
+				for (int level = 1; level <= childNodeCount; level++)
+				{
+					var node_Stringwz_Skillimg_000_h1 = property_Stringwz_Skillimg_000["h" + level]; //todo 2 可能除了h1、h2、h3等类似节点 还有其他节点 
+					if (node_Stringwz_Skillimg_000_h1 != null)
+					{
+						levels.Add (level, node_Stringwz_Skillimg_000_h1.ToString ());
+					}
+				}
+			}
+
+			/// Load stats
+			var node_Skillwz_1111img_skill_0000008_level = node_Skillwz_1111img_skill_11111004["level"];
+			if (node_Skillwz_1111img_skill_0000008_level is WzImageProperty property_Skillwz_000img_skill_0000008_level)
+			{
+				foreach (var property_Skillwz_000img_skill_11111004_level_1 in property_Skillwz_000img_skill_0000008_level.WzProperties)
+				{
+					float damage = (float)property_Skillwz_000img_skill_11111004_level_1["damage"] / 100;
+					int matk = property_Skillwz_000img_skill_11111004_level_1["mad"];
+					int fixdamage = property_Skillwz_000img_skill_11111004_level_1["fixdamage"];
+					int mastery = property_Skillwz_000img_skill_11111004_level_1["mastery"];
+					byte attackcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["attackCount"] ?? 1);
+					byte mobcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["mobCount"] ?? 1);
+					byte bulletcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["bulletCount"] ?? 1);
+					short bulletcost = (short)(property_Skillwz_000img_skill_11111004_level_1["bulletConsume"] ?? bulletcount);
+					int hpcost = property_Skillwz_000img_skill_11111004_level_1["hpCon"];
+					int mpcost = property_Skillwz_000img_skill_11111004_level_1["mpCon"];
+					float chance = (property_Skillwz_000img_skill_11111004_level_1["prop"] ?? 100f) / 100;
+					float critical = 0.0f;
+					float ignoredef = 0.0f;
+					float hrange = (property_Skillwz_000img_skill_11111004_level_1["range"] ?? 100f) / 100;
+					Rectangle_short range = new Rectangle_short (property_Skillwz_000img_skill_11111004_level_1);
+					int level = string_conversion.or_default (property_Skillwz_000img_skill_11111004_level_1.Name, -1);
+					stats.Add (level, new Stats (damage, matk, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range));
+				}
+				masterlevel = stats.Count;
+			}
+			else if(node_Skillwz_1111img_skill_11111004["common"] is WzSubProperty node_Skillwz_1111img_skill_11111004_common)
+			{
+				skillCommonInfo = new SkillCommonInfo ();
+
+				masterlevel = node_Skillwz_1111img_skill_11111004_common["maxLevel"];
+
+				skillCommonInfo.range = new Rectangle_short (node_Skillwz_1111img_skill_11111004_common);
+
+				skillCommonInfo.damage_Expression = node_Skillwz_1111img_skill_11111004_common["damage"]?.ToString ();
+				skillCommonInfo.mobCount_Expression = node_Skillwz_1111img_skill_11111004_common["mobCount"]?.ToString ();
+				skillCommonInfo.attackCount_Expression = node_Skillwz_1111img_skill_11111004_common["attackCount"]?.ToString ();
+				skillCommonInfo.mpCon_Expression = node_Skillwz_1111img_skill_11111004_common["mpCon"]?.ToString ();
+				
+			}
+
+			element = node_Skillwz_1111img_skill_11111004["elemAttr"]?.ToString ();
+
+			if (jobList_canUseAnyWeapon.Any (j => j.ToString () == jobid))
+			//if (jobid == "900" || jobid == "910" || jobid == ((int)MapleJob.DAWNWARRIOR1).ToString ())
+			{
+				reqweapon = Weapon.Type.NONE;
+			}
+			else
+			{
+				reqweapon = Weapon.by_value (100 + node_Skillwz_1111img_skill_11111004["weapon"]);
+			}
+			
+			passive = id % 10000 / 1000 == 0;
+			//AppDebug.Log($"skillId:{id}\t isPassive:{passive}");
+			flags = flags_of (id);
+			invisible = node_Skillwz_1111img_skill_11111004["invisible"];
+
+			/// Load required skills
+			var node_Skillwz_1111img_skill_11111004_req = node_Skillwz_1111img_skill_11111004["req"];
+			if (node_Skillwz_1111img_skill_11111004_req is WzImageProperty property_Skillwz_1111img_skill_11111003_req)
+			{
+				foreach (var property_Skillwz_1111img_skill_11111003_req_11111001 in property_Skillwz_1111img_skill_11111003_req.WzProperties)
+				{
+					int skillid = string_conversion.or_default (property_Skillwz_1111img_skill_11111003_req_11111001.Name, -1);
+					int reqlv = property_Skillwz_1111img_skill_11111003_req_11111001;
+
+					reqskills.Add (skillid, reqlv);
+				}
+			}
 		}
 
 		// Return whether the skill is passive
@@ -150,108 +291,10 @@ namespace ms
 			return reqskills;
 		}
 
-		// Load a skill from the game files
-		public SkillData (int id)
-		{
-			/// Locate sources
-
-			string strid;
-			string jobid;
-			if (id > 0 && id <= 9999999)
-			{
-				strid = string_format.extend_id (id, 7);
-				jobid = strid.Substring (0, 3);
-			}
-			else
-			{
-				strid = string_format.extend_id (id, 8);
-				jobid = strid.Substring (0, 4);
-			}
-
-			var node_Skillwz_1111img_skill_11111004 = wz.wzFile_skill[$"{jobid}.img"]["skill"][strid];
-			var node_Stringwz_Skillimg_000 = wz.wzFile_string["Skill.img"][strid];
-
-			if (node_Skillwz_1111img_skill_11111004 == null)//sever send skillId 100 ,or others ,which doesn't exist in skillWz
-			{
-				return;
-			}
-
-			/// Load icons
-			icons = new[] { new Texture (node_Skillwz_1111img_skill_11111004["icon"]), new Texture (node_Skillwz_1111img_skill_11111004["iconDisabled"]), new Texture (node_Skillwz_1111img_skill_11111004["iconMouseOver"]) };
-
-			/// Load strings
-			name = node_Stringwz_Skillimg_000?["name"]?.ToString () ?? "name is null";//todo 2 newly added skill name is null
-			desc = node_Stringwz_Skillimg_000?["desc"]?.ToString () ?? "desc is null";
-
-			if (node_Stringwz_Skillimg_000 is WzImageProperty property_Stringwz_Skillimg_000)
-			{
-				var childNodeCount = property_Stringwz_Skillimg_000.WzProperties.Count;
-				for (int level = 1; level <= childNodeCount; level++)
-				{
-					var node_Stringwz_Skillimg_000_h1 = property_Stringwz_Skillimg_000["h" + level]; //todo 2 可能除了h1、h2、h3等类似节点 还有其他节点 
-					if (node_Stringwz_Skillimg_000_h1 != null)
-					{
-						levels.Add (level, node_Stringwz_Skillimg_000_h1.ToString ());
-					}
-				}
-			}
-
-			/// Load stats
-			var node_Skillwz_1111img_skill_0000008_level = node_Skillwz_1111img_skill_11111004["level"];
-			if (node_Skillwz_1111img_skill_0000008_level is WzImageProperty property_Skillwz_000img_skill_0000008_level)
-			{
-				foreach (var property_Skillwz_000img_skill_11111004_level_1 in property_Skillwz_000img_skill_0000008_level.WzProperties)
-				{
-					float damage = (float)property_Skillwz_000img_skill_11111004_level_1["damage"] / 100;
-					int matk = property_Skillwz_000img_skill_11111004_level_1["mad"];
-					int fixdamage = property_Skillwz_000img_skill_11111004_level_1["fixdamage"];
-					int mastery = property_Skillwz_000img_skill_11111004_level_1["mastery"];
-					byte attackcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["attackCount"] ?? 1);
-					byte mobcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["mobCount"] ?? 1);
-					byte bulletcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["bulletCount"] ?? 1);
-					short bulletcost = (short)(property_Skillwz_000img_skill_11111004_level_1["bulletConsume"] ?? bulletcount);
-					int hpcost = property_Skillwz_000img_skill_11111004_level_1["hpCon"];
-					int mpcost = property_Skillwz_000img_skill_11111004_level_1["mpCon"];
-					float chance = (property_Skillwz_000img_skill_11111004_level_1["prop"] ?? 100f) / 100;
-					float critical = 0.0f;
-					float ignoredef = 0.0f;
-					float hrange = (property_Skillwz_000img_skill_11111004_level_1["range"] ?? 100f) / 100;
-					Rectangle_short range = new Rectangle_short (property_Skillwz_000img_skill_11111004_level_1);
-					int level = string_conversion.or_default (property_Skillwz_000img_skill_11111004_level_1.Name, -1);
-					stats.Add (level, new Stats (damage, matk, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range));
-				}
-			}
-
-			element = node_Skillwz_1111img_skill_11111004["elemAttr"]?.ToString ();
-
-			if (jobid == "900" || jobid == "910")
-			{
-				reqweapon = Weapon.Type.NONE;
-			}
-			else
-			{
-				reqweapon = Weapon.by_value (100 + node_Skillwz_1111img_skill_11111004["weapon"]);
-			}
-
-			masterlevel = stats.Count;
-			passive = id % 10000 / 1000 == 0;
-			//AppDebug.Log($"skillId:{id}\t isPassive:{passive}");
-			flags = flags_of (id);
-			invisible = node_Skillwz_1111img_skill_11111004["invisible"];
-
-			/// Load required skills
-			var node_Skillwz_1111img_skill_11111004_req = node_Skillwz_1111img_skill_11111004["req"];
-			if (node_Skillwz_1111img_skill_11111004_req is WzImageProperty property_Skillwz_1111img_skill_11111003_req)
-			{
-				foreach (var property_Skillwz_1111img_skill_11111003_req_11111001 in property_Skillwz_1111img_skill_11111003_req.WzProperties)
-				{
-					int skillid = string_conversion.or_default (property_Skillwz_1111img_skill_11111003_req_11111001.Name, -1);
-					int reqlv = property_Skillwz_1111img_skill_11111003_req_11111001;
-
-					reqskills.Add (skillid, reqlv);
-				}
-			}
-		}
+		private static List<int> jobList_canUseAnyWeapon = new List<int> () {
+			900, 910,
+			(int)MapleJob.MH1, (int)MapleJob.MH2,
+			(int)MapleJob.MH3, (int)MapleJob.MH4 };
 
 		private Dictionary<int, int> skill_flags = new Dictionary<int, int>
 		{
@@ -335,6 +378,24 @@ namespace ms
 			//BOWMASTER - 312
 			{(int)Bowmaster.HURRICANE, (int)Flags.ATTACK| (int)Flags.RANGED},
 
+			//MH1 - 17500
+			{(int)MH.MHbaseAttack1_0, (int)Flags.ATTACK| (int)Flags.RANGED},
+			{(int)MH.MHbaseAttack1_1, (int)Flags.ATTACK| (int)Flags.RANGED},
+
+			//MH1 - 17510
+			{(int)MH.MHbaseAttack1_2, (int)Flags.ATTACK| (int)Flags.RANGED},
+			{(int)MH.MHbaseAttack2_0, (int)Flags.ATTACK| (int)Flags.RANGED},
+			{(int)MH.MHbaseAttack2_1, (int)Flags.ATTACK| (int)Flags.RANGED},
+			{(int)MH.MHbaseAttack3_0, (int)Flags.ATTACK| (int)Flags.RANGED},
+
+			//MH1 - 17511
+			{(int)MH.MHbaseAttack2_2, (int)Flags.ATTACK| (int)Flags.RANGED},
+			{(int)MH.MHbaseAttack3_2, (int)Flags.ATTACK| (int)Flags.RANGED},
+
+			//MH1 - 17512
+			{(int)MH.MHbaseAttack3_1, (int)Flags.ATTACK| (int)Flags.RANGED},
+			{(int)MH.MHbaseAttack4_0, (int)Flags.ATTACK| (int)Flags.RANGED},
+			{(int)MH.MHbaseAttack4_1, (int)Flags.ATTACK| (int)Flags.RANGED},
 		};
 
 		// Get some hard-coded information
@@ -350,6 +411,7 @@ namespace ms
 			}
 		}
 
+		public SkillCommonInfo skillCommonInfo { get; private set; }
 		private Dictionary<int, Stats> stats = new Dictionary<int, Stats> ();
 		private string element;
 		private Weapon.Type reqweapon;

@@ -591,6 +591,10 @@ namespace ms
 			stats.change_job (jobid);
 		}
 
+		public Job get_job()
+		{
+			return stats.get_job ();
+		}
 		// Change players position to the seat's position and stance to Char.State.SIT
 		public void set_seat (Optional<Seat> seat)
 		{

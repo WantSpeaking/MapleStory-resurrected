@@ -1,10 +1,11 @@
-﻿using NodeCanvas.Framework;
+﻿using NodeCanvas.BehaviourTrees;
+using NodeCanvas.Framework;
 
 namespace ms
 {
 	public class RegularAttack : SpecialMove
 	{
-		public override void apply_useeffects ( Char user)
+		public override void apply_useeffects (Char user)
 		{
 		}
 		public override void apply_prepareEffect (Char user)
@@ -16,7 +17,7 @@ namespace ms
 		public override void apply_keydownendEffect (Char user)
 		{
 		}
-		public override void apply_actions ( Char user, Attack.Type type)
+		public override void apply_actions (Char user, Attack.Type type)
 		{
 			action.apply (ref user, type);
 		}
@@ -69,7 +70,7 @@ namespace ms
 			{
 				case Weapon.Type.BOW:
 				case Weapon.Type.CROSSBOW:
-					if (ms.Stage.get().get_player().can_useBow_withoutArrows () || (bullets != 0))
+					if (ms.Stage.get ().get_player ().can_useBow_withoutArrows () || (bullets != 0))
 					{
 						return ForbidReason.FBR_NONE;
 					}
@@ -92,7 +93,21 @@ namespace ms
 		private RegularAction action = new RegularAction ();
 		private RegularBullet bullet = new RegularBullet ();
 
-	
+		public override BehaviourTree BTree
+		{
+			get
+			{
+				switch (ms.Stage.get ().get_player ().get_job ().get_MapleJob ())
+				{
+					case MapleJob.DAWNWARRIOR1:
+					case MapleJob.DAWNWARRIOR2:
+					case MapleJob.DAWNWARRIOR3:
+					case MapleJob.DAWNWARRIOR4:
+						return ResourcesManager.Instance.GetSkillBTree (((int)MapleJob.DAWNWARRIOR1).ToString());
+				}
 
+				return base.BTree;
+			}
+		}
 	}
 }

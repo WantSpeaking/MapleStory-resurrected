@@ -494,10 +494,11 @@ namespace MapleLib.WzLib.WzProperties
 						{
 							/*bmp = new Bitmap (Width, height, PixelFormat.Format32bppArgb);
 							BitmapData bmpData = bmp.LockBits (rect_, ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);*/
-							DecompressImage_PixelDataBgra32_To_ARGB (rawBytes, width, height, out decodedBytes);
-							DecompressImage_PixelDataBgra_To_RGBA (decodedBytes, width, height, out decodedBytes);
 
-							//DecompressImageDXT5 (rawBytes, Width, Height, out decodedBytes);
+				/*			DecompressImage_PixelDataBgra32_To_ARGB (rawBytes, width, height, out decodedBytes);
+							DecompressImage_PixelDataBgra_To_RGBA (decodedBytes, width, height, out decodedBytes);*/
+
+							DecompressImageDXT5 (rawBytes, Width, Height, out decodedBytes);
 							break;
 						}
 					default:
@@ -806,7 +807,7 @@ namespace MapleLib.WzLib.WzProperties
 						{
 							for (int i = 0; i < 4; i++)
 							{
-								SetPixel (decoded,
+								SetPixel_RGBA32 (decoded,
 									x + i,
 									y + j,
 									width,
@@ -909,9 +910,11 @@ namespace MapleLib.WzLib.WzProperties
 				decoded[i+0] = (byte)(decoded[i+0] * alpha);
 				decoded[i + 1] = (byte)(decoded[i + 1] * alpha);
 				decoded[i + 2] = (byte)(decoded[i + 2] * alpha);
+				//AppDebug.Log ($"DecompressImage_PixelDataBgra_To_RGBA,color:{color}|alpha:{alpha}");
+
 			}
 
-			
+
 
 		}
 

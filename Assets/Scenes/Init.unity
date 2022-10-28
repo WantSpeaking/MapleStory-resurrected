@@ -1123,7 +1123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DrawOrder: 0
   enableDebugPacket: 0
-  TestMode: 0
+  TestMode: 1
 --- !u!114 &609587592
 MonoBehaviour:
   m_ObjectHideFlags: 0

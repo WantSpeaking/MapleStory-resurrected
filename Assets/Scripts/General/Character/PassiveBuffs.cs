@@ -188,7 +188,7 @@ namespace ms
 					strid = Convert.ToString (skill_id);
 				}
 
-				WzObject src = ms.wz.wzFile_skill[$"{strid.Substring (0, 3)}.img"]["skill"][strid]["level"][skill_level.ToString ()];//why has skillId 100;why skillId 12 have skillLevel 0
+				WzObject src = ms.wz.findSkillImage($"{strid.Substring (0, 3)}.img")["skill"][strid]["level"][skill_level.ToString ()];//why has skillId 100;why skillId 12 have skillLevel 0
 
 				if (src != null)
 				{

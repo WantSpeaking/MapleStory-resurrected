@@ -20,7 +20,7 @@ namespace ms
             if (buffid >= 0)
             {
                 string strid = string_format.extend_id(buffid, 7);
-                WzObject src = ms.wz.wzFile_skill[$"{strid.Substring(0, 3)}.img"]["skill"][strid];
+                WzObject src = ms.wz.findSkillImage($"{strid.Substring(0, 3)}.img")["skill"][strid];
                 icon = src?["icon"];
             }
             else
