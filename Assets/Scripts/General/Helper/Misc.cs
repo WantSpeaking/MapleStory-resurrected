@@ -194,6 +194,12 @@ namespace ms
 
 				return ms.wz.wzFile_map["Map"]["Map" + prefix][mapid_str + ".img"];
 			}
+
+			public static bool exist(int mapid)
+			{
+				string map_category = get_map_category (mapid);
+				return ms.wz.wzFile_string["Map.img"][map_category]?[mapid.ToString ()] != null;
+			}
 		}
 	}
 }

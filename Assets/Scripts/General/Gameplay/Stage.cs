@@ -130,10 +130,14 @@ namespace ms
 			portals = new MapPortals (node_100000000img["portal"], mapid);
 		}
 
+		public byte just_Entered_portalid;
+		public string just_Entered_portalName;
 		private void respawn (sbyte portalid)
 		{
+			just_Entered_portalid = (byte)portalid;
+			portals.get_portal_by_id (just_Entered_portalid)?.get_name ();
 			Singleton<Music>.get ().play (mapinfo.get_bgm ());
-			Point_short spawnpoint = portals.get_portal_by_id ((byte)portalid);
+			Point_short spawnpoint = portals.get_portalPos_by_id ((byte)portalid);
 			Point_short startpos = physics.get_y_below (new Point_short (spawnpoint));
 			player.respawn (new Point_short (startpos), mapinfo?.is_underwater () ?? false);
 			camera.set_position (new Point_short (startpos));
@@ -225,6 +229,9 @@ namespace ms
 				}
 			}
 			if (!player.is_invincible ())
+				return;
+
+			if (player.is_died ())
 				return;
 
 			var oid_id = mobs.find_colliding (player.get_phobj ());
@@ -434,6 +441,10 @@ namespace ms
 			return mapid;
 		}
 
+		public MapPortals get_portals()
+		{
+			return portals;
+		}
 		public void add_effect (string path)
 		{
 			effect = new MapEffect (path);
@@ -457,6 +468,8 @@ namespace ms
 		public void transfer_player ()
 		{
 			new PlayerMapTransferPacket ().dispatch ();
+			new ChangeMapSpecialPacket ().dispatch ();
+			
 			if (Singleton<Configuration>.get ().get_admin ())
 			{
 				new AdminEnterMapPacket (AdminEnterMapPacket.Operation.ALERT_ADMINS).dispatch ();

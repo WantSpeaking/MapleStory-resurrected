@@ -135,7 +135,7 @@ namespace ms
 
 		private readonly Point_short ABOVE = new Point_short (0, 30);
 
-		public Point_short get_portal_by_id (byte portal_id)
+		public Point_short get_portalPos_by_id (byte portal_id)
 		{
 			if (portals_by_id.TryGetValue (portal_id, out var portalPos))
 			{
@@ -145,13 +145,22 @@ namespace ms
 			return Point_short.zero;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: Point_short get_portal_by_name(const string& portal_name) const
+		public Portal get_portal_by_id (byte portal_id)
+		{
+			if (!portals_by_id.TryGetValue (portal_id, out var portalPos))
+			{
+				AppDebug.LogError ($"can't find portal id:{portal_id}");
+			}
+
+			return portalPos;
+		}
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: Point_short get_portal_by_name(const string& portal_name) const
 		public Point_short get_portal_by_name (string portal_name)
 		{
 			if (portal_ids_by_name.TryGetValue (portal_name, out var portalId))
 			{
-				return get_portal_by_id (portalId);
+				return get_portalPos_by_id (portalId);
 			}
 
 			return Point_short.zero;

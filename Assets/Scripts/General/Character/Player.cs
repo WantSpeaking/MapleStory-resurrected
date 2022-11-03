@@ -70,6 +70,8 @@ namespace ms
 			attacking = false;
 			ladder = null;
 			nullstate.update_state (this);
+
+			died = false;
 		}
 
 		// Sends a Keyaction to the player's state, to apply forces, change the state and other behavior.
@@ -546,7 +548,7 @@ namespace ms
 		}
 		public void remove_cooldown (int skill_id)
 		{
-			cooldowns.Remove(skill_id);
+			cooldowns.Remove (skill_id);
 		}
 		// Check if a skill is on cooldown
 		public bool has_cooldown (int skill_id)
@@ -591,7 +593,7 @@ namespace ms
 			stats.change_job (jobid);
 		}
 
-		public Job get_job()
+		public Job get_job ()
 		{
 			return stats.get_job ();
 		}
@@ -705,7 +707,7 @@ namespace ms
 		{
 			return quest ??= new Quest ();
 		}
-		
+
 		// Obtain a reference to the player's TeleportRock locations
 		public TeleportRock get_teleportrock ()
 		{
@@ -725,6 +727,9 @@ namespace ms
 
 			return (float)hp / maxhp;
 		}
+
+
+		
 
 		private Inventory inventory = new Inventory ();
 		private SkillBook skillbook = new SkillBook ();
@@ -834,5 +839,18 @@ namespace ms
 		}
 
 		public long Meso => inventory.get_meso ();
+
+		private bool died;
+
+		public bool is_died ()
+		{
+			return died;
+		}
+
+		public void die ()
+		{
+			died = true;
+		}
+
 	}
 }

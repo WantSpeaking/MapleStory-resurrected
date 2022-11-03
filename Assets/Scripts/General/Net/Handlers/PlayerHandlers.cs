@@ -46,9 +46,12 @@ namespace ms
                 Stage.get().get_player().recalc_stats(false);
             }
 
+
+            checkPlayerIsDied ();
             UI.get().enable();
         }
 
+      
         private bool handle_stat(MapleStat.Id stat, InPacket recv)
         {
             Player player = Stage.get().get_player();
@@ -81,6 +84,8 @@ namespace ms
                     recalculate = true;
                     break;
             }
+
+   
 
             bool update_statsinfo = need_statsinfo_update(stat);
 
@@ -135,6 +140,27 @@ namespace ms
                     return true;
                 default:
                     return false;
+            }
+        }
+
+        private void checkPlayerIsDied ()
+        {
+            Player player = Stage.get ().get_player ();
+
+            var hp = player.get_stats ().get_stat (MapleStat.Id.HP);
+            if (hp <= 0)
+            {
+                player.die ();
+
+                var nearbyTownMapId = player.get_stats ().get_mapid () / 100000000;
+                if (!NxHelper.Map.exist (nearbyTownMapId))
+                {
+                    nearbyTownMapId = 100000000;
+                }
+
+                /*  ms_Unity.FGUI_OK.ShowNotice ("You are died！回到附近的城镇吗？", (b) => { new ChangeMapPacket (true, nearbyTownMapId, Stage.get ().get_portals ().get_portal_by_id (0)?.get_name (), false).dispatch(); });*/
+
+                ms_Unity.FGUI_OK.ShowNotice ("You are died！回到附近的城镇吗？", (b) => { new ChangeMapPacket (true, nearbyTownMapId, String.Empty, false).dispatch (); });
             }
         }
     }

@@ -84,6 +84,7 @@ namespace ms
 
 			/// Player Interaction
 			CHAR_INFO_REQUEST = 97,
+			CHANGE_MAP_SPECIAL = 100,
 
 			/// Inventory
 			GATHER_ITEMS = 69,
@@ -183,6 +184,9 @@ namespace ms
 		// Writes the length as a short and then each individual character as a byte
 		protected void write_string (string str)
 		{
+			if (string.IsNullOrEmpty (str))
+				str = string.Empty;
+
 			short length = (short)str.Length;
 
 			write_short (length);

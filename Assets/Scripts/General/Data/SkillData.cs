@@ -7,9 +7,358 @@ using constants.skills;
 using System.Linq;
 using org.mariuszgromada.math.mxparser;
 using Expression = org.mariuszgromada.math.mxparser.Expression;
+using Jint;
+using System;
 
 namespace ms
 {
+	public static class SkillStatExt
+	{
+
+	}
+
+	public enum SkillStat
+	{
+		None,
+		x,
+		y,
+		z,
+		q,
+		s,
+		u,
+		w,
+		attackCount,
+		rb,
+		damage,
+		lt,
+		mpCon,
+		mobCount,
+		damAbsorbShieldR,
+		pddX,
+		mhpR,
+		psdJump,
+		speedMax,
+		stanceProp,
+		psdSpeed,
+		lv2mhp,
+		forceCon,
+		cooltime,
+		indieAsrR,
+		indiePad,
+		indieMad,
+		indiePdd,
+		indieMdd,
+		indieTerR,
+		indieEva,
+		indieAcc,
+		indieBooster,
+		indieSpeed,
+		indieJump,
+		range,
+		time,
+		cooltimeMS,
+		subTime,
+		strX,
+		padX,
+		bdR,
+		damR,
+		ignoreMobpdpR,
+		mobCountDamR,
+		actionSpeed,
+		mastery,
+		rb2,
+		lt2,
+		v,
+		terR,
+		mddX,
+		asrR,
+		MDF,
+		cr,
+		prop,
+		ballCount,
+		t,
+		dotInterval,
+		dotTime,
+		criticaldamageMin,
+		criticaldamageMax,
+		dot,
+		ballDelay,
+		ballDelay1,
+		pdR,
+		dexX,
+		mmpR,
+		madR,
+		lukX,
+		intX,
+		hcProp,
+		hcCooltime,
+		hcTime,
+		subProp,
+		mp,
+		hcHp,
+		hp,
+		indieCr,
+		indieDamR,
+		mhpX,
+		targetPlus,
+		indieMaxDamageOverR,
+		indieMaxDamageOver,
+		damPlus,
+		ar,
+		madX,
+		selfDestruction,
+		pddR,
+		mddR,
+		speed,
+		evaX,
+		accX,
+		onActive,
+		jump,
+		summonCount,
+		acc,
+		eva,
+		epdd,
+		emdd,
+		indieMmp,
+		indieMhp,
+		pdd,
+		mdd,
+		bulletCount,
+		mdd2pdd,
+		lv2mmp,
+		indiePddR,
+		epad,
+		attackDelay,
+		mdR,
+		hcSubTime,
+		mad,
+		damageToBoss,
+		coolTimeR,
+		w2,
+		u2,
+		s2,
+		q2,
+		v2,
+		mesoR,
+		dropR,
+		expR,
+		indieExp,
+		indiePadR,
+		indieMadR,
+		hcSummonHp,
+		er,
+		indieMhpR,
+		indieBDR,
+		ppRecovery,
+		ballDelay0,
+		ballDelay2,
+		bulletConsume,
+		ignoreMobDamR,
+		indieStance,
+		dotSuperpos,
+		dotTickDamR,
+		ppCon,
+		ppReq,
+		indiePMdR,
+		bufftimeR,
+		rb3,
+		rb4,
+		lt3,
+		lt4,
+		hpCon,
+		areaDotCount,
+		hcSubProp,
+		costmpR,
+		MDamageOver,
+		variableRect, // null val
+		attackPoint, // null val
+		property, // null val
+		emad,
+		ballDelay3,
+		emhp,
+		mpConReduce,
+		indieMmpR,
+		indieIgnoreMobpdpR,
+		gauge,
+		fixdamage,
+		hpRCon,
+		padR,
+		hcReflect,
+		reduceForceR,
+		timeRemainEffect,
+		dex,
+		killRecoveryR,
+		accR,
+		emmp,
+		powerCon,
+		mmpX,
+		epCon,
+		kp,
+		a,
+		ignoreCounter,
+		action,
+		evaR,
+		damageTW3,
+		damageTW2,
+		damageTW4,
+		pad,
+		indieAllStat,
+		bulletSpeed,
+		morph,
+		itemConsume,
+		nbdR,
+		psdIncMaxDam,
+		strFX,
+		dexFX,
+		lukFX,
+		intFX,
+		pdd2mdd,
+		acc2mp,
+		eva2hp,
+		str2dex,
+		dex2str,
+		int2luk,
+		luk2int,
+		luk2dex,
+		dex2luk,
+		lv2pad,
+		lv2mad,
+		tdR,
+		minionDeathProp,
+		abnormalDamR,
+		acc2dam,
+		pdd2dam,
+		mdd2dam,
+		pdd2mdx,
+		mdd2pdx,
+		nocoolProp,
+		passivePlus,
+		mpConEff,
+		lv2damX,
+		summonTimeR,
+		expLossReduceR,
+		onHitHpRecoveryR,
+		onHitMpRecoveryR,
+		pdr,
+		mhp2damX,
+		mmp2damX,
+		finalAttackDamR,
+		guardProp,
+		mob, // null val
+		extendPrice,
+		priceUnit,
+		period,
+		price,
+		reqGuildLevel,
+		mileage,
+		disCountR,
+		pqPointR,
+		mesoG,
+		itemUpgradeBonusR,
+		itemCursedProtectR,
+		itemTUCProtectR,
+		igpCon,
+		gpCon,
+		iceGageCon,
+		PVPdamage,
+		lv2str,
+		lv2dex,
+		lv2int,
+		lv2luk,
+		orbCount,
+		dotHealHPPerSecondR,
+		ballDelay6,
+		ballDelay7,
+		ballDelay4,
+		ballDelay5,
+		ballDamage,
+		ballAttackCount,
+		ballMobCount,
+		delay,
+		strR,
+		dexR,
+		intR,
+		lukR,
+		OnActive,
+		PVPdamageX,
+		indieMDF,
+		soulmpCon,
+		prob,
+		indieMddR,
+		indieDrainHP,
+		trembling,
+		incMobRateDummy,
+		fixCoolTime,
+		indieForceSpeed,
+		indieForceJump,
+		itemCon,
+		itemConNo,
+	}
+	public class SkillInfo
+	{
+		public Dictionary<SkillStat, string> skillStatInfo = new Dictionary<SkillStat, string> ();
+		public Rectangle_short range { get; set; }
+
+		public string damage_Expression { get; set; }
+		public string attackCount_Expression { get; set; }
+		public string mobCount_Expression { get; set; }
+		public string mpCon_Expression { get; set; }
+		private int SkillId;
+		public int getSkillId ()
+		{
+			return SkillId;
+		}
+		public double damage ()
+		{
+			var e = new org.mariuszgromada.math.mxparser.Expression (damage_Expression);
+			return e.calculate ();
+		}
+		public void addSkillStatInfo (SkillStat sc, string value)
+		{
+			skillStatInfo.TryAdd (sc, value);
+		}
+
+		public int getValue (SkillStat skillStat, int slv)
+		{
+			int result = 0;
+			var value = skillStatInfo.TryGetValue (skillStat);
+			if (value == null || slv == 0)
+			{
+				return 0;
+			}
+			// Sometimes newlines get taken, just remove those
+			value = value.Replace ("\n", "").Replace ("\r", "");
+			value = value.Replace ("\\n", "").Replace ("\\r", ""); // unluko
+			var original = value;
+			if (value.isNumber ())
+			{
+				result = int.Parse (value);
+			}
+			else
+			{
+				try
+				{
+					value = value.Replace ("u", "Math.ceil");
+					value = value.Replace ("d", "Math.floor");
+					var toReplace = value.Contains ("y") ? "y"
+							: value.Contains ("X") ? "X"
+							: "x";
+
+					var res = new Jint.Engine ().Execute (value.Replace (toReplace, slv + "")).GetCompletionValue ().AsNumber ();
+					result = (int)res;
+
+				}
+				catch (Exception ex)
+				{
+					AppDebug.LogError (String.Format ("Error when parsing: skill %d, level %d, skill stat %s, tried to eval %s.",
+							getSkillId (), slv, skillStat, original));
+				}
+			}
+			return result;
+		}
+
+	}
+
 	// Contains information about a skill
 	public class SkillData : Cache<SkillData>
 	{
@@ -17,7 +366,10 @@ namespace ms
 		public class Stats
 		{
 			public float damage;
-			public int matk;
+			/// <summary>
+			/// magic damage
+			/// </summary>
+			public int mad;
 			public int fixdamage;
 			public int mastery;
 			public byte attackcount;
@@ -35,7 +387,7 @@ namespace ms
 			public Stats (float damage, int matk, int fixdamage, int mastery, byte attackcount, byte mobcount, byte bulletcount, short bulletcost, int hpcost, int mpcost, float chance, float critical, float ignoredef, float hrange, Rectangle_short range)
 			{
 				this.damage = damage;
-				this.matk = matk;
+				this.mad = matk;
 				this.fixdamage = fixdamage;
 				this.mastery = mastery;
 				this.attackcount = attackcount;
@@ -52,21 +404,7 @@ namespace ms
 			}
 		}
 
-		public class SkillCommonInfo
-		{
-			public Rectangle_short range { get; set; }
 
-			public string damage_Expression { get; set; }
-			public string attackCount_Expression { get; set; }
-			public string mobCount_Expression { get; set; }
-			public string mpCon_Expression { get; set; }
-			
-			public double damage()
-			{
-				var e = new org.mariuszgromada.math.mxparser.Expression (damage_Expression);
-				return e.calculate ();
-			}
-		}
 
 		// Skill flags, unfortunately these just have to be hard-coded
 		public enum Flags
@@ -85,7 +423,7 @@ namespace ms
 			NUM_ICONS
 		}
 
-		
+
 
 		// Load a skill from the game files
 		public SkillData (int id)
@@ -136,13 +474,15 @@ namespace ms
 			}
 
 			/// Load stats
+			HashSet<string> unkVals = new HashSet<string> ();
+
 			var node_Skillwz_1111img_skill_0000008_level = node_Skillwz_1111img_skill_11111004["level"];
 			if (node_Skillwz_1111img_skill_0000008_level is WzImageProperty property_Skillwz_000img_skill_0000008_level)
 			{
 				foreach (var property_Skillwz_000img_skill_11111004_level_1 in property_Skillwz_000img_skill_0000008_level.WzProperties)
 				{
 					float damage = (float)property_Skillwz_000img_skill_11111004_level_1["damage"] / 100;
-					int matk = property_Skillwz_000img_skill_11111004_level_1["mad"];
+					int mad = property_Skillwz_000img_skill_11111004_level_1["mad"];
 					int fixdamage = property_Skillwz_000img_skill_11111004_level_1["fixdamage"];
 					int mastery = property_Skillwz_000img_skill_11111004_level_1["mastery"];
 					byte attackcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["attackCount"] ?? 1);
@@ -157,23 +497,49 @@ namespace ms
 					float hrange = (property_Skillwz_000img_skill_11111004_level_1["range"] ?? 100f) / 100;
 					Rectangle_short range = new Rectangle_short (property_Skillwz_000img_skill_11111004_level_1);
 					int level = string_conversion.or_default (property_Skillwz_000img_skill_11111004_level_1.Name, -1);
-					stats.Add (level, new Stats (damage, matk, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range));
+					stats.Add (level, new Stats (damage, mad, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range));
 				}
 				masterlevel = stats.Count;
 			}
-			else if(node_Skillwz_1111img_skill_11111004["common"] is WzSubProperty node_Skillwz_1111img_skill_11111004_common)
+			else if (node_Skillwz_1111img_skill_11111004["common"] is WzSubProperty node_Skillwz_1111img_skill_11111004_common)
 			{
-				skillCommonInfo = new SkillCommonInfo ();
+				skillInfo = new SkillInfo ();
 
-				masterlevel = node_Skillwz_1111img_skill_11111004_common["maxLevel"];
+				foreach (var commonNode in node_Skillwz_1111img_skill_11111004_common.WzProperties)
+				{
+					var nodeName = commonNode.Name;
+					if (nodeName.Equals ("maxLevel"))
+					{
+						masterlevel = commonNode;
+					}
+					else if (nodeName.Contains ("lt") && nodeName.Length <= 3)
+					{
+						skillInfo.range = new Rectangle_short (node_Skillwz_1111img_skill_11111004_common);//todo 可能存在多个range
+					}
+					else
+					{
+						Enum.TryParse (nodeName, out SkillStat skillStat);
+						if (skillStat != SkillStat.None)
+						{
+							skillInfo.addSkillStatInfo (skillStat, commonNode?.ToString ());
+						}
+						else if (!unkVals.Contains (nodeName))
+						{
+							//if (LOG_UNKS)
+							{
+								AppDebug.LogWarning ("Unknown SkillStat " + nodeName);
+							}
+							unkVals.Add (nodeName);
+						}
+					}
+				}
+				/*				skillInfo.range = new Rectangle_short (node_Skillwz_1111img_skill_11111004_common);
 
-				skillCommonInfo.range = new Rectangle_short (node_Skillwz_1111img_skill_11111004_common);
+								skillInfo.damage_Expression = node_Skillwz_1111img_skill_11111004_common["damage"]?.ToString ();
+								skillInfo.mobCount_Expression = node_Skillwz_1111img_skill_11111004_common["mobCount"]?.ToString ();
+								skillInfo.attackCount_Expression = node_Skillwz_1111img_skill_11111004_common["attackCount"]?.ToString ();
+								skillInfo.mpCon_Expression = node_Skillwz_1111img_skill_11111004_common["mpCon"]?.ToString ();*/
 
-				skillCommonInfo.damage_Expression = node_Skillwz_1111img_skill_11111004_common["damage"]?.ToString ();
-				skillCommonInfo.mobCount_Expression = node_Skillwz_1111img_skill_11111004_common["mobCount"]?.ToString ();
-				skillCommonInfo.attackCount_Expression = node_Skillwz_1111img_skill_11111004_common["attackCount"]?.ToString ();
-				skillCommonInfo.mpCon_Expression = node_Skillwz_1111img_skill_11111004_common["mpCon"]?.ToString ();
-				
 			}
 
 			element = node_Skillwz_1111img_skill_11111004["elemAttr"]?.ToString ();
@@ -187,7 +553,7 @@ namespace ms
 			{
 				reqweapon = Weapon.by_value (100 + node_Skillwz_1111img_skill_11111004["weapon"]);
 			}
-			
+
 			passive = id % 10000 / 1000 == 0;
 			//AppDebug.Log($"skillId:{id}\t isPassive:{passive}");
 			flags = flags_of (id);
@@ -291,6 +657,15 @@ namespace ms
 			return reqskills;
 		}
 
+		/// <summary>
+		/// 新版wz把信息都放在Common节点下
+		/// </summary>
+		/// <returns></returns>
+		public bool hasCommonNode()
+		{
+			return skillInfo != null;
+		}
+
 		private static List<int> jobList_canUseAnyWeapon = new List<int> () {
 			900, 910,
 			(int)MapleJob.MH1, (int)MapleJob.MH2,
@@ -378,22 +753,18 @@ namespace ms
 			//BOWMASTER - 312
 			{(int)Bowmaster.HURRICANE, (int)Flags.ATTACK| (int)Flags.RANGED},
 
-			//MH1 - 17500
 			{(int)MH.MHbaseAttack1_0, (int)Flags.ATTACK| (int)Flags.RANGED},
 			{(int)MH.MHbaseAttack1_1, (int)Flags.ATTACK| (int)Flags.RANGED},
-
-			//MH1 - 17510
 			{(int)MH.MHbaseAttack1_2, (int)Flags.ATTACK| (int)Flags.RANGED},
+
 			{(int)MH.MHbaseAttack2_0, (int)Flags.ATTACK| (int)Flags.RANGED},
 			{(int)MH.MHbaseAttack2_1, (int)Flags.ATTACK| (int)Flags.RANGED},
-			{(int)MH.MHbaseAttack3_0, (int)Flags.ATTACK| (int)Flags.RANGED},
-
-			//MH1 - 17511
 			{(int)MH.MHbaseAttack2_2, (int)Flags.ATTACK| (int)Flags.RANGED},
+
+			{(int)MH.MHbaseAttack3_0, (int)Flags.ATTACK| (int)Flags.RANGED},
+			{(int)MH.MHbaseAttack3_1, (int)Flags.ATTACK| (int)Flags.RANGED},
 			{(int)MH.MHbaseAttack3_2, (int)Flags.ATTACK| (int)Flags.RANGED},
 
-			//MH1 - 17512
-			{(int)MH.MHbaseAttack3_1, (int)Flags.ATTACK| (int)Flags.RANGED},
 			{(int)MH.MHbaseAttack4_0, (int)Flags.ATTACK| (int)Flags.RANGED},
 			{(int)MH.MHbaseAttack4_1, (int)Flags.ATTACK| (int)Flags.RANGED},
 		};
@@ -411,7 +782,7 @@ namespace ms
 			}
 		}
 
-		public SkillCommonInfo skillCommonInfo { get; private set; }
+		public SkillInfo skillInfo { get; private set; }
 		private Dictionary<int, Stats> stats = new Dictionary<int, Stats> ();
 		private string element;
 		private Weapon.Type reqweapon;

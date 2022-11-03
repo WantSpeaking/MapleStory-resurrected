@@ -36,7 +36,10 @@ namespace ms
 			FBR_MPCOST,
 			FBR_BULLETCOST,
 			FBR_COOLDOWN,
-			FBR_OTHER
+			FBR_OTHER,
+			FBR_SkillLevel_LessThan0_or_GreateThanMaxLevel,
+			FBR_JobCanNotUseThisSkill,
+			FBR_
 		}
 
 		public virtual void Dispose ()

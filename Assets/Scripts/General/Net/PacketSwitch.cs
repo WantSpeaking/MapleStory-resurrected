@@ -67,7 +67,7 @@ namespace ms
 			emplace (Opcode.CHANGE_STATS, new ChangeStatsHandler ());
 			emplace (Opcode.GIVE_BUFF, new ApplyBuffHandler ());
 			emplace (Opcode.CANCEL_BUFF, new CancelBuffHandler ());
-			emplace (Opcode.RECALCULATE_STATS, new RecalculateStatsHandler ());
+			emplace (Opcode.FORCED_STAT_RESET, new RecalculateStatsHandler ());
 			emplace (Opcode.UPDATE_SKILL, new UpdateSkillHandler ());
 			emplace (Opcode.ADD_COOLDOWN, new AddCooldownHandler ());
 
@@ -251,8 +251,13 @@ namespace ms
 		CHANGE_STATS = 31,
 		GIVE_BUFF = 32,
 		CANCEL_BUFF = 33,
-		RECALCULATE_STATS = 35,
+		/// <summary>
+		/// RECALCULATE_STATS
+		/// </summary>
+		FORCED_STAT_RESET = 35,
 		UPDATE_SKILL = 36,
+
+		CLAIM_STATUS_CHANGED = 47,
 
 		/// Messaging 1
 		SHOW_STATUS_INFO = 39,

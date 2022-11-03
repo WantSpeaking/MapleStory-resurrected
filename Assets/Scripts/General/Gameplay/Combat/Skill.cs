@@ -30,12 +30,12 @@ namespace ms
 				jobid = (id / 10000).ToString ();
 			}
 
-			WzObject src = ms.wz.findSkillImage(jobid + ".img")["skill"][strid];
+			WzObject src = ms.wz.findSkillImage (jobid + ".img")["skill"][strid];
 
 			projectile = true;
 			overregular = false;
 
-			sound = new SingleSkillSound(strid);
+			sound = new SingleSkillSound (strid);
 
 			bool byleveleffect = src["CharLevel"]?["10"]?["effect"]?.Any () ?? false; //todo 2 src["CharLevel"]?["10"]?["effect"] == null
 			bool multieffect = src["effect0"]?.Any () ?? false; //todo 2 src["effect0"] == null
@@ -58,10 +58,10 @@ namespace ms
 				{
 					useeffect = new SingleUseEffect (src);
 				}
-                else if (haseffect0 && !haseffect1)
-                {
-                    useeffect = new OneHandedUseEffect (src);
-                }
+				else if (haseffect0 && !haseffect1)
+				{
+					useeffect = new OneHandedUseEffect (src);
+				}
 				else if (haseffect0 && haseffect1)
 				{
 					useeffect = new TwoHandedUseEffect (src);
@@ -75,8 +75,8 @@ namespace ms
 							useeffect = new IronBodyUseEffect ();
 							break;
 						case SkillId.Id.CHARGE:
-                            useeffect = new White_Knight_Charge_1211002_UseEffect (src);
-                            break;
+							useeffect = new White_Knight_Charge_1211002_UseEffect (src);
+							break;
 						default:
 							useeffect = new NoUseEffect ();
 							break;
@@ -89,9 +89,9 @@ namespace ms
 			bool hashit0 = src["hit"]?["0"]?.Any () ?? false;
 			bool hashit1 = src["hit"]?["1"]?.Any () ?? false;
 
-            bool is_hit0_animation = src["hit"]?["0"]["0"]?.IsTexture () ?? false;
+			bool is_hit0_animation = src["hit"]?["0"]["0"]?.IsTexture () ?? false;
 
-		
+
 			if (bylevelhit)
 			{
 				if (hashit0 && hashit1)
@@ -115,18 +115,18 @@ namespace ms
 			{
 				hiteffect = new SingleHitEffect (src);
 			}
-            else
-            {
-                switch ((SkillId.Id)skillid)
-                {
-                    case SkillId.Id.CHARGE:
-                        hiteffect = new White_Knight_Charge_1211002_HitEffect (src);
-                        break;
-                    default:
-                        hiteffect = new NoHitEffect ();
-                        break;
-                }
-            }
+			else
+			{
+				switch ((SkillId.Id)skillid)
+				{
+					case SkillId.Id.CHARGE:
+						hiteffect = new White_Knight_Charge_1211002_HitEffect (src);
+						break;
+					default:
+						hiteffect = new NoHitEffect ();
+						break;
+				}
+			}
 
 			bool hasaction0 = src["action"]?["0"] == WzPropertyType.String;
 			bool hasaction1 = src["action"]?["1"] == WzPropertyType.String;
@@ -194,11 +194,11 @@ namespace ms
 		{
 			useeffect.apply (user);
 
-			sound.play_use();
+			sound.play_use ();
 		}
 		public override void apply_prepareEffect (Char user)
 		{
-			prepareEffect?.apply(user);
+			prepareEffect?.apply (user);
 		}
 		public override void apply_keydownEffect (Char user)
 		{
@@ -218,43 +218,99 @@ namespace ms
 			attack.skill = skillid;
 
 			int level = user.get_skilllevel (skillid);
-			SkillData.Stats stats = SkillData.get (skillid).get_stats (level);
+			var skillData = SkillData.get (skillid);
+			SkillData.Stats stats = skillData.get_stats (level);
+			var hasCommonNode = skillData.hasCommonNode ();
 
-			if (stats.fixdamage != 0)
+
+			if (hasCommonNode)
 			{
-				attack.fixdamage = stats.fixdamage;
-				attack.damagetype = Attack.DamageType.DMG_FIXED;
-			}
-			else if (stats.matk != 0)
-			{
-				attack.matk += stats.matk;
-				attack.damagetype = Attack.DamageType.DMG_MAGIC;
+				var fixdamage = skillData.skillInfo.getValue (SkillStat.fixdamage, level);
+				var mad = skillData.skillInfo.getValue (SkillStat.mad, level);
+				var damage = skillData.skillInfo.getValue (SkillStat.damage, level);
+				var cr = skillData.skillInfo.getValue (SkillStat.cr, level);
+				var mobCount = skillData.skillInfo.getValue (SkillStat.mobCount, level);
+				var range = skillData.skillInfo.getValue (SkillStat.range, level);
+				var bulletCount = skillData.skillInfo.getValue (SkillStat.bulletCount, level);
+				var attackCount = skillData.skillInfo.getValue (SkillStat.attackCount, level);
+
+				if (fixdamage != 0)
+				{
+					attack.fixdamage = fixdamage;
+					attack.damagetype = Attack.DamageType.DMG_FIXED;
+				}
+				else if (mad != 0)
+				{
+					attack.matk += mad;
+					attack.damagetype = Attack.DamageType.DMG_MAGIC;
+				}
+				else
+				{
+					attack.mindamage *= damage;
+					attack.maxdamage *= damage;
+					attack.damagetype = Attack.DamageType.DMG_WEAPON;
+				}
+
+				attack.critical += cr;
+				//attack.ignoredef += stats.ignoredef;
+				attack.mobcount = (byte)(mobCount);
+				attack.hrange = (range == 0 ? 100 : range) / 100;
+
+				switch (attack.type)
+				{
+					case Attack.Type.RANGED:
+						attack.hitcount = (byte)bulletCount;
+						break;
+					default:
+						attack.hitcount = (byte)attackCount;
+						break;
+				}
+
+				var range1 = skillData.skillInfo.range;
+				if (!range1.empty ())
+				{
+					attack.range = new Rectangle_short (range1);
+				}
 			}
 			else
 			{
-				attack.mindamage *= stats.damage;
-				attack.maxdamage *= stats.damage;
-				attack.damagetype = Attack.DamageType.DMG_WEAPON;
-			}
+				if (stats.fixdamage != 0)
+				{
+					attack.fixdamage = stats.fixdamage;
+					attack.damagetype = Attack.DamageType.DMG_FIXED;
+				}
+				else if (stats.mad != 0)
+				{
+					attack.matk += stats.mad;
+					attack.damagetype = Attack.DamageType.DMG_MAGIC;
+				}
+				else
+				{
+					attack.mindamage *= stats.damage;
+					attack.maxdamage *= stats.damage;
+					attack.damagetype = Attack.DamageType.DMG_WEAPON;
+				}
 
-			attack.critical += stats.critical;
-			attack.ignoredef += stats.ignoredef;
-			attack.mobcount = stats.mobcount;
-			attack.hrange = stats.hrange;
+				attack.critical += stats.critical;
+				attack.ignoredef += stats.ignoredef;
+				attack.mobcount = (byte)(stats.mobcount);
+				attack.hrange = stats.hrange;
 
-			switch (attack.type)
-			{
-				case Attack.Type.RANGED:
-					attack.hitcount = stats.bulletcount;
-					break;
-				default:
-					attack.hitcount = stats.attackcount;
-					break;
-			}
+				switch (attack.type)
+				{
+					case Attack.Type.RANGED:
+						attack.hitcount = stats.bulletcount;
+						break;
+					default:
+						attack.hitcount = stats.attackcount;
+						break;
+				}
 
-			if (!stats.range.empty ())
-			{
-				attack.range = new Rectangle_short (stats.range);
+				var range = stats.range;
+				if (!range.empty ())
+				{
+					attack.range = new Rectangle_short (range);
+				}
 			}
 
 			if (projectile && attack.bullet == 0)
@@ -327,14 +383,14 @@ namespace ms
 		Player player => ms.Stage.get ().get_player ();
 		public override SpecialMove.ForbidReason can_use (int level, Weapon.Type weapon, Job job, ushort hp, ushort mp, ushort bullets)
 		{
-			/*if (level <= 0 || level > SkillData.get (skillid).get_masterlevel ())
+			if (level <= 0 || level > SkillData.get (skillid).get_masterlevel ())
 			{
-				return ForbidReason.FBR_OTHER;
+				return ForbidReason.FBR_SkillLevel_LessThan0_or_GreateThanMaxLevel;
 			}
 
 			if (job.can_use (skillid) == false)
 			{
-				return ForbidReason.FBR_OTHER;
+				return ForbidReason.FBR_JobCanNotUseThisSkill;
 			}
 
 			SkillData.Stats stats = SkillData.get (skillid).get_stats (level);
@@ -373,8 +429,7 @@ namespace ms
 					return (bullets >= stats.bulletcost) ? ForbidReason.FBR_NONE : ForbidReason.FBR_BULLETCOST;
 				default:
 					return ForbidReason.FBR_NONE;
-			}*/
-			return ForbidReason.FBR_NONE;
+			}
 		}
 
 		public override SkillAction get_action (Char user)

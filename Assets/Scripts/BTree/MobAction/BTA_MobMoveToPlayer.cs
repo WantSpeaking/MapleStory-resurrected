@@ -48,7 +48,7 @@ namespace ms_Unity
 			var distanceX = player.get_position ().x () - mob.get_position ().x ();
 			var facingRight = distanceX > 0;
 
-			Debug.Log (distanceX);
+			//Debug.Log (distanceX);
 			if (Mathf.Abs (distanceX) > distanceThreshold.value)
 			{
 				mob.get_phobj ().hforce = facingRight ? moveSpeed.value : -moveSpeed.value;

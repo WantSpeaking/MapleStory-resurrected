@@ -141,17 +141,17 @@ namespace ms
 
         public override void draw(float alpha)
         {
-            /*base.draw_sprites(alpha);
+			base.draw_sprites (alpha);
 
-            bookicon.draw(position + new Point_short(11, 85));
-            booktext.draw(position + new Point_short(173, 59));
-            splabel.draw(position + new Point_short(304, 23));
+			bookicon.draw (position + new Point_short (11, 85));
+			booktext.draw (position + new Point_short (173, 59));
+			splabel.draw (position + new Point_short (304, 23));
 
-            Point_short skill_position_l = position + SKILL_OFFSET + new Point_short(-1, 0);
-            Point_short skill_position_r = position + SKILL_OFFSET + new Point_short(-1 + ROW_WIDTH, 0);
+			Point_short skill_position_l = position + SKILL_OFFSET + new Point_short (-1, 0);
+			Point_short skill_position_r = position + SKILL_OFFSET + new Point_short (-1 + ROW_WIDTH, 0);
 
-            //AppDebug.Log($"before position:{position}\t skill_position_l:{skill_position_l}\t skill_position_r:{skill_position_r}");
-            for (int i = 0; i < ROWS; i++)
+			//AppDebug.Log($"before position:{position}\t skill_position_l:{skill_position_l}\t skill_position_r:{skill_position_r}");
+			for (int i = 0; i < ROWS; i++)
 			{
 				Point_short pos = new Point_short (skill_position_l);
 
@@ -190,69 +190,69 @@ namespace ms
 					skill_position_r.shift_y (ROW_HEIGHT);
 				}
 			}
-            //AppDebug.Log($"after position:{position}\t skill_position_l:{skill_position_l}\t skill_position_r:{skill_position_r}");
+			//AppDebug.Log($"after position:{position}\t skill_position_l:{skill_position_l}\t skill_position_r:{skill_position_r}");
 
-            *//*for (int i = 0; i < 7; i++)
-            {
-                for (int j = 0; j < 5; j++)
-                {
-                    Point_short pos = new Point_short(skill_position_l);
+			for (int i = 0; i < 7; i++)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					Point_short pos = new Point_short (skill_position_l);
 
-                    pos += new Point_short((short)(32 * i), (short)(32 * j));
+					pos += new Point_short ((short)(32 * i), (short)(32 * j));
 
-                    if (i % 2 == 0 || j % 2 == 0)
-                    {
-                        if (i*j < skills.Count)
-                        {
-                            if (check_required(skills[(int)(i*j)].get_id()))
-                            {
-                                //skille.draw (pos);
-                            }
-                            else
-                            {
-                                //skilld.draw (pos);
-                                skills[i].get_icon().set_state(StatefulIcon.State.DISABLED);
-                            }
+					if (i % 2 == 0 || j % 2 == 0)
+					{
+						if (i * j < skills.Count)
+						{
+							if (check_required (skills[(int)(i * j)].get_id ()))
+							{
+								//skille.draw (pos);
+							}
+							else
+							{
+								//skilld.draw (pos);
+								skills[i].get_icon ().set_state (StatefulIcon.State.DISABLED);
+							}
 
-                            skills[i*j].draw(pos + SKILL_META_OFFSET);
-                        }
-                    }
+							skills[i * j].draw (pos + SKILL_META_OFFSET);
+						}
+					}
 
 
-                }
-            }*//*
+				}
+			}
 
-            slider.draw(new Point_short(position));
+			slider.draw (new Point_short (position));
 
-            if (macro_enabled)
-            {
-                Point_short macro_pos = position + new Point_short(bg_dimensions.x(), 0);
+			if (macro_enabled)
+			{
+				Point_short macro_pos = position + new Point_short (bg_dimensions.x (), 0);
 
-                macro_backgrnd.draw(macro_pos + new Point_short(1, 0));
-                macro_backgrnd2.draw(macro_pos);
-                macro_backgrnd3.draw(macro_pos);
-            }
+				macro_backgrnd.draw (macro_pos + new Point_short (1, 0));
+				macro_backgrnd2.draw (macro_pos);
+				macro_backgrnd3.draw (macro_pos);
+			}
 
-            if (sp_enabled)
-            {
-                Point_short sp_pos = position + new Point_short(bg_dimensions.x(), 0);
+			if (sp_enabled)
+			{
+				Point_short sp_pos = position + new Point_short (bg_dimensions.x (), 0);
 
-                sp_backgrnd.draw(sp_pos);
-                sp_backgrnd2.draw(sp_pos);
-                sp_backgrnd3.draw(sp_pos);
+				sp_backgrnd.draw (sp_pos);
+				sp_backgrnd2.draw (sp_pos);
+				sp_backgrnd3.draw (sp_pos);
 
-                Point_short sp_level_pos = sp_pos + new Point_short(78, 149);
+				Point_short sp_level_pos = sp_pos + new Point_short (78, 149);
 
-                sp_before.draw(sp_before_text, 12, sp_level_pos);
-                sp_after.draw(sp_after_text, 11, sp_level_pos + new Point_short(78, 0));
-                sp_used.draw(sp_pos + new Point_short(82, 87));
-                sp_remaining.draw(sp_pos + new Point_short(76, 65));
-                sp_name.draw(sp_pos + new Point_short(97, 35));
-                sp_skill.draw(sp_pos + new Point_short(13, 31));
-            }
+				sp_before.draw (sp_before_text, 12, sp_level_pos);
+				sp_after.draw (sp_after_text, 11, sp_level_pos + new Point_short (78, 0));
+				sp_used.draw (sp_pos + new Point_short (82, 87));
+				sp_remaining.draw (sp_pos + new Point_short (76, 65));
+				sp_name.draw (sp_pos + new Point_short (97, 35));
+				sp_skill.draw (sp_pos + new Point_short (13, 31));
+			}
 
-            base.draw_buttons(alpha);*/
-        }
+			base.draw_buttons (alpha);
+		}
 
         public override void toggle_active()
         {

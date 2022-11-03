@@ -29,4 +29,16 @@ namespace ms
 			write_int(character_id);
 		}
 	}
+
+	// Packet to CHANGE_MAP_SPECIAL
+	// Opcode: CHANGE_MAP_SPECIAL(100)
+	public class ChangeMapSpecialPacket : OutPacket
+	{
+		public ChangeMapSpecialPacket () : base ((short)OutPacket.Opcode.CHANGE_MAP_SPECIAL)
+		{
+			write_byte (0);
+			write_string (Stage.get ().just_Entered_portalName);
+			write_short (0);
+		}
+	}
 }

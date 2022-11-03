@@ -1043,6 +1043,10 @@ MonoBehaviour:
   placeholder3: 
   placeholder4: 
   placeholder5: 
+  placeholder6: 
+  expressionString: 80+3*x
+  Argument_Name: x
+  Argument_Value: 1
 --- !u!4 &609587585
 Transform:
   m_ObjectHideFlags: 0
@@ -1122,8 +1126,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DrawOrder: 0
-  enableDebugPacket: 0
-  TestMode: 1
+  enableDebugPacket: 1
+  TestMode: 0
 --- !u!114 &609587592
 MonoBehaviour:
   m_ObjectHideFlags: 0

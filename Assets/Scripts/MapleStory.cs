@@ -536,11 +536,11 @@ public class MapleStory : SingletonMono<MapleStory>
 	{
 		if (attackRange != null && attackRangeAfter != null && !attackRangeAfter.empty ())
 		{
-			/*		Vector3 center = new Vector3 (attackRange.center ().x (), -attackRange.center ().y ());
-					Vector3 size = new Vector3 (attackRange.width (), attackRange.height ());
-					Gizmos.color = Color.yellow;
-					Gizmos.DrawWireCube (center, size);*/
-			//Debug.Log ($"center:{center}\t size:{size}\t attackRange:{attackRange}");
+/*			Vector3 center = new Vector3 (attackRange.center ().x (), -attackRange.center ().y ());
+			Vector3 size = new Vector3 (attackRange.width (), attackRange.height ());
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawWireCube (center, size);
+			Debug.Log ($"center:{center}\t size:{size}\t attackRange:{attackRange}");*/
 
 			Vector3 centerAfter = new Vector3 ((float)(attackRangeAfter.center ().x () + viewx), -(attackRangeAfter.center ().y () + (float)viewy));
 			Vector3 sizeAfter = new Vector3 (attackRangeAfter.width (), attackRangeAfter.height ());
@@ -697,6 +697,14 @@ public class MapleStory : SingletonMono<MapleStory>
 		var e = new org.mariuszgromada.math.mxparser.Expression (expressionString);
 		e.addArguments (new org.mariuszgromada.math.mxparser.Argument (Argument_Name, Argument_Value));
 		Debug.Log (e.calculate ());
+
+		var toReplace = expressionString.Contains ("y") ? "y"
+							: expressionString.Contains ("X") ? "X"
+							: "x";
+
+		var je = new Jint.Engine ().Execute (expressionString.Replace (toReplace, Argument_Value + ""));
+		Debug.Log (je.GetCompletionValue());
+
 	}
 	#endregion
 

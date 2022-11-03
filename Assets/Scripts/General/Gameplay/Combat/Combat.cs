@@ -116,6 +116,7 @@ namespace ms
 					}
 					break;
 				default:
+					AppDebug.Log ($"Forbid Use Reason :{reason}");
 					new ForbidSkillMessage (reason, weapontype).drop ();
 					break;
 			}
@@ -312,6 +313,7 @@ namespace ms
 			}
 			else
 			{
+				AppDebug.Log ($"{move_id} 不是技能");
 				move.apply_useeffects (player);
 				move.apply_actions (player, Attack.Type.MAGIC);
 

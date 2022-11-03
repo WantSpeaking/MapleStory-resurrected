@@ -21,6 +21,7 @@ namespace ms_Unity
 		}
 		private void deactivate ()
 		{
+			okhandler?.Invoke (true);
 			ms_Unity.FGUI_Manager.Instance.CloseFGUI<FGUI_OK> ();
 			GRoot.inst.HidePopup (this);
 		}
