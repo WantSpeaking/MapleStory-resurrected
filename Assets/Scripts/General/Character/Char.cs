@@ -573,6 +573,7 @@ namespace ms
 		private LinkedList<DamageNumber> damagenumbers = new LinkedList<DamageNumber> ();
 
 		BehaviourTreeOwner behaviorTreeOwner;
+		public BehaviourTreeOwner GetBehaviourTreeOwner () => behaviorTreeOwner;
 
 		//private string skillBTreePath = "SkillBTree/Skill_";
 		//private Dictionary<string, Graph> skillBTreePool = new Dictionary<string, Graph> ();

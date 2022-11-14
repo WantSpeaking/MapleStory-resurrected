@@ -179,7 +179,7 @@ MonoBehaviour:
     allow access only if the event is received. When it has, we set the value variable
     equal to the value of the event, which is 50.","$type":"NodeCanvas.BehaviourTrees.ConditionalEvaluator","$id":"1"},{"_position":{"x":5385.0,"y":5370.0},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"2"},{"_action":{"log":{"_name":"value","_targetVariableID":"c2f06e81-c7f0-447f-83c5-4461167e15a8"},"prefix":{},"secondsToRun":2.0,"$type":"NodeCanvas.Tasks.Actions.DebugLogVariable"},"_position":{"x":5280.0,"y":5460.0},"_comment":"","$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"3"},{"_action":{"valueA":{"_name":"value","_targetVariableID":"c2f06e81-c7f0-447f-83c5-4461167e15a8"},"valueB":{},"$type":"NodeCanvas.Tasks.Actions.SetFloat"},"_position":{"x":5445.0,"y":5460.0},"_comment":"Reset
     the value for the shake of this example","$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"4"},{"_position":{"x":5820.0,"y":5250.0},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"5"},{"_action":{"waitTime":{"_value":1.0},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":5595.0,"y":5386.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"6"},{"_action":{"eventName":{"_value":"MyEvent"},"eventValue":{"_value":50.0},"delay":{"_value":1.0},"$type":"NodeCanvas.Tasks.Actions.SendEvent`1[[System.Single,
-    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"_position":{"x":5715.0,"y":5356.0},"_comment":"Send
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"_position":{"x":5717.0,"y":5355.0},"_comment":"Send
     a Value event with a float value of 50","$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"7"},{"_action":{"waitTime":{"_value":10.0},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":5956.0,"y":5369.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"8"},{"_condition":{"$type":"NodeCanvas.Tasks.Conditions.CheckKeyboardInput"},"_position":{"x":6049.0,"y":5362.0},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"9"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"7"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"8"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"9"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{}},"derivedData":{"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
   _boundGraphObjectReferences: []
   _boundGraphSource:
@@ -188,8 +188,8 @@ MonoBehaviour:
     _comments: Demonstrates how events can be used in the context of Behaviour Trees
       to react to changes as well as transfer data. In this case float data. In reality,
       events are best dispatched through code.
-    _translation: {x: -5092, y: -4947}
-    _zoomFactor: 1
+    _translation: {x: -3930, y: -3680}
+    _zoomFactor: 0.75000906
   _firstActivation: 2
   _enableAction: 0
   _disableAction: 0

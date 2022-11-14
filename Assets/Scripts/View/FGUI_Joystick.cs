@@ -28,6 +28,7 @@ namespace ms_Unity
 		public int radius { get; set; }
 
 		List<FGUI_Btn_Joystick_Acton> _skillBtns;
+		Player _player => ms.Stage.get ().get_player ();
 		void OnCreate ()
 		{
 			onMove = new EventListener (this, "onMove");
@@ -258,7 +259,8 @@ namespace ms_Unity
 			var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
 			ms.Stage.get ().get_combat ().use_move (clicked_ActionButton.SkillId, false, true);
 
-			_t_HideBtnSkill.Play ();
+			//_t_HideBtnSkill.Play ();
+			_player.GetBehaviourTreeOwner ().SendEvent (Enum_BTreeEvent.ChooseSkill.ToString());
 		}
 	}
 }

@@ -32,7 +32,7 @@ namespace Loxodon.Framework.Binding
 {
     public class UnityProxyRegister
     {
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void Initialize()
         {
             Register<Transform, Vector3>("localPosition", t => t.localPosition, (t, v) => t.localPosition = v);

@@ -28,7 +28,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		 var wzObject = wzFile.GetObjectFromPath(subPath);
 		 Debug.LogFormat("Width:{0}\t Height:{1}", wzObject?.GetBitmap()?.Width, wzObject?.GetBitmap()?.Height);
 		 spriteRenderer.sprite = TextureToSprite(GetTexrture2DFromPath(wzObject));*/
-		button_load.onClick.AddListener (OnButtonLoadClick);
+		button_load?.onClick.AddListener (OnButtonLoadClick);
 
 		//UnityEngine.SceneManagement.SceneManager.LoadScene (GameSceneName);
 		//UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;

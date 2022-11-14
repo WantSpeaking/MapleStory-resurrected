@@ -15,7 +15,7 @@ namespace NodeCanvas.Tasks.Conditions
         public CompareMethod checkType = CompareMethod.EqualTo;
         public BBParameter<float> valueB;
 
-        [SliderField(0, 0.1f)]
+        //[SliderField(0, 0.1f)]
         public float differenceThreshold = 0.05f;
 
         protected override string info {
