@@ -9,6 +9,7 @@ namespace ms_Unity
 	public partial class FGUI_Btn_Joystick_Acton
 	{
 		public KeyConfig.Key Key { get; set; } = KeyConfig.Key.NONE;
+		public int SkillId { get; set; }
 		//public keymapping
 
 		public void OnCreate ()

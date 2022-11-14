@@ -16,6 +16,8 @@ namespace ms_Unity
 		Use2,
 		Use3,
 		Use4,
+		LightAttack,
+		HeavyAttack
 	}
 
 	public partial class FGUI_ActionButtons
@@ -38,8 +40,11 @@ namespace ms_Unity
 
 			//_Btn_LightAttack.onClick.Add (OnClick_Btn_LightAttack);
 			_Btn_LightAttack.onTouchBegin.Add (OnTouchBegin_Btn_LightAttack);
+			_Btn_LightAttack.onTouchMove.Add (OnTouchMove_Btn_LightAttack);
 			_Btn_LightAttack.onTouchEnd.Add (OnTouchEnd_Btn_LightAttack);
+
 			_Btn_HeavyAttack.onTouchBegin.Add (OnTouchBegin_Btn_HeavyAttack);
+			_Btn_HeavyAttack.onTouchMove.Add (OnTouchMove_Btn_HeavyAttack);
 			_Btn_HeavyAttack.onTouchEnd.Add (OnTouchEnd_Btn_HeavyAttack);
 
 			_Btn_Dodge.onTouchBegin.Add (OnTouchBegin_Btn_DodgeAttack);
@@ -159,41 +164,59 @@ namespace ms_Unity
 		{
 			//ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.JUMP, true);
 		}
-
+		#region LightAttack
 		private void OnTouchBegin_Btn_LightAttack (EventContext context)
 		{
 			//ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, true, true);
 			//ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.ATTACK, true, false);
 
 			ms.Stage.get ().get_combat ().use_move (0, true, false);
+			MyJoystickInput.SetButton (Enum_ActionButton.LightAttack, true);
+		}
+		private void OnTouchMove_Btn_LightAttack (EventContext context)
+		{
+			MyJoystickInput.SetButton (Enum_ActionButton.LightAttack, true);
 
 		}
-
 		private void OnTouchEnd_Btn_LightAttack (EventContext context)
 		{
 			//ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, false, true);
 			//ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.ATTACK, false, true);
 
 			ms.Stage.get ().get_combat ().use_move (0, false, false);
+			MyJoystickInput.SetButton (Enum_ActionButton.LightAttack, false);
 
 		}
+		#endregion
+
+		#region HeavyAttack
 		private void OnTouchBegin_Btn_HeavyAttack (EventContext context)
 		{
 			//ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, true, true);
 			//ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.MUTE, true, false);
 
 			ms.Stage.get ().get_combat ().use_move (1, true, false);
+			MyJoystickInput.SetButton (Enum_ActionButton.HeavyAttack, true);
 
 		}
+		private void OnTouchMove_Btn_HeavyAttack (EventContext context)
+		{
+			MyJoystickInput.SetButton (Enum_ActionButton.HeavyAttack, true);
 
+
+		}
 		private void OnTouchEnd_Btn_HeavyAttack (EventContext context)
 		{
 			//ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, false, true);
 			//ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.MUTE, false, true);
 
 			ms.Stage.get ().get_combat ().use_move (1, false, false);
+			MyJoystickInput.SetButton (Enum_ActionButton.HeavyAttack, false);
+
 
 		}
+		#endregion
+
 		private void OnTouchBegin_Btn_DodgeAttack (EventContext context)
 		{
 			ms.Stage.get ().get_combat ().use_move (1121006, true, false);
@@ -202,11 +225,6 @@ namespace ms_Unity
 		private void OnTouchEnd_Btn_DodgeAttack (EventContext context)
 		{
 			ms.Stage.get ().get_combat ().use_move (1121006, false, true);
-		}
-
-		private void OnClick_Btn_LightAttack (EventContext context)
-		{
-
 		}
 	}
 }

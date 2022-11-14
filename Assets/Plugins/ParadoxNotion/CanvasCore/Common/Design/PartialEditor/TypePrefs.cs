@@ -39,6 +39,7 @@ namespace ParadoxNotion.Design
             typeof(float),
             typeof(int),
             typeof(bool),
+            typeof(double),
 
 			//Unity basics
 			typeof(Vector2),

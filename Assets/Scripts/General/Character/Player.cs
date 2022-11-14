@@ -329,27 +329,27 @@ namespace ms
 		{
 			if (move == null)
 			{
-				return SpecialMove.ForbidReason.FBR_OTHER;
+				return SpecialMove.ForbidReason.FBR_MoveIsNull;
 			}
 
 			if (!look.get_equips ().has_weapon ())
 			{
-				return SpecialMove.ForbidReason.FBR_OTHER;
+				return SpecialMove.ForbidReason.FBR_NoWeapon;
 			}
 
 			if (move.is_skill () && state == State.PRONE)
 			{
-				return SpecialMove.ForbidReason.FBR_OTHER;
+				return SpecialMove.ForbidReason.FBR_IsProningNowCantSkill;
 			}
 
 			if (move.is_skill () && SkillForbid.get ().IsForbid (move.get_id (), this))
 			{
-				return SpecialMove.ForbidReason.FBR_OTHER;
+				return SpecialMove.ForbidReason.FBR_IsForbid;
 			}
 
 			if (move.is_attack () && (state == State.LADDER || state == State.ROPE || state == State.SIT))
 			{
-				return SpecialMove.ForbidReason.FBR_OTHER;
+				return SpecialMove.ForbidReason.FBR_IsLADDER_Rope_Sit_Now_CantAttack;
 			}
 
 			if (has_cooldown (move.get_id ()))
@@ -376,12 +376,25 @@ namespace ms
 			if (state == State.PRONE)
 			{
 				degenerate = true;
-				attacktype = Attack.Type.CLOSE;
+				attacktype = Attack.Type.Close_Range;
 			}
 			else
 			{
 				Weapon.Type weapontype;
 				weapontype = get_weapontype ();
+
+				if (get_job ().isA(MapleJob.MAGICIAN))
+				{
+					attacktype = Attack.Type.Magic;
+				}
+				else if (get_job ().isA (MapleJob.BOWMAN))
+				{
+					attacktype = Attack.Type.Ranged;
+				}
+				else
+				{
+					attacktype = Attack.Type.Close_Range;
+				}
 
 				switch (weapontype)
 				{
@@ -391,19 +404,20 @@ namespace ms
 					case Weapon.Type.GUN:
 						{
 							degenerate = !inventory.has_projectile ();
-							attacktype = degenerate ? Attack.Type.CLOSE : Attack.Type.RANGED;
+							attacktype = degenerate ? Attack.Type.Close_Range : Attack.Type.Ranged;
 							break;
 						}
 					case Weapon.Type.WAND:
 					case Weapon.Type.STAFF:
 						{
 							degenerate = !skill;
-							attacktype = degenerate ? Attack.Type.CLOSE : Attack.Type.MAGIC;
+							attacktype = degenerate ? Attack.Type.Close_Range : Attack.Type.Magic;
 							break;
 						}
 					default:
 						{
-							attacktype = Attack.Type.CLOSE;
+							
+							//attacktype = Attack.Type.Close_Range;
 							degenerate = false;
 							break;
 						}

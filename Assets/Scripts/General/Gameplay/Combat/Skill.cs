@@ -258,7 +258,7 @@ namespace ms
 
 				switch (attack.type)
 				{
-					case Attack.Type.RANGED:
+					case Attack.Type.Ranged:
 						attack.hitcount = (byte)bulletCount;
 						break;
 					default:
@@ -298,7 +298,7 @@ namespace ms
 
 				switch (attack.type)
 				{
-					case Attack.Type.RANGED:
+					case Attack.Type.Ranged:
 						attack.hitcount = stats.bulletcount;
 						break;
 					default:
@@ -342,7 +342,7 @@ namespace ms
 			{
 				attack.stance = (byte)user.get_look ().get_stance ();
 
-				if (attack.type == Attack.Type.CLOSE && !projectile)
+				if (attack.type == Attack.Type.Close_Range && !projectile)
 				{
 					attack.range = user.get_afterimage ().get_range ();
 				}

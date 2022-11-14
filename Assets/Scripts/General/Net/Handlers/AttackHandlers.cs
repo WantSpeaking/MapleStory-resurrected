@@ -63,21 +63,21 @@ namespace ms
 
 	public class CloseAttackHandler : AttackHandler
 	{
-		public CloseAttackHandler() : base(Attack.Type.CLOSE)
+		public CloseAttackHandler() : base(Attack.Type.Close_Range)
 		{
 		}
 	}
 
 	public class RangedAttackHandler : AttackHandler
 	{
-		public RangedAttackHandler() : base(Attack.Type.RANGED)
+		public RangedAttackHandler() : base(Attack.Type.Ranged)
 		{
 		}
 	}
 
 	public class MagicAttackHandler : AttackHandler
 	{
-		public MagicAttackHandler() : base(Attack.Type.MAGIC)
+		public MagicAttackHandler() : base(Attack.Type.Magic)
 		{
 		}
 	}

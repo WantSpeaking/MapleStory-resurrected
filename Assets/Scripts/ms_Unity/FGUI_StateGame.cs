@@ -7,7 +7,7 @@ namespace ms_Unity
 {
     public partial class FGUI_StateGame : GComponent
     {
-        public GGraph _BG;
+        public GProgressBar _ProgressBar_Quarter;
         public const string URL = "ui://4916gthqq03inph";
 
         public static FGUI_StateGame CreateInstance()
@@ -19,7 +19,7 @@ namespace ms_Unity
         {
             base.ConstructFromXML(xml);
 
-            _BG = (GGraph)GetChildAt(0);
+            _ProgressBar_Quarter = (GProgressBar)GetChildAt(0);
             OnCreate();
 
         }

@@ -92,6 +92,8 @@ namespace ms_Unity
 
 			fgui_StateLogin = FGUI_StateLogin.CreateInstance ();
 			fgui_StateGame = FGUI_StateGame.CreateInstance ();
+			fgui_StateShop = FGUI_StateGame.CreateInstance ();
+
 		}
 		/*        IEnumerator Start ()
 				{
@@ -185,10 +187,10 @@ namespace ms_Unity
 					name = name.Remove (0, classPrefix.Length);
 				}
 				window = (GComponent)UIPackage.CreateObject (packageName, name);
-				
+
 				type_GComponent_dict[viewType] = window;
 				FGUI_Window w = new FGUI_Window ();
-				
+
 			}
 			window.SetSize (GRoot.inst.width, GRoot.inst.height);
 			window.AddRelation (GRoot.inst, RelationType.Size);
@@ -244,12 +246,50 @@ namespace ms_Unity
 
 		public FGUI_StateLogin fgui_StateLogin;
 		public FGUI_StateGame fgui_StateGame;
-		/*public void ShowNotice (string message, NoticeType t, Text.Alignment a = Text.Alignment.CENTER, int max = 0, int count = 0, System.Action<int> numhandler = null, System.Action<bool> yesnohandler = null)
-				{
-					var nocice = OpenFGUI<FGUI_Notice> () as FGUI_Notice;
-					nocice.ShowNotice (message, t, a, max, count, numhandler, yesnohandler);
-					nocice._tet_message.text = message;
+		public FGUI_StateGame fgui_StateShop;
 
-				}*/
+		public GComponent Current_FGUI_State;
+
+		public void EnterLoginState ()
+		{
+			ExitCurrentState ();
+			EnterStateInternal (fgui_StateLogin);
+		}
+		public void EnterGameState ()
+		{
+			ExitCurrentState ();
+			EnterStateInternal (fgui_StateGame);
+		}
+
+		public void EnterShopState ()
+		{
+			ExitCurrentState ();
+			EnterStateInternal (fgui_StateShop);
+		}
+
+		private void ExitCurrentState()
+		{
+			if (Current_FGUI_State != null)
+			{
+				GRoot.inst.RemoveChild (Current_FGUI_State);
+			}
+		}
+		private void EnterStateInternal(GComponent state)
+		{
+			GRoot.inst.AddChild(state);
+		}
+/*public void ShowNotice (string message, NoticeType t, Text.Alignment a = Text.Alignment.CENTER, int max = 0, int count = 0, System.Action<int> numhandler = null, System.Action<bool> yesnohandler = null)
+						{
+							var nocice = OpenFGUI<FGUI_Notice> () as FGUI_Notice;
+							nocice.ShowNotice (message, t, a, max, count, numhandler, yesnohandler);
+							nocice._tet_message.text = message;
+
+						}*/
+	}
+
+	public enum Enum_Transition
+	{
+		t_ShowBtnSkill,
+		t_HideBtnSkill,
 	}
 }

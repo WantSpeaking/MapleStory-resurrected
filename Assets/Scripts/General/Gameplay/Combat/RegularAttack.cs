@@ -30,7 +30,7 @@ namespace ms
 			attack.hitcount = 1;
 			attack.stance = (byte)user.get_look ().get_stance ();
 
-			if (attack.type == Attack.Type.CLOSE)
+			if (attack.type == Attack.Type.Close_Range)
 			{
 				attack.range = user.get_afterimage ().get_range ();
 			}
@@ -104,6 +104,10 @@ namespace ms
 					case MapleJob.DAWNWARRIOR3:
 					case MapleJob.DAWNWARRIOR4:
 						return ResourcesManager.Instance.GetSkillBTree (((int)MapleJob.DAWNWARRIOR1).ToString());
+					case MapleJob.IL_WIZARD:
+					case MapleJob.IL_MAGE:
+					case MapleJob.IL_ARCHMAGE:
+						return ResourcesManager.Instance.GetSkillBTree (((int)MapleJob.IL_WIZARD).ToString ());
 				}
 
 				return base.BTree;

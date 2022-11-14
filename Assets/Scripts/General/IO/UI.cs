@@ -87,12 +87,15 @@ namespace ms
             {
                 case State.LOGIN:
                     state = new UIStateLogin();
+                    ms_Unity.FGUI_Manager.Instance.EnterLoginState ();
                     break;
                 case State.GAME:
                     state = new UIStateGame();
+                    ms_Unity.FGUI_Manager.Instance.EnterGameState ();
                     break;
                 case State.CASHSHOP:
                     state = new UIStateCashShop();
+                    ms_Unity.FGUI_Manager.Instance.EnterShopState ();
                     break;
             }
         }

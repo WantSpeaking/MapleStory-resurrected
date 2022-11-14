@@ -38,7 +38,7 @@ namespace ms
 				case Weapon.Type.CROSSBOW:
 				case Weapon.Type.CLAW:
 				case Weapon.Type.GUN:
-					degenerate = atype != Attack.Type.RANGED;
+					degenerate = atype != Attack.Type.Ranged;
 					break;
 				default:
 					degenerate = false;

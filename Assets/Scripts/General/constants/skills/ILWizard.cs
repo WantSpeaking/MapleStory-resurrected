@@ -31,6 +31,7 @@ namespace constants.skills
 		public const int MEDITATION = 2201001;
 		public const int SLOW = 2201003;
 		public const int COLD_BEAM = 2201004;
+		public const int Bolt_Fall = 2201005;
 	}
 
 }

@@ -10,7 +10,15 @@ namespace ms_Unity
         public GImage _joystick_center;
         public FGUI_circle _joystick;
         public GGraph _joystick_touch;
-        public const string URL = "ui://4916gthqq03i0";
+        public GGroup _JoyStick;
+        public FGUI_Btn_Joystick_Acton _Btn_Skill_Up;
+        public FGUI_Btn_Joystick_Acton _Btn_Skill_Down;
+        public FGUI_Btn_Joystick_Acton _Btn_Skill_Left;
+        public FGUI_Btn_Joystick_Acton _Btn_Skill_Right;
+        public GGroup _Btn_Skills;
+        public Transition _t_ShowBtnSkill;
+        public Transition _t_HideBtnSkill;
+        public const string URL = "ui://4916gthqebjoolb";
 
         public static FGUI_Joystick CreateInstance()
         {
@@ -24,6 +32,14 @@ namespace ms_Unity
             _joystick_center = (GImage)GetChildAt(0);
             _joystick = (FGUI_circle)GetChildAt(1);
             _joystick_touch = (GGraph)GetChildAt(2);
+            _JoyStick = (GGroup)GetChildAt(5);
+            _Btn_Skill_Up = (FGUI_Btn_Joystick_Acton)GetChildAt(6);
+            _Btn_Skill_Down = (FGUI_Btn_Joystick_Acton)GetChildAt(7);
+            _Btn_Skill_Left = (FGUI_Btn_Joystick_Acton)GetChildAt(8);
+            _Btn_Skill_Right = (FGUI_Btn_Joystick_Acton)GetChildAt(9);
+            _Btn_Skills = (GGroup)GetChildAt(10);
+            _t_ShowBtnSkill = GetTransitionAt(0);
+            _t_HideBtnSkill = GetTransitionAt(1);
             OnCreate();
 
         }

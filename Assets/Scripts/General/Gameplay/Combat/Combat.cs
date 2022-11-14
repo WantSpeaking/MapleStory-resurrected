@@ -139,7 +139,7 @@ namespace ms
 
 				SpecialMove move = get_move (skillid);
 				move.apply_useeffects (user);
-				move.apply_actions (user, Attack.Type.MAGIC);
+				move.apply_actions (user, Attack.Type.Magic);
 			}
 		}
 
@@ -315,7 +315,7 @@ namespace ms
 			{
 				AppDebug.Log ($"{move_id} 不是技能");
 				move.apply_useeffects (player);
-				move.apply_actions (player, Attack.Type.MAGIC);
+				move.apply_actions (player, Attack.Type.Magic);
 
 				int moveid = move.get_id ();
 				int level = player.get_skills ().get_level (moveid);

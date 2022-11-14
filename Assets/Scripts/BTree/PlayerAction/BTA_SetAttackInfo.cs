@@ -39,7 +39,7 @@ namespace ms_Unity
 			attack.hforce = hforce.value;
 			attack.vforce = vforce.value;
 
-			if (attack.type == Attack.Type.CLOSE)
+			if (attack.type == Attack.Type.Close_Range)
 			{
 				attack.range = player.get_afterimage ().get_range ();
 			}

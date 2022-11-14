@@ -429,7 +429,10 @@ namespace ms
 		public SkillData (int id)
 		{
 			/// Locate sources
-
+			if (id == 2201008)
+			{
+				AppDebug.Log ("");
+			}
 			string strid;
 			string jobid;
 			if (id > 0 && id <= 9999999)
@@ -661,7 +664,7 @@ namespace ms
 		/// 新版wz把信息都放在Common节点下
 		/// </summary>
 		/// <returns></returns>
-		public bool hasCommonNode()
+		public bool hasCommonNode ()
 		{
 			return skillInfo != null;
 		}
@@ -691,24 +694,24 @@ namespace ms
 			{(int)SkillId.Id.BRANDISH, (int)Flags.ATTACK},
 
 			// Page -120
-			{(int)Page.SWORD_ICE_BLOW, (int)Flags.ATTACK | (int)Flags.RANGED},
-			{(int)Page.SWORD_FIRE_BLOW, (int)Flags.ATTACK | (int)Flags.RANGED},
-			{(int)Page.SWORD_LIT_BLOW, (int)Flags.ATTACK | (int)Flags.RANGED},
-			{(int)Page.SWORD_HOLY_BLOW, (int)Flags.ATTACK | (int)Flags.RANGED},
+			{(int)Page.SWORD_ICE_BLOW, (int)Flags.ATTACK  },
+			{(int)Page.SWORD_FIRE_BLOW, (int)Flags.ATTACK },
+			{(int)Page.SWORD_LIT_BLOW, (int)Flags.ATTACK  },
+			{(int)Page.SWORD_HOLY_BLOW, (int)Flags.ATTACK },
 			// White Knight -121
 			{(int)SkillId.Id.CHARGE, (int)Flags.ATTACK},
-			{(int)WhiteKnight.SWORD_ICE_BLOW, (int)Flags.ATTACK | (int)Flags.RANGED},
-			{(int)WhiteKnight.SWORD_FIRE_BLOW, (int)Flags.ATTACK | (int)Flags.RANGED},
-			{(int)WhiteKnight.SWORD_LIT_BLOW, (int)Flags.ATTACK | (int)Flags.RANGED},
-			{(int)WhiteKnight.SWORD_HOLY_BLOW, (int)Flags.ATTACK | (int)Flags.RANGED},
+			{(int)WhiteKnight.SWORD_ICE_BLOW, (int)Flags.ATTACK  },
+			{(int)WhiteKnight.SWORD_FIRE_BLOW, (int)Flags.ATTACK },
+			{(int)WhiteKnight.SWORD_LIT_BLOW, (int)Flags.ATTACK  },
+			{(int)WhiteKnight.SWORD_HOLY_BLOW, (int)Flags.ATTACK },
 			// Paladin -122
 			{(int)SkillId.Id.RUSH_PALADIN, (int)Flags.ATTACK},
 			{(int)SkillId.Id.BLAST, (int)Flags.ATTACK},
 			{(int)SkillId.Id.HEAVENS_HAMMER, (int)Flags.ATTACK},
-			{(int)Paladin.SWORD_ICE_BLOW, (int)Flags.ATTACK | (int)Flags.RANGED},
-			{(int)Paladin.SWORD_FIRE_BLOW, (int)Flags.ATTACK | (int)Flags.RANGED},
-			{(int)Paladin.SWORD_LIT_BLOW, (int)Flags.ATTACK | (int)Flags.RANGED},
-			{(int)Paladin.SWORD_HOLY_BLOW, (int)Flags.ATTACK | (int)Flags.RANGED},
+			{(int)Paladin.SWORD_ICE_BLOW, (int)Flags.ATTACK  },
+			{(int)Paladin.SWORD_FIRE_BLOW, (int)Flags.ATTACK },
+			{(int)Paladin.SWORD_LIT_BLOW, (int)Flags.ATTACK  },
+			{(int)Paladin.SWORD_HOLY_BLOW, (int)Flags.ATTACK },
 
 			// Spearman -130
 			// Dragon Knight -131
@@ -722,24 +725,28 @@ namespace ms
 			{(int)SkillId.Id.RUSH_DK, (int)Flags.ATTACK},
 
 			// MAGICIAN -200 
-			{(int)SkillId.Id.ENERGY_BOLT, (int)Flags.ATTACK | (int)Flags.RANGED},
-			{(int)SkillId.Id.MAGIC_CLAW, (int)Flags.ATTACK | (int)Flags.RANGED},
+			{(int)SkillId.Id.ENERGY_BOLT, (int)Flags.ATTACK },
+			{(int)SkillId.Id.MAGIC_CLAW, (int)Flags.ATTACK  },
 
 			// FP_WIZARD -210
 
 			// FP_MAGE -211
 			{(int)SkillId.Id.SLOW_FP, (int)Flags.ATTACK},
-			{(int)SkillId.Id.FIRE_ARROW, (int)Flags.ATTACK | (int)Flags.RANGED},
-			{(int)SkillId.Id.POISON_BREATH, (int)Flags.ATTACK | (int)Flags.RANGED},
+			{(int)SkillId.Id.FIRE_ARROW, (int)Flags.ATTACK    },
+			{(int)SkillId.Id.POISON_BREATH, (int)Flags.ATTACK },
 			// F/P ArchMage -212
 			{(int)SkillId.Id.EXPLOSION, (int)Flags.ATTACK},
 			//{(int)SkillId.Id.POISON_BREATH,(int) Flags.ATTACK},//todo 2 repeated added
 			{(int)SkillId.Id.SEAL_FP, (int)Flags.ATTACK},
-			{(int)SkillId.Id.ELEMENT_COMPOSITION_FP, (int)Flags.ATTACK | (int)Flags.RANGED},
+			{(int)SkillId.Id.ELEMENT_COMPOSITION_FP, (int)Flags.ATTACK },
+
+			//冰雷_巫师 = 220
+			{(int)ILWizard.COLD_BEAM, (int)Flags.ATTACK },
+			{(int)ILWizard.Bolt_Fall, (int)Flags.ATTACK },
 
 			// TODO: Blank?
 			{(int)SkillId.Id.FIRE_DEMON, (int)Flags.ATTACK},
-			{(int)SkillId.Id.PARALYZE, (int)Flags.ATTACK | (int)Flags.RANGED},
+			{(int)SkillId.Id.PARALYZE, (int)Flags.ATTACK },
 			{(int)SkillId.Id.METEOR_SHOWER, (int)Flags.ATTACK},
 
 			//BOWMAN - 300
@@ -753,20 +760,20 @@ namespace ms
 			//BOWMASTER - 312
 			{(int)Bowmaster.HURRICANE, (int)Flags.ATTACK| (int)Flags.RANGED},
 
-			{(int)MH.MHbaseAttack1_0, (int)Flags.ATTACK| (int)Flags.RANGED},
-			{(int)MH.MHbaseAttack1_1, (int)Flags.ATTACK| (int)Flags.RANGED},
-			{(int)MH.MHbaseAttack1_2, (int)Flags.ATTACK| (int)Flags.RANGED},
+			{(int)MH.MHbaseAttack1_0, (int)Flags.ATTACK},
+			{(int)MH.MHbaseAttack1_1, (int)Flags.ATTACK},
+			{(int)MH.MHbaseAttack1_2, (int)Flags.ATTACK},
 
-			{(int)MH.MHbaseAttack2_0, (int)Flags.ATTACK| (int)Flags.RANGED},
-			{(int)MH.MHbaseAttack2_1, (int)Flags.ATTACK| (int)Flags.RANGED},
-			{(int)MH.MHbaseAttack2_2, (int)Flags.ATTACK| (int)Flags.RANGED},
+			{(int)MH.MHbaseAttack2_0, (int)Flags.ATTACK},
+			{(int)MH.MHbaseAttack2_1, (int)Flags.ATTACK},
+			{(int)MH.MHbaseAttack2_2, (int)Flags.ATTACK},
 
-			{(int)MH.MHbaseAttack3_0, (int)Flags.ATTACK| (int)Flags.RANGED},
-			{(int)MH.MHbaseAttack3_1, (int)Flags.ATTACK| (int)Flags.RANGED},
-			{(int)MH.MHbaseAttack3_2, (int)Flags.ATTACK| (int)Flags.RANGED},
+			{(int)MH.MHbaseAttack3_0, (int)Flags.ATTACK},
+			{(int)MH.MHbaseAttack3_1, (int)Flags.ATTACK},
+			{(int)MH.MHbaseAttack3_2, (int)Flags.ATTACK},
 
-			{(int)MH.MHbaseAttack4_0, (int)Flags.ATTACK| (int)Flags.RANGED},
-			{(int)MH.MHbaseAttack4_1, (int)Flags.ATTACK| (int)Flags.RANGED},
+			{(int)MH.MHbaseAttack4_0, (int)Flags.ATTACK},
+			{(int)MH.MHbaseAttack4_1, (int)Flags.ATTACK},
 		};
 
 		// Get some hard-coded information

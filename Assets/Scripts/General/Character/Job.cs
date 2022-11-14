@@ -170,7 +170,7 @@
 					case Level.SECOND:
 						return (ushort)(id / 10 * 10);
 					case Level.THIRD:
-						return (ushort)(level == Level.FOURTH ? id - 1 : id);
+						return (ushort)(id - 1);
 					case Level.FOURTH:
 						return id;
 				}
@@ -357,6 +357,14 @@
 			}
 		}
 
+		public bool isA (MapleJob basejob)
+		{  // thanks Steve (kaito1410) for pointing out an improvement here
+			var basejobId = (int)basejob;
+			int basebranch = (int)basejob / 10;
+			return (getId () / 10 == basebranch && getId () >= basejobId) || (basebranch % 10 == 0 && getId () / 100 == basejobId / 100);
+		}
+
+		public ushort getId () => id;
 		public bool isFourthJob ()
 		{
 			if (id == 2212)

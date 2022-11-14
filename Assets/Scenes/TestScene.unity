@@ -470,6 +470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2103f6d882aa6a489686aed45497866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerRenderTexture: {fileID: 0}
 --- !u!1 &727727624
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,7 +616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   packageName: ms_Unity
-  componentName: InventoryListItemView
+  componentName: Joystick
   fitScreen: 0
   sortingOrder: 0
   packagePath: UI/ms_Unity
@@ -626,7 +627,7 @@ MonoBehaviour:
   rotation: {x: 0, y: 0, z: 0}
   fairyBatching: 0
   touchDisabled: 0
-  cachedUISize: {x: 133, y: 134}
+  cachedUISize: {x: 1920, y: 1080}
   hitTestMode: 0
   setNativeChildrenOrder: 0
 --- !u!4 &1358079379

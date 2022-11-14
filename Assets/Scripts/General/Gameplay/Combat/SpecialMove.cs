@@ -39,7 +39,11 @@ namespace ms
 			FBR_OTHER,
 			FBR_SkillLevel_LessThan0_or_GreateThanMaxLevel,
 			FBR_JobCanNotUseThisSkill,
-			FBR_
+			FBR_NoWeapon,
+			FBR_MoveIsNull,
+			FBR_IsProningNowCantSkill,
+			FBR_IsForbid,
+			FBR_IsLADDER_Rope_Sit_Now_CantAttack,
 		}
 
 		public virtual void Dispose ()

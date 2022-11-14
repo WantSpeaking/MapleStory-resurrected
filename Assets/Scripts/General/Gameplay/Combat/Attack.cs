@@ -7,9 +7,9 @@ namespace ms
 	{
 		public enum Type
 		{
-			CLOSE,
-			RANGED,
-			MAGIC
+			Close_Range,
+			Ranged,
+			Magic
 		}
 
 		public enum DamageType
@@ -19,7 +19,7 @@ namespace ms
 			DMG_FIXED
 		}
 
-		public Type type = Type.CLOSE;
+		public Type type = Type.Close_Range;
 		public DamageType damagetype = DamageType.DMG_WEAPON;
 
 		public double mindamage = 1.0;
@@ -49,7 +49,7 @@ namespace ms
 
 	public class MobAttack
 	{
-		public Attack.Type type = Attack.Type.CLOSE;
+		public Attack.Type type = Attack.Type.Close_Range;
 		public int watk = 0;
 		public int matk = 0;
 		public int mobid = 0;
@@ -81,7 +81,7 @@ namespace ms
 
 		public MobAttack (int watk, Point_short origin, int mobid, int oid)
 		{
-			this.type = Attack.Type.CLOSE;
+			this.type = Attack.Type.Close_Range;
 			this.watk = watk;
 			this.origin = new ms.Point_short (origin);
 			this.mobid = mobid;

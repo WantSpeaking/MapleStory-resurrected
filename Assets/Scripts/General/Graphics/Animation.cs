@@ -461,4 +461,9 @@ namespace ms
 		private short framestep;
 		private float opcstep;
 	}
+
+	public enum Enum_Animation
+	{
+		ShowChargeHeavyAttack,
+	}
 }

@@ -17,12 +17,12 @@ namespace ms_Unity
             UIObjectFactory.SetPackageItemExtension(FGUI_EquipInventory.URL, typeof(FGUI_EquipInventory));
             UIObjectFactory.SetPackageItemExtension(FGUI_Equipped_ListItem.URL, typeof(FGUI_Equipped_ListItem));
             UIObjectFactory.SetPackageItemExtension(FGUI_Itemed_ItemDetail.URL, typeof(FGUI_Itemed_ItemDetail));
+            UIObjectFactory.SetPackageItemExtension(FGUI_Joystick.URL, typeof(FGUI_Joystick));
             UIObjectFactory.SetPackageItemExtension(FGUI_Inventory.URL, typeof(FGUI_Inventory));
             UIObjectFactory.SetPackageItemExtension(FGUI_SetupUseButtons.URL, typeof(FGUI_SetupUseButtons));
             UIObjectFactory.SetPackageItemExtension(FGUI_ChatBalloon.URL, typeof(FGUI_ChatBalloon));
             UIObjectFactory.SetPackageItemExtension(FGUI_NavigationBar.URL, typeof(FGUI_NavigationBar));
             UIObjectFactory.SetPackageItemExtension(FGUI_ActionButtons.URL, typeof(FGUI_ActionButtons));
-            UIObjectFactory.SetPackageItemExtension(FGUI_Joystick.URL, typeof(FGUI_Joystick));
             UIObjectFactory.SetPackageItemExtension(FGUI_circle.URL, typeof(FGUI_circle));
             UIObjectFactory.SetPackageItemExtension(FGUI_StateGame.URL, typeof(FGUI_StateGame));
             UIObjectFactory.SetPackageItemExtension(FGUI_StatusBar.URL, typeof(FGUI_StatusBar));
@@ -32,6 +32,7 @@ namespace ms_Unity
             UIObjectFactory.SetPackageItemExtension(FGUI_NpcTalk.URL, typeof(FGUI_NpcTalk));
             UIObjectFactory.SetPackageItemExtension(FGUI_SetupActionButtons.URL, typeof(FGUI_SetupActionButtons));
             UIObjectFactory.SetPackageItemExtension(FGUI_StateLogin.URL, typeof(FGUI_StateLogin));
+            UIObjectFactory.SetPackageItemExtension(FGUI_StateCashShop.URL, typeof(FGUI_StateCashShop));
             UIObjectFactory.SetPackageItemExtension(FGUI_ItemInventory.URL, typeof(FGUI_ItemInventory));
             UIObjectFactory.SetPackageItemExtension(FGUI_StatsInfo.URL, typeof(FGUI_StatsInfo));
             UIObjectFactory.SetPackageItemExtension(FGUI_SkillBook.URL, typeof(FGUI_SkillBook));

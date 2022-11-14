@@ -51,7 +51,7 @@ namespace ms
 
 			write_byte((sbyte)attack.speed);
 
-			if (attack.type == Attack.Type.RANGED)
+			if (attack.type == Attack.Type.Ranged)
 			{
 				skip(1);
 				write_byte(attack.toleft.ToSByte ());
@@ -90,9 +90,9 @@ namespace ms
 		{
 			switch (type)
 			{
-			case Attack.Type.CLOSE:
-				return OutPacket.Opcode.CLOSE_ATTACK;
-			case Attack.Type.RANGED:
+			case Attack.Type.Close_Range:
+				return OutPacket.Opcode.Close_Range_Attack;
+			case Attack.Type.Ranged:
 				return OutPacket.Opcode.RANGED_ATTACK;
 			default:
 				return OutPacket.Opcode.MAGIC_ATTACK;
@@ -130,7 +130,7 @@ namespace ms
 	// Opcode: USE_SKILL(91)
 	public class UseSkillPacket : OutPacket
 	{
-		public UseSkillPacket(int skillid, int level) : base((short)OutPacket.Opcode.USE_SKILL)
+		public UseSkillPacket(int skillid, int level) : base((short)OutPacket.Opcode.Special_Move)
 		{
 			write_time();
 			write_int(skillid);

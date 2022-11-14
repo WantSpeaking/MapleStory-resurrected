@@ -13,7 +13,7 @@ namespace ms
 	[Skip]
 	public class UIStateGame : UIState
 	{
-		FGUI_StateGame fgui_StateGame;
+		FGUI_StateGame fgui_StateGame => FGUI_Manager.Instance.fgui_StateGame;
 
 		public UIStateGame ()
 		{
@@ -45,8 +45,6 @@ namespace ms
 
 			VWIDTH = Constants.get ().get_viewwidth ();
 			VHEIGHT = Constants.get ().get_viewheight ();
-
-			fgui_StateGame = FGUI_StateGame.CreateInstance ();
 		}
 
 		public override void draw (float inter, Point_short cursor)

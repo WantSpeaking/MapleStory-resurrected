@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FairyGUI;
 using Helper;
 using ms;
@@ -26,6 +27,7 @@ namespace ms_Unity
 
 		public int radius { get; set; }
 
+		List<FGUI_Btn_Joystick_Acton> _skillBtns;
 		void OnCreate ()
 		{
 			onMove = new EventListener (this, "onMove");
@@ -45,6 +47,19 @@ namespace ms_Unity
 			_touchArea.onTouchBegin.Add (this.OnTouchBegin);
 			_touchArea.onTouchMove.Add (this.OnTouchMove);
 			_touchArea.onTouchEnd.Add (this.OnTouchEnd);
+
+			_skillBtns = new List<FGUI_Btn_Joystick_Acton> ();
+			_skillBtns.Add (_Btn_Skill_Up);
+			_skillBtns.Add (_Btn_Skill_Down);
+			_skillBtns.Add (_Btn_Skill_Left);
+			_skillBtns.Add (_Btn_Skill_Right);
+
+			foreach (var btn in _skillBtns)
+			{
+				btn.onTouchBegin.Add (OnTouchBegin_SkillBtn);
+				btn.onTouchMove.Add (OnTouchMove_SkillBtn);
+				btn.onTouchEnd.Add (OnTouchEnd_SkillBtn);
+			}
 		}
 
 		public void Trigger (EventContext context)
@@ -210,6 +225,40 @@ namespace ms_Unity
 
 			}
 
+		}
+
+		public void EnterChargePhase (Dictionary<string, string> SkillId_Name_Dict)
+		{
+			int index = 0;
+			foreach (var skillIdString in SkillId_Name_Dict.Keys)
+			{
+				var skillId = int.Parse (skillIdString);
+				var skillIcon = SkillData.get (skillId).get_icon (SkillData.Icon.NORMAL).nTexture;
+				var skillBtn = _skillBtns.TryGet (index);
+				skillBtn._GLoader_Icon.texture = skillIcon;
+				skillBtn.SkillId = skillId;
+				index++;
+			}
+		}
+
+		private void OnTouchBegin_SkillBtn (EventContext context)
+		{
+			var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
+			ms.Stage.get ().get_combat ().use_move (clicked_ActionButton.SkillId, true, false);
+		}
+
+		private void OnTouchMove_SkillBtn (EventContext context)
+		{
+			var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
+			ms.Stage.get ().get_combat ().use_move (clicked_ActionButton.SkillId, true, true);
+		}
+
+		private void OnTouchEnd_SkillBtn (EventContext context)
+		{
+			var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
+			ms.Stage.get ().get_combat ().use_move (clicked_ActionButton.SkillId, false, true);
+
+			_t_HideBtnSkill.Play ();
 		}
 	}
 }

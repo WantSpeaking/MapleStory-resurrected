@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serializedExposedParameters: []
-  _boundGraphSerialization: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":5595.0,"y":5085.0},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"0"},{"_condition":{"eventName":{"_value":"MyEvent"},"saveEventValue":{"_name":"value","_targetVariableID":"c2f06e81-c7f0-447f-83c5-4461167e15a8"},"$type":"NodeCanvas.Tasks.Conditions.CheckEvent`1[[System.Single,
+  _boundGraphSerialization: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"dynamic":true,"_position":{"x":5595.0,"y":5085.0},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"0"},{"_condition":{"eventName":{"_value":"MyEvent"},"saveEventValue":{"_name":"value","_targetVariableID":"c2f06e81-c7f0-447f-83c5-4461167e15a8"},"$type":"NodeCanvas.Tasks.Conditions.CheckEvent`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"_position":{"x":5370.0,"y":5250.0},"_comment":"Will
     allow access only if the event is received. When it has, we set the value variable
     equal to the value of the event, which is 50.","$type":"NodeCanvas.BehaviourTrees.ConditionalEvaluator","$id":"1"},{"_position":{"x":5385.0,"y":5370.0},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"2"},{"_action":{"log":{"_name":"value","_targetVariableID":"c2f06e81-c7f0-447f-83c5-4461167e15a8"},"prefix":{},"secondsToRun":2.0,"$type":"NodeCanvas.Tasks.Actions.DebugLogVariable"},"_position":{"x":5280.0,"y":5460.0},"_comment":"","$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"3"},{"_action":{"valueA":{"_name":"value","_targetVariableID":"c2f06e81-c7f0-447f-83c5-4461167e15a8"},"valueB":{},"$type":"NodeCanvas.Tasks.Actions.SetFloat"},"_position":{"x":5445.0,"y":5460.0},"_comment":"Reset
@@ -613,6 +613,10 @@ PrefabInstance:
     - target: {fileID: 4463656513601651232, guid: 08c662799819a334e8e86ab706e4f46d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7976072805375475057, guid: 08c662799819a334e8e86ab706e4f46d, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 119
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

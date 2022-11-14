@@ -67,7 +67,7 @@ namespace ms
 			CHANGEMAP = 38,
 			ENTER_CASHSHOP = 40,
 			MOVE_PLAYER = 41,
-			CLOSE_ATTACK = 44,
+			Close_Range_Attack = 44,
 			RANGED_ATTACK = 45,
 			MAGIC_ATTACK = 46,
 			TAKE_DAMAGE = 48,
@@ -99,7 +99,7 @@ namespace ms
 			CHANGE_KEYMAP = 135,
 
 			/// Skill
-			USE_SKILL = 91,
+			Special_Move = 91,//buff
 			Cancel_Buff = 92,
 			Skill_Effect = 93,
 
