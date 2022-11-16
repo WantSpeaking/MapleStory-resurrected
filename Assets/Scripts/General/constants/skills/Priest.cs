@@ -31,6 +31,7 @@ namespace constants.skills
 		public const int DISPEL = 2311001;
 		public const int MYSTIC_DOOR = 2311002;
 		public const int HOLY_SYMBOL = 2311003;
+		public const int ShiningRay = 2311004;
 		public const int DOOM = 2311005;
 		public const int SUMMON_DRAGON = 2311006;
 	}

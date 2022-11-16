@@ -388,10 +388,10 @@ namespace ms
 				return ForbidReason.FBR_SkillLevel_LessThan0_or_GreateThanMaxLevel;
 			}
 
-			if (job.can_use (skillid) == false)
+		/*	if (job.can_use (skillid) == false)
 			{
 				return ForbidReason.FBR_JobCanNotUseThisSkill;
-			}
+			}*/
 
 			SkillData.Stats stats = SkillData.get (skillid).get_stats (level);
 

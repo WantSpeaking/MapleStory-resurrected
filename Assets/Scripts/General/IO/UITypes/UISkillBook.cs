@@ -800,10 +800,10 @@ namespace ms
                 int masterlevel = skillbook.get_masterlevel(skill_id);
 
                 bool invisible = SkillData.get(skill_id).is_invisible();
-				if ((joblevel == Job.Level.FOURTH && masterlevel == 0)||(!job.isFourthJob () && invisible))
+	/*			if ((joblevel == Job.Level.FOURTH && masterlevel == 0)||(!job.isFourthJob () && invisible))
 				{
                     continue;
-                }
+                }*/
             /*    if (invisible *//*&& masterlevel == 0*//*)
                 {
                     continue;

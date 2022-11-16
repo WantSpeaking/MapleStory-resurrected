@@ -108,6 +108,8 @@ namespace ms
 					case MapleJob.IL_MAGE:
 					case MapleJob.IL_ARCHMAGE:
 						return ResourcesManager.Instance.GetSkillBTree (((int)MapleJob.IL_WIZARD).ToString ());
+					case MapleJob.ElementDivision:
+						return ResourcesManager.Instance.GetSkillBTree (((int)MapleJob.ElementDivision).ToString ());
 				}
 
 				return base.BTree;

@@ -37,7 +37,7 @@ namespace ms
 
                     if (GameUtil.get ().enableDebugPacket && (Opcode)opcode != Opcode.MOVE_PLAYER && (Opcode)opcode != Opcode.MOVE_MONSTER)
                     {
-                        AppDebug.Log($"Sent Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Count} \t {bytes.ToDebugLog()}");
+                        AppDebug.Log($"Sent Packet: {(Opcode)opcode} = dec:{opcode} hex:{opcode:X} \t PacketSize:{bytes.Count} \t {bytes.ToDebugLog()}");
                     }
                 }
             }

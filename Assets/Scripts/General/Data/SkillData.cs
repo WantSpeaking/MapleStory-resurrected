@@ -557,7 +557,15 @@ namespace ms
 				reqweapon = Weapon.by_value (100 + node_Skillwz_1111img_skill_11111004["weapon"]);
 			}
 
-			passive = id % 10000 / 1000 == 0;
+			//passive = node_Skillwz_1111img_skill_11111004["passive"] ?? id % 10000 / 1000 == 0;
+			if (node_Skillwz_1111img_skill_11111004["passive"] != null)
+			{
+				passive = node_Skillwz_1111img_skill_11111004["passive"];
+			}
+			else
+			{
+				passive = id % 10000 / 1000 == 0;
+			}
 			//AppDebug.Log($"skillId:{id}\t isPassive:{passive}");
 			flags = flags_of (id);
 			invisible = node_Skillwz_1111img_skill_11111004["invisible"];
@@ -729,25 +737,43 @@ namespace ms
 			{(int)SkillId.Id.MAGIC_CLAW, (int)Flags.ATTACK  },
 
 			// FP_WIZARD -210
-
-			// FP_MAGE -211
 			{(int)SkillId.Id.SLOW_FP, (int)Flags.ATTACK},
 			{(int)SkillId.Id.FIRE_ARROW, (int)Flags.ATTACK    },
 			{(int)SkillId.Id.POISON_BREATH, (int)Flags.ATTACK },
-			// F/P ArchMage -212
+
+			// FP_MAGE -211
 			{(int)SkillId.Id.EXPLOSION, (int)Flags.ATTACK},
-			//{(int)SkillId.Id.POISON_BREATH,(int) Flags.ATTACK},//todo 2 repeated added
 			{(int)SkillId.Id.SEAL_FP, (int)Flags.ATTACK},
 			{(int)SkillId.Id.ELEMENT_COMPOSITION_FP, (int)Flags.ATTACK },
+
+			// F/P ArchMage -212
+			{(int)FPArchMage.FIRE_DEMON, (int)Flags.ATTACK  },
+			{(int)FPArchMage.PARALYZE, (int)Flags.ATTACK  },
+			{(int)FPArchMage.METEOR_SHOWER, (int)Flags.ATTACK  },
+			
 
 			//冰雷_巫师 = 220
 			{(int)ILWizard.COLD_BEAM, (int)Flags.ATTACK },
 			{(int)ILWizard.Bolt_Fall, (int)Flags.ATTACK },
 
-			// TODO: Blank?
-			{(int)SkillId.Id.FIRE_DEMON, (int)Flags.ATTACK},
-			{(int)SkillId.Id.PARALYZE, (int)Flags.ATTACK },
-			{(int)SkillId.Id.METEOR_SHOWER, (int)Flags.ATTACK},
+			//冰雷_魔导士 = 220
+			{(int)ILMage.ICE_STRIKE, (int)Flags.ATTACK },
+			{(int)ILMage.ELEMENT_COMPOSITION, (int)Flags.ATTACK },
+
+			//冰雷_大魔导士 = 220
+			{(int)ILArchMage.CHAIN_LIGHTNING, (int)Flags.ATTACK },
+			{(int)ILArchMage.BLIZZARD, (int)Flags.ATTACK },
+
+			//牧师 = 230
+			{(int)Cleric.HolyArrow, (int)Flags.ATTACK },
+
+			//祭司 = 231
+			{(int)Priest.ShiningRay, (int)Flags.ATTACK },
+
+			//主教 = 232
+			{(int)Bishop.GENESIS, (int)Flags.ATTACK },
+
+		
 
 			//BOWMAN - 300
 
@@ -774,6 +800,13 @@ namespace ms
 
 			{(int)MH.MHbaseAttack4_0, (int)Flags.ATTACK},
 			{(int)MH.MHbaseAttack4_1, (int)Flags.ATTACK},
+
+			//炎术士
+			{(int)BlazeWizard.FIRE_PILLAR, (int)Flags.ATTACK },
+			{(int)BlazeWizard.FIRE_STRIKE, (int)Flags.ATTACK },
+			
+			//元素师
+			{(int)ElementDivision.BoltBarrage, (int)Flags.ATTACK },
 		};
 
 		// Get some hard-coded information

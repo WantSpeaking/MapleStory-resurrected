@@ -27,5 +27,6 @@ namespace constants.skills
 		public const int HEAL = 2301002;
 		public const int INVINCIBLE = 2301003;
 		public const int BLESS = 2301004;
-	}
+		public const int HolyArrow = 2301005;
+    }
 }
