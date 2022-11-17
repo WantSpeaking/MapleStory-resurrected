@@ -866,5 +866,7 @@ namespace ms
 			died = true;
 		}
 
+		public Enum_SkillElemAttr Current_ElementAtrr { get; set; }
+		
 	}
 }

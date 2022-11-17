@@ -388,10 +388,10 @@ namespace ms
 				return ForbidReason.FBR_SkillLevel_LessThan0_or_GreateThanMaxLevel;
 			}
 
-		/*	if (job.can_use (skillid) == false)
-			{
-				return ForbidReason.FBR_JobCanNotUseThisSkill;
-			}*/
+			/*	if (job.can_use (skillid) == false)
+				{
+					return ForbidReason.FBR_JobCanNotUseThisSkill;
+				}*/
 
 			SkillData.Stats stats = SkillData.get (skillid).get_stats (level);
 
@@ -455,5 +455,13 @@ namespace ms
 		private int skillid;
 		private bool overregular;
 		private bool projectile;
+	}
+
+	public enum Enum_SkillElemAttr
+	{
+		i = 0,
+		f,
+		l,
+		h,
 	}
 }

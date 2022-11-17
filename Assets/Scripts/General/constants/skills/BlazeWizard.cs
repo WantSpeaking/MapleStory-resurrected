@@ -41,5 +41,6 @@ namespace constants.skills
 		public const int SLOW = 12101001;
 		public const int SPELL_BOOSTER = 12101004;
 		public const int FIRE_PILLAR = 12101006;
+		public const int FIRE_Cast = 12001020;
 	}
 }

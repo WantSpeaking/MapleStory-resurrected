@@ -31,6 +31,9 @@ namespace constants.skills
 		public const int IMPROVED_MAX_MP_INCREASE = 2000001;
 		public const int MAGIC_GUARD = 2001002;
 		public const int MAGIC_ARMOR = 2001003;
+		public const int ENERGY_BOLT = 2001004;
+		public const int MAGIC_CLAW = 2001005;
+		public const int LightBallCast = 2001008;
 	}
 
 }

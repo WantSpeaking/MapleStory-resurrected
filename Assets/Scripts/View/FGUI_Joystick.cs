@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FairyGUI;
 using Helper;
 using ms;
+using NodeCanvas.Framework;
 using UnityEngine;
 
 namespace ms_Unity
@@ -238,6 +239,7 @@ namespace ms_Unity
 				var skillBtn = _skillBtns.TryGet (index);
 				skillBtn._GLoader_Icon.texture = skillIcon;
 				skillBtn.SkillId = skillId;
+				skillBtn.SkillIndex = index;
 				index++;
 			}
 		}
@@ -246,6 +248,8 @@ namespace ms_Unity
 		{
 			var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
 			ms.Stage.get ().get_combat ().use_move (clicked_ActionButton.SkillId, true, false);
+			_player.Current_ElementAtrr = (Enum_SkillElemAttr)clicked_ActionButton.SkillIndex;
+			_player.GetBehaviourTreeOwner ().graph.blackboard.SetVariableValue (typeof (Enum_SkillElemAttr).Name, _player.Current_ElementAtrr);
 		}
 
 		private void OnTouchMove_SkillBtn (EventContext context)

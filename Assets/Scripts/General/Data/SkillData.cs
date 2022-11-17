@@ -733,13 +733,14 @@ namespace ms
 			{(int)SkillId.Id.RUSH_DK, (int)Flags.ATTACK},
 
 			// MAGICIAN -200 
-			{(int)SkillId.Id.ENERGY_BOLT, (int)Flags.ATTACK },
-			{(int)SkillId.Id.MAGIC_CLAW, (int)Flags.ATTACK  },
+			{(int)Magician.ENERGY_BOLT, (int)Flags.ATTACK },
+			{(int)Magician.MAGIC_CLAW, (int)Flags.ATTACK  },
+			{(int)Magician.LightBallCast, (int)Flags.ATTACK  },
 
 			// FP_WIZARD -210
 			{(int)SkillId.Id.SLOW_FP, (int)Flags.ATTACK},
 			{(int)SkillId.Id.FIRE_ARROW, (int)Flags.ATTACK    },
-			{(int)SkillId.Id.POISON_BREATH, (int)Flags.ATTACK },
+			{(int)FPWizard.POISON_BREATH, (int)Flags.ATTACK },
 
 			// FP_MAGE -211
 			{(int)SkillId.Id.EXPLOSION, (int)Flags.ATTACK},
@@ -804,9 +805,12 @@ namespace ms
 			//炎术士
 			{(int)BlazeWizard.FIRE_PILLAR, (int)Flags.ATTACK },
 			{(int)BlazeWizard.FIRE_STRIKE, (int)Flags.ATTACK },
+			{(int)BlazeWizard.FIRE_Cast, (int)Flags.ATTACK },
 			
 			//元素师
 			{(int)ElementDivision.BoltBarrage, (int)Flags.ATTACK },
+			{(int)ElementDivision.IceBallCast, (int)Flags.ATTACK },
+			{(int)ElementDivision.FireBallCast, (int)Flags.ATTACK },
 		};
 
 		// Get some hard-coded information

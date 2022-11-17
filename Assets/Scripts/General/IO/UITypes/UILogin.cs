@@ -238,8 +238,8 @@ namespace ms
 			string password_text = "";
 			if (GameUtil.Instance.TestMode)
 			{
-				account_text = "admin";
-				password_text = "admin";
+				account_text = GameUtil.Instance.TestAccount;
+				password_text = GameUtil.Instance.TestPassword;
 			}
 			else
 			{

@@ -38,7 +38,6 @@ namespace ms
 				return;
 			}
 			
-			
 			icon = new Texture (node_SkillWZ_000img["info"]["icon"]);
 
 			name = strsrc?["bookName"]?.ToString ();
