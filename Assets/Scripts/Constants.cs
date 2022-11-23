@@ -91,6 +91,7 @@ namespace ms
 #if UNITY_EDITOR || WINDOWS
 		public string path_MapleStoryFolder = @"D:\Program Files (x86)\MapleStory";
 		public string path_SettingFileFolder = @"D:\Program Files (x86)\MapleStory";
+		public string path_WzXmlFolder = UnityEngine.Application.dataPath + "/Resources/WzXml";
 
 #elif UNITY_ANDROID || ANDROID
 		//public string path_MapleStoryFolder = $"{UnityEngine.Application.persistentDataPath}";

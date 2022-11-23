@@ -301,9 +301,8 @@ public class MapleStory : SingletonMono<MapleStory>
 		*/
 		try
 		{
-			maplestoryFolder = Constants.get ().path_MapleStoryFolder;
 			Session.get ().init ();
-			NxFiles.init (maplestoryFolder);
+			NxFiles.init (Constants.get ().path_MapleStoryFolder);
 			Window.get ().init ();
 			Sound.init ();
 			Music.init ();
@@ -483,7 +482,6 @@ public class MapleStory : SingletonMono<MapleStory>
 	public InputField inpuField_MapPassword;
 	public InputField inpuField_MapCharacter;
 
-	public string maplestoryFolder = @"F:\Program Files (x86)\MapleStory\"; //F:\Program Files (x86)\MapleStory\ ;F:/BaiduYunDownload/079mg5/
 	public string account = "admin";
 	public string password = "admin";
 	public int characterIdToLoad = 1;
@@ -633,7 +631,7 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	#region Placeholder
 
-	[Button ("main", "Connect")] public string placeholder0;
+	/*[Button ("main", "Connect")] public string placeholder0;
 
 
 	[Button ("LoginStartPacket", "LoginStartPacket 35")]
@@ -676,7 +674,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		new SelectCharPacket (characterIdToLoad).dispatch ();
 		if (disableDebugPacketAfterLogin)
 			enableDebugPacket = false;
-	}
+	}*/
 
 	/*[Utility.Inspector. Button("PlayerLoginPacket","PlayerLoginPacket 20")]
 	public string placeholder6;

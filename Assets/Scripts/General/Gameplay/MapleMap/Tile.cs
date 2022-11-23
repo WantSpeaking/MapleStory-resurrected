@@ -9,6 +9,7 @@
 using System.Diagnostics;
 using ms.Helper;
 using MapleLib.WzLib;
+using provider;
 
 namespace ms
 {
@@ -31,6 +32,14 @@ namespace ms
 			pos = new Point_short (node_100000000img_0_Tile_0["x"], node_100000000img_0_Tile_0["y"]);
 		}
 
+		public Tile (MapleData node_100000000img_0_Tile_0, string ts)
+		{
+			int.TryParse (node_100000000img_0_Tile_0.Name, out orderInLayer);
+			WzObject node_Tile_allblackTileimg_bsc_0 = wz.wzFile_map["Tile"][ts][node_100000000img_0_Tile_0["u"].ToString ()][node_100000000img_0_Tile_0["no"].ToString ()];
+			texture = new Texture (node_Tile_allblackTileimg_bsc_0);
+			pos = new Point_short ((short)(int)node_100000000img_0_Tile_0["x"], node_100000000img_0_Tile_0["y"]);
+		}
+
 		public void draw (Point_short viewpos, int layerId)
 		{
 			Point_short tempPoint = new Point_short ((short)(pos.x () + viewpos.x ()), (short)(pos.y () + viewpos.y ()));
@@ -41,6 +50,8 @@ namespace ms
 		{
 			return z;
 		}
+
+		public Texture get_texture () => texture;
 	}
 }
 

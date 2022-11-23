@@ -142,6 +142,8 @@ namespace ms
 			texture.Dispose ();
 		}
 
+		public Texture get_texture () => texture;
+
 		private Point_short head;
 		private Rectangle_short bounds;
 		private Texture texture;
@@ -384,7 +386,7 @@ namespace ms
 		{
 			foreach (var frame in frames)
 			{
-				
+
 				//frame.erase
 			}
 		}
@@ -448,7 +450,7 @@ namespace ms
 				frame.Dispose ();
 			}
 		}
-
+		public List<Frame> get_frames () => frames;
 		private List<Frame> frames = new List<Frame> ();
 		private bool animated;
 		private bool zigzag;

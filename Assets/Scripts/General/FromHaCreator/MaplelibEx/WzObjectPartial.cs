@@ -201,10 +201,9 @@ namespace MapleLib.WzLib
 			{
 				return imageProperty.WzProperties.GetEnumerator ();
 			}
-		/*	else if (this is WzDirectory wzImage)
+			/*else if (this is WzDirectory wzdirectory)
 			{
-
-				return imageProperty.WzProperties.GetEnumerator ();
+				return wzdirectory.WzImages.GetEnumerator();
 			}*/
 			else
 			{

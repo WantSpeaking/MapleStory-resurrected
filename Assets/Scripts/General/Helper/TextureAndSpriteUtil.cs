@@ -22,15 +22,16 @@ public static class TextureAndSpriteUtil
 		return t2d;
 	}*/
 
-	public static UnityEngine.Sprite PngDataToSprite (byte[] pngData,Bitmap pngFormat, Point_short origin, Point_short dimensions)
+	public static UnityEngine.Sprite PngDataToSprite (byte[] pngData, Bitmap pngFormat, Point_short origin, Point_short dimensions)
 	{
-		if (pngData == null) return null;
-		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y (), PngFormatToTextureFormat(pngFormat.format), false);
+		if (pngData == null)
+			return null;
+		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y (), PngFormatToTextureFormat (pngFormat.format), false);
 		//t2d.LoadRawTextureData (data);
 		var rawTextureData = t2d.GetRawTextureData ();
 		//Debug.Log ($"pngData.Length:{pngData.Length}\t rawTextureData.Length:{rawTextureData.Length}\t pngFormat:{pngFormat}\t {dimensions.x ()*dimensions.y ()}");
 
-		t2d.SetPixelData (pngData,0,0);
+		t2d.SetPixelData (pngData, 0, 0);
 		t2d.filterMode = FilterMode.Point;
 		t2d.Apply ();
 
@@ -74,7 +75,8 @@ public static class TextureAndSpriteUtil
 	}
 	public static UnityEngine.Texture2D PngDataToTexture2D (byte[] data, Point_short origin, Point_short dimensions)
 	{
-		if (data == null) return null;
+		if (data == null)
+			return null;
 		//Debug.Log ($"data.Length:{data.Length}\t {data.ToDebugLog ()}");
 		Texture2D t2d = new Texture2D (dimensions.x (), dimensions.y (), TextureFormat.BGRA32, false);
 		//t2d.LoadRawTextureData (data);
@@ -177,4 +179,20 @@ public static class TextureAndSpriteUtil
 
 		return result;
 	}
+
+#if UNITY_EDITOR
+	public static void SaveTex2dToPng (Texture2D tex, string nodePath)
+	{
+		// Encode texture into PNG
+		byte[] bytes = tex.EncodeToPNG ();
+
+		var folderPath = nodePath.Substring (0, nodePath.LastIndexOf ("\\") + 1);
+		var fullPath = Application.dataPath + "/Resources/" + nodePath + ".png";
+		Directory.CreateDirectory (Application.dataPath + "/Resources/" + folderPath);
+
+		File.WriteAllBytes (fullPath, bytes);
+
+		
+	}
+#endif
 }

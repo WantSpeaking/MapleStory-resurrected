@@ -8,6 +8,7 @@ using HaCreator.Wz;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using ms;
+using provider;
 
 namespace ms
 {
@@ -109,7 +110,21 @@ namespace ms
 			TestURPBatcher.Instance.Clear ();
 		}
 
-		private void load_map (int mapid)
+		private static MapleDataProvider mapSource = MapleDataProviderFactory.getDataProvider (new System.IO.DirectoryInfo (Constants.get ().path_WzXmlFolder + "/Map.wz"));
+		private static string getMapName (int mapid)
+		{
+			string mapName = StringUtil.getLeftPaddedStr (mapid.ToString(), '0', 9);
+			StringBuilder builder = new StringBuilder ("Map/Map");
+			int area = mapid / 100000000;
+			builder.Append (area);
+			builder.Append ("/");
+			builder.Append (mapName);
+			builder.Append (".img");
+			mapName = builder.ToString ();
+			return mapName;
+		}
+
+		public void load_map (int mapid)
 		{
 			//MapleStory.Instance.canStart = false;
 
@@ -122,9 +137,20 @@ namespace ms
 			this.mapid = mapid;
 			string strid = string_format.extend_id (mapid, 9);
 			string prefix = Convert.ToString (mapid / 100000000);
+
+
+
 			WzObject node_100000000img = ((mapid == -1) ? wz.wzFile_ui["CashShopPreview.img"] : wz.wzFile_map["Map"]["Map" + prefix][strid + ".img"]);
-			tilesobjs = new MapTilesObjs (node_100000000img);
+
+			var mapName = getMapName (mapid);
+			MapleData mapData = mapSource.getData (mapName);
+			MapleData infoData = mapData.getChildByPath ("info");
+
+			/*tilesobjs = new MapTilesObjs (node_100000000img);
+			backgrounds = new MapBackgrounds (node_100000000img["back"]);*/
+			tilesobjs = new MapTilesObjs (mapData);
 			backgrounds = new MapBackgrounds (node_100000000img["back"]);
+
 			physics = new Physics (node_100000000img["foothold"]);
 			mapinfo = new MapInfo (node_100000000img, physics.get_fht ().get_walls (), physics.get_fht ().get_borders ());
 			portals = new MapPortals (node_100000000img["portal"], mapid);
@@ -441,9 +467,19 @@ namespace ms
 			return mapid;
 		}
 
-		public MapPortals get_portals()
+		public MapPortals get_portals ()
 		{
 			return portals;
+		}
+
+		public MapTilesObjs get_tilesobjs ()
+		{
+			return tilesobjs;
+		}
+
+		public MapBackgrounds get_backgrounds ()
+		{
+			return backgrounds;
 		}
 		public void add_effect (string path)
 		{
@@ -469,7 +505,7 @@ namespace ms
 		{
 			new PlayerMapTransferPacket ().dispatch ();
 			new ChangeMapSpecialPacket ().dispatch ();
-			
+
 			if (Singleton<Configuration>.get ().get_admin ())
 			{
 				new AdminEnterMapPacket (AdminEnterMapPacket.Operation.ALERT_ADMINS).dispatch ();

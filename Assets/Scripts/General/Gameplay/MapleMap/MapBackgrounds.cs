@@ -161,7 +161,7 @@ namespace ms
 			}*/
 
 		}
-		
+
 
 		public void draw (double viewx, double viewy, float alpha, int sortingLayer)
 		{
@@ -799,7 +799,7 @@ namespace ms
 					back=(src[Convert.ToString(no)]);
 				}*/
 
-			black = src["0"]["bS"].GetString () == "";
+			black = string.IsNullOrEmpty (src?["0"]?["bS"]?.GetString ());
 		}
 		public MapBackgrounds ()
 		{
