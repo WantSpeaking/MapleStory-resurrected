@@ -651,6 +651,7 @@ namespace ms
         public static void init()
         {
             drawinfo.init();
+            //drawinfo.init1();
         }
 
 

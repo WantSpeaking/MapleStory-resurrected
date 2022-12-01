@@ -50,6 +50,8 @@ using UnityEngine.Rendering;
 using Utility.PoolSystem;
 using Bitmap = MapleLib.WzLib.Bitmap;
 using Graphics = UnityEngine.Graphics;
+using provider;
+using provider.wz;
 
 namespace ms
 {
@@ -60,7 +62,7 @@ namespace ms
 
 		private SpriteRenderer spriteRenderer;
 
-		private UnityEngine.Sprite sprite;
+		public UnityEngine.Sprite sprite { get; set; }
 
 		public string fullPath = string.Empty;
 
@@ -113,6 +115,7 @@ namespace ms
 		private Rect textureRect;
 
 		private WzObject cache_src { get; set; }
+		private MapleData cache_srcData { get; set; }
 
 		public Texture2D texture2D { get; set; }
 		public FairyGUI.NTexture nTexture { get; set; }
@@ -125,7 +128,12 @@ namespace ms
 		{
 		}
 
+
 		public Texture (WzObject src)
+		{
+			Init (src);
+		}
+		public Texture (MapleData src)
 		{
 			Init (src);
 		}
@@ -135,7 +143,11 @@ namespace ms
 			Init (src);
 			layerMask = LayerMask.NameToLayer (layerMaskName);
 		}
-
+		public Texture (MapleData src, string layerMaskName)
+		{
+			Init (src);
+			layerMask = LayerMask.NameToLayer (layerMaskName);
+		}
 		public Texture (ms.Texture srcTexture)
 		{
 			Init (srcTexture?.cache_src);
@@ -164,7 +176,38 @@ namespace ms
 				nTexture = new FairyGUI.NTexture (texture2D);
 			}
 		}
+		private void Init (MapleData src)
+		{
+			cache_srcData = src;
+			if (src != null && src.IsTexture ())
+			{
+				fullPath = src.FullPath;//D:\RiderProject\ForeverStory\Assets\Resources\WzXml\Map.wz\Tile\grassySoil.img\edD/0
+				pivot = src["origin"] ?? Point_short.zero;//fileStored.File.FullName D:\RiderProject\ForeverStory\Assets\Resources\WzXml\Map.wz\Tile\grassySoil.img\edD\0.png
 
+				FileStoredPngMapleCanvas fileStored = src;
+
+				//Debug.Log ($"src.FullPath:{src.FullPath}");
+				//Debug.Log ($"fileStored.FullPath:{fileStored.Width} {fileStored.Height} {fileStored.File.FullName}");
+
+				dimensions = new Point_short ((short)fileStored.Width, (short)fileStored.Height);
+
+				var replacePath = $"{Application.dataPath}\\Resources\\WzXml";
+				replacePath.Replace ("/", "\\");
+				var wzPngPath = src.FullPath.Replace (replacePath, "WzPng");
+				//Debug.Log ($"replacePath:{replacePath}");
+				//Debug.Log ($"wzPngPath:{wzPngPath}");
+
+				var wzXmlIndex = src.FullPath.IndexOf ("WzXml");
+				src.FullPath.Substring (wzXmlIndex + 5);
+				var wzPngPath1 = "WzPng" + src.FullPath.Substring (wzXmlIndex + 5);
+				//Debug.Log ($"wzPngPath1:{wzPngPath1}");
+
+				texture2D = Resources.Load<Texture2D> (wzPngPath1);
+				sprite = Resources.Load<UnityEngine.Sprite> (wzPngPath1);
+				nTexture = new FairyGUI.NTexture (texture2D);
+				
+			}
+		}
 		public void Dispose ()
 		{
 		}
@@ -182,15 +225,15 @@ namespace ms
 
 		public void draw (DrawArgument args)
 		{
-			if (bitmap != null)
+			if (texture2D != null)
 			{
-				Vector3 position = new Vector3 (args.getpos ().x () + (args.FlipX ? -1 : 1) * (bitmap.Width / 2 - pivot.x ()), -args.getpos ().y () + (-bitmap.Height / 2 + pivot.y ()), SingletonMono<GameUtil>.Instance.DrawOrder);
+				Vector3 position = new Vector3 (args.getpos ().x () + (args.FlipX ? -1 : 1) * (dimensions.x () / 2 - pivot.x ()), -args.getpos ().y () + (-dimensions.y () / 2 + pivot.y ()), SingletonMono<GameUtil>.Instance.DrawOrder);
 				/*Vector3 position = new Vector3 (args.getpos ().x () + bitmap.Width / 2 - pivot.x (), -args.getpos ().y () - bitmap.Height / 2 + pivot.y (), Singleton<GameUtil>.Instance.DrawOrder);*/
 				if (fullPath == "Ui-new.wz\\Login.img\\Title\\BtNew\\normal\\0")
 				{
 				}
 				Vector3 localScale = new Vector3 (args.get_xscale (), -args.get_yscale (), 1f);
-				SingletonMono<TestURPBatcher>.Instance.TryDraw (this, bitmap, position, localScale, args.DrawParent);
+				SingletonMono<TestURPBatcher>.Instance.TryDraw (this, position, localScale, args.DrawParent);
 			}
 		}
 
@@ -238,7 +281,7 @@ namespace ms
 			return result * X;
 		}
 
-		private SpriteRenderer SpriteRendererCreator ()
+		/*private SpriteRenderer SpriteRendererCreator ()
 		{
 			GameObject obj = new GameObject (fullPath);
 			SpriteRenderer renderer = obj.AddComponent<SpriteRenderer> ();
@@ -268,13 +311,13 @@ namespace ms
 		private bool contains ()
 		{
 			return cameraRange.contains (textureRange);
-		}
+		}*/
 
 		public void draw (DrawArgument args, Range_short vertical)
 		{
 		}
 
-		private void setPos (Vector3 pos)
+		/*private void setPos (Vector3 pos)
 		{
 			GameObject gameObject = spriteRenderer?.gameObject;
 			if ((object)gameObject != null)
@@ -290,7 +333,7 @@ namespace ms
 			{
 				gameObject.transform.localScale = pos;
 			}
-		}
+		}*/
 
 		public void shift (Point_short amount)
 		{

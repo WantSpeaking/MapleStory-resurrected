@@ -2,6 +2,7 @@
 using Helper;
 using MapleLib.WzLib;
 using ms.Helper;
+using provider;
 
 //////////////////////////////////////////////////////////////////////////////////
 //	This file is part of the continued Journey MMORPG client					//
@@ -40,7 +41,11 @@ namespace ms
 			left_top = sourceLeftTop?.GetPoint ().ToMSPoint () ?? Point_short.zero;
 			right_bottom = sourceRightBottom?.GetPoint ().ToMSPoint () ?? Point_short.zero;
 		}
-
+		public Rectangle_short (MapleData sourceLeftTop, MapleData sourceRightBottom)
+		{
+			left_top = sourceLeftTop ?? Point_short.zero;
+			right_bottom = sourceRightBottom ?? Point_short.zero;
+		}
 		/// <summary>
 		/// 
 		/// </summary>
@@ -49,7 +54,10 @@ namespace ms
 			: this (source["lt"], source["rb"])
 		{
 		}
-
+		public Rectangle_short (MapleData source)
+			: this (source["lt"], source["rb"])
+		{
+		}
 		public Rectangle_short (Rectangle_short src)
 			: this (src.left_top, src.right_bottom)
 		{

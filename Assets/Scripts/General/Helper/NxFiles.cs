@@ -78,15 +78,16 @@ namespace ms
 		}*/
 		public static void init (string suffix)
 		{
-			try
+			//try
 			{
 				AppDebug.Log ("start NxFiles.init");
-				ms.wz.load_all (suffix);
+				ms.wz.CheckLoadXml ();
 
+				ms.wz.load_all (suffix);
 			}
-			catch(Exception ex)
+			//catch(Exception ex)
 			{
-				AppDebug.LogError (ex.Message);
+				//AppDebug.LogError (ex.Message +" " + ex.StackTrace);
 			}
 		}
 		

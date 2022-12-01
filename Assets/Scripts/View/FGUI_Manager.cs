@@ -190,7 +190,7 @@ namespace ms_Unity
 
 				type_GComponent_dict[viewType] = window;
 				FGUI_Window w = new FGUI_Window ();
-
+				window.fairyBatching = true;
 			}
 			window.SetSize (GRoot.inst.width, GRoot.inst.height);
 			window.AddRelation (GRoot.inst, RelationType.Size);

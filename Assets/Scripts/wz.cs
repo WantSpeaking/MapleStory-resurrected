@@ -3,61 +3,67 @@ using System.IO;
 using HaCreator;
 using HaCreator.Wz;
 using MapleLib.WzLib;
+using provider;
+using UnityEngine;
 
 namespace ms
 {
-    public class wz
-    {
-        private static List<WzFile> files = new List<WzFile>();
-        public static WzFileManager WzManager;
+	public class wz
+	{
+		private static List<WzFile> files = new List<WzFile> ();
+		public static WzFileManager WzManager;
 
-        private static bool exists(string name)
-        {
-            return true;
-        }
+		private static bool exists (string name)
+		{
+			return true;
+		}
 
-        private static WzFile add_file(string name)
-        {
-            if (!exists(name))
-                return null;
+		private static WzFile add_file (string name)
+		{
+			if (!exists (name))
+				return null;
 
-            //var file = new WzFile(name,WzMapleVersion.EMS);
-             WzManager.LoadWzFile(name);
-             var file = WzManager.wzFiles[name.ToLower()];
+			//var file = new WzFile(name,WzMapleVersion.EMS);
+			WzManager.LoadWzFile (name);
+			var file = WzManager.wzFiles[name.ToLower ()];
 
 
-			files.Add(file);
+			files.Add (file);
 
-            return file;
-        }
+			return file;
+		}
 
-        public static WzFile wzFile_base, wzFile_character, wzFile_effect, wzFile_etc, wzFile_item, wzFile_map, wzFile_wzFile_mapPretty, wzFile_mapLatest, wzFile_map001, wzFile_mob, wzFile_morph, wzFile_npc, wzFile_quest, wzFile_reactor, wzFile_skill, wzFile_SkillMy1, wzFile_sound, wzFile_string, wzFile_tamingmob, wzFile_ui, wzFile_UI_Endless;
-        //NXNode baseFile, character, effect, etc, item, map, mapPretty, mapLatest, map001, mob, morph, npc, quest, reactor, skill, sound, stringFile, tamingmob, ui;
+		public static WzFile wzFile_base, wzFile_character, wzFile_effect, wzFile_etc, wzFile_item, wzFile_map, wzFile_wzFile_mapPretty, wzFile_mapLatest, wzFile_map001, wzFile_mob, wzFile_morph, wzFile_npc, wzFile_quest, wzFile_reactor, wzFile_skill, wzFile_SkillMy1, wzFile_sound, wzFile_string, wzFile_tamingmob, wzFile_ui, wzFile_UI_Endless;
+		//NXNode baseFile, character, effect, etc, item, map, mapPretty, mapLatest, map001, mob, morph, npc, quest, reactor, skill, sound, stringFile, tamingmob, ui;
 
-        public static void load_all(string wzPath)
-        {
-	        WzManager ??= new WzFileManager(wzPath);
+		public static MapleDataProvider _xml_map;
+		public static MapleDataProvider xml_map => _xml_map ??= MapleDataProviderFactory.getDataProvider (new System.IO.DirectoryInfo (Constants.get ().path_WzXmlFolder + "/Map.wz"));
+		//public static MapleDataProvider xml_character = MapleDataProviderFactory.getDataProvider (new System.IO.DirectoryInfo (Constants.get ().path_WzXmlFolder + "/Character.wz"));
 
-			wzFile_base = add_file("base");
-            wzFile_character = add_file("character1");
-            wzFile_effect = add_file("effect");
-            wzFile_etc = add_file("etc");
-            wzFile_item = add_file("item");
-            wzFile_map = add_file("map");
-            wzFile_wzFile_mapPretty = add_file("map");
-            wzFile_mapLatest = add_file("MapLatest");
-            wzFile_map001 = add_file("Map001");
-            wzFile_mob = add_file("mob");
-            wzFile_npc = add_file("npc");
+		public static void load_all (string wzPath)
+		{
+			WzManager ??= new WzFileManager (wzPath);
+
+			wzFile_base = add_file ("base");
+			wzFile_character = add_file ("character1");
+			wzFile_effect = add_file ("effect");
+			wzFile_etc = add_file ("etc");
+			wzFile_item = add_file ("item");
+			wzFile_map = add_file ("map");
+			wzFile_wzFile_mapPretty = add_file ("map");
+			wzFile_mapLatest = add_file ("MapLatest");
+			wzFile_map001 = add_file ("Map001");
+			wzFile_mob = add_file ("mob");
+			wzFile_npc = add_file ("npc");
 			wzFile_quest = add_file ("Quest");
 			wzFile_reactor = add_file ("Reactor");
-			wzFile_skill = add_file("skill");
-			wzFile_SkillMy1 = add_file("SkillMy1");
-			wzFile_sound = add_file("sound");
-            wzFile_string = add_file("string");
-            wzFile_ui = add_file("UI_New");
-			wzFile_UI_Endless = add_file("UI_Endless");
-		
+			wzFile_skill = add_file ("skill");
+			wzFile_SkillMy1 = add_file ("SkillMy1");
+			wzFile_sound = add_file ("sound");
+			wzFile_string = add_file ("string");
+			wzFile_ui = add_file ("UI_New");
+			wzFile_UI_Endless = add_file ("UI_Endless");
+
 			/*if (exists("Base.nx"))
 			{
 				baseWz = add_file("Base.nx");
@@ -105,16 +111,18 @@ namespace ms
 			}*/
 		}
 
-		public static readonly string[] SKILL_WZ_FILES = {
+		public static readonly string[] SKILL_WZ_FILES =
+		{
 			"Skill",
 			"SkillMy1"
 		};
+
 		/// <summary>
 		/// $"{jobid}.img"
 		/// </summary>
 		/// <param name="imgName"></param>
 		/// <returns></returns>
-		public static WzImage findSkillImage(string imgName)
+		public static WzImage findSkillImage (string imgName)
 		{
 			foreach (string skillWzFile in SKILL_WZ_FILES)
 			{
@@ -129,9 +137,65 @@ namespace ms
 					}
 				}
 			}
+
 			return null;
 		}
 
+		public static bool CheckLoadXml ()
+		{
+#if UNITY_EDITOR && UNITY_ANDROID
+#endif
 
+			Debug.Log (Application.targetFrameRate);
+			if (Application.platform == RuntimePlatform.Android)
+			{
+				//BetterStreamingAssets.Initialize ();
+				var paths = BetterStreamingAssets.GetFiles ("/", null, SearchOption.AllDirectories);
+				//Debug.Log (paths.ToDebugLog ());
+
+				for (int i = 0; i < paths.Length; i++)
+				{
+					var relative_FilePath = paths[i];
+					var splashIndex = relative_FilePath.LastIndexOf ('/');
+					var relative_DirectoryPath = string.Empty;
+					if (splashIndex <= 0)
+					{
+						//Debug.Log (relative_FilePath);
+						relative_DirectoryPath = string.Empty;
+						//continue;
+					}
+					else
+					{
+						 relative_DirectoryPath = relative_FilePath.Substring (0,splashIndex);
+					}
+
+					var full_FilePath = Path.Combine (Application.persistentDataPath, relative_FilePath);
+					var full_DirectoryPath = Path.Combine (Application.persistentDataPath, relative_DirectoryPath);
+					//Debug.Log (paths.ToDebugLog ());
+					if (File.Exists (full_FilePath))
+					{
+						continue;
+					}
+					//Debug.Log ($"File.Exists:{full_FilePath}");
+
+					if (!Directory.Exists (full_DirectoryPath))
+					{
+						Directory.CreateDirectory (full_DirectoryPath);
+					}
+					//Debug.Log ($"File.Directory:{full_DirectoryPath}");
+
+					using (var readStream = BetterStreamingAssets.OpenRead (relative_FilePath))
+					{
+						using (var writeSteam = System.IO.File.OpenWrite (full_FilePath))
+						{
+							readStream.CopyTo (writeSteam);
+						}
+					}
+				}
+			}
+
+
+			return true;
+		}
 	}
 }

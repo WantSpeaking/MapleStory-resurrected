@@ -72,7 +72,7 @@ namespace ms
 		public short VIEWHEIGHT_CashShop { get; set; } = 768;
 
 		//public const ushort TIMESTEP = 8;//original is 8
-		public const ushort TIMESTEP = 8;//original is 8
+		public const ushort TIMESTEP = 8; //original is 8
 
 		public float walkSpeed = 1;
 		public float jumpSpeed = 1;
@@ -91,7 +91,8 @@ namespace ms
 #if UNITY_EDITOR || WINDOWS
 		public string path_MapleStoryFolder = @"D:\Program Files (x86)\MapleStory";
 		public string path_SettingFileFolder = @"D:\Program Files (x86)\MapleStory";
-		public string path_WzXmlFolder = UnityEngine.Application.dataPath + "/Resources/WzXml";
+		public string path_WzXmlFolder = UnityEngine.Application.streamingAssetsPath + "/Resources/WzXml";
+		public string path_WzPngFolder = UnityEngine.Application.dataPath + "/Resources/WzPng";
 
 #elif UNITY_ANDROID || ANDROID
 		//public string path_MapleStoryFolder = $"{UnityEngine.Application.persistentDataPath}";
@@ -101,6 +102,8 @@ namespace ms
 
 		public string path_MapleStoryFolder = $"/storage/emulated/0/ForeverStory";
 		public string path_SettingFileFolder = $"/storage/emulated/0/ForeverStory";
+		public string path_WzXmlFolder = UnityEngine.Application.persistentDataPath + "/Resources/WzXml";
+
 #else
 		//public string path_MapleStoryFolder = $"/storage/emulated/0/Android/data/MapleStory_resurrected_MonoGame_Android.MapleStory_resurrected_MonoGame_Android/files";
 		//public string path_MapleStoryFolder = $"/storage/emulated/0/Download";
@@ -108,6 +111,8 @@ namespace ms
 
 		public string path_MapleStoryFolder = @"F:\Program Files (x86)\MapleStory";
 		public string path_SettingFileFolder = @"F:\Program Files (x86)\MapleStory";
+				public string path_WzXmlFolder = UnityEngine.Application.streamingAssetsPath + "/Resources/WzXml";
+
 #endif
 	}
 }

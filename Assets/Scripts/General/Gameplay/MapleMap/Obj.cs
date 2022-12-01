@@ -39,8 +39,9 @@ namespace ms
 			int.TryParse (node_100000000img_0_obj_0.Name, out orderInLayer);
 
 			//UnityEngine.AppDebug.Log(node_100000000img_0_obj_0["oS"] + ".img" + "\t" + node_100000000img_0_obj_0["l0"] + "\t" + node_100000000img_0_obj_0["l1"] + "\t" + node_100000000img_0_obj_0["l2"]);
+			animation = ms.wz.xml_map.getData ($"Obj/{node_100000000img_0_obj_0["oS"]}.img")?[node_100000000img_0_obj_0["l0"].ToString ()]?[node_100000000img_0_obj_0["l1"].ToString ()]?[node_100000000img_0_obj_0["l2"].ToString ()];
 
-			animation = new Animation (ms.wz.wzFile_map["Obj"][$"{node_100000000img_0_obj_0["oS"]}.img"]?[node_100000000img_0_obj_0["l0"].ToString ()]?[node_100000000img_0_obj_0["l1"].ToString ()]?[node_100000000img_0_obj_0["l2"].ToString ()]);
+			//animation = new Animation (ms.wz.wzFile_map["Obj"][$"{node_100000000img_0_obj_0["oS"]}.img"]?[node_100000000img_0_obj_0["l0"].ToString ()]?[node_100000000img_0_obj_0["l1"].ToString ()]?[node_100000000img_0_obj_0["l2"].ToString ()]);
 			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 			//ORIGINAL LINE: pos = Point_short(src["x"], src["y"]);
 

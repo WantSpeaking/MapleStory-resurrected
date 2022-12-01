@@ -12,12 +12,14 @@ using ms_Unity;
 public class TestURPBatcher : SingletonMono<TestURPBatcher>
 {
 	public GameObject prefeb;
+	public GameObject prefab_Sprite;
+	public UnityEngine.U2D.SpriteAtlas SpriteAtlas;
 
 	public Material presetMaterial;
 
 	public List<Texture2D> presetTextureList = new List<Texture2D> ();
 
-	public ConcurrentDictionary<ms.Texture, GameObject> texture_GObj_Dict = new ConcurrentDictionary<ms.Texture, GameObject> ();
+	public ConcurrentDictionary<ms.Texture, Renderer> texture_GObj_Dict = new ConcurrentDictionary<ms.Texture, Renderer> ();
 
 	public ConcurrentDictionary<string, Material> path_Material_Dict = new ConcurrentDictionary<string, Material> ();
 
@@ -31,12 +33,12 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 	private GTextInput gTextInput;
 
 	UnityObjectPool<GameObject> pool = new UnityObjectPool<GameObject> ();
-	public GameObject TryGetGObj (ms.Texture hashCode, Func<GameObject> create = null)
+	public Renderer TryGetGObj (ms.Texture hashCode, Func<GameObject> create = null)
 	{
 		if (!texture_GObj_Dict.TryGetValue (hashCode, out var result))
 		{
-			result = create?.Invoke ();
-			result = Create (hashCode);
+			//result = create?.Invoke ();
+			result = Create (hashCode).GetComponent<Renderer> ();
 			if (result != null)
 			{
 				texture_GObj_Dict.TryAdd (hashCode, result);
@@ -48,39 +50,72 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 		}
 		return result;
 	}
-
-	public void TryDraw (ms.Texture texture, Bitmap pnginfo, Vector3 pos, Vector3 scale, GameObject drawParent)
+	private Dictionary<string, int> textureName_RenderOrder = new Dictionary<string, int> ();
+	private int renderOrder = -100;
+	public void TryDraw (ms.Texture texture, Vector3 pos, Vector3 scale, GameObject drawParent)
 	{
-		GameObject gobj = TryGetGObj (texture);
-		if (gobj == null || pnginfo == null)
+		var renderer = TryGetGObj (texture);
+		if (renderer == null)
 		{
 			throw new NullReferenceException ();
 		}
+		var gobj = renderer.gameObject;
+
 		if ((bool)gobj)
 		{
 			if (drawParent != null && !gobj.transform.IsChildOf (drawParent.transform))
 			{
 				gobj.SetParent (drawParent.transform);
 			}
-			gobj.SetActive (true);
+			//gobj.SetActive (true);
+			renderer.enabled = true;
 			gobj.transform.position = pos;
-			gobj.transform.localScale = new Vector3 ((float)pnginfo.Width * scale.x, (float)pnginfo.Height * scale.y, 1f);
+			var scalFactorX = texture.sprite == null ? texture.get_dimensions ().x () : 100;
+			var scalFactorY = texture.sprite == null ? texture.get_dimensions ().y () : 100;
+
+			gobj.transform.localScale = new Vector3 ((float)scalFactorX * scale.x, (float)scalFactorY * scale.y, 1f);
 			SingletonMono<GameUtil>.Instance.DrawOrder--;
-			//AppDebug.Log ($"fullPath:{texture.fullPath} pnginfo:{pnginfo.ToString ()}  scale:{scale}");
 		}
 	}
-
+	List<KeyValuePair<ms.Texture, GameObject>> cache_List = new List<KeyValuePair<ms.Texture, GameObject>> ();
+	int cache_Count = 0;
 	public void HideAll ()
 	{
+		//SpriteAtlas.
+		//cache_List.Sort((x,y)=>x.sprite.)
 		//AppDebug.LogError ($"texture_GObj_Dict.Count:{texture_GObj_Dict.Count}\t _GObj_Pool.count:{_GObj_Pool.count}\t _Material_Pool.count:{_Material_Pool.count}");
 		//Clear ();
-		foreach (GameObject gobj in texture_GObj_Dict.Values)
+
+		/*	if (texture_GObj_Dict.Count != cache_List.Count)
+			{
+				cache_List.Clear ();
+				cache_List.AddRange(texture_GObj_Dict);
+				cache_List.Sort ((pair1, pair2) => pair1.Value..)
+			}*/
+		/*		if (cache_Count != texture_GObj_Dict.Count)
+				{
+					cache_Count = texture_GObj_Dict.Count;
+					foreach (var pair in texture_GObj_Dict)
+					{
+						if (pair.Key.sprite == null)
+						{
+							continue;
+						}
+						GameObject gobj = pair.Value;
+						var spriteRender = gobj.GetComponent<SpriteRenderer> ();
+						spriteRender.sortingOrder = textureName_RenderOrder.TryGetValue (spriteRender.sprite.texture.name);
+						Debug.Log ($"spriteRender:{spriteRender.sprite.texture.name}={spriteRender.sortingOrder}");
+					}
+				}*/
+
+		foreach (var  gobj in texture_GObj_Dict.Values)
 		{
 			/*Vector3 originalPos = gobj.transform.position;
 			gobj.transform.position = new Vector3 (originalPos.x, originalPos.y, 1f);*/
 
-			gobj.SetActive (false);
+			gobj.enabled = false;
 		}
+		//Debug.Log ($"_GObj_Pool.count:{_GObj_Pool.count} texture_GObj_Dict.Count:{texture_GObj_Dict.Count} targetFrameRate:{Application.targetFrameRate}");
 	}
 
 	List<ms.Texture> textures = new List<ms.Texture> ();
@@ -96,9 +131,11 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 
 		foreach (var pair in texture_GObj_Dict)
 		{
-			_Material_Pool.ReturnObject (pair.Key.fullPath, pair.Value.GetComponent<MeshRenderer> ().material);
-			_GObj_Pool.ReturnObject (pair.Key.fullPath, pair.Value);
-			pair.Value.SetActive (false);
+			if (pair.Key.sprite == null)
+				_Material_Pool.ReturnObject (pair.Key.fullPath, pair.Value.GetComponent<MeshRenderer> ().material);
+			_GObj_Pool.ReturnObject (pair.Key.fullPath, pair.Value.gameObject);
+			pair.Value.enabled = false;
+			//pair.Value.SetActive (false);
 		}
 		texture_GObj_Dict.Clear ();
 	}
@@ -110,27 +147,48 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 		{
 			Parent = new GameObject ("Parent");
 		}
+		if (tex.sprite == null)
+		{
+			Material tempMaterial = _Material_Pool.GetObject (tex.fullPath, CreateMaterial);
+			tempMaterial.mainTexture = tex.texture2D;
 
-		//Material tempMaterial = new Material (presetMaterial);
-		Material tempMaterial = _Material_Pool.GetObject (tex.fullPath, CreateMaterial);
-		tempMaterial.mainTexture = tex.texture2D;
+			GameObject tempObj = _GObj_Pool.GetObject (tex.fullPath, CreateGObj);
+			tempObj.SetActive (true);
+			tempObj.name = tex.fullPath.Substring (tex.fullPath.IndexOf (".wz\\"));
+			tempObj.GetComponent<MeshRenderer> ().material = tempMaterial;
+			tempObj.SetParent (Parent.transform);
+			tempObj.layer = tex.layerMask;
+			return tempObj;
+		}
+		else
+		{
+			GameObject tempObj = _GObj_Pool.GetObject (tex.fullPath, CreateSpriteObj);
+			tempObj.SetActive (true);
+			tempObj.name = tex.fullPath;
 
-		//GameObject tempObj = UnityEngine.Object.Instantiate (prefeb);
+			tempObj.SetParent (Parent.transform);
+			tempObj.layer = tex.layerMask;
 
-		GameObject tempObj = _GObj_Pool.GetObject (tex.fullPath, CreateGObj);
-		tempObj.SetActive (true);
-		tempObj.name = tex.fullPath;
-		tempObj.GetComponent<MeshRenderer> ().material = tempMaterial;
-		tempObj.SetParent (Parent.transform);
-		tempObj.layer = tex.layerMask;
-		return tempObj;
+			var spriteRender = tempObj.GetComponent<SpriteRenderer> ();
+			spriteRender.sprite = tex.sprite;
+			if (!textureName_RenderOrder.TryGetValue (spriteRender.sprite.texture.name, out var _))
+			{
+				textureName_RenderOrder.Add (spriteRender.sprite.texture.name, renderOrder++);
+			}
+			spriteRender.sortingOrder = textureName_RenderOrder.TryGetValue (spriteRender.sprite.texture.name);
+
+			return tempObj;
+		}
 	}
 
 	private GameObject CreateGObj ()
 	{
 		return UnityEngine.Object.Instantiate (prefeb);
 	}
-
+	private GameObject CreateSpriteObj ()
+	{
+		return UnityEngine.Object.Instantiate (prefab_Sprite);
+	}
 	private Material CreateMaterial ()
 	{
 		return new Material (presetMaterial);

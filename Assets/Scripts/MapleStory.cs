@@ -139,7 +139,7 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	private void OnGUI ()
 	{
-		GUI.skin.label.fontSize = fontSize;
+		//GUI.skin.label.fontSize = fontSize;
 		GUI.color = Color.black;
 		GUILayout.BeginVertical ();
 
@@ -299,8 +299,11 @@ public class MapleStory : SingletonMono<MapleStory>
 		DamageNumber.init();
 		MapPortals.init();
 		*/
-		try
+		//try
 		{
+			Application.targetFrameRate = 240;
+			BetterStreamingAssets.Initialize ();
+
 			Session.get ().init ();
 			NxFiles.init (Constants.get ().path_MapleStoryFolder);
 			Window.get ().init ();
@@ -318,17 +321,18 @@ public class MapleStory : SingletonMono<MapleStory>
 			button_load.gameObject.SetActive (false);
 
 		}
-		catch (Exception ex)
+		/*catch (Exception ex)
 		{
 			initError = true;
 			message = "初始化错误，数据包不存在，或则权限不足无法读取，请开启文件读写权限：";
 			message += ex.Message;
 			button_load.gameObject.SetActive (true);
-		}
+			Debug.LogError (message);
+		}*/
 
 		//Stage.get ().load_map(100000000);
 
-		dictionary = DictionaryPool<string, string>.Get ();
+		/*dictionary = DictionaryPool<string, string>.Get ();
 		List<string> strings = new List<string> ();
 
 		foreach (var item in wz.wzFile_quest["QuestInfo.img"])
@@ -358,7 +362,7 @@ public class MapleStory : SingletonMono<MapleStory>
 					}
 				}
 			}
-		}
+		}*/
 		//FindChild (wz.wzFile_quest["QuestInfo.img"]);
 		//FindChild (wz.wzFile_quest["Say.img"]);
 		//Debug.Log (dictionary.ToDebugLog ());
@@ -386,6 +390,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	}
 	public void update ()
 	{
+		
 		Stage.get ().update ();
 		UI.get ().update ();
 		Session.get ().read ();

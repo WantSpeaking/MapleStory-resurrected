@@ -110,7 +110,6 @@ namespace ms
 			TestURPBatcher.Instance.Clear ();
 		}
 
-		private static MapleDataProvider mapSource = MapleDataProviderFactory.getDataProvider (new System.IO.DirectoryInfo (Constants.get ().path_WzXmlFolder + "/Map.wz"));
 		private static string getMapName (int mapid)
 		{
 			string mapName = StringUtil.getLeftPaddedStr (mapid.ToString(), '0', 9);
@@ -143,13 +142,13 @@ namespace ms
 			WzObject node_100000000img = ((mapid == -1) ? wz.wzFile_ui["CashShopPreview.img"] : wz.wzFile_map["Map"]["Map" + prefix][strid + ".img"]);
 
 			var mapName = getMapName (mapid);
-			MapleData mapData = mapSource.getData (mapName);
+			MapleData mapData = wz.xml_map.getData (mapName);
 			MapleData infoData = mapData.getChildByPath ("info");
 
 			/*tilesobjs = new MapTilesObjs (node_100000000img);
 			backgrounds = new MapBackgrounds (node_100000000img["back"]);*/
 			tilesobjs = new MapTilesObjs (mapData);
-			backgrounds = new MapBackgrounds (node_100000000img["back"]);
+			backgrounds = new MapBackgrounds (mapData["back"]);
 
 			physics = new Physics (node_100000000img["foothold"]);
 			mapinfo = new MapInfo (node_100000000img, physics.get_fht ().get_walls (), physics.get_fht ().get_borders ());

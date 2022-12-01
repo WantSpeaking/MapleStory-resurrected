@@ -9,7 +9,7 @@ using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using MapleLib.WzLib.WzStructure;
 using MapleLib.WzLib.WzStructure.Data;
-
+using provider;
 
 namespace ms
 {
@@ -162,7 +162,154 @@ namespace ms
 
 		}
 
+		public Background (MapleData src)////back1stChildMap/Map1/100000000.img/back/0
+		{
+			//AppDebug.Log(src.FullPath);
+			VWIDTH = Constants.get ().get_viewwidth ();
+			VHEIGHT = Constants.get ().get_viewheight ();
+			WOFFSET = (short)(VWIDTH / 2);
+			HOFFSET = (short)(VHEIGHT / 2);
 
+			var backsrc = ms.wz.wzFile_map["Back"];//Map.wz/Back
+
+			/*     var node_0 = backsrc[src["bS"] + ".img"]?[animated ? "ani"  "back"]?[src["no"]?.ToString()];// Map.wz/Back/grassySoil.img/ani/0
+           if(node_0 == null){AppDebug.Log ($"Background() node_0 == null");}
+           animation = new Animation(node_0);*/
+			animated = src["ani"];//animatedMap/Map1/100000000.img/back/0/ani
+			animation = ms.wz.xml_map.getData ($"Back/{src["bS"]}.img")?[animated ? "ani" : "back"]?[src["no"]?.ToString ()];
+			//animation = backsrc[$"{src["bS"]}.img"]?[animated ? "ani" : "back"]?[src["no"]?.ToString ()]; //animationMap.wz/Back/{Map/Map1/100000000.img/back/0/bS}.img/(ani|back)/{Map/Map1/100000000.img/back/0/no}   Map.wz/Back/grassySoil.img/ani/0
+
+			opacity = src["a"];//Map/Map1/100000000.img/back/0/a
+			flipped = src["f"];//Map/Map1/100000000.img/back/0/f
+			cx = src["cx"];//Map/Map1/100000000.img/back/0/cx
+			cy = src["cy"]; //Map/Map1/100000000.img/back/0/cy
+			rx = src["rx"]; //Map/Map1/100000000.img/back/0/rx
+			ry = src["ry"]; //Map/Map1/100000000.img/back/0/ry
+
+			moveobj.set_x (src["x"]);//Map/Map1/100000000.img/back/0/x
+			moveobj.set_y (src["y"]);//Map/Map1/100000000.img/back/0/y
+
+			Type type = typebyid (src["type"]);//Map/Map1/100000000.img/back/0/type
+
+			settype (type);
+
+			int.TryParse (src.Name, out orderInLayer);
+			fullPath = src.FullPath;
+
+			{
+				//Create (src);
+			}
+
+
+			/*var backSrcProp = backsrc[$"{src["bS"]}.img"]?[animated ? "ani" : "back"]?[src["no"]?.ToString ()];
+			int a = src["a"];
+			bool front = src["front"];
+			BackgroundType type1 = (BackgroundType)(int)src["type"];
+
+			List<IDXObject> frames = new List<IDXObject> ();
+
+
+			if (backSrcProp is WzCanvasProperty property) //one-frame
+			{
+				if (fullPath == @"map.wz/Back/midForest.img/back/0")
+				{
+					AppDebug.Log ("");
+				}
+
+				var dxoItem = ConvertWzCanvasProperty_To_DXObject (property);
+				if (fullPath == @"map.wz/Back/midForest.img/back/0")
+				{
+					AppDebug.Log ("");
+				}
+				backgroundItem = new BackgroundItem (cx, cy, (int)rx, (int)ry, type1, a, front, dxoItem, flipped, 0);
+			}
+			else if (backSrcProp is WzSubProperty) // animated
+			{
+				WzImageProperty _frameProp;
+				int i = 0;
+
+				while ((_frameProp = WzInfoTools.GetRealProperty ((WzImageProperty)backSrcProp[(i++).ToString ()])) != null)
+				{
+					*//*	if (_frameProp is WzSubProperty) // issue with 867119250
+						{
+							frames.AddRange (LoadFrames (texturePool, _frameProp, x, y, device, ref usedProps, null));
+						}
+						else*//*
+					{
+						WzCanvasProperty frameProp;
+
+						if (_frameProp is WzUOLProperty) // some could be UOL. Ex: 321100000 Mirror world: [Mirror World] Leafre
+						{
+							WzObject linkVal = ((WzUOLProperty)_frameProp).LinkValue;
+							if (linkVal is WzCanvasProperty linkCanvas)
+							{
+								frameProp = linkCanvas;
+							}
+							else
+								continue;
+						}
+						else
+						{
+							frameProp = (WzCanvasProperty)_frameProp;
+						}
+
+						//int delay = (int)InfoTool.GetOptionalInt (frameProp["delay"], 100);
+						frames.Add (ConvertWzCanvasProperty_To_DXObject (frameProp));
+						//bool bLoadedSpine = LoadSpineMapObjectItem ((WzImageProperty)frameProp.Parent, frameProp, device, spineAni);
+						*//*bool bLoadedSpine = false;
+						if (!bLoadedSpine)
+						{
+							if (frameProp.MSTag == null)
+							{
+								string canvasBitmapPath = frameProp.FullPath;
+								Texture2D textureFromCache = ms.Stage.Instance.texturePool.GetTexture (canvasBitmapPath);
+								if (textureFromCache != null)
+								{
+									frameProp.MSTag = textureFromCache;
+								}
+								else
+								{
+									frameProp.MSTag = frameProp.GetLinkedWzCanvasBitmap ().ToTexture2D (device);
+
+									// add to cache
+									ms.Stage.Instance.texturePool.AddTextureToPool (canvasBitmapPath, (Texture2D)frameProp.MSTag);
+								}
+							}
+						}*//*
+						//usedProps.Add (frameProp);
+
+						*//*if (frameProp.MSTagSpine != null)
+						{
+							WzSpineObject spineObject = (WzSpineObject)frameProp.MSTagSpine;
+							MapleLib.WzLib.PointF origin = frameProp.GetCanvasOriginPosition ();
+
+							frames.Add (new DXSpineObject (spineObject, x, y, origin, delay));
+						}
+						else if (frameProp.MSTag != null)
+						{
+							Texture2D texture = (Texture2D)frameProp.MSTag;
+							MapleLib.WzLib.PointF origin = frameProp.GetCanvasOriginPosition ();
+
+							frames.Add (new DXObject (x - (int)origin.X, y - (int)origin.Y, texture, delay));
+						}
+						else
+						{
+							Texture2D texture = Properties.Resrcs.placeholder.ToTexture2D (device);
+							MapleLib.WzLib.PointF origin = frameProp.GetCanvasOriginPosition ();
+
+							frames.Add (new DXObject (x - (int)origin.X, y - (int)origin.Y, texture, delay));
+						}*//*
+					}
+				}
+
+				if (frames.Count == 0)
+				{
+					AppDebug.Log ($"{fullPath} frames.Count == 0");
+				}
+				backgroundItem = new BackgroundItem (cx, cy, (int)rx, (int)ry, type1, a, front, frames, flipped, 0);
+			}*/
+
+		}
 		public void draw (double viewx, double viewy, float alpha, int sortingLayer)
 		{
 			/*animation.draw (new DrawArgument (new Point_short ((short)x, (short)y), flipped, opacity / 255), alpha);*/
@@ -801,6 +948,52 @@ namespace ms
 
 			black = string.IsNullOrEmpty (src?["0"]?["bS"]?.GetString ());
 		}
+
+		public MapBackgrounds (MapleData src)//back2NodePathMap/Map1/100000000.img/back
+		{
+			//if (src is WzSubProperty subProperty)
+			{
+				foreach (var wzProperty in src)//directoryap/Map1/100000000.img/back/0
+				{
+					bool front = wzProperty["front"]; //frontMap/Map1/100000000.img/back/0/front
+					Background background = new Background (wzProperty);
+
+
+					if (front)
+					{
+						foregrounds.Add (background);
+					}
+					else
+					{
+						backgrounds.Add (background);
+					}
+				}
+			}
+
+			//short no = 0;//todo 2 mapBackgrounds
+			//var back = src[Convert.ToString(no)];//back1stChildMap/Map1/100000000.img/back/0
+
+
+			/*	while (back.size() > 0)
+				{
+					bool front = back["front"]; //frontMap/Map1/100000000.img/back/0/front
+
+					if (front)
+					{
+						foregrounds.Add(back);
+					}
+					else
+					{
+						backgrounds.Add(back);
+					}
+
+					no++;
+					back=(src[Convert.ToString(no)]);
+				}*/
+
+			black = string.IsNullOrEmpty (src?["0"]?["bS"]);
+		}
+
 		public MapBackgrounds ()
 		{
 		}

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using ms;
-
+using provider;
 
 namespace ms
 {
@@ -62,6 +62,58 @@ namespace ms
 				scales = new Tuple<short, short> (100, 100);
 		}
 
+		public Frame (MapleData src) // Map.wz/Back/grassySoil.img/ani/0
+		{
+			tempData = src;
+
+			texture = new Texture (src);
+			bounds = new Rectangle_short (src);
+			head = src["head"];
+			//AppDebug.Log (src["delay"] + src.FullPath);
+			delay = src["delay"];
+			//if (temp?.FullPath.Contains ("1210100.img") ?? false)
+			//AppDebug.Log ($"\t delay:{delay}");
+			if (delay == 0)
+				delay = 100;
+
+			bool hasa0 = src["a0"] != null;
+			bool hasa1 = src["a1"] != null;
+
+			if (hasa0 && hasa1)
+			{
+				opacities = new Tuple<byte, byte> (src["a0"], src["a1"]);
+			}
+			else if (hasa0)
+			{
+				byte a0 = src["a0"];
+				opacities = new Tuple<byte, byte> (a0, (byte)(255 - a0));
+			}
+			else if (hasa1)
+			{
+				byte a1 = src["a1"];
+				opacities = new Tuple<byte, byte> ((byte)(255 - a1), a1);
+			}
+			else
+			{
+				opacities = new Tuple<byte, byte> (255, 255);
+			}
+			
+			bool hasz0 = src["z0"] != null;
+
+			bool hasz1 = src["z1"] != null;
+
+
+
+			if (hasz0 && hasz1)
+				scales = new Tuple<short, short> (src["z0"], src["z1"]);
+			else if (hasz0)
+				scales = new Tuple<short, short> (src["z0"], 0);
+			else if (hasz1)
+				scales = new Tuple<short, short> (100, src["z1"]);
+			else
+				scales = new Tuple<short, short> (100, 100);
+		}
+
 		public Frame ()
 		{
 			delay = 0;
@@ -79,6 +131,7 @@ namespace ms
 		}
 
 		private WzObject temp;
+		private MapleData tempData;
 
 		public void draw (DrawArgument args)
 		{
@@ -97,7 +150,7 @@ namespace ms
 			return (ushort)scales.Item1;
 		}
 
-		public ushort get_delay ()
+		public int get_delay ()
 		{
 			return delay;
 		}
@@ -147,7 +200,7 @@ namespace ms
 		private Point_short head;
 		private Rectangle_short bounds;
 		private Texture texture;
-		private ushort delay;
+		private int delay;
 		private Tuple<byte, byte> opacities;
 
 		private Tuple<short, short> scales;
@@ -160,12 +213,17 @@ namespace ms
 		private SortedSet<short> frameids = new SortedSet<short> ();
 
 		private WzObject cache_src { get; set; }
+		private MapleData cache_srcData { get; set; }
 
 		public Animation (WzObject src) // Map.wz/Back/grassySoil.img/ani/0
 		{
 			Init (src);
 		}
 
+		public Animation (MapleData src)
+		{
+			Init (src);
+		}
 		public Animation ()
 		{
 			animated = false;
@@ -234,6 +292,61 @@ namespace ms
 
 			reset ();
 		}
+
+		private void Init (MapleData src)
+		{
+			if (src == null)
+			{
+				//AppDebug.Log ($"Animation(src):src == null");
+				frames.Add (new Frame ());
+				return;
+			}
+
+			cache_srcData = src;
+
+			bool istexture = src.IsTexture ();
+
+			if (istexture) //WzCanvasProperty
+			{
+				frames.Add (new Frame (src));
+			}
+			else
+			{
+				if (src is MapleData node_Anim)
+				{
+					foreach (var sub in src)
+					{
+						//AppDebug.Log ($"{sub.FullPath} istexture:{istexture} type:{(sub as WzImageProperty)?.PropertyType}");
+						if (sub.Type == provider.wz.MapleDataType.CANVAS)
+						{
+							short fid = string_conversion.or_default (sub.Name, (short)-1);
+
+							if (fid >= 0)
+							{
+								frameids.Add (fid);
+							}
+						}
+					}
+
+					foreach (var fid in frameids)
+					{
+						var sub = src[Convert.ToString (fid)];
+						frames.Add (new Frame (sub));
+					}
+
+					if (frames.Count == 0)
+					{
+						frames.Add (new Frame ());
+					}
+				}
+			}
+
+			animated = frames.Count > 1;
+			zigzag = src["zigzag"];
+
+			reset ();
+		}
+
 		public void reset ()
 		{
 			frame.set (0);
@@ -395,9 +508,9 @@ namespace ms
 			return (ushort)(frame_id < frames.Count ? frames[frame_id].get_delay () : 0);
 		}
 
-		private ushort getdelayuntil (short frame_id)
+		private int getdelayuntil (short frame_id)
 		{
-			ushort total = 0;
+			int total = 0;
 
 			for (short i = 0; i < frame_id; i++)
 			{
@@ -459,7 +572,7 @@ namespace ms
 		private Linear_float opacity = new Linear_float ();
 		private Linear_float xyscale = new Linear_float ();
 
-		private ushort delay;
+		private int delay;
 		private short framestep;
 		private float opcstep;
 	}

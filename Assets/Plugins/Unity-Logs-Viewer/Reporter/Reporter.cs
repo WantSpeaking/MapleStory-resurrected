@@ -1899,6 +1899,8 @@ public class Reporter : MonoBehaviour
 
 	void AddLog(string condition, string stacktrace, LogType type)
 	{
+		if ((type == LogType.Error)&& !show) doShow ();
+		
 		float memUsage = 0f;
 		string _condition = "";
 		if (cachedString.ContainsKey(condition)) {
