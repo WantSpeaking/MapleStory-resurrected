@@ -100,7 +100,7 @@ namespace NodeCanvas.Framework
 
         ///----------------------------------------------------------------------------------------------
 
-        ///<summary>Gets the variable data value from the blackboard with provided name and type T.</summary>
+        ///<summary>Gets the Variable value from the blackboard with provided name and type T.</summary>
         public static T GetVariableValue<T>(this IBlackboard blackboard, string varName) {
 
             var variable = GetVariable<T>(blackboard, varName);
@@ -118,7 +118,7 @@ namespace NodeCanvas.Framework
             return default(T);
         }
 
-        ///<summary>Set the value of the Variable variable defined by its name. If a data by that name and type doesnt exist, a new data is added by that name</summary>
+        ///<summary>Set the value of the Variable value defined by its name. If a Variable by that name and type doesnt exist, a new variable is added by that name</summary>
         public static Variable SetVariableValue(this IBlackboard blackboard, string varName, object value) {
 
             Variable variable;
@@ -139,11 +139,11 @@ namespace NodeCanvas.Framework
 
         ///----------------------------------------------------------------------------------------------
 
-        ///<summary>Initialize variables data binding for the target (gameobject is used). It can be null for static bindings</summary>
+        ///<summary>Initialize Variables data binding for the target (gameobject is used). target ignored for static bindings</summary>
         public static void InitializePropertiesBinding(this IBlackboard blackboard, Component target, bool callSetter) {
             if ( blackboard.variables.Count == 0 ) { return; }
-            foreach ( var data in blackboard.variables.Values ) {
-                data.InitializePropertyBinding(target?.gameObject, callSetter);
+            foreach ( var variable in blackboard.variables.Values ) {
+                variable.InitializePropertyBinding(target?.gameObject, callSetter);
             }
         }
 
@@ -209,10 +209,14 @@ namespace NodeCanvas.Framework
 
         ///----------------------------------------------------------------------------------------------
 
-        ///<summary>Change variable type (creates new instance and keeps name and ID)</summary>
+        ///<summary>Change variable type (creates new instance but keeps name and ID)</summary>
         public static Variable ChangeVariableType(this IBlackboard blackboard, Variable target, Type newType) {
+            var name = target.name;
+            var id = target.ID;
+            blackboard.RemoveVariable(target.name);
+            //do this way instead of AddVariable to keep the same name and id
             var variableType = typeof(Variable<>).RTMakeGenericType(new Type[] { newType });
-            var newVariable = (Variable)Activator.CreateInstance(variableType, new object[] { target.name, target.ID });
+            var newVariable = (Variable)Activator.CreateInstance(variableType, new object[] { name, id });
             blackboard.variables[target.name] = newVariable;
             blackboard.TryInvokeOnVariableAdded(newVariable);
             return newVariable;

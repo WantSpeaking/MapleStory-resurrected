@@ -92,11 +92,6 @@ namespace NodeCanvas.Framework
             get { return TipConnectionStyle.Circle; }
         }
 
-        ///<summary>Editor. Optional explicit "flow" direction</summary>
-        virtual public ParadoxNotion.PlanarDirection direction {
-            get { return ParadoxNotion.PlanarDirection.Auto; }
-        }
-
         ///----------------------------------------------------------------------------------------------
 
         //Draw connection from-to
@@ -110,7 +105,7 @@ namespace NodeCanvas.Framework
             _endRect.center = toPos;
             endRect = _endRect;
 
-            ParadoxNotion.CurveUtils.ResolveTangents(fromPos, toPos, sourceNode.rect, targetNode.rect, Prefs.connectionsMLT, direction, out fromTangent, out toTangent);
+            ParadoxNotion.CurveUtils.ResolveTangents(fromPos, toPos, sourceNode.rect, targetNode.rect, Prefs.connectionsMLT, graph.flowDirection, out fromTangent, out toTangent);
             if ( sourceNode == targetNode ) {
                 fromTangent = fromTangent.normalized * 120;
                 toTangent = toTangent.normalized * 120;
@@ -203,7 +198,7 @@ namespace NodeCanvas.Framework
                 if ( relinkState == RelinkState.Target ) {
                     toPos = Event.current.mousePosition;
                 }
-                ParadoxNotion.CurveUtils.ResolveTangents(fromPos, toPos, Prefs.connectionsMLT, direction, out fromTangent, out toTangent);
+                ParadoxNotion.CurveUtils.ResolveTangents(fromPos, toPos, Prefs.connectionsMLT, graph.flowDirection, out fromTangent, out toTangent);
                 size = defaultSize;
             }
 

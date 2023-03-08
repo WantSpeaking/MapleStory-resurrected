@@ -125,9 +125,10 @@ namespace HaCreator.Wz
                 wzDirs[name] = new WzMainDirectory (wzf);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 //HaRepackerLib.Warning.Error("Error initializing " + name + ".wz (" + e.Message + ").\r\nCheck that the directory is valid and the file is not in use.");
+                AppDebug.LogError(ex.Message);
                 return false;
             }
         }

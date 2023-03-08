@@ -13,13 +13,13 @@ namespace ms
 
         private static bool exists(string name)
         {
-            return true;
+            return WzManager.wzFiles.ContainsKey(name.ToLower());
         }
 
         private static WzFile add_file(string name)
         {
-            if (!exists(name))
-                return null;
+            if (exists(name))
+                return WzManager.wzFiles[name.ToLower()];
 
             //var file = new WzFile(name,WzMapleVersion.EMS);
              WzManager.LoadWzFile(name);
@@ -104,8 +104,19 @@ namespace ms
 				//throw runtime_error("Failed to locate nx files.");
 			}*/
 		}
+        public static void load_string(string wzPath)
+        {
+            WzManager ??= new WzFileManager(wzPath);
+            wzFile_string = add_file("string");
+        }
 
-		public static readonly string[] SKILL_WZ_FILES = {
+        public static void load_skill(string wzPath)
+        {
+            WzManager ??= new WzFileManager(wzPath);
+            wzFile_string = add_file("skill");
+        }
+
+        public static readonly string[] SKILL_WZ_FILES = {
 			"Skill",
 			"SkillMy1"
 		};

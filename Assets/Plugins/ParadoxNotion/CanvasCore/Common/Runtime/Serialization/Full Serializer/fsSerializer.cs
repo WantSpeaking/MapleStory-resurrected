@@ -169,7 +169,7 @@ namespace ParadoxNotion.Serialization.FullSerializer
 
         ///<summary> A UnityObject references database for serialization/deserialization</summary>
         public List<UnityEngine.Object> ReferencesDatabase { get; set; }
-        ///<summary> Ignore cycle references? //TODO: Refactor cycle references to avoid doing this.</summary>
+        ///<summary> Ignore cycle references?</summary> //TODO: Refactor cycle references to avoid doing this.
         public bool IgnoreSerializeCycleReferences { get; set; }
         ///<summary> An event raised before an object has been serialized given the object</summary>
         public event Action<object> onBeforeObjectSerialized;

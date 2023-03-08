@@ -40,7 +40,7 @@ namespace NodeCanvas.BehaviourTrees
             GUILayout.Space(25);
             var pRect = new Rect(5, GUILayoutUtility.GetLastRect().y, rect.width - 10, 20);
             var t = 1 - ( elapsedTime / timeout.value );
-            UnityEditor.EditorGUI.ProgressBar(pRect, t, elapsedTime > 0 ? string.Format("Timeouting ({0})", elapsedTime.ToString("0.0")) : "Ready");
+            UnityEditor.EditorGUI.ProgressBar(pRect, t, elapsedTime > 0 ? string.Format("({0})", elapsedTime.ToString("0.0")) : "Ready");
         }
 
 #endif

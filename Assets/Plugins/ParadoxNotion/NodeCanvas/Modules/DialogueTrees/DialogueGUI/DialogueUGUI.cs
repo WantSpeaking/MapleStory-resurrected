@@ -3,11 +3,12 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 namespace NodeCanvas.DialogueTrees.UI.Examples
 {
 
-    public class DialogueUGUI : MonoBehaviour
+    public class DialogueUGUI : MonoBehaviour, IPointerClickHandler
     {
 
         [System.Serializable]
@@ -48,18 +49,11 @@ namespace NodeCanvas.DialogueTrees.UI.Examples
             get { return _localSource != null ? _localSource : _localSource = gameObject.AddComponent<AudioSource>(); }
         }
 
-        bool anyKeyDown {
-            get
-            {
-#if ENABLE_LEGACY_INPUT_MANAGER
-                return Input.anyKeyDown;
-#elif ENABLE_INPUT_SYSTEM
-                return UnityEngine.InputSystem.Keyboard.current.anyKey.wasPressedThisFrame || UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame;
-#else
-                return Input.anyKeyDown;
-#endif
-            }
-        }
+
+        private bool anyKeyDown;
+        public void OnPointerClick(PointerEventData eventData) => anyKeyDown = true;
+        void LateUpdate() => anyKeyDown = false;
+
 
         void Awake() { Subscribe(); Hide(); }
         void OnEnable() { UnSubscribe(); Subscribe(); }
@@ -115,6 +109,7 @@ namespace NodeCanvas.DialogueTrees.UI.Examples
             if ( playSource != null ) playSource.Stop();
         }
 
+        ///----------------------------------------------------------------------------------------------
 
         void OnSubtitlesRequest(SubtitlesRequestInfo info) {
             StartCoroutine(Internal_OnSubtitlesRequestInfo(info));
@@ -127,6 +122,7 @@ namespace NodeCanvas.DialogueTrees.UI.Examples
             var actor = info.actor;
 
             subtitlesGroup.gameObject.SetActive(true);
+            subtitlesGroup.position = originalSubsPosition;
             actorSpeech.text = "";
 
             actorName.text = actor.name;
@@ -229,8 +225,7 @@ namespace NodeCanvas.DialogueTrees.UI.Examples
             }
         }
 
-
-
+        ///----------------------------------------------------------------------------------------------
 
         void OnMultipleChoiceRequest(MultipleChoiceRequestInfo info) {
 
@@ -284,10 +279,7 @@ namespace NodeCanvas.DialogueTrees.UI.Examples
             isWaitingChoice = false;
             SetMassAlpha(optionsGroup, 1f);
             optionsGroup.gameObject.SetActive(false);
-            if ( info.showLastStatement ) {
-                subtitlesGroup.gameObject.SetActive(false);
-                subtitlesGroup.transform.position = originalSubsPosition;
-            }
+            subtitlesGroup.gameObject.SetActive(false);
             foreach ( var tempBtn in cachedButtons.Keys ) {
                 Destroy(tempBtn.gameObject);
             }

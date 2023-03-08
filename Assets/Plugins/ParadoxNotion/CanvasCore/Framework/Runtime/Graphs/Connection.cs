@@ -150,7 +150,7 @@ namespace NodeCanvas.Framework
 
 #if UNITY_EDITOR
             if ( sourceNode != null && targetNode != null ) {
-                targetNode.TrySortConnectionsByPositionX();
+                targetNode.TrySortConnectionsByRelativePosition();
             }
 #endif
 
@@ -182,7 +182,7 @@ namespace NodeCanvas.Framework
 
 #if UNITY_EDITOR
             if ( sourceNode != null && targetNode != null ) {
-                targetNode.TrySortConnectionsByPositionX();
+                targetNode.TrySortConnectionsByRelativePosition();
             }
 #endif
 

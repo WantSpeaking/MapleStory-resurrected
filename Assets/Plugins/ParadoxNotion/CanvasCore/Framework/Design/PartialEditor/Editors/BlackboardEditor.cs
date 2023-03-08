@@ -88,7 +88,6 @@ namespace NodeCanvas.Editor
             if ( bb.variables.Keys.Count != 0 ) {
                 GUILayout.BeginHorizontal();
                 GUI.color = Color.yellow;
-                GUILayout.Label ("Type", layoutOptions);
                 GUILayout.Label("Name", layoutOptions);
                 GUILayout.Label("Value", layoutOptions);
                 GUI.color = Color.white;
@@ -135,7 +134,6 @@ namespace NodeCanvas.Editor
                 GUILayout.Label(ReflectionTools.FriendlyTypeName(missingVariableType.missingType).FormatError(), Styles.leftLabel, layoutOptions);
                 return;
             }
-            GUILayout.Label (data.varType.Name, Styles.leftLabel, layoutOptions);
 
             //Don't allow name edits in play mode. Instead show just a label
             if ( Application.isPlaying ) {
@@ -160,7 +158,8 @@ namespace NodeCanvas.Editor
             if ( tempVariablesList.Where(v => v != data).Select(v => v.name).Contains(data.name) ) {
                 GUI.color = Color.red;
             }
-            ShowDataLabelGUI (data, index);
+
+            ShowDataLabelGUI(data, index);
             ShowDataFieldGUI(data, index);
         }
 

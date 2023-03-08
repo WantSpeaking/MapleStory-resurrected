@@ -47,7 +47,7 @@ public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
 		set { instance = value; }
 	}
 
-	public static T get()
+	public static T Get()
 	{
 		return Instance;
 	}

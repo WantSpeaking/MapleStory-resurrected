@@ -81,7 +81,7 @@ namespace ParadoxNotion
             return ALPHABET[index].ToString();
         }
 
-        ///<summary>Get the string result within from to</summary>
+        ///<summary>Get the string result within first from and last to</summary>
         public static string GetStringWithinOuter(this string input, char from, char to) {
             var start = input.IndexOf(from) + 1;
             var end = input.LastIndexOf(to);
@@ -89,7 +89,7 @@ namespace ParadoxNotion
             return input.Substring(start, end - start);
         }
 
-        ///<summary>Get the string result within from to</summary>
+        ///<summary>Get the string result within last from and first to</summary>
         public static string GetStringWithinInner(this string input, char from, char to) {
             var end = input.IndexOf(to);
             var start = int.MinValue;

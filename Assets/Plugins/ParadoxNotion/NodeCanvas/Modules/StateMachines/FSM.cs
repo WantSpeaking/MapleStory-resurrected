@@ -4,6 +4,7 @@ using NodeCanvas.Framework;
 using ParadoxNotion.Design;
 using UnityEngine;
 using Logger = ParadoxNotion.Services.Logger;
+using ParadoxNotion;
 
 namespace NodeCanvas.StateMachines
 {
@@ -53,6 +54,7 @@ namespace NodeCanvas.StateMachines
         public override bool isTree => false;
         public override bool allowBlackboardOverrides => true;
         sealed public override bool canAcceptVariableDrops => false;
+        public sealed override PlanarDirection flowDirection => PlanarDirection.Auto;
 
         ///----------------------------------------------------------------------------------------------
 

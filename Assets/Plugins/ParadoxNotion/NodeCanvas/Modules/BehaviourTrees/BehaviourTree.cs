@@ -72,6 +72,7 @@ namespace NodeCanvas.BehaviourTrees
         public override bool isTree => true;
         public override bool allowBlackboardOverrides => true;
         sealed public override bool canAcceptVariableDrops => false;
+        public override ParadoxNotion.PlanarDirection flowDirection => ParadoxNotion.PlanarDirection.Vertical;
         ///----------------------------------------------------------------------------------------------
 
         protected override void OnGraphStarted() {

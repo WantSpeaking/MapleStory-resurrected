@@ -87,7 +87,7 @@ namespace NodeCanvas.Editor
 
         //...
         static bool OnLogMessageReceived(Logger.Message msg) {
-            if ( msg.tag == "Editor" ) {
+            if ( msg.tag == LogTag.EDITOR ) {
                 return false;
             }
 
@@ -158,7 +158,7 @@ namespace NodeCanvas.Editor
             GUILayout.BeginHorizontal(EditorStyles.toolbar);
             GUILayout.Space(4);
             var ascending = Prefs.consoleLogOrder == Prefs.ConsoleLogOrder.Ascending;
-            var newValue = GUILayout.Toggle(ascending, new GUIContent(ascending ? "▲" : "▼"), "label", GUILayout.Width(14));
+            var newValue = GUILayout.Toggle(ascending, new GUIContent(ascending ? "▲" : "▼"), "label", GUILayout.Width(15));
             if ( ascending != newValue ) { Prefs.consoleLogOrder = newValue ? Prefs.ConsoleLogOrder.Ascending : Prefs.ConsoleLogOrder.Descending; }
             GUILayout.Space(2);
             Prefs.consoleLogInfo = GUILayout.Toggle(Prefs.consoleLogInfo, new GUIContent(Icons.infoIcon), logTypeFilterStyle, GUILayout.Width(30));
@@ -175,7 +175,7 @@ namespace NodeCanvas.Editor
             GUILayout.EndHorizontal();
 
             if ( messages.Count == 0 ) {
-                EditorGUILayout.HelpBox("This console will catch graph related logs and display them here instead of the normal Unity console, thus save bloat from the Unity console.\nFurthermore, any log displayed here can be clicked to focus the relevant graph element that the log relates to automatically.\nIt is recommended to dock this console bellow the Graph Editor for easier debugging.", MessageType.Info);
+                EditorGUILayout.HelpBox("This console will catch graph related logs and display them here instead of the normal Unity console, thus save bloat from the Unity console.\nFurthermore, any log displayed here can be clicked to focus the relevant graph element that the log relates to automatically.\nIt is recommended to dock this console below the Graph Editor for easier debugging.", MessageType.Info);
             }
 
             scrollPos = GUILayout.BeginScrollView(scrollPos);

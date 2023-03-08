@@ -21,7 +21,7 @@ namespace NodeCanvas.Editor
 
         void OnEnable() {
             Prefs.useExternalInspector = true;
-            titleContent = new GUIContent("ExternalInspectorWindow", StyleSheet.canvasIcon);
+            titleContent = new GUIContent("Inspector", StyleSheet.canvasIcon);
             GraphEditorUtility.onActiveElementChanged -= OnActiveElementChange;
             GraphEditorUtility.onActiveElementChanged += OnActiveElementChange;
         }

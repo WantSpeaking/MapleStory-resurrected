@@ -57,10 +57,28 @@ namespace NodeCanvas.Framework
 
         ///----------------------------------------------------------------------------------------------
 
+#if !UNITY_EDITOR
+        void OnEnable(){
+            this.InitializePropertiesBinding(null, false);
+        }
+#endif
+
+        ///----------------------------------------------------------------------------------------------
+
 #if UNITY_EDITOR
         private string tempJson;
         private List<UnityEngine.Object> tempObjects;
         private bool bindingInit;
+
+        //...
+        void OnEnable() {
+            UnityEditor.EditorApplication.playModeStateChanged -= PlayModeChange;
+            UnityEditor.EditorApplication.playModeStateChanged += PlayModeChange;
+            if ( ParadoxNotion.Services.Threader.applicationIsPlaying ) {
+                this.InitializePropertiesBinding(null, false);
+                bindingInit = true;
+            }
+        }
 
         //...
         void PlayModeChange(UnityEditor.PlayModeStateChange state) {
@@ -76,22 +94,8 @@ namespace NodeCanvas.Framework
                 SelfDeserialize();
             }
         }
+
 #endif
 
-
-        //...
-        void OnEnable() {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.playModeStateChanged -= PlayModeChange;
-            UnityEditor.EditorApplication.playModeStateChanged += PlayModeChange;
-#endif
-            if ( ParadoxNotion.Services.Threader.applicationIsPlaying ) {
-                this.InitializePropertiesBinding(null, false);
-#if UNITY_EDITOR
-                bindingInit = true;
-#endif
-            }
-
-        }
     }
 }

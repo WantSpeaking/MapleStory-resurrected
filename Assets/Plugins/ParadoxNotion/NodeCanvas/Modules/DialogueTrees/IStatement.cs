@@ -19,12 +19,9 @@ namespace NodeCanvas.DialogueTrees
     public class Statement : IStatement
     {
 
-        [SerializeField]
-        private string _text = string.Empty;
-        [SerializeField]
-        private AudioClip _audio;
-        [SerializeField]
-        private string _meta = string.Empty;
+        [SerializeField] private string _text = string.Empty;
+        [SerializeField] private AudioClip _audio;
+        [SerializeField] private string _meta = string.Empty;
 
         public string text {
             get { return _text; }

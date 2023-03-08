@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NodeCanvas.Framework;
 using NodeCanvas.Framework.Internal;
@@ -50,19 +49,10 @@ namespace NodeCanvas.BehaviourTrees
                 var enumValue = enumCase.value;
                 if ( enumValue != null ) {
                     enumCasePairing = new Dictionary<int, int>();
-                    //var enumValues = System.Enum.GetValues(enumValue.GetType());
-                    var i = 0;
-					foreach (var enumValue1 in System.Enum.GetValues (enumValue.GetType ()))
-					{
-                        var t = enumValue.GetType ();
-                       var v2 = Convert.ChangeType (enumValue1, enumValue.GetType ());
-                       var v1 = Enum.Parse (enumValue.GetType (), enumValue1.ToString());
-                        enumCasePairing[(int)v2] = i;
-                        i++;
-                    }
-                  /*  for ( var i = 0; i < enumValues.Length; i++ ) {
+                    var enumValues = System.Enum.GetValues(enumValue.GetType());
+                    for ( var i = 0; i < enumValues.Length; i++ ) {
                         enumCasePairing[(int)enumValues.GetValue(i)] = i;
-                    }*/
+                    }
                 }
             }
         }

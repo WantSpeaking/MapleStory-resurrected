@@ -54,6 +54,9 @@ namespace ms_Unity
 	{
 		public override object OnGUI (GUIContent content, object instance)
 		{
+            //Sirenix.OdinInspector.Editor.GenericSelector<string>()
+
+            //new Sirenix.OdinInspector.Editor.Drawers.ValueDropdownAttributeDrawer().Initialize();
 			return EnumSelector<ms.CharAction.Id>.DrawEnumField (new GUIContent ("CharAction.Id"), (ms.CharAction.Id)instance);
 		}
 	}

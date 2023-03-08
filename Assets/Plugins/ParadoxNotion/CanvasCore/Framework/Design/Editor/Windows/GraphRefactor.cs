@@ -133,6 +133,9 @@ namespace NodeCanvas.Editor
                     SaveParameters();
                 }
 
+                ParadoxNotion.Services.Logger.enabled = false;
+                GraphEditor.currentGraph.Validate();
+                ParadoxNotion.Services.Logger.enabled = true;
                 GraphEditor.currentGraph.SelfSerialize();
                 GraphEditor.currentGraph.SelfDeserialize();
                 GraphEditor.currentGraph.Validate();

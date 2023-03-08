@@ -228,133 +228,133 @@
 			switch (jid)
 			{
 				case 0:
-					return "Beginner";
+					return TestLuban.Get().GetL10nText("Beginner");
 				case 100:
-					return "Swordsman";
+					return TestLuban.Get().GetL10nText("Swordsman");
 				case 110:
-					return "Fighter";
+					return TestLuban.Get().GetL10nText("Fighter");
 				case 111:
-					return "Crusader";
+					return TestLuban.Get().GetL10nText("Crusader");
 				case 112:
-					return "Hero";
+					return TestLuban.Get().GetL10nText("Hero");
 				case 120:
-					return "Page";
+					return TestLuban.Get().GetL10nText("Page");
 				case 121:
-					return "White Knight";
+					return TestLuban.Get().GetL10nText("White Knight");
 				case 122:
-					return "Paladin";
+					return TestLuban.Get().GetL10nText("Paladin");
 				case 130:
-					return "Spearman";
+					return TestLuban.Get().GetL10nText("Spearman");
 				case 131:
-					return "Dragon Knight";
+					return TestLuban.Get().GetL10nText("Dragon Knight");
 				case 132:
-					return "Dark Knight";
+					return TestLuban.Get().GetL10nText("Dark Knight");
 				case 200:
-					return "Magician";
+					return TestLuban.Get().GetL10nText("Magician");
 				case 210:
-					return "Wizard (F/P)";
+					return TestLuban.Get().GetL10nText("Wizard (F/P)");
 				case 211:
-					return "Mage (F/P)";
+					return TestLuban.Get().GetL10nText("Mage (F/P)");
 				case 212:
-					return "Archmage (F/P)";
+					return TestLuban.Get().GetL10nText("Archmage (F/P)");
 				case 220:
-					return "Wizard (I/L)";
+					return TestLuban.Get().GetL10nText("Wizard (I/L)");
 				case 221:
-					return "Mage (I/L)";
+					return TestLuban.Get().GetL10nText("Mage (I/L)");
 				case 222:
-					return "Archmage (I/L)";
+					return TestLuban.Get().GetL10nText("Archmage (I/L)");
 				case 230:
-					return "Cleric";
+					return TestLuban.Get().GetL10nText("Cleric");
 				case 231:
-					return "Priest";
+					return TestLuban.Get().GetL10nText("Priest");
 				case 232:
-					return "Bishop";
+					return TestLuban.Get().GetL10nText("Bishop");
 				case 300:
-					return "Archer";
+					return TestLuban.Get().GetL10nText("Archer");
 				case 310:
-					return "Hunter";
+					return TestLuban.Get().GetL10nText("Hunter");
 				case 311:
-					return "Ranger";
+					return TestLuban.Get().GetL10nText("Ranger");
 				case 312:
-					return "Bowmaster";
+					return TestLuban.Get().GetL10nText("Bowmaster");
 				case 320:
-					return "Crossbowman";
+					return TestLuban.Get().GetL10nText("Crossbowman");
 				case 321:
-					return "Sniper";
+					return TestLuban.Get().GetL10nText("Sniper");
 				case 322:
-					return "Marksman";
+					return TestLuban.Get().GetL10nText("Marksman");
 				case 400:
-					return "Rogue";
+					return TestLuban.Get().GetL10nText("Rogue");
 				case 410:
-					return "Assassin";
+					return TestLuban.Get().GetL10nText("Assassin");
 				case 411:
-					return "Hermit";
+					return TestLuban.Get().GetL10nText("Hermit");
 				case 412:
-					return "Nightlord";
+					return TestLuban.Get().GetL10nText("Nightlord");
 				case 420:
-					return "Bandit";
+					return TestLuban.Get().GetL10nText("Bandit");
 				case 421:
-					return "Chief Bandit";
+					return TestLuban.Get().GetL10nText("Chief Bandit");
 				case 422:
-					return "Shadower";
+					return TestLuban.Get().GetL10nText("Shadower");
 				case 500:
-					return "Pirate";
+					return TestLuban.Get().GetL10nText("Pirate");
 				case 510:
-					return "Brawler";
+					return TestLuban.Get().GetL10nText("Brawler");
 				case 511:
-					return "Marauder";
+					return TestLuban.Get().GetL10nText("Marauder");
 				case 512:
-					return "Buccaneer";
+					return TestLuban.Get().GetL10nText("Buccaneer");
 				case 520:
-					return "Gunslinger";
+					return TestLuban.Get().GetL10nText("Gunslinger");
 				case 521:
-					return "Outlaw";
+					return TestLuban.Get().GetL10nText("Outlaw");
 				case 522:
-					return "Corsair";
+					return TestLuban.Get().GetL10nText("Corsair");
 				case 1000:
-					return "Noblesse";
+					return TestLuban.Get().GetL10nText("Noblesse");
 				case 1100:
 				case 1110:
 				case 1111:
 				case 1112:
-					return "Dawn Warrior";//魂骑士
+					return TestLuban.Get().GetL10nText("Dawn Warrior");//魂骑士
 				case 1200:
 				case 1210:
 				case 1211:
 				case 1212:
-					return "Blaze Wizard";
+					return TestLuban.Get().GetL10nText("Blaze Wizard");
 				case 1300:
 				case 1310:
 				case 1311:
 				case 1312:
-					return "Wind Archer";
+					return TestLuban.Get().GetL10nText("Wind Archer");
 				case 1400:
 				case 1410:
 				case 1411:
 				case 1412:
-					return "Night Walker";
+					return TestLuban.Get().GetL10nText("Night Walker");
 				case 1500:
 				case 1510:
 				case 1511:
 				case 1512:
-					return "Thunder Breaker";
+					return TestLuban.Get().GetL10nText("Thunder Breaker");
 				case 2000:
 				case 2100:
 				case 2110:
 				case 2111:
 				case 2112:
-					return "Aran";
+					return TestLuban.Get().GetL10nText("Aran");
 				case 900:
-					return "GM";
+					return TestLuban.Get().GetL10nText("GM");
 				case 910:
-					return "SuperGM";
+					return TestLuban.Get().GetL10nText("SuperGM");
 				case 17500:
 				case 17510:
 				case 17511:
 				case 17512:
-					return "墨玄";
+					return TestLuban.Get().GetL10nText("墨玄");
 				default:
-					return "";
+					return "Unknown";
 			}
 		}
 

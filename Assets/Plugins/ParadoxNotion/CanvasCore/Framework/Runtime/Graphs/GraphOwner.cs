@@ -452,7 +452,7 @@ namespace NodeCanvas.Framework
             //If the graph is bound, we store the serialization data here.
             if ( this.graphIsBound && this.boundGraphInstance == serializedGraph ) {
 
-                //---
+                //--- This is basically only for showing the log...
                 if ( UnityEditor.PrefabUtility.IsPartOfPrefabInstance(this) ) {
                     var boundProp = new UnityEditor.SerializedObject(this).FindProperty(nameof(_boundGraphSerialization));
                     if ( !boundProp.prefabOverride && boundGraphSerialization != serializedGraph.GetSerializedJsonData() ) {
@@ -563,9 +563,9 @@ namespace NodeCanvas.Framework
     abstract public class GraphOwner<T> : GraphOwner where T : Graph
     {
 
-        [SerializeField, Tooltip("The graph to use.")]
+        [SerializeField]
         private T _graph;
-        [SerializeField, Tooltip("The GameObject Blackboard to use.")]
+        [SerializeField]
         private Object _blackboard;
 
         ///<summary>The current behaviour Graph assigned</summary>

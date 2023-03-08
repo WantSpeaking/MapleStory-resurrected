@@ -34,7 +34,7 @@ namespace NodeCanvas.Editor
         public static Graph currentGraph { get; private set; }
 
         ///----------------------------------------------------------------------------------------------
-        const float ZOOM_MAX = 2f;
+        const float ZOOM_MAX = 1f;
         const float ZOOM_MIN = 0.25f;
         const int TAB_HEIGHT = 21;
         const int TOP_MARGIN = TAB_HEIGHT + 0;
@@ -68,6 +68,7 @@ namespace NodeCanvas.Editor
         private static float _zoomVelocity = 1;
         private static float pingValue;
         private static Rect pingRect;
+        private static GraphInfoAttribute graphInfoAtt;
 
         ///----------------------------------------------------------------------------------------------
 
@@ -202,7 +203,6 @@ namespace NodeCanvas.Editor
             Selection.selectionChanged -= OnUnityObjectSelectionChange;
             Logger.RemoveListener(OnLogMessageReceived);
             Undo.undoRedoPerformed -= OnUndoRedoPerformed;
-            // AssetDatabase.SaveAssets();
         }
 
         //...
@@ -274,6 +274,7 @@ namespace NodeCanvas.Editor
 
         //Whenever the graph we are viewing has changed and after the fact.
         void OnCurrentGraphChanged() {
+            graphInfoAtt = currentGraph?.GetType().RTGetAttributesRecursive<GraphInfoAttribute>().LastOrDefault();
             UpdateReferencesAndNodeIDs();
             GraphEditorUtility.activeElement = null;
             willRepaint = true;
@@ -1032,7 +1033,7 @@ namespace NodeCanvas.Editor
                 if ( e.rawType == EventType.MouseUp && group.editState != CanvasGroup.EditState.Renaming ) {
                     if ( group.editState == CanvasGroup.EditState.Dragging ) {
                         foreach ( var node in group.GatherContainedNodes(currentGraph) ) {
-                            node.TrySortConnectionsByPositionX();
+                            node.TrySortConnectionsByRelativePosition();
                         }
                         group.FlushContainedNodes();
                     }
@@ -1298,7 +1299,7 @@ namespace NodeCanvas.Editor
         //TODO: Add something like a menu to create graphs from here?
         void ShowEmptyGraphGUI() {
             if ( targetOwner != null ) {
-                var text = string.Format("The selected {0} does not have a {1} assigned.\n Please create or assign a new one in it's inspector.", targetOwner.GetType().Name, targetOwner.graphType.Name);
+                var text = string.Format("The selected {0} does not have a {1} assigned.\n Please create or assign a new one in its inspector.", targetOwner.GetType().Name, targetOwner.graphType.Name);
                 ShowNotification(new GUIContent(text));
                 return;
             }

@@ -155,7 +155,7 @@ namespace ParadoxNotion.Design
             //Check scene object type for UnityObjects. Consider Interfaces as scene object type. Assume that user uses interfaces with UnityObjects
             if ( typeof(UnityObject).IsAssignableFrom(t) || t.IsInterface ) {
                 if ( value == null || value is UnityObject ) { //check this to avoid case of interface but no unityobject
-                    var isSceneObjectType = ( typeof(Component).IsAssignableFrom(t) || t == typeof(GameObject) || t.IsInterface );
+                    var isSceneObjectType = ( typeof(Component).IsAssignableFrom(t) || t == typeof(GameObject) || t == typeof(UnityObject) || t.IsInterface );
                     var newValue = EditorGUILayout.ObjectField(content, (UnityObject)value, t, isSceneObjectType, options);
                     if ( unityObjectContext != null && newValue != null ) {
                         if ( !Application.isPlaying && EditorUtility.IsPersistent(unityObjectContext) && !EditorUtility.IsPersistent(newValue as UnityEngine.Object) ) {

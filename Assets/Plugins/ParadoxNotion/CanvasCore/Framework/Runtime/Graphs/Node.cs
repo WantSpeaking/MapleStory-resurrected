@@ -160,9 +160,9 @@ namespace NodeCanvas.Framework
         abstract public bool allowAsPrime { get; }
         ///<summary>Can this node connect to itself?</summary>
         abstract public bool canSelfConnect { get; }
-        ///<summary>Alignment of the comments when shown.</summary>
+        ///<summary>Alignment of the comments when shown (editor).</summary>
         abstract public Alignment2x2 commentsAlignment { get; }
-        ///<summary>Alignment of the icons.</summary>
+        ///<summary>Alignment of the icons (editor).</summary>
         abstract public Alignment2x2 iconAlignment { get; }
 
         ///<summary>The current status of the node</summary>
@@ -422,15 +422,6 @@ namespace NodeCanvas.Framework
         public void StopCoroutine(Coroutine routine) {
             if ( MonoManager.current != null ) { MonoManager.current.StopCoroutine(routine); }
         }
-
-        public void StartParallelTask(System.Action action) {
-
-        }
-
-        public void StopParallelTask(System.Action action) {
-
-        }
-
 
         ///<summary>Returns all *direct* parent nodes (first depth level)</summary>
         public IEnumerable<Node> GetParentNodes() {

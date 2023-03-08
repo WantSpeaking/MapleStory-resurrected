@@ -98,6 +98,13 @@ namespace ParadoxNotion.Design
                 if ( constrainType.IsAssignableFrom(finalDictType) ) {
                     dictTypes[finalDictType] = nsString;
                 }
+
+                //by request extra append dictionary <string, List<T>>
+                var dictListType = typeof(Dictionary<,>).MakeGenericType(typeof(string), typeof(List<>).MakeGenericType(t));
+                var finalDictListType = isGenericDefinition && genericDefinitionType.TryMakeGeneric(dictListType, out Type genericDictListType) ? genericDictListType : dictListType;
+                if ( constrainType.IsAssignableFrom(finalDictListType) ) {
+                    dictTypes[finalDictListType] = nsString;
+                }
             }
 
             foreach ( var pair in listTypes ) {

@@ -96,36 +96,36 @@ namespace NodeCanvas.Editor
             "using NodeCanvas.Framework;\n" +
             "using ParadoxNotion.Design;\n" +
             "\n\n" +
-            "namespace " + ( string.IsNullOrEmpty(ns) ? "NodeCanvas.Tasks.Actions" : ns ) + "\n{\n\n" +
+            "namespace " + ( string.IsNullOrEmpty(ns) ? "NodeCanvas.Tasks.Actions" : ns ) + " {\n\n" +
             ( !string.IsNullOrEmpty(category) ? "\t[Category(\"" + category + "\")]\n" : "" ) +
             ( !string.IsNullOrEmpty(description) ? "\t[Description(\"" + description + "\")]\n" : "" ) +
-            "\tpublic class " + taskName + " : ActionTask" + ( !string.IsNullOrEmpty(agentType) ? ( "<" + agentType + ">" ) : "" ) + "\n\t{\n\n" +
+            "\tpublic class " + taskName + " : ActionTask" + ( !string.IsNullOrEmpty(agentType) ? ( "<" + agentType + ">" ) : "" ) + " {\n\n" +
 
             "\t\t//Use for initialization. This is called only once in the lifetime of the task.\n" +
             "\t\t//Return null if init was successfull. Return an error string otherwise\n" +
-            "\t\tprotected override string OnInit()\n\t\t{\n" +
+            "\t\tprotected override string OnInit() {\n" +
             "\t\t\treturn null;\n" +
             "\t\t}\n\n" +
 
             "\t\t//This is called once each time the task is enabled.\n" +
             "\t\t//Call EndAction() to mark the action as finished, either in success or failure.\n" +
             "\t\t//EndAction can be called from anywhere.\n" +
-            "\t\tprotected override void OnExecute()\n\t\t{\n" +
+            "\t\tprotected override void OnExecute() {\n" +
             "\t\t\tEndAction(true);\n" +
             "\t\t}\n\n" +
 
             "\t\t//Called once per frame while the action is active.\n" +
-            "\t\tprotected override void OnUpdate()\n\t\t{\n" +
+            "\t\tprotected override void OnUpdate() {\n" +
             "\t\t\t\n" +
             "\t\t}\n\n" +
 
             "\t\t//Called when the task is disabled.\n" +
-            "\t\tprotected override void OnStop()\n\t\t{\n" +
+            "\t\tprotected override void OnStop() {\n" +
             "\t\t\t\n" +
             "\t\t}\n\n" +
 
             "\t\t//Called when the task is paused.\n" +
-            "\t\tprotected override void OnPause()\n\t\t{\n" +
+            "\t\tprotected override void OnPause() {\n" +
             "\t\t\t\n" +
             "\t\t}\n" +
 
@@ -138,10 +138,10 @@ namespace NodeCanvas.Editor
             "using NodeCanvas.Framework;\n" +
             "using ParadoxNotion.Design;\n" +
             "\n\n" +
-            "namespace " + ( string.IsNullOrEmpty(ns) ? "NodeCanvas.Tasks.Conditions" : ns ) + "{\n\n" +
+            "namespace " + ( string.IsNullOrEmpty(ns) ? "NodeCanvas.Tasks.Conditions" : ns ) + " {\n\n" +
             ( !string.IsNullOrEmpty(category) ? "\t[Category(\"" + category + "\")]\n" : "" ) +
             ( !string.IsNullOrEmpty(description) ? "\t[Description(\"" + description + "\")]\n" : "" ) +
-            "\tpublic class " + taskName + " : ConditionTask" + ( !string.IsNullOrEmpty(agentType) ? ( "<" + agentType + ">" ) : "" ) + "{\n\n" +
+            "\tpublic class " + taskName + " : ConditionTask" + ( !string.IsNullOrEmpty(agentType) ? ( "<" + agentType + ">" ) : "" ) + " {\n\n" +
             "\t\t//Use for initialization. This is called only once in the lifetime of the task.\n" +
             "\t\t//Return null if init was successfull. Return an error string otherwise\n" +
             "\t\tprotected override string OnInit(){\n" +
@@ -149,18 +149,18 @@ namespace NodeCanvas.Editor
             "\t\t}\n\n" +
 
             "\t\t//Called whenever the condition gets enabled.\n" +
-            "\t\tprotected override void OnEnable(){\n" +
+            "\t\tprotected override void OnEnable() {\n" +
             "\t\t\t\n" +
             "\t\t}\n\n" +
 
             "\t\t//Called whenever the condition gets disabled.\n" +
-            "\t\tprotected override void OnDisable(){\n" +
+            "\t\tprotected override void OnDisable() {\n" +
             "\t\t\t\n" +
             "\t\t}\n\n" +
 
             "\t\t//Called once per frame while the condition is active.\n" +
             "\t\t//Return whether the condition is success or failure.\n" +
-            "\t\tprotected override bool OnCheck(){\n" +
+            "\t\tprotected override bool OnCheck() {\n" +
             "\t\t\treturn true;\n" +
             "\t\t}\n" +
 

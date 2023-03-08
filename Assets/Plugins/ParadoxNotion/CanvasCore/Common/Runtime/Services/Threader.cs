@@ -46,78 +46,12 @@ namespace ParadoxNotion.Services
             return thread;
         }
 
-        public static Thread StartAction<T1>(Thread thread, Action<T1> function, T1 parameter1, Action callback = null) {
-            if ( thread != null && thread.IsAlive ) thread.Abort();
-            thread = new Thread(() =>
-          {
-              function(parameter1);
-          });
-            Begin(thread, callback);
-            return thread;
-        }
-
-        public static Thread StartAction<T1, T2>(Thread thread, Action<T1, T2> function, T1 parameter1, T2 parameter2, Action callback = null) {
-            if ( thread != null && thread.IsAlive ) thread.Abort();
-            thread = new Thread(() =>
-          {
-              function(parameter1, parameter2);
-          });
-            Begin(thread, callback);
-            return thread;
-        }
-
-        public static Thread StartAction<T1, T2, T3>(Thread thread, Action<T1, T2, T3> function, T1 parameter1, T2 parameter2, T3 parameter3, Action callback = null) {
-            if ( thread != null && thread.IsAlive ) thread.Abort();
-            thread = new Thread(() =>
-          {
-              function(parameter1, parameter2, parameter3);
-          });
-            Begin(thread, callback);
-            return thread;
-        }
-
         ///----------------------------------------------------------------------------------------------
 
         public static Thread StartFunction<TResult>(Thread thread, Func<TResult> function, Action<TResult> callback = null) {
             if ( thread != null && thread.IsAlive ) thread.Abort();
             TResult result = default(TResult);
-            thread = new Thread(() =>
-           {
-               result = function();
-           });
-            Begin(thread, () => { callback(result); });
-            return thread;
-        }
-
-        public static Thread StartFunction<TResult, T1>(Thread thread, Func<T1, TResult> function, T1 parameter1, Action<TResult> callback = null) {
-            if ( thread != null && thread.IsAlive ) thread.Abort();
-            TResult result = default(TResult);
-            thread = new Thread(() =>
-          {
-              result = function(parameter1);
-          });
-            Begin(thread, () => { callback(result); });
-            return thread;
-        }
-
-        public static Thread StartFunction<TResult, T1, T2>(Thread thread, Func<T1, T2, TResult> function, T1 parameter1, T2 parameter2, Action<TResult> callback = null) {
-            if ( thread != null && thread.IsAlive ) thread.Abort();
-            TResult result = default(TResult);
-            thread = new Thread(() =>
-          {
-              result = function(parameter1, parameter2);
-          });
-            Begin(thread, () => { callback(result); });
-            return thread;
-        }
-
-        public static Thread StartFunction<TResult, T1, T2, T3>(Thread thread, Func<T1, T2, T3, TResult> function, T1 parameter1, T2 parameter2, T3 parameter3, Action<TResult> callback = null) {
-            if ( thread != null && thread.IsAlive ) thread.Abort();
-            TResult result = default(TResult);
-            thread = new Thread(() =>
-          {
-              result = function(parameter1, parameter2, parameter3);
-          });
+            thread = new Thread(() => { result = function(); });
             Begin(thread, () => { callback(result); });
             return thread;
         }
@@ -162,11 +96,10 @@ namespace ParadoxNotion.Services
 #endif
 
 
-
         ///----------------------------------------------------------------------------------------------
 
         //Use IEnumerators and unity coroutines to handle updating the thread.
-        private static IEnumerator ThreadMonitor(Thread thread, Action callback) {
+        static IEnumerator ThreadMonitor(Thread thread, Action callback) {
 
             while ( thread.IsAlive ) {
                 yield return null;

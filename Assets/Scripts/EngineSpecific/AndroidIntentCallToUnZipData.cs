@@ -59,8 +59,22 @@ public class AndroidIntentCallToUnZipData : MonoBehaviour
 						uriPath = uriPath.Replace ("/external_files", "");
 					}
 
-					TestUnZipFile (uriPath, destinationPath, password);
-					//message = "解压完成,请到/storage/emulated/0/ForeverStory目录查看解压的文件";
+					// /root/storage
+					if (uriPath.Contains ("/storage"))
+					{
+						uriPath = uriPath.Substring (uriPath.IndexOf ("/storage"));
+					}
+
+					if (uriPath.Contains (".zip"))
+					{
+						TestUnZipFile (uriPath, destinationPath, password);
+						//message = "解压完成,请到/storage/emulated/0/ForeverStory目录查看解压的文件";
+					}
+					else
+					{
+						TestCopyFile(uriPath, destinationPath, password);
+					}
+					
 					message = String.Empty;
 					unzipFinished.set_for (6000);
 				}
@@ -127,6 +141,22 @@ public class AndroidIntentCallToUnZipData : MonoBehaviour
 		}
 	}
 
+	public static void TestCopyFile (string zipPath, string outPath, string password)
+	{
+		if (!File.Exists (zipPath))
+		{
+			Debug.LogError ("没有此文件路径：" + zipPath);
+			return;
+		}
+		using (FileStream streamReader = File.Create (zipPath))
+		{
+			using (FileStream streamWriter = File.Create (outPath))
+			{
+				streamReader.CopyTo (streamWriter);
+			}
+		}
+	}
+	
 	public int fontSize = 20;
 	string message;
 	TimedBool unzipFinished = new TimedBool ();

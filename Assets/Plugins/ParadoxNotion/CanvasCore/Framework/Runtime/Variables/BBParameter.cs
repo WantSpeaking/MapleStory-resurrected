@@ -166,7 +166,7 @@ namespace NodeCanvas.Framework
         }
 #endif
 
-        ///<summary>Is the parameter -set or should- to read from a blackboard variable?</summary>
+        ///<summary>Is the parameter -set to or should- read from a blackboard variable?</summary>
         public bool useBlackboard {
             get { return name != null; }
             set

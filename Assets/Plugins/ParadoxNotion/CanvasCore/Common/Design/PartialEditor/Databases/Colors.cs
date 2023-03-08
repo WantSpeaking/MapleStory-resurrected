@@ -20,8 +20,8 @@ namespace ParadoxNotion.Design
             prefabOverrideColor = new Color(0.05f, 0.5f, 0.75f, 1f);
         }
 
-        public const string HEX_LIGHT = "eeeeee";
-        public const string HEX_DARK = "333333";
+        public const string HEX_LIGHT = "#d2d2d2";
+        public const string HEX_DARK = "#333333";
 
         public static Color lightOrange { get; private set; }
         public static Color lightBlue { get; private set; }

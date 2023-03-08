@@ -39,7 +39,7 @@ namespace NodeCanvas.Framework
             get { return _invert; }
             set { _invert = value; }
         }
-
+        public void EnableRuntime() { isRuntimeEnabled = true; }
         ///<summary>...</summary>
         public void Enable(Component agent, IBlackboard bb) {
             if ( !isRuntimeEnabled && isUserEnabled ) {

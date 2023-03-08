@@ -46,7 +46,7 @@ namespace ms
 		// Determine the point on the ground below the specified position
 		public Point_short get_y_below(Point_short position)
 		{
-			short ground = fht.get_y_below(new Point_short (position));
+			short ground = fht.get_y_below(position);
 
 			return new Point_short(position.x(), (short)(ground - 1));
 		}

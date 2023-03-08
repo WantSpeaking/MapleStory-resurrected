@@ -94,11 +94,12 @@ namespace NodeCanvas.Editor
 
             GUI.backgroundColor = Color.clear;
             GUI.color = new Color(1, 1, 1, 0.4f);
-            var att = ParadoxNotion.ReflectionTools.RTGetAttribute<GraphInfoAttribute>(graph.GetType(), true);
-            if ( GUILayout.Button(string.Format("{0} @ {1} Framework v{2}", graph.GetType().Name, att.packageName, NodeCanvas.Framework.Internal.GraphSource.FRAMEWORK_VERSION.ToString("0.00")), EditorStyles.toolbarButton) ) { UnityEditor.Help.BrowseURL("https://paradoxnotion.com"); }
-            GUILayout.Space(10);
+            if ( GUILayout.Button(string.Format("{0} @ {1} v{2}", graph.GetType().Name, graphInfoAtt != null ? graphInfoAtt.packageName : "NodeCanvas", NodeCanvas.Framework.Internal.GraphSource.FRAMEWORK_VERSION.ToString("0.00")), EditorStyles.toolbarButton) ) { UnityEditor.Help.BrowseURL("https://paradoxnotion.com"); }
+            EditorGUIUtility.AddCursorRect(GUILayoutUtility.GetLastRect(), MouseCursor.Link);
             GUI.color = Color.white;
             GUI.backgroundColor = Color.white;
+            GUILayout.Space(10);
+
 
             //GRAPHOWNER JUMP SELECTION
             if ( owner != null ) {
@@ -113,6 +114,9 @@ namespace NodeCanvas.Editor
             }
 
             Prefs.isEditorLocked = GUILayout.Toggle(Prefs.isEditorLocked, "Lock", EditorStyles.toolbarButton);
+            GUI.contentColor = EditorGUIUtility.isProSkin ? Color.white : Colors.Grey(0.5f);
+            if ( GUILayout.Button(Icons.helpIcon, EditorStyles.toolbarButton) ) { WelcomeWindow.ShowWindow(graph.GetType()); }
+            GUI.contentColor = Color.white;
 
             GUILayout.Space(4);
 

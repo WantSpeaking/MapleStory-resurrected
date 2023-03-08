@@ -26,7 +26,7 @@ namespace NodeCanvas.Editor
         }
 
         //name, description, edit button
-        public void ShowBasicGUI() {
+        void ShowBasicGUI() {
             GUILayout.Space(10);
             graph.category = GUILayout.TextField(graph.category);
             EditorUtils.CommentLastTextField(graph.category, "Category...");
@@ -41,7 +41,7 @@ namespace NodeCanvas.Editor
             GUI.backgroundColor = Color.white;
         }
 
-        public void ShowBlackboardGUI() {
+        void ShowBlackboardGUI() {
             BlackboardEditor.ShowVariables(graph.blackboard, graph);
         }
     }

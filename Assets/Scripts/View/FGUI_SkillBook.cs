@@ -74,6 +74,12 @@ namespace ms_Unity
 			CancelSetupAction ();
 
 			FGUI_Manager.Instance.GetFGUI<FGUI_ActionButtons> ().UpdateIcon ();
+
+			 GGraph holder = new GGraph();
+    holder.SetSize(100, 100);
+    holder.DrawRect(200,100,1,UnityEngine.Color.black,UnityEngine.Color.red);
+    this.AddChild(holder);
+	AppDebug.Log("testdraw");
 		}
 
 		private void OnClickAction (EventContext context)

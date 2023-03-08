@@ -84,7 +84,7 @@ namespace NodeCanvas.Editor
         void OnGUI() {
 
 
-            EditorGUILayout.HelpBox("In PlayMode only, you can use this Utility, to search and find GraphOwners in the scene which are actively running.", MessageType.Info);
+            EditorGUILayout.HelpBox("In PlayMode only, you can use this Utility to search and find GraphOwners in the scene which are actively running.", MessageType.Info);
 
             search = EditorUtils.SearchField(search);
             EditorUtils.BoldSeparator();

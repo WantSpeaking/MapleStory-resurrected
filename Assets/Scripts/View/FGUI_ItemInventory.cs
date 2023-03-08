@@ -754,8 +754,12 @@ namespace ms_Unity
 			for (int i = 0; i < (int)StatLabel.NUM_LABELS; i++)
 			{
 				var textInfo = @$"{(StatLabel)i}:{UIStatsInfo.statlabels[i]?.get_text () ?? "null"}";
+				if (string.IsNullOrEmpty(UIStatsInfo.statlabels[i]?.get_text()))
+				{
+					continue;
+				}
 
-				sb.AppendLine (textInfo);
+				sb.AppendLine ($"{TestLuban.Get().GetL10nText(((StatLabel)i).ToString())}:\t{UIStatsInfo.statlabels[i]?.get_text ()}");
 				//AppDebug.Log (textInfo);
 			}
 			var sbText = sb.ToString ();

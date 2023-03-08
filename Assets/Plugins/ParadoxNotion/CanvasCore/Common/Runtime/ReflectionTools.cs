@@ -33,7 +33,7 @@ namespace ParadoxNotion
         private static Dictionary<Type, FieldInfo[]> _typeFields;
         private static Dictionary<Type, PropertyInfo[]> _typeProperties;
         private static Dictionary<Type, EventInfo[]> _typeEvents;
-        private static Dictionary<Type, object[]> _typeAttributes;
+        // private static Dictionary<Type, object[]> _typeAttributes;
         private static Dictionary<MemberInfo, object[]> _memberAttributes;
         private static Dictionary<MemberInfo, bool> _obsoleteCache;
         private static Dictionary<Type, MethodInfo[]> _typeExtensions;
@@ -60,7 +60,7 @@ namespace ParadoxNotion
             _typeFields = new Dictionary<Type, FieldInfo[]>();
             _typeProperties = new Dictionary<Type, PropertyInfo[]>();
             _typeEvents = new Dictionary<Type, EventInfo[]>();
-            _typeAttributes = new Dictionary<Type, object[]>();
+            // _typeAttributes = new Dictionary<Type, object[]>();
             _memberAttributes = new Dictionary<MemberInfo, object[]>();
             _obsoleteCache = new Dictionary<MemberInfo, bool>();
             _typeExtensions = new Dictionary<Type, MethodInfo[]>();
@@ -597,6 +597,22 @@ namespace ParadoxNotion
             return type.MakeGenericType(typeArgs);
         }
 
+        public static Type[] RTGetEmptyTypes() {
+            return Type.EmptyTypes;
+        }
+
+        public static Type RTGetElementType(this Type type) {
+            if ( type == null ) return null;
+            return type.GetElementType();
+        }
+
+        public static bool RTIsByRef(this Type type) {
+            if ( type == null ) return false;
+            return type.IsByRef;
+        }
+
+        ///----------------------------------------------------------------------------------------------
+
         public static Type[] RTGetGenericArguments(this Type type) {
             Type[] result = null;
             if ( _genericArgsTypeCache.TryGetValue(type, out result) ) {
@@ -611,20 +627,6 @@ namespace ParadoxNotion
                 return result;
             }
             return _genericArgsMathodCache[method] = result = method.GetGenericArguments();
-        }
-
-        public static Type[] RTGetEmptyTypes() {
-            return Type.EmptyTypes;
-        }
-
-        public static Type RTGetElementType(this Type type) {
-            if ( type == null ) return null;
-            return type.GetElementType();
-        }
-
-        public static bool RTIsByRef(this Type type) {
-            if ( type == null ) return false;
-            return type.IsByRef;
         }
 
         ///----------------------------------------------------------------------------------------------
@@ -870,40 +872,42 @@ namespace ParadoxNotion
 
         ///----------------------------------------------------------------------------------------------
 
-        ///<summary>Get all attributes from type including inherited</summary>
-        public static object[] RTGetAllAttributes(this Type type) {
-            object[] attributes;
-            if ( !_typeAttributes.TryGetValue(type, out attributes) ) {
-                //put in try catch clause to avoid problems with some unity types
-                try { attributes = type.GetCustomAttributes(true); }
-                catch { /*...*/ }
-                finally { _typeAttributes[type] = attributes; }
-            }
-            return attributes;
-        }
+        // ///<summary>Get all attributes from type including inherited</summary>
+        // public static object[] RTGetAllAttributes(this Type type) {
+        //     object[] attributes;
+        //     if ( !_typeAttributes.TryGetValue(type, out attributes) ) {
+        //         //put in try catch clause to avoid problems with some unity types
+        //         try { attributes = type.GetCustomAttributes(true); }
+        //         catch { /*...*/ }
+        //         finally { _typeAttributes[type] = attributes; }
+        //     }
+        //     return attributes;
+        // }
 
         ///<summary>Is attribute defined?</summary>
         public static bool RTIsDefined<T>(this Type type, bool inherited) where T : Attribute { return type.RTIsDefined(typeof(T), inherited); }
         public static bool RTIsDefined(this Type type, Type attributeType, bool inherited) {
-            return inherited ? type.RTGetAttribute(attributeType, inherited) != null : type.IsDefined(attributeType, false);
+            return type.IsDefined(attributeType, inherited);
+            // return inherited ? type.RTGetAttribute(attributeType, inherited) != null : type.IsDefined(attributeType, false);
         }
 
         ///<summary>Get attribute from type of type T</summary>
         public static T RTGetAttribute<T>(this Type type, bool inherited) where T : Attribute { return (T)type.RTGetAttribute(typeof(T), inherited); }
         public static Attribute RTGetAttribute(this Type type, Type attributeType, bool inherited) {
-            object[] attributes = RTGetAllAttributes(type);
-            if ( attributes != null ) {
-                for ( var i = 0; i < attributes.Length; i++ ) {
-                    var att = (Attribute)attributes[i];
-                    var attType = att.GetType();
-                    if ( attType.RTIsAssignableTo(attributeType) ) {
-                        if ( inherited || type.IsDefined(attType, false) ) {
-                            return att;
-                        }
-                    }
-                }
-            }
-            return null;
+            return type.GetCustomAttribute(attributeType, inherited);
+            // object[] attributes = RTGetAllAttributes(type);
+            // if ( attributes != null ) {
+            //     for ( var i = 0; i < attributes.Length; i++ ) {
+            //         var att = (Attribute)attributes[i];
+            //         var attType = att.GetType();
+            //         if ( attType.RTIsAssignableTo(attributeType) ) {
+            //             if ( inherited || type.IsDefined(attType, false) ) {
+            //                 return att;
+            //             }
+            //         }
+            //     }
+            // }
+            // return null;
         }
 
         ///------------------------------------------
@@ -921,23 +925,25 @@ namespace ParadoxNotion
         ///<summary>Is attribute defined?</summary>
         public static bool RTIsDefined<T>(this MemberInfo member, bool inherited) where T : Attribute { return member.RTIsDefined(typeof(T), inherited); }
         public static bool RTIsDefined(this MemberInfo member, Type attributeType, bool inherited) {
-            return inherited ? member.RTGetAttribute(attributeType, inherited) != null : member.IsDefined(attributeType, false);
+            return member.IsDefined(attributeType, inherited);
+            // return inherited ? member.RTGetAttribute(attributeType, inherited) != null : member.IsDefined(attributeType, false);
         }
 
         ///<summary>Get attribute from member of type T</summary>
         public static T RTGetAttribute<T>(this MemberInfo member, bool inherited) where T : Attribute { return (T)member.RTGetAttribute(typeof(T), inherited); }
         public static Attribute RTGetAttribute(this MemberInfo member, Type attributeType, bool inherited) {
-            object[] attributes = RTGetAllAttributes(member);
-            for ( var i = 0; i < attributes.Length; i++ ) {
-                var att = (Attribute)attributes[i];
-                var attType = att.GetType();
-                if ( attType.RTIsAssignableTo(attributeType) ) {
-                    if ( inherited || member.IsDefined(attType, false) ) {
-                        return att;
-                    }
-                }
-            }
-            return null;
+            return member.GetCustomAttribute(attributeType, inherited);
+            // object[] attributes = RTGetAllAttributes(member);
+            // for ( var i = 0; i < attributes.Length; i++ ) {
+            //     var att = (Attribute)attributes[i];
+            //     var attType = att.GetType();
+            //     if ( attType.RTIsAssignableTo(attributeType) ) {
+            //         if ( inherited || member.IsDefined(attType, false) ) {
+            //             return att;
+            //         }
+            //     }
+            // }
+            // return null;
         }
 
         ///<summary>Get all attributes of type T recursively up the type hierarchy</summary>

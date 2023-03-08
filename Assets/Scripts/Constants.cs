@@ -89,8 +89,8 @@ namespace ms
 		public int MAX_PartyMemberCount = 6;
 
 #if UNITY_EDITOR || WINDOWS
-		public string path_MapleStoryFolder = @"D:\Program Files (x86)\MapleStory";
-		public string path_SettingFileFolder = @"D:\Program Files (x86)\MapleStory";
+		public string path_MapleStoryFolder = @"G:\Program Files (x86)\MapleStory";
+		public string path_SettingFileFolder = @"G:\Program Files (x86)\MapleStory";
 
 #elif UNITY_ANDROID || ANDROID
 		//public string path_MapleStoryFolder = $"{UnityEngine.Application.persistentDataPath}";

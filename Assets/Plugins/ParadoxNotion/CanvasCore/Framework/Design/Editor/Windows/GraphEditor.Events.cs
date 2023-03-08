@@ -156,20 +156,7 @@ namespace NodeCanvas.Editor
                 var isContext = e.type == EventType.ContextClick && !e.alt;
                 var isShortcut = e.type == EventType.KeyDown && e.keyCode == KeyCode.Space && GUIUtility.keyboardControl == 0 && !e.shift;
                 if ( isContext || isShortcut ) {
-                    GenericMenuBrowser.ShowAsync(e.mousePosition, "Add Node", graph.baseNodeType, () =>
-                   {
-                       var menu = GetAddNodeMenu(graph, canvasMousePos);
-                       if ( CopyBuffer.TryGetCache<Node[]>(out Node[] copiedNodes) && copiedNodes.Length > 0 ) {
-                           if ( copiedNodes[0].GetType().IsSubclassOf(graph.baseNodeType) ) {
-                               menu.AddSeparator("/");
-                               var suffix = copiedNodes.Length == 1 ? copiedNodes[0].GetType().FriendlyName() : copiedNodes.Length.ToString();
-                               if ( copiedNodes.Length > 0 ) {
-                                   menu.AddItem(new GUIContent(string.Format("Paste Node(s) ({0})", suffix)), false, () => { TryPasteNodesInGraph(graph, copiedNodes, canvasMousePos); });
-                               }
-                           }
-                       }
-                       return menu;
-                   });
+                    GenericMenuBrowser.ShowAsync(e.mousePosition, "Add Node", graph.baseNodeType, () => { return GetAddNodeMenu(graph, canvasMousePos); });
                     e.Use();
                 }
             }
@@ -188,6 +175,14 @@ namespace NodeCanvas.Editor
             System.Action<System.Type> Selected = (type) => { GraphEditorUtility.activeElement = graph.AddNode(type, canvasMousePos); };
             var menu = EditorUtils.GetTypeSelectionMenu(graph.baseNodeType, Selected);
             menu = graph.CallbackOnCanvasContextMenu(menu, canvasMousePos);
+
+            if ( CopyBuffer.TryGetCache<Node[]>(out Node[] copiedNodes) && copiedNodes.Length > 0 ) {
+                if ( copiedNodes[0].GetType().IsSubclassOf(graph.baseNodeType) ) {
+                    menu.AddSeparator("/");
+                    var suffix = copiedNodes.Length == 1 ? copiedNodes[0].GetType().FriendlyName() : copiedNodes.Length.ToString();
+                    menu.AddItem(new GUIContent(string.Format("Paste Node(s) ({0})", suffix)), false, () => { TryPasteNodesInGraph(graph, copiedNodes, canvasMousePos); });
+                }
+            }
             return menu;
         }
     }

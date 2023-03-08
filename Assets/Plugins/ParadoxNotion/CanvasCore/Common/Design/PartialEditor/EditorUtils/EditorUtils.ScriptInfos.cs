@@ -100,6 +100,9 @@ namespace ParadoxNotion.Design
                             infosResult.Add(info.MakeGenericInfo(t, string.Format("/{0}/{1}", info.name, t.NamespaceToPath())));
                             infosResult.Add(info.MakeGenericInfo(typeof(List<>).MakeGenericType(t), string.Format("/{0}/{1}{2}", info.name, TypePrefs.LIST_MENU_STRING, t.NamespaceToPath()), -1));
                             infosResult.Add(info.MakeGenericInfo(typeof(Dictionary<,>).MakeGenericType(typeof(string), t), string.Format("/{0}/{1}{2}", info.name, TypePrefs.DICT_MENU_STRING, t.NamespaceToPath()), -2));
+
+                            //by request extra append dictionary <string, List<T>>
+                            infosResult.Add(info.MakeGenericInfo(typeof(Dictionary<,>).MakeGenericType(typeof(string), typeof(List<>).MakeGenericType (t) ), string.Format("/{0}/{1}{2}", info.name, TypePrefs.DICT_MENU_STRING, t.NamespaceToPath()), -2));
                         }
                         continue;
                     }

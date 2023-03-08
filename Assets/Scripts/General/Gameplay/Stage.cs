@@ -261,11 +261,11 @@ namespace ms
 			if (!player.is_attacking ())
 			{
 				Point_short playerpos = player.get_position ();
-				Portal.WarpInfo warpinfo = portals.find_warp_at (new Point_short (playerpos));
+				Portal.WarpInfo warpinfo = portals.find_warp_at (playerpos);
 				if (warpinfo.intramap)
 				{
 					Point_short spawnpoint = portals.get_portal_by_name (warpinfo.toname);
-					Point_short startpos = physics.get_y_below (new Point_short (spawnpoint));
+					Point_short startpos = physics.get_y_below (spawnpoint);
 					player.respawn (new Point_short (startpos), mapinfo.is_underwater ());
 				}
 				else if (warpinfo.valid)

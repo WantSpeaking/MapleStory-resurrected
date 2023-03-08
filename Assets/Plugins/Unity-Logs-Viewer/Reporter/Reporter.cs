@@ -1860,6 +1860,7 @@ public class Reporter : MonoBehaviour
 				for (int i = 0; i < threadedLogs.Count; i++) {
 					Log l = threadedLogs[i];
 					AddLog(l.condition, l.stacktrace, (LogType)l.logType);
+					if (!show && l.logType == _LogType.Error) doShow ();
 				}
 				threadedLogs.Clear();
 			}

@@ -185,7 +185,7 @@ namespace ms
 
 			Point_short dim = animations.count (stance) > 0 ? animations[stance].get_dimensions () : new Point_short ();
 
-			return new Rectangle_short ((short)(absp.x () - dim.x () / 2), (short)(absp.x () + dim.x () / 2), (short)(absp.y () - dim.y ()), absp.y ()).contains (cursorpos);
+			return new Rectangle_short ((short)(absp.x () - dim.x () / 2), (short)(absp.x () + dim.x () / 2), (short)(absp.y () - dim.y ()*2f), absp.y ()).contains (cursorpos);
 		}
 
 		// Returns the NPC name

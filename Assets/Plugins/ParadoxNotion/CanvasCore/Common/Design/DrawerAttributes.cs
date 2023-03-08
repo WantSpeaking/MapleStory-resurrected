@@ -2,7 +2,6 @@
 
 namespace ParadoxNotion.Design
 {
-
     ///<summary>Derive this to create custom attributes to be drawn with an AttributeDrawer<T>.</summary>
     [AttributeUsage(AttributeTargets.Field)]
     abstract public class DrawerAttribute : Attribute
@@ -150,5 +149,7 @@ namespace ParadoxNotion.Design
     [AttributeUsage(AttributeTargets.Field)]
     public class ForceObjectFieldAttribute : DrawerAttribute { }
 
-
+    ///<summary>Can be used on an interface type field to popup select a concrete implementation.<summary>
+    [AttributeUsage(AttributeTargets.Field)]
+    public class ReferenceFieldAttribute : DrawerAttribute { }
 }

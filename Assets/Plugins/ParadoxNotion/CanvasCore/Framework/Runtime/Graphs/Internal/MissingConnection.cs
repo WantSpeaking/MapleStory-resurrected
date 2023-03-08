@@ -33,7 +33,6 @@ namespace NodeCanvas.Framework.Internal
 
         public override Color defaultColor => Color.red;
         public override TipConnectionStyle tipConnectionStyle => TipConnectionStyle.None;
-        public override ParadoxNotion.PlanarDirection direction => ParadoxNotion.PlanarDirection.Auto;
 
         protected override void OnConnectionInspectorGUI() {
             GUILayout.Label(_missingType.FormatError());

@@ -1,0 +1,382 @@
+[
+  {
+    "key": "NAME",
+    "origin_text": "名字",
+    "text_en": "Name"
+  },
+  {
+    "key": "JOB",
+    "origin_text": "职业",
+    "text_en": "Job"
+  },
+  {
+    "key": "GUILD",
+    "origin_text": "家族",
+    "text_en": "Guild"
+  },
+  {
+    "key": "FAME",
+    "origin_text": "人气",
+    "text_en": "Fame"
+  },
+  {
+    "key": "DAMAGE",
+    "origin_text": "伤害",
+    "text_en": "Damage"
+  },
+  {
+    "key": "HP",
+    "origin_text": "血量",
+    "text_en": "Hp"
+  },
+  {
+    "key": "MP",
+    "origin_text": "蓝量",
+    "text_en": "Mp"
+  },
+  {
+    "key": "AP",
+    "origin_text": "能力点",
+    "text_en": "Ap"
+  },
+  {
+    "key": "STR",
+    "origin_text": "力量",
+    "text_en": "Str"
+  },
+  {
+    "key": "DEX",
+    "origin_text": "敏捷",
+    "text_en": "Dex"
+  },
+  {
+    "key": "INT",
+    "origin_text": "质量",
+    "text_en": "Int"
+  },
+  {
+    "key": "LUK",
+    "origin_text": "运气",
+    "text_en": "Luk"
+  },
+  {
+    "key": "DAMAGE_DETAILED",
+    "origin_text": "伤害范围",
+    "text_en": "Damage_detailed"
+  },
+  {
+    "key": "DAMAGE_BONUS",
+    "origin_text": "额外伤害",
+    "text_en": "Damage_bonus"
+  },
+  {
+    "key": "BOSS_DAMAGE",
+    "origin_text": "Boos伤害",
+    "text_en": "Boss_damage"
+  },
+  {
+    "key": "FINAL_DAMAGE",
+    "origin_text": "最终伤害",
+    "text_en": "Final_damage"
+  },
+  {
+    "key": "IGNORE_DEFENSE",
+    "origin_text": "无视防御",
+    "text_en": "Ignore_defense"
+  },
+  {
+    "key": "CRITICAL_RATE",
+    "origin_text": "暴击几率",
+    "text_en": "Critical_rate"
+  },
+  {
+    "key": "CRITICAL_DAMAGE",
+    "origin_text": "暴击伤害",
+    "text_en": "Critical_damage"
+  },
+  {
+    "key": "STATUS_RESISTANCE",
+    "origin_text": "状态抵抗",
+    "text_en": "Status_resistance"
+  },
+  {
+    "key": "KNOCKBACK_RESISTANCE",
+    "origin_text": "击退抵抗",
+    "text_en": "Knockback_resistance"
+  },
+  {
+    "key": "DEFENSE",
+    "origin_text": "防御",
+    "text_en": "Defense"
+  },
+  {
+    "key": "SPEED",
+    "origin_text": "速度",
+    "text_en": "Speed"
+  },
+  {
+    "key": "JUMP",
+    "origin_text": "跳跃力",
+    "text_en": "Jump"
+  },
+  {
+    "key": "HONOR",
+    "origin_text": "荣誉",
+    "text_en": "Honor"
+  },
+  {
+    "key": "Beginner",
+    "origin_text": "新手",
+    "text_en": "Beginner"
+  },
+  {
+    "key": "Swordsman",
+    "origin_text": "剑客",
+    "text_en": "Swordsman"
+  },
+  {
+    "key": "Fighter",
+    "origin_text": "战士",
+    "text_en": "Fighter"
+  },
+  {
+    "key": "Crusader",
+    "origin_text": "十字军",
+    "text_en": "Crusader"
+  },
+  {
+    "key": "Hero",
+    "origin_text": "英雄",
+    "text_en": "Hero"
+  },
+  {
+    "key": "Page",
+    "origin_text": "页",
+    "text_en": "Page"
+  },
+  {
+    "key": "White Knight",
+    "origin_text": "白色骑士",
+    "text_en": "White Knight"
+  },
+  {
+    "key": "Paladin",
+    "origin_text": "圣骑士",
+    "text_en": "Paladin"
+  },
+  {
+    "key": "Spearman",
+    "origin_text": "斯皮尔曼",
+    "text_en": "Spearman"
+  },
+  {
+    "key": "Dragon Knight",
+    "origin_text": "龙骑士",
+    "text_en": "Dragon Knight"
+  },
+  {
+    "key": "Dark Knight",
+    "origin_text": "黑暗骑士",
+    "text_en": "Dark Knight"
+  },
+  {
+    "key": "Magician",
+    "origin_text": "魔术师",
+    "text_en": "Magician"
+  },
+  {
+    "key": "Wizard (F/P)",
+    "origin_text": "向导（F/P）",
+    "text_en": "Wizard (F/P)"
+  },
+  {
+    "key": "Mage (F/P)",
+    "origin_text": "法师（F/P）",
+    "text_en": "Mage (F/P)"
+  },
+  {
+    "key": "Archmage (F/P)",
+    "origin_text": "大法师（F/P）",
+    "text_en": "Archmage (F/P)"
+  },
+  {
+    "key": "Wizard (I/L)",
+    "origin_text": "向导（I/L）",
+    "text_en": "Wizard (I/L)"
+  },
+  {
+    "key": "Mage (I/L)",
+    "origin_text": "法师（I/L）",
+    "text_en": "Mage (I/L)"
+  },
+  {
+    "key": "Archmage (I/L)",
+    "origin_text": "大法师（I/L）",
+    "text_en": "Archmage (I/L)"
+  },
+  {
+    "key": "Cleric",
+    "origin_text": "文书",
+    "text_en": "Cleric"
+  },
+  {
+    "key": "Priest",
+    "origin_text": "牧师",
+    "text_en": "Priest"
+  },
+  {
+    "key": "Bishop",
+    "origin_text": "主教",
+    "text_en": "Bishop"
+  },
+  {
+    "key": "Archer",
+    "origin_text": "弓箭手",
+    "text_en": "Archer"
+  },
+  {
+    "key": "Hunter",
+    "origin_text": "猎人",
+    "text_en": "Hunter"
+  },
+  {
+    "key": "Ranger",
+    "origin_text": "护林员",
+    "text_en": "Ranger"
+  },
+  {
+    "key": "Bowmaster",
+    "origin_text": "神射手",
+    "text_en": "Bowmaster"
+  },
+  {
+    "key": "Crossbowman",
+    "origin_text": "Crossbowman公司",
+    "text_en": "Crossbowman"
+  },
+  {
+    "key": "Sniper",
+    "origin_text": "狙击手",
+    "text_en": "Sniper"
+  },
+  {
+    "key": "Marksman",
+    "origin_text": "射手",
+    "text_en": "Marksman"
+  },
+  {
+    "key": "Rogue",
+    "origin_text": "流氓",
+    "text_en": "Rogue"
+  },
+  {
+    "key": "Assassin",
+    "origin_text": "刺客",
+    "text_en": "Assassin"
+  },
+  {
+    "key": "Hermit",
+    "origin_text": "隐士",
+    "text_en": "Hermit"
+  },
+  {
+    "key": "Nightlord",
+    "origin_text": "崔玮琳",
+    "text_en": "Nightlord"
+  },
+  {
+    "key": "Bandit",
+    "origin_text": "强盗",
+    "text_en": "Bandit"
+  },
+  {
+    "key": "Chief Bandit",
+    "origin_text": "首席强盗",
+    "text_en": "Chief Bandit"
+  },
+  {
+    "key": "Shadower",
+    "origin_text": "暗影神偷",
+    "text_en": "Shadower"
+  },
+  {
+    "key": "Pirate",
+    "origin_text": "海盗",
+    "text_en": "Pirate"
+  },
+  {
+    "key": "Brawler",
+    "origin_text": "布拉勒",
+    "text_en": "Brawler"
+  },
+  {
+    "key": "Marauder",
+    "origin_text": "掠夺者",
+    "text_en": "Marauder"
+  },
+  {
+    "key": "Buccaneer",
+    "origin_text": "海盗",
+    "text_en": "Buccaneer"
+  },
+  {
+    "key": "Gunslinger",
+    "origin_text": "枪手",
+    "text_en": "Gunslinger"
+  },
+  {
+    "key": "Outlaw",
+    "origin_text": "不法分子",
+    "text_en": "Outlaw"
+  },
+  {
+    "key": "Corsair",
+    "origin_text": "海盗船",
+    "text_en": "Corsair"
+  },
+  {
+    "key": "Noblesse",
+    "origin_text": "Noblesse公司",
+    "text_en": "Noblesse"
+  },
+  {
+    "key": "Dawn Warrior",
+    "origin_text": "黎明战士",
+    "text_en": "Dawn Warrior"
+  },
+  {
+    "key": "Blaze Wizard",
+    "origin_text": "火焰向导",
+    "text_en": "Blaze Wizard"
+  },
+  {
+    "key": "Wind Archer",
+    "origin_text": "风弓箭手",
+    "text_en": "Wind Archer"
+  },
+  {
+    "key": "Night Walker",
+    "origin_text": "夜行者",
+    "text_en": "Night Walker"
+  },
+  {
+    "key": "Thunder Breaker",
+    "origin_text": "奇袭者",
+    "text_en": "Thunder Breaker"
+  },
+  {
+    "key": "Aran",
+    "origin_text": "阿兰",
+    "text_en": "Aran"
+  },
+  {
+    "key": "GM",
+    "origin_text": "转基因的",
+    "text_en": "GM"
+  },
+  {
+    "key": "SuperGM",
+    "origin_text": "超级GM",
+    "text_en": "SuperGM"
+  }
+]

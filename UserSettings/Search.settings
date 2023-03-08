@@ -7,9 +7,6 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"last_search.7788661B" = "STAGE"
-	"OpenInspectorPreview.7788661B" = "0"
-	"currentGroup.7788661B" = "asset"
 }
 providers = {
 	adb = {
@@ -61,6 +58,7 @@ searchItemFavorites = [
 ]
 savedSearchesSortOrder = 0
 showSavedSearchPanel = false
+hideTabs = false
 expandedQueries = [
 ]
 queryBuilder = false

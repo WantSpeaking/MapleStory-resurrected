@@ -39,7 +39,6 @@ namespace ParadoxNotion.Design
             typeof(float),
             typeof(int),
             typeof(bool),
-            typeof(double),
 
 			//Unity basics
 			typeof(Vector2),
@@ -68,6 +67,7 @@ namespace ParadoxNotion.Design
 			//Unity Objects
 			typeof(UnityEngine.Object),
             typeof(UnityEngine.MonoBehaviour),
+            typeof(UnityEngine.ScriptableObject),
             typeof(GameObject),
             typeof(Transform),
             typeof(Animator),
