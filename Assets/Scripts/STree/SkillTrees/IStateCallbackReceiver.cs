@@ -1,4 +1,4 @@
-﻿namespace NodeCanvas.SkillTrees
+﻿namespace ms.SkillTrees
 {
 
     ///<summary>Implement this interface in any MonoBehaviour attached on FSMOwner gameobject to get relevant state callbacks</summary>

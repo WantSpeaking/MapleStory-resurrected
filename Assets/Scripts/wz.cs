@@ -113,7 +113,7 @@ namespace ms
         public static void load_skill(string wzPath)
         {
             WzManager ??= new WzFileManager(wzPath);
-            wzFile_string = add_file("skill");
+            wzFile_skill = add_file("skill");
         }
 
         public static readonly string[] SKILL_WZ_FILES = {

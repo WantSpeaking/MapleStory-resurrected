@@ -3,7 +3,7 @@ using ParadoxNotion.Design;
 using UnityEngine;
 
 
-namespace NodeCanvas.SkillTrees
+namespace ms.SkillTrees
 {
 
     [Name("Parallel Sub FSM", -1)]

@@ -2,7 +2,7 @@
 using ParadoxNotion;
 using UnityEngine;
 
-namespace NodeCanvas.SkillTrees
+namespace ms.SkillTrees
 {
 
 
@@ -69,7 +69,7 @@ namespace NodeCanvas.SkillTrees
                         });
 
                         //PostGUI cause of zoom factors
-                        Editor.GraphEditorUtility.PostGUI += () => { menu.ShowAsContext(); };
+                        NodeCanvas.Editor.GraphEditorUtility.PostGUI += () => { menu.ShowAsContext(); };
                         Event.current.Use();
                         e.Use();
                     }
@@ -90,15 +90,15 @@ namespace NodeCanvas.SkillTrees
                     UnityEditor.EditorGUIUtility.AddCursorRect(portRectRight, UnityEditor.MouseCursor.ArrowPlus);
                     UnityEditor.EditorGUIUtility.AddCursorRect(portRectBottom, UnityEditor.MouseCursor.ArrowPlus);
 
-                    GUI.color = new Color(1, 1, 1, 0.3f);
-                    GUI.DrawTexture(portRectLeft, Editor.StyleSheet.arrowLeft);
-                    GUI.DrawTexture(portRectRight, Editor.StyleSheet.arrowRight);
+                    GUI.color = new UnityEngine. Color(1, 1, 1, 0.3f);
+                    GUI.DrawTexture(portRectLeft,NodeCanvas. Editor.StyleSheet.arrowLeft);
+                    GUI.DrawTexture(portRectRight, NodeCanvas.Editor.StyleSheet.arrowRight);
                     if ( maxInConnections == 0 ) {
-                        GUI.DrawTexture(portRectBottom, Editor.StyleSheet.arrowBottom);
+                        GUI.DrawTexture(portRectBottom, NodeCanvas.Editor.StyleSheet.arrowBottom);
                     }
-                    GUI.color = Color.white;
+                    GUI.color = UnityEngine.Color.white;
 
-                    if ( Editor.GraphEditorUtility.allowClick && e.type == EventType.MouseDown && e.button == 0 ) {
+                    if (NodeCanvas.Editor.GraphEditorUtility.allowClick && e.type == EventType.MouseDown && e.button == 0 ) {
 
                         if ( portRectLeft.Contains(e.mousePosition) ) {
                             clickedPort = new GUIPort(this, portRectLeft.center);
@@ -123,7 +123,7 @@ namespace NodeCanvas.SkillTrees
 
             //draw new linking
             if ( clickedPort != null && clickedPort.parent == this ) {
-                UnityEditor.Handles.DrawBezier(clickedPort.pos, e.mousePosition, clickedPort.pos, e.mousePosition, new Color(0.5f, 0.5f, 0.8f, 0.8f), Editor.StyleSheet.bezierTexture, 2);
+                UnityEditor.Handles.DrawBezier(clickedPort.pos, e.mousePosition, clickedPort.pos, e.mousePosition, new UnityEngine. Color(0.5f, 0.5f, 0.8f, 0.8f), NodeCanvas.Editor.StyleSheet.bezierTexture, 2);
             }
 
             //draw out connections

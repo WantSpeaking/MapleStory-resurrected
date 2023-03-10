@@ -1,6 +1,6 @@
 using ParadoxNotion.Design;
 
-namespace NodeCanvas.SkillTrees
+namespace ms.SkillTrees
 {
 
     [Description("This node has no functionality and you can use this for organization.\nIn comparison to an empty Action State, Transitions here are immediately evaluated in the same frame that this node is entered.")]

@@ -3,7 +3,7 @@ using ParadoxNotion.Design;
 using UnityEngine;
 
 
-namespace NodeCanvas.SkillTrees
+namespace ms.SkillTrees
 {
 
     [Description("Execute a number of Actions when the FSM stops/exits, if Conditions are met. Note that the actions will only execute for 1 frame. This is not a state.")]

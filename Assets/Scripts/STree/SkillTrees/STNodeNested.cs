@@ -5,7 +5,7 @@ using ParadoxNotion.Design;
 using UnityEngine;
 
 
-namespace NodeCanvas.SkillTrees
+namespace ms.SkillTrees
 {
     [Category("SubGraphs")]
     [Color("ffe4e1")]

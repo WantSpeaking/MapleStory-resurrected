@@ -6,7 +6,7 @@ using UnityEngine;
 using Logger = ParadoxNotion.Services.Logger;
 using ParadoxNotion;
 
-namespace NodeCanvas.SkillTrees
+namespace ms.SkillTrees
 {
 
     ///<summary> Use FSMs to create state like behaviours</summary>

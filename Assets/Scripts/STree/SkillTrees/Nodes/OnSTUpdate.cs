@@ -3,7 +3,7 @@ using ParadoxNotion.Design;
 using UnityEngine;
 
 
-namespace NodeCanvas.SkillTrees
+namespace ms.SkillTrees
 {
 
     [Description("Execute a number of Actions repeatedly and in parallel to any other FSM state while the FSM is running. Conditions are optional. This is not a state.")]

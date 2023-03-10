@@ -3,7 +3,7 @@ using ParadoxNotion.Design;
 using UnityEngine;
 
 
-namespace NodeCanvas.SkillTrees
+namespace ms.SkillTrees
 {
 
     [Description("Execute a number of Actions when the FSM starts/enters, if Conditions are met. This is not a state.")]

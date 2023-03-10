@@ -3,7 +3,7 @@ using ParadoxNotion.Design;
 using UnityEngine;
 using Logger = ParadoxNotion.Services.Logger;
 
-namespace NodeCanvas.SkillTrees
+namespace ms.SkillTrees
 {
 
     ///<summary> Base class for fsm nodes that are actually states</summary>
@@ -136,12 +136,16 @@ namespace NodeCanvas.SkillTrees
                 FSM.currentState = (STState)connection.targetNode;
 
                 var condition = connection.condition;
-                condition.EnableRuntime();
                 if (!connection.isActive)
                 {
                     continue;
                 }
 
+                if (condition == null)
+                {
+                    continue;
+                }
+                condition.EnableRuntime();
                 if ((condition != null && condition.Check(graphAgent, graphBlackboard)) || (condition == null && status != Status.Running))
                 {
                     //FSM.EnterState((STState)connection.targetNode, connection.transitionCallMode);
@@ -193,9 +197,9 @@ namespace NodeCanvas.SkillTrees
         protected override void OnNodeExternalGUI() {
             var peek = FSM.PeekStack();
             if ( peek != null && FSM.currentState == this ) {
-                UnityEditor.Handles.color = Color.grey;
+                UnityEditor.Handles.color = UnityEngine.Color.grey;
                 UnityEditor.Handles.DrawAAPolyLine(rect.center, peek.rect.center);
-                UnityEditor.Handles.color = Color.white;
+                UnityEditor.Handles.color = UnityEngine.Color.white;
             }
         }
 

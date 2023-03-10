@@ -2,7 +2,7 @@ using NodeCanvas.Framework;
 using UnityEngine;
 
 
-namespace NodeCanvas.SkillTrees
+namespace ms.SkillTrees
 {
 
     ///<summary> Add this component on a gameobject to behave based on an FSM.</summary>

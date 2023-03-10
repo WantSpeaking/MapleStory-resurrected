@@ -2,7 +2,7 @@ using NodeCanvas.Framework;
 using ParadoxNotion.Design;
 using UnityEngine;
 
-namespace NodeCanvas.SkillTrees
+namespace ms.SkillTrees
 {
 
     [Name("Any State")]

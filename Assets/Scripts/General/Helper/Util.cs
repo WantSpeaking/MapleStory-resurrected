@@ -1,4 +1,5 @@
-﻿using System;
+﻿using client;
+using System;
 using System.Reflection.Emit;
 
 namespace ms
@@ -36,6 +37,23 @@ namespace ms
 				SizeOf = func ();
 			}
 		}
+
+		public static string SkillIdToJobId(int skillid)
+		{
+            string strid;
+            string jobid;
+            if (skillid < 10000000)
+            {
+                strid = string_format.extend_id(skillid, 7);
+                jobid = strid.Substring(0, 3);
+            }
+            else
+            {
+                strid = Convert.ToString(skillid);
+                jobid = (skillid / 10000).ToString();
+            }
+			return jobid;
+        }
 	}
 }
 

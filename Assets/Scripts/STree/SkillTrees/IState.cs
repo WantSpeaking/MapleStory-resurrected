@@ -1,4 +1,4 @@
-﻿namespace NodeCanvas.SkillTrees
+﻿namespace ms.SkillTrees
 {
 
     //An interface for states. Works together with IStateCallbackReceiver

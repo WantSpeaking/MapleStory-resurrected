@@ -3,7 +3,7 @@ using ParadoxNotion.Design;
 using UnityEngine;
 using NodeCanvas.BehaviourTrees;
 
-namespace NodeCanvas.SkillTrees
+namespace ms.SkillTrees
 {
 
     [Name("Parallel Sub Behaviour Tree", -1)]

@@ -2,7 +2,7 @@ using NodeCanvas.Framework;
 using UnityEngine;
 
 
-namespace NodeCanvas.SkillTrees
+namespace ms.SkillTrees
 {
 
     ///<summary>The connection object for FSM nodes. AKA Transitions</summary>
