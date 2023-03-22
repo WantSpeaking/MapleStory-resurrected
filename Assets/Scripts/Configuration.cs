@@ -55,8 +55,9 @@ namespace ms
 			settings.emplace<MiniMapType> ();
 			settings.emplace<MiniMapSimpleMode> ();
 			settings.emplace<MiniMapDefaultHelpers> ();
+			settings.emplace<JSDebugOn> ();
 
-			load ();
+            load ();
 		}
 		
 		Dictionary<string, string> rawsettings = new Dictionary<string, string> ();
@@ -704,7 +705,7 @@ namespace ms
 	// The last used region
 	public class DefaultRegion : Configuration.ByteEntry
 	{
-		public DefaultRegion () : base ("DefaultRegion", "5")
+		public DefaultRegion () : base ("DefaultRegion", "7")
 		{
 		}
 	}
@@ -901,8 +902,16 @@ namespace ms
 		}
 	}
 
-	// Can be used to access settings
-	public class Setting<T> where T : Configuration.Entry, new ()
+    public class JSDebugOn : Configuration.BoolEntry
+    {
+        public JSDebugOn() : base("JSDebugOn", "false")
+        {
+
+        }
+    }
+
+    // Can be used to access settings
+    public class Setting<T> where T : Configuration.Entry, new ()
 	{
 		public static T get ()
 		{

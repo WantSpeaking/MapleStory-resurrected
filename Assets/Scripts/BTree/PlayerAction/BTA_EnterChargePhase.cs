@@ -13,7 +13,7 @@ namespace ms_Unity
 
 		public BBParameter<Dictionary<string, string>> Phase_SkillId_Name_Dict;
 
-		public GProgressBar progressBar_Quarter => FGUI_Manager.Instance.fgui_StateGame._ProgressBar_Quarter;
+		//public GProgressBar progressBar_Quarter => FGUI_Manager.Instance.fgui_StateGame._ProgressBar_Quarter;
 		private FGUI_Joystick _Joystick => ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_Joystick> ();
 
 		protected override void OnExecute ()

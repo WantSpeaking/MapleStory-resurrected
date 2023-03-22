@@ -52,7 +52,7 @@ namespace ms
 			wzFile_quest = add_file ("Quest");
 			wzFile_reactor = add_file ("Reactor");
 			wzFile_skill = add_file("skill");
-			wzFile_SkillMy1 = add_file("SkillMy1");
+			//wzFile_SkillMy1 = add_file("SkillMy1");
 			wzFile_sound = add_file("sound");
             wzFile_string = add_file("string");
             wzFile_ui = add_file("UI_New");

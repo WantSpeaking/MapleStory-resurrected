@@ -43,7 +43,9 @@ namespace ms
 							UI.get ().emplace<UILoginNotice> (UILoginNotice.Message.UNABLE_TO_LOGIN_WITH_IP, okhandler, null);
 							break;
 						case 23:
-							UI.get ().emplace<UITermsOfService> (okhandler);
+							//UI.get ().emplace<UITermsOfService> (okhandler);
+							UI.get().emplace<UILoginWait>();
+							new TOSPacket().dispatch();
 							break;
 						default:
 							// Other reasons
@@ -67,7 +69,9 @@ namespace ms
 
 					if (account.female == 10)
 					{
-						UI.get ().emplace<UIGender> (okhandler);
+                        //UI.get ().emplace<UIGender> (okhandler);
+                        UI.get().emplace<UILoginWait>();
+                        new GenderPacket(false).dispatch();
 					}
 					else
 					{

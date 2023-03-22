@@ -34,20 +34,20 @@ namespace ms_Unity
             base.ConstructFromXML(xml);
 
             _c_InventoryTypeId = GetControllerAt(0);
-            _GList_Equip = (GList)GetChildAt(9);
-            _GList_Use = (GList)GetChildAt(10);
-            _GList_Setup = (GList)GetChildAt(11);
-            _GList_Etc = (GList)GetChildAt(12);
-            _GList_Cash = (GList)GetChildAt(13);
-            _Btn_Meso = (GButton)GetChildAt(16);
-            _Btn_MaplePoints = (GButton)GetChildAt(17);
-            _Btn_Gather = (GButton)GetChildAt(18);
-            _Bot = (GGroup)GetChildAt(19);
-            _GList_Equipped = (GList)GetChildAt(20);
-            _GLoader_Player = (GLoader)GetChildAt(21);
-            _Itemed_ItemDetail = (FGUI_Itemed_ItemDetail)GetChildAt(22);
-            _StatsInfo = (FGUI_StatsInfo)GetChildAt(23);
-            _SetupUseButtons = (FGUI_SetupUseButtons)GetChildAt(24);
+            _GList_Equip = (GList)GetChildAt(7);
+            _GList_Use = (GList)GetChildAt(8);
+            _GList_Setup = (GList)GetChildAt(9);
+            _GList_Etc = (GList)GetChildAt(10);
+            _GList_Cash = (GList)GetChildAt(11);
+            _Btn_Meso = (GButton)GetChildAt(12);
+            _Btn_MaplePoints = (GButton)GetChildAt(13);
+            _Btn_Gather = (GButton)GetChildAt(14);
+            _Bot = (GGroup)GetChildAt(15);
+            _GList_Equipped = (GList)GetChildAt(16);
+            _GLoader_Player = (GLoader)GetChildAt(17);
+            _Itemed_ItemDetail = (FGUI_Itemed_ItemDetail)GetChildAt(18);
+            _StatsInfo = (FGUI_StatsInfo)GetChildAt(19);
+            _SetupUseButtons = (FGUI_SetupUseButtons)GetChildAt(20);
             OnCreate();
 
         }

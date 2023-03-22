@@ -128,7 +128,7 @@ namespace HaCreator.Wz
             catch (Exception ex)
             {
                 //HaRepackerLib.Warning.Error("Error initializing " + name + ".wz (" + e.Message + ").\r\nCheck that the directory is valid and the file is not in use.");
-                AppDebug.LogError(ex.Message);
+                AppDebug.LogError($"Message:{ex.Message} + Source:{ex.Source} + InnerException:{ex.InnerException} + StackTrace:{ex.StackTrace}");
                 return false;
             }
         }

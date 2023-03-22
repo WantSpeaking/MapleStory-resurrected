@@ -1,14 +1,11 @@
-using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 public class TestOdin : MonoBehaviour
 {
-    [ValueDropdown("testString", ExpandAllMenuItems = true)]
+    /*[ValueDropdown("testString", ExpandAllMenuItems = true)]
     public List<string> StringTreview = new List<string>() { "10000" };
 
     private IEnumerable testString = new ValueDropdownList<string>()
@@ -44,5 +41,5 @@ public class TestOdin : MonoBehaviour
     void Update()
     {
 
-    }
+    }*/
 }

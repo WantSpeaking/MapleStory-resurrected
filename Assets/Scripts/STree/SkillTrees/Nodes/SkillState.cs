@@ -1,7 +1,5 @@
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
-using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,12 +23,6 @@ namespace ms.SkillTrees
         private ActionList _actionList;
         [SerializeField]
         private bool _repeatStateActions;
-
-        [ValueDropdown("testString", ExpandAllMenuItems =  true)]
-        public List<string> StringTreview = new List<string>() { "10000" };
-        private IEnumerable testString = new ValueDropdownList<string>()
-        { { "Skill1","10000"} };
-
         [SerializeField]
         string _skillId = "2001004";
 
@@ -56,23 +48,7 @@ namespace ms.SkillTrees
         string SkillIdToName(string id) => ms.wz.wzFile_string["skill.img"]?[id]?["name"]?.ToString() ?? id;
         
 
-        [OnInspectorGUI]
-        void OnInspectorGUI()
-        {
-            FillSourceList();
-            if (GUILayout.Button($"{SkillIdToName(SkillId)}"))
-            {
-                //List<string> source = new List<string>() { "skill1","skill2"};
-                GenericSelector<string> selector = new GenericSelector<string>("Skill Select", false, x=> SkillIdToName(x), source);
-                selector.SetSelection(this.SkillId);
-                selector.SelectionTree.Config.DrawSearchToolbar = true;
-                selector.SelectionTree.DefaultMenuStyle.Height = 22;
-                selector.SelectionConfirmed += selection => this.SkillId = selection.FirstOrDefault();
-                var window = selector.ShowInPopup();
-                window.OnEndGUI += () => { EditorGUILayout.HelpBox("A quick way of injecting custom GUI to the editor window popup instance.", MessageType.Info); };
-                window.OnClose += selector.SelectionTree.Selection.ConfirmSelection; // Confirm selection when window clses.
-            }
-        }
+     
         public Task task {
             get { return actionList; }
             set { actionList = (ActionList)value; }
@@ -157,6 +133,23 @@ namespace ms.SkillTrees
             GUI.color = UnityEngine.Color.white;
             actionList.ShowListGUI();
             actionList.ShowNestedActionsGUI();
+        }
+
+        void OnInspectorGUI()
+        {
+            FillSourceList();
+            if (GUILayout.Button($"{SkillIdToName(SkillId)}"))
+            {
+                //List<string> source = new List<string>() { "skill1","skill2"};
+                Sirenix.OdinInspector.Editor.GenericSelector<string> selector = new Sirenix.OdinInspector.Editor.GenericSelector<string>("Skill Select", false, x => SkillIdToName(x), source);
+                selector.SetSelection(this.SkillId);
+                selector.SelectionTree.Config.DrawSearchToolbar = true;
+                selector.SelectionTree.DefaultMenuStyle.Height = 22;
+                selector.SelectionConfirmed += selection => this.SkillId = selection.FirstOrDefault();
+                var window = selector.ShowInPopup();
+                window.OnEndGUI += () => { EditorGUILayout.HelpBox("A quick way of injecting custom GUI to the editor window popup instance.", MessageType.Info); };
+                window.OnClose += selector.SelectionTree.Selection.ConfirmSelection; // Confirm selection when window clses.
+            }
         }
 
 #endif

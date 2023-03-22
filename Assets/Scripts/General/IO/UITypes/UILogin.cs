@@ -58,10 +58,10 @@ namespace ms
 
             buttons[(int)Buttons.BT_LOGIN] = new MapleButton(Title["BtLogin"], signboard_pos + new Point_short(62, -51));
             buttons[(int)Buttons.BT_SAVEID] = new MapleButton(Title["BtLoginIDSave"], signboard_pos + new Point_short(-89, 5));
-            buttons[(int)Buttons.BT_IDLOST] = new MapleButton(Title["BtLoginIDLost"], signboard_pos + new Point_short(-17, 5));
-            buttons[(int)Buttons.BT_PASSLOST] = new MapleButton(Title["BtPasswdLost"], signboard_pos + new Point_short(55, 5));
-            buttons[(int)Buttons.BT_REGISTER] = new MapleButton(Title["BtNew"], signboard_pos + new Point_short(-101, 25));
-            buttons[(int)Buttons.BT_HOMEPAGE] = new MapleButton(Title["BtHomePage"], signboard_pos + new Point_short(-29, 25));
+            //buttons[(int)Buttons.BT_IDLOST] = new MapleButton(Title["BtLoginIDLost"], signboard_pos + new Point_short(-17, 5));
+            //buttons[(int)Buttons.BT_PASSLOST] = new MapleButton(Title["BtPasswdLost"], signboard_pos + new Point_short(55, 5));
+            //buttons[(int)Buttons.BT_REGISTER] = new MapleButton(Title["BtNew"], signboard_pos + new Point_short(-101, 25));
+            //buttons[(int)Buttons.BT_HOMEPAGE] = new MapleButton(Title["BtHomePage"], signboard_pos + new Point_short(-29, 25));
             buttons[(int)Buttons.BT_QUIT] = new MapleButton(Title["BtQuit"], signboard_pos + new Point_short(43, 25));
 
             checkbox[false] = Title["check"]["0"];

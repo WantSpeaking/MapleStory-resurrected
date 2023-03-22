@@ -7,6 +7,7 @@ using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using ms;
 using server.quest;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -302,7 +303,9 @@ public class MapleStory : SingletonMono<MapleStory>
 		try
 		{
 			maplestoryFolder = Constants.get ().path_MapleStoryFolder;
-			Session.get ().init ();
+			ms.Setting<ServerIP>.get().save(inputField_IP.text);
+			ms.Setting<ServerPort>.get().save(inputField_Port.text);
+            Session.get ().init (ms.Setting<ServerIP>.get().load(), ms.Setting<ServerPort>.get().load());
 			NxFiles.init (maplestoryFolder);
 			Window.get ().init ();
 			Sound.init ();
@@ -316,7 +319,7 @@ public class MapleStory : SingletonMono<MapleStory>
 			MapleQuest.loadAllQuest ();
 
 			canStart = true;
-			button_load.gameObject.SetActive (false);
+			button_load.transform.parent.gameObject.SetActive (false);
 
 		}
 		catch (Exception ex)
@@ -324,12 +327,12 @@ public class MapleStory : SingletonMono<MapleStory>
 			initError = true;
 			message = "初始化错误，数据包不存在，或则权限不足无法读取，请开启文件读写权限：";
 			message += ex.Message;
-			button_load.gameObject.SetActive (true);
+			button_load.transform.parent.gameObject.SetActive (true);
 		}
 
 		//Stage.get ().load_map(100000000);
 
-		dictionary = DictionaryPool<string, string>.Get ();
+		/*dictionary = DictionaryPool<string, string>.Get ();
 		List<string> strings = new List<string> ();
 
 		foreach (var item in wz.wzFile_quest["QuestInfo.img"])
@@ -359,7 +362,7 @@ public class MapleStory : SingletonMono<MapleStory>
 					}
 				}
 			}
-		}
+		}*/
 		//FindChild (wz.wzFile_quest["QuestInfo.img"]);
 		//FindChild (wz.wzFile_quest["Say.img"]);
 		//Debug.Log (dictionary.ToDebugLog ());
@@ -474,8 +477,10 @@ public class MapleStory : SingletonMono<MapleStory>
 	public bool enableDebugPacket = true;
 	public bool disableDebugPacketAfterLogin = true;
 	public UnityEngine.UI.Button button_load;
-
-	public InputField inpuField_MapleFolder;
+	public TMP_InputField inputField_IP;
+	public TMP_InputField inputField_Port;
+	
+    public InputField inpuField_MapleFolder;
 
 	[FormerlySerializedAs ("inpuField_MapId")]
 	public InputField inpuField_MapAccount;

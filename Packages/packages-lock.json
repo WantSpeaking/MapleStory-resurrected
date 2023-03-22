@@ -6,6 +6,12 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "com.tencent.puerts.core": {
+      "version": "file:G:/GithubProjects/puerts_unity_demo/package",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.2d.animation": {
       "version": "9.0.1",
       "depth": 1,
@@ -89,7 +95,7 @@
       "url": "https://packages.unity.cn"
     },
     "com.unity.burst": {
-      "version": "1.8.2",
+      "version": "1.8.3",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -226,7 +232,7 @@
       "url": "https://packages.unity.cn"
     },
     "com.unity.timeline": {
-      "version": "1.7.2",
+      "version": "1.7.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {

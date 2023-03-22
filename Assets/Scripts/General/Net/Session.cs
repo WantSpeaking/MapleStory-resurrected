@@ -182,7 +182,7 @@ namespace ms
 			return connected;
 		}
 
-		private bool init (string host, string port)
+		public bool init (string host, string port)
 		{
 			// Connect to the server
 			socket.Connect (host, Convert.ToInt32 (port));

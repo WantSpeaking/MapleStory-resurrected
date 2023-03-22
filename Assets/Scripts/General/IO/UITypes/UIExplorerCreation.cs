@@ -47,16 +47,29 @@ namespace ms
 			sprites_gender_select.Add(new Sprite (board["boardBottom"], new Point_short(486, 329)));
 			sprites_lookboard.Add(new Sprite (CustomizeChar["charSet"], new Point_short(486, 95)));
 
-			for (uint i = 0; i <= 5; i++)
+			for (int i = 0; i <= 5; i++)
 			{
-				uint f = i;
+				int f = i;
 
 				if (i >= 2)
 				{
 					f++;
 				}
 
-				sprites_lookboard.Add(new Sprite (CustomizeChar["avatarSel"][i.ToString ()]["normal"], new Point_short(497, (short)(197 + (f * 18)))));
+				int tmp = i;
+				switch (i)
+				{
+                    case 3:
+                        tmp = 2;
+                        break;
+                    case 4:
+                        tmp = 3;
+                        break;
+                    case 5:
+						tmp = 4;
+                        break;
+				}
+				sprites_lookboard.Add(new Sprite (CustomizeChar["avatarSel"][tmp.ToString()]["normal"], new Point_short(497, (short)(197 + (f * 18)))));
 			}
 
 			buttons[(int)Buttons.BT_CHARC_GENDER_M] = new MapleButton(genderSelect["male"], new Point_short(487, 109));

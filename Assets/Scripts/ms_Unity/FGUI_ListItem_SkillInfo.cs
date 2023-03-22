@@ -9,7 +9,7 @@ namespace ms_Unity
     {
         public Controller _c_count;
         public Controller _c_InventoryTypeId;
-        public GImage _bg;
+        public GGraph _bg;
         public GLoader _GLoader_Icon;
         public GTextField _Txt_Name;
         public GTextField _Txt_Level;
@@ -28,7 +28,7 @@ namespace ms_Unity
 
             _c_count = GetControllerAt(1);
             _c_InventoryTypeId = GetControllerAt(2);
-            _bg = (GImage)GetChildAt(0);
+            _bg = (GGraph)GetChildAt(0);
             _GLoader_Icon = (GLoader)GetChildAt(6);
             _Txt_Name = (GTextField)GetChildAt(11);
             _Txt_Level = (GTextField)GetChildAt(12);

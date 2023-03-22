@@ -489,7 +489,7 @@ namespace ms
 
 		public void set_region (byte regionid)
 		{
-			world_map[(int)Buttons.BT_WORLD0] = (ushort)(regionid == 5 ? Worlds.SCANIA : Worlds.LUNA);
+/* 			world_map[(int)Buttons.BT_WORLD0] = (ushort)(regionid == 5 ? Worlds.SCANIA : Worlds.LUNA);
 			world_map[(int)Buttons.BT_WORLD1] = (int)Worlds.BERA;
 			world_map[(int)Buttons.BT_WORLD2] = (int)Worlds.AURORA;
 			world_map[(int)Buttons.BT_WORLD3] = (int)Worlds.ELYSIUM1;
@@ -511,7 +511,26 @@ namespace ms
 
 				buttons[(int)Buttons.BT_WORLD0 + i] = new TwoSpriteButton (worldbtn["normal"]["0"], worldbtn["keyFocused"]["0"], worldsrc_pos + region["origin"][(i + 1).ToString ()].GetPoint ().ToMSPoint ());
 				buttons[(int)Buttons.BT_WORLD0 + i].set_active (false);
-			}
+			} */
+
+			world_map[(int)Buttons.BT_WORLD0] = 0;
+			WzObject region = worldsrc["index"][regionid.ToString ()];
+
+			worlds_background = region["layer:bg"];
+
+			worldsrc_pos = region["pos"];
+for (uint i = (int)Buttons.BT_WORLD0; i <= (ulong)Buttons.BT_WORLD0; i++)
+{
+string world = Convert.ToString (world_map[(ushort)i]);
+				world_textures.Add (channelsrc["release"]["layer:" + world]);
+				recommended_world_textures.Add (worldselect["world"][world]);
+
+				WzObject worldbtn = worldsrc["button:" + world];
+
+				buttons[(int)Buttons.BT_WORLD0 + i] = new TwoSpriteButton (worldbtn["normal"]["0"], worldbtn["keyFocused"]["0"], worldsrc_pos + region["origin"][(i + 1).ToString ()].GetPoint ().ToMSPoint ());
+				buttons[(int)Buttons.BT_WORLD0 + i].set_active (false);
+}
+
 		}
 
 		public ushort get_worldbyid (ushort worldid)

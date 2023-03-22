@@ -10,13 +10,14 @@ using UnityEngine;
 public class TestLuban : SingletonMono<TestLuban>
 {
     public const string gameConfDir = "\\Resources\\GenerateDatas";
+    public TextAsset tbtextmapper;
 
     private static cfg.Tables _tables;
     [ShowInInspector]
     private SystemLanguage systemLanguage = SystemLanguage.ChineseSimplified;
 
     public static cfg.Tables Tables => _tables ??= new cfg.Tables(file =>
-            JSON.Parse(File.ReadAllText(Application.dataPath + gameConfDir + "/" + file + ".json")));
+            JSON.Parse(Resources.Load<TextAsset>($"GenerateDatas/{file}").text));
 
     public SystemLanguage SystemLanguage { get => systemLanguage; private set => systemLanguage = value; }
     public string GetL10nText(string key)
@@ -38,4 +39,6 @@ public class TestLuban : SingletonMono<TestLuban>
             return key;
         }
     }
+
+ 
 }

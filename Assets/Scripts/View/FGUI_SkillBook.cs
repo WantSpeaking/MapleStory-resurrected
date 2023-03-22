@@ -22,7 +22,7 @@ namespace ms_Unity
 			_SetupActionButtons._Btn_Skill1.onClick.Add (OnClick_Btn_Skill);
 			_SetupActionButtons._Btn_Skill2.onClick.Add (OnClick_Btn_Skill);
 			_SetupActionButtons._Btn_Skill3.onClick.Add (OnClick_Btn_Skill);
-			_SetupActionButtons._Btn_Skill4.onClick.Add (OnClick_Btn_Skill);
+            _SetupActionButtons._Btn_Skill4.onClick.Add (OnClick_Btn_Skill);
 
 			_SetupActionButtons.UpdateIcon ();
 
@@ -40,7 +40,7 @@ namespace ms_Unity
 		{
 			if (isSettingupAction)
 			{
-				//CancelSetupAction ();
+				CancelSetupAction ();
 			}
 		}
 
