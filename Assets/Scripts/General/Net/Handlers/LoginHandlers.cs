@@ -5,8 +5,37 @@
 
 namespace ms
 {
-	// Handler for a packet that contains the response to an attempt at logging in
-	public class LoginResultHandler : PacketHandler
+    // Handler for a Hello packet that contains server first message
+    public class HelloHandler : PacketHandler
+    {
+        public override void handle(InPacket recv)
+        {
+			recv.skip_short(); 
+			short mapleVersion = recv.readShort();
+			recv.skip_short();
+			recv.skip_byte();
+
+            byte[] sendiv = new byte[NetConstants.HEADER_LENGTH];
+            byte[] recviv = new byte[NetConstants.HEADER_LENGTH];
+            for (int i = 0; i < NetConstants.HEADER_LENGTH; i++)
+            {
+                recviv[i] = recv.readByte();
+            }
+            for (int i = 0; i < NetConstants.HEADER_LENGTH; i++)
+            {
+                sendiv[i] = recv.readByte();
+            }
+            recv.skip_byte();
+
+			var crypt = new Cryptography(recviv, sendiv);
+
+            //Session.get().setcrypt(crypt);
+			//NetWorkSocket.Get().setcrypt(crypt);
+        }
+    }
+
+    // Handler for a packet that contains the response to an attempt at logging in
+    public class LoginResultHandler : PacketHandler
 	{
 		public override void handle (InPacket recv)
 		{
@@ -92,8 +121,6 @@ namespace ms
 	// Handler for a packet that contains the status of the requested world
 	public class ServerStatusHandler : PacketHandler
 	{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void handle(InPacket& recv) const override
 		public override void handle (InPacket recv)
 		{
 			// Possible values for status:

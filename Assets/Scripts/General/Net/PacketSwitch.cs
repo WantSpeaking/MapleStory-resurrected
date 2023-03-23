@@ -7,6 +7,7 @@ namespace ms
 	// Class which contains the array of handler classes to use
 	public class PacketSwitch
 	{
+		//private HelloHandler helloHandler = new HelloHandler();
 		// Register all handlers
 		public PacketSwitch ()
 		{
@@ -139,8 +140,17 @@ namespace ms
 
 			if (opcode < NUM_HANDLERS)
 			{
-				var handler = handlers.TryGetValue ((Opcode)opcode);
-				if (handler != null)
+				ms.PacketHandler handler;
+		/*		if (opcode == 14 && recv.length()<=23)
+				{
+					handler = helloHandler;
+                }
+				else*/
+				{
+                     handler = handlers.TryGetValue((Opcode)opcode);
+                }
+
+                if (handler != null)
 				{
 					// Handler is good, packet is passed on
 

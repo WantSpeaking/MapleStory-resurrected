@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ms.Helper;
+using Unity.VisualScripting;
 
 
 
@@ -74,7 +75,7 @@ namespace ms
 			{
 				index += NetConstants.HEADER_LENGTH;
 				// Position is zero, meaning this is the start of a new packet. Start by determining length.
-				length = cryptography.check_length (bytes);
+				length = cryptography.check_length (bytes.ToSbyteArray());
 				// Reading the length means we processed the header. Move forward by the header length.
 				byte[] newBytes = new byte[bytes.Length - NetConstants.HEADER_LENGTH];
 				Array.Copy (bytes, NetConstants.HEADER_LENGTH, newBytes, 0, newBytes.Length);
@@ -98,7 +99,7 @@ namespace ms
 			// Check if the current packet has been fully processed
 			if (pos >= length)
 			{
-				cryptography.decrypt (buffer.ToSbyteArray (), length);
+				//cryptography.decrypt (buffer.ToSbyteArray (), length);
 
 				try
 				{
@@ -143,12 +144,17 @@ namespace ms
 			socket.SendMsg (packet_bytes, packet_length);*/
 			socket.SendMsg (header.ToByteArray ());
 			socket.SendMsg (packet_bytes.ToByteArray ());
-			
-			/*var temp = new byte[NetConstants.HEADER_LENGTH + packet_bytes.Length];
+
+            //if (GameUtil.Get().enableDebugPacket && (Opcode)opcode != Opcode.MOVE_PLAYER && (Opcode)opcode != Opcode.MOVE_MONSTER)
+            {
+                AppDebug.Log($"write header: {header.ToDebugLog()}; packet_bytes:{packet_bytes.ToDebugLog()}");
+            }
+
+            /*var temp = new byte[NetConstants.HEADER_LENGTH + packet_bytes.Length];
 			Array.Copy (header,temp,header.Length);
 			Array.Copy (packet_bytes,0,temp,NetConstants.HEADER_LENGTH,packet_bytes.Length);
 			socket.SendMsg (temp);*/
-		}
+        }
 
 		// Check for incoming packets and handle them
 		public void read ()
@@ -191,21 +197,28 @@ namespace ms
 			if (connected)
 			{
 				// Read keys necessary for communicating with the server
-				cryptography = new Cryptography (socket.get_buffer ());
+				cryptography = new Cryptography (socket.get_buffer ().ToSbyteArray());
 			}
 
 			return connected;
 		}
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Pointer arithmetic is detected on the parameter 'bytes', so pointers on this parameter are left unchanged:
 
+		public void setcrypt(Cryptography c)
+		{
+			cryptography = c;
+		}
 
-		private Cryptography cryptography = new Cryptography ();
+		public Cryptography getCrypt() => cryptography;
+
+        private Cryptography cryptography = new Cryptography ();
 		private PacketSwitch packetswitch = new PacketSwitch ();
 
 		private byte[] buffer = new byte[NetConstants.MAX_PACKET_LENGTH];
 		private int length;
 		private int pos;
 		private bool connected;
+
 
 #if USE_ASIO
 		private SocketAsio socket = new SocketAsio();

@@ -4,30 +4,37 @@
 
 
 
+using UnityEngine.UIElements;
+
 namespace ms
 {
 	// Used to encrypt and decrypt packets for communication with the server
 	public class Cryptography : System.IDisposable
 	{
 		// Obtain the initialization vector from the handshake
-		public Cryptography(byte[] handshake)
+		public Cryptography(sbyte[] handshake)
 		{
 #if USE_CRYPTO
 			for (int i = 0; i < NetConstants.HEADER_LENGTH; i++)
 			{
-				sendiv[i] = (byte)handshake[(int)(i + 7)];
+				sendiv[i] = (byte)handshake[i + 7];
 			}
 
 			for (int i = 0; i < NetConstants.HEADER_LENGTH; i++)
 			{
-				recviv[i] = (byte)handshake[(int)(i + 11)];
+				recviv[i] = (byte)handshake[i + 11];
 			}
 #endif
 		}
 		public Cryptography()
 		{
 		}
-		public void Dispose()
+        public Cryptography(byte[] receiveIv, byte[] sendIv)
+        {
+			this.sendiv = sendIv;
+			this.recviv = receiveIv;
+        }
+        public void Dispose()
 		{
 		}
 
@@ -35,10 +42,16 @@ namespace ms
 		public void encrypt(sbyte[] bytes, int length)
 		{
 #if USE_CRYPTO
-			mapleencrypt( bytes, length);
-			aesofb( bytes, length, sendiv);
+            //AppDebug.Log("raw");
+            //AppDebug.Log(bytes.ToDebugLog());
+            mapleencrypt( bytes, length);
+            //AppDebug.Log("mapleencrypt");
+            //AppDebug.Log(bytes.ToDebugLog());
+            aesofb( bytes, length, sendiv);
+            //AppDebug.Log("aesofb");
+            //AppDebug.Log(bytes.ToDebugLog());
 #endif
-		}
+        }
 		// Decrypt a byte array with the given length and iv
 		public void decrypt(sbyte[] bytes, int length)
 		{
@@ -47,16 +60,21 @@ namespace ms
 			mapledecrypt( bytes, length);
 #endif
 		}
-		// Generate a header for the specified length and key
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void create_header(byte* buffer, int length) const
-		public void create_header(sbyte[] buffer, int length)
+        public void aesofb(sbyte[] bytes, int length)
+		{
+            aesofb(bytes, length, recviv);
+        }
+     
+        // Generate a header for the specified length and key
+        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+        //ORIGINAL LINE: void create_header(byte* buffer, int length) const
+        public void create_header(sbyte[] buffer, int length)
 		{
 #if USE_CRYPTO
 			const byte MAPLEVERSION = 83;
 
-			int a = (int)(((sendiv[3] << 8) | sendiv[2]) ^ MAPLEVERSION);
-			int b = a ^ length;
+            var a = (int)(((sendiv[3] << 8) | (byte)sendiv[2]) ^ MAPLEVERSION);
+			var b = a ^ length;
 
 			buffer[0] = (sbyte)(a % 0x100);
 			buffer[1] = (sbyte)(a / 0x100);
@@ -73,7 +91,7 @@ namespace ms
 #endif
 		}
 		// Use the 4-byte header of a received packet to determine its length
-		public int check_length(byte[] bytes)
+		public int check_length(sbyte[] bytes)
 		{
 #if USE_CRYPTO
 			var headermask = 0;
@@ -99,7 +117,7 @@ namespace ms
 		// Add the maple custom encryption
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void mapleencrypt(byte* bytes, int length) const
-		private void mapleencrypt(sbyte[] sbytes, int length)
+		private void mapleencrypt(sbyte[] bytes, int length)
 		{
 			for (sbyte j = 0; j < 3; j++)
 			{
@@ -108,10 +126,11 @@ namespace ms
 
 				for (int i = 0; i < length; i++)
 				{
-					sbyte cur = (sbyte)((rollleft(sbytes[i], 3) + datalen) ^ remember);
+					sbyte cur = (sbyte)((rollleft(bytes[i], 3) + datalen) ^ remember);
 					remember = cur;
-					cur = rollright(cur, datalen & 0xFF);
-					sbytes[i] = (sbyte)((sbyte)((~cur) & 0xFF) + 0x48);
+					cur = rollright(cur, ((int)datalen) & 0xFF);
+					bytes[i] = (sbyte)((sbyte)((~cur) & 0xFF) + 0x48);
+					//AppDebug.Log($"bytes[{i}]= {bytes[i]}");
 					datalen--;
 				}
 
@@ -120,17 +139,18 @@ namespace ms
 
 				for (int i = length-1; i>=0;i--)
 				{
-					sbyte cur = (sbyte)((rollleft(sbytes[i], 4) + datalen) ^ remember);
+					sbyte cur = (sbyte)((rollleft(bytes[i], 4) + datalen) ^ remember);
 					remember = cur;
-					sbytes[i] = rollright((sbyte)(cur ^ 0x13), 3);
-					datalen--;
+					bytes[i] = rollright((sbyte)(cur ^ 0x13), 3);
+                    //AppDebug.Log($"bytes[{i}]= {bytes[i]}");
+                    datalen--;
 				}
 			}
 		}
 		// Remove the maple custom encryption
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void mapledecrypt(byte* bytes, int length) const
-		private void mapledecrypt(sbyte[] bytes, int length)
+		public void mapledecrypt(sbyte[] bytes, int length)
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -214,8 +234,6 @@ namespace ms
 		}
 
 		// Apply AES OFB to a byte array
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void aesofb(byte* bytes, int length, byte* iv) const
 		private void aesofb(sbyte[] bytes, int length, byte[] iv)
 		{
 			int blocklength = 0x5B0;
@@ -256,29 +274,52 @@ namespace ms
 			updateiv(iv);
 		}
 		// Encrypt a byte array with AES
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void aesencrypt(byte* bytes) const
 		private void aesencrypt( byte[] bytes)
 		{
 			byte round = 0;
+            //AppDebug.Log("raw");
+            //AppDebug.Log(bytes.ToDebugLog());
 			addroundkey(bytes, round);
+            //AppDebug.Log("addroundkey");
+            //AppDebug.Log(bytes.ToDebugLog());
 
-			for (round = 1; round < 14; round++)
+            for (round = 1; round < 14; round++)
 			{
 				subbytes(bytes);
-				shiftrows(bytes);
-				mixcolumns(bytes);
-				addroundkey(bytes, round);
-			}
+                //AppDebug.Log("subbytes");
+                //AppDebug.Log(bytes.ToDebugLog());
 
-			subbytes(bytes);
-			shiftrows(bytes);
-			addroundkey(bytes, round);
-		}
-		// AES add round key step
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void addroundkey(byte* bytes, byte round) const
-		private void addroundkey(byte[] bytes, byte round)
+                shiftrows(bytes);
+                //AppDebug.Log("shiftrows");
+                //AppDebug.Log(bytes.ToDebugLog());
+
+                mixcolumns(bytes);
+                //AppDebug.Log("mixcolumns");
+                //AppDebug.Log(bytes.ToDebugLog());
+
+                addroundkey(bytes, round);
+                //AppDebug.Log("addroundkey");
+                //AppDebug.Log(bytes.ToDebugLog());
+
+            }
+
+            subbytes(bytes);
+            //AppDebug.Log("subbytes");
+            //AppDebug.Log(bytes.ToDebugLog());
+
+            shiftrows(bytes);
+            //AppDebug.Log("shiftrows");
+            //AppDebug.Log(bytes.ToDebugLog());
+
+            addroundkey(bytes, round);
+            //AppDebug.Log("addroundkey");
+            //AppDebug.Log(bytes.ToDebugLog());
+
+        }
+        // AES add round key step
+        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+        //ORIGINAL LINE: void addroundkey(byte* bytes, byte round) const
+        private void addroundkey(byte[] bytes, byte round)
 		{
 			// This key is already expanded
 			// Only works for versions lower than version 118
@@ -346,20 +387,36 @@ namespace ms
 				byte mul2 = gmul(bytes[i + 2]);
 				byte mul3 = gmul(bytes[i + 3]);
 
-				bytes[i] = (byte)(mul0 ^ cpy3 ^ cpy2 ^ mul1 ^ cpy1);
+                /* AppDebug.Log($"mul0:{mul0} {cpy0}");
+                AppDebug.Log($"mul1:{mul1} {cpy1}");
+                AppDebug.Log($"mul2:{mul2} {cpy2}");
+                AppDebug.Log($"mul3:{mul3} {cpy3}"); */
+
+                bytes[i] = (byte)(mul0 ^ cpy3 ^ cpy2 ^ mul1 ^ cpy1);
 				bytes[i + 1] = (byte)(mul1 ^ cpy0 ^ cpy3 ^ mul2 ^ cpy2);
 				bytes[i + 2] = (byte)(mul2 ^ cpy1 ^ cpy0 ^ mul3 ^ cpy3);
 				bytes[i + 3] = (byte)(mul3 ^ cpy2 ^ cpy1 ^ mul0 ^ cpy0);
-			}
+
+				/* AppDebug.Log($"mul0:{mul0} {bytes[i]}");
+				AppDebug.Log($"mul1:{mul1} {bytes[i+1]}");
+				AppDebug.Log($"mul2:{mul2} {bytes[i+2]}");
+				AppDebug.Log($"mul3:{mul3} {bytes[i+3]}"); */
+            }
 		}
 		// Perform a Galois multiplication
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: byte gmul(byte x) const
-		private byte gmul(byte x)
+		public byte gmul(byte x)
 		{
-			return (byte)((x << 1) ^ (0x1B & (byte)((byte)x >> 7)));
-		}
+            byte a = (byte)(x << 1);
+            byte b = (byte)((sbyte)x >> 7);
+            byte c = ((byte)(0x1B & (byte)((sbyte)x >> 7)));
+            byte d = (byte)((x << 1) ^ (0x1B & (byte)((sbyte)x >> 7)));
+			//AppDebug.Log($"gmul:{a} {b} {c} {d}");
 
+            return (byte)((x << 1) ^ (0x1B & (byte)((sbyte)x >> 7)));
+		}
+/*  */
 #if USE_CRYPTO
 		private byte[] sendiv = new byte[NetConstants.HEADER_LENGTH];
 		private byte[] recviv = new byte[NetConstants.HEADER_LENGTH];

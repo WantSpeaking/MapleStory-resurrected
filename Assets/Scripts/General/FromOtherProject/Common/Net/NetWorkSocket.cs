@@ -46,7 +46,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 	private int m_ReceiveCount = 0;
 
 	public byte[] get_buffer () => m_ReceiveBuffer;
-	private Cryptography cryptography = new Cryptography ();
+	private Cryptography cryptography => Session.get().getCrypt();
 	private PacketSwitch packetswitch = new PacketSwitch ();
 
 	#endregion
@@ -125,7 +125,8 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 
 						//得到队列中的数据包
 						byte[] buffer = m_ReceiveQueue.Dequeue ();
-						//cryptography.decrypt (buffer.ToSbyteArray (), buffer.Length);
+						//if (Session.get().getCrypt() == null)
+							//cryptography.decrypt (buffer.ToSbyteArray (), buffer.Length);
 						packetswitch.forward (buffer, buffer.Length);
 					}
 					else
@@ -487,4 +488,9 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 		//return 1;
 		return m_Client.Receive (m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, out var socketError);
 	}
+
+   /* public void setcrypt(Cryptography c)
+    {
+        cryptography = c;
+    }*/
 }
