@@ -135,11 +135,12 @@ namespace ms
 			{
 				return;
 			}
-			//AppDebug.Log ($"bytes before encrypt:{packet_bytes.ToDebugLog ()}");
+            //AppDebug.Log($"write header: {header.ToDebugLog()}");
+            AppDebug.Log ($"encrypt before:{packet_bytes.ToDebugLog ()}");
 			sbyte[] header = new sbyte[NetConstants.HEADER_LENGTH];
 			cryptography.create_header (header, packet_length);
-			//cryptography.encrypt (packet_bytes, packet_length);
-			//AppDebug.Log ($"bytes After encrypt:{packet_bytes.ToDebugLog ()}");
+			cryptography.encrypt (packet_bytes, packet_length);
+			AppDebug.Log ($"encrypt after:{packet_bytes.ToDebugLog ()}");
 			/*socket.SendMsg (header, NetConstants.HEADER_LENGTH);
 			socket.SendMsg (packet_bytes, packet_length);*/
 			socket.SendMsg (header.ToByteArray ());
@@ -147,7 +148,7 @@ namespace ms
 
             //if (GameUtil.Get().enableDebugPacket && (Opcode)opcode != Opcode.MOVE_PLAYER && (Opcode)opcode != Opcode.MOVE_MONSTER)
             {
-                AppDebug.Log($"write header: {header.ToDebugLog()}; packet_bytes:{packet_bytes.ToDebugLog()}");
+                //AppDebug.Log($"write header: {header.ToDebugLog()}; packet_bytes:{packet_bytes.ToDebugLog()}");
             }
 
             /*var temp = new byte[NetConstants.HEADER_LENGTH + packet_bytes.Length];
@@ -190,6 +191,7 @@ namespace ms
 
 		public bool init (string host, string port)
 		{
+			cryptography = new Cryptography ();
 			// Connect to the server
 			socket.Connect (host, Convert.ToInt32 (port));
 			//connected = socket.Connect (host, Convert.ToInt32 (port));
@@ -197,7 +199,7 @@ namespace ms
 			if (connected)
 			{
 				// Read keys necessary for communicating with the server
-				cryptography = new Cryptography (socket.get_buffer ().ToSbyteArray());
+				//cryptography = new Cryptography (socket.get_buffer ().ToSbyteArray());
 			}
 
 			return connected;

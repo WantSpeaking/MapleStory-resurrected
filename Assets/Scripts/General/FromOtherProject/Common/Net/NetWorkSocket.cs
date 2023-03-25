@@ -125,9 +125,17 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 
 						//得到队列中的数据包
 						byte[] buffer = m_ReceiveQueue.Dequeue ();
-						//if (Session.get().getCrypt() == null)
-							//cryptography.decrypt (buffer.ToSbyteArray (), buffer.Length);
-						packetswitch.forward (buffer, buffer.Length);
+                        var packet_bytes = buffer.ToSbyteArray();
+
+                        if (Session.get().getCrypt() != null)
+						{
+                            AppDebug.Log($"\trawPacket:{packet_bytes.ToDebugLog()}");
+
+                            cryptography.decrypt(packet_bytes, packet_bytes.Length);
+                            AppDebug.Log($"\tdecryptPacket:{packet_bytes.ToDebugLog()}");
+
+                        }
+                        packetswitch.forward (packet_bytes.ToByteArray(), buffer.Length);
 					}
 					else
 					{
@@ -343,21 +351,30 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 	/// <param name="ar"></param>
 	private void ReceiveCallBack (IAsyncResult ar)
 	{
-		try
+		//try
 		{
 			/*if (m_Client.Available <= 0) return; 
 			if (m_Client == null) return;*/
 			int len = m_Client.EndReceive (ar);
 			if (len > 0)
 			{
-				//Debug.Log ($"Receive len:{len}\t Receive Content:{m_ReceiveBuffer.ToDebugLog ()} \t GetString:{Encoding.ASCII.GetString (m_ReceiveBuffer)}");
+				Debug.Log ($"Receive len:{len}\t Receive Content:{m_ReceiveBuffer.ToSbyteArray().ToDebugLog ()} \t GetString:{Encoding.ASCII.GetString (m_ReceiveBuffer)}");
 
 				//已经接收到数据
 
 				//把接收到数据 写入缓冲数据流的尾部
 				m_ReceiveMS.Position = m_ReceiveMS.Length;
+                if (StringExt.BytesCompare_Base64(m_ReceiveBuffer, strangeBytes))
+				{
 
-				if (StringExt.BytesCompare_Base64 (m_ReceiveBuffer, strangeBytes)||StringExt.BytesCompare_Base64 (m_ReceiveBuffer, strangeBytes1))
+					//Session.get().setcrypt(new Cryptography(m_ReceiveBuffer.ToSbyteArray()));
+
+
+                        ReceiveMsg();
+                    return;
+                }
+
+                if (StringExt.BytesCompare_Base64 (m_ReceiveBuffer, strangeBytes1))
 				{
 					ReceiveMsg ();
 					return;
@@ -386,11 +403,15 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 						//把数据流指针位置放在0处
 						m_ReceiveMS.Position = 0;
 
-						//currMsgLen = 包体的长度
+                        //currMsgLen = 包体的长度
+                        byte[] tempHeaderBytes = new byte[4];
+                        m_ReceiveMS.Read(tempHeaderBytes, 0, 4);
 						//int currMsgLen = m_ReceiveMS.ReadUShort();
-						//int currMsgLen =  cryptography.check_length (m_ReceiveBuffer);
-						int currMsgLen = m_ReceiveMS.ReadInt ();
-						if (currMsgLen > NetConstants.MAX_PACKET_LENGTH)
+						int currMsgLen =  cryptography.check_length (tempHeaderBytes.ToSbyteArray());
+						//int currMsgLen = len - 4;
+
+                        //int currMsgLen = m_ReceiveMS.ReadInt ();
+                        if (currMsgLen > NetConstants.MAX_PACKET_LENGTH)
 						{
 							//清空数据流
 							m_ReceiveMS.Position = 0;
@@ -410,12 +431,12 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 							//定义包体的byte[]数组
 							byte[] buffer = new byte[currMsgLen];
 
-							//把数据流指针放到2的位置 也就是包体的位置
+							//把数据流指针放到4的位置 也就是包体的位置
 							m_ReceiveMS.Position = 4;
 
 							//把包体读到byte[]数组
 							m_ReceiveMS.Read (buffer, 0, currMsgLen);
-
+							//cryptography.decrypt(buffer.ToSbyteArray(),buffer.Length);
 							lock (m_ReceiveQueue)
 							{
 								m_ReceiveQueue.Enqueue (buffer);
@@ -472,7 +493,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 				//Debug.Log ($"服务器{m_Client.RemoteEndPoint}断开连接");
 			}
 		}
-		catch (Exception ex)
+		//catch (Exception ex)
 		{
 			//客户端断开连接
 			//Debug.Log ($"服务器{m_Client.RemoteEndPoint}断开连接\t Message:{ex.Message} {ex.Data} {ex.StackTrace}");

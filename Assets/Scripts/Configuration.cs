@@ -581,7 +581,7 @@ namespace ms
 		private string HWID = "2EFDB98799DD_CB4F4F88";
 		private short MAXWIDTH = 1920;
 		private short MAXHEIGHT = 1080;
-		private string VolumeSerialNumber = "2EFDB98799DD_CB4F4F88";
+		private string VolumeSerialNumber = "F02BF618";
 		private byte worldid;
 		private byte channelid;
 		private bool admin;
