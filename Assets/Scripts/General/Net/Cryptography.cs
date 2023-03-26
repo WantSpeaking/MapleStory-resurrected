@@ -24,15 +24,20 @@ namespace ms
 			{
 				recviv[i] = (byte)handshake[i + 11];
 			}
+			AppDebug.Log($"(sbyte[]) sendiv:{sendiv.ToDebugLog()}\t recviv:{recviv.ToDebugLog()}");
 #endif
 		}
 		public Cryptography()
 		{
-		}
+            AppDebug.Log($"() sendiv:{sendiv.ToDebugLog()}\t recviv:{recviv.ToDebugLog()}");
+
+        }
         public Cryptography(byte[] receiveIv, byte[] sendIv)
         {
 			this.sendiv = sendIv;
 			this.recviv = receiveIv;
+            AppDebug.Log($"(byte[] byte[]) sendiv:{sendiv.ToDebugLog()}\t recviv:{recviv.ToDebugLog()}");
+
         }
         public void Dispose()
 		{
@@ -105,7 +110,7 @@ namespace ms
 			}
 			var result = (int)((headermask >> 16) ^ (headermask & 0xFFFF));
 			//AppDebug.Log($"headerBytes:{bytes.ToDebugLog()}");
-            //AppDebug.Log($"packetLength: {result}");
+            AppDebug.Log($"check_length: {result}\t headerBytes:{bytes.ToDebugLog()}");
 
             return result;
 #else
@@ -192,8 +197,8 @@ namespace ms
         //ORIGINAL LINE: void updateiv(byte* iv) const
         public void updateiv(byte[] iv)
 		{
-			AppDebug.Log("updateiv before");
-			AppDebug.Log(iv.ToDebugLog());
+			//AppDebug.Log("updateiv before");
+			//AppDebug.Log(iv.ToDebugLog());
 
             byte[] mbytes = { 0xF2, 0x53, 0x50, 0xC6 };
 

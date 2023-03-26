@@ -46,7 +46,7 @@ namespace Utility.Inspector
 	[UnityEditor.CustomPropertyDrawer (typeof (ButtonAttribute))]
 	public class QuickButtonDrawer : UnityEditor.PropertyDrawer
 	{
-		private GUIStyle buttonStyle = new GUIStyle (GUI.skin.button);
+		//private GUIStyle buttonStyle = new GUIStyle (GUI.skin.button);
 
 		[ExecuteInEditMode]
 		public override void OnGUI (Rect position, UnityEditor.SerializedProperty property, GUIContent label)
@@ -55,7 +55,7 @@ namespace Utility.Inspector
 			var obj = property.serializedObject.targetObject;
 
 			SetColor (att);
-			if (GUI.Button (position, att.label, buttonStyle))
+			if (GUI.Button (position, att.label, GUI.skin.button))
 			{
 				obj.GetType ().GetMethod (att.method, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).Invoke (obj, null);
 			}
@@ -110,8 +110,7 @@ namespace Utility.Inspector
 					txtCol = new Color (0.879f, 1.000f, 0.786f);
 					break;
 			}
-
-			buttonStyle.normal.textColor = txtCol;
+            GUI.skin.button.normal.textColor = txtCol;
 			GUI.backgroundColor = guiCol;
 		}
 	}

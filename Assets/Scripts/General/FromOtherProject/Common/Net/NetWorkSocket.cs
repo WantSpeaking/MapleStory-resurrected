@@ -45,7 +45,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 
 	private int m_ReceiveCount = 0;
 
-	public byte[] get_buffer () => m_ReceiveBuffer;
+	//public byte[] get_buffer () => m_ReceiveBuffer;
 	private Cryptography cryptography => Session.get().getCrypt();
 	private PacketSwitch packetswitch = new PacketSwitch ();
 
@@ -129,10 +129,10 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 
                         if (Session.get().getCrypt() != null)
 						{
-                            AppDebug.Log($"\trawPacket:{packet_bytes.ToDebugLog()}");
+                            //AppDebug.Log($"\trawPacket:{packet_bytes.ToDebugLog()}");
 
                             cryptography.decrypt(packet_bytes, packet_bytes.Length);
-                            AppDebug.Log($"\tdecryptPacket:{packet_bytes.ToDebugLog()}");
+                            //AppDebug.Log($"\tdecryptPacket:{packet_bytes.ToDebugLog()}");
 
                         }
                         packetswitch.forward (packet_bytes.ToByteArray(), buffer.Length);
@@ -167,10 +167,10 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 	/// </summary>
 	/// <param name="ip">ip</param>
 	/// <param name="port">端口号</param>
-	public void Connect (string ip, int port)
+	public bool Connect (string ip, int port)
 	{
 		//如果socket已经存在 并且处于连接中状态 则直接返回
-		if (m_Client != null && m_Client.Connected) return;
+		if (m_Client != null && m_Client.Connected) return true;
 
 		m_Client = new Socket (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -179,25 +179,35 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 			m_Client.Connect (new IPEndPoint (IPAddress.Parse (ip), port));
 			m_CheckSendQuene = OnCheckSendQueueCallBack;
 
-			ReceiveMsg ();
+            //ReceiveMsg ();
 			Debug.Log ($"开始连接: ip:{ip} port:{port}");
 			if (OnConnectOK != null)
 			{
 				OnConnectOK ();
 			}
+			return true;
 		}
 		catch (Exception ex)
 		{
-			Debug.Log ("连接失败=" + ex.Message);
-		}
+            Debug.LogError ("连接失败=" + ex.Message);
+            return false;
+        }
 	}
 
-	#endregion
+	public byte[] get_buffer(int size = NetConstants.MAX_PACKET_LENGTH)
+	{
+		if (m_Client != null && m_Client.Connected)
+		{
+			m_Client.Receive(m_ReceiveBuffer, size, SocketFlags.None);
+        }
+        return m_ReceiveBuffer;
+    }
+    #endregion
 
-	/// <summary>
-	/// 断开连接
-	/// </summary>
-	public void DisConnect ()
+    /// <summary>
+    /// 断开连接
+    /// </summary>
+    public void DisConnect ()
 	{
 		if (m_Client != null && m_Client.Connected)
 		{
@@ -330,7 +340,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 	/// <summary>
 	/// 接收数据
 	/// </summary>
-	private void ReceiveMsg ()
+	public void ReceiveMsg ()
 	{
 		//异步接收数据
 		m_Client.BeginReceive (m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, out var socketError, ReceiveCallBack, m_Client);
@@ -355,143 +365,155 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 		{
 			/*if (m_Client.Available <= 0) return; 
 			if (m_Client == null) return;*/
-			int len = m_Client.EndReceive (ar);
-			if (len > 0)
+			if (m_Client != null && m_Client.Connected)
 			{
-				Debug.Log ($"Receive len:{len}\t Receive Content:{m_ReceiveBuffer.ToSbyteArray().ToDebugLog ()} \t GetString:{Encoding.ASCII.GetString (m_ReceiveBuffer)}");
+                int len = m_Client.EndReceive(ar);
+                if (len > 0)
+                {
+                    Debug.Log($"\tReceive len:{len}\t Receive Content:{m_ReceiveBuffer.ToSbyteArray().ToDebugLog()} \t GetString:{Encoding.ASCII.GetString(m_ReceiveBuffer)}");
 
-				//已经接收到数据
+                    //已经接收到数据
 
-				//把接收到数据 写入缓冲数据流的尾部
-				m_ReceiveMS.Position = m_ReceiveMS.Length;
-                if (StringExt.BytesCompare_Base64(m_ReceiveBuffer, strangeBytes))
-				{
+                    //把接收到数据 写入缓冲数据流的尾部
+                    m_ReceiveMS.Position = m_ReceiveMS.Length;
+                    if (StringExt.BytesCompare_Base64(m_ReceiveBuffer, strangeBytes))
+                    {
 
-					//Session.get().setcrypt(new Cryptography(m_ReceiveBuffer.ToSbyteArray()));
+                        //Session.get().setcrypt(new Cryptography(m_ReceiveBuffer.ToSbyteArray()));
 
 
                         ReceiveMsg();
-                    return;
+                        return;
+                    }
+
+                    if (StringExt.BytesCompare_Base64(m_ReceiveBuffer, strangeBytes1))
+                    {
+                        ReceiveMsg();
+                        return;
+                    }
+
+                    byte[] originalArray = new byte[len];
+                    Array.Copy(m_ReceiveBuffer, 0, originalArray, 0, len);
+                    //Debug.Log ($"Start Receive");
+                    //Debug.Log ($"\toriginalArray :(length :{originalArray.Length}) {originalArray.ToDebugLog ()}");
+                    //把指定长度的字节 写入数据流
+                    var originalString = System.Text.Encoding.UTF8.GetString(originalArray);
+
+                    //Debug.Log ($"\toriginalString: {originalString}");
+                    //byte[] decodeArray = Convert.FromBase64String (originalString);
+                    //Debug.Log ($"\tdecodeArray :(length :{decodeArray.Length}) {decodeArray.ToDebugLog ()}");
+
+                    m_ReceiveMS.Write(originalArray, 0, originalArray.Length);
+
+                    //如果缓存数据流的长度>2 说明至少有个不完整的包过来了
+                    //为什么这里是2 因为我们客户端封装数据包 用的ushort 长度就是2
+                    if (m_ReceiveMS.Length > 4)
+                    {
+                        //进行循环 拆分数据包
+                        while (true)
+                        {
+                            //把数据流指针位置放在0处
+                            m_ReceiveMS.Position = 0;
+
+                            //currMsgLen = 包体的长度
+                            byte[] tempHeaderBytes = new byte[4];
+                            m_ReceiveMS.Read(tempHeaderBytes, 0, 4);
+                            //int currMsgLen = m_ReceiveMS.ReadUShort();
+                            int currMsgLen = cryptography.check_length(tempHeaderBytes.ToSbyteArray());
+                            //int currMsgLen = len - 4;
+
+                            //int currMsgLen = m_ReceiveMS.ReadInt ();
+                            if (currMsgLen > NetConstants.MAX_PACKET_LENGTH)
+                            {
+                                //清空数据流
+                                m_ReceiveMS.Position = 0;
+                                m_ReceiveMS.SetLength(0);
+
+                                break;
+                            }
+
+                            //currFullMsgLen 总包的长度=包头长度+包体长度
+                            int currFullMsgLen = 4 + currMsgLen;
+
+                            //如果数据流的长度>=整包的长度 说明至少收到了一个完整包
+                            if (m_ReceiveMS.Length >= currFullMsgLen)
+                            {
+                                //至少收到一个完整包
+
+                                //定义包体的byte[]数组
+                                byte[] buffer = new byte[currMsgLen];
+
+                                //把数据流指针放到4的位置 也就是包体的位置
+                                m_ReceiveMS.Position = 4;
+
+                                //把包体读到byte[]数组
+                                m_ReceiveMS.Read(buffer, 0, currMsgLen);
+                                //cryptography.decrypt(buffer.ToSbyteArray(),buffer.Length);
+                                lock (m_ReceiveQueue)
+                                {
+                                    m_ReceiveQueue.Enqueue(buffer);
+                                }
+                                //==============处理剩余字节数组===================
+
+                                //剩余字节长度
+                                int remainLen = (int)m_ReceiveMS.Length - currFullMsgLen;
+                                if (remainLen > 0)
+                                {
+                                    //把指针放在第一个包的尾部
+                                    m_ReceiveMS.Position = currFullMsgLen;
+
+                                    //定义剩余字节数组
+                                    byte[] remainBuffer = new byte[remainLen];
+
+                                    //把数据流读到剩余字节数组
+                                    m_ReceiveMS.Read(remainBuffer, 0, remainLen);
+
+                                    //清空数据流
+                                    m_ReceiveMS.Position = 0;
+                                    m_ReceiveMS.SetLength(0);
+
+                                    //把剩余字节数组重新写入数据流
+                                    m_ReceiveMS.Write(remainBuffer, 0, remainBuffer.Length);
+
+                                    remainBuffer = null;
+                                }
+                                else
+                                {
+                                    //没有剩余字节
+
+                                    //清空数据流
+                                    m_ReceiveMS.Position = 0;
+                                    m_ReceiveMS.SetLength(0);
+
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                //还没有收到完整包
+                                break;
+                            }
+                        }
+                    }
+
+                    //进行下一次接收数据包
+                    ReceiveMsg();
                 }
-
-                if (StringExt.BytesCompare_Base64 (m_ReceiveBuffer, strangeBytes1))
-				{
-					ReceiveMsg ();
-					return;
-				}
-
-				byte[] originalArray = new byte[len];
-				Array.Copy (m_ReceiveBuffer, 0, originalArray, 0, len);
-				//Debug.Log ($"Start Receive");
-				//Debug.Log ($"\toriginalArray :(length :{originalArray.Length}) {originalArray.ToDebugLog ()}");
-				//把指定长度的字节 写入数据流
-				var originalString = System.Text.Encoding.UTF8.GetString (originalArray);
-				
-				//Debug.Log ($"\toriginalString: {originalString}");
-				//byte[] decodeArray = Convert.FromBase64String (originalString);
-				//Debug.Log ($"\tdecodeArray :(length :{decodeArray.Length}) {decodeArray.ToDebugLog ()}");
-				
-				m_ReceiveMS.Write (originalArray, 0, originalArray.Length);
-
-				//如果缓存数据流的长度>2 说明至少有个不完整的包过来了
-				//为什么这里是2 因为我们客户端封装数据包 用的ushort 长度就是2
-				if (m_ReceiveMS.Length > 4)
-				{
-					//进行循环 拆分数据包
-					while (true)
-					{
-						//把数据流指针位置放在0处
-						m_ReceiveMS.Position = 0;
-
-                        //currMsgLen = 包体的长度
-                        byte[] tempHeaderBytes = new byte[4];
-                        m_ReceiveMS.Read(tempHeaderBytes, 0, 4);
-						//int currMsgLen = m_ReceiveMS.ReadUShort();
-						int currMsgLen =  cryptography.check_length (tempHeaderBytes.ToSbyteArray());
-						//int currMsgLen = len - 4;
-
-                        //int currMsgLen = m_ReceiveMS.ReadInt ();
-                        if (currMsgLen > NetConstants.MAX_PACKET_LENGTH)
-						{
-							//清空数据流
-							m_ReceiveMS.Position = 0;
-							m_ReceiveMS.SetLength (0);
-
-							break;
-						}
-
-						//currFullMsgLen 总包的长度=包头长度+包体长度
-						int currFullMsgLen = 4 + currMsgLen;
-
-						//如果数据流的长度>=整包的长度 说明至少收到了一个完整包
-						if (m_ReceiveMS.Length >= currFullMsgLen)
-						{
-							//至少收到一个完整包
-
-							//定义包体的byte[]数组
-							byte[] buffer = new byte[currMsgLen];
-
-							//把数据流指针放到4的位置 也就是包体的位置
-							m_ReceiveMS.Position = 4;
-
-							//把包体读到byte[]数组
-							m_ReceiveMS.Read (buffer, 0, currMsgLen);
-							//cryptography.decrypt(buffer.ToSbyteArray(),buffer.Length);
-							lock (m_ReceiveQueue)
-							{
-								m_ReceiveQueue.Enqueue (buffer);
-							}
-							//==============处理剩余字节数组===================
-
-							//剩余字节长度
-							int remainLen = (int)m_ReceiveMS.Length - currFullMsgLen;
-							if (remainLen > 0)
-							{
-								//把指针放在第一个包的尾部
-								m_ReceiveMS.Position = currFullMsgLen;
-
-								//定义剩余字节数组
-								byte[] remainBuffer = new byte[remainLen];
-
-								//把数据流读到剩余字节数组
-								m_ReceiveMS.Read (remainBuffer, 0, remainLen);
-
-								//清空数据流
-								m_ReceiveMS.Position = 0;
-								m_ReceiveMS.SetLength (0);
-
-								//把剩余字节数组重新写入数据流
-								m_ReceiveMS.Write (remainBuffer, 0, remainBuffer.Length);
-
-								remainBuffer = null;
-							}
-							else
-							{
-								//没有剩余字节
-
-								//清空数据流
-								m_ReceiveMS.Position = 0;
-								m_ReceiveMS.SetLength (0);
-
-								break;
-							}
-						}
-						else
-						{
-							//还没有收到完整包
-							break;
-						}
-					}
-				}
-
-				//进行下一次接收数据包
-				ReceiveMsg ();
-			}
+                else
+                {
+                    //客户端断开连接
+                    //Debug.Log ($"服务器{m_Client.RemoteEndPoint}断开连接");
+                }
+            }
 			else
 			{
-				//客户端断开连接
-				//Debug.Log ($"服务器{m_Client.RemoteEndPoint}断开连接");
+				lock(m_ReceiveQueue)
+				{
+                    m_ReceiveQueue.Clear();
+                }
+				
 			}
+			
 		}
 		//catch (Exception ex)
 		{

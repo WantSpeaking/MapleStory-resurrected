@@ -135,7 +135,8 @@ namespace ms
 			{
 				return;
 			}
-            //AppDebug.Log($"write header: {header.ToDebugLog()}");
+			//AppDebug.Log($"write header: {header.ToDebugLog()}");
+			AppDebug.Log("Send");
             AppDebug.Log ($"encrypt before:{packet_bytes.ToDebugLog ()}");
 			sbyte[] header = new sbyte[NetConstants.HEADER_LENGTH];
 			cryptography.create_header (header, packet_length);
@@ -191,18 +192,18 @@ namespace ms
 
 		public bool init (string host, string port)
 		{
-			cryptography = new Cryptography ();
-			// Connect to the server
-			socket.Connect (host, Convert.ToInt32 (port));
+			//cryptography = new Cryptography ();
+            // Connect to the server
+            connected = socket.Connect (host, Convert.ToInt32 (port));
 			//connected = socket.Connect (host, Convert.ToInt32 (port));
-			connected = true;
 			if (connected)
 			{
 				// Read keys necessary for communicating with the server
-				//cryptography = new Cryptography (socket.get_buffer ().ToSbyteArray());
+				cryptography = new Cryptography (socket.get_buffer (20).ToSbyteArray());
 			}
 
-			return connected;
+            socket.ReceiveMsg();
+            return connected;
 		}
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Pointer arithmetic is detected on the parameter 'bytes', so pointers on this parameter are left unchanged:
 
