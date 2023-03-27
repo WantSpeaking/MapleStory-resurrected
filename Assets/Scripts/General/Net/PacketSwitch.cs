@@ -133,9 +133,10 @@ namespace ms
 
 				if (GameUtil.Get ().enableDebugPacket && opcode != 198 && opcode != 239 && opcode != 240)
 				//if (GameUtil.get ().enableDebugPacket && (Opcode)opcode != Opcode.SHOW_ITEM_GAIN_INCHAT && opcode != 198 && opcode != 239 && opcode != 240)
-					{
-					AppDebug.Log ($"\t Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Length} \t {bytes.ToDebugLog ()}");
-				}
+				{
+					//AppDebug.Log ($"\t Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Length} \t {bytes.ToDebugLog ()}");
+					AppDebug.Log ($"\t Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Length}");
+                }
 			}
 
 			if (opcode < NUM_HANDLERS)

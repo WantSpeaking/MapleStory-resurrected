@@ -4,7 +4,7 @@ using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using ms;
 using UnityEngine;
-using Puerts;
+//using Puerts;
 using UnityEngine.TextCore.Text;
 
 public class AndroidIntentCallToUnZipData : MonoBehaviour
@@ -198,35 +198,35 @@ public class AndroidIntentCallToUnZipData : MonoBehaviour
 			GUILayout.Label ("数据解压完成, 请点击开始游戏按钮");
 		}
 
-		if (ms.Setting<JSDebugOn>.get().load())
+	/*	if (ms.Setting<JSDebugOn>.get().load())
 		{
             if (GUILayout.Button("hotreload"))
             {
 				EvalJs();
             }
-        }
+        }*/
         
 
         GUILayout.EndVertical ();
 	}
 
-    JsEnv jsEnv;
+    //JsEnv jsEnv;
 
 	private void EvalJs()
 	{
-        string tex = File.ReadAllText(Path.Combine(Constants.get().path_MapleStoryFolder, androidIntentCalljs));
+        //string tex = File.ReadAllText(Path.Combine(Constants.get().path_MapleStoryFolder, androidIntentCalljs));
         //Debug.Log(tex);
-        jsEnv.Eval(tex);
+        //jsEnv.Eval(tex);
     }
     private void Start()
     {
-		jsEnv = new JsEnv ();
+		//jsEnv = new JsEnv ();
 		//StartCoroutine(TestPCUnZip());
     }
 
     void OnDestroy()
     {
-        jsEnv.Dispose();
+        //jsEnv.Dispose();
     }
 
     IEnumerator TestPCUnZip()

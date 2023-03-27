@@ -6,12 +6,6 @@
       "source": "embedded",
       "dependencies": {}
     },
-    "com.tencent.puerts.core": {
-      "version": "file:G:/GithubProjects/puerts_unity_demo/package",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
     "com.unity.2d.animation": {
       "version": "9.0.1",
       "depth": 1,
