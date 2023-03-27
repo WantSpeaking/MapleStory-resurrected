@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Beebyte.Obfuscator;
 using Loxodon.Framework.Observables;
 using MapleLib.WzLib;
+using ms_Unity;
 
 namespace ms
 {
@@ -571,6 +572,10 @@ namespace ms
             return Button.State.NORMAL;
         }
 
+        public void Set(FGUI_SkillBook fGUI_Skill)
+        {
+            this.fGUI_SkillBook = fGUI_Skill;
+        }
         public override void OnActivityChange (bool isActiveAfterChange)
         {
             if (isActiveAfterChange)
@@ -1082,10 +1087,12 @@ namespace ms
         }
 
         ms_Unity.FGUI_SkillBook fGUI_SkillBook;
-        public void Set_FGUI_SkillBook(ms_Unity.FGUI_SkillBook fGUI_SkillBook)
+        public UISkillBook SetFGUI(ms_Unity.FGUI_SkillBook fGUI_SkillBook)
 		{
             this.fGUI_SkillBook = fGUI_SkillBook;
+            return this;
         }
+
         public enum Buttons : ushort
         {
             BT_CLOSE,

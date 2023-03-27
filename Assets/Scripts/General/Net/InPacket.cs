@@ -123,7 +123,8 @@ namespace ms
             if (count > arr.Length - pos)
                 return ret;
 
-            ret = Encoding.GetEncoding("GBK").GetString(arr, pos, count);
+            //ret = Encoding.GetEncoding("GBK").GetString(arr, pos, count);
+            ret = Encoding.UTF8.GetString(arr, pos, count);
             pos += count;
             bytesRead += count;
 

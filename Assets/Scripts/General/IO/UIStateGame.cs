@@ -45,9 +45,10 @@ namespace ms
 
 			VWIDTH = Constants.get ().get_viewwidth ();
 			VHEIGHT = Constants.get ().get_viewheight ();
-		}
 
-		public override void draw (float inter, Point_short cursor)
+        }
+
+        public override void draw (float inter, Point_short cursor)
 		{
 			foreach (var type in elementorder)
 			{

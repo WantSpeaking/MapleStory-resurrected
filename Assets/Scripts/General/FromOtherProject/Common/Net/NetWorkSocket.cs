@@ -397,11 +397,6 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
                     //Debug.Log ($"Start Receive");
                     //Debug.Log ($"\toriginalArray :(length :{originalArray.Length}) {originalArray.ToDebugLog ()}");
                     //把指定长度的字节 写入数据流
-                    var originalString = System.Text.Encoding.UTF8.GetString(originalArray);
-
-                    //Debug.Log ($"\toriginalString: {originalString}");
-                    //byte[] decodeArray = Convert.FromBase64String (originalString);
-                    //Debug.Log ($"\tdecodeArray :(length :{decodeArray.Length}) {decodeArray.ToDebugLog ()}");
 
                     m_ReceiveMS.Write(originalArray, 0, originalArray.Length);
 
@@ -502,17 +497,17 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
                 else
                 {
                     //客户端断开连接
-                    //Debug.Log ($"服务器{m_Client.RemoteEndPoint}断开连接");
+                    Debug.LogError ($"Disconnected! EndReceive len<=0");
                 }
             }
 			else
 			{
-				lock(m_ReceiveQueue)
+                /*lock(m_ReceiveQueue)
 				{
                     m_ReceiveQueue.Clear();
-                }
-				
-			}
+                }*/
+                Debug.LogError($"Disconnected! m_Client != null:{m_Client != null}\t m_Client.Connected:{m_Client.Connected} ");
+            }
 			
 		}
 		//catch (Exception ex)

@@ -14,9 +14,11 @@ namespace ms
 			focused = UIElement.Type.NONE;
 
 			emplace<UICashShop>();
-		}
 
-		public override void draw(float inter, Point_short cursor)
+            //ms_Unity.FGUI_Manager.Instance.EnterState(ms_Unity.FGUI_StateType.CashShop);
+        }
+
+        public override void draw(float inter, Point_short cursor)
 		{
 			foreach (var iter in elements)
 			{

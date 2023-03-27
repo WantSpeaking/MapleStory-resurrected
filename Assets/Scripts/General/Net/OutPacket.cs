@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
-
-
-
+using System.Text;
 
 namespace ms
 {
@@ -189,11 +186,12 @@ namespace ms
 
 			short length = (short)str.Length;
 
-			write_short (length);
-
-			for (short i = 0; i < length; i++)
+			//write_short (length);
+            var utf8Bytes = Encoding.UTF8.GetBytes(str);
+			write_short((short)utf8Bytes.Length);
+            for (short i = 0; i < utf8Bytes.Length; i++)
 			{
-				write_byte ((sbyte)str[i]);
+				write_byte ((sbyte)utf8Bytes[i]);
 			}
 		}
 

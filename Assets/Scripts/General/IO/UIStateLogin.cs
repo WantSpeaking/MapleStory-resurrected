@@ -24,6 +24,8 @@ namespace ms
             {
                 emplace<UILogin>();
             }
+
+            //ms_Unity.FGUI_Manager.Instance.EnterState(ms_Unity.FGUI_StateType.Login);
         }
 
         public override void draw(float inter, Point_short cursor)

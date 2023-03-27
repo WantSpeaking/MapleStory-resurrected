@@ -117,7 +117,7 @@ namespace ms_Unity
 		}
 		public void OnVisiblityChanged (bool isVisible)
 		{
-			UISkillBook.Set_FGUI_SkillBook (this);
+			UISkillBook.SetFGUI (this);
 			if (isVisible)
 			{
 				SetGList ();

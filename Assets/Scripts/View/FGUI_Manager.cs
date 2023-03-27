@@ -90,9 +90,9 @@ namespace ms_Unity
 			/*var window = (GComponent)UIPackage.CreateObject (packageName, "InventoryListItemView");
 			GRoot.inst.AddChild (window);*/
 
-			fgui_StateLogin = FGUI_StateLogin.CreateInstance ();
+			/*fgui_StateLogin = FGUI_StateLogin.CreateInstance ();
 			fgui_StateGame = FGUI_StateGame.CreateInstance ();
-			fgui_StateShop = FGUI_StateGame.CreateInstance ();
+			fgui_StateShop = FGUI_StateGame.CreateInstance ();*/
 
 		}
 		/*        IEnumerator Start ()
@@ -250,46 +250,75 @@ namespace ms_Unity
 
 		public GComponent Current_FGUI_State;
 
-		public void EnterLoginState ()
-		{
-			ExitCurrentState ();
-			EnterStateInternal (fgui_StateLogin);
-		}
-		public void EnterGameState ()
-		{
-			ExitCurrentState ();
-			EnterStateInternal (fgui_StateGame);
-		}
+        /*        public void EnterUIState(FGUI_StateType stateType)
+                {
+                    ExitCurrentState();
+                    EnterStateInternal(stateType);
+                }
 
-		public void EnterShopState ()
-		{
-			ExitCurrentState ();
-			EnterStateInternal (fgui_StateShop);
-		}
+                public void EnterLoginState ()
+                {
+                    ExitCurrentState ();
+                    EnterStateInternal (stateType);
+                }
+                public void EnterGameState ()
+                {
+                    ExitCurrentState ();
+                    EnterStateInternal (fgui_StateGame);
+                }
 
-		private void ExitCurrentState()
+                public void EnterShopState ()
+                {
+                    ExitCurrentState ();
+                    EnterStateInternal (fgui_StateShop);
+                }*/
+
+        private void ExitCurrentState()
 		{
 			if (Current_FGUI_State != null)
 			{
 				GRoot.inst.RemoveChild (Current_FGUI_State);
 			}
 		}
-		private void EnterStateInternal(GComponent state)
+		public GComponent EnterState(FGUI_StateType state)
 		{
-			GRoot.inst.AddChild(state);
-		}
-/*public void ShowNotice (string message, NoticeType t, Text.Alignment a = Text.Alignment.CENTER, int max = 0, int count = 0, System.Action<int> numhandler = null, System.Action<bool> yesnohandler = null)
-						{
-							var nocice = OpenFGUI<FGUI_Notice> () as FGUI_Notice;
-							nocice.ShowNotice (message, t, a, max, count, numhandler, yesnohandler);
-							nocice._tet_message.text = message;
+            ExitCurrentState();
+            switch (state)
+			{
+				case FGUI_StateType.Login:
+					Current_FGUI_State = fgui_StateLogin;
+                    break;
+				case FGUI_StateType.Game:
+                    Current_FGUI_State = fgui_StateGame;
+                    break;
+				case FGUI_StateType.CashShop:
+                    Current_FGUI_State = fgui_StateShop;
+                    break;
+				
+			}
+            GRoot.inst.AddChild(Current_FGUI_State);
+			return Current_FGUI_State;
+        }
 
-						}*/
-	}
+    /*public void ShowNotice (string message, NoticeType t, Text.Alignment a = Text.Alignment.CENTER, int max = 0, int count = 0, System.Action<int> numhandler = null, System.Action<bool> yesnohandler = null)
+                            {
+                                var nocice = OpenFGUI<FGUI_Notice> () as FGUI_Notice;
+                                nocice.ShowNotice (message, t, a, max, count, numhandler, yesnohandler);
+                                nocice._tet_message.text = message;
 
-	public enum Enum_Transition
+                            }*/
+}
+
+public enum Enum_Transition
 	{
 		t_ShowBtnSkill,
 		t_HideBtnSkill,
 	}
+
+    public enum FGUI_StateType
+    {
+        Login,
+        Game,
+        CashShop
+    }
 }
