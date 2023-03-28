@@ -297,7 +297,9 @@ namespace ms
 			position = new Point_short ((short)(400 - top.width () / 2), (short)(240 - height / 2));
 			dimension = new Point_short (top.width (), (short)(height + 120));
 
-			fGUI_NpcTalk.change_text ();
+			this.type = talkType;
+
+            fGUI_NpcTalk.change_text ();
 		}
 		public sbyte rawMsgtype;
 

@@ -51,8 +51,8 @@ namespace ms.Util
 			handlers["B"] = onTag_ProgressBar;
 			handlers["f"] = onTag_Image;
 			handlers["F"] = onTag_Image;
-			handlers["L"] = onTag_OptionStart;
-			handlers["l"] = onTag_OptionEnd;
+			//handlers["L"] = onTag_OptionStart;
+			//handlers["l"] = onTag_OptionEnd;
 		}
 
 		protected string onTag_ItemCount (string tagName, bool end, string attr)
@@ -242,26 +242,43 @@ namespace ms.Util
 		public string Parse (string text)
         {
             if (string.IsNullOrEmpty(text)) return string.Empty;
-			//AppDebug.Log($"before replace:{@text}");
-			//_text = text.Replace('\r', ' ' );
-			//_text = text.Replace("\\r", " ").Replace("\\n", " ");
-			_text = text.Replace ("\\r\\n", "\\n");
+
+            StringBuilder buffer = null;
+            if (buffer == null)
+                buffer = new StringBuilder();
+
+            //AppDebug.Log($"before replace:{@text}");
+            //_text = text.Replace('\r', ' ' );
+            //_text = text.Replace("\\r", " ").Replace("\\n", " ");
+            _text = text.Replace ("\\r\\n", "\\n");
 			_text = _text.Replace ("\\n", "\r\n");
 			_text = _text.Replace ("#l#l", "#l");
-			//AppDebug.Log($"after  replace:{@_text}");
+			_text = _text.Replace ("#l", "");
+            //AppDebug.Log($"after  replace:{@_text}");
 
-			//_text = Regex.Replace(text, @"\\r"," ");
+            //_text = Regex.Replace(text, @"\\r"," ");
 
-			int pos1 = 0, pos2, pos3;
+            if (_text.Contains("#L"))
+			{
+                var optionTxts = _text.Split(new Regex("#L[0-9]#"), false);
+				buffer.Append(optionTxts.TryGet(0));
+                for (int i = 1; i < optionTxts.Length; i++)
+                {
+                    buffer.Append($"<a href=\"{i - 1}\" target=\"_blank\">{optionTxts[i]}</a>");
+                }
+				_text = buffer.ToString();
+				buffer.Clear();
+            }
+			
+            int pos1 = 0, pos2, pos3;
 			bool end = false;
 			string tag, attr;
 			string repl;
-			StringBuilder buffer = null;
+			
 			TagHandler func;
 			while ((pos2 = _text.IndexOf ('#', pos1)) != -1)
 			{
-				if (buffer == null)
-					buffer = new StringBuilder ();
+				
 
 				/*   if (pos2 > 0 && _text[pos2 - 1] == '\\')
 				  {

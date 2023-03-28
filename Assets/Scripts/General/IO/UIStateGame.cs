@@ -52,7 +52,7 @@ namespace ms
 		{
 			foreach (var type in elementorder)
 			{
-				var element = elements[type];
+				var element = elements.TryGetValue (type);
 
 				if (element != null && element.is_active ())
 				{
@@ -91,7 +91,7 @@ namespace ms
 
 			foreach (var type in elementorder)
 			{
-				var element = elements[type];
+				var element = elements.TryGetValue (type);
 
 				if (element != null && element.is_active ())
 				{
@@ -438,7 +438,7 @@ namespace ms
 							var llnLastPrivous = elementorder.Last;
 							while (llnLastPrivous != null)
                             {
-								var element = elements[llnLastPrivous.Value];
+								var element = elements.TryGetValue( llnLastPrivous.Value);
 
 								if (element != null && element.is_active() && element.is_in_range(cursorpos))
 								{
@@ -719,7 +719,7 @@ namespace ms
                 {
                     if (type == llnLastPrivous.Value)
                     {
-						var element = elements[llnLastPrivous.Value];
+						var element = elements.TryGetValue(llnLastPrivous.Value);
 						if (element != null && element.is_active())
 						{
 							return element;
@@ -738,7 +738,7 @@ namespace ms
 			var llnLastPrivous = elementorder.Last;
 			while (llnLastPrivous != null)
 			{
-				var element = elements[llnLastPrivous.Value];
+				var element = elements.TryGetValue( llnLastPrivous.Value);
 
 				if (element != null && element.is_active() && element.is_in_range(pos))
 				{

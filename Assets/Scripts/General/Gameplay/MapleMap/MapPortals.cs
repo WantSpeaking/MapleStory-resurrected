@@ -58,11 +58,12 @@ namespace ms
 					{
 						string target_name = property_100000000img_portal_0["tn"].ToString ();
 						int target_id = property_100000000img_portal_0["tm"];
-						Point_short position = new Point_short (property_100000000img_portal_0["x"], property_100000000img_portal_0["y"]);
-
+						var script = property_100000000img_portal_0["script"]?.ToString();
+                        Point_short position = new Point_short (property_100000000img_portal_0["x"], property_100000000img_portal_0["y"]);
+						//AppDebug.Log($"portal target_id:{target_id}\t target_name:{target_name}");
 						Animation animation = Get_AnimationByType (type);
 						bool intramap = target_id == mapid;
-						portals_by_id.Add ((byte)portal_id, new Portal (animation, type, name, intramap, position, target_id, target_name));
+						portals_by_id.Add ((byte)portal_id, new Portal (animation, type, name, intramap, position, target_id, target_name, script));
 						//portals_by_id.emplace(piecewise_construct, forward_as_tuple(portal_id), forward_as_tuple(animation, type, name, intramap, position, target_id, target_name));
 
 						portal_ids_by_name.TryAdd (name, (byte)portal_id); //todo 2 add repeatedly
@@ -154,8 +155,6 @@ namespace ms
 
 			return portalPos;
 		}
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: Point_short get_portal_by_name(const string& portal_name) const
 		public Point_short get_portal_by_name (string portal_name)
 		{
 			if (portal_ids_by_name.TryGetValue (portal_name, out var portalId))
@@ -170,8 +169,8 @@ namespace ms
 		{
 			Animation ani;
 			var src = ms.wz.wzFile_map["MapHelper.img"]["portal"]["game"];
-
-			if (portalType == Portal.Type.HIDDEN)
+            //ani = new Animation(src["pv"]);
+            /*if (portalType == Portal.Type.HIDDEN)
 			{
 				ani = new Animation (src["ph"]["default"]["portalContinue"]);
 			}
@@ -182,9 +181,21 @@ namespace ms
 			else
 			{
 				ani = new Animation ();
-			}
+			}*/
 
-			return ani;
+            if (portalType == Portal.Type.HIDDEN)
+            {
+                ani = new Animation(src["ph"]["default"]["portalContinue"]);
+            }
+            else if (portalType == Portal.Type.SPAWN)
+            {
+                ani = new Animation();
+            }
+            else
+            {
+                ani = new Animation(src["pv"]);
+            }
+            return ani;
 		}
 
 		private static Dictionary<Portal.Type, Animation> animations = new Dictionary<Portal.Type, Animation> ();

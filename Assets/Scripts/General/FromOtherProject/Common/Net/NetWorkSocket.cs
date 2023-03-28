@@ -212,7 +212,8 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 		if (m_Client != null && m_Client.Connected)
 		{
 			m_Client.Shutdown (SocketShutdown.Both);
-			m_Client.Close ();
+			m_Client.Disconnect(false);
+			//m_Client.Close ();
 		}
 	}
 
@@ -370,7 +371,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
                 int len = m_Client.EndReceive(ar);
                 if (len > 0)
                 {
-                    Debug.Log($"\tReceive len:{len}\t Receive Content:{m_ReceiveBuffer.ToSbyteArray().ToDebugLog()} \t GetString:{Encoding.ASCII.GetString(m_ReceiveBuffer)}");
+                    //Debug.Log($"\tReceive len:{len}\t Receive Content:{m_ReceiveBuffer.ToSbyteArray().ToDebugLog()} \t GetString:{Encoding.ASCII.GetString(m_ReceiveBuffer)}");
 
                     //已经接收到数据
 
@@ -496,6 +497,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
                 }
                 else
                 {
+                    ReceiveMsg();
                     //客户端断开连接
                     Debug.LogError ($"Disconnected! EndReceive len<=0");
                 }

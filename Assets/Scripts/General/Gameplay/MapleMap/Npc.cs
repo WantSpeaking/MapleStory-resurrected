@@ -7,6 +7,7 @@ using System.Text;
 using client;
 using MapleLib.WzLib;
 using server.quest;
+using tools;
 
 namespace ms
 {
@@ -216,7 +217,17 @@ namespace ms
 				var questId = pair.Key;
 				var mapleQuest = pair.Value;
 
-				isAvailable = mapleQuest.canComplete (MapleCharacter.Player, npcid);
+				if (mapleQuest == null)
+				{
+					AppDebug.LogError($"mapleQuest == null,Id:{questId}");
+					continue;
+				}
+                if (MapleCharacter.Player == null)
+                {
+                    AppDebug.LogError($"MapleCharacter.Player == null");
+                }
+
+                isAvailable = mapleQuest.canComplete (MapleCharacter.Player, npcid);
 				if (isAvailable)
 				{
 					canCompleteQuestId = questId;
@@ -226,7 +237,7 @@ namespace ms
 			return isAvailable;
 		}
 
-		private bool check_Has_StartedQuest ()
+        private bool check_Has_StartedQuest ()
 		{
 			return started_Quests.Count != 0;
 		}
@@ -268,7 +279,7 @@ namespace ms
 
 				var questNpcId = qs.Npc;
 				//var questNpcId = checkInfo.checkStages.TryGet (1).npc != 0 ? checkInfo.checkStages.TryGet (1).npc : checkInfo.checkStages.TryGet (0).npc;
-				if (questNpcId == npcid)
+				if (qs.StartReqNpc == npcid || qs.CompleteReqNpc == npcid)
 				{
 					started_Quests.Add (questId, MapleQuest.getInstance (qs.QuestID));
 				}
@@ -302,7 +313,9 @@ namespace ms
 		/// <returns></returns>
 		public string getQuestListString ()
 		{
-			stringBuilder.Clear ();
+			questChooseList.Clear();
+
+            stringBuilder.Clear ();
 			var index = 0;
 
 			if (canStarted_Quests.Count > 0)
@@ -311,8 +324,9 @@ namespace ms
 				stringBuilder.AppendLine ($"可开始的任务");
 				foreach (var pair in canStarted_Quests)
 				{
+					questChooseList.Add((pair.Value,0));
 
-					stringBuilder.Append ($"#L{index++}# {pair.Value.Name} #l \r\n");
+                    stringBuilder.Append ($"#L{index++}# {pair.Value.Name} #l \r\n");
 				}
 			}
 
@@ -320,11 +334,32 @@ namespace ms
 			{
 				//stringBuilder.Append ($"{}");
 				stringBuilder.AppendLine ($"正在进行的任务");
-				foreach (var pair in started_Quests)
+                //已经开始的任务 由于npc条件的不同，可以是正在进行的状态，也可以是可完成状态
+
+                foreach (var pair in started_Quests)
 				{
-					stringBuilder.Append ($"#L{index++}# {pair.Value.Name} #l \r\n");
-				}
-			}
+					if (!pair.Value.canComplete(MapleCharacter.Player,npcid))//如果不能完成，就是正在进行的
+					{
+                        questChooseList.Add((pair.Value,1));
+
+                        stringBuilder.Append($"#L{index++}# {pair.Value.Name} #l \r\n");
+                    }
+                }
+
+                stringBuilder.AppendLine($"可完成的任务");
+                foreach (var pair in started_Quests)
+                {
+                    if (pair.Value.canComplete(MapleCharacter.Player, npcid))//如果能完成，就是可完成的
+                    {
+                        questChooseList.Add((pair.Value,1));
+
+                        stringBuilder.Append($"#L{index++}# {pair.Value.Name} #l \r\n");
+                    }
+                }
+
+            }
+
+
 			return stringBuilder.ToString ();
 		}
 
@@ -338,9 +373,13 @@ namespace ms
 			return sayPage;
 		}
 
-		public MapleQuest GetQuestSayInfo (short selectQuestIndex, out bool isQuestStarted)
+		static List<(MapleQuest,int)> questChooseList = new();
+		public (MapleQuest,int) GetQuestSayInfo (short selectQuestIndex)
 		{
-			short index = 0;
+			var pair = questChooseList.TryGet(selectQuestIndex);
+			
+            return pair;
+            /*short index = 0;
 
 			if (canStarted_Quests.Count > 0)
 			{
@@ -369,7 +408,7 @@ namespace ms
 				}
 			}
 			isQuestStarted = false;
-			return null;
+			return null;*/
 		}
 		public bool hasQuest ()
 		{

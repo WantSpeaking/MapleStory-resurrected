@@ -1,5 +1,6 @@
 ﻿using System;
 using client;
+using server.quest;
 
 namespace ms
 {
@@ -106,7 +107,13 @@ namespace ms
 
 				short qid = recv.read_short ();
 
-				MapleQuestStatus qs = MapleCharacter.Player.getQuest (qid);
+				var mapleQuest = MapleQuest.getInstance(qid);
+				if (mapleQuest == null)
+				{
+					return;
+				}
+
+                MapleQuestStatus qs = MapleCharacter.Player.getQuest (qid);
 
 				var status = recv.readByte ();
 				if (status == 0)
@@ -235,7 +242,7 @@ namespace ms
 
 			const string MAPLETIP = "[MapleTip]";
 
-			if (string.CompareOrdinal (message.Substring (0, MAPLETIP.Length), "[MapleTip]") == 1)
+			//if (string.CompareOrdinal (message.Substring (0, MAPLETIP.Length), "[MapleTip]") == 1)
 			{
 				message = "[Notice] " + message;
 			}

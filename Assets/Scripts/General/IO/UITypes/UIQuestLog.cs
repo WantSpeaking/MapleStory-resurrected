@@ -105,7 +105,7 @@ namespace ms
         Point_short notice_position = new Point_short(0, 26);
         Point_short questEntry_position = new Point_short(9, 80);
         Point_short questInfo_position;
-        public override void draw(float alpha)
+/*        public override void draw(float alpha)
         {
             base.draw_sprites(alpha);
 
@@ -180,7 +180,7 @@ namespace ms
             slider.draw(position + new Point_short(126, 75));
 
             base.draw_buttons(alpha);
-        }
+        }*/
 
         public override void send_key(int keycode, bool pressed, bool escape)
         {
@@ -208,7 +208,7 @@ namespace ms
             }
         }
 
-        public override void update()
+/*        public override void update()
         {
             base.update();
 
@@ -217,10 +217,10 @@ namespace ms
                 event_count = (short)MapleCharacter.Player.getStartedQuests ().Count;
                 slider.setrows(ROWS, event_count);
             }
-        }
+        }*/
 
         private short currentSelected_questId = -1;
-        public override Cursor.State send_cursor(bool clicking, Point_short cursorpos)
+/*        public override Cursor.State send_cursor(bool clicking, Point_short cursorpos)
         {
             Cursor.State new_state = search.send_cursor(new Point_short(cursorpos), clicking);
             if (new_state != Cursor.State.IDLE)
@@ -247,7 +247,7 @@ namespace ms
                 }
             }
             return base.send_cursor(clicking, new Point_short(cursorpos));
-        }
+        }*/
 
         public override void OnActivityChange (bool isActiveAfterChange)
         {

@@ -114,7 +114,7 @@ namespace ms
 
             return read_padded_string(length);
         }
-
+        static Encoding GBK = Encoding.GetEncoding("GBK");
         // Read a fixed-length string
         public string read_padded_string(short count)
         {
@@ -122,9 +122,14 @@ namespace ms
 
             if (count > arr.Length - pos)
                 return ret;
+            if (count<=0 || count > arr.Length - pos)
+            {
+                return string.Empty;
+            }
 
             //ret = Encoding.GetEncoding("GBK").GetString(arr, pos, count);
-            ret = Encoding.UTF8.GetString(arr, pos, count);
+            ret = GBK.GetString(arr, pos, count);
+            //ret = Encoding.UTF8.GetString(arr, pos, count);
             pos += count;
             bytesRead += count;
 

@@ -177,6 +177,7 @@ namespace ms
 			write_int ((int)((DateTime.Now.ToUniversalTime ().Ticks - 621355968000000000) / 10000));
 		}
 
+		static Encoding GBK = Encoding.GetEncoding("GBK");
 		// Write a string
 		// Writes the length as a short and then each individual character as a byte
 		protected void write_string (string str)
@@ -186,8 +187,8 @@ namespace ms
 
 			short length = (short)str.Length;
 
-			//write_short (length);
-            var utf8Bytes = Encoding.UTF8.GetBytes(str);
+            //write_short (length);
+            var utf8Bytes = GBK.GetBytes(str);
 			write_short((short)utf8Bytes.Length);
             for (short i = 0; i < utf8Bytes.Length; i++)
 			{

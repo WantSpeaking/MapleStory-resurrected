@@ -216,17 +216,16 @@ namespace client
 
 		public void LogAllQuest ()
 		{
-			/*AppDebug.Log ("NotStartedQuests");
-			getNotStartedQuests ().ToDebugLog();
+			AppDebug.Log("NotStartedQuests");
+			AppDebug.Log(getNotStartedQuests().ToDebugLog());
+			AppDebug.Log("StartedQuests");
+            AppDebug.Log(getStartedQuests().ToDebugLog());
+            AppDebug.Log("CompletedQuests");
+            AppDebug.Log(getCompletedQuests().ToDebugLog());
 
-			AppDebug.Log ("StartedQuests");
-			getStartedQuests ().ToDebugLog ();
+        }
 
-			AppDebug.Log ("CompletedQuests");
-			getCompletedQuests ().ToDebugLog ();*/
-		}
-
-		private readonly SortedDictionary<short, MapleQuest> canStarted_Quest = new SortedDictionary<short, MapleQuest> ();
+        private readonly SortedDictionary<short, MapleQuest> canStarted_Quest = new SortedDictionary<short, MapleQuest> ();
 		public ReadOnlyDictionary<short, MapleQuest> CanStartedQuests;
 
 		public void RefreshCanStarted_Quest (bool forceGet = false)

@@ -47,8 +47,8 @@ namespace ms
 		public void encrypt(sbyte[] bytes, int length)
 		{
 #if USE_CRYPTO
-            AppDebug.Log("send iv");
-            AppDebug.Log(sendiv.ToDebugLog());
+            //AppDebug.Log("send iv");
+            //AppDebug.Log(sendiv.ToDebugLog());
             //AppDebug.Log("raw");
             //AppDebug.Log(bytes.ToDebugLog());
             mapleencrypt( bytes, length);
@@ -110,7 +110,7 @@ namespace ms
 			}
 			var result = (int)((headermask >> 16) ^ (headermask & 0xFFFF));
 			//AppDebug.Log($"headerBytes:{bytes.ToDebugLog()}");
-            AppDebug.Log($"check_length: {result}\t headerBytes:{bytes.ToDebugLog()}");
+            //AppDebug.Log($"check_length: {result}\t headerBytes:{bytes.ToDebugLog()}");
 
             return result;
 #else

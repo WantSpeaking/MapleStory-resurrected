@@ -18,7 +18,7 @@ namespace ms
 			float interopc = opacity.get(alpha);
 
 			shadow.draw(new DrawArgument(position + new Point_short(1, 1), interopc));
-			text.draw(new DrawArgument(new Point_short (position), interopc));
+			text.draw(new DrawArgument(new Point_short (position), 1));
 		}
 		public bool update()
 		{

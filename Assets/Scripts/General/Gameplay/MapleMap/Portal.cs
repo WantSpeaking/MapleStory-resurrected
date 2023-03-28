@@ -38,31 +38,38 @@ namespace ms
 			public string name;
 			public bool intramap;
 			public bool valid;
+            public string script;
 
-			public WarpInfo (int m, bool i, string tn, string n)
+             public WarpInfo (int m, bool i, string tn, string n,string script = null)
 			{
 				this.mapid = m;
 				this.intramap = i;
 				this.toname = tn;
 				this.name = n;
-				valid = mapid < 999999999;
-			}
+				valid = mapid < 999999999 || !string.IsNullOrEmpty(script);
+                this.script = script;
 
-			/*public WarpInfo() : this(999999999, false, string.Empty, string.Empty)
-			{
-			}*/
-		}
+            }
 
-		public Portal (Animation a, Type t, string nm, bool intramap, Point_short p, int tid, string tnm)
+            /*	public WarpInfo()
+                {
+                    this.mapid = 999999999;
+                    this.intramap = false;
+                    this.toname = string.Empty;
+                    this.name = string.Empty;
+                    valid = mapid < 999999999;
+                }*/
+        }
+
+		public Portal (Animation a, Type t, string nm, bool intramap, Point_short p, int tid, string tnm, string script = null)
 		{
-			//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: C# does not have an equivalent to pointers to variables (in C#, the variable no longer points to the original when the original variable is re-assigned):
-			//ORIGINAL LINE: this.animation = a;
 			this.animation = new Animation (a);// class Portal（） 原c++传递的是Animation指针
 			this.type = t;
 			this.name = nm;
 			this.position = new ms.Point_short (p);
-			this.warpinfo = new ms.Portal.WarpInfo (tid, intramap, tnm, nm);
+			this.warpinfo = new ms.Portal.WarpInfo (tid, intramap, tnm, nm, script);
 			touched = false;
+			this.script = script;
 		}
 
 		public Portal () : this (null, Type.SPAWN, "", false, new Point_short (), 0, "")
@@ -92,22 +99,16 @@ namespace ms
 			return name;
 		}
 
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: Portal::Type get_type() const
 		public Portal.Type get_type ()
 		{
 			return type;
 		}
 
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: Point_short get_position() const
 		public Point_short get_position ()
 		{
 			return position;
 		}
 
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: Rectangle_short bounds() const
 		public Rectangle_short bounds ()
 		{
 			var lt = position + new Point_short (-25, -100);
@@ -116,8 +117,6 @@ namespace ms
 			return new Rectangle_short (lt, rb);
 		}
 
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: Portal::WarpInfo getwarpinfo() const
 		public Portal.WarpInfo getwarpinfo ()
 		{
 			return warpinfo;
@@ -129,5 +128,6 @@ namespace ms
 		private Point_short position = new Point_short ();
 		private WarpInfo warpinfo = new WarpInfo ();
 		private bool touched;
-	}
+        private string script;
+    }
 }

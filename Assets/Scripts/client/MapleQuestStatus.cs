@@ -54,7 +54,11 @@ namespace client
 			}
 			set => npc = value;
 		}
-		public Dictionary<int, string> Progress { get => progress; }
+
+		public int StartReqNpc => MapleQuest.getInstance(QuestID)?.getStartReqNpc() ?? 0;
+		public int CompleteReqNpc => MapleQuest.getInstance(QuestID)?.getCompleteReqNpc() ?? 0;
+
+        public Dictionary<int, string> Progress { get => progress; }
 
 		public MapleQuestStatus (short questID)
 		{

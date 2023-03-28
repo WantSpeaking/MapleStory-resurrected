@@ -15,14 +15,31 @@ namespace ms
 			this.rid = r;
 			this.state = s;
 			string strid = string_format.extend_id (rid, 7);
-			src = ms.wz.wzFile_reactor[strid + ".img"];
+			src = ms.wz.wzFile_reactor[strid + ".img"];//9102001.img
+            if (src == null)
+			{
+				AppDebug.Log($"Reactor rid:{rid} is null");
+				return;
+			}
+			var src_0 = src["0"];
 
-			normal = src[0.ToString ()];
+            if (src_0 == null && src["info"]?["link"]!= null)
+            {
+                var linkNodeName = src["info"]?["link"]?.ToString();//9102000
+
+                if (!string.IsNullOrEmpty(linkNodeName))
+				{
+					src_0 = ms.wz.wzFile_reactor[string_format.extend_id(int.Parse(linkNodeName), 7) + ".img"]?["0"];
+                }
+
+            }
+
+			normal = src_0;
 			animation_ended = true;
 			dead = false;
 			hittable = false;
 
-			foreach (var sub in src[0.ToString ()])
+			foreach (var sub in src_0)
 			{
 				if (sub.Name == "event")
 				{

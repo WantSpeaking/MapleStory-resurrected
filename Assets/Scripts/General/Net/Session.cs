@@ -136,12 +136,12 @@ namespace ms
 				return;
 			}
 			//AppDebug.Log($"write header: {header.ToDebugLog()}");
-			AppDebug.Log("Send");
-            AppDebug.Log ($"encrypt before:{packet_bytes.ToDebugLog ()}");
+			//AppDebug.Log("Send");
+            //AppDebug.Log ($"encrypt before:{packet_bytes.ToDebugLog ()}");
 			sbyte[] header = new sbyte[NetConstants.HEADER_LENGTH];
 			cryptography.create_header (header, packet_length);
 			cryptography.encrypt (packet_bytes, packet_length);
-			AppDebug.Log ($"encrypt after:{packet_bytes.ToDebugLog ()}");
+			//AppDebug.Log ($"encrypt after:{packet_bytes.ToDebugLog ()}");
 			/*socket.SendMsg (header, NetConstants.HEADER_LENGTH);
 			socket.SendMsg (packet_bytes, packet_length);*/
 			socket.SendMsg (header.ToByteArray ());

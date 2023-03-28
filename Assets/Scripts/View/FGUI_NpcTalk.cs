@@ -1,5 +1,3 @@
-/** This is an automatically generated class by FairyGUI. Please do not modify it. **/
-
 using client;
 using FairyGUI;
 using FairyGUI.Utils;
@@ -297,9 +295,14 @@ namespace ms_Unity
 					}
 					else
 					{
-						if (currentSayStageIndex == 0)
+                        
+						if (currentSayStageIndex == 0)//可开始状态，介绍对话完了，直接进入接受 拒绝 界面
 						{
-							bool hasYes = currentSayStage.yesPages.Count != 0;
+                            yesPageIndex = 0;
+                            noPageIndex = 0;
+                            return UINpcTalk.TalkType.SendAcceptDecline;
+
+                            /*bool hasYes = currentSayStage.yesPages.Count != 0;
 							bool hasNo = currentSayStage.noPages.Count != 0 || currentSayStage.stopPages.Count != 0;
 							if (hasYes && hasNo)
 							{
@@ -312,10 +315,10 @@ namespace ms_Unity
 								yesPageIndex = 0;
 								return UINpcTalk.TalkType.SendOk;
 							}
-							else if (!hasYes && !hasNo)
+							else if ((!hasYes && !hasNo) || (!hasYes && hasNo))
 							{
 								return UINpcTalk.TalkType.SendAcceptDecline;
-							}
+							}*/
 						}
 						else if (currentSayStageIndex == 1)
 						{
@@ -325,7 +328,7 @@ namespace ms_Unity
 							}
 
 							//如果 有下一个yes对话 
-							if (currentSayStage.yesPages.TryGet (yesPageIndex, out var yesPage))
+							if (currentSayStage.yesPages.TryGet(yesPageIndex, out var yesPage))
 							{
 								return UINpcTalk.TalkType.SendNext;
 							}
@@ -417,48 +420,65 @@ namespace ms_Unity
 
 			currentSayPage = sayPage;
 		}
-		public void BeginQuestSay (MapleQuest mapleQuest, bool isQuestStarted, int npcId)
+		public void BeginQuestSay (MapleQuest mapleQuest, int stageIndex, int npcId)
 		{
-			AppDebug.Log ($"Choosed Quest {mapleQuest.Id}\t {mapleQuest.Name} isQuestStarted:{isQuestStarted}");
-			var stageIndex = isQuestStarted ? 1 : 0;
-			var sayStage = mapleQuest.GetSayStage(stageIndex);
-			currentSayStage = sayStage;
-			isAsk = sayStage.isAsk;
-			currentQuestId = mapleQuest.Id;
-			//ParseSayStage (sayStage);
-			introducePageIndex = 0;
+			AppDebug.Log ($"Choosed Quest {mapleQuest.Id}\t {mapleQuest.Name} stageIndex:{stageIndex}");
+            currentQuestId = mapleQuest.Id;
 
-			if (isInScriptedMode)
+            var sayStage = mapleQuest.GetSayStage(stageIndex);
+			if (sayStage != null)
 			{
-				if (currentSayStageIndex == 0)
-				{
-					new ScriptedStartQuest (currentQuestId, npcId).dispatch ();
-				}
-				else if (currentSayStageIndex == 1)
-				{
-					new ScriptedEndQuest (currentQuestId, npcId).dispatch ();
-				}
-			}
+                currentSayStage = sayStage;
+                isAsk = sayStage.isAsk;
+                //ParseSayStage (sayStage);
+                introducePageIndex = 0;
+
+                if (isInScriptedMode)
+                {
+                    if (currentSayStageIndex == 0)
+                    {
+                        new ScriptedStartQuest(currentQuestId, npcId).dispatch();
+                    }
+                    else if (currentSayStageIndex == 1)
+                    {
+                        new ScriptedEndQuest(currentQuestId, npcId).dispatch();
+                    }
+                }
+                else
+                {
+                    if (stageIndex == 0)//can start
+                    {
+                        ShowIntroducePage();
+                    }
+                    else if (stageIndex == 1)//in progress
+                    {
+                        var canComplete = MapleQuest.getInstance(mapleQuest.Id).canComplete(MapleCharacter.Player, currentNpcId);
+                        if (canComplete)
+                        {
+                            ShowIntroducePage();
+                        }
+                        else
+                        {
+                            stopPageIndex = 0;
+                            ShowStopPage();
+                        }
+                    }
+                    else//can complete
+                    {
+
+                    }
+                }
+            }
 			else
 			{
-				if (!isQuestStarted)
+	/*			if (stageIndex == 2)//没有 可完成的 SayStage 直接完成任务
 				{
-					ShowIntroducePage ();
-				}
-				else//in progress
-				{
-					var canComplete = MapleQuest.getInstance (mapleQuest.Id).canComplete (MapleCharacter.Player, currentNpcId);
-					if (canComplete)
-					{
-						ShowIntroducePage ();
-					}
-					else
-					{
-						stopPageIndex = 0;
-						ShowStopPage ();
-					}
-				}
+                    //完成任务
+                    new CompleteQuestPacket(currentQuestId, currentNpcId).dispatch();
+                    UI.get().get_element<UINpcTalk>().get()?.deactivate();
+                }*/
 			}
+			
 		}
 
 
@@ -512,10 +532,10 @@ namespace ms_Unity
 				//init page
 				if (pageIndex == -1)
 				{
-					var questInfo = currentNpc.GetQuestSayInfo (seletIndex, out var isQuestStarted);
-					if (questInfo != null)
+					var pair = currentNpc.GetQuestSayInfo (seletIndex);
+					if (pair.Item1 != null)
 					{
-						BeginQuestSay (questInfo, isQuestStarted, currentNpc.get_id());
+						BeginQuestSay (pair.Item1, pair.Item2, currentNpc.get_id());
 					}
 				}
 				else//ask page
@@ -589,7 +609,7 @@ namespace ms_Unity
 		/// <summary>
 		/// 空的 只有 Sayinfo.img/QuestId/0或1
 		/// </summary>
-		private bool isInScriptedMode => currentSayStage.introducePages.Count == 0 && currentSayStage.yesPages.Count == 0;
+		private bool isInScriptedMode => currentSayStage.introducePages.Count == 0 && currentSayStage.yesPages.Count == 0 && currentSayStage.stopPages.Count == 0;
 		private bool isClientPage => currentNpc?.hasQuest () ?? false;
 
 		private bool isInIntroducePage => introducePageIndex < (currentSayStage?.introducePages.Count ?? 0);
