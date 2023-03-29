@@ -38,10 +38,10 @@ namespace ms_Unity
 
 		private void OnClick_SkillBook (EventContext context)
 		{
-			if (isSettingupAction)
+			/*if (isSettingupAction)
 			{
 				CancelSetupAction ();
-			}
+			}*/
 		}
 
 		void CancelSetupAction ()

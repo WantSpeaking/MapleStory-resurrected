@@ -579,6 +579,7 @@ namespace ms
 			if (level > oldlevel)
 			{
 				show_effect_id (CharEffect.Id.LEVELUP);
+
 			}
 
 			stats.set_stat (MapleStat.Id.LEVEL, level);
@@ -742,10 +743,52 @@ namespace ms
 			return (float)hp / maxhp;
 		}
 
+		public void AddApByJobWhenLevelUp()
+		{
+			var job = get_job().get_BaseJob();
+			switch (job)
+			{
+				case MapleJob.WARRIOR:
+                    new SpendApPacket(MapleStat.Id.STR).dispatch();
+                    new SpendApPacket(MapleStat.Id.STR).dispatch();
+                    new SpendApPacket(MapleStat.Id.STR).dispatch();
+                    new SpendApPacket(MapleStat.Id.STR).dispatch();
+                    new SpendApPacket(MapleStat.Id.DEX).dispatch();
+                    break;
+                case MapleJob.MAGICIAN:
+                    new SpendApPacket(MapleStat.Id.INT).dispatch();
+                    new SpendApPacket(MapleStat.Id.INT).dispatch();
+                    new SpendApPacket(MapleStat.Id.INT).dispatch();
+                    new SpendApPacket(MapleStat.Id.INT).dispatch();
+                    new SpendApPacket(MapleStat.Id.LUK).dispatch();
+                    break;
+                case MapleJob.BOWMAN:
+                    new SpendApPacket(MapleStat.Id.DEX).dispatch();
+                    new SpendApPacket(MapleStat.Id.DEX).dispatch();
+                    new SpendApPacket(MapleStat.Id.DEX).dispatch();
+                    new SpendApPacket(MapleStat.Id.DEX).dispatch();
+                    new SpendApPacket(MapleStat.Id.STR).dispatch();
+                    break;
+                case MapleJob.THIEF:
+                    new SpendApPacket(MapleStat.Id.LUK).dispatch();
+                    new SpendApPacket(MapleStat.Id.LUK).dispatch();
+                    new SpendApPacket(MapleStat.Id.LUK).dispatch();
+                    new SpendApPacket(MapleStat.Id.LUK).dispatch();
+                    new SpendApPacket(MapleStat.Id.DEX).dispatch();
+                    break;
+                case MapleJob.PIRATE:
+                    new SpendApPacket(MapleStat.Id.STR).dispatch();
+                    new SpendApPacket(MapleStat.Id.STR).dispatch();
+                    new SpendApPacket(MapleStat.Id.STR).dispatch();
+                    new SpendApPacket(MapleStat.Id.DEX).dispatch();
+                    new SpendApPacket(MapleStat.Id.DEX).dispatch();
+                    break;
+            }
+			
+		}
 
-		
 
-		private Inventory inventory = new Inventory ();
+        private Inventory inventory = new Inventory ();
 		private SkillBook skillbook = new SkillBook ();
 		private QuestLog questlog = new QuestLog ();
 		private CheckLog checkLog = new CheckLog ();

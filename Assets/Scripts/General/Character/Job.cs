@@ -365,7 +365,13 @@
 			return (getId () / 10 == basebranch && getId () >= basejobId) || (basebranch % 10 == 0 && getId () / 100 == basejobId / 100);
 		}
 
-		public ushort getId () => id;
+        public MapleJob get_BaseJob()
+        {
+            //112
+            return (MapleJob)(getId() / 100 * 100);
+        }
+
+        public ushort getId () => id;
 		public bool isFourthJob ()
 		{
 			if (id == 2212)

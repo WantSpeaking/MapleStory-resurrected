@@ -97,21 +97,14 @@ namespace ms_Unity
 				}
 				else
 				{
-					if (isAsk)
-					{
+                    if (currentSayStageIndex == 0)
+                    {
+                        new StartQuestPacket(currentQuestId, currentNpcId).dispatch();
+                        AppDebug.Log($"StartQuest ID:{currentQuestId}, NpcId:{currentNpcId}");
+                    }
 
-					}
-					else
-					{
-						if (currentSayStageIndex == 0)
-						{
-							new StartQuestPacket (currentQuestId, currentNpcId).dispatch ();
-							AppDebug.Log ($"StartQuest ID:{currentQuestId}, NpcId:{currentNpcId}");
-						}
-
-						UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
-					}
-				}
+                    UI.get().get_element<UINpcTalk>().get()?.deactivate();
+                }
 				
 			}
 			else
@@ -282,8 +275,15 @@ namespace ms_Unity
 					}
 					else
 					{
-						return UINpcTalk.TalkType.SendOk;
-					}
+                        if (currentSayStageIndex == 0)//可开始状态，介绍对话完了，直接进入接受 拒绝 界面
+						{
+                            return UINpcTalk.TalkType.SendAcceptDecline;
+                        }
+						else
+						{
+                            return UINpcTalk.TalkType.SendOk;
+                        }
+                    }
 				}
 				else
 				{

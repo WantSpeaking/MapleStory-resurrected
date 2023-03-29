@@ -9,6 +9,7 @@ namespace ms_Unity
     {
         public Controller _c_Tab;
         public Controller _c_SetupAction;
+        public GGraph _PlaceHolder;
         public FGUI_Btn_Joystick_Acton _Btn_Dodge;
         public FGUI_Btn_Joystick_Acton _Btn_Jump;
         public FGUI_Btn_Joystick_Acton _Btn_PickUp;
@@ -36,19 +37,20 @@ namespace ms_Unity
 
             _c_Tab = GetControllerAt(0);
             _c_SetupAction = GetControllerAt(1);
-            _Btn_Dodge = (FGUI_Btn_Joystick_Acton)GetChildAt(0);
-            _Btn_Jump = (FGUI_Btn_Joystick_Acton)GetChildAt(1);
-            _Btn_PickUp = (FGUI_Btn_Joystick_Acton)GetChildAt(2);
-            _Btn_LightAttack = (GButton)GetChildAt(3);
-            _Btn_HeavyAttack = (GButton)GetChildAt(4);
-            _Btn_Use1 = (FGUI_Btn_Joystick_Acton)GetChildAt(5);
-            _Btn_Use2 = (FGUI_Btn_Joystick_Acton)GetChildAt(6);
-            _Btn_Use3 = (FGUI_Btn_Joystick_Acton)GetChildAt(7);
-            _Btn_Use4 = (FGUI_Btn_Joystick_Acton)GetChildAt(8);
-            _Btn_Skill1 = (FGUI_Btn_Joystick_Acton)GetChildAt(10);
-            _Btn_Skill2 = (FGUI_Btn_Joystick_Acton)GetChildAt(11);
-            _Btn_Skill3 = (FGUI_Btn_Joystick_Acton)GetChildAt(12);
-            _Btn_Skill4 = (FGUI_Btn_Joystick_Acton)GetChildAt(13);
+            _PlaceHolder = (GGraph)GetChildAt(0);
+            _Btn_Dodge = (FGUI_Btn_Joystick_Acton)GetChildAt(1);
+            _Btn_Jump = (FGUI_Btn_Joystick_Acton)GetChildAt(2);
+            _Btn_PickUp = (FGUI_Btn_Joystick_Acton)GetChildAt(3);
+            _Btn_LightAttack = (GButton)GetChildAt(4);
+            _Btn_HeavyAttack = (GButton)GetChildAt(5);
+            _Btn_Use1 = (FGUI_Btn_Joystick_Acton)GetChildAt(6);
+            _Btn_Use2 = (FGUI_Btn_Joystick_Acton)GetChildAt(7);
+            _Btn_Use3 = (FGUI_Btn_Joystick_Acton)GetChildAt(8);
+            _Btn_Use4 = (FGUI_Btn_Joystick_Acton)GetChildAt(9);
+            _Btn_Skill1 = (FGUI_Btn_Joystick_Acton)GetChildAt(11);
+            _Btn_Skill2 = (FGUI_Btn_Joystick_Acton)GetChildAt(12);
+            _Btn_Skill3 = (FGUI_Btn_Joystick_Acton)GetChildAt(13);
+            _Btn_Skill4 = (FGUI_Btn_Joystick_Acton)GetChildAt(14);
             _t0 = GetTransitionAt(0);
             OnCreate();
 
