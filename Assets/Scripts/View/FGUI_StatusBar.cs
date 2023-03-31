@@ -21,6 +21,8 @@ namespace ms_Unity
 			_BT_COMMUNITY_PARTY.onClick.Add (OnClick_BT_COMMUNITY_PARTY);
 			_BT_CHARACTER_SKILL.onClick.Add (OnClick_BT_CHARACTER_SKILL);
 			_Btn_OpenInventoryPanel.onClick.Add (OnClick_OpenInventoryPanel);
+			_BT_BackToChooseChar.onClick.Add (OnClick_BackToChooseChar);
+			_BT_BackToLogin.onClick.Add (OnClick_BackToLogin);
 		}
 
 		private void OnClick_OpenInventoryPanel (EventContext context)
@@ -42,7 +44,18 @@ namespace ms_Unity
 		{
 			OnClick_PARTY_And_Friends ();
 		}
-
+		
+		private void OnClick_BackToChooseChar (EventContext context)
+		{
+			//OnClick_PARTY_And_Friends ();
+		}
+		
+		private void OnClick_BackToLogin (EventContext context)
+		{
+			ms.UI.get ().emplace<UIQuit> (ms.Stage.get ().get_player ().get_stats ());
+			//OnClick_PARTY_And_Friends ();
+		}
+		
 		private void OnClick_PARTY_And_Friends ()
 		{
 			/*var userlist = UI.get ().get_element<UIUserList> ();

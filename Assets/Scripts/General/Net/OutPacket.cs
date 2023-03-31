@@ -24,7 +24,7 @@ namespace ms
 				if (opcode == (int)Opcode.PONG)
 				{
 					AppDebug.Log ("Sent Packet: PONG");
-					Console.Write ("\n");
+					//Console.Write ("\n");
 				}
 				else
 				{
@@ -32,10 +32,11 @@ namespace ms
 					Console.Write (Convert.ToString (opcode));
 					Console.Write ("\n");*/
 
-                  /*  if (GameUtil.Get ().enableDebugPacket && (Opcode)opcode != Opcode.MOVE_PLAYER && (Opcode)opcode != Opcode.MOVE_MONSTER)
+                    if (GameUtil.Get ().enableDebugPacket && (Opcode)opcode != Opcode.MOVE_PLAYER && (Opcode)opcode != Opcode.MOVE_MONSTER)
                     {
-                        AppDebug.Log($"Sent Packet: {(Opcode)opcode} = dec:{opcode} hex:{opcode:X} \t PacketSize:{bytes.Count} \t {bytes.ToDebugLog()}");
-                    }*/
+                        //AppDebug.Log($"Sent Packet: {(Opcode)opcode} = dec:{opcode} hex:{opcode:X} \t PacketSize:{bytes.Count} \t {bytes.ToDebugLog()}");
+                        AppDebug.Log($"Sent Packet: {(Opcode)opcode} = dec:{opcode} hex:{opcode:X} \t PacketSize:{bytes.Count}");
+                    }
                 }
             }
 		}

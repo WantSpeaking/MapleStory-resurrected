@@ -360,7 +360,6 @@ namespace ms
 
                 if (!string.IsNullOrEmpty (inProgressString))
                 {
-	               
 	                stringBuilder.AppendLine ($"正在进行的任务");
 	                stringBuilder.Append (inProgressString);
                 }
@@ -378,7 +377,7 @@ namespace ms
                 if (!string.IsNullOrEmpty (completeString))
                 {
 	                stringBuilder.AppendLine ($"可完成的任务:");
-	                stringBuilder.Append (inProgressString);
+	                stringBuilder.Append (completeString);
                 }
             }
 

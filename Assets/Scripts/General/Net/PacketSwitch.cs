@@ -119,24 +119,25 @@ namespace ms
 
 			if (Configuration.get ().get_show_packets ())
 			{
-				/*		if (opcode == (int)Opcode.PING)
-						{
-							Console.Write ("Received Packet: PING");
-							Console.Write ("\n");
-						}
-						else
-						{
-							Console.Write ("Received Packet: ");
-							Console.Write (Convert.ToString (opcode));
-							Console.Write ("\n");
-						}*/
-
-				if (GameUtil.Get ().enableDebugPacket && opcode != 198 && opcode != 239 && opcode != 240)
-				//if (GameUtil.get ().enableDebugPacket && (Opcode)opcode != Opcode.SHOW_ITEM_GAIN_INCHAT && opcode != 198 && opcode != 239 && opcode != 240)
+				if (opcode == (int)Opcode.PING)
 				{
-					//AppDebug.Log ($"\t Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Length} \t {bytes.ToDebugLog ()}");
-					AppDebug.Log ($"\t Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Length}");
-                }
+					/*Console.Write ("Received Packet: PING");
+					Console.Write ("\n");*/
+					AppDebug.Log ("Received Packet: PING");
+				}
+				else
+				{
+					/*Console.Write ("Received Packet: ");
+					Console.Write (Convert.ToString (opcode));
+					Console.Write ("\n");*/
+					
+					if (GameUtil.Get ().enableDebugPacket && opcode != 198 && opcode != 239 && opcode != 240)
+						//if (GameUtil.get ().enableDebugPacket && (Opcode)opcode != Opcode.SHOW_ITEM_GAIN_INCHAT && opcode != 198 && opcode != 239 && opcode != 240)
+					{
+						//AppDebug.Log ($"\t Received Packet: {(Opcode)opcode} = {opcode} \t PacketSize:{bytes.Length} \t {bytes.ToDebugLog ()}");
+						AppDebug.Log ($"\t Received Packet: {(Opcode)opcode} = dec:{opcode} hex:{opcode:X} \t PacketSize:{bytes.Length}");
+					}
+				}
 			}
 
 			if (opcode < NUM_HANDLERS)

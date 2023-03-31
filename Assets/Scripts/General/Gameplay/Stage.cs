@@ -107,6 +107,7 @@ namespace ms
 			drops.clear ();
 			reactors.clear ();
 			TestURPBatcher.Instance.Clear ();
+			ms_Unity.FGUI_Manager.Instance.CloseAll ();
 		}
 
 		private void load_map (int mapid)

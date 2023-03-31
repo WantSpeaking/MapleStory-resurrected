@@ -40,7 +40,7 @@ namespace ms_Unity
 			BindingServiceBundle bundle = new BindingServiceBundle (context.GetContainer ());
 			bundle.Start ();
 
-			//³õÊ¼»¯Ö§³ÖFairyGUIµÄÊı¾İ°ó¶¨Ïà¹Ø×é¼ş£¬ÇëÔÚBindingServiceBundleÆô¶¯ºóÖ´ĞĞ
+			//åˆå§‹åŒ–æ”¯æŒFairyGUIçš„æ•°æ®ç»‘å®šç›¸å…³ç»„ä»¶ï¼Œè¯·åœ¨BindingServiceBundleå¯åŠ¨åæ‰§è¡Œ
 			FairyGUIBindingServiceBundle fairyGUIBindingServiceBundle = new FairyGUIBindingServiceBundle (container);
 			fairyGUIBindingServiceBundle.Start ();
 
@@ -248,6 +248,14 @@ namespace ms_Unity
 			return (FG_View)window;
 		}
 
+		public void CloseAll ()
+		{
+			foreach (var pair in type_GComponent_dict)
+			{
+				GRoot.inst.RemoveChild (pair.Value);
+				pair.Value.visible = false;
+			}
+		}
 		public FGUI_StateLogin fgui_StateLogin;
 		public FGUI_StateGame fgui_StateGame;
 		public FGUI_StateGame fgui_StateShop;
