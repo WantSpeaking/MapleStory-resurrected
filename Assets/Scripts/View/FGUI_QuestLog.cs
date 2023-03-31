@@ -146,7 +146,7 @@ namespace ms_Unity
 
 		public void OnVisiblityChanged (bool isVisible)
 		{
-			if (isVisible)
+            if (isVisible)
 			{
 				UpdateQuest ();
 			}

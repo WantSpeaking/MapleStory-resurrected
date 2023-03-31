@@ -234,6 +234,8 @@ namespace ms
 		/// -1:Init Page
 		/// </summary>
 		public int pageIndex { get; set; }
+		
+		public string ScriptInfo { get; set; }
 	}
 
 

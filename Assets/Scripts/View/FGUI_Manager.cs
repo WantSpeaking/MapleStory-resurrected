@@ -22,6 +22,7 @@ namespace ms_Unity
 	public class FGUI_Manager : SingletonMono<FGUI_Manager>
 	{
 		//private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+		public bool PanelOpening = false;
 		public Texture playerRenderTexture;
 		private ApplicationContext context;
 		ISubscription<WindowStateEventArgs> subscription;
@@ -178,6 +179,7 @@ namespace ms_Unity
 
 		public FG_View OpenFGUI<FG_View> () where FG_View : GComponent, new()
 		{
+			
 			if (!type_GComponent_dict.TryGetValue (typeof (FG_View), out var window))
 			{
 				var viewType = typeof (FG_View);
@@ -202,7 +204,9 @@ namespace ms_Unity
 
 		public FG_View CloseFGUI<FG_View> () where FG_View : GComponent, new()
 		{
-			if (!type_GComponent_dict.TryGetValue (typeof (FG_View), out var window))
+            PanelOpening = false;
+
+            if (!type_GComponent_dict.TryGetValue (typeof (FG_View), out var window))
 			{
 				/*var viewType = typeof (FG_View);
 				var name = viewType.Name;

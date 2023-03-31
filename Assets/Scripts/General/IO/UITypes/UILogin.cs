@@ -236,13 +236,15 @@ namespace ms
 			
 			string account_text = "";
 			string password_text = "";
-			if (GameUtil.Instance.TestMode)
-			{
-				account_text = GameUtil.Instance.TestAccount;
-				password_text = GameUtil.Instance.TestPassword;
-			}
-			else
-			{
+
+#if UNITY_EDITOR || WINDOWS
+            if (GameUtil.Instance.TestMode)
+            {
+                account_text = GameUtil.Instance.TestAccount;
+                password_text = GameUtil.Instance.TestPassword;
+            }
+            else
+            {
                 if (account.isForbid && password.isForbid)
                 {
                     account_text = text_account;
@@ -250,10 +252,23 @@ namespace ms
                 }
                 else
                 {
-                    account_text = account.get_text ();
-                    password_text = password.get_text ();
+                    account_text = account.get_text();
+                    password_text = password.get_text();
                 }
             }
+#else
+            if (account.isForbid && password.isForbid)
+            {
+                account_text = text_account;
+                password_text = text_password;
+            }
+            else
+            {
+                account_text = account.get_text ();
+                password_text = password.get_text ();
+            }
+#endif
+
        
 
             account.set_state(Textfield.State.DISABLED);

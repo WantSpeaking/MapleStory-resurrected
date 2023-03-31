@@ -18,7 +18,8 @@ namespace ms_Unity
 
 		public static void ShowNotice (string message)
 		{
-			var thisNotice = ms_Unity.FGUI_Manager.Instance.OpenFGUI<FGUI_Notice> () as FGUI_Notice;
+            ms_Unity.FGUI_Manager.Instance.PanelOpening = true;
+            var thisNotice = ms_Unity.FGUI_Manager.Instance.OpenFGUI<FGUI_Notice> () as FGUI_Notice;
 
 			thisNotice.message = message;
 			thisNotice._tet_message.text = message;

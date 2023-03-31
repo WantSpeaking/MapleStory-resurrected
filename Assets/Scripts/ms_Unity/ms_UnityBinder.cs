@@ -19,6 +19,7 @@ namespace ms_Unity
             UIObjectFactory.SetPackageItemExtension(FGUI_Itemed_ItemDetail.URL, typeof(FGUI_Itemed_ItemDetail));
             UIObjectFactory.SetPackageItemExtension(FGUI_Joystick.URL, typeof(FGUI_Joystick));
             UIObjectFactory.SetPackageItemExtension(FGUI_Inventory.URL, typeof(FGUI_Inventory));
+            UIObjectFactory.SetPackageItemExtension(FGUI_Com_RichTxt_Right.URL, typeof(FGUI_Com_RichTxt_Right));
             UIObjectFactory.SetPackageItemExtension(FGUI_SetupUseButtons.URL, typeof(FGUI_SetupUseButtons));
             UIObjectFactory.SetPackageItemExtension(FGUI_ChatBalloon.URL, typeof(FGUI_ChatBalloon));
             UIObjectFactory.SetPackageItemExtension(FGUI_NavigationBar.URL, typeof(FGUI_NavigationBar));

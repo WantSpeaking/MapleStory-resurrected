@@ -4,6 +4,7 @@ using System;
 using FairyGUI;
 using FairyGUI.Utils;
 using ms;
+using NodeCanvas.Tasks.Conditions;
 
 namespace ms_Unity
 {
@@ -95,7 +96,8 @@ namespace ms_Unity
 		}
 		public static void ShowNotice (string message, System.Action<int> nh, long m, long quantity)
 		{
-			var thisNotice = ms_Unity.FGUI_Manager.Instance.OpenFGUI<FGUI_EnterNumber> () as FGUI_EnterNumber;
+            ms_Unity.FGUI_Manager.Instance.PanelOpening = true;
+            var thisNotice = ms_Unity.FGUI_Manager.Instance.OpenFGUI<FGUI_EnterNumber> () as FGUI_EnterNumber;
 			GRoot.inst.ShowPopup (thisNotice);
 
 			thisNotice.message = message;

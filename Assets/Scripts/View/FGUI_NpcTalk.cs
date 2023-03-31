@@ -13,7 +13,7 @@ namespace ms_Unity
 
 		public void OnCreate ()
 		{
-			_Txt_text.onClickLink.Add (onClickLink);
+			_Com_RichTxt._Txt_text.onClickLink.Add (onClickLink);
 
 			_Btn_Close.onClick.Add (onClick_Btn_Close);
 			_Btn_Next.onClick.Add (onClick_Btn_Next);
@@ -57,7 +57,7 @@ namespace ms_Unity
 					{
 						if (chooseRightAnswer)
 						{
-							//完成任务
+							//???????
 							new CompleteQuestPacket (currentQuestId, currentNpcId, currentSelection).dispatch ();
 							UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
 						}
@@ -70,7 +70,7 @@ namespace ms_Unity
 					{
 						if (currentSayStageIndex == 1)
 						{
-							//完成任务
+							//???????
 							new CompleteQuestPacket (currentQuestId, currentNpcId).dispatch ();
 						}
 						UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
@@ -150,6 +150,7 @@ namespace ms_Unity
 				if (isInScriptedMode)
 				{
 					new NpcTalkMorePacket (rawMsgtype, 1).dispatch ();
+					UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
 				}
 				else
 				{
@@ -268,14 +269,14 @@ namespace ms_Unity
 			{
 				if (isAsk)
 				{
-					//如果 有下一个对话  
+					//??? ??????????  
 					if (currentSayStage.introducePages.TryGet (introducePageIndex + 1, out var sayPage))
 					{
 						return UINpcTalk.TalkType.NONE;
 					}
 					else
 					{
-                        if (currentSayStageIndex == 0)//可开始状态，介绍对话完了，直接进入接受 拒绝 界面
+                        if (currentSayStageIndex == 0)//???????????????????????????? ??? ????
 						{
                             return UINpcTalk.TalkType.SendAcceptDecline;
                         }
@@ -288,7 +289,7 @@ namespace ms_Unity
 				else
 				{
 
-					//如果 有下一个introduce对话 
+					//??? ???????introduce??? 
 					if (currentSayStage.introducePages.TryGet (introducePageIndex + 1, out var sayPage))
 					{
 						return UINpcTalk.TalkType.SendNext;
@@ -296,7 +297,7 @@ namespace ms_Unity
 					else
 					{
                         
-						if (currentSayStageIndex == 0)//可开始状态，介绍对话完了，直接进入接受 拒绝 界面
+						if (currentSayStageIndex == 0)//???????????????????????????? ??? ????
 						{
                             yesPageIndex = 0;
                             noPageIndex = 0;
@@ -327,7 +328,7 @@ namespace ms_Unity
 								yesPageIndex = 0;
 							}
 
-							//如果 有下一个yes对话 
+							//??? ???????yes??? 
 							if (currentSayStage.yesPages.TryGet(yesPageIndex, out var yesPage))
 							{
 								return UINpcTalk.TalkType.SendNext;
@@ -354,7 +355,7 @@ namespace ms_Unity
 				}
 				else
 				{
-					//如果 有下一个对话 
+					//??? ?????????? 
 					if (currentSayStage.yesPages.TryGet (yesPageIndex + 1, out var sayPage))
 					{
 						return UINpcTalk.TalkType.SendNext;
@@ -383,7 +384,7 @@ namespace ms_Unity
 				}
 				else
 				{
-					//如果 有下一个对话 
+					//??? ?????????? 
 					if (currentSayStage.noPages.TryGet (noPageIndex + 1, out var sayPage))
 					{
 						return UINpcTalk.TalkType.SendNext;
@@ -455,7 +456,10 @@ namespace ms_Unity
                         var canComplete = MapleQuest.getInstance(mapleQuest.Id).canComplete(MapleCharacter.Player, currentNpcId);
                         if (canComplete)
                         {
-                            ShowIntroducePage();
+                            //ShowIntroducePage();
+                            //???????
+                            new CompleteQuestPacket(currentQuestId, currentNpcId).dispatch();
+                            UI.get().get_element<UINpcTalk>().get()?.deactivate();
                         }
                         else
                         {
@@ -471,9 +475,9 @@ namespace ms_Unity
             }
 			else
 			{
-	/*			if (stageIndex == 2)//没有 可完成的 SayStage 直接完成任务
+	/*			if (stageIndex == 2)//??? ?????? SayStage ??????????
 				{
-                    //完成任务
+                    //???????
                     new CompleteQuestPacket(currentQuestId, currentNpcId).dispatch();
                     UI.get().get_element<UINpcTalk>().get()?.deactivate();
                 }*/
@@ -537,6 +541,12 @@ namespace ms_Unity
 					{
 						BeginQuestSay (pair.Item1, pair.Item2, currentNpc.get_id());
 					}
+					else
+					{
+						
+						new TalkToNPCPacket (currentNpc.get_oid ()).dispatch ();
+						
+					}
 				}
 				else//ask page
 				{
@@ -545,11 +555,11 @@ namespace ms_Unity
 						var answerInex = currentSayPage.rightAnswerChoiceNumber - 1;
 						currentSelection = seletIndex;
 						chooseRightAnswer = seletIndex == answerInex;
-						if (chooseRightAnswer)//答对了,进入下一页
+						if (chooseRightAnswer)//?????,????????
 						{
 							ShowIntroducePage ();
 						}
-						else//答错了,进入相应的错误 页面
+						else//?????,???????????? ???
 						{
 							uINpcTalk.change_text (currentNpcId, UINpcTalk.TalkType.SendOk, 0, 0, currentSayPage.wrongAnswer_index_Texts[seletIndex]);
 						}
@@ -560,12 +570,13 @@ namespace ms_Unity
 			{
 
 				new NpcTalkMorePacket (seletIndex).dispatch ();
+				UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
 				AppDebug.Log ($"onClickLink,L{context.data}");
 			}
 		}
 		public void OnVisiblityChanged (bool isVisible, UINpcTalk uINpcTalk)
 		{
-			this.uINpcTalk = uINpcTalk;
+            this.uINpcTalk = uINpcTalk;
 			uINpcTalk.SetFGUI_NpcTalk (this);
 			if (isVisible)
 			{
@@ -584,7 +595,7 @@ namespace ms_Unity
 			_GLoader_speaker.texture = uINpcTalk.speaker.nTexture;
 			_GLoader_nametag.texture = uINpcTalk.nametag.nTexture;
 			_Txt_name.text = uINpcTalk.name.get_text ();
-			_Txt_text.text = uINpcTalk.text.get_text ();
+			 _Com_RichTxt._Txt_text.text = uINpcTalk.text.get_text ();
 
 			_c_TalkType.selectedIndex = (int)uINpcTalk.type;
 			rawMsgtype = uINpcTalk.rawMsgtype;
@@ -607,9 +618,9 @@ namespace ms_Unity
 
 
 		/// <summary>
-		/// 空的 只有 Sayinfo.img/QuestId/0或1
+		/// ??? ??? Sayinfo.img/QuestId/0??1
 		/// </summary>
-		private bool isInScriptedMode => currentSayStage.introducePages.Count == 0 && currentSayStage.yesPages.Count == 0 && currentSayStage.stopPages.Count == 0;
+		private bool isInScriptedMode => (currentSayStage?.introducePages.Count??0) ==  0 && (currentSayStage?.yesPages.Count??0) == 0 && (currentSayStage?.stopPages.Count??0) == 0;
 		private bool isClientPage => currentNpc?.hasQuest () ?? false;
 
 		private bool isInIntroducePage => introducePageIndex < (currentSayStage?.introducePages.Count ?? 0);

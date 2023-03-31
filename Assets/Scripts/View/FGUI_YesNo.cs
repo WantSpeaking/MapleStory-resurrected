@@ -23,7 +23,8 @@ namespace ms_Unity
 
 		public static void ShowNotice (string message, System.Action<bool> yh = null, Text.Alignment alignment = Text.Alignment.CENTER)
 		{
-			var thisNotice = ms_Unity.FGUI_Manager.Instance.OpenFGUI<FGUI_YesNo> () as FGUI_YesNo;
+            ms_Unity.FGUI_Manager.Instance.PanelOpening = true;
+            var thisNotice = ms_Unity.FGUI_Manager.Instance.OpenFGUI<FGUI_YesNo> () as FGUI_YesNo;
 
 			thisNotice.message = message;
 			thisNotice.a = alignment;

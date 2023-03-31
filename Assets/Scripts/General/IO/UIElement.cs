@@ -323,6 +323,7 @@ namespace ms
 
         public virtual void OnActivityChange(bool isActive)
         {
+            
         }
 
         public virtual void OnGet()

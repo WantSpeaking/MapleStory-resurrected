@@ -75,11 +75,11 @@ namespace ms_Unity
 
 			FGUI_Manager.Instance.GetFGUI<FGUI_ActionButtons> ().UpdateIcon ();
 
-			 GGraph holder = new GGraph();
+			 /*GGraph holder = new GGraph();
     holder.SetSize(100, 100);
     holder.DrawRect(200,100,1,UnityEngine.Color.black,UnityEngine.Color.red);
     this.AddChild(holder);
-	AppDebug.Log("testdraw");
+	AppDebug.Log("testdraw");*/
 		}
 
 		private void OnClickAction (EventContext context)
@@ -117,7 +117,7 @@ namespace ms_Unity
 		}
 		public void OnVisiblityChanged (bool isVisible)
 		{
-			UISkillBook.SetFGUI (this);
+            UISkillBook.SetFGUI (this);
 			if (isVisible)
 			{
 				SetGList ();

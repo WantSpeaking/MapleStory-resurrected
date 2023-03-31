@@ -951,7 +951,8 @@ namespace ms
 
 		public override void OnActivityChange (bool isActiveAfterChange)
 		{
-			if (isActiveAfterChange)
+            ms_Unity.FGUI_Manager.Instance.PanelOpening = isActiveAfterChange;
+            if (isActiveAfterChange)
 			{
 				//ms_Unity.Launcher.Instance.Open<ms_Unity.InventoryWindow> ();
 				//ms_Unity.Launcher.Instance.OpenNew<ms_Unity.InventoryWindow> ();

@@ -45,7 +45,22 @@ namespace ms
 
 			hidename = info["hideName"];
 			mouseonly = info["talkMouseOnly"];
-			scripted = info["script"]?.Any () ?? false || info["shop"];
+			//scripted = info["script"]?.Any () ?? false || info["shop"];
+			scripted = info["script"]?.Any () ?? false;
+			if (scripted)
+			{
+				ScriptInfos = new List<string> ();
+				foreach (var src_script_0 in info["script"])
+				{
+					var script = src_script_0?["script"]?.ToString ();
+					var ScriptInfo = "对话或进入";
+					if (script!= null)
+					{
+						ScriptInfo = ms.wz.wzFile_etc["ScriptInfo.img"]?[script]?.ToString ()??script;
+					}
+					ScriptInfos.Add (ScriptInfo);
+				}
+			}
 
 			foreach (var npcnode in src)
 			{
@@ -330,36 +345,51 @@ namespace ms
 				}
 			}
 
+			//已经开始的任务 由于npc条件的不同，可以是正在进行的状态，也可以是可完成状态
 			if (started_Quests.Count > 0)
 			{
-				//stringBuilder.Append ($"{}");
-				stringBuilder.AppendLine ($"正在进行的任务");
-                //已经开始的任务 由于npc条件的不同，可以是正在进行的状态，也可以是可完成状态
-
+                var inProgressString = "";
                 foreach (var pair in started_Quests)
 				{
 					if (!pair.Value.canComplete(MapleCharacter.Player,npcid))//如果不能完成，就是正在进行的
 					{
                         questChooseList.Add((pair.Value,1));
-
-                        stringBuilder.Append($"#L{index++}# {pair.Value.Name} #l \r\n");
-                    }
+                        inProgressString += ($"#L{index++}# {pair.Value.Name} #l \r\n");
+					}
                 }
 
-                stringBuilder.AppendLine($"可完成的任务");
+                if (!string.IsNullOrEmpty (inProgressString))
+                {
+	               
+	                stringBuilder.AppendLine ($"正在进行的任务");
+	                stringBuilder.Append (inProgressString);
+                }
+
+                var completeString = "";
                 foreach (var pair in started_Quests)
                 {
                     if (pair.Value.canComplete(MapleCharacter.Player, npcid))//如果能完成，就是可完成的
                     {
                         questChooseList.Add((pair.Value,1));
-
-                        stringBuilder.Append($"#L{index++}# {pair.Value.Name} #l \r\n");
+                        completeString += ($"#L{index++}# {pair.Value.Name} #l \r\n");
                     }
                 }
 
+                if (!string.IsNullOrEmpty (completeString))
+                {
+	                stringBuilder.AppendLine ($"可完成的任务:");
+	                stringBuilder.Append (inProgressString);
+                }
             }
 
-
+			if (scripted)
+			{
+				stringBuilder.AppendLine ($"\r\n其它:");
+				foreach (var scriptInfo in ScriptInfos)
+				{
+					stringBuilder.Append($"#L{index++}# {scriptInfo} #l \r\n");
+				}
+			}
 			return stringBuilder.ToString ();
 		}
 
@@ -376,8 +406,13 @@ namespace ms
 		static List<(MapleQuest,int)> questChooseList = new();
 		public (MapleQuest,int) GetQuestSayInfo (short selectQuestIndex)
 		{
-			var pair = questChooseList.TryGet(selectQuestIndex);
-			
+			ValueTuple<MapleQuest,int> pair;
+			 pair = questChooseList.TryGet(selectQuestIndex);
+			 if (pair.Item1 == null)
+			 {
+				 pair = (null, selectQuestIndex - questChooseList.Count);
+			 }
+			 
             return pair;
             /*short index = 0;
 
@@ -434,7 +469,8 @@ namespace ms
 		private bool hidename;
 		private bool scripted;
 		private bool mouseonly;
-
+		public List<string> ScriptInfos;
+		
 		private int npcid;
 		private bool flip;
 		private string stance;

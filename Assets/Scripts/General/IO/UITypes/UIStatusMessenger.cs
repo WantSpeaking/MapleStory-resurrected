@@ -10,7 +10,7 @@ namespace ms
 			text = new Text(Text.Font.A12M, Text.Alignment.RIGHT, color, str);
 			shadow = new Text(Text.Font.A12M, Text.Alignment.RIGHT, Color.Name.BLACK, str);
 
-			opacity.set(1.0f);
+			opacity.set(2.0f);
 		}
 
 		public void draw(Point_short position, float alpha)
@@ -18,7 +18,7 @@ namespace ms
 			float interopc = opacity.get(alpha);
 
 			shadow.draw(new DrawArgument(position + new Point_short(1, 1), interopc));
-			text.draw(new DrawArgument(new Point_short (position), 1));
+			text.draw(new DrawArgument(new Point_short (position), interopc));
 		}
 		public bool update()
 		{

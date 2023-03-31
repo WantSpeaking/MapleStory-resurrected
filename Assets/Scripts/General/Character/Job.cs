@@ -167,11 +167,11 @@
 						return 0;
 					case Level.FIRST:
 						return (ushort)((id / 100) * 100);//todo 2 reqire job is 1,but there is 100
-						return (ushort)(id / 100);
+						//return (ushort)(id / 100);
 					case Level.SECOND:
 						return (ushort)(id / 10 * 10);
 					case Level.THIRD:
-						return (ushort)(id - 1);
+						return (ushort)(level == Level.FOURTH ? id - 1 : id);//当前是4转，id-1；当前是3转，就为id
 					case Level.FOURTH:
 						return id;
 				}

@@ -140,7 +140,7 @@ namespace ms
             dragarea = new Point_short(dimension.x(), 20);
         }
 
-        public override void draw(float alpha)
+        /*public override void draw(float alpha)
         {
 			base.draw_sprites (alpha);
 
@@ -253,7 +253,7 @@ namespace ms
 			}
 
 			base.draw_buttons (alpha);
-		}
+		}*/
 
         public override void toggle_active()
         {
@@ -290,7 +290,7 @@ namespace ms
 
         static readonly Rectangle_short bounds = new Rectangle_short(0, 32, 0, 32);
 
-        public override Cursor.State send_cursor(bool clicked, Point_short cursorpos)
+        /*public override Cursor.State send_cursor(bool clicked, Point_short cursorpos)
         {
             Cursor.State dstate = base.send_cursor(clicked, new Point_short(cursorpos));
 
@@ -379,7 +379,7 @@ namespace ms
             }
 
             return base.send_cursor(clicked, new Point_short(cursorpos));
-        }
+        }*/
 
         public override void send_key(int keycode, bool pressed, bool escape)
         {

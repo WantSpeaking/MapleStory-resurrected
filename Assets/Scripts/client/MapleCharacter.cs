@@ -216,12 +216,12 @@ namespace client
 
 		public void LogAllQuest ()
 		{
-			AppDebug.Log("NotStartedQuests");
+			/*AppDebug.Log("NotStartedQuests");
 			AppDebug.Log(getNotStartedQuests().ToDebugLog());
 			AppDebug.Log("StartedQuests");
             AppDebug.Log(getStartedQuests().ToDebugLog());
             AppDebug.Log("CompletedQuests");
-            AppDebug.Log(getCompletedQuests().ToDebugLog());
+            AppDebug.Log(getCompletedQuests().ToDebugLog());*/
 
         }
 

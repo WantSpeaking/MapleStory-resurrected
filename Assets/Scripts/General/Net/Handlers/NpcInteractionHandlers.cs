@@ -21,7 +21,7 @@ namespace ms
 			{
 				style = recv.read_short();
 			}
-			AppDebug.Log ($"style: {style}");
+			//AppDebug.Log ($"style: {style}");
 
 			UI.get().emplace<UINpcTalk>();
 			UI.get().enable();

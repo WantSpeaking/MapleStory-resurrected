@@ -137,6 +137,8 @@ namespace ms
 
         public void send_cursor(Point_short cursorpos, Cursor.State cursorstate)
         {
+            if (ms_Unity.FGUI_Manager.Get().PanelOpening) return;
+
             Cursor.State nextstate = state.send_cursor(cursorstate, cursorpos);
             //AppDebug.Log($"send_cursor state:{nextstate} ");
 

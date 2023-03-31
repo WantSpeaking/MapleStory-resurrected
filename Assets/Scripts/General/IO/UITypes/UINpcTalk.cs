@@ -551,15 +551,16 @@ namespace ms
 
 		public override void OnActivityChange (bool isActive)
 		{
-			//text?.OnActivityChange (isActive);
+            //text?.OnActivityChange (isActive);
+            ms_Unity.FGUI_Manager.Instance.PanelOpening = isActive;
 
-			if (isActive)
+            if (isActive)
 			{
-				ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_NpcTalk> ().OnVisiblityChanged (true, this);
+                ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_NpcTalk> ().OnVisiblityChanged (true, this);
 			}
 			else
 			{
-				ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_NpcTalk> ().OnVisiblityChanged (false, this);
+                ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_NpcTalk> ().OnVisiblityChanged (false, this);
 			}
 		}
 
