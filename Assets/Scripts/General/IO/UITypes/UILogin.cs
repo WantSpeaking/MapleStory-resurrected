@@ -107,19 +107,23 @@ namespace ms
             passwordbg = Title["PW"];
 
             #endregion
-
-            saveid = Setting<SaveLogin>.get().load();
-
-  /*          if (saveid)
-            {
-                account.change_text(Setting<DefaultAccount>.get().load());
-                password.set_state(Textfield.State.FOCUSED);
-            }
-            else*/
-            {
-                account.set_state(Textfield.State.FOCUSED);
-            }
-
+            /*  
+                       saveid = Setting<SaveLogin>.get().load();
+           
+                    if (saveid)
+                       {
+                           account.change_text(Setting<DefaultAccount>.get().load());
+                           password.set_state(Textfield.State.FOCUSED);
+                       }
+                       else
+                       {
+                           account.set_state(Textfield.State.FOCUSED);
+                       }
+           */
+            account.change_text(Setting<DefaultAccount>.get().load());
+            password.change_text(Setting<DefaultPassword>.get().load());
+            password.set_state(Textfield.State.FOCUSED);
+            
             if (Configuration.get().get_var_login())
             {
                 UI.get().emplace<UILoginWait>();
@@ -308,10 +312,14 @@ namespace ms
 
             if (loginwait && loginwait.get().is_active())
             {
+                password_global = password_text;
                 new LoginPacket(account_text, password_text).dispatch();
             }
         }
 
+        //public static string account_global;
+        public static string password_global;
+        
         private void open_url(ushort id)
         {
             string url;

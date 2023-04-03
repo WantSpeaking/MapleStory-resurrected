@@ -116,6 +116,7 @@ namespace ms
 			if (cooldown == 0)
 			{
 				cooldown = WARPCD;
+				Portal.WarpInfo warpInfo;
 
 				foreach (var iter in portals_by_id)
 				{
@@ -123,7 +124,12 @@ namespace ms
 
 					if (portal.bounds ().contains (playerpos))
 					{
-						return portal.getwarpinfo ();
+						warpInfo = portal.getwarpinfo ();
+						if (warpInfo.name == "sp")//跳过出生点
+						{
+							continue;
+						}
+						return warpInfo;
 					}
 				}
 			}
@@ -183,7 +189,7 @@ namespace ms
 				ani = new Animation ();
 			}*/
 
-            if (portalType == Portal.Type.HIDDEN)
+            /*if (portalType == Portal.Type.HIDDEN)
             {
                 ani = new Animation(src["ph"]["default"]["portalContinue"]);
             }
@@ -194,7 +200,20 @@ namespace ms
             else
             {
                 ani = new Animation(src["pv"]);
-            }
+            }*/
+            
+            if (portalType == Portal.Type.HIDDEN)
+			{
+				ani = new Animation (src["ph"]["default"]["portalContinue"]);
+			}
+			else if (portalType == Portal.Type.REGULAR || portalType == Portal.Type.SCRIPTED)
+			{
+				ani = new Animation (src["pv"]);
+			}
+			else
+			{
+				ani = new Animation ();
+			}
             return ani;
 		}
 

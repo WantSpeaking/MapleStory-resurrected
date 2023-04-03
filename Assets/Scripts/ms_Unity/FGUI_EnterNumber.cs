@@ -7,9 +7,7 @@ namespace ms_Unity
 {
     public partial class FGUI_EnterNumber : GComponent
     {
-        public Controller _c_NoticeType;
         public GTextField _tet_Title;
-        public GTextField _tet_message;
         public GTextInput _gTextInput_Number;
         public GButton _Btn_No;
         public GButton _Btn_Yes;
@@ -24,12 +22,10 @@ namespace ms_Unity
         {
             base.ConstructFromXML(xml);
 
-            _c_NoticeType = GetControllerAt(0);
             _tet_Title = (GTextField)GetChildAt(2);
-            _tet_message = (GTextField)GetChildAt(3);
-            _gTextInput_Number = (GTextInput)GetChildAt(4);
-            _Btn_No = (GButton)GetChildAt(5);
-            _Btn_Yes = (GButton)GetChildAt(6);
+            _gTextInput_Number = (GTextInput)GetChildAt(3);
+            _Btn_No = (GButton)GetChildAt(4);
+            _Btn_Yes = (GButton)GetChildAt(5);
             OnCreate();
 
         }

@@ -105,9 +105,10 @@ namespace ms
 					else
 					{
 						// Save the "Login ID" if the box for it on the login screen is checked
-						if (Setting<SaveLogin>.get ().load ())
+						//if (Setting<SaveLogin>.get ().load ())
 						{
 							Setting<DefaultAccount>.get ().save (account.name);
+							Setting<DefaultPassword>.get ().save (UILogin.password_global);
 						}
 
 						// Request the list of worlds and channels online

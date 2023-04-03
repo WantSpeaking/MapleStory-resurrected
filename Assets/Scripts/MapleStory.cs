@@ -456,6 +456,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	private void OnApplicationQuit ()
 	{
 		Sound.close ();
+		Configuration.get ().save ();
 		//Music.get ().Quit ();
 	}
 	#region Will be removed later

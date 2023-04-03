@@ -206,6 +206,7 @@ namespace ms
                         GraphicsGL.get().enlock();
                         Stage.get().clear();
                         Timer.get().start();
+                        ms_Unity.FGUI_Manager.Instance.CloseAll ();
 
 
                         /*Stage.get().clear();

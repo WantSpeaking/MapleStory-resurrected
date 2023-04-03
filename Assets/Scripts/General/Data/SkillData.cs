@@ -593,11 +593,13 @@ namespace ms
 		// Return whether the skill is an attack skill
 		public bool is_attack ()
 		{
-			return !passive && (flags & (int)Flags.ATTACK) > 0;
-		}
+			return !passive;
+            //return !passive && (flags & (int)Flags.ATTACK) > 0;
 
-		// Return whether this skill is invisible in the skill book UI
-		public bool is_invisible ()
+        }
+
+        // Return whether this skill is invisible in the skill book UI
+        public bool is_invisible ()
 		{
 			return invisible;
 		}

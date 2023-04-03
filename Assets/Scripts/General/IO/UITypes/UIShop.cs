@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using Beebyte.Obfuscator;
+using constants.skills;
+using Loxodon.Framework.Observables;
 using MapleLib.WzLib;
 using ms.Helper;
 
@@ -127,23 +129,23 @@ namespace ms
 			dragarea = new Point_short (bg_dimensions.x (), 10);
 		}
 
-		public override void draw (float alpha)
+		/*public override void draw (float alpha)
 		{
-			base.draw (alpha);
+			base.draw(alpha);
 
-			npc.draw (new DrawArgument (position + new Point_short (58, 85), true));
-			charlook.draw (position + new Point_short (338, 85), false, Stance.Id.STAND1, Expression.Id.DEFAULT);
+			npc.draw(new DrawArgument(position + new Point_short(58, 85), true));
+			charlook.draw(position + new Point_short(338, 85), false, Stance.Id.STAND1, Expression.Id.DEFAULT);
 
-			mesolabel.draw (position + new Point_short (493, 51));
+			mesolabel.draw(position + new Point_short(493, 51));
 
-			buystate.draw (new Point_short (position), buy_selection);
-			sellstate.draw (new Point_short (position), sell_selection);
+			buystate.draw(new Point_short(position), buy_selection);
+			sellstate.draw(new Point_short(position), sell_selection);
 
-			buyslider.draw (new Point_short (position));
-			sellslider.draw (new Point_short (position));
+			buyslider.draw(new Point_short(position));
+			sellslider.draw(new Point_short(position));
 
-			checkBox[rightclicksell].draw (position);
-		}
+			checkBox[rightclicksell].draw(position);
+		}*/
 
 		public override void update ()
 		{
@@ -161,7 +163,7 @@ namespace ms
 			sellslider.remove_cursor ();
 		}
 
-		public override Cursor.State send_cursor (bool clicked, Point_short cursorpos)
+		/*public override Cursor.State send_cursor (bool clicked, Point_short cursorpos)
 		{
 			Point_short cursoroffset = cursorpos - position;
 			lastcursorpos = new Point_short (cursoroffset);
@@ -296,11 +298,11 @@ namespace ms
 			}
 
 			return ret;
-		}
+		}*/
 
 		public override void send_scroll (double yoffset)
 		{
-			short xoff = lastcursorpos.x ();
+			/*short xoff = lastcursorpos.x ();
 			short slider_width = 10;
 
 			if (buyslider.isenabled ())
@@ -317,7 +319,7 @@ namespace ms
 				{
 					sellslider.send_scroll (yoffset);
 				}
-			}
+			}*/
 		}
 
 		public override void rightclick (Point_short cursorpos)
@@ -352,8 +354,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: UIElement::Type get_type() const override
 		public override UIElement.Type get_type ()
 		{
 			return TYPE;
@@ -489,7 +489,7 @@ namespace ms
 			}
 		}
 
-		private void changeselltab (InventoryType.Id type)
+		public void changeselltab (InventoryType.Id type)
 		{
 			ushort oldtab = tabbyinventory (sellstate.tab);
 
@@ -587,7 +587,7 @@ namespace ms
 			}
 		}
 
-		private void exit_shop ()
+		public void exit_shop ()
 		{
 			clear_tooltip ();
 
@@ -595,6 +595,19 @@ namespace ms
 			new NpcShopActionPacket ().dispatch ();
 		}
 
+		public override void OnActivityChange (bool isActiveAfterChange)
+		{
+			if (isActiveAfterChange)
+			{
+				_fgui_Shop = ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_Shop>()?.OnVisiblityChanged(true, this);
+            }
+			else
+			{
+                _fgui_Shop = ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_Shop> ()?.OnVisiblityChanged (false,this);
+			}
+		}
+
+		public Texture get_npc_texture () => npc;
 		private enum Buttons : short
 		{
 			BUY_ITEM,
@@ -651,7 +664,9 @@ namespace ms
 
 		private Point_short lastcursorpos = new Point_short ();
 
-		private class BuyItem
+		public static ms_Unity.FGUI_Shop _fgui_Shop;
+
+		public class BuyItem
 		{
 			public BuyItem (Texture cur, int i, int p, int pt, int t, short cp, short b)
 			{
@@ -695,7 +710,12 @@ namespace ms
 			{
 				return buyable;
 			}
-
+			
+			public Texture get_icon ()
+			{
+				return icon;
+			}
+			
 			private Texture icon = new Texture ();
 			private Texture currency = new Texture ();
 			private int id;
@@ -708,7 +728,7 @@ namespace ms
 			private Text pricelabel = new Text ();
 		}
 
-		private class SellItem
+		public class SellItem
 		{
 			public SellItem (int item_id, short count, short s, bool sc, Texture cur)
 			{
@@ -767,6 +787,11 @@ namespace ms
 				return sellable;
 			}
 
+			public Texture get_icon ()
+			{
+				return icon;
+			}
+			
 			private Texture icon = new Texture ();
 			private int id;
 			private short slot;
@@ -776,9 +801,9 @@ namespace ms
 			private Text pricelabel = new Text ();
 		}
 
-		private class BuyState
+		public class BuyState
 		{
-			public List<BuyItem> items = new List<BuyItem> ();
+			public ObservableList<BuyItem> items = new ObservableList<BuyItem> ();
 			public short offset;
 			public short lastslot;
 			public short selection;
@@ -790,7 +815,9 @@ namespace ms
 				offset = 0;
 				lastslot = 0;
 				selection = -1;
-			}
+
+                _fgui_Shop?.Refresh();
+            }
 
 			public void draw (Point_short parentpos, Texture selected)
 			{
@@ -832,9 +859,12 @@ namespace ms
 				items.Add (item);
 
 				lastslot++;
-			}
 
-			public void buy ()
+                _fgui_Shop?.Refresh();
+
+            }
+
+            public void buy ()
 			{
 				if (selection < 0 || selection >= lastslot)
 				{
@@ -897,24 +927,27 @@ namespace ms
 			}
 		}
 
-		private BuyState buystate = new BuyState ();
+		public BuyState buystate = new BuyState ();
 
-		private class SellState
+		public class SellState
 		{
-			public List<SellItem> items = new List<SellItem> ();
+			public ObservableList<SellItem> items = new ObservableList<SellItem>();
+			//public List<SellItem> items = new List<SellItem> ();
 			public short offset;
 			public InventoryType.Id tab;
 			public short lastslot;
 			public short selection;
 
 			public void reset ()
-			{
-				items.Clear ();
-
-				offset = 0;
-				lastslot = 0;
-				selection = -1;
+            {
+                AppDebug.Log($"reset items:{items.GetHashCode()}");
+                items.Clear ();
+                offset = 0;
+                lastslot = 0;
+                selection = -1;
 				tab = InventoryType.Id.NONE;
+
+				_fgui_Shop?.Refresh();
 			}
 
 			public void change_tab (Inventory inventory, InventoryType.Id newtab, Texture meso)
@@ -930,7 +963,6 @@ namespace ms
 				for (short i = 1; i <= slots; i++)
 				{
 					int item_id = inventory.get_item_id (tab, i);
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 					if (item_id != 0)
 					{
 						short count = inventory.get_item_count (tab, i);
@@ -939,7 +971,9 @@ namespace ms
 				}
 
 				lastslot = (short)items.Count;
-			}
+
+                _fgui_Shop?.Refresh();
+            }
 
 			public void draw (Point_short parentpos, Texture selected)
 			{
@@ -1053,7 +1087,7 @@ namespace ms
 			}
 		}
 
-		private SellState sellstate = new SellState ();
+		public SellState sellstate = new SellState ();
 	}
 }
 

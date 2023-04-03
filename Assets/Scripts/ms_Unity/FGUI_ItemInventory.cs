@@ -22,7 +22,7 @@ namespace ms_Unity
         public FGUI_Itemed_ItemDetail _Itemed_ItemDetail;
         public FGUI_StatsInfo _StatsInfo;
         public FGUI_SetupUseButtons _SetupUseButtons;
-        public const string URL = "ui://4916gthqsqkc38";
+        public const string URL = "ui://4916gthqfokuolp";
 
         public static FGUI_ItemInventory CreateInstance()
         {

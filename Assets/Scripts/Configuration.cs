@@ -29,6 +29,7 @@ namespace ms
 			settings.emplace<SFXVolume> ();
 			settings.emplace<SaveLogin> ();
 			settings.emplace<DefaultAccount> ();
+			settings.emplace<DefaultPassword> ();
 			settings.emplace<DefaultWorld> ();
 			settings.emplace<DefaultChannel> ();
 			settings.emplace<DefaultRegion> ();
@@ -105,6 +106,7 @@ namespace ms
 						}
 					}
 				}
+				file.Close ();
 			}
 			catch (Exception ex)
             {
@@ -148,6 +150,7 @@ namespace ms
 						writer.WriteLine ($"{setting.Value.name} = {setting.Value.value}");
 					}
 				}
+				config.Close ();
 			}
 		}
 
@@ -427,6 +430,10 @@ namespace ms
 				this.value = v;
 			}
 
+			protected void save ()
+			{
+				Configuration.get ().save ();
+			}
 			public string name;
 			public string value;
 
@@ -446,6 +453,7 @@ namespace ms
 			public void save (bool b)
 			{
 				value = b ? "true" : "false";
+				base.save ();
 			}
 
 			public bool load ()
@@ -464,6 +472,8 @@ namespace ms
 			public void save (string str)
 			{
 				value = str;
+				base.save ();
+
 			}
 
 			public string load ()
@@ -483,6 +493,8 @@ namespace ms
 			public void save (Point_short vec)
 			{
 				value = vec.to_string ();
+				base.save ();
+
 			}
 
 			public Point_short load ()
@@ -507,6 +519,8 @@ namespace ms
 			public void save (T num)
 			{
 				value = Convert.ToString (num);
+				base.save ();
+
 			}
 
 			public T load ()
@@ -685,7 +699,12 @@ namespace ms
 		{
 		}
 	}
-
+	public class DefaultPassword : Configuration.StringEntry
+	{
+		public DefaultPassword () : base ("DefaultPassword", "")
+		{
+		}
+	}
 	// The last used world
 	public class DefaultWorld : Configuration.ByteEntry
 	{

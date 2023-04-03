@@ -526,12 +526,16 @@ namespace ms
 	// The climbing state
 	public class PlayerClimbState : PlayerState
 	{
+		bool enterClimb = false;
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void initialize(Player& player) const override
 		public override void initialize (Player player)
 		{
 			player.get_phobj ().type = PhysicsObject.Type.FIXATED;
-		}
+
+			// 刚进入爬绳子状态，就要取消跳，避免（如果按着上和方向键不放松）之后又从绳子上跳下
+			player.send_action(KeyAction.Id.JUMP, false);
+        }
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void send_action(Player&, KeyAction::Id, bool) const override
@@ -543,6 +547,7 @@ namespace ms
 //ORIGINAL LINE: void update(Player& player) const override
 		public override void update (Player player)
 		{
+			//AppDebug.Log($"JUMP down:{player.is_key_down(KeyAction.Id.JUMP)}\t haswalkinput:{haswalkinput(player)}");
 			if (player.is_key_down (KeyAction.Id.UP) && !player.is_key_down (KeyAction.Id.DOWN))
 			{
 				player.get_phobj ().vspeed = -player.get_climbforce ();

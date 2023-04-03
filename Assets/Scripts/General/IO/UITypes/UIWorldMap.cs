@@ -23,7 +23,8 @@ namespace ms
 		public UIWorldMap ()
 		{
 			//this.UIDragElement<PosMAP> = new <type missing>();
-			WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
+			//WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
+			WzObject close = ms.wz.wzFile_ui["UIWindow3.img"]?["Scenario"]?["BtClose"];
 			WzObject WorldMap = ms.wz.wzFile_ui["UIWindow2.img"]["WorldMap"];
 			WzObject WorldMapSearch = WorldMap["WorldMapSearch"];
 			WzObject Border = WorldMap["Border"]["0"];

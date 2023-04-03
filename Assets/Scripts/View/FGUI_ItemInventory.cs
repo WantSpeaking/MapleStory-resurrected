@@ -238,7 +238,7 @@ namespace ms_Unity
 		private void OnClick_Btn_Meso (EventContext context)
 		{
 			var dropCount = Math.Min (ms.Stage.Instance.get_player ().get_inventory ().get_meso (), 50000);
-			FGUI_EnterNumber.ShowNotice ("ÄúÏëÈÓ³ö¶àÉÙ½ğ±Ò£¿", (meso) => new MesoDropPackets (meso).dispatch (), (int)dropCount, (int)dropCount);
+			FGUI_EnterNumber.ShowNotice ("æ‚¨æƒ³æ‰”å‡ºå¤šå°‘é‡‘å¸ï¼Ÿ", (meso) => new MesoDropPackets (meso).dispatch (), (int)dropCount, (int)dropCount);
 		}
 		private void DropMeso (int count)
 		{
@@ -382,7 +382,7 @@ namespace ms_Unity
 
 			sb.AppendLine (itemTooltip.name.get_text ());
 
-			//ÊıÁ¿
+			//æ•°é‡
 			if (itemTooltip.untradable || itemTooltip.unique)
 			{
 				sb.AppendLine (itemTooltip.qual.get_text ());
@@ -413,32 +413,32 @@ namespace ms_Unity
 
 			sb.AppendLine (equipTooltip.name.get_text ());
 
-			//×°±¸´©´÷Ìõ¼ş
-			sb.AppendLine ($"´©´÷Ìõ¼ş:");
+			//è£…å¤‡ç©¿æˆ´æ¡ä»¶
+			sb.AppendLine ($"ç©¿æˆ´æ¡ä»¶:");
 			foreach (MapleStat.Id ms in equipTooltip.requirements)
 			{
 				Point_short reqpos = equipTooltip.reqstatpositions[ms];
 				bool reqok = equipTooltip.canequip[ms];
-				sb.AppendLine ($"\tĞèÒª {ms} {equipTooltip.reqstatstrings[ms]}£¬ {(reqok ? "Âú×ã" : "²»Âú×ã")}");
+				sb.AppendLine ($"\téœ€è¦ {ms} {equipTooltip.reqstatstrings[ms]}ï¼Œ {(reqok ? "æ»¡è¶³" : "ä¸æ»¡è¶³")}");
 			}
 
-			//ÄÄĞ©Ö°Òµ¿ÉÒÔ´©´÷
-			sb.Append ("¿ÉÒÔ´©´÷µÄÖ°Òµ:");
+			//å“ªäº›èŒä¸šå¯ä»¥ç©¿æˆ´
+			sb.Append ("å¯ä»¥ç©¿æˆ´çš„èŒä¸š:");
 			foreach (var jbit in equipTooltip.okjobs)
 			{
 				sb.Append (jbit);
 			}
 			sb.AppendLine ();
-			//×°±¸Àà±ğ
+			//è£…å¤‡ç±»åˆ«
 			sb.AppendLine (equipTooltip.category.get_text ());
 
-			//ÎäÆ÷ËÙ¶È
+			//æ­¦å™¨é€Ÿåº¦
 			if (equipTooltip.is_weapon)
 			{
 				sb.AppendLine (equipTooltip.wepspeed.get_text ());
 			}
 
-			//Ôö¼ÓµÄÊôĞÔ
+			//å¢åŠ çš„å±æ€§
 			foreach (var label in equipTooltip.statlabels.dict.Values)
 			{
 				if (label?.empty () ?? true)
@@ -448,25 +448,25 @@ namespace ms_Unity
 				sb.AppendLine (label.get_text ());
 			}
 
-			//Éı¼¶´ÎÊı
+			//å‡çº§æ¬¡æ•°
 			if (equipTooltip.hasslots)
 			{
 				sb.AppendLine (equipTooltip.slots.get_text ());
 			}
 
-			//ÃèÊö
+			//æè¿°
 			if (equipTooltip.hasdesc)
 			{
 				sb.AppendLine (equipTooltip.desc.get_text ());
 			}
 
-			//Ï¡ÓĞ¶È±êÇ©
+			//ç¨€æœ‰åº¦æ ‡ç­¾
 			if (!equipTooltip.potflag.empty ())
 			{
 				sb.AppendLine (equipTooltip.potflag.get_text ());
 			}
 
-			//Ê¹ÓÃµÄ½ğ´¸×Ó
+			//ä½¿ç”¨çš„é‡‘é”¤å­
 			sb.AppendLine (equipTooltip.hammers.get_text ());
 
 			_Itemed_ItemDetail._txt_equipStat.text = sb.ToString ();
@@ -488,7 +488,7 @@ namespace ms_Unity
 		{
 			OnCollectionChanged (sender, e, contentETC, InventoryType.Id.ETC);
 
-			//item ÓĞ±ä»¯ 
+			//item æœ‰å˜åŒ– 
 			ms.Stage.get ().UpdateQuest ();
 		}
 
@@ -501,7 +501,7 @@ namespace ms_Unity
 		{
 			OnCollectionChanged (sender, e, contentUSE, InventoryType.Id.USE);
 
-			//Uses ÓĞ±ä»¯ 
+			//Uses æœ‰å˜åŒ– 
 			ms.Stage.get ().UpdateQuest ();
 		}
 

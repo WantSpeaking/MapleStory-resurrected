@@ -18,8 +18,8 @@ namespace ms
 			public Effect (WzObject src)
 			{
 				animation = src;
-				pos = (sbyte)src["pos"];
-				z = (sbyte)src["z"];
+				pos = (sbyte)(src?["pos"]??0);
+				z = (sbyte)(src?["z"]??0);
 			}
 
 			public void apply (Mob target, bool flip)
@@ -101,12 +101,10 @@ namespace ms
 			foreach (var sub in src["CharLevel"])
 			{
 				var level = string_conversion.or_zero<ushort> (sub.Name);
-				effects.Add (level, new BoolPair<Effect> (new Effect (sub["hit"]["0"]), new Effect (sub["hit"]["1"])));
+				effects.Add (level, new BoolPair<Effect> (new Effect (sub["hit"]?["0"]), new Effect (sub["hit"]?["1"])));
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void apply(const AttackUser& user, Mob& target) const override
 		public override void apply (AttackUser user, Mob target)
 		{
 			if (effects.Count == 0)

@@ -59,7 +59,11 @@ namespace ms
                     this.name = string.Empty;
                     valid = mapid < 999999999;
                 }*/
-        }
+            public override string ToString ()
+            {
+	            return $"WarpInfo mapid:{mapid}\t intramap:{intramap}\t toname:{toname}\t name:{name}\t script:{script}";
+            }
+		}
 
 		public Portal (Animation a, Type t, string nm, bool intramap, Point_short p, int tid, string tnm, string script = null)
 		{

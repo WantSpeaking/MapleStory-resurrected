@@ -148,7 +148,7 @@ namespace ms
 		{
 			InventoryType.Id type = InventoryType.by_item_id (itemid);
 			short slot = inventory.find_item (type, itemid);
-			if (slot != null)
+			if (slot != 0)
 			{
 				if (type == InventoryType.Id.USE)
 				{

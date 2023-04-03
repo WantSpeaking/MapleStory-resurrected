@@ -17,6 +17,7 @@ namespace ms_Unity
         public void OnVisiblityChanged(bool isVisible)
         {
             ms_Unity.FGUI_Manager.Instance.PanelOpening = isVisible;
+			_ItemInventory._StatsInfo.Refresh();
         }
     }
 }

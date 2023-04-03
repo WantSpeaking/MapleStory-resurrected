@@ -235,7 +235,7 @@ namespace MapleLib.WzLib.WzProperties
 
         public override Bitmap GetBitmap()
         {
-            return LinkValue.GetBitmap();
+            return LinkValue?.GetBitmap();
         }
 
         public override byte[] GetBytes()

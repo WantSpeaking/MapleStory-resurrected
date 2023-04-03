@@ -32,14 +32,14 @@ namespace ms_Unity
             _c_QuestState = GetControllerAt(0);
             _c_SetupAction = GetControllerAt(1);
             _NavigationBar = (FGUI_NavigationBar)GetChildAt(1);
-            _Txt_Desc = (GTextField)GetChildAt(7);
-            _GList_QuestInfo_Available = (GList)GetChildAt(8);
-            _GList_QuestInfo_in_progress = (GList)GetChildAt(9);
-            _Btn_ForfeitQuest = (GButton)GetChildAt(10);
-            _In_progress = (GGroup)GetChildAt(11);
-            _GList_QuestInfo_completed = (GList)GetChildAt(12);
-            _Txt_mob = (GTextField)GetChildAt(13);
-            _Txt_item = (GTextField)GetChildAt(14);
+            _Txt_Desc = (GTextField)GetChildAt(6);
+            _GList_QuestInfo_Available = (GList)GetChildAt(7);
+            _GList_QuestInfo_in_progress = (GList)GetChildAt(8);
+            _Btn_ForfeitQuest = (GButton)GetChildAt(9);
+            _In_progress = (GGroup)GetChildAt(10);
+            _GList_QuestInfo_completed = (GList)GetChildAt(11);
+            _Txt_mob = (GTextField)GetChildAt(12);
+            _Txt_item = (GTextField)GetChildAt(13);
             OnCreate();
 
         }

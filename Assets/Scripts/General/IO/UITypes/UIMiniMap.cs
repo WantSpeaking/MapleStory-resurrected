@@ -10,7 +10,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
-	[Skip]
+	//[Skip]
 	public class UIMiniMap : UIDragElement<PosMINIMAP>
 	{
 		public const UIElement.Type TYPE = UIElement.Type.MINIMAP;
@@ -21,7 +21,6 @@ namespace ms
 
 		public UIMiniMap (CharStats stats) : base (new Point_short (128, 20))
 		{
-			//this.UIDragElement<PosMINIMAP> = new Point_short(128, 20);
 			this.stats = stats;
 			big_map = true;
 			has_map = false;
@@ -58,7 +57,7 @@ namespace ms
 
 		public override void draw (float alpha)
 		{
-			/*if (type == (int)Type.MIN)
+			if (type == (int)Type.MIN)
 			{
 				foreach (var sprite in min_sprites)
 				{
@@ -119,12 +118,12 @@ namespace ms
 				}
 			}
 
-			base.draw (alpha);*/
+			base.draw (alpha);
 		}
 
 		public override void update ()
 		{
-			/*int mid = Stage.get ().get_mapid ();
+			int mid = Stage.get ().get_mapid ();
 
 			if (mid != mapid)
 			{
@@ -199,7 +198,7 @@ namespace ms
 				selected_marker.update ();
 			}
 
-			base.update ();*/
+			base.update ();
 		}
 
 		public override void remove_cursor ()
@@ -337,8 +336,6 @@ namespace ms
 			}
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: UIElement::Type get_type() const override
 		public override UIElement.Type get_type ()
 		{
 			return TYPE;
@@ -628,8 +625,6 @@ namespace ms
 			max_dimensions = normal_dimensions + new Point_short (0, MAX_ADJ);
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw_movable_markers(Point_short init_pos, float alpha) const
 		private void draw_movable_markers (Point_short init_pos, float alpha)
 		{
 			if (!has_map)

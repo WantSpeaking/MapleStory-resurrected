@@ -107,7 +107,6 @@ namespace ms
 			drops.clear ();
 			reactors.clear ();
 			TestURPBatcher.Instance.Clear ();
-			ms_Unity.FGUI_Manager.Instance.CloseAll ();
 		}
 
 		private void load_map (int mapid)
@@ -163,7 +162,7 @@ namespace ms
 			MapleStory.Instance.viewy = viewy;
 			MapleStory.Instance.alpha = alpha;
 
-			backgrounds?.drawbackgrounds (viewx, viewy, alpha);
+			//backgrounds?.drawbackgrounds (viewx, viewy, alpha);
 			foreach (ms.Layer.Id id in Enum.GetValues (typeof (ms.Layer.Id)))
 			{
 				tilesobjs?.draw (id, new Point_short (viewpos), alpha);
@@ -176,7 +175,7 @@ namespace ms
 			}
 			combat?.draw (viewx, viewy, alpha);
 			portals?.draw (new Point_short (viewpos), alpha);
-			backgrounds?.drawforegrounds (viewx, viewy, alpha);
+			//backgrounds?.drawforegrounds (viewx, viewy, alpha);
 			effect?.draw ();
 		}
 

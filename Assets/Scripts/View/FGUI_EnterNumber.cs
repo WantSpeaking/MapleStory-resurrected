@@ -107,9 +107,9 @@ namespace ms_Unity
 
 			thisNotice.Center ();
 
-			thisNotice._tet_message.text = message;
+			thisNotice._tet_Title.text = message;
 
-			thisNotice._gTextInput_Number.text = m.ToString ();
+			thisNotice._gTextInput_Number.text = quantity.ToString ();
 		}
 	}
 }

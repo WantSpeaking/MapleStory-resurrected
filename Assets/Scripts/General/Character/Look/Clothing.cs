@@ -239,7 +239,7 @@ namespace ms
 								//AppDebug.Log ($"stances.Add: stance:{stance}\t z:{z}\t frame:{frame} \t tempTexture:{tempTexture.fullPath}\t itemid:{itemid}\t index:{index}\t indexTest:{indexTest}\t eqslot:{eqslot}\t chlayer:{chlayer}\t zs:{zs}\t category:{category}");
 							}
 
-							stances[stance][z].Add (frame, tempTexture);
+							stances[stance][z].TryAdd (frame, tempTexture);
 						}
 					}
 				}

@@ -1560,7 +1560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DrawOrder: 0
   enableDebugPacket: 1
-  TestMode: 1
+  TestMode: 0
   TestAccount: admin2
   TestPassword: admin2
 --- !u!114 &609587592
