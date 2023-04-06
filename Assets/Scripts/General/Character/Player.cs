@@ -5,6 +5,7 @@ using client;
 using constants.skills;
 using server.quest;
 using UnityEngine;
+using Utility;
 
 namespace ms
 {
@@ -337,7 +338,7 @@ namespace ms
 				return SpecialMove.ForbidReason.FBR_NoWeapon;
 			}
 
-			if (move.is_skill () && state == State.PRONE)
+			if (move.is_skill ()&& !move.is_teleportSkill() && state == State.PRONE)
 			{
 				return SpecialMove.ForbidReason.FBR_IsProningNowCantSkill;
 			}
@@ -459,8 +460,28 @@ namespace ms
 			}
 		}
 
-		// Check whether the player is invincible
-		public override bool is_invincible ()
+        public void rushXY(double targetx, double targety)
+        {
+            if (phobj.onground)
+            {
+                ushort delay = get_attackdelay(1);
+				//phobj.set_x(targetx);
+                //phobj.set_y(targety);
+
+                phobj.limitx(targetx);
+                phobj.limity(targety);
+                //phobj.movexuntil(targetx, delay);
+                //phobj.moveyuntil(targety, delay);
+                //phobj.set_flag(PhysicsObject.Flag.TURNATEDGES);//turn at edges
+                //phobj.set_flag(PhysicsObject.Flag.CHECKBELOW);//turn at edges
+
+                //phobj.set_flag(PhysicsObject.Flag.NOGRAVITY);//turn at edges
+
+            }
+        }
+
+        // Check whether the player is invincible
+        public override bool is_invincible ()
 		{
 			if (state == State.DIED)
 			{

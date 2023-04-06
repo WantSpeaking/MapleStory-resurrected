@@ -52,9 +52,10 @@ namespace ms_Unity
 
 			_Btn_Jump.onClick.Add (OnClick_Btn_Jump);
 			_Btn_Dodge.onClick.Add (OnClick_Btn_Dodge);
-			_Btn_PickUp.onClick.Add (OnClick_Btn_PickUp);
+            _Btn_PickUp.onTouchBegin.Add(OnTouchBegin_Btn_PickUp);
+            _Btn_PickUp.onTouchMove.Add(OnTouchEnd_Btn_PickUp);
 
-			_Btn_Skill1.Key = KeyConfig.Key.NUM1;
+            _Btn_Skill1.Key = KeyConfig.Key.NUM1;
 			_Btn_Skill2.Key = KeyConfig.Key.NUM2;
 			_Btn_Skill3.Key = KeyConfig.Key.NUM3;
 			_Btn_Skill4.Key = KeyConfig.Key.NUM4;
@@ -153,10 +154,19 @@ namespace ms_Unity
 
 		private void OnClick_Btn_PickUp (EventContext context)
 		{
-			ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.PICKUP, true);
+			
 		}
+        private void OnTouchBegin_Btn_PickUp(EventContext context)
+		{
+            ms.Stage.get().send_key(KeyType.Id.ACTION, (int)KeyAction.Id.PICKUP, true);
+        }
 
-		private void OnClick_Btn_Jump (EventContext context)
+        private void OnTouchEnd_Btn_PickUp(EventContext context)
+        {
+            ms.Stage.get().send_key(KeyType.Id.ACTION, (int)KeyAction.Id.PICKUP, false);
+        }
+
+        private void OnClick_Btn_Jump (EventContext context)
 		{
 			ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.JUMP, true);
 		}

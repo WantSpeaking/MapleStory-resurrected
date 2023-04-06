@@ -727,7 +727,14 @@ PlayerSettings:
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Build: 0
+    Collab: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -747,7 +754,7 @@ PlayerSettings:
   apiCompatibilityLevel: 3
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: f637b211-b22e-4efd-9964-579d6831f1d8
+  cloudProjectId: 98d23489-3a59-4543-ae61-c23c6f5ad7b5
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames:
   - Very Low
@@ -756,8 +763,8 @@ PlayerSettings:
   - High
   - Very High
   - Ultra
-  projectName: 
-  organizationId: 
+  projectName: ForeverStory
+  organizationId: flytoelysium
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

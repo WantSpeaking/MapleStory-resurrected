@@ -62,7 +62,14 @@ namespace ms
 
 		public virtual bool is_attack () { return false; }
 		public virtual bool is_skill () { return false; }
-		public virtual int get_id () { return 0; }
+        public virtual bool is_teleportSkill() 
+		{ 
+			if(get_id() == (int)SkillId.Id.TELEPORT_FP || get_id() == (int)SkillId.Id.IL_TELEPORT || get_id() == (int)SkillId.Id.PRIEST_TELEPORT)
+			return true; 
+			return false;
+        }
+
+        public virtual int get_id () { return 0; }
 
 		public virtual bool has_skillPrepareEffect () { return false; }
 		public virtual ForbidReason can_use (int level, Weapon.Type weapon, Job job, ushort hp, ushort mp, ushort bullets) { return ForbidReason.FBR_NONE; }

@@ -497,7 +497,7 @@ namespace ms
 					float chance = (property_Skillwz_000img_skill_11111004_level_1["prop"] ?? 100f) / 100;
 					float critical = 0.0f;
 					float ignoredef = 0.0f;
-					float hrange = (property_Skillwz_000img_skill_11111004_level_1["range"] ?? 100f) / 100;
+					float hrange = (property_Skillwz_000img_skill_11111004_level_1["range"] ?? 100f) / 100f;
 					Rectangle_short range = new Rectangle_short (property_Skillwz_000img_skill_11111004_level_1);
 					int level = string_conversion.or_default (property_Skillwz_000img_skill_11111004_level_1.Name, -1);
 					stats.Add (level, new Stats (damage, mad, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range));

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
+using ms_Unity;
+using RuntimeEditor.Examples;
 using SD.Tools.Algorithmia.GeneralDataStructures;
-
-
-
-
+using UnityEngine;
 
 namespace ms
 {
@@ -316,8 +315,9 @@ namespace ms
 				AppDebug.Log ($"{move_id} 不是技能");
 				move.apply_useeffects (player);
 				move.apply_actions (player, Attack.Type.Magic);
+                apply_use_movement(move);
 
-				int moveid = move.get_id ();
+                int moveid = move.get_id ();
 				int level = player.get_skills ().get_level (moveid);
 				new UseSkillPacket (moveid, level).dispatch ();
 			}
@@ -383,13 +383,50 @@ namespace ms
 				case SkillId.Id.TELEPORT_FP:
 				case SkillId.Id.IL_TELEPORT:
 				case SkillId.Id.PRIEST_TELEPORT:
-				case SkillId.Id.FLASH_JUMP:
+					apply_TELEPORT_movement((Skill)move);
+                    break;
+                case SkillId.Id.FLASH_JUMP:
+
 				default:
 					break;
 			}
 		}
 
-		public void apply_result_movement (SpecialMove move, AttackResult result)
+		public void apply_TELEPORT_movement(Skill skill)
+		{
+			var skillID = skill.get_id ();
+			var skillLevel = player.get_skilllevel(skillID);
+			var skillData = SkillData.get(skillID);
+			var stats = skillData.get_stats(skillLevel);
+			var hrange = stats.hrange * 100f;
+
+            Point_short pos = player.get_position();
+
+			var moveX =  hrange * (player.is_key_down( KeyAction.Id.RIGHT) ? 1 : (player.is_key_down(KeyAction.Id.LEFT)?-1:0));
+            var moveY = hrange * (player.is_key_down(KeyAction.Id.DOWN) ? 1 : (player.is_key_down(KeyAction.Id.UP) ? -1 : 0));
+			if (Mathf.Abs( moveX) < 0.2f && Mathf.Abs(moveY) < 0.2f)
+			{
+                moveX = hrange * (player.facing_right ? 1 : -1);
+            }
+			AppDebug.Log($"moveX:{moveX}\t moveY:{moveY}");
+            var targetX = pos.x() + moveX ;
+            var targetY = pos.y() + moveY;
+            //player.rushXY(targetX, targetY);
+
+			var targetPos = ms.Stage.get().GetFootholdTree().get_fhid_vertical(targetX, targetY);
+			if (targetPos.Item1 != 0 && targetPos.Item2 != 0)
+			{
+                //AppDebug.Log($"a:{Mathf.Pow((float)(targetPos.Item1 - pos.x()), 2)}\t b:{Mathf.Pow((float)(targetPos.Item2 - pos.y()), 2)}\t c:{Mathf.Pow(hrange, 2)*1.5}");
+                if (Mathf.Pow((float)(targetPos.Item1 - pos.x()), 2) + Mathf.Pow((float)(targetPos.Item2 - pos.y()), 2) <= Mathf.Pow(hrange, 2)*1.5)
+                {
+                    player.rushXY(targetPos.Item1, targetPos.Item2);
+                }
+            }
+			
+            //player.rush(targetX);
+        }
+
+        public void apply_result_movement (SpecialMove move, AttackResult result)
 		{
 			switch ((SkillId.Id)move.get_id ())
 			{

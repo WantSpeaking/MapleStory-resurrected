@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using MapleLib.WzLib;
 using SD.Tools.Algorithmia.GeneralDataStructures;
-
-
-
-
+using UnityEngine;
 
 namespace ms
 {
@@ -336,8 +333,89 @@ namespace ms
 
 			return ret;
 		}
+        public (double,double) get_fhid_vertical(double fx, double fy)
+        {
+            ushort bottomId = 0;
+            ushort topId = 0;
 
-		private double get_wall (ushort curid, bool left, double fy)
+            double top = borders.first();
+            double bottom = borders.second();
+
+			if (fx < walls.smaller())
+			{
+				fx = walls.smaller();
+            }
+            if (fx > walls.greater())
+            {
+                fx = walls.greater();
+            }
+            if (fy < borders.smaller())
+            {
+                fy = borders.smaller();
+            }
+            if (fy > borders.greater())
+            {
+                fy = borders.greater();
+            }
+
+            var ret = (0d, 0d);
+            short x = (short)fx;
+
+            if (footholdsbyx.TryGetValue(x, out var range))
+            {
+                foreach (var iter in range)
+                {
+                    Foothold fh = footholds[(ushort)iter];
+                    double ycomp = fh.ground_below(fx);
+
+                    if (bottom >= ycomp && ycomp >= fy)
+                    {
+                        bottom = ycomp;
+                        bottomId = fh.id();
+                    }
+
+                    if (fy >= ycomp && ycomp >= top)
+                    {
+                        top = ycomp;
+                        topId = fh.id();
+                    }
+                }
+            }
+
+			if (topId != 0 && bottomId != 0)
+			{
+				ret = (fx,(Math.Abs(fy - top) < Math.Abs(bottom - fy)) ? top-1 : bottom-1);
+			}
+			else if(topId != 0)
+			{
+				ret = (fx,top-1);
+            }
+            else if (bottomId != 0)
+            {
+                ret = (fx,bottom-1);
+            }
+
+            //var range = new Range_short (x,y);	
+            //var range = footholdsbyx.equal_range (x);
+
+
+            /*for (var iter = range.first(); iter != range.second(); ++iter)
+			{
+				Foothold fh = footholds[(ushort)iter];
+				double ycomp = fh.ground_below (fx);
+
+				if (comp >= ycomp && ycomp >= fy)
+				{
+					comp = ycomp;
+					ret = fh.id ();
+				}
+			}*/
+
+            return ret;
+        }
+
+
+        private double get_wall (ushort curid, bool left, double fy)
 		{
 			var shorty = (short)fy;
 			Range_short vertical = new Range_short ((short)(shorty - 50), (short)(shorty - 1));

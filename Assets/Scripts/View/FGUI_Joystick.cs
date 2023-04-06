@@ -177,7 +177,7 @@ namespace ms_Unity
 				_button.SetXY (buttonX - _button.width / 2, buttonY - _button.height / 2);
 
 				this.onMove.Call (degree);
-				__joystickMove (degree);
+				__joystickMove (degree, offsetX, offsetY);
 			}
 		}
 
@@ -194,11 +194,60 @@ namespace ms_Unity
 			UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY (KeyCode.RightArrow), false);
 		}
 
-		private void __joystickMove (float degree)
+		public static float OffsetX;
+		public static float OffsetY;
+
+        private void __joystickMove (float degree,float offsetX,float offsetY)
 		{
 			ReleaseKey ();
+			//AppDebug.Log($"degree:{degree}\t offsetX：{offsetX}\t offsetY:{offsetY}");
+			OffsetX = offsetX;
+			OffsetY = offsetY;
 
-			var absDegree = Math.Abs (degree);
+            var absDegree = Math.Abs(degree);
+            if (absDegree > 45 && absDegree < 135)
+            {
+                if (degree < 0)
+                {
+                    //AppDebug.Log ($"up");
+                    UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.UpArrow), true);
+
+                }
+                else
+                {
+                    //AppDebug.Log ($"down");
+                    UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.DownArrow), true);
+
+                }
+            }
+
+            if (absDegree > 0 && absDegree < 90)
+            {
+                UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.RightArrow), true);
+            }
+            else if (absDegree > 90 && absDegree < 180)
+            {
+                UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.LeftArrow), true);
+            }
+            /*           if (offsetX > 0)
+                       {
+                           UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.RightArrow), true);
+                       }
+                       else
+                       {
+                           UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.LeftArrow), true);
+                       }
+
+                       if (offsetY > 0)
+                       {
+                           UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.DownArrow), true);
+                       }
+                       else
+                       {
+                           UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.UpArrow), true);
+                       }*/
+
+            /*var absDegree = Math.Abs (degree);
 			if (absDegree > 0 && absDegree < 45)
 			{
 				//AppDebug.Log ($"right");
@@ -226,8 +275,8 @@ namespace ms_Unity
 				UI.get ().send_key (GLFW_Util.UnityKeyCodeToGLFW_KEY (KeyCode.LeftArrow), true);
 
 			}
-
-		}
+*/
+        }
 
 		public void EnterChargePhase (Dictionary<string, string> SkillId_Name_Dict)
 		{

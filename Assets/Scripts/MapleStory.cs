@@ -24,6 +24,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	string message;
 	private void Start ()
 	{
+		DebugManager.instance.enableRuntimeUI = false;
 		/* wzFileManager = new WzFileManager();
 		 var wzFile = wzFileManager.LoadWzFile(path);
 		 var wzObject = wzFile.GetObjectFromPath(subPath);

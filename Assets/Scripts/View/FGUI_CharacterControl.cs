@@ -12,23 +12,23 @@ namespace ms_Unity
 	{
 		public void OnCreate ()
 		{
-			_Joystick.onMove.Add (__joystickMove);
-			_Joystick.onEnd.Add (__joystickEnd);
+			/*_Joystick.onMove.Add (__joystickMove);
+			_Joystick.onEnd.Add (__joystickEnd);*/
 
 		}
 
 		
-		private void __joystickEnd (EventContext context)
+		/*private void __joystickEnd (EventContext context)
 		{
 			ReleaseKey ();
 		}
 
 		void ReleaseKey ()
 		{
-/*			UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Up), false);
+*//*			UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Up), false);
 			UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Down), false);
 			UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Left), false);
-			UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Right), false);*/
+			UI.get ().send_key (GLFW_Util.XNAKeyCodeToGLFW_KEY (Keys.Right), false);*//*
 		}
 
 		private void __joystickMove (EventContext context)
@@ -36,7 +36,6 @@ namespace ms_Unity
 			ReleaseKey ();
 
 			float degree = (float)context.data;
-
 
 			var absDegree = Math.Abs (degree);
 			if (absDegree > 0 && absDegree < 45)
@@ -67,6 +66,6 @@ namespace ms_Unity
 
 			}
 
-		}
+		}*/
 	}
 }
