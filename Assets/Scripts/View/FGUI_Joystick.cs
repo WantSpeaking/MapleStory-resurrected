@@ -205,6 +205,71 @@ namespace ms_Unity
 			OffsetY = offsetY;
 
             var absDegree = Math.Abs(degree);
+            if (absDegree > 0 && absDegree < 11.25)
+            {
+                //AppDebug.Log ($"right");
+                UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.RightArrow), true);
+            }
+            else if (absDegree > 22.5 && absDegree < 67.5)
+            {
+                UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.RightArrow), true);
+
+                if (degree < 0)
+                {
+                    //AppDebug.Log ($"up");
+                    UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.UpArrow), true);
+
+                }
+                else
+                {
+                    //AppDebug.Log ($"down");
+                    UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.DownArrow), true);
+
+                }
+            }
+            else
+            if (absDegree > 67.5 && absDegree <= 112.5)
+            {
+                if (degree < 0)
+                {
+                    //AppDebug.Log ($"up");
+                    UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.UpArrow), true);
+
+                }
+                else
+                {
+                    //AppDebug.Log ($"down");
+                    UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.DownArrow), true);
+
+                }
+
+            }
+            else
+            if (absDegree > 112.5 && absDegree <= 157.5)
+            {
+                //AppDebug.Log ($"left");
+                UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.LeftArrow), true);
+                if (degree < 0)
+                {
+                    //AppDebug.Log ($"up");
+                    UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.UpArrow), true);
+
+                }
+                else
+                {
+                    //AppDebug.Log ($"down");
+                    UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.DownArrow), true);
+
+                }
+            }
+            else
+            if (absDegree > 157.5 && absDegree <= 180)
+            {
+                //AppDebug.Log ($"left");
+                UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.LeftArrow), true);
+
+            }
+            /*var absDegree = Math.Abs(degree);
             if (absDegree > 45 && absDegree < 135)
             {
                 if (degree < 0)
@@ -228,7 +293,7 @@ namespace ms_Unity
             else if (absDegree > 90 && absDegree < 180)
             {
                 UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.LeftArrow), true);
-            }
+            }*/
             /*           if (offsetX > 0)
                        {
                            UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.RightArrow), true);
