@@ -29,8 +29,17 @@ namespace constants.skills
 	{
 		public const int IMPROVE_MAX_HP = 5100000;
 		public const int KNUCKLER_MASTERY = 5100001;
+		/// <summary>
+		/// 回马
+		/// </summary>
 		public const int BACK_SPIN_BLOW = 5101002;
+		/// <summary>
+		/// 升龙
+		/// </summary>
 		public const int DOUBLE_UPPERCUT = 5101003;
+		/// <summary>
+		/// 贯骨击
+		/// </summary>
 		public const int CORKSCREW_BLOW = 5101004;
 		public const int MP_RECOVERY = 5101005;
 		public const int KNUCKLER_BOOSTER = 5101006;

@@ -35,6 +35,7 @@ namespace ms_Unity
         public GTextField _Txt_Channel;
         public GTextField _Txt_Time;
         public GProgressBar _ProgressBar_EXP;
+        public GTextField _Txt_Version;
         public GGroup _Bottom;
         public Transition _t_ShowFunctionPanel;
         public Transition _t_HideFunctionPanel;
@@ -77,7 +78,8 @@ namespace ms_Unity
             _Txt_Channel = (GTextField)GetChildAt(35);
             _Txt_Time = (GTextField)GetChildAt(36);
             _ProgressBar_EXP = (GProgressBar)GetChildAt(37);
-            _Bottom = (GGroup)GetChildAt(38);
+            _Txt_Version = (GTextField)GetChildAt(38);
+            _Bottom = (GGroup)GetChildAt(39);
             _t_ShowFunctionPanel = GetTransitionAt(0);
             _t_HideFunctionPanel = GetTransitionAt(1);
             OnCreate();

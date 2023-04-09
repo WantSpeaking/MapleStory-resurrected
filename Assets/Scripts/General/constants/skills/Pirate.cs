@@ -19,14 +19,20 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+using System.Collections.Generic;
+
 namespace constants.skills
 {
-	/// 
-	/// <summary>
-	/// @author BubblesDev
-	/// </summary>
-	public class Pirate
+    /// 
+    /// <summary>
+    /// @author BubblesDev
+    /// </summary>
+    public class Pirate
 	{
-		public const int DASH = 5001005;
+        public const int HundredFist = 5001001;
+        public const int HalfMoonKick = 5001002;
+        public const int DoubleShot = 5001003;
+
+        public const int DASH = 5001005;
 	}
 }

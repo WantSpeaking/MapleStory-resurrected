@@ -31,7 +31,13 @@ namespace constants.skills
 		public const int MESO_UP = 4111001;
 		public const int SHADOW_PARTNER = 4111002;
 		public const int SHADOW_WEB = 4111003;
+		/// <summary>
+		/// 金钱攻击
+		/// </summary>
 		public const int SHADOW_MESO = 4111004;
+		/// <summary>
+		/// 多重飞镖
+		/// </summary>
 		public const int AVENGER = 4111005;
 		public const int FLASH_JUMP = 4111006;
 	}

@@ -23,7 +23,10 @@ namespace ms_Unity
 			_Btn_OpenInventoryPanel.onClick.Add (OnClick_OpenInventoryPanel);
 			_BT_BackToChooseChar.onClick.Add (OnClick_BackToChooseChar);
 			_BT_BackToLogin.onClick.Add (OnClick_BackToLogin);
-		}
+
+			_Txt_Version.SetVar("count", GameUtil.Instance.Version).FlushVars();
+
+        }
 
 		private void OnClick_OpenInventoryPanel (EventContext context)
 		{

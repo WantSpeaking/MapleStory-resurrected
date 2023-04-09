@@ -81,8 +81,8 @@ namespace ms
 
 			var sndsrc = ms.wz.wzFile_sound["Mob.img"][strid];
 
-			hitsound = sndsrc["Damage"];
-			diesound = sndsrc["Die"];
+			hitsound = sndsrc?["Damage"];
+			diesound = sndsrc?["Die"];
 
 			speed += 100;
 			speed *= 0.001f;
@@ -518,7 +518,7 @@ namespace ms
 		// Apply damage to the mob
 		public void apply_damage (int damage, bool toleft, float hforce = 0, float vforce = 0)
 		{
-			hitsound.play ();
+			hitsound?.play ();
 
 			if (dying && stance != MobStance.DIE)
 			{
@@ -649,7 +649,7 @@ namespace ms
 		private void apply_death ()
 		{
 			set_stance (MobStance.DIE);
-			diesound.play ();
+			diesound?.play ();
 			dying = true;
 		}
 

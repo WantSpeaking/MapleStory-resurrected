@@ -29,8 +29,17 @@ namespace constants.skills
 	{
 		public const int STUN_MASTERY = 5110000;
 		public const int ENERGY_CHARGE = 5110001;
-		public const int ENERGY_DRAIN = 5111004;
+        /// <summary>
+        /// 能量爆破
+        /// </summary>
+        public const int ENERGY_Blow = 5110002;
+        public const int ENERGY_DRAIN = 5111004;
 		public const int TRANSFORMATION = 5111005;
-	}
+        /// <summary>
+        /// 碎石攻击
+        /// </summary>
+        public const int RubbleAttack = 5111006;
+
+    }
 
 }

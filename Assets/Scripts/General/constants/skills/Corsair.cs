@@ -29,11 +29,27 @@ namespace constants.skills
 	{
 		public const int MAPLE_WARRIOR = 5221000;
 		public const int ELEMENTAL_BOOST = 5220001;
+		/// <summary>
+		/// 地毯空袭
+		/// </summary>
 		public const int WRATH_OF_THE_OCTOPI = 5220002;
+		/// <summary>
+		/// 金属风暴
+		/// </summary>
 		public const int AERIAL_STRIKE = 5221003;
+		/// <summary>
+		/// 急速射击
+		/// </summary>
 		public const int RAPID_FIRE = 5221004;
 		public const int BATTLE_SHIP = 5221006;
-		public const int HYPNOTIZE = 5221009;
+		/// <summary>
+		/// 鱼雷（重量炮击）
+		/// </summary>
+        public const int Torpedo = 5221008;
+        /// <summary>
+        /// 催眠 心灵控制
+        /// </summary>
+        public const int HYPNOTIZE = 5221009;
 		public const int SPEED_INFUSION = 5221010;
 		public const int BULLSEYE = 5220011;
 	}

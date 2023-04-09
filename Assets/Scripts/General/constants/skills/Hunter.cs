@@ -30,7 +30,8 @@ namespace constants.skills
 		public const int BOW_MASTERY = 3100000;
 		public const int FINAL_ATTACK = 3100001;
 		public const int BOW_BOOSTER = 3101002;
-		public const int SOUL_ARROW = 3101004;
+		public const int StrongBow = 3101003;
+        public const int SOUL_ARROW = 3101004;
 		public const int ARROW_BOMB = 3101005;
 	}
 }

@@ -29,5 +29,7 @@ namespace constants.skills
 	{
 		public const int CRITICAL_SHOT = 3000001;
 		public const int FOCUS = 3001003;
-	}
+		public const int ArrowBow = 3001004;
+		public const int DoubleShoot = 3001005;
+    }
 }

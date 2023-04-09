@@ -29,11 +29,20 @@ namespace constants.skills
 	{
 		public const int MAPLE_WARRIOR = 4121000;
 		public const int SHADOW_SHIFTER = 4120002;
+		/// <summary>
+		/// 挑衅
+		/// </summary>
 		public const int TAUNT = 4121003;
+		/// <summary>
+		/// 忍者伏击
+		/// </summary>
 		public const int NINJA_AMBUSH = 4121004;
 		public const int VENOMOUS_STAR = 4120005;
 		public const int SHADOW_STARS = 4121006;
 		public const int TRIPLE_THROW = 4121007;
+		/// <summary>
+		/// 忍者冲击
+		/// </summary>
 		public const int NINJA_STORM = 4121008;
 		public const int HEROS_WILL = 4121009;
 	}

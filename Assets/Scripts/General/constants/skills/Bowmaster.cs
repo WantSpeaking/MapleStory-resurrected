@@ -29,7 +29,8 @@ namespace constants.skills
 	{
 		public const int MAPLE_WARRIOR = 3121000;
 		public const int SHARP_EYES = 3121002;
-		public const int HURRICANE = 3121004;
+		public const int DragonStrike = 3121003;
+        public const int HURRICANE = 3121004;
 		public const int BOW_EXPERT = 3120005;
 		public const int PHOENIX = 3121006;
 		public const int HAMSTRING = 3121007;

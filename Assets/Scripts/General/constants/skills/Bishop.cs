@@ -34,7 +34,8 @@ namespace constants.skills
 		public const int INFINITY = 2321004;
 		public const int HOLY_SHIELD = 2321005;
 		public const int RESURRECTION = 2321006;
-		public const int GENESIS = 2321008;
+		public const int HOLY_ARROW = 2321007;
+        public const int GENESIS = 2321008;
 		public const int HEROS_WILL = 2321009;
 	}
 }

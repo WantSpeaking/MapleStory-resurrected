@@ -28,10 +28,23 @@ namespace constants.skills
 	public class Gunslinger
 	{
 		public const int GUN_MASTERY = 5200000;
+		/// <summary>
+		/// 快枪手
+		/// </summary>
 		public const int INVISIBLE_SHOT = 5201001;
+		/// <summary>
+		/// 投掷炸弹
+		/// </summary>
 		public const int GRENADE = 5201002;
+
 		public const int GUN_BOOSTER = 5201003;
+		/// <summary>
+		/// 迷惑射击
+		/// </summary>
 		public const int BLANK_SHOT = 5201004;
+		/// <summary>
+		/// 击退射击
+		/// </summary>
 		public const int RECOIL_SHOT = 5201006;
 	}
 }

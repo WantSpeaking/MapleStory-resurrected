@@ -28,12 +28,21 @@ namespace constants.skills
 	public class Shadower
 	{
 		public const int MAPLE_WARRIOR = 4221000;
+		/// <summary>
+		/// 暗杀
+		/// </summary>
 		public const int ASSASSINATE = 4221001;
 		public const int SHADOW_SHIFTER = 4220002;
+		/// <summary>
+		/// 挑衅
+		/// </summary>
 		public const int TAUNT = 4221003;
 		public const int NINJA_AMBUSH = 4221004;
 		public const int VENOMOUS_STAB = 4220005;
 		public const int SMOKE_SCREEN = 4221006;
+		/// <summary>
+		/// 一出双击
+		/// </summary>
 		public const int BOOMERANG_STEP = 4221007;
 		public const int HEROS_WILL = 4221008;
 	}

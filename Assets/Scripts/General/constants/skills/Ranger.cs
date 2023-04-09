@@ -29,7 +29,8 @@ namespace constants.skills
 	{
 		public const int MORTAL_BLOW = 3110001;
 		public const int PUPPET = 3111002;
-		public const int SILVER_HAWK = 3111005;
+		public const int ArrowRain = 3111004;
+        public const int SILVER_HAWK = 3111005;
 	}
 
 }

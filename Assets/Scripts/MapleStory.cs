@@ -568,9 +568,9 @@ public class MapleStory : SingletonMono<MapleStory>
 				var footHolder = pair.Value;
 				//Handles.RectangleHandleCap ();
 
-				var left = new Vector3 (footHolder.horizontal ().smaller (), -footHolder.vertical ().smaller ());
-				var center = new Vector3 (footHolder.horizontal ().center (), -footHolder.vertical ().center ());
-				var right = new Vector3 (footHolder.horizontal ().greater (), -footHolder.vertical ().greater ());
+				var left = new Vector3 ((float)(footHolder.horizontal ().smaller ()+viewx), (float)(-footHolder.vertical ().smaller ()-viewy));
+				var center = new Vector3 ((float)(footHolder.horizontal ().center ()+viewx), (float)(-footHolder.vertical ().center ()-viewy));
+				var right = new Vector3 ((float)(footHolder.horizontal ().greater ()+viewx), (float)(-footHolder.vertical ().greater ()-viewy));
 				var footHoldSize = new Vector3 (footHolder.horizontal ().length (), footHolder.vertical ().length ());
 				//Debug.Log ($"Bound.Center:{center}\tBound.size:{size}");
 
@@ -593,7 +593,7 @@ public class MapleStory : SingletonMono<MapleStory>
 				Handles.EndGUI ();
 
 				//Gizmos.color = new Color (id % 2, id % 2, id % 2, id % 2);
-				Gizmos.color = Color.black;
+				Gizmos.color = Color.blue ;
 				Gizmos.DrawWireCube (center, footHoldSize);
 				Gizmos.DrawCube (left, Vector3.one * 10);
 				//Gizmos.DrawCube (center, Vector3.one * 10);

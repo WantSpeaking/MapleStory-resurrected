@@ -27,10 +27,26 @@ namespace constants.skills
 	/// </summary>
 	public class Outlaw
 	{
+        public const int TripleFire = 5211000;
+        /// <summary>
+        /// 章鱼炮台
+        /// </summary>
 		public const int OCTOPUS = 5211001;
+        /// <summary>
+        /// 海鸥空袭
+        /// </summary>
 		public const int GAVIOTA = 5211002;
+        /// <summary>
+        /// 火焰喷射
+        /// </summary>
 		public const int FLAME_THROWER = 5211004;
-		public const int HOMING_BEACON = 5211006;
+        /// <summary>
+        /// 寒冰喷射
+        /// </summary>
 		public const int ICE_SPLITTER = 5211005;
-	}
+        /// <summary>
+        /// 导航
+        /// </summary>
+        public const int HOMING_BEACON = 5211006;
+    }
 }

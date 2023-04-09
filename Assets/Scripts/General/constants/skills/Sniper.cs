@@ -29,8 +29,13 @@ namespace constants.skills
 	{
 		public const int MORTAL_BLOW = 3210001;
 		public const int PUPPET = 3211002;
+        /// <summary>
+        /// 寒冰箭
+        /// </summary>
 		public const int BLIZZARD = 3211003;
+		public const int AscendingDragonCrossbow = 3211004;
 		public const int GOLDEN_EAGLE = 3211005;
-	}
+        public const int Strafe = 3211006;
+    }
 
 }

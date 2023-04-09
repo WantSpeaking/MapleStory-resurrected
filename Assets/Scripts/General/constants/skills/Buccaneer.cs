@@ -28,10 +28,26 @@ namespace constants.skills
 	public class Buccaneer
 	{
 		public const int MAPLE_WARRIOR = 5121000;
-		public const int ENERGY_ORB = 5121002;
+		/// <summary>
+		/// 潜龙出渊
+		/// </summary>
+		public const int DragonAbyss = 5121001;
+        /// <summary>
+        /// 超能量
+        /// </summary>
+        public const int ENERGY_ORB = 5121002;
 		public const int SUPER_TRANSFORMATION = 5121003;
+		/// <summary>
+		/// 金手指
+		/// </summary>
 		public const int DEMOLITION = 5121004;
+		/// <summary>
+		/// 索命
+		/// </summary>
 		public const int SNATCH = 5121005;
+		/// <summary>
+		/// 光速拳
+		/// </summary>
 		public const int BARRAGE = 5121007;
 		public const int PIRATES_RAGE = 5121008;
 		public const int SPEED_INFUSION = 5121009;

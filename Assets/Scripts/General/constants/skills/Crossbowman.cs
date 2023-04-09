@@ -30,7 +30,9 @@ namespace constants.skills
 		public const int CROSSBOW_MASTERY = 3200000;
 		public const int FINAL_ATTACK = 3200001;
 		public const int CROSSBOW_BOOSTER = 3201002;
-		public const int SOUL_ARROW = 3201004;
-	}
+		public const int StrongCROSSBOW = 3201003;
+        public const int SOUL_ARROW = 3201004;
+		public const int PenetratingArrow = 3201005;
+    }
 
 }

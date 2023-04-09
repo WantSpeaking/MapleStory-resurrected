@@ -30,7 +30,8 @@ namespace constants.skills
 		public const int PARTIAL_RESISTANCE = 2210000;
 		public const int ELEMENT_AMPLIFICATION = 2210001;
 		public const int ICE_STRIKE = 2211002;
-		public const int SEAL = 2211004;
+		public const int LIGHT_SPEAR = 2211003;
+        public const int SEAL = 2211004;
 		public const int SPELL_BOOSTER = 2211005;
 		public const int ELEMENT_COMPOSITION = 2211006;
 	}

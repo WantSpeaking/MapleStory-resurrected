@@ -31,7 +31,13 @@ namespace constants.skills
 		public const int ENDURE = 4200001;
 		public const int DAGGER_BOOSTER = 4201002;
 		public const int HASTE = 4201003;
+		/// <summary>
+		/// 神偷术
+		/// </summary>
 		public const int STEAL = 4201004;
+		/// <summary>
+		/// 回旋斩
+		/// </summary>
 		public const int SAVAGE_BLOW = 4201005;
 	}
 }

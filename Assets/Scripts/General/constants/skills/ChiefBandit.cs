@@ -28,8 +28,14 @@ namespace constants.skills
 	public class ChiefBandit
 	{
 		public const int CHAKRA = 4211001;
+		/// <summary>
+		/// 落叶斩
+		/// </summary>
 		public const int ASSAULTER = 4211002;
 		public const int PICKPOCKET = 4211003;
+		/// <summary>
+		///分身术
+		/// </summary>
 		public const int BAND_OF_THIEVES = 4211004;
 		public const int MESO_GUARD = 4211005;
 		public const int MESO_EXPLOSION = 4211006;
