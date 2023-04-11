@@ -43,6 +43,13 @@ namespace ms
 			var src = ms.wz.wzFile_mob[strid + ".img"];
 
 			var info = src["info"];
+			if (info["link"]!=null)
+			{
+				var linkMobId = info["link"].ToString();
+                strid = string_format.extend_id(linkMobId, 7);
+                src = ms.wz.wzFile_mob[strid + ".img"];
+                info = src["info"]; 
+            }
 
 			level = info["level"];
 			watk = info["PADamage"];

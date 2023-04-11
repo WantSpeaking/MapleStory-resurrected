@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ms_Unity;
 using server.quest;
 
 namespace ms
@@ -86,6 +87,7 @@ namespace ms
                         else
 						{
                             new TalkToNPCPacket (npc.get_oid ()).dispatch ();
+                            FGUI_Manager.Instance.GetFGUI<FGUI_NpcTalk>().beginScriptTalk = true;
                         }
 
                         return Cursor.State.IDLE;

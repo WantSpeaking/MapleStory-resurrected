@@ -189,8 +189,8 @@ namespace ms
 			short length = (short)str.Length;
 
             //write_short (length);
-            //var utf8Bytes = GBK.GetBytes(str);
-            var utf8Bytes = Encoding.UTF8.GetBytes(str);
+            var utf8Bytes = GBK.GetBytes(str);
+            //var utf8Bytes = Encoding.UTF8.GetBytes(str);
             write_short((short)utf8Bytes.Length);
             for (short i = 0; i < utf8Bytes.Length; i++)
 			{

@@ -20,18 +20,22 @@ namespace ms
 		public static string extend_id (int id, int length)
 		{
 			string strid = id.ToString ();
-			var originalLength = strid.Length;
-			//if (strid.Length < length)
-
-			for (int i = 0; i < length - originalLength; i++)
-			{
-				strid = strid.Insert (0, "0");
-			}
-
-			return strid;
+			return extend_id(strid, length);
 		}
+        public static string extend_id(string id, int length)
+        {
+            string strid = id;
+            var originalLength = strid.Length;
+            //if (strid.Length < length)
 
-		public static void format_with_ellipsis (Text input, int length)
+            for (int i = 0; i < length - originalLength; i++)
+            {
+                strid = strid.Insert(0, "0");
+            }
+
+            return strid;
+        }
+        public static void format_with_ellipsis (Text input, int length)
 		{
 			/*string text = input.get_text ();//todo 超过长度的 npc 名字 用 。 代替
 

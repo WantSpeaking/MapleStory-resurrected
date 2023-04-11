@@ -30,9 +30,9 @@ namespace ms_Unity
 		{
 			//ms_Unity.FGUI_Manager.Instance.CloseFGUI<ms_Unity.FGUI_NpcTalk> ();
 			UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
-			if (isClientPage)
+			if (hasWZQuest)
 			{
-				if (isInScriptedMode)
+				if (isInScriptTalk)
 				{
 					new NpcTalkMorePacket (rawMsgtype, -1).dispatch ();
 				}
@@ -44,9 +44,9 @@ namespace ms_Unity
 		}
 		private void onClick_Btn_OK (EventContext context)
 		{
-			if (isClientPage)
+			if (hasWZQuest)
 			{
-				if (isInScriptedMode)
+				if (isInScriptTalk)
 				{
 					new NpcTalkMorePacket (rawMsgtype, 1).dispatch ();
 					UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
@@ -89,9 +89,9 @@ namespace ms_Unity
 
 		private void onClick_Btn_Accept (EventContext context)
 		{
-			if (isClientPage)
+			if (hasWZQuest)
 			{
-				if (isInScriptedMode)
+				if (isInScriptTalk)
 				{
 					new NpcTalkMorePacket (rawMsgtype, 1).dispatch ();
 				}
@@ -117,9 +117,9 @@ namespace ms_Unity
 		}
 		private void onClick_Btn_Decline (EventContext context)
 		{
-			if (isClientPage)
+			if (hasWZQuest)
 			{
-				if (isInScriptedMode)
+				if (isInScriptTalk)
 				{
 					new NpcTalkMorePacket (rawMsgtype, 0).dispatch ();
 				}
@@ -145,9 +145,9 @@ namespace ms_Unity
 
 		private void onClick_Btn_Next (EventContext context)
 		{
-			if (isClientPage)
+			if (hasWZQuest)
 			{
-				if (isInScriptedMode)
+				if (isInScriptTalk)
 				{
 					new NpcTalkMorePacket (rawMsgtype, 1).dispatch ();
 					UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
@@ -193,9 +193,9 @@ namespace ms_Unity
 		}
 		private void onClick_Btn_Prev (EventContext context)
 		{
-			if (isClientPage)
+			if (hasWZQuest)
 			{
-				if (isInScriptedMode)
+				if (isInScriptTalk)
 				{
 					new NpcTalkMorePacket (rawMsgtype, 0).dispatch ();
 				}
@@ -215,9 +215,9 @@ namespace ms_Unity
 
 		private void onClick_Btn_YES (EventContext context)
 		{
-			if (isClientPage)
+			if (hasWZQuest)
 			{
-				if (isInScriptedMode)
+				if (isInScriptTalk)
 				{
 					new NpcTalkMorePacket (rawMsgtype, 1).dispatch ();
 				}
@@ -242,7 +242,7 @@ namespace ms_Unity
 		}
 		private void onClick_Btn_NO (EventContext context)
 		{
-			if (isClientPage)
+			if (hasWZQuest)
 			{
 				if (isAsk)
 				{
@@ -434,7 +434,7 @@ namespace ms_Unity
                 //ParseSayStage (sayStage);
                 introducePageIndex = 0;
 
-                if (isInScriptedMode)
+                if (isInScriptTalk)
                 {
                     if (currentSayStageIndex == 0)
                     {
@@ -531,7 +531,7 @@ namespace ms_Unity
 		private new void onClickLink (EventContext context)
 		{
 			short.TryParse ((string)context.data, out var seletIndex);
-			if (isClientPage)
+			if (hasWZQuest)
 			{
 				//init page
 				if (pageIndex == -1)
@@ -543,8 +543,9 @@ namespace ms_Unity
 					}
 					else
 					{
-						
-						new TalkToNPCPacket (currentNpc.get_oid ()).dispatch ();
+						beginScriptTalk = true;
+
+                        new TalkToNPCPacket (currentNpc.get_oid ()).dispatch ();
 						
 					}
 				}
@@ -568,8 +569,9 @@ namespace ms_Unity
 			}
 			else
 			{
+                beginScriptTalk = true;
 
-				new NpcTalkMorePacket (seletIndex).dispatch ();
+                new NpcTalkMorePacket (seletIndex).dispatch ();
 				UI.get ().get_element<UINpcTalk> ().get ()?.deactivate ();
 				AppDebug.Log ($"onClickLink,L{context.data}");
 			}
@@ -614,14 +616,15 @@ namespace ms_Unity
 			noPageIndex = -1;
 			stopPageIndex = -1;
 			chooseRightAnswer = false;
-		}
+            beginScriptTalk = false;
+        }
 
-
+		public bool beginScriptTalk;
 		/// <summary>
 		/// ??? ??? Sayinfo.img/QuestId/0??1
 		/// </summary>
-		private bool isInScriptedMode => (currentSayStage?.introducePages.Count??0) ==  0 && (currentSayStage?.yesPages.Count??0) == 0 && (currentSayStage?.stopPages.Count??0) == 0;
-		private bool isClientPage => currentNpc?.hasQuest () ?? false;
+		private bool isInScriptTalk => (!hasWZQuest)||(hasWZQuest && beginScriptTalk) ;
+		private bool hasWZQuest => currentNpc?.hasQuest () ?? false;
 
 		private bool isInIntroducePage => introducePageIndex < (currentSayStage?.introducePages.Count ?? 0);
 		private bool isInYesPage => yesPageIndex < (currentSayStage?.yesPages.Count ?? 0);

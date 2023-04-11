@@ -27,10 +27,12 @@ namespace ms
 		public MapObject instantiate(Physics physics)
 		{
 			var spawnposition = physics.get_y_below(new Point_short (position));
-			return new Npc(id, oid, flip, fh, false, spawnposition) ;
-		}
+			//return new Npc(id, oid, flip, fh, false, spawnposition) ;
+            return new Npc(id, oid, flip, fh, false, position);
 
-		private int oid;
+        }
+
+        private int oid;
 		private int id;
 		private Point_short position = new Point_short();
 		private bool flip;

@@ -7,6 +7,7 @@ using System.Text;
 using client;
 using MapleLib.WzLib;
 using server.quest;
+using Sirenix.Serialization;
 using tools;
 
 namespace ms
@@ -121,6 +122,7 @@ namespace ms
 			}
 
 			Point_short absp = phobj.get_absolute (viewx, viewy, alpha);
+            //Point_short absp = phobj.get_position ();
 
 			if (animations.count (stance) > 0)
 			{
@@ -148,7 +150,7 @@ namespace ms
 				return phobj.fhlayer;
 			}
 
-			physics.move_object (phobj);
+			//physics.move_object (phobj);
 
 			if (animations.count (stance) > 0)
 			{
@@ -341,12 +343,12 @@ namespace ms
 				{
 					questChooseList.Add((pair.Value,0));
 
-                    stringBuilder.Append ($"#L{index++}# {pair.Value.Name} #l \r\n");
-				}
+                    stringBuilder.Append ($"<a href=\"{index++}\" target=\"_blank\">{pair.Value.Name}</a>\r\n");
+                }
 			}
 
-			//已经开始的任务 由于npc条件的不同，可以是正在进行的状态，也可以是可完成状态
-			if (started_Quests.Count > 0)
+            //已经开始的任务 由于npc条件的不同，可以是正在进行的状态，也可以是可完成状态
+            if (started_Quests.Count > 0)
 			{
                 var inProgressString = "";
                 foreach (var pair in started_Quests)
@@ -354,13 +356,13 @@ namespace ms
 					if (!pair.Value.canComplete(MapleCharacter.Player,npcid))//如果不能完成，就是正在进行的
 					{
                         questChooseList.Add((pair.Value,1));
-                        inProgressString += ($"#L{index++}# {pair.Value.Name} #l \r\n");
+                        inProgressString += ($"<a href=\"{index++}\" target=\"_blank\">{pair.Value.Name}</a>\r\n");
 					}
                 }
 
                 if (!string.IsNullOrEmpty (inProgressString))
                 {
-	                stringBuilder.AppendLine ($"正在进行的任务");
+	                stringBuilder.AppendLine ($"\r\n正在进行的任务");
 	                stringBuilder.Append (inProgressString);
                 }
 
@@ -370,13 +372,13 @@ namespace ms
                     if (pair.Value.canComplete(MapleCharacter.Player, npcid))//如果能完成，就是可完成的
                     {
                         questChooseList.Add((pair.Value,1));
-                        completeString += ($"#L{index++}# {pair.Value.Name} #l \r\n");
+                        completeString += ($"<a href=\"{index++}\" target=\"_blank\">{pair.Value.Name}</a>\r\n");
                     }
                 }
 
                 if (!string.IsNullOrEmpty (completeString))
                 {
-	                stringBuilder.AppendLine ($"可完成的任务:");
+	                stringBuilder.AppendLine ($"\r\n可完成的任务:");
 	                stringBuilder.Append (completeString);
                 }
             }
@@ -386,9 +388,9 @@ namespace ms
 				stringBuilder.AppendLine ($"\r\n其它:");
 				foreach (var scriptInfo in ScriptInfos)
 				{
-					stringBuilder.Append($"#L{index++}# {scriptInfo} #l \r\n");
+                    stringBuilder.Append($"<a href=\"{index++}\" target=\"_blank\">{scriptInfo}</a>\r\n");
 				}
-			}
+			} 
 			return stringBuilder.ToString ();
 		}
 

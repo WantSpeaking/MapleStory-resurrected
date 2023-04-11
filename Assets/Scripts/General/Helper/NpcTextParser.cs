@@ -260,13 +260,17 @@ namespace ms.Util
 
             if (_text.Contains("#L"))
 			{
-                var optionTxts = _text.Split(new Regex("#L[0-9]#"), false);
-				buffer.Append(optionTxts.TryGet(0));
-                for (int i = 1; i < optionTxts.Length; i++)
+                var spiltArrayTuple = _text.Split(new Regex("#L[0-9]+#"), false);
+                var optionTxts1 = spiltArrayTuple.Item1;
+                var matchTxts = spiltArrayTuple.Item2;
+
+                buffer.Append(optionTxts1.TryGet(0));
+                for (int i = 1; i < optionTxts1.Length; i++)
                 {
-                    buffer.Append($"<a href=\"{i - 1}\" target=\"_blank\">{optionTxts[i]}</a>");
+                    var matchValue = Regex.Match(matchTxts[i - 1], "[0-9]+")?.Value;
+                    buffer.Append($"<a href=\"{matchValue}\" target=\"_blank\">{optionTxts1[i]}</a>");
                 }
-				_text = buffer.ToString();
+                _text = buffer.ToString();
 				buffer.Clear();
             }
 			

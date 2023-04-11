@@ -139,9 +139,10 @@ namespace ms
         /// <param name="regex">正则表达式</param>
         /// <param name="isIncludeMatch">是否包括匹配结果</param>
         /// <returns>数组</returns>
-        public static string[] Split(this string target, Regex regex, bool isIncludeMatch = true)
+        public static (string[],string[]) Split(this string target, Regex regex, bool isIncludeMatch = true)
         {
             List<string> list = new List<string>();
+            List<string> matchList = new List<string>();
             MatchCollection mc = regex.Matches(target);
             int curPostion = 0;
             foreach (Match match in mc)
@@ -155,12 +156,13 @@ namespace ms
                 {
                     list.Add(match.Value);
                 }
+                matchList.Add(match.Value);
             }
             if (target.Length > curPostion)
             {
                 list.Add(target.Substring(curPostion));
             }
-            return list.ToArray();
+            return (list.ToArray(), matchList.ToArray());
         }
 
     }

@@ -499,7 +499,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
                 {
                     ReceiveMsg();
                     //客户端断开连接
-                    Debug.LogError ($"Disconnected! EndReceive len<=0");
+                    Debug.LogWarning($"Disconnected! EndReceive len<=0");
                 }
             }
 			else
@@ -508,7 +508,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 				{
                     m_ReceiveQueue.Clear();
                 }*/
-                Debug.LogError($"Disconnected! m_Client != null:{m_Client != null}\t m_Client.Connected:{m_Client.Connected} ");
+                Debug.LogWarning($"Disconnected! m_Client != null:{m_Client != null}\t m_Client.Connected:{m_Client.Connected} ");
             }
 			
 		}

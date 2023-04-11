@@ -80,11 +80,11 @@ namespace ms
 					}
 					else if (qty == 1)
 					{
-						show_status (Color.Name.WHITE, "You have gained an item in the " + tab + " tab (" + name + ")");
+						show_status (Color.Name.WHITE, "You have gained an item in the " + tab + " tab (" + name + ")"+ " id:"+itemid);
 					}
 					else
 					{
-						show_status (Color.Name.WHITE, "You have gained items in the " + tab + " tab (" + name + " " + Convert.ToString (qty) + ")");
+						show_status (Color.Name.WHITE, "You have gained items in the " + tab + " tab (" + name + " " + Convert.ToString (qty) + ")" + " id:" + itemid);
 					}
 				}
 				else if (mode2 == 1)
