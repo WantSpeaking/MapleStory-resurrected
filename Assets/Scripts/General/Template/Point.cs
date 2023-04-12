@@ -39,7 +39,15 @@ namespace ms
             a = first;
             b = second;
         }
-
+        public Point_short(string str)
+        {
+            var arr = str.Replace("(", "").Replace(")", "").Split(",");
+            if (arr.Length == 2)
+            {
+                short.TryParse(arr[0], out a);
+                short.TryParse(arr[1], out b);
+            }
+        }
         // Return the x-coordinate
         public short x()
         {

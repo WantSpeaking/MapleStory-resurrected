@@ -17,6 +17,7 @@ namespace ms_Unity
             UIObjectFactory.SetPackageItemExtension(FGUI_EquipInventory.URL, typeof(FGUI_EquipInventory));
             UIObjectFactory.SetPackageItemExtension(FGUI_Equipped_ListItem.URL, typeof(FGUI_Equipped_ListItem));
             UIObjectFactory.SetPackageItemExtension(FGUI_Itemed_ItemDetail.URL, typeof(FGUI_Itemed_ItemDetail));
+            UIObjectFactory.SetPackageItemExtension(FGUI_CustomizeJoystickAndButtons.URL, typeof(FGUI_CustomizeJoystickAndButtons));
             UIObjectFactory.SetPackageItemExtension(FGUI_Joystick.URL, typeof(FGUI_Joystick));
             UIObjectFactory.SetPackageItemExtension(FGUI_ItemInventory.URL, typeof(FGUI_ItemInventory));
             UIObjectFactory.SetPackageItemExtension(FGUI_ShopItemDetail.URL, typeof(FGUI_ShopItemDetail));

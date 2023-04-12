@@ -57,6 +57,16 @@ namespace ms
 			settings.emplace<MiniMapSimpleMode> ();
 			settings.emplace<MiniMapDefaultHelpers> ();
 			settings.emplace<JSDebugOn> ();
+			settings.emplace<PosBtnHeavyAttack> ();
+			settings.emplace<PosBtnLightAttack> ();
+			settings.emplace<PosBtnJump> ();
+			settings.emplace<PosBtnPickUp> ();
+			settings.emplace<PosBtnSkill1> ();
+			settings.emplace<PosBtnSkill2> ();
+			settings.emplace<PosBtnSkill3> ();
+			settings.emplace<PosBtnSkill4> ();
+			settings.emplace<PosBtnSkill5> ();
+			settings.emplace<PosBtnSkill6> ();
 
             load ();
 		}
@@ -600,7 +610,18 @@ namespace ms
 		private byte channelid;
 		private bool admin;
 		public TypeMap<Entry> settings = new TypeMap<Entry> ();
-	}
+
+        public const string DefaultPos_Btn_HeavyAttack = "(1391,917)";
+        public const string DefaultPos_Btn_LightAttack = "(1561,922)";
+        public const string DefaultPos_Btn_Jump = "(1679,769)";
+        public const string DefaultPos_Btn_PickUp = "(1731,917)";
+        public const string DefaultPos_Btn_Skill1 = "(1391,620)";
+        public const string DefaultPos_Btn_Skill2 = "(1561,620)";
+        public const string DefaultPos_Btn_Skill3 = "(1731,620)";
+        public const string DefaultPos_Btn_Skill4 = "(1339,769)";
+        public const string DefaultPos_Btn_Skill5 = "(1509,769)";
+        public const string DefaultPos_Btn_Skill6 = "(1017,800)";
+    }
 
 	// IP Address which the client will connect to
 	public class ServerIP : Configuration.StringEntry
@@ -929,6 +950,68 @@ namespace ms
         }
     }
 
+    
+    public class PosBtnHeavyAttack : Configuration.PointEntry
+    {
+        public PosBtnHeavyAttack() : base("PosHeavyAttack", Configuration.DefaultPos_Btn_HeavyAttack)
+        {
+        }
+    }
+    public class PosBtnLightAttack : Configuration.PointEntry
+    {
+        public PosBtnLightAttack() : base("PosLightAttack", Configuration.DefaultPos_Btn_LightAttack)
+        {
+        }
+    }
+    public class PosBtnJump : Configuration.PointEntry
+    {
+        public PosBtnJump() : base("PosBtnJump", Configuration.DefaultPos_Btn_Jump)
+        {
+        }
+    }
+    public class PosBtnPickUp : Configuration.PointEntry
+    {
+        public PosBtnPickUp() : base("PosBtnPickUp", Configuration.DefaultPos_Btn_PickUp)
+        {
+        }
+    }
+    public class PosBtnSkill1 : Configuration.PointEntry
+    {
+        public PosBtnSkill1() : base("PosBtnSkill1", Configuration.DefaultPos_Btn_Skill1)
+        {
+        }
+    }
+    public class PosBtnSkill2 : Configuration.PointEntry
+    {
+        public PosBtnSkill2() : base("PosBtnSkill2", Configuration.DefaultPos_Btn_Skill2)
+        {
+        }
+    }
+    public class PosBtnSkill3 : Configuration.PointEntry
+    {
+        public PosBtnSkill3() : base("PosBtnSkill3", Configuration.DefaultPos_Btn_Skill3)
+        {
+        }
+    }
+    public class PosBtnSkill4 : Configuration.PointEntry
+    {
+        public PosBtnSkill4() : base("PosBtnSkill4", Configuration.DefaultPos_Btn_Skill4)
+        {
+        }
+    }
+    public class PosBtnSkill5 : Configuration.PointEntry
+    {
+        public PosBtnSkill5() : base("PosBtnSkill5", Configuration.DefaultPos_Btn_Skill5)
+        {
+        }
+    }
+    public class PosBtnSkill6 : Configuration.PointEntry
+    {
+        public PosBtnSkill6() : base("PosBtnSkill6", Configuration.DefaultPos_Btn_Skill6)
+        {
+        }
+    }
+ 
     // Can be used to access settings
     public class Setting<T> where T : Configuration.Entry, new ()
 	{

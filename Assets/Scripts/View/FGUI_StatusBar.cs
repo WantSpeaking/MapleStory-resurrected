@@ -23,12 +23,18 @@ namespace ms_Unity
 			_Btn_OpenInventoryPanel.onClick.Add (OnClick_OpenInventoryPanel);
 			_BT_BackToChooseChar.onClick.Add (OnClick_BackToChooseChar);
 			_BT_BackToLogin.onClick.Add (OnClick_BackToLogin);
+			_BT_CustomizeButtons.onClick.Add (OnClick_CustomizeButtons);
 
-			_Txt_Version.SetVar("count", GameUtil.Instance.Version).FlushVars();
+            _Txt_Version.SetVar("count", GameUtil.Instance.Version).FlushVars();
 
         }
 
-		private void OnClick_OpenInventoryPanel (EventContext context)
+        private void OnClick_CustomizeButtons(EventContext context)
+        {
+			FGUI_Manager.Instance.OpenFGUI<FGUI_CustomizeJoystickAndButtons>();
+        }
+
+        private void OnClick_OpenInventoryPanel (EventContext context)
 		{
 			UI.get ().emplace<UIItemInventory> (ms.Stage.get ().get_player ().get_inventory ());
 		}

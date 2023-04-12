@@ -236,5 +236,19 @@ namespace ms_Unity
 		{
 			ms.Stage.get ().get_combat ().use_move (1121006, false, true);
 		}
+
+		public void RefreshPos()
+		{
+			_Btn_HeavyAttack.SetXY(ms.Setting<PosBtnHeavyAttack>.get().load().x(), ms.Setting<PosBtnHeavyAttack>.get().load().y());
+			_Btn_LightAttack.SetXY(ms.Setting<PosBtnLightAttack>.get().load().x(), ms.Setting<PosBtnLightAttack>.get().load().y());
+			_Btn_Jump.SetXY(ms.Setting<PosBtnJump>.get().load().x(), ms.Setting<PosBtnJump>.get().load().y());
+			_Btn_PickUp.SetXY(ms.Setting<PosBtnPickUp>.get().load().x(), ms.Setting<PosBtnPickUp>.get().load().y());
+			_Btn_Skill1.SetXY(ms.Setting<PosBtnSkill1>.get().load().x(), ms.Setting<PosBtnSkill1>.get().load().y());
+			_Btn_Skill2.SetXY(ms.Setting<PosBtnSkill2>.get().load().x(), ms.Setting<PosBtnSkill2>.get().load().y());
+			_Btn_Skill3.SetXY(ms.Setting<PosBtnSkill3>.get().load().x(), ms.Setting<PosBtnSkill3>.get().load().y());
+			_Btn_Skill4.SetXY(ms.Setting<PosBtnSkill4>.get().load().x(), ms.Setting<PosBtnSkill4>.get().load().y());
+			_Btn_Skill5.SetXY(ms.Setting<PosBtnSkill5>.get().load().x(), ms.Setting<PosBtnSkill5>.get().load().y());
+            _Btn_Skill6.SetXY(ms.Setting<PosBtnSkill6>.get().load().x(), ms.Setting<PosBtnSkill6>.get().load().y());
+        }
 	}
 }

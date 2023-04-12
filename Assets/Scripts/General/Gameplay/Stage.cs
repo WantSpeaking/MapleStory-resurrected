@@ -60,7 +60,6 @@ namespace ms
 
 		private long expBefore;
 
-
 		public Stage ()
 		{
 			state = State.INACTIVE;
