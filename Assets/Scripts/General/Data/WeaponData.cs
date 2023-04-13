@@ -45,23 +45,23 @@ namespace ms
 			switch (attackspeed)
 			{
 			case 1:
-				return "FAST (1)";
+				return $"{TestLuban.Get().GetL10nText("FAST")} (1)";
 			case 2:
-				return "FAST (2)";
+				return $"{TestLuban.Get().GetL10nText("FAST")} (2)";
 			case 3:
-				return "FAST (3)";
+				return $"{TestLuban.Get().GetL10nText("FAST")} (3)";
 			case 4:
-				return "FAST (4)";
+				return $"{TestLuban.Get().GetL10nText("FAST")} (4)";
 			case 5:
-				return "NORMAL (5)";
+				return $"{TestLuban.Get().GetL10nText("NORMAL")} (5)";
 			case 6:
-				return "NORMAL (6)";
+				return $"{TestLuban.Get().GetL10nText("NORMAL")} (6)";
 			case 7:
-				return "SLOW (7)";
+				return $"{TestLuban.Get().GetL10nText("SLOW")} (7)";
 			case 8:
-				return "SLOW (8)";
+				return $"{TestLuban.Get().GetL10nText("SLOW")} (8)";
 			case 9:
-				return "SLOW (9)";
+				return $"{TestLuban.Get().GetL10nText("SLOW")} (9)";
 			default:
 				return "";
 			}

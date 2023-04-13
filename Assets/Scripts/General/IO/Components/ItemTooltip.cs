@@ -96,15 +96,15 @@ namespace ms
 
 			if (unique && untradable)
 			{
-				quality = "One-of-a-kind Item, Untradable";
+				quality = TestLuban.Get().GetL10nText("One-of-a-kind Item, Untradable");
 			}
 			else if (unique && !untradable)
 			{
-				quality = "One-of-a-kind Item";
+				quality = TestLuban.Get().GetL10nText("One-of-a-kind Item");
 			}
 			else if (!unique && untradable)
 			{
-				quality = "Untradable";
+				quality = TestLuban.Get().GetL10nText("Untradable");
 			}
 			else
 			{

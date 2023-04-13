@@ -378,5 +378,385 @@
     "key": "SuperGM",
     "origin_text": "超级GM",
     "text_en": "SuperGM"
+  },
+  {
+    "key": "WATK",
+    "origin_text": "物理伤害",
+    "text_en": "WATK"
+  },
+  {
+    "key": "MAGIC",
+    "origin_text": "魔法伤害",
+    "text_en": "MAGIC"
+  },
+  {
+    "key": "WDEF",
+    "origin_text": "物理防御",
+    "text_en": "WDEF"
+  },
+  {
+    "key": "MDEF",
+    "origin_text": "魔法防御",
+    "text_en": "MDEF"
+  },
+  {
+    "key": "ACC",
+    "origin_text": "命中率",
+    "text_en": "ACC"
+  },
+  {
+    "key": "HANDS",
+    "origin_text": "单双手",
+    "text_en": "HANDS"
+  },
+  {
+    "key": "SKIN",
+    "origin_text": "皮肤",
+    "text_en": "SKIN"
+  },
+  {
+    "key": "FACE",
+    "origin_text": "脸型",
+    "text_en": "FACE"
+  },
+  {
+    "key": "HAIR",
+    "origin_text": "发型",
+    "text_en": "HAIR"
+  },
+  {
+    "key": "LEVEL",
+    "origin_text": "等级",
+    "text_en": "LEVEL"
+  },
+  {
+    "key": "MAXHP",
+    "origin_text": "最大血量",
+    "text_en": "MAXHP"
+  },
+  {
+    "key": "MAXMP",
+    "origin_text": "最大蓝量",
+    "text_en": "MAXMP"
+  },
+  {
+    "key": "SP",
+    "origin_text": "技能点",
+    "text_en": "SP"
+  },
+  {
+    "key": "EXP",
+    "origin_text": "经验",
+    "text_en": "EXP"
+  },
+  {
+    "key": "MESO",
+    "origin_text": "金币",
+    "text_en": "MESO"
+  },
+  {
+    "key": "PET",
+    "origin_text": "宠物",
+    "text_en": "PET"
+  },
+  {
+    "key": "GACHAEXP",
+    "origin_text": "百宝箱经验",
+    "text_en": "GACHAEXP"
+  },
+  {
+    "key": "HAT",
+    "origin_text": "帽子",
+    "text_en": "HAT"
+  },
+  {
+    "key": "FACEACCESSORY",
+    "origin_text": "面部配件",
+    "text_en": "FACEACCESSORY"
+  },
+  {
+    "key": "EYEACCESSORY",
+    "origin_text": "眼饰",
+    "text_en": "EYEACCESSORY"
+  },
+  {
+    "key": "EARRINGS",
+    "origin_text": "耳环",
+    "text_en": "EARRINGS"
+  },
+  {
+    "key": "TOP",
+    "origin_text": "返回页首",
+    "text_en": "TOP"
+  },
+  {
+    "key": "OVERALL",
+    "origin_text": "整体",
+    "text_en": "OVERALL"
+  },
+  {
+    "key": "BOTTOM",
+    "origin_text": "底",
+    "text_en": "BOTTOM"
+  },
+  {
+    "key": "SHOES",
+    "origin_text": "鞋",
+    "text_en": "SHOES"
+  },
+  {
+    "key": "GLOVES",
+    "origin_text": "手套",
+    "text_en": "GLOVES"
+  },
+  {
+    "key": "SHIELD",
+    "origin_text": "盾",
+    "text_en": "SHIELD"
+  },
+  {
+    "key": "CAPE",
+    "origin_text": "角",
+    "text_en": "CAPE"
+  },
+  {
+    "key": "RING",
+    "origin_text": "戒指",
+    "text_en": "RING"
+  },
+  {
+    "key": "PENDANT",
+    "origin_text": "吊坠",
+    "text_en": "PENDANT"
+  },
+  {
+    "key": "BELT",
+    "origin_text": "带",
+    "text_en": "BELT"
+  },
+  {
+    "key": "MEDAL",
+    "origin_text": "奖章",
+    "text_en": "MEDAL"
+  },
+  {
+    "key": "ONE-HANDED SWORD",
+    "origin_text": "单手剑",
+    "text_en": "ONE-HANDED SWORD"
+  },
+  {
+    "key": "ONE-HANDED AXE",
+    "origin_text": "单手斧头",
+    "text_en": "ONE-HANDED AXE"
+  },
+  {
+    "key": "ONE-HANDED MACE",
+    "origin_text": "单手狼牙棒",
+    "text_en": "ONE-HANDED MACE"
+  },
+  {
+    "key": "DAGGER",
+    "origin_text": "匕首",
+    "text_en": "DAGGER"
+  },
+  {
+    "key": "WAND",
+    "origin_text": "魔杖",
+    "text_en": "WAND"
+  },
+  {
+    "key": "STAFF",
+    "origin_text": "员工",
+    "text_en": "STAFF"
+  },
+  {
+    "key": "TWO-HANDED SWORD",
+    "origin_text": "双手剑",
+    "text_en": "TWO-HANDED SWORD"
+  },
+  {
+    "key": "TWO-HANDED AXE",
+    "origin_text": "双手斧",
+    "text_en": "TWO-HANDED AXE"
+  },
+  {
+    "key": "TWO-HANDED MACE",
+    "origin_text": "双手狼牙棒",
+    "text_en": "TWO-HANDED MACE"
+  },
+  {
+    "key": "SPEAR",
+    "origin_text": "矛",
+    "text_en": "SPEAR"
+  },
+  {
+    "key": "POLEARM",
+    "origin_text": "杆臂",
+    "text_en": "POLEARM"
+  },
+  {
+    "key": "BOW",
+    "origin_text": "弓",
+    "text_en": "BOW"
+  },
+  {
+    "key": "CROSSBOW",
+    "origin_text": "弩",
+    "text_en": "CROSSBOW"
+  },
+  {
+    "key": "CLAW",
+    "origin_text": "爪",
+    "text_en": "CLAW"
+  },
+  {
+    "key": "KNUCKLE",
+    "origin_text": "指关节",
+    "text_en": "KNUCKLE"
+  },
+  {
+    "key": "GUN",
+    "origin_text": "枪",
+    "text_en": "GUN"
+  },
+  {
+    "key": "CASH",
+    "origin_text": "现金道具",
+    "text_en": "CASH"
+  },
+  {
+    "key": "Attack Speed",
+    "origin_text": "攻击速度",
+    "text_en": "Attack Speed"
+  },
+  {
+    "key": "Type",
+    "origin_text": "类型",
+    "text_en": "Type"
+  },
+  {
+    "key": "Remaining Enhancements",
+    "origin_text": "可砸卷次数",
+    "text_en": "Remaining Enhancements"
+  },
+  {
+    "key": "Hammers Applied",
+    "origin_text": "应用的锤子",
+    "text_en": "Hammers Applied"
+  },
+  {
+    "key": "(M)",
+    "origin_text": "（男）",
+    "text_en": "(M)"
+  },
+  {
+    "key": "(F)",
+    "origin_text": "（女）",
+    "text_en": "(F)"
+  },
+  {
+    "key": "MaxHP",
+    "origin_text": "最大血量",
+    "text_en": "MaxHP"
+  },
+  {
+    "key": "MaxMP",
+    "origin_text": "最大蓝量",
+    "text_en": "MaxMP"
+  },
+  {
+    "key": "Attack Power",
+    "origin_text": "攻击力",
+    "text_en": "Attack Power"
+  },
+  {
+    "key": "Magic Attack",
+    "origin_text": "魔法攻击",
+    "text_en": "Magic Attack"
+  },
+  {
+    "key": "Defense",
+    "origin_text": "防御",
+    "text_en": "Defense"
+  },
+  {
+    "key": "MAGIC DEFENSE",
+    "origin_text": "魔法防御",
+    "text_en": "MAGIC DEFENSE"
+  },
+  {
+    "key": "ACCURACY",
+    "origin_text": "命中率",
+    "text_en": "ACCURACY"
+  },
+  {
+    "key": "AVOID",
+    "origin_text": "回避率",
+    "text_en": "AVOID"
+  },
+  {
+    "key": "Speed",
+    "origin_text": "速度",
+    "text_en": "Speed"
+  },
+  {
+    "key": "Jump",
+    "origin_text": "跳跃力",
+    "text_en": "Jump"
+  },
+  {
+    "key": "Hidden Potential",
+    "origin_text": "隐藏的潜力",
+    "text_en": "Hidden Potential"
+  },
+  {
+    "key": "Rare Item",
+    "origin_text": "稀有物品",
+    "text_en": "Rare Item"
+  },
+  {
+    "key": "Epic Item",
+    "origin_text": "史诗物品",
+    "text_en": "Epic Item"
+  },
+  {
+    "key": "Unique Item",
+    "origin_text": "独特物品",
+    "text_en": "Unique Item"
+  },
+  {
+    "key": "Legendary Item",
+    "origin_text": "传奇物品",
+    "text_en": "Legendary Item"
+  },
+  {
+    "key": "FAST",
+    "origin_text": "快速",
+    "text_en": ""
+  },
+  {
+    "key": "NORMAL",
+    "origin_text": "正常",
+    "text_en": ""
+  },
+  {
+    "key": "SLOW",
+    "origin_text": "缓慢",
+    "text_en": ""
+  },
+  {
+    "key": "One-of-a-kind Item, Untradable",
+    "origin_text": "独一无二，不可交易",
+    "text_en": "One-of-a-kind Item, Untradable"
+  },
+  {
+    "key": "One-of-a-kind Item",
+    "origin_text": "独一无二",
+    "text_en": "One-of-a-kind Item"
+  },
+  {
+    "key": "Untradable",
+    "origin_text": "不可交易",
+    "text_en": "Untradable"
   }
 ]

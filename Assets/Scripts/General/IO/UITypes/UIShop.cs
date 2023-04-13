@@ -715,8 +715,12 @@ namespace ms
 			{
 				return icon;
 			}
-			
-			private Texture icon = new Texture ();
+            public int get_chargePrice()
+            {
+                return chargeprice;
+            }
+
+            private Texture icon = new Texture ();
 			private Texture currency = new Texture ();
 			private int id;
 			private int price;
@@ -1072,7 +1076,31 @@ namespace ms
 				}
 			}
 
-			public void select (short selected)
+            public void recharge()
+            {
+                if (selection < 0 || selection >= lastslot)
+                {
+                    return;
+                }
+
+                SellItem item = items[selection];
+                int itemid = item.get_id();
+                short sellable = item.get_sellable();
+                short slot = item.get_slot();
+
+                const string question = "确定要充值吗?";
+                Action<bool> ondecide = (bool yes) =>
+                {
+                    if (yes)
+                    {
+                        new NpcShopActionPacket(slot).dispatch();
+                    }
+                };
+                ms_Unity.FGUI_YesNo.ShowNotice(question, ondecide);
+                
+            }
+
+            public void select (short selected)
 			{
 				short slot = (short)(selected + offset);
 

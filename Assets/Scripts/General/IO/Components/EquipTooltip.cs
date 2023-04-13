@@ -484,10 +484,10 @@ namespace ms
 			switch (reqGender2)
 			{
 				case 0: // Male
-					namestr2.Append (" (M)");
+					namestr2.Append ($" {TestLuban.Get().GetL10nText("(M)")}");
 					break;
 				case 1: // Female
-					namestr2.Append (" (F)");
+					namestr2.Append ($" {TestLuban.Get().GetL10nText("(F)")}");
 					break;
 				case 2: // Unisex
 				default:
@@ -513,14 +513,14 @@ namespace ms
 				height += (short)(desc.height () + 10);
 			}
 
-			category = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, "Type: " + equipdata3.get_type ());
+			category = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, TestLuban.Get().GetL10nText("Type")+": " + TestLuban.Get().GetL10nText(equipdata3.get_type()));
 
 			is_weapon = equipdata3.is_weapon ();
 
 			if (is_weapon)
 			{
 				WeaponData weapon = WeaponData.get (item_id3);
-				wepspeed = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, "Attack Speed: " + weapon.getspeedstring ());
+				wepspeed = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, TestLuban.Get().GetL10nText("Attack Speed") +": " + weapon.getspeedstring ());
 			}
 			else
 			{
@@ -531,7 +531,7 @@ namespace ms
 
 			if (hasslots)
 			{
-				slots = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, "Remaining Enhancements: " + Convert.ToString (equip2.get_slots ()));
+				slots = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, TestLuban.Get().GetL10nText("Remaining Enhancements")+": " + Convert.ToString (equip2.get_slots ()));
 
 				string vicious = Convert.ToString (equip2.get_vicious ());
 
@@ -540,7 +540,7 @@ namespace ms
 					vicious += (" (MAX) ");
 				}
 
-				hammers = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, "Hammers Applied: " + vicious);
+				hammers = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, TestLuban.Get().GetL10nText("Hammers Applied") + ": " + vicious);
 			}
 			else
 			{
@@ -563,7 +563,7 @@ namespace ms
 						statstr.Append (Convert.ToString (Math.Abs (delta)) + ")");
 					}
 
-					statlabels[es] = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, EquipStat.names[(int)es] + ": " + statstr.ToString());
+					statlabels[es] = new Text (Text.Font.A11M, Text.Alignment.LEFT, Color.Name.WHITE, TestLuban.Get().GetL10nText(EquipStat.names[(int)es])  + ": " + statstr.ToString());
 				}
 				else
 				{

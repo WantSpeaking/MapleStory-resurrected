@@ -419,14 +419,15 @@ namespace ms_Unity
 			{
 				Point_short reqpos = equipTooltip.reqstatpositions[ms];
 				bool reqok = equipTooltip.canequip[ms];
-				sb.AppendLine ($"\t需要 {ms} {equipTooltip.reqstatstrings[ms]}， {(reqok ? "满足" : "不满足")}");
+				sb.AppendLine ($"\t需要 {TestLuban.Get().GetL10nText(ms.ToString())} {equipTooltip.reqstatstrings[ms]}， {(reqok ? "满足" : "不满足")}");
 			}
 
 			//哪些职业可以穿戴
 			sb.Append ("可以穿戴的职业:");
 			foreach (var jbit in equipTooltip.okjobs)
 			{
-				sb.Append (jbit);
+				//sb.Append (jbit);
+                sb.Append (Job.get_name((ushort)(jbit * 100))+" ");
 			}
 			sb.AppendLine ();
 			//装备类别

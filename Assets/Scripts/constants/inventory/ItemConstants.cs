@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using client.inventory;
@@ -31,6 +32,20 @@ namespace constants.inventory
         public static bool isMedal (int itemId)
         {
             return itemId >= 1140000 && itemId < 1143000;
+        }
+
+        public static bool isThrowingStar(int itemId)
+        {
+            return itemId / 10000 == 207;
+        }
+
+        public static bool isBullet(int itemId)
+        {
+            return itemId / 10000 == 233;
+        }
+        public static bool isRechargeable(int itemId)
+        {
+            return isThrowingStar(itemId) || isBullet(itemId);
         }
     }
 }
