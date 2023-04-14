@@ -189,7 +189,10 @@ namespace ms
 				projectile = false;
 			}
 		}
-
+		/// <summary>
+		/// 特效
+		/// </summary>
+		/// <param name="user"></param>
 		public override void apply_useeffects (Char user)
 		{
 			useeffect.apply (user);
@@ -208,11 +211,20 @@ namespace ms
 		{
 			keydownendEffect?.apply (user);
 		}
+		/// <summary>
+		/// 动作
+		/// </summary>
+		/// <param name="user"></param>
+		/// <param name="type"></param>
 		public override void apply_actions (Char user, Attack.Type type)
 		{
 			action.apply (ref user, type);
 		}
-
+		/// <summary>
+		/// 伤害计算
+		/// </summary>
+		/// <param name="user"></param>
+		/// <param name="attack"></param>
 		public override void apply_stats (Char user, Attack attack)
 		{
 			attack.skill = skillid;

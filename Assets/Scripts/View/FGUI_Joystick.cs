@@ -205,7 +205,7 @@ namespace ms_Unity
 			OffsetY = offsetY;
 
             var absDegree = Math.Abs(degree);
-            if (absDegree > 0 && absDegree < 11.25)
+            if (absDegree > 0 && absDegree < 22.5)
             {
                 //AppDebug.Log ($"right");
                 UI.get().send_key(GLFW_Util.UnityKeyCodeToGLFW_KEY(KeyCode.RightArrow), true);

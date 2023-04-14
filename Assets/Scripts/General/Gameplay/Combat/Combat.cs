@@ -386,13 +386,21 @@ namespace ms
 					apply_TELEPORT_movement((Skill)move);
                     break;
                 case SkillId.Id.FLASH_JUMP:
-
-				default:
+                    apply_FLASH_JUMP_movement((Skill)move);
+                    break;
+                default:
 					break;
 			}
 		}
 
-		public void apply_TELEPORT_movement(Skill skill)
+		//二段跳
+        public void apply_FLASH_JUMP_movement(Skill skill)
+		{
+			AppDebug.Log("apply_FLASH_JUMP_movement");
+			player.addforceXY(2* (player.facing_right ? 1 : -1), -5); 
+		}
+
+        public void apply_TELEPORT_movement(Skill skill)
 		{
 			var skillID = skill.get_id ();
 			var skillLevel = player.get_skilllevel(skillID);
@@ -408,7 +416,7 @@ namespace ms
 			{
                 moveX = hrange * (player.facing_right ? 1 : -1);
             }
-			AppDebug.Log($"moveX:{moveX}\t moveY:{moveY}");
+			//AppDebug.Log($"moveX:{moveX}\t moveY:{moveY}");
             var targetX = pos.x() + moveX ;
             var targetY = pos.y() + moveY;
             //player.rushXY(targetX, targetY);
@@ -419,7 +427,7 @@ namespace ms
                 //AppDebug.Log($"a:{Mathf.Pow((float)(targetPos.Item1 - pos.x()), 2)}\t b:{Mathf.Pow((float)(targetPos.Item2 - pos.y()), 2)}\t c:{Mathf.Pow(hrange, 2)*1.5}");
                 if (Mathf.Pow((float)(targetPos.Item1 - pos.x()), 2) + Mathf.Pow((float)(targetPos.Item2 - pos.y()), 2) <= Mathf.Pow(hrange, 2)*1.5)
                 {
-                    player.rushXY(targetPos.Item1, targetPos.Item2);
+                    player.teleportXY(targetPos.Item1, targetPos.Item2);
                 }
             }
 			

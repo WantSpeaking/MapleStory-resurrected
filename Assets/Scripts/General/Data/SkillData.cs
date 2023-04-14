@@ -484,8 +484,14 @@ namespace ms
             {
                 foreach (var property_Skillwz_000img_skill_11111004_level_1 in property_Skillwz_000img_skill_0000008_level.WzProperties)
                 {
+                    int level = string_conversion.or_default(property_Skillwz_000img_skill_11111004_level_1.Name, -1);
                     float damage = (float)property_Skillwz_000img_skill_11111004_level_1["damage"] / 100;
                     int mad = property_Skillwz_000img_skill_11111004_level_1["mad"];
+                    //群体治愈
+                    if (id == 2301002)
+                    {
+                        mad = level * 3;
+                    }
                     int fixdamage = property_Skillwz_000img_skill_11111004_level_1["fixdamage"];
                     int mastery = property_Skillwz_000img_skill_11111004_level_1["mastery"];
                     byte attackcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["attackCount"] ?? 1);
@@ -499,7 +505,7 @@ namespace ms
                     float ignoredef = 0.0f;
                     float hrange = (property_Skillwz_000img_skill_11111004_level_1["range"] ?? 100f) / 100f;
                     Rectangle_short range = new Rectangle_short(property_Skillwz_000img_skill_11111004_level_1);
-                    int level = string_conversion.or_default(property_Skillwz_000img_skill_11111004_level_1.Name, -1);
+                    
                     stats.Add(level, new Stats(damage, mad, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range));
                 }
                 masterlevel = stats.Count;

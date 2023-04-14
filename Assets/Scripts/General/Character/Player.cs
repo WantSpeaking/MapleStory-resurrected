@@ -460,23 +460,21 @@ namespace ms
 			}
 		}
 
-        public void rushXY(double targetx, double targety)
+        public void addforceXY(double targetx, double targety)
+        {
+            //if (phobj.onground)
+            { 
+                phobj.hforce += targetx; 
+                phobj.vforce += targety;
+            }
+        }
+
+        public void teleportXY(double targetx, double targety)
         {
             if (phobj.onground)
             {
-                ushort delay = get_attackdelay(1);
-				//phobj.set_x(targetx);
-                //phobj.set_y(targety);
-
                 phobj.limitx(targetx);
                 phobj.limity(targety);
-                //phobj.movexuntil(targetx, delay);
-                //phobj.moveyuntil(targety, delay);
-                //phobj.set_flag(PhysicsObject.Flag.TURNATEDGES);//turn at edges
-                //phobj.set_flag(PhysicsObject.Flag.CHECKBELOW);//turn at edges
-
-                //phobj.set_flag(PhysicsObject.Flag.NOGRAVITY);//turn at edges
-
             }
         }
 
