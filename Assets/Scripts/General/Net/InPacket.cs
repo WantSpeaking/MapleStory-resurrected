@@ -24,9 +24,9 @@ namespace ms
         // Check if there are more bytes available
         //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
         //ORIGINAL LINE: bool available() const
-        public bool available()
+        public bool available(int remainLength=1)
         {
-            return length() > 0;
+            return length() >= remainLength;
         }
 
         // Return the remaining length in bytes

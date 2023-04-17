@@ -418,7 +418,7 @@ namespace ms
 		{
 			sbyte mode = recv.read_byte ();
 			int oid = recv.read_int ();
-			bool meso = recv.read_bool ();
+			bool isMeso = recv.read_bool ();
 			int itemid = recv.read_int ();
 			int owner = recv.read_int ();
 			sbyte pickuptype = recv.read_byte ();
@@ -441,15 +441,20 @@ namespace ms
 				dropfrom = new Point_short (dropto);
 			}
 
-			if (!meso)
+			if (!isMeso)
 			{
 				recv.skip (8);
 			}
 
 			bool playerdrop = !recv.read_bool ();
 
+			int meso1 = 0;
+			if (recv.available (4))
+			{
+				meso1 = recv.read_int ();
+			}
 			//AppDebug.Log ($"DropLootHandler oid:{oid}\t itemid:{itemid}");
-			Stage.get ().get_drops ().spawn (new DropSpawn (oid, itemid, meso, owner, dropfrom, dropto, pickuptype, mode, playerdrop));
+			Stage.get ().get_drops ().spawn (new DropSpawn (oid, itemid, isMeso, owner, dropfrom, dropto, pickuptype, mode, playerdrop,meso1));
 		}
 	}
 

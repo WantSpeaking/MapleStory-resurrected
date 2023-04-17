@@ -91,10 +91,19 @@ namespace ms
 			}
 			else
 			{
+				charsets?[(int)type]?[false].reset ();
+				
 				var tempcha = charsets?[(int)type]?[false];
 				if(tempcha == null) return;
 				
 				charsets?[(int)type]?[false]?.draw(firstnum, new DrawArgument ( position, interopc));//todo 2 why damageNumber is null
+				/*position.shift_x(25);
+				for (int i = 0; i < restnum.Length; i++)
+				{
+					sbyte c = (sbyte)restnum[i];
+					charsets?[(int)type]?[false]?.draw(c, new DrawArgument ( position, interopc));
+					position.shift_x(25); 
+				}*/
 
 				if (multiple)
 				{

@@ -77,6 +77,10 @@ namespace ms
 					phobj.vspeed = -4.5f;
 					phobj.type = PhysicsObject.Type.NORMAL;
 					break;
+				default:
+					state = Drop.State.PICKEDUP;
+					deactivate ();
+					break;
 			}
 		}
 

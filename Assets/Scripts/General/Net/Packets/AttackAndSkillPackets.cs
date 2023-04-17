@@ -19,6 +19,7 @@
 
 using constants.skills;
 using ms.Helper;
+using Utility;
 
 namespace ms
 {
@@ -32,8 +33,22 @@ namespace ms
 		public AttackPacket(AttackResult attack) : base((short)opcodefor(attack.type))
 		{
 			skip(1);
+            if (attack.skill == ChiefBandit.MESO_EXPLOSION)
+			{
+				if (attack.mobcount == 0)
+				{
+					//attack.hitcount = 0;
+				}
+				else
+				{
+					//attack.hitcount = 1; 
+                }
+			}
+			int numAttackedAndDamage = ((attack.mobcount << 4) | attack.hitcount);
+            int numAttacked = attack.mobcount;
+            int numDamage = attack.hitcount;
 
-			write_byte((sbyte)((attack.mobcount << 4) | attack.hitcount));
+            write_byte((sbyte)numAttackedAndDamage);
 			write_int(attack.skill);
 
 			if (attack.charge > 0)
@@ -47,43 +62,118 @@ namespace ms
 			write_byte(attack.toleft.ToSByte ());
 			write_byte((sbyte)attack.stance);
 
-			skip(1);
-
-			write_byte((sbyte)attack.speed);
-
-			if (attack.type == Attack.Type.Ranged)
+			if (attack.skill == ChiefBandit.MESO_EXPLOSION)
 			{
-				skip(1);
-				write_byte(attack.toleft.ToSByte ());
-				skip(7);
-				// TODO: skip(4); If hurricane, piercing arrow or rapidfire.
-				if (attack.skill == Bowmaster.HURRICANE || attack.skill == Marksman.PIERCING_ARROW || attack.skill == Corsair.RAPID_FIRE || attack.skill == WindArcher.HURRICANE)
+                var bulletIdList = ms.Stage.get().get_drops().find_loot_inRange(attack.range, 1);
+                if (numAttackedAndDamage == 0)
 				{
-					skip (4);
-				}
+                    skip(10);
+
+					write_byte((sbyte)bulletIdList.Count);
+					foreach (var bulletId in bulletIdList)
+					{
+						write_int(bulletId);
+						skip(1);
+					} 
+					return;
+                }
+				else
+				{
+                    skip(6);
+                }
+
+                for (int i = 0; i < numAttacked+1; i++)
+                {
+	                var oid= attack.damagelines.Keys.TryGet (i);
+	                write_int (oid);
+	                if (i<numAttacked)
+	                {
+		                skip(12);
+
+		                write_byte((sbyte)attack.damagelines[oid].Count);
+		                foreach (var singledamage in attack.damagelines[oid])
+		                {
+			                write_int(singledamage.Item1);
+			                // TODO: Add critical here
+		                }
+
+		                skip(4);
+	                }
+	                else
+	                {
+		                write_byte((sbyte)bulletIdList.Count);
+		                foreach (var bulletId in bulletIdList)
+		                {
+			                write_int(bulletId);
+			                skip(1);
+		                }
+	                }
+                }
+                /*foreach (var damagetomob in attack.damagelines)
+                {
+                    write_int(damagetomob.Key);
+
+                    skip(12);
+
+					write_byte((sbyte)damagetomob.Value.Count);
+                    foreach (var singledamage in damagetomob.Value)
+                    {
+                        write_int(singledamage.Item1);
+                        // TODO: Add critical here
+                    }
+
+                    skip(4);
+                }
+
+                write_int(0);
+                write_byte((sbyte)bulletIdList.Count);
+                foreach (var bulletId in bulletIdList)
+                {
+                    write_int(bulletId);
+                    skip(1);
+                }*/
 			}
 			else
 			{
-				skip(4);
-			}
+                skip(1);
 
-			foreach (var damagetomob in attack.damagelines)
-			{
-				write_int(damagetomob.Key);
+                write_byte((sbyte)attack.speed);
 
-				skip(14);
+                if (attack.type == Attack.Type.Ranged)
+                {
+                    skip(1);
+                    write_byte(attack.toleft.ToSByte());
+                    skip(7);
+                    // TODO: skip(4); If hurricane, piercing arrow or rapidfire.
+                    if (attack.skill == Bowmaster.HURRICANE || attack.skill == Marksman.PIERCING_ARROW || attack.skill == Corsair.RAPID_FIRE || attack.skill == WindArcher.HURRICANE)
+                    {
+                        skip(4);
+                    }
+                }
+                else
+                {
+                    skip(4);
+                }
 
-				foreach (var singledamage in damagetomob.Value)
-				{
-					write_int(singledamage.Item1);
-					// TODO: Add critical here
-				}
+                foreach (var damagetomob in attack.damagelines)
+                {
+                    write_int(damagetomob.Key);
 
-				if (attack.skill != 5221004)
-				{
-					skip(4);
-				}
-			}
+                    skip(14);
+
+                    foreach (var singledamage in damagetomob.Value)
+                    {
+                        write_int(singledamage.Item1);
+                        // TODO: Add critical here
+                    }
+
+                    if (attack.skill != 5221004)
+                    {
+                        skip(4);
+                    }
+                }
+            }
+			
 		}
 
 		private static OutPacket.Opcode opcodefor(Attack.Type type)

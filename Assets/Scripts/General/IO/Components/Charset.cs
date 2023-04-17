@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FairyGUI;
 using MapleLib.WzLib;
-
-
+using Utility;
 
 
 namespace ms
@@ -48,11 +48,33 @@ namespace ms
 			this.alignment = Charset.Alignment.LEFT;
 		}
 
+		public void reset ()
+		{
+			usedTimes.Clear ();
+		}
+		
 		public void draw (sbyte c, DrawArgument args)
 		{
 			if (chars.TryGetValue (c, out var texture))
 			{
-				texture.draw (args);
+				
+				var usedCount = usedTimes.GetOrNew (c);
+				usedCount += 1;
+				usedTimes[c] = usedCount;
+
+				var usedList = usedchars.GetOrNew (c);
+				Texture drawTexture;
+				if (usedCount > usedList.Count)
+				{
+					drawTexture = new Texture (texture);
+					usedList.Add (new Texture(texture));
+				}
+				else
+				{
+					drawTexture = usedList[usedCount - 1];
+				}
+				
+				drawTexture.draw (args);
 			}
 		}
 
@@ -154,6 +176,8 @@ namespace ms
 		}
 
 		private Dictionary<sbyte, Texture> chars = new Dictionary<sbyte, Texture> ();
+		private Dictionary<sbyte, int> usedTimes = new Dictionary<sbyte, int> ();
+		private Dictionary<sbyte, List<Texture>> usedchars = new Dictionary<sbyte, List<Texture>> ();
 		private Alignment alignment;
 	}
 }

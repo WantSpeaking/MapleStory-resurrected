@@ -238,7 +238,17 @@ namespace ms
 		{
 			return yscale;
 		}
+		public DrawArgument set_xscale (float xscale)
+		{
+			this.xscale = xscale;
+			return this;
+		}
 
+		public DrawArgument set_yscale (float yscale)
+		{
+			this.yscale = yscale;
+			return this;
+		}
 		public Color get_color ()
 		{
 			return color;

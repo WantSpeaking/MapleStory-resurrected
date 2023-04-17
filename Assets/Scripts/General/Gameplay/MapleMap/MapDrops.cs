@@ -127,8 +127,51 @@ namespace ms
 
 			return new Tuple<int, Point_short> (0, Point_short.zero);
 		}
+		List <int> ids = new List<int> ();
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="searchRange"></param>
+		/// <param name="itemType">0 item;1 meso;2 all</param>
+		/// <returns></returns>
+        public List<int> find_loot_inRange(Rectangle_short searchRange, byte itemType)
+        {
+            ids.Clear ();
+            
+            foreach (var mmo in drops)
+            {
+                Optional<Drop> drop = (Drop)mmo.Value;
 
-		private MapObjects drops = new MapObjects ();
+                if (drop && drop.get().bounds().overlaps(searchRange))
+                {
+                    lootenabled = false;
+
+                    int oid = mmo.Key;
+					if(itemType == 0)
+					{
+						if(drop.get() is ItemDrop i)
+						{
+                            ids.Add(oid);
+                        }
+					}
+                    else if(itemType==1)
+					{
+                        if (drop.get() is MesoDrop i)
+                        {
+                            ids.Add(oid);
+                        }
+                    }
+					else
+					{
+                        ids.Add(oid);
+                    }
+                }
+            }
+
+            return ids;
+        }
+
+        private MapObjects drops = new MapObjects ();
 
 		private enum MesoIcon
 		{

@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using constants.skills;
 using MapleLib.WzLib;
 
 
@@ -221,7 +222,7 @@ namespace ms
 			action.apply (ref user, type);
 		}
 		/// <summary>
-		/// 伤害计算
+		/// 伤害数据应用
 		/// </summary>
 		/// <param name="user"></param>
 		/// <param name="attack"></param>
@@ -301,6 +302,8 @@ namespace ms
 					attack.mindamage *= stats.damage;
 					attack.maxdamage *= stats.damage;
 					attack.damagetype = Attack.DamageType.DMG_WEAPON;
+
+					
 				}
 
 				attack.critical += stats.critical;
@@ -314,7 +317,8 @@ namespace ms
 						attack.hitcount = stats.bulletcount;
 						break;
 					default:
-						attack.hitcount = stats.attackcount;
+						attack.hitcount = (byte)UnityEngine.Mathf.Clamp (stats.attackcount, 0, 15);
+	
 						break;
 				}
 
@@ -323,6 +327,8 @@ namespace ms
 				{
 					attack.range = new Rectangle_short (range);
 				}
+				
+				
 			}
 
 			if (projectile && attack.bullet == 0)

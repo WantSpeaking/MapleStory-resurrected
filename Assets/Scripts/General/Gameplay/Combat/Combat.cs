@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using constants.skills;
 using ms_Unity;
 using RuntimeEditor.Examples;
 using SD.Tools.Algorithmia.GeneralDataStructures;
@@ -126,7 +127,26 @@ namespace ms
 		{
 			attackresults.push (400, attack);
 		}
+		public void push_damageEffect (AttackResult result, AttackUser attackuser)
+		{
+			foreach (var line in result.damagelines)
+			{
+				int oid = line.Key;
 
+				if (mobs.contains (oid))
+				{
+					List<DamageNumber> numbers = place_numbers (oid, line.Value);
+
+					uint i = 0;
+
+					foreach (var number in numbers)
+					{
+						damageeffects.push (100, new DamageEffect (attackuser, number, line.Value[(int)i].Item1, result.toleft, oid, result.skill, result.hforce, result.vforce));
+						i++;
+					}
+				}
+			}
+		}
 		// Show a buff effect
 		public void show_buff (int cid, int skillid, sbyte level)
 		{
@@ -193,7 +213,7 @@ namespace ms
 			if (ouser)
 			{
 				OtherChar user = ouser;
-				user.update_skill (attack.skill, attack.level);
+				user.update_skill (attack.skill, attack.skilllevel);
 				user.update_speed (attack.speed);
 
 				SpecialMove move = get_move (attack.skill);
@@ -263,8 +283,22 @@ namespace ms
 
 				MapleStory.Instance.attackRangeAfter = range;
 
-				// This approach should also make it easier to implement PvP
-				byte mobcount = attack.mobcount;
+				attack.range = range;
+				
+				if (move_id == ChiefBandit.MESO_EXPLOSION)
+				{
+					if (ms.Stage.get ().get_drops ().find_loot_inRange (range, 1).Count == 0)
+					{
+						attack.hitcount = 0;
+					}
+					else
+					{
+						attack.hitcount = 1;
+					}
+				}
+			
+                // This approach should also make it easier to implement PvP
+                byte mobcount = attack.mobcount;
 				AttackResult result = new AttackResult (attack);
 
 				MapObjects mob_objs = mobs.get_mobs ();
@@ -485,9 +519,9 @@ namespace ms
 		{
 			AttackUser attackuser = new AttackUser (user.get_skilllevel (move.get_id ()), user.get_level (), user.is_twohanded (), !result.toleft, user);
 
-			if (result.bullet != 0)
+			if (result.bulletId != 0)
 			{
-				Bullet bullet = new Bullet (move.get_bullet (user, result.bullet), user.get_position (), result.toleft);
+				Bullet bullet = new Bullet (move.get_bullet (user, result.bulletId), user.get_position (), result.toleft);
 
 				foreach (var line in result.damagelines)
 				{
@@ -523,7 +557,7 @@ namespace ms
 			}
 			else
 			{
-				foreach (var line in result.damagelines)
+				/*foreach (var line in result.damagelines)
 				{
 					int oid = line.Key;
 
@@ -539,7 +573,7 @@ namespace ms
 							i++;
 						}
 					}
-				}
+				}*/
 			}
 		}
 

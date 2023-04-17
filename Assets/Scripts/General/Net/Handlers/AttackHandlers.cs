@@ -8,30 +8,27 @@ namespace ms
 	{
 		public override void handle(InPacket recv)
 		{
-			int cid = recv.read_int();
-			byte count = (byte)recv.read_byte();
-
-			recv.skip(1);
-
 			AttackResult attack = new AttackResult();
-			attack.type = type;
-			attack.attacker = cid;
-
-			attack.level = (byte)recv.read_byte();
-			attack.skill = (attack.level > 0) ? recv.read_int() : 0;
+			
+			int cid = recv.read_int();
+			byte numAttackedAndDamage = (byte)recv.read_byte();
+			recv.skip(1);
+			attack.skilllevel = (byte)recv.read_byte();
+			attack.skill = (attack.skilllevel > 0) ? recv.read_int() : 0;
 
 			attack.display = (byte)recv.read_byte();
 			attack.toleft = recv.read_bool();
 			attack.stance = (byte)recv.read_byte();
 			attack.speed = (byte)recv.read_byte();
-
 			recv.skip(1);
+			attack.bulletId = recv.read_int();
 
-			attack.bullet = recv.read_int();
+			attack.type = type;
+			attack.attacker = cid;
+			attack.mobcount = (byte)((numAttackedAndDamage >> 4) & 0xF);
+			attack.hitcount = (byte)(numAttackedAndDamage & 0xF);
 
-			attack.mobcount = (byte)((count >> 4) & 0xF);
-			attack.hitcount = (byte)(count & 0xF);
-
+			if(attack.hitcount == 0) return;
 			for (byte i = 0; i < attack.mobcount; i++)
 			{
 				int oid = recv.read_int();
@@ -49,8 +46,12 @@ namespace ms
 					attack.damagelines[oid].Add(singledamage);
 				}
 			}
-                 
+
+			var user = Stage.get ().get_character (cid).get ();
+			AttackUser attackuser = new AttackUser (attack.skilllevel, user?.get_level ()??0, user?.is_twohanded ()??false, !attack.toleft, user);
+
 			Stage.get().get_combat().push_attack(attack);
+			Stage.get().get_combat().push_damageEffect(attack,attackuser);
 		}
 
 		protected AttackHandler(Attack.Type t)

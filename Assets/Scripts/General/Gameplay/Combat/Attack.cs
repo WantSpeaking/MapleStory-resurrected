@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MapleLib.WzLib;
+using UnityEngine;
 
 namespace ms
 {
@@ -157,24 +158,32 @@ namespace ms
 		public AttackResult (Attack attack)
 		{
 			type = attack.type;
-			hitcount = attack.hitcount;
+			hitcount = (byte)Mathf.Clamp (attack.hitcount, 0, 15);//server clamp numdamage 
 			skill = attack.skill;
 			speed = attack.speed;
 			stance = attack.stance;
-			bullet = attack.bullet;
+			bulletId = attack.bullet;
 			toleft = attack.toleft;
 			hforce = attack.hforce;
 			vforce = attack.vforce;
-		}
+            range = attack.range;
+
+        }
 
 		public Attack.Type type;
 		public int attacker = 0;
+		/// <summary>
+		/// 攻击到的怪物数量
+		/// </summary>
 		public byte mobcount = 0;
+		/// <summary>
+		/// 最大16 server clamp numdamage 
+		/// </summary>
 		public byte hitcount = 1;
 		public int skill = 0;
 		public int charge = 0;
-		public int bullet = 0;
-		public byte level = 0;
+		public int bulletId = 0;
+		public byte skilllevel = 0;
 		public byte display = 0;
 		public byte stance = 0;
 		public byte speed = 0;
@@ -184,7 +193,8 @@ namespace ms
 		public int last_oid;
 		public float hforce;
 		public float vforce;
-	}
+        public Rectangle_short range = new Rectangle_short();
+    }
 
 	public struct AttackUser
 	{

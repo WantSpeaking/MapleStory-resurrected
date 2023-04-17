@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Text;
+using Helper;
 using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 using Stage = ms.Stage;
@@ -238,7 +239,11 @@ namespace ms_Unity
 		private void OnClick_Btn_Meso (EventContext context)
 		{
 			var dropCount = Math.Min (ms.Stage.Instance.get_player ().get_inventory ().get_meso (), 50000);
-			FGUI_EnterNumber.ShowNotice ("您想扔出多少金币？", (meso) => new MesoDropPackets (meso).dispatch (), (int)dropCount, (int)dropCount);
+			FGUI_EnterNumber.ShowNotice ("您想扔出多少金币？", (meso) =>
+			{
+				new MesoDropPackets (meso).dispatch ();
+				ms.UI.get ().send_key ((int)GLFW_Util.GLFW_KEY_ESCAPE, true);
+			}, (int)int.MaxValue, (int)dropCount);
 		}
 		private void DropMeso (int count)
 		{

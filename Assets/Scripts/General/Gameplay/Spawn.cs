@@ -106,22 +106,23 @@ namespace ms
 
 	public class DropSpawn
 	{
-		public DropSpawn(int o, int i, bool ms, int ow, Point_short p, Point_short d, sbyte t, sbyte m, bool pd)
+		public DropSpawn(int o, int i, bool ms, int ow, Point_short p, Point_short d, sbyte t, sbyte m, bool pd,int meso)
 		{
 			this.oid = o;
 			this.id = i;
-			this.meso = ms;
+			this.isMeso = ms;
 			this.owner = ow;
 			this.start = new ms.Point_short(p);
 			this.dest = new ms.Point_short(d);
 			this.droptype = t;
 			this.mode = m;
 			this.playerdrop = pd;
+			this.meso = meso;
 		}
 
 		public bool is_meso()
 		{
-			return meso;
+			return isMeso;
 		}
 		public int get_itemid()
 		{
@@ -131,9 +132,13 @@ namespace ms
 		{
 			return oid;
 		}
+		public int get_meso()
+		{
+			return meso;
+		}
 		public MapObject instantiate(Animation icon)
 		{
-			return new MesoDrop(oid, owner, start, dest, droptype, mode, playerdrop, icon);
+			return new MesoDrop(oid, owner, start, dest, droptype, mode, playerdrop, icon,meso);
 		}
 		public MapObject instantiate(Texture icon)
 		{
@@ -142,13 +147,17 @@ namespace ms
 
 		private int oid;
 		private int id;
-		private bool meso;
+		private bool isMeso;
 		private int owner;
 		private Point_short start = new Point_short();
 		private Point_short dest = new Point_short();
-		private sbyte droptype;
+        /// <summary>
+        /// 0 = timeout for non-owner, 1 = timeout for non-owner's party, 2 = FFA, 3 = explosive/FFA
+        /// </summary>
+        private sbyte droptype;
 		private sbyte mode;
 		private bool playerdrop;
+		private int meso;
 	}
 
 	public class CharSpawn
