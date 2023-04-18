@@ -13,7 +13,9 @@ namespace ms
 		{
 			//this.Char = new < type missing > (id, lk, nm);
 			level = lvl;
-			job = jb;
+			jobId = jb;
+			job.change_job ((ushort)jobId);
+			
 			set_position (pos);
 
 			lastmove.xpos = pos.x ();
@@ -126,12 +128,24 @@ namespace ms
 			return skilllevels[skillid];
 		}
 
+		public short get_jobId ()
+		{
+			return jobId;
+		}
+		
+		public override Job get_job ()
+		{
+			return job;
+		}
+		
 		private ushort level;
-		private short job;
+		private short jobId;
+		private Job job = new Job();
+
 		private Queue<Movement> movements = new Queue<Movement> ();
 		private Movement lastmove = new Movement ();
 		private ushort timer;
-
+		
 		private Dictionary<int, byte> skilllevels = new Dictionary<int, byte> ();
 		private byte attackspeed;
 	}

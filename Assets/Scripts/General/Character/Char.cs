@@ -86,6 +86,7 @@ namespace ms
 			{
 				number.draw (viewx, viewy, alpha);
 			}
+			
 		}
 
 		public void draw_preview (Point_short position, float alpha)
@@ -93,6 +94,11 @@ namespace ms
 			look_preview.draw (position, false, Stance.Id.STAND1, Expression.Id.DEFAULT);
 		}
 
+		public void draw_shadow (float alpha)
+		{
+			_charShadowLook?.draw (alpha,look);
+		}
+		
 		public bool update (Physics physics, float speed)
 		{
 			damagenumbers.remove_if (number => number.update ());
@@ -535,6 +541,15 @@ namespace ms
 
 		public abstract int get_skilllevel (int skillid);
 
+		public void TrySet_CharShadowLook ()
+		{
+			//如果是无影人 才初始化 影子外观
+			//if ((this is Player player && player.get_job ().isA(MapleJob.HERMIT))||(this is OtherChar otherChar && otherChar.get_job ().isA(MapleJob.HERMIT)))
+			if (get_job ().isA (MapleJob.HERMIT))
+			{
+				_charShadowLook = new CharShadowLook ();
+			}
+		}
 		public Char (int o, CharLook lk, string name) : base (o, new Point_short ())
 		{
 			look = (lk);
@@ -546,14 +561,21 @@ namespace ms
 			behaviorTreeOwner.repeat = false;
 
 			look.OnActionChanged += () => { set_afterimage (current_skill_id); };
+
+			
+			
 		}
 
 		~Char ()
 		{
 			look.OnActionChanged = null;
 		}
+
+		public abstract Job get_job ();
+		
 		public CharLook look = new CharLook ();
 		public CharLook look_preview = new CharLook ();
+		private CharShadowLook _charShadowLook;
 		public PetLook[] pets = new PetLook[3];
 
 		public State state;

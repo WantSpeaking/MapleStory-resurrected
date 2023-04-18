@@ -44,6 +44,7 @@ namespace ms
 			FBR_IsProningNowCantSkill,
 			FBR_IsForbid,
 			FBR_IsLADDER_Rope_Sit_Now_CantAttack,
+			FBR_itemCon_NOT_ENOUGH,
 		}
 
 		public virtual void Dispose ()

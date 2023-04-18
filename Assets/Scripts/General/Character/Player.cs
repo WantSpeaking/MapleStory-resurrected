@@ -57,6 +57,8 @@ namespace ms
 
 			GameObject.DontDestroyOnLoad (MapGameObject);
 			//MapGameObject.SetParent (MapleStory.Instance.gameObject);
+
+			
 		}
 		public Player () : base (0, new CharLook (), "")
 		{
@@ -169,9 +171,14 @@ namespace ms
 			//AppDebug.Log ($"Layer draw player :{(Layer.Id)get_layer ()}");
 			if (layer == (Layer.Id)get_layer ())
 			{
-				draw (viewx, viewy, alpha);
+				base.draw (viewx, viewy, alpha);
 			}
 
+			//影分身
+			if (has_buff (Buffstat.Id.SHADOWPARTNER))
+			{
+				base.draw_shadow (alpha);
+			}
 
 		}
 
@@ -358,6 +365,11 @@ namespace ms
 				return SpecialMove.ForbidReason.FBR_COOLDOWN;
 			}
 
+			//如果是影子分身 但没有足够的召回石
+			if (move.get_id () == 4111002 && !inventory.hasEnoughItem (4006001,1))
+			{
+				return SpecialMove.ForbidReason.FBR_itemCon_NOT_ENOUGH;
+			}
 			int level = skillbook.get_level (move.get_id ());
 			Weapon.Type weapon = get_weapontype ();
 			Job job = stats.get_job ();
@@ -625,9 +637,11 @@ namespace ms
 		{
 			show_effect_id (CharEffect.Id.JOBCHANGE);
 			stats.change_job (jobid);
+
+			TrySet_CharShadowLook ();
 		}
 
-		public Job get_job ()
+		public override Job get_job ()
 		{
 			return stats.get_job ();
 		}
@@ -929,6 +943,7 @@ namespace ms
 		}
 
 		public Enum_SkillElemAttr Current_ElementAtrr { get; set; }
+
 		
 	}
 }

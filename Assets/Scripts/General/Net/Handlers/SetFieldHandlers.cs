@@ -85,7 +85,8 @@ namespace ms
 			LoginParser.parse_stats (recv);
 
 			Player player = Stage.get ().get_player ();
-
+			player.TrySet_CharShadowLook ();
+			
 			recv.read_byte (); // 'buddycap'
 
 			if (recv.read_bool ())

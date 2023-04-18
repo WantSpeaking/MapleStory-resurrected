@@ -364,7 +364,10 @@
 			int basebranch = (int)basejob / 10;
 			return (getId () / 10 == basebranch && getId () >= basejobId) || (basebranch % 10 == 0 && getId () / 100 == basejobId / 100);
 		}
-
+		public bool isJob (MapleJob job)
+		{  
+			return getId () == (ushort)job;
+		}
         public MapleJob get_BaseJob()
         {
             //112

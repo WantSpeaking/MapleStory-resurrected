@@ -627,6 +627,14 @@ namespace ms
         {
             return (Stance.Id)stance.get (alpha);
         }
+
+        public DrawArgument get_lastDraw_args ()
+        {
+            return lastDraw_args;
+        }
+        public Stance.Id get_lastDraw_stance () => lastDraw_interstance;
+        public sbyte get_lastDraw_interframe () => lastDraw_interframe;
+
         public Body get_body()
         {
             return body;

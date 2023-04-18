@@ -296,7 +296,21 @@ namespace ms
 						attack.hitcount = 1;
 					}
 				}
-			
+				else if (move_id == Thief.DoubleDart)
+				{
+					if (player.has_buff (Buffstat.Id.SHADOWPARTNER))
+					{
+						attack.hitcount = 4;
+					}
+				}
+				else if (move_id == NightLord.TRIPLE_THROW)
+				{
+					if (player.has_buff (Buffstat.Id.SHADOWPARTNER))
+					{
+						attack.hitcount = 6;
+					}
+				}
+				
                 // This approach should also make it easier to implement PvP
                 byte mobcount = attack.mobcount;
 				AttackResult result = new AttackResult (attack);
