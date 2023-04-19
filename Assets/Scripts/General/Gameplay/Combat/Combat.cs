@@ -261,24 +261,27 @@ namespace ms
 				Point_short origin = new Point_short (attack.origin);
 				Rectangle_short range = new Rectangle_short (attack.range);
 				short hrange = (short)(range.left () * attack.hrange);
+				int x = attack.x;
+				int y = attack.y;
 
+				
 				MapleStory.Instance.attackRange = range;
 				//AppDebug.Log ($"center:{center}\t size:{size}\t attackRange:{attackRange}");
 				if (attack.toleft)
 				{
 					range = new Rectangle_short (
-						(short)(origin.x () + hrange),
-						(short)(origin.x () + range.right ()),
-						(short)(origin.y () + range.top ()),
-						(short)(origin.y () + range.bottom ()));
+						(short)(origin.x () + hrange - x),
+						(short)(origin.x () + range.right () - x),
+						(short)(origin.y () + range.top () + y),
+						(short)(origin.y () + range.bottom () + y));
 				}
 				else
-				{
+				{ 
 					range = new Rectangle_short (
-						(short)(origin.x () - range.right ()),
-						(short)(origin.x () - hrange),
-						(short)(origin.y () + range.top ()),
-						(short)(origin.y () + range.bottom ()));
+						(short)(origin.x () - range.right ()+x),
+						(short)(origin.x () - hrange+x),
+						(short)(origin.y () + range.top ()+y),
+						(short)(origin.y () + range.bottom ()+y));
 				}
 
 				MapleStory.Instance.attackRangeAfter = range;

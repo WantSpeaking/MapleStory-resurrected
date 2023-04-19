@@ -46,6 +46,9 @@ namespace ms
 
 		public float hforce;
 		public float vforce;
+		
+		public int x = 0;
+		public int y = 0;
 	}
 
 	public class MobAttack

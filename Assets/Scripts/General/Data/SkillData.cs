@@ -384,7 +384,10 @@ namespace ms
             public float hrange;
             public Rectangle_short range = new Rectangle_short();
 
-            public Stats(float damage, int matk, int fixdamage, int mastery, byte attackcount, byte mobcount, byte bulletcount, short bulletcost, int hpcost, int mpcost, float chance, float critical, float ignoredef, float hrange, Rectangle_short range)
+            public int x;
+            public int y;
+            
+            public Stats(float damage, int matk, int fixdamage, int mastery, byte attackcount, byte mobcount, byte bulletcount, short bulletcost, int hpcost, int mpcost, float chance, float critical, float ignoredef, float hrange, Rectangle_short range, int x ,int y)
             {
                 this.damage = damage;
                 this.mad = matk;
@@ -401,6 +404,8 @@ namespace ms
                 this.ignoredef = ignoredef;
                 this.hrange = hrange;
                 this.range = new ms.Rectangle_short(range);
+                this.x = x;
+                this.y = y;
             }
         }
 
@@ -488,9 +493,13 @@ namespace ms
                     float damage = (float)property_Skillwz_000img_skill_11111004_level_1["damage"] / 100;
                     int mad = property_Skillwz_000img_skill_11111004_level_1["mad"];
                     //群体治愈
-                    if (id == 2301002)
+                    if (id == Cleric.HEAL)
                     {
                         mad = level * 3;
+                    }
+                    else if (id == Hunter.ARROW_BOMB)
+                    {
+	                    damage = level * 3/100f;
                     }
                     int fixdamage = property_Skillwz_000img_skill_11111004_level_1["fixdamage"];
                     int mastery = property_Skillwz_000img_skill_11111004_level_1["mastery"];
@@ -504,9 +513,12 @@ namespace ms
                     float critical = 0.0f;
                     float ignoredef = 0.0f;
                     float hrange = (property_Skillwz_000img_skill_11111004_level_1["range"] ?? 100f) / 100f;
+                    int x = property_Skillwz_000img_skill_11111004_level_1["x"];
+                    int y = property_Skillwz_000img_skill_11111004_level_1["y"];
+
                     Rectangle_short range = new Rectangle_short(property_Skillwz_000img_skill_11111004_level_1);
                     
-                    stats.Add(level, new Stats(damage, mad, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range));
+                    stats.Add(level, new Stats(damage, mad, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range,x,y));
                 }
                 masterlevel = stats.Count;
             }
@@ -624,7 +636,7 @@ namespace ms
 
         // Return the stats of one level
         // If there are no stats for that level, a default object is returned.
-        private readonly Stats null_stats = new Stats(0.0f, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f, 0.0f, 0.0f, new Rectangle_short());
+        private readonly Stats null_stats = new Stats(0.0f, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f, 0.0f, 0.0f, new Rectangle_short(),0,0);
 
         public Stats get_stats(int level)
         {
@@ -795,9 +807,9 @@ namespace ms
              {(int)Hunter.StrongBow, (int)Flags.ATTACK},
              {(int)Hunter.ARROW_BOMB, (int)Flags.ATTACK},
 			//RANGER - 311
-			{(int)SkillId.Id.RANGER_Inferno, (int)Flags.ATTACK| (int)Flags.RANGED},//无法控制的大火
-            {(int)SkillId.Id.RANGER_Strafe, (int)Flags.ATTACK},//箭扫射
-            {(int)SkillId.Id.RANGER_ArrowRain, (int)Flags.ATTACK},//箭雨
+			{(int)Ranger.RANGER_Inferno, (int)Flags.ATTACK| (int)Flags.RANGED},//无法控制的大火
+            {(int)Ranger.RANGER_Strafe, (int)Flags.ATTACK},//箭扫射
+            {(int)Ranger.ArrowRain, (int)Flags.ATTACK},//箭雨
             //{(int)SkillId.Id.RANGER_MortalBlow, (int)Flags.ATTACK},
             //{(int)SkillId.Id.RANGER_SilverHawk, (int)Flags.ATTACK| (int)Flags.RANGED},
 			//BOWMASTER - 312

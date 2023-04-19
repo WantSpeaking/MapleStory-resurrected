@@ -303,6 +303,7 @@ namespace ms
 					attack.maxdamage *= stats.damage;
 					attack.damagetype = Attack.DamageType.DMG_WEAPON;
 
+					AppDebug.Log ($"stats.damage:{stats.damage}");
 					
 				}
 
@@ -310,6 +311,8 @@ namespace ms
 				attack.ignoredef += stats.ignoredef;
 				attack.mobcount = (byte)(stats.mobcount);
 				attack.hrange = stats.hrange;
+				attack.x = stats.x;
+				attack.y = stats.y;
 
 				switch (attack.type)
 				{
