@@ -40,7 +40,7 @@ namespace ms
 			this.formatted_text = "";
 			this.formatted_text_pos = 0;
 			this.timestep = 0;
-			WzObject UtilDlgEx = ms.wz.wzFile_ui["UIWindow2.img"]["UtilDlgEx"];
+			WzObject UtilDlgEx = ms.wz.wzFile_ui["UIWindow.img"]["UtilDlgEx"];
 
 			top = UtilDlgEx["t"];
 			fill = UtilDlgEx["c"];

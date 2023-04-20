@@ -12,7 +12,7 @@ namespace ms
 		// TODO: Add blue dot next to name
 		public ItemTooltip ()
 		{
-			WzObject Item = ms.wz.wzFile_ui["UIToolTip.img"]["Item"];
+			/*WzObject Item = ms.wz.wzFile_ui["UIToolTip.img"]["Item"];
 			WzObject Frame = Item["Frame2"];
 			WzObject ItemIcon = Item["ItemIcon"];
 
@@ -23,12 +23,12 @@ namespace ms
 			type[true] = ItemIcon["new"];
 			type[false] = ItemIcon["old"];
 
-			itemid = 0;
+			itemid = 0;*/
 		}
 
 		public override void draw (Point_short pos)
 		{
-			if (itemid == 0)
+			/*if (itemid == 0)
 			{
 				return;
 			}
@@ -69,7 +69,7 @@ namespace ms
 			type[true].draw (pos);
 			itemicon.draw (new DrawArgument (pos + new Point_short (8, 72), 2.0f, 2.0f));
 			itemcover.draw (pos);
-			desc.draw (pos + new Point_short (90, -6));
+			desc.draw (pos + new Point_short (90, -6));*/
 		}
 
 		public bool set_item (int iid)

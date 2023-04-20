@@ -12,7 +12,7 @@ namespace ms
 	{
 		public MapTooltip()
 		{
-			this.name = "";
+			/*this.name = "";
 			this.description = "";
 			this.fillwidth = MIN_WIDTH;
 			this.fillheight = 0;
@@ -23,14 +23,14 @@ namespace ms
 			cover = Frame["cover"];
 			Mob = WorldMap["Mob"];
 			Npc = WorldMap["Npc"];
-			Party = WorldMap["Party"];
+			Party = WorldMap["Party"];*/
 		}
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: void draw(Point_short pos) const override
 		public override void draw(Point_short pos)
 		{
-			if (name_label.empty())
+			/*if (name_label.empty())
 			{
 				return;
 			}
@@ -192,7 +192,7 @@ namespace ms
 						}
 					}
 				}
-			}
+			}*/
 		}
 
 		public void set_name(Tooltip.Parent p, string n, bool bolded)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
+using ms_Unity;
 using ms.Util;
 
 
@@ -21,7 +22,7 @@ namespace ms
 
 		public UIExplorerCreation() : base(new Point_short(0, 0), new Point_short(800, 600))
 		{
-			gender = false;
+			gender = true;
 			charSet = false;
 			named = false;
 
@@ -30,24 +31,26 @@ namespace ms
 
 			WzObject Login = ms.wz.wzFile_ui["Login.img"];
 			WzObject Common = Login["Common"];
-			WzObject CustomizeChar = Login["CustomizeChar"]["000"];
-			WzObject back = ms.wz.wzFile_map001["Back"]["login.img"]["back"];
-			WzObject signboard = ms.wz.wzFile_mapLatest["Obj"]["login.img"]["NewChar"]["signboard"];
-			WzObject board = CustomizeChar["board"];
-			WzObject genderSelect = CustomizeChar["genderSelect"];
-			WzObject frame = ms.wz.wzFile_mapLatest["Obj"]["login.img"]["Common"]["frame"]["2"]["0"];
+			//WzObject CustomizeChar = Login["CustomizeChar"]["000"];
+			WzObject NewChar = Login["NewChar"];
+
+			WzObject back = ms.wz.wzFile_map["Back"]["login.img"]["back"];
+			//WzObject signboard = ms.wz.wzFile_map["Obj"]["login.img"]["NewChar"]["signboard"];
+			//WzObject board = NewChar["board"];
+			//WzObject genderSelect = NewChar["genderSelect"];
+			WzObject frame = ms.wz.wzFile_map["Obj"]["login.img"]["Common"]["frame"]["0"]["0"];
 
 			sky = back["2"];
 			cloud = back["27"];
 
 			sprites.Add(new Sprite (back["14"], new Point_short (250, 302)));
-			sprites.Add(new Sprite (signboard["2"], new DrawArgument(new Point_short(234, 235), 2.0f)));
-			sprites_gender_select.Add(new Sprite (board["genderTop"], new Point_short(486, 95)));
+			//sprites.Add(new Sprite (signboard["2"], new DrawArgument(new Point_short(234, 235), 2.0f)));
+			/*sprites_gender_select.Add(new Sprite (board["genderTop"], new Point_short(486, 95)));
 			sprites_gender_select.Add(new Sprite (board["boardMid"], new Point_short(486, 209)));
-			sprites_gender_select.Add(new Sprite (board["boardBottom"], new Point_short(486, 329)));
-			sprites_lookboard.Add(new Sprite (CustomizeChar["charSet"], new Point_short(486, 95)));
+			sprites_gender_select.Add(new Sprite (board["boardBottom"], new Point_short(486, 329)));*/
+			sprites_lookboard.Add(new Sprite (NewChar["charSet"], new Point_short(486, 95)));
 
-			for (int i = 0; i <= 5; i++)
+			/*for (int i = 0; i <= 5; i++)
 			{
 				int f = i;
 
@@ -69,31 +72,65 @@ namespace ms
 						tmp = 4;
                         break;
 				}
-				sprites_lookboard.Add(new Sprite (CustomizeChar["avatarSel"][tmp.ToString()]["normal"], new Point_short(497, (short)(197 + (f * 18)))));
-			}
-
-			buttons[(int)Buttons.BT_CHARC_GENDER_M] = new MapleButton(genderSelect["male"], new Point_short(487, 109));
-			buttons[(int)Buttons.BT_CHARC_GEMDER_F] = new MapleButton(genderSelect["female"], new Point_short(485, 109));
-			buttons[(int)Buttons.BT_CHARC_FACEL] = new MapleButton(CustomizeChar["BtLeft"], new Point_short(552, 198 + (0 * 18)));
-			buttons[(int)Buttons.BT_CHARC_FACER] = new MapleButton(CustomizeChar["BtRight"], new Point_short(684, 198 + (0 * 18)));
-			buttons[(int)Buttons.BT_CHARC_HAIRL] = new MapleButton(CustomizeChar["BtLeft"], new Point_short(552, 198 + (1 * 18)));
-			buttons[(int)Buttons.BT_CHARC_HAIRR] = new MapleButton(CustomizeChar["BtRight"], new Point_short(684, 198 + (1 * 18)));
-			buttons[(int)Buttons.BT_CHARC_SKINL] = new MapleButton(CustomizeChar["BtLeft"], new Point_short(552, 198 + (3 * 18)));
-			buttons[(int)Buttons.BT_CHARC_SKINR] = new MapleButton(CustomizeChar["BtRight"], new Point_short(684, 198 + (3 * 18)));
-			buttons[(int)Buttons.BT_CHARC_TOPL] = new MapleButton(CustomizeChar["BtLeft"], new Point_short(552, 198 + (4 * 18)));
-			buttons[(int)Buttons.BT_CHARC_TOPR] = new MapleButton(CustomizeChar["BtRight"], new Point_short(684, 198 + (4 * 18)));
-			buttons[(int)Buttons.BT_CHARC_SHOESL] = new MapleButton(CustomizeChar["BtLeft"], new Point_short(552, 198 + (5 * 18)));
-			buttons[(int)Buttons.BT_CHARC_SHOESR] = new MapleButton(CustomizeChar["BtRight"], new Point_short(684, 198 + (5 * 18)));
-			buttons[(int)Buttons.BT_CHARC_WEPL] = new MapleButton(CustomizeChar["BtLeft"], new Point_short(552, 198 + (6 * 18)));
-			buttons[(int)Buttons.BT_CHARC_WEPR] = new MapleButton(CustomizeChar["BtRight"], new Point_short(684, 198 + (6 * 18)));
-
-			for (uint i = 0; i <= 7; i++)
+				sprites_lookboard.Add(new Sprite (NewChar["avatarSel"][tmp.ToString()]["normal"], new Point_short(497, (short)(197 + (f * 18)))));
+			}*/
+			for (int i = 0; i <= 8; i++)
 			{
-				buttons[(int)Buttons.BT_CHARC_HAIRC0 + i] = new MapleButton(CustomizeChar["hairSelect"][i.ToString ()], new Point_short((short)(549 + (i * 15)), 234));
-				buttons[(int)Buttons.BT_CHARC_HAIRC0 + i].set_active(false);
-			}
+				sprites_lookboard.Add(new Sprite (NewChar["avatarSel"][i.ToString()]["normal"], new Point_short(497, (short)(197 + (i * 18)))));
+				
+				/*int f = i;
 
-			buttons[(int)Buttons.BT_CHARC_FACEL].set_active(false);
+				if (i >= 2)
+				{
+					f++;
+				}
+
+				int tmp = i;
+				switch (i)
+				{
+					case 3:
+						tmp = 2;
+						break;
+					case 4:
+						tmp = 3;
+						break;
+					case 5:
+						tmp = 4;
+						break;
+				}
+				sprites_lookboard.Add(new Sprite (NewChar["avatarSel"][tmp.ToString()]["normal"], new Point_short(497, (short)(197 + (f * 18)))));*/
+			}
+			
+			
+			buttons[(int)Buttons.BT_CHARC_FACEL] = new MapleButton(NewChar["BtLeft"], new Point_short(552, 198 + (0 * 18)));
+			buttons[(int)Buttons.BT_CHARC_FACER] = new MapleButton(NewChar["BtRight"], new Point_short(684, 198 + (0 * 18)));
+			buttons[(int)Buttons.BT_CHARC_HAIRL] = new MapleButton(NewChar["BtLeft"], new Point_short(552, 198 + (1 * 18)));
+			buttons[(int)Buttons.BT_CHARC_HAIRR] = new MapleButton(NewChar["BtRight"], new Point_short(684, 198 + (1 * 18)));
+			buttons[(int)Buttons.BT_CHARC_HAIRC0] = new MapleButton(NewChar["BtLeft"], new Point_short(552, 198 + (2 * 18)));
+			buttons[(int)Buttons.BT_CHARC_HAIRC1] = new MapleButton(NewChar["BtRight"], new Point_short(684, 198 + (2 * 18)));
+			buttons[(int)Buttons.BT_CHARC_SKINL] = new MapleButton(NewChar["BtLeft"], new Point_short(552, 198 + (3 * 18)));
+			buttons[(int)Buttons.BT_CHARC_SKINR] = new MapleButton(NewChar["BtRight"], new Point_short(684, 198 + (3 * 18)));
+			buttons[(int)Buttons.BT_CHARC_TOPL] = new MapleButton(NewChar["BtLeft"], new Point_short(552, 198 + (4 * 18)));
+			buttons[(int)Buttons.BT_CHARC_TOPR] = new MapleButton(NewChar["BtRight"], new Point_short(684, 198 + (4 * 18)));
+			buttons[(int)Buttons.BT_CHARC_BOTL] = new MapleButton(NewChar["BtLeft"], new Point_short(552, 198 + (5 * 18)));
+			buttons[(int)Buttons.BT_CHARC_BOTR] = new MapleButton(NewChar["BtRight"], new Point_short(684, 198 + (5 * 18)));
+			buttons[(int)Buttons.BT_CHARC_SHOESL] = new MapleButton(NewChar["BtLeft"], new Point_short(552, 198 + (6 * 18)));
+			buttons[(int)Buttons.BT_CHARC_SHOESR] = new MapleButton(NewChar["BtRight"], new Point_short(684, 198 + (6 * 18)));
+			buttons[(int)Buttons.BT_CHARC_WEPL] = new MapleButton(NewChar["BtLeft"], new Point_short(552, 198 + (7 * 18)));
+			buttons[(int)Buttons.BT_CHARC_WEPR] = new MapleButton(NewChar["BtRight"], new Point_short(684, 198 + (7 * 18)));
+			buttons[(int)Buttons.BT_CHARC_GENDER_M] = new MapleButton(NewChar["BtLeft"], new Point_short(552, 198 + (8 * 18)));
+			buttons[(int)Buttons.BT_CHARC_GEMDER_F] = new MapleButton(NewChar["BtRight"], new Point_short(684, 198 + (8 * 18)));
+			
+			
+
+
+			/*for (uint i = 0; i <= 7; i++)
+			{
+				buttons[(int)Buttons.BT_CHARC_HAIRC0 + i] = new MapleButton(NewChar["hairSelect"][i.ToString ()], new Point_short((short)(549 + (i * 15)), 234));
+				buttons[(int)Buttons.BT_CHARC_HAIRC0 + i].set_active(false);
+			}*/
+
+			/*buttons[(int)Buttons.BT_CHARC_FACEL].set_active(false);
 			buttons[(int)Buttons.BT_CHARC_FACER].set_active(false);
 			buttons[(int)Buttons.BT_CHARC_HAIRL].set_active(false);
 			buttons[(int)Buttons.BT_CHARC_HAIRR].set_active(false);
@@ -105,11 +142,16 @@ namespace ms
 			buttons[(int)Buttons.BT_CHARC_SHOESR].set_active(false);
 			buttons[(int)Buttons.BT_CHARC_WEPL].set_active(false);
 			buttons[(int)Buttons.BT_CHARC_WEPR].set_active(false);
+			
+			buttons[(int)Buttons.BT_CHARC_HAIRC0].set_active(false);
+			buttons[(int)Buttons.BT_CHARC_HAIRC1].set_active(false);
+			buttons[(int)Buttons.BT_CHARC_GENDER_M].set_active(false);
+			buttons[(int)Buttons.BT_CHARC_GEMDER_F].set_active(false);*/
+			
+			buttons[(int)Buttons.BT_CHARC_OK] = new MapleButton(NewChar["BtYes"], new Point_short(514, 427));
+			buttons[(int)Buttons.BT_CHARC_CANCEL] = new MapleButton(NewChar["BtNo"], new Point_short(590, 427));
 
-			buttons[(int)Buttons.BT_CHARC_OK] = new MapleButton(CustomizeChar["BtYes"], new Point_short(514, 394));
-			buttons[(int)Buttons.BT_CHARC_CANCEL] = new MapleButton(CustomizeChar["BtNo"], new Point_short(590, 394));
-
-			nameboard = CustomizeChar["charName"];
+			nameboard = NewChar["charName"];
 			namechar = new Textfield(Text.Font.A13M, Text.Alignment.LEFT, Color.Name.WHITE, new Rectangle_short(new Point_short(522, 195), new Point_short(630, 253)), 12);
 
 			sprites.Add(new Sprite ( frame, new Point_short(400, 300)));
@@ -132,10 +174,13 @@ namespace ms
 
 			facename = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK);
 			hairname = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK);
+			hairColorName = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK);
 			bodyname = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK);
 			topname = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK);
+			botname = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK);
 			shoename = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK);
 			wepname = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK);
+			gendername = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK);
 
 			WzObject mkinfo = ms.wz.wzFile_etc["MakeCharInfo.img"]["Info"];
 
@@ -253,13 +298,16 @@ namespace ms
 						sprite.draw(new Point_short (position), inter);
 					}
 
-					facename.draw(new Point_short(625, 193 + (0 * 18)));
-					hairname.draw(new Point_short(625, 193 + (1 * 18)));
-					bodyname.draw(new Point_short(625, 193 + (3 * 18)));
-					topname.draw(new Point_short(625, 193 + (4 * 18)));
-					shoename.draw(new Point_short(625, 193 + (5 * 18)));
-					wepname.draw(new Point_short(625, 193 + (6 * 18)));
-
+					facename.draw(new Point_short(640, 193 + (0 * 18)));
+					hairname.draw(new Point_short(640, 193 + (1 * 18)));
+					hairColorName.draw(new Point_short(640, 193 + (2 * 18)));
+					bodyname.draw(new Point_short(640, 193 + (3 * 18)));
+					topname.draw(new Point_short(640, 193 + (4 * 18)));
+					botname.draw(new Point_short(640, 193 + (5 * 18)));
+					shoename.draw(new Point_short(640, 193 + (6 * 18)));
+					wepname.draw(new Point_short(640, 193 + (7 * 18)));
+					gendername.draw(new Point_short(640, 193 + (8 * 18)));
+					
 					newchar.draw(new Point_short(394, 339), inter);
 
 					base.draw_buttons(inter);
@@ -416,7 +464,8 @@ namespace ms
 						}
 					};
 
-					UI.get().emplace<UIKeySelect>(onok, true);
+					//UI.get().emplace<UIKeySelect>(onok, true);
+					FGUI_YesNo.ShowNotice ("使用冒险岛风格按键请确定，使用WASD风格按键请取消",onok);
 				}
 				else
 				{
@@ -460,7 +509,7 @@ namespace ms
 						buttons[(int)Buttons.BT_CHARC_WEPL].set_active(true);
 						buttons[(int)Buttons.BT_CHARC_WEPR].set_active(true);
 
-						for (uint i = 0; i <= 7; i++)
+						for (uint i = 0; i <= 1; i++)
 						{
 							buttons[(int)Buttons.BT_CHARC_HAIRC0 + i].set_active(true);
 						}
@@ -476,21 +525,28 @@ namespace ms
 						{
 							charSet = true;
 
-							buttons[(int)Buttons.BT_CHARC_SKINL].set_active(false);
-							buttons[(int)Buttons.BT_CHARC_SKINR].set_active(false);
+							
 
 							buttons[(int)Buttons.BT_CHARC_FACEL].set_active(false);
 							buttons[(int)Buttons.BT_CHARC_FACER].set_active(false);
 							buttons[(int)Buttons.BT_CHARC_HAIRL].set_active(false);
 							buttons[(int)Buttons.BT_CHARC_HAIRR].set_active(false);
+							buttons[(int)Buttons.BT_CHARC_HAIRC0].set_active(false);
+							buttons[(int)Buttons.BT_CHARC_HAIRC1].set_active(false);
+							buttons[(int)Buttons.BT_CHARC_SKINL].set_active(false);
+							buttons[(int)Buttons.BT_CHARC_SKINR].set_active(false);
 							buttons[(int)Buttons.BT_CHARC_TOPL].set_active(false);
 							buttons[(int)Buttons.BT_CHARC_TOPR].set_active(false);
+							buttons[(int)Buttons.BT_CHARC_BOTL].set_active(false);
+							buttons[(int)Buttons.BT_CHARC_BOTR].set_active(false);
 							buttons[(int)Buttons.BT_CHARC_SHOESL].set_active(false);
 							buttons[(int)Buttons.BT_CHARC_SHOESR].set_active(false);
 							buttons[(int)Buttons.BT_CHARC_WEPL].set_active(false);
 							buttons[(int)Buttons.BT_CHARC_WEPR].set_active(false);
+							buttons[(int)Buttons.BT_CHARC_GEMDER_F].set_active(false);
+							buttons[(int)Buttons.BT_CHARC_GENDER_M].set_active(false);
 
-							for (uint i = 0; i <= 7; i++)
+							for (uint i = 0; i <= 1; i++)
 							{
 								buttons[(int)Buttons.BT_CHARC_HAIRC0 + i].set_active(false);
 							}
@@ -644,10 +700,10 @@ namespace ms
 							buttons[(int)Buttons.BT_CHARC_WEPL].set_active(false);
 							buttons[(int)Buttons.BT_CHARC_WEPR].set_active(false);
 
-							for (uint i = 0; i <= 7; i++)
+							/*for (uint i = 0; i <= 7; i++)
 							{
 								buttons[(int)Buttons.BT_CHARC_HAIRC0 + i].set_active(false);
-							}
+							}*/
 
 							buttons[(int)Buttons.BT_CHARC_OK].set_position(new Point_short(514, 394));
 							buttons[(int)Buttons.BT_CHARC_CANCEL].set_position(new Point_short(590, 394));
@@ -706,7 +762,7 @@ namespace ms
 					// TODO: These need to be changed so when you click the color it only assigns the color, not the next in the series.
 					haircolor = (haircolor > 0) ? haircolor - 1 : haircolors[female].Count - 1;
 					newchar.set_hair(hairs[female][hair] + haircolors[female][haircolor]);
-
+					hairname.change_text(newchar.get_hair().getcolor());
 					return Button.State.NORMAL;
 				}
 				case Buttons.BT_CHARC_SKINL:
@@ -745,13 +801,15 @@ namespace ms
 				{
 					bot = (bot > 0) ? bot - 1 : bots[female].Count - 1;
 					newchar.add_equip(bots[female][bot]);
-
+					botname.change_text(get_equipname(EquipSlot.Id.BOTTOM));
+					
 					return Button.State.NORMAL;
 				}
 				case Buttons.BT_CHARC_BOTR:
 				{
 					bot = (bot < bots[female].Count - 1) ? bot + 1 : 0;
 					newchar.add_equip(bots[female][bot]);
+					botname.change_text(get_equipname(EquipSlot.Id.BOTTOM));
 
 					return Button.State.NORMAL;
 				}
@@ -794,7 +852,7 @@ namespace ms
 						female = false;
 						randomize_look();
 					}
-
+					gendername.change_text (get_gendername(female));
 					return Button.State.NORMAL;
 				}
 				case Buttons.BT_CHARC_GEMDER_F:
@@ -804,7 +862,7 @@ namespace ms
 						female = true;
 						randomize_look();
 					}
-
+					gendername.change_text (get_gendername(female));
 					return Button.State.NORMAL;
 				}
 			}
@@ -835,7 +893,7 @@ namespace ms
 			skin = randomizer.next_int(skins[female].Count);
 			haircolor = randomizer.next_int(haircolors[female].Count);
 			top = randomizer.next_int(tops[female].Count);
-			bot = 0;
+			bot = randomizer.next_int(bots[female].Count);
 			shoe = randomizer.next_int(shoes[female].Count);
 			weapon = randomizer.next_int(weapons[female].Count);
 
@@ -850,9 +908,12 @@ namespace ms
 			bodyname.change_text(newchar.get_body().get_name());
 			facename.change_text(newchar.get_face().get_name());
 			hairname.change_text(newchar.get_hair().get_name());
+			hairColorName.change_text(newchar.get_hair().getcolor());
 			topname.change_text(get_equipname(EquipSlot.Id.TOP));
+			botname.change_text(get_equipname(EquipSlot.Id.BOTTOM));
 			shoename.change_text(get_equipname(EquipSlot.Id.SHOES));
 			wepname.change_text(get_equipname(EquipSlot.Id.WEAPON));
+			gendername.change_text (get_gendername(female));
 		}
 		private string get_equipname(EquipSlot.Id slot)
 		{
@@ -869,6 +930,10 @@ namespace ms
 			}
 		}
 
+		private string get_gendername (bool isFemale)
+		{
+			return isFemale ? "女" : "男";
+		}
 		public string text_CharName;
 		public override void OnAdd()
 		{
@@ -960,12 +1025,17 @@ namespace ms
 		private int bot;
 		private int shoe;
 		private int weapon;
+		
 		private Text facename = new Text();
 		private Text hairname = new Text();
+		private Text hairColorName = new Text();
 		private Text bodyname = new Text();
 		private Text topname = new Text();
+		private Text botname = new Text();
 		private Text shoename = new Text();
 		private Text wepname = new Text();
+		private Text gendername = new Text();
+		
 		private Text version = new Text();
 	}
 }

@@ -32,7 +32,7 @@ namespace ms
 			keyboard = UI.get ().get_keyboard ();
 			staged_mappings = new SortedDictionary<int, Keyboard.Mapping> (keyboard.get_maplekeys ());
 
-			WzObject KeyConfig = ms.wz.wzFile_ui["StatusBar3.img"]["KeyConfig"];
+			WzObject KeyConfig = ms.wz.wzFile_ui["UIWindow.img"]["KeyConfig"];
 
 			icon = (KeyConfig["icon"]);
 			key = (KeyConfig["key"]);
@@ -42,16 +42,16 @@ namespace ms
 			Point_short bg_dimensions = bg.get_dimensions ();
 
 			sprites.Add (backgrnd);
-			sprites.Add (KeyConfig["backgrnd2"]);
-			sprites.Add (KeyConfig["backgrnd3"]);
+			//sprites.Add (KeyConfig["backgrnd2"]);
+			//sprites.Add (KeyConfig["backgrnd3"]);
 
-			WzObject BtClose3 = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
+			WzObject BtClose3 = ms.wz.wzFile_ui["Basic.img"]["BtClose2"];
 			buttons[(int)Buttons.CLOSE] = new MapleButton (BtClose3, new Point_short ((short)(bg_dimensions.x () - 18), 3));
-			buttons[(int)Buttons.CANCEL] = new MapleButton (KeyConfig["button:Cancel"]);
-			buttons[(int)Buttons.DEFAULT] = new MapleButton (KeyConfig["button:Default"]);
-			buttons[(int)Buttons.DELETE] = new MapleButton (KeyConfig["button:Delete"]);
-			buttons[(int)Buttons.KEYSETTING] = new MapleButton (KeyConfig["button:keySetting"]);
-			buttons[(int)Buttons.OK] = new MapleButton (KeyConfig["button:OK"]);
+			buttons[(int)Buttons.CANCEL] = new MapleButton (KeyConfig["BtCancel"]);
+			buttons[(int)Buttons.DEFAULT] = new MapleButton (KeyConfig["BtDefault"]);
+			buttons[(int)Buttons.DELETE] = new MapleButton (KeyConfig["BtDelete"]);
+			//buttons[(int)Buttons.KEYSETTING] = new MapleButton (KeyConfig["button:keySetting"]);
+			buttons[(int)Buttons.OK] = new MapleButton (KeyConfig["BtOK"]);
 
 			dimension = new Point_short (bg_dimensions);
 			dragarea = new Point_short (bg_dimensions.x (), 20);

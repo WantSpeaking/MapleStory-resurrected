@@ -190,6 +190,7 @@ namespace ms
 				{
 				}
 				Vector3 localScale = new Vector3 (args.get_xscale (), -args.get_yscale (), 1f);
+				//Vector3 localScale = new Vector3 (args.get_xscale () * (args.getstretch ().x ()==0?1:args.getstretch ().x ()), -args.get_yscale ()* (args.getstretch ().y ()==0?1:args.getstretch ().y ()), 1f);
 				SingletonMono<TestURPBatcher>.Instance.TryDraw (this, bitmap, position, localScale, args.DrawParent);
 			}
 		}

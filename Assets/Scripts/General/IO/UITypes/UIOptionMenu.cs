@@ -25,7 +25,7 @@ namespace ms
         {
             //this.UIDragElement<PosOPTIONMENU> = new <type missing>();
             this.selected_tab = 0;
-            WzObject OptionMenu = ms.wz.wzFile_ui["StatusBar3.img"]["OptionMenu"];
+            WzObject OptionMenu = ms.wz.wzFile_ui["StatusBar.img"]["OptionMenu"];
             WzObject backgrnd = OptionMenu["backgrnd"];
 
             sprites.Add(backgrnd);

@@ -48,7 +48,7 @@ namespace ms
 			selected_page = (byte)(selected_character / PAGESIZE);
 			page_count = (byte)Math.Ceiling ((double)slots / (double)PAGESIZE);
 
-			tab = ms.wz.wzFile_ui["Basic.img"]["Cursor"]["18"]["0"];
+			tab = ms.wz.wzFile_ui["Basic.img"]["Cursor"]["1"]["0"];
 
 			tab_index = 0;
 			tab_active = false;
@@ -71,7 +71,7 @@ namespace ms
 			WzObject CharSelect = Login["CharSelect"];
 			WzObject selectWorld = Common["selectWorld"];
 			WzObject selectedWorld = CharSelect["selectedWorld"];
-			WzObject pageNew = CharSelect["pageNew"];
+			//WzObject pageNew = CharSelect["pageNew"];
 
 			world_dimensions = new Texture (selectWorld).get_dimensions ();
 
@@ -85,14 +85,14 @@ namespace ms
 			}
 
 			world_sprites.Add (new Sprite (selectWorld, worldpos));
-			world_sprites.Add (new Sprite (selectedWorld["icon"][world.ToString ()], worldpos - new Point_short (12, -1)));
+			/*world_sprites.Add (new Sprite (selectedWorld["icon"][world.ToString ()], worldpos - new Point_short (12, -1)));
 			world_sprites.Add (new Sprite (selectedWorld["name"][world.ToString ()], worldpos - new Point_short (8, 1)));
-			world_sprites.Add (new Sprite (selectedWorld["ch"][channel_id.ToString ()], worldpos - new Point_short (0, 1)));
+			world_sprites.Add (new Sprite (selectedWorld["ch"][channel_id.ToString ()], worldpos - new Point_short (0, 1)));*/
 
-			WzObject map = ms.wz.wzFile_map001["Back"]["login.img"];
+			WzObject map = ms.wz.wzFile_map["Back"]["login.img"];
 			WzObject ani = map["ani"];
 
-			WzObject frame = ms.wz.wzFile_mapLatest["Obj"]["login.img"]["Common"]["frame"]["2"]["0"];
+			WzObject frame = ms.wz.wzFile_map["Obj"]["login.img"]["Common"]["frame"]["0"]["0"];
 
 			sprites.Add (new Sprite (map["back"]["13"], new Point_short (392, 297)));
 			sprites.Add (new Sprite (ani["17"], new Point_short (151, 283)));
@@ -102,14 +102,14 @@ namespace ms
 			sprites.Add (new Sprite (Common["frame"], new Point_short (400, 300)));
 			sprites.Add (new Sprite (Common["step"]["2"], new Point_short (40, 0)));
 
-			burning_notice = Common["Burning"]["BurningNotice"];
-			burning_count = new Text (Text.Font.A12B, Text.Alignment.LEFT, Color.Name.CREAM, "1");
+			//burning_notice = Common["Burning"]["BurningNotice"];
+			//burning_count = new Text (Text.Font.A12B, Text.Alignment.LEFT, Color.Name.CREAM, "1");
 
 			charinfo = CharSelect["charInfo"];
-			charslot = CharSelect["charSlot"]["0"];
-			pagebase = pageNew["base"]["0"];
-			pagenumber = new Charset (pageNew["number"], Charset.Alignment.LEFT);
-			pagenumberpos = (pageNew["numberpos"]);
+			//charslot = CharSelect["charSlot"]["0"];
+			//pagebase = pageNew["base"]["0"];
+			//pagenumber = new Charset (pageNew["number"], Charset.Alignment.LEFT);
+			//pagenumberpos = (pageNew["numberpos"]);
 
 			signpost[0] = CharSelect["adventure"]["0"];
 			signpost[1] = CharSelect["knight"]["0"];
@@ -120,11 +120,11 @@ namespace ms
 			buttons[(int)Buttons.CHARACTER_SELECT] = new MapleButton (CharSelect["BtSelect"], character_sel_pos);
 			buttons[(int)Buttons.CHARACTER_NEW] = new MapleButton (CharSelect["BtNew"], character_new_pos);
 			buttons[(int)Buttons.CHARACTER_DELETE] = new MapleButton (CharSelect["BtDelete"], character_del_pos);
-			buttons[(int)Buttons.PAGELEFT] = new MapleButton (CharSelect["pageL"], new Point_short (98, 491));
-			buttons[(int)Buttons.PAGERIGHT] = new MapleButton (CharSelect["pageR"], new Point_short (485, 491));
+			buttons[(int)Buttons.PAGELEFT] = new TwoSpriteButton (CharSelect["pageL"]["0"]["0"], CharSelect["pageL"]["1"]["0"],new Point_short (98, 491));
+			buttons[(int)Buttons.PAGERIGHT] = new TwoSpriteButton (CharSelect["pageR"]["0"]["0"], CharSelect["pageL"]["1"]["0"], new Point_short (485, 491));
 			buttons[(int)Buttons.CHANGEPIC] = new MapleButton (Common["BtChangePIC"], new Point_short (0, 80));
 			buttons[(int)Buttons.RESETPIC] = new MapleButton (Login["WorldSelect"]["BtResetPIC"], new Point_short (0, 115));
-			buttons[(int)Buttons.EDITCHARLIST] = new MapleButton (CharSelect["EditCharList"]["BtCharacter"], new Point_short (-1, 47));
+			//buttons[(int)Buttons.EDITCHARLIST] = new MapleButton (CharSelect["EditCharList"]["BtCharacter"], new Point_short (-1, 47));
 			buttons[(int)Buttons.BACK] = new MapleButton (Common["BtStart"], new Point_short (0, 515));
 
 			for (uint i = 0; i < PAGESIZE; i++)
@@ -138,9 +138,7 @@ namespace ms
 				buttons[(int)Buttons.RESETPIC].set_active (false);
 			}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: levelset = Charset(CharSelect["lv"], Charset::Alignment::CENTER);
-			levelset = new Charset (CharSelect["lv"], Charset.Alignment.CENTER);
+			//levelset = new Charset (CharSelect["lv"], Charset.Alignment.CENTER);
 			namelabel = new OutlinedText (Text.Font.A14B, Text.Alignment.CENTER, Color.Name.WHITE, Color.Name.IRISHCOFFEE);
 
 			for (uint i = 0; i < (ulong)InfoLabel.NUM_LABELS; i++)
@@ -193,10 +191,10 @@ namespace ms
 		{
 			base.draw_sprites (inter);
 
-			version.draw (position + new Point_short (707, 4));
+			version?.draw (position + new Point_short (707, 4));
 
-			charslot.draw (position + new Point_short (589, (short)(106 - charslot_y)));
-			charslotlabel.draw (position + new Point_short (702, (short)(111 - charslot_y)));
+			charslot?.draw (position + new Point_short (589, (short)(106 - charslot_y)));
+			charslotlabel?.draw (position + new Point_short (702, (short)(111 - charslot_y)));
 
 			foreach (Sprite sprite in world_sprites)
 			{
@@ -218,29 +216,29 @@ namespace ms
 					Point_short charpos = get_character_slot_pos (i, 130, 234);
 					DrawArgument chararg = new DrawArgument (new Point_short (charpos), flip_character);
 
-					nametags[index].draw (charpos + new Point_short (2, 1));
+					nametags[index]?.draw (charpos + new Point_short (2, 1));
 
 					StatsEntry character_stats = characters[index].stats;
 
 					if (selectedslot)
 					{
-						selectedslot_effect[1].draw (charpos + new Point_short (-5, 16), inter);
+						selectedslot_effect[1]?.draw (charpos + new Point_short (-5, 16), inter);
 
 						sbyte lvy = -115;
 						Point_short pos_adj = new Point_short (662, 365);
 
-						charinfo.draw (position + charinfopos);
+						charinfo?.draw (position + charinfopos);
 
 						string levelstr = Convert.ToString (character_stats.stats[(MapleStat.Id.LEVEL)]);
-						short lvx = levelset.draw (levelstr, pos_adj + new Point_short (12, lvy));
-						levelset.draw ((sbyte)'l', pos_adj + new Point_short ((short)(1 - lvx / 2), lvy));
+						short lvx = levelset?.draw (levelstr, pos_adj + new Point_short (12, lvy))??0;
+						levelset?.draw ((sbyte)'l', pos_adj + new Point_short ((short)(1 - lvx / 2), lvy));
 
-						namelabel.draw (pos_adj + new Point_short (10, -103));
+						namelabel?.draw (pos_adj + new Point_short (10, -103));
 
 						for (uint k = 0; k < (ulong)InfoLabel.NUM_LABELS; k++)
 						{
 							Point_short labelpos = pos_adj + get_infolabel_pos (k);
-							infolabels[k].draw (new Point_short (labelpos));
+							infolabels[k]?.draw (new Point_short (labelpos));
 						}
 					}
 
@@ -264,20 +262,20 @@ namespace ms
 						j = 0;
 					}
 
-					signpost[j].draw (chararg);
-					charlooks[index].draw (chararg, inter);
+					signpost[j]?.draw (chararg);
+					charlooks[index]?.draw (chararg, inter);
 
 					if (selectedslot)
 					{
-						selectedslot_effect[0].draw (charpos + new Point_short (-5, -298), inter);
+						selectedslot_effect[0]?.draw (charpos + new Point_short (-5, -298), inter);
 					}
 				}
 				else if (i < slots)
 				{
 					Point_short emptyslotpos = get_character_slot_pos (i, 130, 234);
 
-					emptyslot_effect.draw (emptyslotpos, inter);
-					emptyslot.draw (new DrawArgument (new Point_short (emptyslotpos), flip_character));
+					emptyslot_effect?.draw (emptyslotpos, inter);
+					emptyslot?.draw (new DrawArgument (new Point_short (emptyslotpos), flip_character));
 				}
 			}
 
@@ -285,20 +283,20 @@ namespace ms
 
 			if (tab_active)
 			{
-				tab.draw (position + tab_pos[tab_index] + new Point_short (0, tab_move_pos));
+				tab?.draw (position + tab_pos[tab_index] + new Point_short (0, tab_move_pos));
 			}
 
 			if (burning_character)
 			{
-				burning_notice.draw (position + new Point_short (190, 502), inter);
-				burning_count.draw (position + new Point_short (149, 464));
+				burning_notice?.draw (position + new Point_short (190, 502), inter);
+				burning_count?.draw (position + new Point_short (149, 464));
 			}
 
-			pagebase.draw (position + pagepos);
-			pagenumber.draw (current.Substring (0, 1), position + pagepos + pagenumberpos[0.ToString ()].GetPoint ().ToMSPoint ());
-			pagenumber.draw (current.Substring (1, 1), position + pagepos + pagenumberpos[1.ToString ()].GetPoint ().ToMSPoint ());
-			pagenumber.draw (total.Substring (0, 1), position + pagepos + pagenumberpos[2.ToString ()].GetPoint ().ToMSPoint ());
-			pagenumber.draw (total.Substring (1, 1), position + pagepos + pagenumberpos[3.ToString ()].GetPoint ().ToMSPoint ());
+			/*pagebase?.draw (position + pagepos);
+			pagenumber?.draw (current.Substring (0, 1), position + pagepos + pagenumberpos[0.ToString ()].GetPoint ().ToMSPoint ());
+			pagenumber?.draw (current.Substring (1, 1), position + pagepos + pagenumberpos[1.ToString ()].GetPoint ().ToMSPoint ());
+			pagenumber?.draw (total.Substring (0, 1), position + pagepos + pagenumberpos[2.ToString ()].GetPoint ().ToMSPoint ());
+			pagenumber?.draw (total.Substring (1, 1), position + pagepos + pagenumberpos[3.ToString ()].GetPoint ().ToMSPoint ());*/
 		}
 
 		public override void update ()
@@ -867,14 +865,15 @@ namespace ms
 				}
 				case Buttons.BACK:
 				{
-					deactivate ();
+					/*deactivate ();
 
 					new Sound (Sound.Name.SCROLLUP).play ();
 					var worldselect = UI.get ().get_element<UIWorldSelect> ();
 					if (worldselect)
 					{
 						worldselect.get ().makeactive ();
-					}
+					}*/
+					MapleStory.Instance.BackToLogin ();
 
 					break;
 				}

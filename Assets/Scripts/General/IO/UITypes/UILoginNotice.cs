@@ -25,7 +25,7 @@ namespace ms
 		{
 			this.okhandler = oh;
 			this.login = l;
-			WzObject alert = ms.wz.wzFile_ui["UIWindow2.img"]["KeyConfig"]["KeyType"]["alert"];
+			WzObject alert = ms.wz.wzFile_ui["UIWindow.img"]["KeyConfig"]["KeyType"]["alert"];
 			WzObject background = alternate ? alert["alternate"] : alert["default"];
 
 			sprites.Add (background);
@@ -96,7 +96,7 @@ namespace ms
 		{
 			this.okhandler = oh;
 			this.login = l;
-			WzObject KeyType = ms.wz.wzFile_ui["UIWindow2.img"]["KeyConfig"]["KeyType"];
+			WzObject KeyType = ms.wz.wzFile_ui["UIWindow.img"]["KeyConfig"]["KeyType"];
 			WzObject backgrnd = KeyType["backgrnd"];
 
 			sprites.Add (backgrnd);

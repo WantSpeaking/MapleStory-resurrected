@@ -27,7 +27,7 @@ namespace ms
             this.tab = 0;
             this.macro_enabled = false;
             this.sp_enabled = false;
-            WzObject Skill = ms.wz.wzFile_ui["UIWindow2.img"]["Skill"];
+            /*WzObject Skill = ms.wz.wzFile_ui["UIWindow.img"]["Skill"];
             WzObject main = Skill["main"];
             WzObject ui_backgrnd = main["backgrnd"];
 
@@ -47,7 +47,7 @@ namespace ms
             buttons[(int)Buttons.BT_GUILDSKILL].set_state(Button.State.DISABLED);
             buttons[(int)Buttons.BT_RIDE].set_state(Button.State.DISABLED);
 
-            WzObject skillPoint = ms.wz.wzFile_ui["UIWindow4.img"]["Skill"]["skillPoint"];
+            WzObject skillPoint = ms.wz.wzFile_ui["UIWindow.img"]["Skill"]["skillPoint"];
 
             sp_backgrnd = skillPoint["backgrnd"];
             sp_backgrnd2 = skillPoint["backgrnd2"];
@@ -93,9 +93,9 @@ namespace ms
             {
                 ushort tabid = (ushort)(i - Buttons.BT_TAB0);
                 buttons[i] = new TwoSpriteButton(disabled[tabid.ToString()], enabled[tabid.ToString()]);
-            }
+            }*/
 
-            ushort y_adj = 0;
+            /*ushort y_adj = 0;
 
             for (ushort i = (int)Buttons.BT_SPUP0; i <= (int)Buttons.BT_SPUP11; ++i)
             {
@@ -114,12 +114,12 @@ namespace ms
                 {
                     y_adj += (ushort)ROW_HEIGHT;
                 }
-            }
+            }*/
 
             booktext = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.WHITE, "", 150);
             splabel = new Text(Text.Font.A12M, Text.Alignment.RIGHT, Color.Name.BLACK);
 
-            slider = new Slider((int)Slider.Type.DEFAULT_SILVER, new Range_short(93, 317), 295, ROWS, 1, (bool upwards) =>
+            /*slider = new Slider((int)Slider.Type.DEFAULT_SILVER, new Range_short(93, 317), 295, ROWS, 1, (bool upwards) =>
           {
               short shift = (short)(upwards ? -1 : 1);
               bool above = offset + shift >= 0;
@@ -129,15 +129,15 @@ namespace ms
               {
                   change_offset((ushort)(offset + shift));
               }
-          });
+          });*/
 
             change_job(stats.get_stat(MapleStat.Id.JOB));
 
-            set_macro(false);
+            /*set_macro(false);
             set_skillpoint(false);
 
             dimension = new Point_short(bg_dimensions);
-            dragarea = new Point_short(dimension.x(), 20);
+            dragarea = new Point_short(dimension.x(), 20);*/
         }
 
         /*public override void draw(float alpha)
@@ -487,8 +487,8 @@ namespace ms
                         sp_used.change_text(Convert.ToString(used));
                         sp_remaining.change_text(Convert.ToString(cur_sp - used));
 
-                        buttons[(int)Buttons.BT_SPUP].set_state(Button.State.NORMAL);
-                        buttons[(int)Buttons.BT_SPMAX].set_state(Button.State.NORMAL);
+                        /*buttons[(int)Buttons.BT_SPUP].set_state(Button.State.NORMAL);
+                        buttons[(int)Buttons.BT_SPMAX].set_state(Button.State.NORMAL);*/
 
                         if (sp_after - 1 == sp_before)
                         {
@@ -510,8 +510,8 @@ namespace ms
                         sp_used.change_text(Convert.ToString(used));
                         sp_remaining.change_text(Convert.ToString(cur_sp - used));
 
-                        buttons[(int)Buttons.BT_SPUP].set_state(Button.State.DISABLED);
-                        buttons[(int)Buttons.BT_SPDOWN].set_state(Button.State.NORMAL);
+                        /*buttons[(int)Buttons.BT_SPUP].set_state(Button.State.DISABLED);
+                        buttons[(int)Buttons.BT_SPDOWN].set_state(Button.State.NORMAL);*/
 
                         return Button.State.DISABLED;
                     }
@@ -527,11 +527,11 @@ namespace ms
                         sp_used.change_text(Convert.ToString(used));
                         sp_remaining.change_text(Convert.ToString(cur_sp - used));
 
-                        buttons[(int)Buttons.BT_SPDOWN].set_state(Button.State.NORMAL);
+                        //buttons[(int)Buttons.BT_SPDOWN].set_state(Button.State.NORMAL);
 
                         if (sp_after == sp_masterlevel)
                         {
-                            buttons[(int)Buttons.BT_SPMAX].set_state(Button.State.DISABLED);
+                            //buttons[(int)Buttons.BT_SPMAX].set_state(Button.State.DISABLED);
 
                             return Button.State.DISABLED;
                         }
@@ -732,10 +732,10 @@ namespace ms
 
             Job.Level level = job.get_level();
 
-            for (ushort i = 0; i <= (int)Job.Level.FOURTH; i++)
+            /*for (ushort i = 0; i <= (int)Job.Level.FOURTH; i++)
             {
                 buttons[(uint)((int)Buttons.BT_TAB0 + i)].set_active(i <= (int)level);
-            }
+            }*/
 
             change_tab(level - Job.Level.BEGINNER);
 
@@ -784,8 +784,8 @@ namespace ms
 
         public void change_tab(ushort new_tab)
         {
-            buttons[(uint)((int)Buttons.BT_TAB0 + tab)].set_state(Button.State.NORMAL);
-            buttons[(uint)((int)Buttons.BT_TAB0 + new_tab)].set_state(Button.State.PRESSED);
+            /*buttons[(uint)((int)Buttons.BT_TAB0 + tab)].set_state(Button.State.NORMAL);
+            buttons[(uint)((int)Buttons.BT_TAB0 + new_tab)].set_state(Button.State.PRESSED);*/
             tab = new_tab;
 
             skills.Clear();
@@ -831,13 +831,13 @@ namespace ms
             {
                 ushort index = (ushort)((int)Buttons.BT_SPUP0 + i);
                 ushort row = (ushort)(offset + i);
-                buttons[index].set_active(row < skillcount);
+                //buttons[index].set_active(row < skillcount);
 
                 if (row < skills.Count)
                 {
                     int skill_id = skills[row].get_id();
                     bool canraise = can_raise(skill_id);
-                    buttons[index].set_state(canraise ? Button.State.NORMAL : Button.State.DISABLED);
+                    //buttons[index].set_state(canraise ? Button.State.NORMAL : Button.State.DISABLED);
                 }
             }
         }
@@ -926,15 +926,15 @@ namespace ms
 
             if (sp_masterlevel == 1)
             {
-                buttons[(int)Buttons.BT_SPDOWN].set_state(Button.State.DISABLED);
+                /*buttons[(int)Buttons.BT_SPDOWN].set_state(Button.State.DISABLED);
                 buttons[(int)Buttons.BT_SPMAX].set_state(Button.State.DISABLED);
-                buttons[(int)Buttons.BT_SPUP].set_state(Button.State.DISABLED);
+                buttons[(int)Buttons.BT_SPUP].set_state(Button.State.DISABLED);*/
             }
             else
             {
-                buttons[(int)Buttons.BT_SPDOWN].set_state(Button.State.DISABLED);
+                /*buttons[(int)Buttons.BT_SPDOWN].set_state(Button.State.DISABLED);
                 buttons[(int)Buttons.BT_SPMAX].set_state(Button.State.NORMAL);
-                buttons[(int)Buttons.BT_SPUP].set_state(Button.State.NORMAL);
+                buttons[(int)Buttons.BT_SPUP].set_state(Button.State.NORMAL);*/
             }
 
             if (!sp_enabled)
@@ -1053,7 +1053,7 @@ namespace ms
                 dimension = new Point_short(bg_dimensions);
             }
 
-            buttons[(int)Buttons.BT_MACRO_OK].set_active(macro_enabled);
+            //buttons[(int)Buttons.BT_MACRO_OK].set_active(macro_enabled);
 
             if (macro_enabled && sp_enabled)
             {
@@ -1074,11 +1074,11 @@ namespace ms
                 dimension = new Point_short(bg_dimensions);
             }
 
-            buttons[(int)Buttons.BT_CANCLE].set_active(sp_enabled);
+            /*buttons[(int)Buttons.BT_CANCLE].set_active(sp_enabled);
             buttons[(int)Buttons.BT_OKAY].set_active(sp_enabled);
             buttons[(int)Buttons.BT_SPDOWN].set_active(sp_enabled);
             buttons[(int)Buttons.BT_SPMAX].set_active(sp_enabled);
-            buttons[(int)Buttons.BT_SPUP].set_active(sp_enabled);
+            buttons[(int)Buttons.BT_SPUP].set_active(sp_enabled);*/
 
             if (sp_enabled && macro_enabled)
             {

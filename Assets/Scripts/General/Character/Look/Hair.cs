@@ -115,8 +115,8 @@ namespace ms
 			name = ms.wz.wzFile_string["Eqp.img"]["Eqp"]["Hair"][Convert.ToString (hairid)]["name"].ToString ();
 
 			const uint NUM_COLORS = 8;
-			string[] haircolors = {"Black", "Red", "Orange", "Blonde", "Green", "Blue", "Violet", "Brown"};
-
+			//string[] haircolors = {"Black", "Red", "Orange", "Blonde", "Green", "Blue", "Violet", "Brown"};
+			string[] haircolors = {"黑", "红", "橙", "金", "绿", "蓝", "紫", "棕"};
 			uint index = (uint)(hairid % 10);
 			color = (index < NUM_COLORS) ? haircolors[index] : "";
 		}

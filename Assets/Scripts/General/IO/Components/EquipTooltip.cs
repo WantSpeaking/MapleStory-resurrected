@@ -15,7 +15,7 @@ namespace ms
 	{
 		public EquipTooltip ()
 		{
-			WzObject Item = ms.wz.wzFile_ui["UIToolTip.img"]["Item"];
+			/*WzObject Item = ms.wz.wzFile_ui["UIToolTip.img"]["Item"];
 			WzObject Frame = Item["Frame"];
 			WzObject ItemIcon = Item["ItemIcon"];
 			WzObject Equip = Item["Equip"];
@@ -87,7 +87,7 @@ namespace ms
 			jobs[true][5] = Equip["Job"]["enable"]["5"];
 
 			invpos = 0;
-			invpos_preview = 0;
+			invpos_preview = 0;*/
 		}
 
 		public bool hasEquip;
@@ -574,7 +574,7 @@ namespace ms
 
 		public override void draw (Point_short pos)
 		{
-			if (invpos == 0)
+			/*if (invpos == 0)
 			{
 				return;
 			}
@@ -736,12 +736,12 @@ namespace ms
 				pos.shift_y (13);
 				line.draw (pos);
 				desc.draw (pos + new Point_short (9, 3));
-			}
+			}*/
 		}
 
 		public void draw_preview (Point_short pos)
 		{
-			if (invpos_preview == 0)
+			/*if (invpos_preview == 0)
 			{
 				return;
 			}
@@ -888,7 +888,7 @@ namespace ms
 				pos.shift_y (-4);
 				line.draw (pos);
 				desc_preview.draw (pos + new Point_short (9, 8));
-			}
+			}*/
 		}
 
 		public short invpos;

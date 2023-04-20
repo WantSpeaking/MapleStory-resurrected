@@ -24,7 +24,7 @@ namespace ms
 
 		public UIWorldSelect () : base (new Point_short (0, 0), new Point_short (800, 600))
 		{
-			worldcount = 0;
+			/*worldcount = 0;
 			recommended_worldcount = 0;
 			recommended_worldid = 0;
 			world_selected = false;
@@ -130,10 +130,12 @@ namespace ms
 				{
 					new CharlistRequestPacket (world, channel).dispatch ();
 				}
-			}
+			}*/
+
+			enter_world ();
 		}
 
-		public override void draw (float alpha)
+		/*public override void draw (float alpha)
 		{
 			base.draw_sprites (alpha);
 
@@ -160,7 +162,7 @@ namespace ms
 			{
 				chatballoon.draw (position + new Point_short (501, 105));
 			}
-		}
+		}*/
 
 		public override Cursor.State send_cursor (bool clicked, Point_short cursorpos)
 		{
@@ -419,7 +421,7 @@ namespace ms
 
 		public void draw_world ()
 		{
-			if (worldcount <= 0)
+			/*if (worldcount <= 0)
 			{
 				return; // TODO: Send the user back to the login screen? Otherwise, I think the screen will be blank with no worlds, or throw a UILoginNotice up with failed to communite to server?
 			}
@@ -437,7 +439,7 @@ namespace ms
 				{
 					channelid = 0;
 				}
-			}
+			}*/
 		}
 
 		public void add_world (World world)
@@ -535,7 +537,7 @@ string world = Convert.ToString (world_map[(ushort)i]);
 
 		public ushort get_worldbyid (ushort worldid)
 		{
-			return world_map[worldid];
+			return world_map.TryGetValue(worldid);
 		}
 
 		public override Button.State button_pressed (ushort id)
@@ -714,7 +716,7 @@ string world = Convert.ToString (world_map[(ushort)i]);
 
 		private void clear_selected_world ()
 		{
-			channelid = 0;
+			/*channelid = 0;
 
 			for (uint i = (int)Buttons.BT_CHANNEL0; i < (ulong)Buttons.BT_ENTERWORLD; i++)
 			{
@@ -728,7 +730,7 @@ string world = Convert.ToString (world_map[(ushort)i]);
 				buttons[(int)Buttons.BT_CHANNEL0 + i].set_active (false);
 			}
 
-			buttons[(int)Buttons.BT_ENTERWORLD].set_active (false);
+			buttons[(int)Buttons.BT_ENTERWORLD].set_active (false);*/
 		}
 
 		private ushort get_next_world (ushort id, bool upward)

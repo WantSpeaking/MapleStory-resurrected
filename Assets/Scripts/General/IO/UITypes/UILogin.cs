@@ -33,16 +33,18 @@ namespace ms
             string version_text = Configuration.get().get_version();
             version = new Text(Text.Font.A11B, Text.Alignment.LEFT, Color.Name.LEMONGRASS, "Ver. " + version_text);
 
-            WzObject map001 = ms.wz.wzFile_map001["Back"]["login.img"];
+            WzObject map001 = ms.wz.wzFile_map["Back"]["login.img"];
             WzObject back = map001["back"];
             WzObject ani = map001["ani"];
 
             WzObject Login = ms.wz.wzFile_ui["Login.img"];
-            WzObject Title = Login["Title"];
+            WzObject UI_Title = Login["Title"];
+            WzObject MapObj_Title = ms.wz.wzFile_map["Obj"]["login.img"]["Title"];
+
             WzObject Common = Login["Common"];
 
-            WzObject prettyLogo = ms.wz.wzFile_wzFile_mapPretty["Back"]["login.img"]["ani"]["16"];
-            WzObject frame = ms.wz.wzFile_mapLatest["Obj"]["login.img"]["Common"]["frame"]["2"]["0"];
+            WzObject prettyLogo = ms.wz.wzFile_UI_Endless["Game.img"]["logo"];
+            WzObject frame = ms.wz.wzFile_map["Obj"]["login.img"]["Common"]["frame"]["0"]["0"];
             //WzObject frame = nl.nx.wzFile_map["Obj"]["login.img"]["Common"]["frame"]["0"];
 
             sprites.Add(new Sprite(back["11"], new Point_short(400, 300)));
@@ -52,24 +54,24 @@ namespace ms
             sprites.Add(new Sprite(ani["19"], new Point_short(348, 161)));
             sprites.Add(new Sprite(back["35"], new Point_short(399, 260)));
             sprites.Add(new Sprite(prettyLogo, new Point_short(409, 144)));
-            sprites.Add(new Sprite(Title["signboard"], signboard_pos));
+            sprites.Add(new Sprite(MapObj_Title["signboard"]["0"]["0"], signboard_pos));
             sprites.Add(new Sprite(frame, new Point_short(400, 300)));
-            sprites.Add(new Sprite(Common["frame"], new Point_short(400, 300)));
+            //sprites.Add(new Sprite(Common["frame"], new Point_short(400, 300)));
 
-            buttons[(int)Buttons.BT_LOGIN] = new MapleButton(Title["BtLogin"], signboard_pos + new Point_short(62, -51));
-            buttons[(int)Buttons.BT_SAVEID] = new MapleButton(Title["BtLoginIDSave"], signboard_pos + new Point_short(-89, 5));
+            buttons[(int)Buttons.BT_LOGIN] = new MapleButton(UI_Title["BtLogin"], new Point_short(470, 237));
+            //buttons[(int)Buttons.BT_SAVEID] = new MapleButton(UI_Title["BtLoginIDSave"], signboard_pos + new Point_short(-89, 5));
             //buttons[(int)Buttons.BT_IDLOST] = new MapleButton(Title["BtLoginIDLost"], signboard_pos + new Point_short(-17, 5));
             //buttons[(int)Buttons.BT_PASSLOST] = new MapleButton(Title["BtPasswdLost"], signboard_pos + new Point_short(55, 5));
             //buttons[(int)Buttons.BT_REGISTER] = new MapleButton(Title["BtNew"], signboard_pos + new Point_short(-101, 25));
             //buttons[(int)Buttons.BT_HOMEPAGE] = new MapleButton(Title["BtHomePage"], signboard_pos + new Point_short(-29, 25));
-            buttons[(int)Buttons.BT_QUIT] = new MapleButton(Title["BtQuit"], signboard_pos + new Point_short(43, 25));
+            buttons[(int)Buttons.BT_QUIT] = new MapleButton(UI_Title["BtQuit"], new Point_short(478, 350));
 
-            checkbox[false] = Title["check"]["0"];
-            checkbox[true] = Title["check"]["1"];
+            /*checkbox[false] = UI_Title["check"]["0"];
+            checkbox[true] = UI_Title["check"]["1"];*/
 
             background = new ColorBox(dimension.x(), dimension.y(), Color.Name.BLACK, 1.0f);
 
-            Point_short textbox_pos = signboard_pos + new Point_short(-96, -51);
+            Point_short textbox_pos = new Point_short(324, 240);
             Point_short textbox_dim = new Point_short(150, 24);
             short textbox_limit = 12;
 
@@ -85,11 +87,11 @@ namespace ms
 
             account.set_enter_callback((string msg) => { login(); });
 
-            accountbg = Title["ID"];
+            //accountbg = UI_Title["ID"];
 
             #endregion
 
-            #region Password
+            //#region Password
 
             textbox_pos.shift_y(26);
 
@@ -104,9 +106,7 @@ namespace ms
             password.set_enter_callback((string msg) => { login(); });
 
             password.set_cryptchar((sbyte)'*');
-            passwordbg = Title["PW"];
-
-            #endregion
+            //passwordbg = UI_Title["PW"];;
             /*  
                        saveid = Setting<SaveLogin>.get().load();
            
@@ -148,7 +148,7 @@ namespace ms
             password.draw(position + new Point_short(1, 3));
             
 
-            if (account.get_state() == Textfield.State.NORMAL && account.empty())
+            /*if (account.get_state() == Textfield.State.NORMAL && account.empty())
             {
                 accountbg.draw(position + signboard_pos + new Point_short(-101, -51));
             }
@@ -156,9 +156,9 @@ namespace ms
             if (password.get_state() == Textfield.State.NORMAL && password.empty())
             {
                 passwordbg.draw(position + signboard_pos + new Point_short(-101, -25));
-            }
+            }*/
 
-            checkbox[saveid].draw(position + signboard_pos + new Point_short(-101, 7));
+            //checkbox[saveid].draw(position + signboard_pos + new Point_short(-101, 7));
             //GraphicsGL.Instance.DrawWireRectangle(account.get_bounds().get_left_top().x(), account.get_bounds().get_left_top().y(), account.get_bounds().width(), account.get_bounds().height(), Microsoft.Xna.Framework.Color.Yellow, 1);
             //GraphicsGL.Instance.DrawWireRectangle(password.get_bounds().get_left_top().x(), password.get_bounds().get_left_top().y(), password.get_bounds().width(), password.get_bounds().height(), Microsoft.Xna.Framework.Color.Yellow, 1);
         }
@@ -398,7 +398,3 @@ namespace ms
         public string text_password;
     }
 }
-
-
-#if USE_NX
-#endif

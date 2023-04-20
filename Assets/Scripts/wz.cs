@@ -55,9 +55,8 @@ namespace ms
 			//wzFile_SkillMy1 = add_file("SkillMy1");
 			wzFile_sound = add_file("sound");
             wzFile_string = add_file("string");
-            wzFile_ui = add_file("UI_New");
+            wzFile_ui = add_file("UI_083");
 			wzFile_UI_Endless = add_file("UI_Endless");
-		
 			/*if (exists("Base.nx"))
 			{
 				baseWz = add_file("Base.nx");

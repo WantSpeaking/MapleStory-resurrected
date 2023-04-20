@@ -12,10 +12,10 @@ namespace ms
 	{
 		public TextTooltip()
 		{
-			WzObject Frame = ms.wz.wzFile_ui["UIToolTip.img"]["Item"]["Frame2"];
+			/*WzObject Frame = ms.wz.wzFile_ui["UIToolTip.img"]["Item"]["Frame2"];
 
 			frame = new MapleFrame (Frame);
-			cover = Frame["cover"];
+			cover = Frame["cover"];*/
 
 			text = "";
 		}
@@ -55,23 +55,23 @@ namespace ms
 
 			if (fillheight > 18)
 			{
-				frame.draw(pos + new Point_short((short)(fillwidth / 2), (short)(fillheight - 6)), (short)(fillwidth - 19), (short)(fillheight - 17));
+				frame?.draw(pos + new Point_short((short)(fillwidth / 2), (short)(fillheight - 6)), (short)(fillwidth - 19), (short)(fillheight - 17));
 
 				if (fillheight > cover.height())
 				{
-					cover.draw(pos + new Point_short(-5, -2));
+					cover?.draw(pos + new Point_short(-5, -2));
 				}
 				else
 				{
-					cover.draw(pos + new Point_short(-5, -2), new Range_short(0, (short)(fillheight / 2 - 14 + 2)));
+					cover?.draw(pos + new Point_short(-5, -2), new Range_short(0, (short)(fillheight / 2 - 14 + 2)));
 				}
 
 				text_label.draw(pos + new Point_short(0, 1));
 			}
 			else
 			{
-				frame.draw(pos + new Point_short((short)(fillwidth / 2), (short)(fillheight - 7)), (short)(fillwidth - 19), (short)(fillheight - 18));
-				cover.draw(pos + new Point_short(-5, -2), new Range_short(0, (short)(fillheight + 2)));
+				frame?.draw(pos + new Point_short((short)(fillwidth / 2), (short)(fillheight - 7)), (short)(fillwidth - 19), (short)(fillheight - 18));
+				cover?.draw(pos + new Point_short(-5, -2), new Range_short(0, (short)(fillheight + 2)));
 				text_label.draw(pos + new Point_short(-1, -2));
 			}
 		}

@@ -104,9 +104,9 @@ namespace ms
 			phobj.fhid = f;
 			set_position (new Point_short (position));
 
-			questIcon_CanStart = wz.wzFile_ui["UIWindow2.img"]["QuestIcon"]["0"];
-			questIcon_InProgressed = wz.wzFile_ui["UIWindow2.img"]["QuestIcon"]["1"];
-			questIcon_CanComplete = wz.wzFile_ui["UIWindow2.img"]["QuestIcon"]["2"];
+			questIcon_CanStart = wz.wzFile_ui["UIWindow.img"]["QuestIcon"]["0"];
+			questIcon_InProgressed = wz.wzFile_ui["UIWindow.img"]["QuestIcon"]["1"];
+			questIcon_CanComplete = wz.wzFile_ui["UIWindow.img"]["QuestIcon"]["2"];
 
 			UpdateQuest ();
 		}

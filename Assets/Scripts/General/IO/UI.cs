@@ -27,15 +27,15 @@ namespace ms
 
         public void init()
         {
-            try
+            //try
             {
                 AppDebug.Log ("start UI.init");
                 cursor.init ();
                 change_state (State.LOGIN);
             }
-            catch (Exception ex)
+            //catch (Exception ex)
             {
-                AppDebug.LogError (ex.Message);
+                //AppDebug.LogError (ex.Message);
             }
             
         }

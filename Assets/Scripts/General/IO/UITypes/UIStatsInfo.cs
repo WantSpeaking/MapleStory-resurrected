@@ -26,8 +26,8 @@ namespace ms
 		{
 			//this.UIDragElement<PosSTATS> = new Point_short(212, 20);
 			this.stats = st;
-			WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
-			WzObject Stat = ms.wz.wzFile_ui["UIWindow4.img"]["Stat"];
+			/*WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
+			WzObject Stat = ms.wz.wzFile_ui["UIWindow.img"]["Stat"];
 			WzObject main = Stat["main"];
 			WzObject detail = Stat["detail"];
 			WzObject abilityTitle = detail["abilityTitle"];
@@ -71,7 +71,7 @@ namespace ms
 			buttons[(int)Buttons.BT_ABILITY].set_active (false);
 			buttons[(int)Buttons.BT_ABILITY].set_state (Button.State.DISABLED);
 			buttons[(int)Buttons.BT_DETAIL_DETAILCLOSE].set_active (false);
-
+*/
 			update_ap ();
 
 			// Normal
@@ -132,7 +132,7 @@ namespace ms
 			showdetail = false;
 		}
 
-		public override void draw (float alpha)
+		/*public override void draw (float alpha)
 		{
 			base.draw_sprites (alpha);
 
@@ -168,7 +168,7 @@ namespace ms
 			}
 
 			base.draw_buttons (alpha);
-		}
+		}*/
 
 		public override void send_key (int keycode, bool pressed, bool escape)
 		{
@@ -410,10 +410,10 @@ namespace ms
 		void update_ap ()
 		{
 			bool nowap = stats.get_stat (MapleStat.Id.AP) > 0;
-			Button.State newstate = nowap ? Button.State.NORMAL : Button.State.DISABLED;
+			/*Button.State newstate = nowap ? Button.State.NORMAL : Button.State.DISABLED;
 
 			for (int i = (int)Buttons.BT_HP; i <= (int)Buttons.BT_AUTO; i++)
-				buttons[(uint)i].set_state (newstate);
+				buttons[(uint)i].set_state (newstate);*/
 
 			hasap = nowap;
 		}

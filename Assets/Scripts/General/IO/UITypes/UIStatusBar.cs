@@ -52,23 +52,23 @@ namespace ms
 				stat += "800";
 			}
 
-			WzObject mainBar = ms.wz.wzFile_ui["StatusBar3.img"]["mainBar"];
+			/*WzObject mainBar = ms.wz.wzFile_ui["StatusBar3.img"]["mainBar"];
 			WzObject status = mainBar[stat];
 			WzObject EXPBar = mainBar["EXPBar"];
 			WzObject EXPBarRes = EXPBar[VWIDTH.ToString ()];
 			WzObject menu = mainBar["menu"];
 			WzObject quickSlot = mainBar["quickSlot"];
-			WzObject submenu = mainBar["submenu"];
+			WzObject submenu = mainBar["submenu"];*/
 
 			exp_pos = new Point_short (0, 87);
 
-			sprites.Add (new Sprite (EXPBar["backgrnd"], new DrawArgument (new Point_short (0, 87), new Point_short (VWIDTH, 0))));
-			sprites.Add (new Sprite (EXPBarRes["layer:back"], exp_pos));
+			/*sprites.Add (new Sprite (EXPBar["backgrnd"], new DrawArgument (new Point_short (0, 87), new Point_short (VWIDTH, 0))));
+			sprites.Add (new Sprite (EXPBarRes["layer:back"], exp_pos));*/
 
 			short exp_max = (short)(VWIDTH - 16);
 
-			expbar = new Gauge (Gauge.Type.GAME, EXPBarRes.resolve ("layer:gauge"), EXPBarRes.resolve ("layer:cover"), EXPBar.resolve ("layer:effect"), exp_max, 0.0f);
-			expbar.Setbarmid_PosOffset (new Point_short (-4, 0));
+			/*expbar = new Gauge (Gauge.Type.GAME, EXPBarRes.resolve ("layer:gauge"), EXPBarRes.resolve ("layer:cover"), EXPBar.resolve ("layer:effect"), exp_max, 0.0f);
+			expbar.Setbarmid_PosOffset (new Point_short (-4, 0));*/
 
 			short pos_adj = 0;
 
@@ -164,16 +164,16 @@ namespace ms
 				event_pos += new Point_short (272, 0);
 			}
 
-			hpmp_sprites.Add (new Sprite (status["backgrnd"], hpmp_pos - new Point_short (1, 0)));
-			hpmp_sprites.Add (new Sprite (status["layer:cover"], hpmp_pos - new Point_short (1, 0)));
+			/*hpmp_sprites.Add (new Sprite (status["backgrnd"], hpmp_pos - new Point_short (1, 0)));
+			hpmp_sprites.Add (new Sprite (status["layer:cover"], hpmp_pos - new Point_short (1, 0)));*/
 
 			if (VWIDTH == 800)
 			{
-				hpmp_sprites.Add (new Sprite (status["layer:Lv"], hpmp_pos));
+				//hpmp_sprites.Add (new Sprite (status["layer:Lv"], hpmp_pos));
 			}
 			else
 			{
-				hpmp_sprites.Add (new Sprite (status["layer:Lv"], hpmp_pos - new Point_short (1, 0)));
+				//hpmp_sprites.Add (new Sprite (status["layer:Lv"], hpmp_pos - new Point_short (1, 0)));
 			}
 
 			short hpmp_max = 139;
@@ -183,17 +183,17 @@ namespace ms
 				hpmp_max += 30;
 			}
 
-			hpbar = new Gauge (Gauge.Type.GAME, status.resolve ("gauge/hp/layer:0"), hpmp_max, 0.0f);
+			/*hpbar = new Gauge (Gauge.Type.GAME, status.resolve ("gauge/hp/layer:0"), hpmp_max, 0.0f);
 			mpbar = new Gauge (Gauge.Type.GAME, status.resolve ("gauge/mp/layer:0"), hpmp_max, 0.0f);
 
 			statset = new Charset (EXPBar["number"], Charset.Alignment.RIGHT);
 			hpmpset = new Charset (status["gauge"]["number"], Charset.Alignment.RIGHT);
-			levelset = new Charset (status["lvNumber"], Charset.Alignment.LEFT);
+			levelset = new Charset (status["lvNumber"], Charset.Alignment.LEFT);*/
 
 			namelabel = new OutlinedText (Text.Font.A13M, Text.Alignment.LEFT, Color.Name.GALLERY, Color.Name.TUNA);
 
-			quickslot[0] = quickSlot["backgrnd"];
-			quickslot[1] = quickSlot["layer:cover"];
+			/*quickslot[0] = quickSlot["backgrnd"];
+			quickslot[1] = quickSlot["layer:cover"];*/
 
 			Point_short buttonPos = new Point_short ((short)(591 + pos_adj), 73);
 
@@ -214,14 +214,14 @@ namespace ms
 				buttonPos += new Point_short (310, 0);
 			}
 
-			buttons[(int)Buttons.BT_CASHSHOP] = new MapleButton (menu["button:CashShop"], buttonPos);
+			/*buttons[(int)Buttons.BT_CASHSHOP] = new MapleButton (menu["button:CashShop"], buttonPos);
 			buttons[(int)Buttons.BT_MENU] = new MapleButton (menu["button:Menu"], buttonPos);
 			buttons[(int)Buttons.BT_OPTIONS] = new MapleButton (menu["button:Setting"], buttonPos);
 			buttons[(int)Buttons.BT_CHARACTER] = new MapleButton (menu["button:Character"], buttonPos);
 			buttons[(int)Buttons.BT_COMMUNITY] = new MapleButton (menu["button:Community"], buttonPos);
-			buttons[(int)Buttons.BT_EVENT] = new MapleButton (menu["button:Event"], buttonPos);
+			buttons[(int)Buttons.BT_EVENT] = new MapleButton (menu["button:Event"], buttonPos);*/
 
-			if (quickslot_active && VWIDTH > 800)
+			/*if (quickslot_active && VWIDTH > 800)
 			{
 				buttons[(int)Buttons.BT_CASHSHOP].set_active (false);
 				buttons[(int)Buttons.BT_MENU].set_active (false);
@@ -229,7 +229,7 @@ namespace ms
 				buttons[(int)Buttons.BT_CHARACTER].set_active (false);
 				buttons[(int)Buttons.BT_COMMUNITY].set_active (false);
 				buttons[(int)Buttons.BT_EVENT].set_active (false);
-			}
+			}*/
 
 			string fold = "button:Fold";
 			string extend = "button:Extend";
@@ -249,7 +249,7 @@ namespace ms
 				quickslot_qs_adj = new Point_short (211, 0);
 			}
 
-			if (VWIDTH == 800)
+			/*if (VWIDTH == 800)
 			{
 				Point_short quickslot_qs = new Point_short (579, 0);
 
@@ -284,19 +284,20 @@ namespace ms
 				buttons[(int)Buttons.BT_FOLD_QS] = new MapleButton (quickSlot[fold], quickslot_qs);
 				buttons[(int)Buttons.BT_EXTEND_QS] = new MapleButton (quickSlot[extend], quickslot_qs + quickslot_qs_adj);
 			}
+			*/
 
-			if (quickslot_active)
+			/*if (quickslot_active)
 			{
 				buttons[(int)Buttons.BT_EXTEND_QS].set_active (false);
 			}
 			else
 			{
 				buttons[(int)Buttons.BT_FOLD_QS].set_active (false);
-			}
+			}*/
 
 			#region Menu
 
-			menubackground[0] = submenu["backgrnd"]["0"];
+			/*menubackground[0] = submenu["backgrnd"]["0"];
 			menubackground[1] = submenu["backgrnd"]["1"];
 			menubackground[2] = submenu["backgrnd"]["2"];
 
@@ -330,18 +331,18 @@ namespace ms
 			buttons[(int)Buttons.BT_CHARACTER_STAT] = new MapleButton (submenu["character"]["button:Stat"], character_pos);
 
 			buttons[(int)Buttons.BT_EVENT_DAILY] = new MapleButton (submenu["event"]["button:dailyGift"], event_pos);
-			buttons[(int)Buttons.BT_EVENT_SCHEDULE] = new MapleButton (submenu["event"]["button:schedule"], event_pos);
+			buttons[(int)Buttons.BT_EVENT_SCHEDULE] = new MapleButton (submenu["event"]["button:schedule"], event_pos);*/
 
-			for (uint i = (int)Buttons.BT_MENU_QUEST; i <= (ulong)Buttons.BT_EVENT_DAILY; i++)
+			/*for (uint i = (int)Buttons.BT_MENU_QUEST; i <= (ulong)Buttons.BT_EVENT_DAILY; i++)
 			{
 				buttons[i].set_active (false);
-			}
+			}*/
 
-			menutitle[0] = submenu["title"]["character"];
+			/*menutitle[0] = submenu["title"]["character"];
 			menutitle[1] = submenu["title"]["community"];
 			menutitle[2] = submenu["title"]["event"];
 			menutitle[3] = submenu["title"]["menu"];
-			menutitle[4] = submenu["title"]["setting"];
+			menutitle[4] = submenu["title"]["setting"];*/
 
 			#endregion
 
@@ -517,18 +518,18 @@ namespace ms
 		{
 			base.update ();
 
-			foreach (var sprite in hpmp_sprites)
+			/*foreach (var sprite in hpmp_sprites)
 			{
 				sprite.update ();
 			}
 
 			expbar.update (getexppercent ());
 			hpbar.update (gethppercent ());
-			mpbar.update (getmppercent ());
+			mpbar.update (getmppercent ());*/
 
 			namelabel.change_text (stats.get_name ());
 
-			Point_short pos_adj = get_quickslot_pos ();
+			/*Point_short pos_adj = get_quickslot_pos ();
 
 			if (quickslot_active)
 			{
@@ -593,7 +594,7 @@ namespace ms
 			for (uint i = (int)Buttons.BT_EVENT_SCHEDULE; i <= (ulong)Buttons.BT_EVENT_DAILY; i++)
 			{
 				buttons[i].set_position (event_pos + pos_adj);
-			}
+			}*/
 		}
 
 		public override bool is_in_range (Point_short cursorpos)

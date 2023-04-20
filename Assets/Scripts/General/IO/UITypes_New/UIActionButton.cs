@@ -32,7 +32,7 @@ namespace ms
 
             Texture tex_bgAction = img_game["BG_Action"];
 
-            var KeyConfig = ms.wz.wzFile_ui["StatusBar3.img"]["KeyConfig"];
+            var KeyConfig = ms.wz.wzFile_ui["UIWindow.img"]["KeyConfig"];
 
 
             var icon = (KeyConfig["icon"]);

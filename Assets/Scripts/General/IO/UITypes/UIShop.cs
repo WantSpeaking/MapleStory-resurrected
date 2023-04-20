@@ -26,10 +26,9 @@ namespace ms
 
 		public UIShop (CharLook in_charlook, Inventory in_inventory)
 		{
-			//this.UIDragElement<PosSHOP> = new <type missing>();
-			this.charlook = in_charlook;
+			/*this.charlook = in_charlook;
 			this.inventory = in_inventory;
-			WzObject src = ms.wz.wzFile_ui["UIWindow2.img"]["Shop2"];
+			WzObject src = ms.wz.wzFile_ui["UIWindow.img"]["Shop2"];
 
 			WzObject background = src["backgrnd"];
 			Texture bg = background;
@@ -126,7 +125,8 @@ namespace ms
 
 			active = false;
 			dimension = new Point_short (bg_dimensions);
-			dragarea = new Point_short (bg_dimensions.x (), 10);
+			dragarea = new Point_short (bg_dimensions.x (), 10);*/
+			active = false;
 		}
 
 		/*public override void draw (float alpha)
@@ -149,10 +149,10 @@ namespace ms
 
 		public override void update ()
 		{
-			long num_mesos = inventory.get_meso ();
+			/*long num_mesos = inventory.get_meso ();
 			string mesostr = Convert.ToString (num_mesos);
 			string_format.split_number (mesostr);
-			mesolabel.change_text (mesostr);
+			mesolabel.change_text (mesostr);*/
 		}
 
 		public override void remove_cursor ()

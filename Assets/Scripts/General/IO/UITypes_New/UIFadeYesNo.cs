@@ -23,7 +23,7 @@ namespace ms
 
 			update_screen (width, height);
 
-			wzObject_FadeYesNo = wz.wzFile_ui["UIWindow2.img"]["FadeYesNo"];
+			wzObject_FadeYesNo = wz.wzFile_ui["UIWindow.img"]["FadeYesNo"];
 
 			BtOK = new MapleButton (wzObject_FadeYesNo["BtOK"]);
 			BtCancel = new MapleButton (wzObject_FadeYesNo["BtCancel"]);

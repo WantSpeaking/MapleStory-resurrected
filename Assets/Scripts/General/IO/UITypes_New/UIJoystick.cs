@@ -23,7 +23,7 @@ namespace ms
 
         public UIJoystick()
         {
-            WzObject Login = ms.wz.wzFile_ui["Login.img"];
+            /*WzObject Login = ms.wz.wzFile_ui["Login.img"];
             WzObject Common = Login["Common"];
             WzObject CharSelect = Login["CharSelect"];
 
@@ -49,7 +49,7 @@ namespace ms
             btn_Top.OnUp += OnUp_Top;
 
             btn_Bottom.OnDown += OnDown_Bottom;
-            btn_Bottom.OnUp += OnUp_Bottom;
+            btn_Bottom.OnUp += OnUp_Bottom;*/
 
 /*            buttons[(int)Buttons.Left] = btn_Left;
             buttons[(int)Buttons.Right] = btn_Right;
@@ -57,7 +57,7 @@ namespace ms
             buttons[(int)Buttons.Bottom] = btn_Bottom;*/
 
 
-            position = offset_Joystick;
+            //position = offset_Joystick;
 
             ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_Joystick> ();
             //dimension = new Point_short((short)(200), (short)(200));

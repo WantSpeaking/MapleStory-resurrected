@@ -77,7 +77,7 @@ namespace ms
 			tab_source[(int)Buttons.BT_TAB2] = "Pet";
 			tab_source[(int)Buttons.BT_TAB3] = "Android";
 
-			WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
+			WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose2"];
 			WzObject Equip = ms.wz.wzFile_ui["UIWindow4.img"]["Equip"];
 
 			background[(int)Buttons.BT_TAB0] = Equip[tab_source[(int)Buttons.BT_TAB0]]["backgrnd"];

@@ -24,7 +24,7 @@ namespace ms
 
 		public UIChatBar () : base (new Point_short (410, -5))
 		{
-			chatopen = Setting<Chatopen>.get ().load ();
+			/*chatopen = Setting<Chatopen>.get ().load ();
 			chatopen_persist = chatopen;
 			chatfieldopen = false;
 			chatrows = 5;
@@ -101,7 +101,7 @@ namespace ms
 				   /*else
 				   {
 					   toggle_chatfield ();
-				   }*/
+				   }#1#
 
 				   chatfield.change_text ("");
 			   }
@@ -129,7 +129,7 @@ namespace ms
 			   }
 		   });
 
-			chatfield.set_key_callback (KeyAction.Id.ESCAPE, () => { toggle_chatfield (false); });
+			chatfield.set_key_callback (KeyAction.Id.ESCAPE, () => { toggle_chatfield (false); });*/
 
 			//int16_t slider_x = 394;
 			//int16_t slider_y = -80;
@@ -138,9 +138,9 @@ namespace ms
 			//int16_t slider_rowmax = 1;
 			//slider = Slider(Slider::Type::CHATBAR, Range<int16_t>(slider_y, slider_height), slider_x, slider_unitrows, slider_rowmax, [&](bool upwards) {});
 
-			send_chatline ("[Welcome] Welcome to MapleStory!!", LineType.YELLOW);
+			//send_chatline ("[Welcome] Welcome to MapleStory!!", LineType.YELLOW);
 
-			dimension = new Point_short (410, DIMENSION_Y);
+			//dimension = new Point_short (410, DIMENSION_Y);
 
 			//if (chatopen)
 			//	dimension.shift_y(getchatbarheight());
@@ -232,7 +232,7 @@ namespace ms
 
 		public override void update ()
 		{
-			base.update ();
+			/*base.update ();
 
 			var pos_adj = chatopen && !chatfieldopen ? new Point_short (0, 28) : new Point_short (0, 0);
 
@@ -249,7 +249,7 @@ namespace ms
 			foreach (var key in message_cooldowns.keys)
 			{
 				message_cooldowns[key] -= Constants.TIMESTEP;
-			}
+			}*/
 		}
 
 		public override void send_key (int keycode, bool pressed, bool escape)

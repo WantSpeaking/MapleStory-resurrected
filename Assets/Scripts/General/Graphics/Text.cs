@@ -426,8 +426,12 @@ namespace ms
 			var textFormat = gRichTextField.textFormat;
 			float[] msColor = ms.Color.colors[(uint)color];
 			textFormat.color = new UnityEngine.Color (msColor[0], msColor[1], msColor[2], 1f);
+			//textFormat.color = new UnityEngine.Color (0, 0, 0, 1f);
+
 			textFormat.size = FontToSize (font);
 			gRichTextField.textFormat = textFormat;
+			//gRichTextField.asTextField.textFormat = textFormat;
+			//AppDebug.Log ($"{text} color :{color} {textFormat.color}");
 
 			GRoot.inst.AddChild (gRichTextField);
 

@@ -21,7 +21,7 @@ namespace ms
 
 			if (type == (int)Type.CHATBAR)
 			{
-				src = ms.wz.wzFile_ui["StatusBar3.img"]["chat"]["common"]["scroll"];
+				src = ms.wz.wzFile_ui["StatusBar.img"]["chat"]["common"]["scroll"];
 				base_str += "_c";
 			}
 			else

@@ -15,7 +15,7 @@ namespace ms
 
 		public UIContextMenu ()
 		{
-			WzObject src = ms.wz.wzFile_ui["UIWindow2.img"]["ContextMenu"];
+			WzObject src = ms.wz.wzFile_ui["UIWindow.img"]["ContextMenu"];
 
 			top = src["t"];
 			center = src["c"];

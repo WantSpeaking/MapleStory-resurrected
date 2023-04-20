@@ -31,8 +31,8 @@ namespace ms
 			this.collect_enabled = false;
 			this.damage_enabled = false;
 			this.item_enabled = false;
-			WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
-			WzObject UserInfo = ms.wz.wzFile_ui["UIWindow2.img"]["UserInfo"];
+			WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose2"];
+			WzObject UserInfo = ms.wz.wzFile_ui["UIWindow.img"]["UserInfo"];
 			WzObject character = UserInfo["character"];
 			WzObject backgrnd = character["backgrnd"];
 

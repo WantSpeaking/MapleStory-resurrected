@@ -26,7 +26,7 @@ namespace ms
 			this.ignore_tooltip = false;
 			this.tab = InventoryType.Id.EQUIP;
 			this.sort_enabled = false;
-			WzObject Item = ms.wz.wzFile_ui["UIWindow2.img"]["Item"];
+			/*WzObject Item = ms.wz.wzFile_ui["UIWindow2.img"]["Item"];
 
 			//backgrnd = Item["productionBackgrnd"];//todo 2 Width height 1,1, it's outlink fault
 			backgrnd = Item["backgrnd"];
@@ -38,9 +38,9 @@ namespace ms
 			full_backgrnd3 = Item["FullBackgrnd3"];
 
 			bg_dimensions = new Point_short (backgrnd.get_dimensions ());
-			bg_full_dimensions = new Point_short (full_backgrnd.get_dimensions ());
+			bg_full_dimensions = new Point_short (full_backgrnd.get_dimensions ());*/
 
-			WzObject New = Item["New"];
+			/*WzObject New = Item["New"];
 			newitemslot = New["inventory"];
 			newitemtab = New["Tab0"];
 
@@ -93,7 +93,7 @@ namespace ms
 			buttons[(int)Buttons.BT_EXTRACT_SM].set_state (Button.State.DISABLED);
 			buttons[(int)Buttons.BT_DISASSEMBLE].set_state (Button.State.DISABLED);
 			buttons[(int)Buttons.BT_DISASSEMBLE_SM].set_state (Button.State.DISABLED);
-			buttons[button_by_tab (tab)].set_state (Button.State.PRESSED);
+			buttons[button_by_tab (tab)].set_state (Button.State.PRESSED);*/
 
 			mesolabel = new Text (Text.Font.A11M, Text.Alignment.RIGHT, Color.Name.BLACK);
 			maplepointslabel = new Text (Text.Font.A11M, Text.Alignment.RIGHT, Color.Name.BLACK);
@@ -106,7 +106,7 @@ namespace ms
 			slotrange[InventoryType.Id.ETC] = new ValueTuple<short, short> (1, 24);
 			slotrange[InventoryType.Id.CASH] = new ValueTuple<short, short> (1, 24);
 
-			slider = new Slider ((int)Slider.Type.DEFAULT_SILVER, new Range_short (50, 245), 152, 6, rm: (short)(1 + inventory.get_slotmax (tab) / COLUMNS), (bool upwards) =>
+			/*slider = new Slider ((int)Slider.Type.DEFAULT_SILVER, new Range_short (50, 245), 152, 6, rm: (short)(1 + inventory.get_slotmax (tab) / COLUMNS), (bool upwards) =>
 			{
 				short shift = (short)(upwards ? -COLUMNS : COLUMNS);
 				bool above = slotrange[tab].Item1 + shift > 0;
@@ -119,7 +119,7 @@ namespace ms
 					oldValue.Item2 += shift;
 					slotrange[tab] = oldValue;
 				}
-			});
+			});*/
 
 			set_full (false);
 			clear_new ();
@@ -128,7 +128,7 @@ namespace ms
 
 		}
 
-		public override void draw (float alpha)
+		/*public override void draw (float alpha)
 		{
 			base.draw_sprites (alpha);
 
@@ -202,7 +202,7 @@ namespace ms
 			}
 
 			base.draw_buttons (alpha);
-		}
+		}*/
 
 		public override void update ()
 		{
@@ -475,7 +475,7 @@ namespace ms
 		{
 			sort_enabled = enabled;
 
-			if (full_enabled)
+			/*if (full_enabled)
 			{
 				if (sort_enabled)
 				{
@@ -508,7 +508,7 @@ namespace ms
 					buttons[(int)Buttons.BT_GATHER].set_active (true);
 					buttons[(int)Buttons.BT_GATHER_SM].set_active (false);
 				}
-			}
+			}*/
 		}
 
 		public void change_tab (InventoryType.Id type)
@@ -612,8 +612,8 @@ namespace ms
 				ushort row = (ushort)(slotrange[tab].Item1 / COLUMNS);
 				slider.setrows ((short)row, 6, (short)(1 + inventory.get_slotmax (tab) / COLUMNS));
 
-				buttons[button_by_tab (oldtab)].set_state (Button.State.NORMAL);
-				buttons[button_by_tab (tab)].set_state (Button.State.PRESSED);
+				//buttons[button_by_tab (oldtab)].set_state (Button.State.NORMAL);
+				//buttons[button_by_tab (tab)].set_state (Button.State.PRESSED);
 
 				load_icons ();
 				set_sort (false);
@@ -895,25 +895,25 @@ namespace ms
 			{
 				dimension = new Point_short (bg_full_dimensions);
 
-				buttons[(int)Buttons.BT_FULL].set_active (false);
+				/*buttons[(int)Buttons.BT_FULL].set_active (false);
 				buttons[(int)Buttons.BT_FULL_SM].set_active (false);
 				buttons[(int)Buttons.BT_SMALL].set_active (false);
-				buttons[(int)Buttons.BT_SMALL_SM].set_active (true);
+				buttons[(int)Buttons.BT_SMALL_SM].set_active (true);*/
 			}
 			else
 			{
-				dimension = new Point_short (bg_dimensions);
+				/*dimension = new Point_short (bg_dimensions);
 
 				buttons[(int)Buttons.BT_FULL].set_active (true);
 				buttons[(int)Buttons.BT_FULL_SM].set_active (false);
 				buttons[(int)Buttons.BT_SMALL].set_active (false);
-				buttons[(int)Buttons.BT_SMALL_SM].set_active (false);
+				buttons[(int)Buttons.BT_SMALL_SM].set_active (false);*/
 			}
 
 			dragarea = new Point_short (dimension.x (), 20);
 
 			short adj_x = (short)(full_enabled ? 20 : 22);
-			buttons[(int)Buttons.BT_CLOSE].set_position (new Point_short ((short)(dimension.x () - adj_x), 6));
+			/*buttons[(int)Buttons.BT_CLOSE].set_position (new Point_short ((short)(dimension.x () - adj_x), 6));
 
 			buttons[(int)Buttons.BT_COIN].set_active (!enabled);
 			buttons[(int)Buttons.BT_POINT].set_active (!enabled);
@@ -933,7 +933,7 @@ namespace ms
 			buttons[(int)Buttons.BT_EXTRACT_SM].set_active (enabled);
 			buttons[(int)Buttons.BT_DISASSEMBLE_SM].set_active (enabled);
 			buttons[(int)Buttons.BT_TOAD_SM].set_active (enabled);
-			buttons[(int)Buttons.BT_CASHSHOP].set_active (enabled);
+			buttons[(int)Buttons.BT_CASHSHOP].set_active (enabled);*/
 
 			set_sort (sort_enabled);
 			load_icons ();

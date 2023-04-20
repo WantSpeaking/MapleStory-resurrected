@@ -10,17 +10,17 @@ namespace ms
 	{
 		public SkillTooltip ()
 		{
-			WzObject Frame = ms.wz.wzFile_ui["UIToolTip.img"]["Item"]["Frame2"];
+			/*WzObject Frame = ms.wz.wzFile_ui["UIToolTip.img"]["Item"]["Frame2"];
 
 			frame = new MapleFrame (Frame);
 			cover = Frame["cover"];
 
-			skill_id = 0;
+			skill_id = 0;*/
 		}
 
 		public override void draw (Point_short pos)
 		{
-			if (skill_id == 0)
+			/*if (skill_id == 0)
 			{
 				return;
 			}
@@ -56,7 +56,7 @@ namespace ms
 			pos.shift_y (level_offset);
 
 			line.draw (pos + new Point_short (22, 10));
-			leveldesc.draw (pos + new Point_short (25, 11));
+			leveldesc.draw (pos + new Point_short (25, 11));*/
 		}
 
 		const string mltag = "Master Level";

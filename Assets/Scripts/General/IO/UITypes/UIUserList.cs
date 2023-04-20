@@ -24,8 +24,8 @@ namespace ms
 		public UIUserList (ushort t) : base (new Point_short (260, 20))
 		{
 			this.tab = t;
-			WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
-			UserList = ms.wz.wzFile_ui["UIWindow2.img"]["UserList"];
+			WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose2"];
+			UserList = ms.wz.wzFile_ui["UIWindow.img"]["UserList"];
 			WzObject Main = UserList["Main"];
 
 			sprites.Add (Main["backgrnd"]);

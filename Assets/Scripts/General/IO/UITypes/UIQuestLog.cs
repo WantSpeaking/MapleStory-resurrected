@@ -24,8 +24,8 @@ namespace ms
             this.questlog = ql;
             tab = (int)Buttons.TAB0;
 
-            WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
-            WzObject quest = ms.wz.wzFile_ui["UIWindow2.img"]["Quest"];
+            /*WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose2"];
+            WzObject quest = ms.wz.wzFile_ui["UIWindow.img"]["Quest"];
             WzObject list = quest["list"];
 
             WzObject backgrnd = list["backgrnd"];
@@ -46,9 +46,9 @@ namespace ms
             buttons[(int)Buttons.CLOSE] = new MapleButton(close, new Point_short(275, 6));
             buttons[(int)Buttons.SEARCH] = new MapleButton(list["BtSearch"]);
             buttons[(int)Buttons.ALL_LEVEL] = new MapleButton(list["BtAllLevel"]);
-            buttons[(int)Buttons.MY_LOCATION] = new MapleButton(list["BtMyLocation"]);
+            buttons[(int)Buttons.MY_LOCATION] = new MapleButton(list["BtMyLocation"]);*/
 
-            search_area = list["searchArea"];
+            /*search_area = list["searchArea"];
             var search_area_dim = search_area.get_dimensions();
             var search_area_origin = search_area.get_origin().abs();
 
@@ -59,9 +59,9 @@ namespace ms
             var search_dim = search_pos + search_area_dim + search_dim_adj;
 
             search = new Textfield(Text.Font.A15B, Text.Alignment.LEFT, Color.Name.BLACK, new Rectangle_short(search_pos, search_dim), 19);
-            placeholder = new Text(Text.Font.A15B, Text.Alignment.LEFT, Color.Name.BLACK, "Enter the quest name.");
+            placeholder = new Text(Text.Font.A15B, Text.Alignment.LEFT, Color.Name.BLACK, "Enter the quest name.");*/
 
-            slider = new Slider((int)Slider.Type.DEFAULT_SILVER, new Range_short(0, 279), 150, ROWS, ROWS, (bool upwards) =>
+            /*slider = new Slider((int)Slider.Type.DEFAULT_SILVER, new Range_short(0, 279), 150, ROWS, ROWS, (bool upwards) =>
             {
                 /*short shift = (short)(upwards ? -1 : 1);
                 bool above = offset + shift >= 0;
@@ -70,7 +70,7 @@ namespace ms
                 if (above && below)
                 {
                     offset += shift;
-                }*/
+                }#1#
 
                 short shift = (short)(upwards ? -COLUMNS : COLUMNS);
                 bool above = slotrange[(Buttons)tab].Item1 + shift > 0;
@@ -83,15 +83,15 @@ namespace ms
                     oldValue.Item2 += shift;
                     slotrange[(Buttons)tab] = oldValue;
                 }
-            });
+            });*/
 
             change_tab(tab);
 
-            dimension = new Texture(backgrnd).get_dimensions();
+            /*dimension = new Texture(backgrnd).get_dimensions();
             dragarea = new Point_short(dimension.x(), 20);
             sprites.Add(new Sprite(list["backgrnd2"], new Point_short(0, 0)));
             sprites.Add(new Sprite(list["backgrnd2"], new Point_short(dimension.x(), 0)));
-            questInfo_position = new Point_short((short) (dimension.x() + 10), 80);
+            questInfo_position = new Point_short((short) (dimension.x() + 10), 80);*/
 
             text_QuestEntryName = new Text(Text.Font.A13M, Text.Alignment.LEFT, Color.Name.BLACK, "");
             text_Info = new Text(Text.Font.A13M, Text.Alignment.LEFT, Color.Name.BLACK, "",300);
@@ -350,7 +350,7 @@ namespace ms
             ushort oldtab = tab;
             tab = tabid;
 
-            if (oldtab != tab)
+            /*if (oldtab != tab)
             {
                 buttons[(uint)((int)Buttons.TAB0 + oldtab)].set_state(Button.State.NORMAL);
                 buttons[(int)Buttons.MY_LOCATION].set_active(tab == (int)Buttons.TAB0);
@@ -367,7 +367,7 @@ namespace ms
                 }
             }
 
-            buttons[(uint)((int)Buttons.TAB0 + tab)].set_state(Button.State.PRESSED);
+            buttons[(uint)((int)Buttons.TAB0 + tab)].set_state(Button.State.PRESSED);*/
         }
 
         private enum Buttons : ushort

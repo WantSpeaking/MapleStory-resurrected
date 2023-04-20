@@ -276,6 +276,7 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	public string GameSceneName = "Game";
 	public void init ()
+	
 	{
 		/*if (Error error = Session.get().init())
 		return error;
@@ -301,7 +302,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		DamageNumber.init();
 		MapPortals.init();
 		*/
-		try
+		//try
 		{
 			maplestoryFolder = Constants.get ().path_MapleStoryFolder;
 			ms.Setting<ServerIP>.get().save(inputField_IP.text);
@@ -323,13 +324,13 @@ public class MapleStory : SingletonMono<MapleStory>
 			button_load.transform.parent.gameObject.SetActive (false);
 
 		}
-		catch (Exception ex)
+		/*catch (Exception ex)
 		{
 			initError = true;
 			message = "初始化错误，数据包不存在，或则权限不足无法读取，请开启文件读写权限：";
 			message += ex.Message;
 			button_load.transform.parent.gameObject.SetActive (true);
-		}
+		}*/
 
 		//Stage.get ().load_map(100000000);
 
@@ -454,6 +455,30 @@ public class MapleStory : SingletonMono<MapleStory>
 		}
 	}
 
+	public void BackToLogin ()
+	{
+		//Window.get().ChangeResloution((short)800, (short)600);
+		float fadestep = 0.025f;
+
+		Window.get().fadeout(fadestep, () =>
+		{
+			ms.GraphicsGL.get().clear();
+
+			UI.get().change_state(UI.State.LOGIN);
+			UI.get().set_scrollnotice("");
+			Session.get().reconnect();
+
+			UI.get().enable();
+			Timer.get().start();
+			ms.GraphicsGL.get().unlock();
+                            
+		});
+
+		ms.GraphicsGL.get().enlock();
+		Stage.get().clear();
+		Timer.get().start();
+		ms_Unity.FGUI_Manager.Instance.CloseAll ();
+	}
 	private void OnApplicationQuit ()
 	{
 		Sound.close ();

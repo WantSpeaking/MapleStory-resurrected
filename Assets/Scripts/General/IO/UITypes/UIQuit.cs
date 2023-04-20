@@ -186,37 +186,7 @@ namespace ms
                     break;
                 case Buttons.YES:
                     {
-                        //Window.get().ChangeResloution((short)800, (short)600);
-                        float fadestep = 0.025f;
-
-                        Window.get().fadeout(fadestep, () =>
-                        {
-                            GraphicsGL.get().clear();
-
-                            UI.get().change_state(UI.State.LOGIN);
-                            UI.get().set_scrollnotice("");
-                            Session.get().reconnect();
-
-                            UI.get().enable();
-                            Timer.get().start();
-                            GraphicsGL.get().unlock();
-                            
-                        });
-
-                        GraphicsGL.get().enlock();
-                        Stage.get().clear();
-                        Timer.get().start();
-                        ms_Unity.FGUI_Manager.Instance.CloseAll ();
-
-
-                        /*Stage.get().clear();
-                        Timer.get().start();
-                        UI.get().change_state(UI.State.LOGIN);
-                        UI.get().set_scrollnotice("");
-                        Session.get().reconnect();
-
-                        UI.get().enable();
-                        Timer.get().start();*/
+                       MapleStory.Instance.BackToLogin ();
                     }
                     break;
                 default:

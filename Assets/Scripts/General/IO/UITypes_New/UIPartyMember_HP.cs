@@ -13,7 +13,7 @@ namespace ms
 
 		public UIPartyMember_HP () : base (new Point_short (63, 90))
 		{
-			WzObject src = ms.wz.wzFile_ui["UIWindow2.img"]["UserList"]["Main"]["Party"]["PartyHP"];
+			WzObject src = ms.wz.wzFile_ui["UIWindow.img"]["UserList"]["Main"]["Party"]["PartyHP"];
 			var GaugeBar = src["GaugeBar"];
 			for (int i = 0; i < Constants.get ().MAX_PartyMemberCount; i++)
 			{
