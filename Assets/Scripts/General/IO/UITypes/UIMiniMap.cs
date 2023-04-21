@@ -627,7 +627,7 @@ namespace ms
 			max_sprites.Add (new Sprite (Max[DownCenter], new DrawArgument (new Point_short (CENTER_START_X, (short)(down_y_offset + MAX_ADJ + 18)), new Point_short (c_stretch, 0))));
 			max_sprites.Add (new Sprite (Max[DownLeft], new Point_short (0, (short)(down_y_offset + MAX_ADJ))));
 			max_sprites.Add (new Sprite (Max[DownRight], new Point_short (ur_x_offset, (short)(down_y_offset + MAX_ADJ))));
-			max_sprites.Add (new Sprite (ms.wz.wzFile_mapLatest["MapHelper.img"]["mark"][Map["info"]["mapMark"].ToString ()], new DrawArgument (new Point_short (7, 17))));
+			max_sprites.Add (new Sprite (ms.wz.wzFile_map["MapHelper.img"]["mark"][Map["info"]["mapMark"].ToString ()], new DrawArgument (new Point_short (7, 17))));
 
 			max_dimensions = normal_dimensions + new Point_short (0, MAX_ADJ);
 		}

@@ -89,17 +89,21 @@ namespace ms
 		public int MAX_PartyMemberCount = 6;
 
 #if UNITY_EDITOR || WINDOWS
-		public string path_MapleStoryFolder = @"G:\Program Files (x86)\MapleStory";
-		public string path_SettingFileFolder = @"G:\Program Files (x86)\MapleStory";
+		/*public string path_MapleStoryFolder = @"G:\Program Files (x86)\MapleStory";
+		public string path_SettingFileFolder = @"G:\Program Files (x86)\MapleStory";*/
+		
+		public string path_MapleStoryFolder = $"{UnityEngine.Application.persistentDataPath}";
+		public string path_SettingFileFolder = $"{UnityEngine.Application.persistentDataPath}";
 
 #elif UNITY_ANDROID || ANDROID
-		//public string path_MapleStoryFolder = $"{UnityEngine.Application.persistentDataPath}";
-		//public string path_SettingFileFolder = $"{UnityEngine.Application.persistentDataPath}";
+		public string path_MapleStoryFolder = $"{UnityEngine.Application.persistentDataPath}";
+		public string path_SettingFileFolder = $"{UnityEngine.Application.persistentDataPath}";
+
 		//public string path_MapleStoryFolder = $"/storage/emulated/0/Download";
 		//public string path_SettingFileFolder = $"/storage/emulated/0/Download";
 
-		public string path_MapleStoryFolder = $"/storage/emulated/0/ForeverStory";
-		public string path_SettingFileFolder = $"/storage/emulated/0/ForeverStory";
+		//public string path_MapleStoryFolder = $"/storage/emulated/0/ForeverStory";
+		//public string path_SettingFileFolder = $"/storage/emulated/0/ForeverStory";
 #else
 		//public string path_MapleStoryFolder = $"/storage/emulated/0/Android/data/MapleStory_resurrected_MonoGame_Android.MapleStory_resurrected_MonoGame_Android/files";
 		//public string path_MapleStoryFolder = $"/storage/emulated/0/Download";

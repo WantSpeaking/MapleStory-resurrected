@@ -44,9 +44,9 @@ namespace ms
             wzFile_etc = add_file("etc");
             wzFile_item = add_file("item");
             wzFile_map = add_file("map");
-            wzFile_wzFile_mapPretty = add_file("map");
-            wzFile_mapLatest = add_file("MapLatest");
-            wzFile_map001 = add_file("Map001");
+            //wzFile_wzFile_mapPretty = add_file("map");
+           //wzFile_mapLatest = add_file("MapLatest");
+            //wzFile_map001 = add_file("Map001");
             wzFile_mob = add_file("mob");
             wzFile_npc = add_file("npc");
 			wzFile_quest = add_file ("Quest");

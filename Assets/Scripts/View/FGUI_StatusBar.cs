@@ -61,7 +61,8 @@ namespace ms_Unity
 		
 		private void OnClick_BackToLogin (EventContext context)
 		{
-			ms.UI.get ().emplace<UIQuit> (ms.Stage.get ().get_player ().get_stats ());
+			//ms.UI.get ().emplace<UIQuit> (ms.Stage.get ().get_player ().get_stats ());
+			MapleStory.Instance.BackToLogin ();
 			//OnClick_PARTY_And_Friends ();
 		}
 		

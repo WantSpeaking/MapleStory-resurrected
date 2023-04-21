@@ -10,12 +10,12 @@ public class CopyStreamingAssetToPersistent : Singleton<CopyStreamingAssetToPers
 	{
 		var uri = new System.Uri (Path.Combine (Application.streamingAssetsPath, path));
 		UnityWebRequest request = UnityWebRequest.Get (uri);
-		request.SendWebRequest ();//¶ÁÈ¡Êý¾Ý
+		request.SendWebRequest ();//è¯»å–æ•°æ®
 		if (request.error == null)
 		{
 			while (true)
 			{
-				if (request.downloadHandler.isDone)//ÊÇ·ñ¶ÁÈ¡ÍêÊý¾Ý
+				if (request.downloadHandler.isDone)//æ˜¯å¦è¯»å–å®Œæ•°æ®
 				{
 					Debug.Log (request.downloadHandler.text);
 					return request.downloadHandler.text;
@@ -43,7 +43,7 @@ public class CopyStreamingAssetToPersistent : Singleton<CopyStreamingAssetToPers
 	}
 	public static void CopyFile (string fileName)
 	{
-		if (File.Exists(Application.persistentDataPath + "/" + fileName))
+		if (File.Exists(Application.persistentDataPath + "/" + fileName) && new FileInfo (Application.persistentDataPath + "/" + fileName).Length != 0)
 		{
 			return;
 		}
@@ -53,22 +53,30 @@ public class CopyStreamingAssetToPersistent : Singleton<CopyStreamingAssetToPers
 			using (UnityWebRequest request = UnityWebRequest.Get (Application.streamingAssetsPath + "/" + fileName))
 			{
 				request.timeout = 3;
-				request.downloadHandler = new DownloadHandlerFile (Application.persistentDataPath + "/" + fileName);//Ö±½Ó½«ÎÄ¼þÏÂÔØµ½Íâ´æ
+				request.downloadHandler = new DownloadHandlerFile (Application.persistentDataPath + "/" + fileName);//ç›´æŽ¥å°†æ–‡ä»¶ä¸‹è½½åˆ°å¤–å­˜
 				request.SendWebRequest ();
-
-				float time = Time.time;
-				//ÏÂÔØÍê³ÉºóÖ´ÐÐµÄ»Øµ÷
+				if (request.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError or UnityWebRequest.Result.DataProcessingError)
+				{
+					return;
+				}
+				
+				//ä¸‹è½½å®ŒæˆåŽæ‰§è¡Œçš„å›žè°ƒ
 				while (!request.isDone)
 				{
 				}
 				request.Abort ();
-				//Ä¬ÈÏÖµÊÇtrue£¬µ÷ÓÃ¸Ã·½·¨²»ÐèÒªÉèÖÃDispose()£¬Unity¾Í»á×Ô¶¯ÔÚÍê³Éºóµ÷ÓÃDispose()ÊÍ·Å×ÊÔ´¡£
+				//é»˜è®¤å€¼æ˜¯trueï¼Œè°ƒç”¨è¯¥æ–¹æ³•ä¸éœ€è¦è®¾ç½®Dispose()ï¼ŒUnityå°±ä¼šè‡ªåŠ¨åœ¨å®ŒæˆåŽè°ƒç”¨Dispose()é‡Šæ”¾èµ„æºã€‚
 				request.disposeDownloadHandlerOnDispose = true;
 				request.Dispose ();
 			}
 		}
 		else
 		{
+			if (!File.Exists(Application.streamingAssetsPath + "/" + fileName))
+			{
+				return;
+			}
+			
 			File.Copy (Application.streamingAssetsPath + "/" + fileName, Application.persistentDataPath + "/" + fileName, true);
 		}
 	}
@@ -84,16 +92,16 @@ public class CopyStreamingAssetToPersistent : Singleton<CopyStreamingAssetToPers
 			using (UnityWebRequest request = UnityWebRequest.Get (Application.streamingAssetsPath + "/" + fileName))
 			{
 				request.timeout = 3;
-				request.downloadHandler = new DownloadHandlerFile (destinationFolder + "/" + fileName);//Ö±½Ó½«ÎÄ¼þÏÂÔØµ½Íâ´æ
+				request.downloadHandler = new DownloadHandlerFile (destinationFolder + "/" + fileName);//ç›´æŽ¥å°†æ–‡ä»¶ä¸‹è½½åˆ°å¤–å­˜
 				request.SendWebRequest ();
 
 				float time = Time.time;
-				//ÏÂÔØÍê³ÉºóÖ´ÐÐµÄ»Øµ÷
+				//ä¸‹è½½å®ŒæˆåŽæ‰§è¡Œçš„å›žè°ƒ
 				while (!request.isDone)
 				{
 				}
 				request.Abort ();
-				//Ä¬ÈÏÖµÊÇtrue£¬µ÷ÓÃ¸Ã·½·¨²»ÐèÒªÉèÖÃDispose()£¬Unity¾Í»á×Ô¶¯ÔÚÍê³Éºóµ÷ÓÃDispose()ÊÍ·Å×ÊÔ´¡£
+				//é»˜è®¤å€¼æ˜¯trueï¼Œè°ƒç”¨è¯¥æ–¹æ³•ä¸éœ€è¦è®¾ç½®Dispose()ï¼ŒUnityå°±ä¼šè‡ªåŠ¨åœ¨å®ŒæˆåŽè°ƒç”¨Dispose()é‡Šæ”¾èµ„æºã€‚
 				request.disposeDownloadHandlerOnDispose = true;
 				request.Dispose ();
 			}
@@ -120,12 +128,12 @@ public class CopyStreamingAssetToPersistent : Singleton<CopyStreamingAssetToPers
 
 		var uri = new System.Uri (src);
 		UnityWebRequest request = UnityWebRequest.Get (uri);
-		request.SendWebRequest ();//¶ÁÈ¡Êý¾Ý
+		request.SendWebRequest ();//è¯»å–æ•°æ®
 		if (request.error == null)
 		{
 			while (true)
 			{
-				if (request.downloadHandler.isDone)//ÊÇ·ñ¶ÁÈ¡ÍêÊý¾Ý
+				if (request.downloadHandler.isDone)//æ˜¯å¦è¯»å–å®Œæ•°æ®
 				{
 					if (!File.Exists (des))
 					{

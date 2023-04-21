@@ -1413,6 +1413,7 @@ GameObject:
   - component: {fileID: 609587594}
   - component: {fileID: 609587596}
   - component: {fileID: 609587597}
+  - component: {fileID: 609587598}
   m_Layer: 0
   m_Name: Init
   m_TagString: Untagged
@@ -1673,6 +1674,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tbtextmapper: {fileID: 4900000, guid: 00a39873db544a0458a1c522a4e50c52, type: 3}
+--- !u!114 &609587598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609587583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f9040dfb63e4a3478f6441625e7a4be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  androidIntentCalljs: androidIntentCalljs.js
+  destinationPath: /storage/emulated/0/ForeverStory
+  password: Forever~Story2022
+  timer: 0
+  fontSize: 60
+  isWzFileCopy: 1
+  wzFiles:
+  - Settings
+  - Base.wz
+  - Character1.wz
+  - Effect.wz
+  - Etc.wz
+  - Item.wz
+  - List.wz
+  - Map.wz
+  - Mob.wz
+  - Morph.wz
+  - Npc.wz
+  - Quest.wz
+  - Reactor.wz
+  - Skill.wz
+  - Sound.wz
+  - String.wz
+  - UI_083.wz
+  - UI_Endless.wz
 --- !u!1 &703174475
 GameObject:
   m_ObjectHideFlags: 0
@@ -2052,7 +2090,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 772691842}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 588.8514, y: -300, z: 0}
+  m_LocalPosition: {x: 610.215, y: -300, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
