@@ -5,6 +5,7 @@ using System.Reflection.Emit;
 using Attributes;
 using Beebyte.Obfuscator;
 using Helper;
+using ms_Unity;
 
 namespace ms
 {
@@ -30,14 +31,32 @@ namespace ms
             //try
             {
                 AppDebug.Log ("start UI.init");
+                FGUI_Manager.Instance.GetFGUI<FGUI_OK> ();
+                FGUI_Manager.Instance.GetFGUI<FGUI_YesNo> ();
+                FGUI_Manager.Instance.GetFGUI<FGUI_EnterNumber> ();
                 cursor.init ();
                 change_state (State.LOGIN);
+                NetWorkSocket.Instance.OnReceiveCallBackException += OnReceiveCallBackException;
             }
             //catch (Exception ex)
             {
                 //AppDebug.LogError (ex.Message);
             }
             
+        }
+
+        public bool attemptEnterGame = false;
+        public bool attemptEnterCashshop = false;
+        
+        private void OnReceiveCallBackException ()
+        {
+            if (attemptEnterGame || attemptEnterCashshop)
+            {
+                return;
+            }
+            ms_Unity.FGUI_Manager.Instance.PanelOpening = true;
+            MapleStory.Instance.showNotice = true;
+            //FGUI_OK.ShowNotice ("和服务器断开连接,请重新登录",(b)=> MapleStory.Instance.BackToLogin ());
         }
 
         public void draw(float alpha)
@@ -90,9 +109,11 @@ namespace ms
                     break;
                 case State.GAME:
                     state = new UIStateGame();
+                    attemptEnterGame = false;
                     break;
                 case State.CASHSHOP:
                     state = new UIStateCashShop();
+                    attemptEnterCashshop = false;
                     break;
             }
         }

@@ -212,8 +212,8 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 		if (m_Client != null && m_Client.Connected)
 		{
 			m_Client.Shutdown (SocketShutdown.Both);
-			m_Client.Disconnect(false);
-			//m_Client.Close ();
+			//m_Client.Disconnect(false);
+			m_Client.Close ();
 		}
 	}
 
@@ -362,7 +362,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 	/// <param name="ar"></param>
 	private void ReceiveCallBack (IAsyncResult ar)
 	{
-		//try
+		try
 		{
 			/*if (m_Client.Available <= 0) return; 
 			if (m_Client == null) return;*/
@@ -500,6 +500,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
                     ReceiveMsg();
                     //客户端断开连接
                     Debug.LogWarning($"Disconnected! EndReceive len<=0");
+                    OnReceiveCallBackException?.Invoke ();
                 }
             }
 			else
@@ -509,16 +510,19 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
                     m_ReceiveQueue.Clear();
                 }*/
                 Debug.LogWarning($"Disconnected! m_Client != null:{m_Client != null}\t m_Client.Connected:{m_Client.Connected} ");
+                OnReceiveCallBackException?.Invoke ();
             }
 			
 		}
-		//catch (Exception ex)
+		catch (Exception ex)
 		{
+			OnReceiveCallBackException?.Invoke ();
 			//客户端断开连接
 			//Debug.Log ($"服务器{m_Client.RemoteEndPoint}断开连接\t Message:{ex.Message} {ex.Data} {ex.StackTrace}");
 		}
 	}
 
+	public Action OnReceiveCallBackException;
 	#endregion
 
 	public int receive (bool success)

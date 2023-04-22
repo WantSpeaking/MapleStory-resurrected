@@ -6,6 +6,7 @@ using HaCreator.Wz;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using ms;
+using ms_Unity;
 using server.quest;
 using TMPro;
 using UnityEditor;
@@ -139,10 +140,14 @@ public class MapleStory : SingletonMono<MapleStory>
 	public GameObject RuntimeHierarchyInspector;
 	bool initError;
 
+	public bool showNotice = false;
 	private void OnGUI ()
 	{
+		
 		GUI.skin.label.fontSize = fontSize;
-		GUI.color = Color.black;
+		GUI.skin.button.fontSize = fontSize;
+
+		//GUI.color = Color.yellow;
 		GUILayout.BeginVertical ();
 
 		if (initError)
@@ -160,6 +165,26 @@ public class MapleStory : SingletonMono<MapleStory>
 			Window.get ().HandleGUIEvents (Event.current);
 		}
 
+		if (showNotice)
+		{
+			// 在屏幕中央创建一个组
+			GUI.BeginGroup (new Rect (Screen.width / 2 - 250, Screen.height / 2 - 150, 500, 300));
+			// 现在所有矩形都调整到该组。(0,0) 是该组的左上角。
+    
+			
+			//我们将创建一个框形，以便能看到该组在屏幕上的位置。
+			GUI.Box (new Rect (0,0,500,300),"和服务器断开连接,请重新登录");
+			GUI.Label (new Rect (50,0,400,100),"和服务器断开连接,请重新登录");
+			if (GUI.Button (new Rect (150,150,200,100), "确定"))
+			{
+				BackToLogin ();
+				showNotice = false;
+				FGUI_Manager.Instance.PanelOpening = false;
+			}
+    
+			// 结束我们上面开始的组。记住这一点非常重要！
+			GUI.EndGroup ();
+		}
 
 		//Debug.Log ($"{FairyGUI.Stage.inst.touchTarget} {FairyGUI.Stage.inst.touchTarget?.name}", FairyGUI.Stage.inst.touchTarget?.gameObject);
 

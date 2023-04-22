@@ -243,38 +243,42 @@ public class AndroidIntentCallToUnZipData : MonoBehaviour
 
 	private void OnGUI ()
 	{
-		unzipFinished.update ();
-
-        GUI.skin.button.fontSize = fontSize;
-		GUILayout.BeginVertical ();
-		//GUILayout.Label (message);
-
-		if (!clicked)
+		if (isWzFileCopy)
 		{
-			if (GUILayout.Button (message))
+			unzipFinished.update ();
+
+			GUI.skin.button.fontSize = fontSize;
+			GUILayout.BeginVertical ();
+			//GUILayout.Label (message);
+
+		
+			if (!clicked)
 			{
-				clicked = true;
+				if (GUILayout.Button (message))
+				{
+					clicked = true;
+				}
 			}
-		}
-		else
-		{
+			else
+			{
 			
-		}
-        /*if (unzipFinished)
-		{
-			GUILayout.Label ("数据解压完成, 请点击开始游戏按钮");
-		}*/
+			}
+			/*if (unzipFinished)
+			{
+				GUILayout.Label ("数据解压完成, 请点击开始游戏按钮");
+			}*/
 
-	/*	if (ms.Setting<JSDebugOn>.get().load())
-		{
-            if (GUILayout.Button("hotreload"))
-            {
-				EvalJs();
-            }
-        }*/
+			/*	if (ms.Setting<JSDebugOn>.get().load())
+				{
+		            if (GUILayout.Button("hotreload"))
+		            {
+						EvalJs();
+		            }
+		        }*/
         
 
-        GUILayout.EndVertical ();
+			GUILayout.EndVertical ();
+		}
 	}
 
     //JsEnv jsEnv;

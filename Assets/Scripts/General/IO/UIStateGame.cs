@@ -47,7 +47,9 @@ namespace ms
 			VHEIGHT = Constants.get ().get_viewheight ();
 			//UI.get ().get_element<UIStatusBar> ().get ().
 			ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_StatusBar> ();
-        }
+			
+
+		}
 
         public override void draw (float inter, Point_short cursor)
 		{

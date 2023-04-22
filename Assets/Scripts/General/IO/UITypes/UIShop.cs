@@ -26,9 +26,9 @@ namespace ms
 
 		public UIShop (CharLook in_charlook, Inventory in_inventory)
 		{
-			/*this.charlook = in_charlook;
+			this.charlook = in_charlook;
 			this.inventory = in_inventory;
-			WzObject src = ms.wz.wzFile_ui["UIWindow.img"]["Shop2"];
+			/*WzObject src = ms.wz.wzFile_ui["UIWindow.img"]["Shop2"];
 
 			WzObject background = src["backgrnd"];
 			Texture bg = background;
@@ -158,9 +158,8 @@ namespace ms
 		public override void remove_cursor ()
 		{
 			base.remove_cursor ();
-
-			buyslider.remove_cursor ();
-			sellslider.remove_cursor ();
+			/*buyslider.remove_cursor ();
+			sellslider.remove_cursor ();*/
 		}
 
 		/*public override Cursor.State send_cursor (bool clicked, Point_short cursorpos)
@@ -364,13 +363,13 @@ namespace ms
 			string strid = string_format.extend_id (npcid, 7);
 			npc = ms.wz.wzFile_npc[strid + ".img"]["stand"]["0"];
 
-			foreach (var button in buttons)
+			/*foreach (var button in buttons)
 			{
 				button.Value.set_state (Button.State.NORMAL);
 			}
 
 			buttons[(int)Buttons.OVERALL].set_state (Button.State.PRESSED);
-			buttons[(int)Buttons.EQUIP].set_state (Button.State.PRESSED);
+			buttons[(int)Buttons.EQUIP].set_state (Button.State.PRESSED);*/
 
 			buystate.reset ();
 			sellstate.reset ();
@@ -391,7 +390,7 @@ namespace ms
 			var buyitem = new BuyItem (new Texture (meso), id, price, pitch, time, chargeprice, buyable);
 			buystate.add (buyitem);
 
-			buyslider.setrows (5, buystate.lastslot);
+			//buyslider.setrows (5, buystate.lastslot);
 		}
 
 		public void modify (InventoryType.Id type)
@@ -495,21 +494,21 @@ namespace ms
 
 			if (oldtab > 0)
 			{
-				buttons[oldtab].set_state (Button.State.NORMAL);
+				//buttons[oldtab].set_state (Button.State.NORMAL);
 			}
 
 			ushort newtab = tabbyinventory (type);
 
 			if (newtab > 0)
 			{
-				buttons[newtab].set_state (Button.State.PRESSED);
+				//buttons[newtab].set_state (Button.State.PRESSED);
 			}
 
 			sellstate.change_tab (inventory, type, new Texture (meso));
 
-			sellslider.setrows (5, sellstate.lastslot);
+			//sellslider.setrows (5, sellstate.lastslot);
 
-			for (uint i = (int)Buttons.SELL0; i < (ulong)Buttons.SELL8; i++)
+			/*for (uint i = (int)Buttons.SELL0; i < (ulong)Buttons.SELL8; i++)
 			{
 				if (i - (ulong)Buttons.SELL0 < (ulong)sellstate.lastslot)
 				{
@@ -519,7 +518,7 @@ namespace ms
 				{
 					buttons[i].set_state (Button.State.DISABLED);
 				}
-			}
+			}*/
 		}
 
 		private short slot_by_position (short y)

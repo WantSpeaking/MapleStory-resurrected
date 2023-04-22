@@ -727,6 +727,7 @@ namespace ms
 							}
 							case 2:
 							{
+								UI.get ().attemptEnterGame = true;
 								new SelectCharPacket (id).dispatch ();
 								break;
 							}

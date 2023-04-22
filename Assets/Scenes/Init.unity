@@ -1434,6 +1434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RuntimeHierarchyInspector: {fileID: 1485019414}
+  showNotice: 0
   GameSceneName: Game
   canStart: 0
   target: {fileID: 8400000, guid: 1eb4d1811e6ead943a0bb73b3d722e2d, type: 2}
@@ -1460,7 +1461,7 @@ MonoBehaviour:
   frameDelay: 1
   multiplier_timeStep: 1
   multiplier_elapsed: 1
-  fontSize: 1
+  fontSize: 30
   fontColor: {r: 0, g: 0, b: 0, a: 1}
   enable_DrawFootHolder: 0
   enable_DrawAttackRange: 1
@@ -1691,7 +1692,7 @@ MonoBehaviour:
   password: Forever~Story2022
   timer: 0
   fontSize: 60
-  isWzFileCopy: 1
+  isWzFileCopy: 0
   wzFiles:
   - Settings
   - Base.wz
@@ -2090,7 +2091,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 772691842}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 610.215, y: -300, z: 0}
+  m_LocalPosition: {x: 533.3333, y: -300, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
