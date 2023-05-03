@@ -348,6 +348,34 @@ namespace ms
 		}
 	}
 
+	// Update mob state and position with the client
+	// Opcode: MOB_MOVED(239)
+	public class MoveMonsterResponseHandler : PacketHandler
+	{
+		public override void handle (InPacket recv)
+		{
+			int objectid = recv.read_int ();
+			short moveid = recv.read_short ();
+			bool useSkills = recv.read_bool ();
+			short currentMp = recv.read_short ();
+			sbyte skillId = recv.read_byte ();
+			sbyte skillLevel = recv.read_byte ();
+
+			/*recv.read_byte ();
+			recv.read_byte (); // useskill
+			recv.read_byte (); // skill
+			recv.read_byte (); // skill 1
+			recv.read_byte (); // skill 2
+			recv.read_byte (); // skill 3
+			recv.read_byte (); // skill 4
+
+			Point_short position = recv.read_point ();
+			List<Movement> movements = MovementParser.parse_movements (recv);
+
+			Stage.get ().get_mobs ().send_movement (oid, new Point_short (position), movements);*/
+		}
+	}
+	
 	// Updates a mob's hp with the client
 	// Opcode: SHOW_MOB_HP(250)
 	public class ShowMobHpHandler : PacketHandler

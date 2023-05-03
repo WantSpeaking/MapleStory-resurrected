@@ -18,6 +18,8 @@ namespace ms
 
         private static WzFile add_file(string name)
         {
+	        name = name.Replace ("wz", "").Replace ("/","").Replace (".","");
+	        
             if (exists(name))
                 return WzManager.wzFiles[name.ToLower()];
 
@@ -34,6 +36,10 @@ namespace ms
         public static WzFile wzFile_base, wzFile_character, wzFile_effect, wzFile_etc, wzFile_item, wzFile_map, wzFile_wzFile_mapPretty, wzFile_mapLatest, wzFile_map001, wzFile_mob, wzFile_morph, wzFile_npc, wzFile_quest, wzFile_reactor, wzFile_skill, wzFile_SkillMy1, wzFile_sound, wzFile_string, wzFile_tamingmob, wzFile_ui, wzFile_UI_Endless;
         //NXNode baseFile, character, effect, etc, item, map, mapPretty, mapLatest, map001, mob, morph, npc, quest, reactor, skill, sound, stringFile, tamingmob, ui;
 
+        public static WzFile get_file (string wzPath)
+        {
+	        return add_file (wzPath);
+        }
         public static void load_all(string wzPath)
         {
 	        WzManager ??= new WzFileManager(wzPath);

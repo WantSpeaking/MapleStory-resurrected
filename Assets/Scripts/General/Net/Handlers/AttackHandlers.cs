@@ -50,8 +50,9 @@ namespace ms
 			var user = Stage.get ().get_character (cid).get ();
 			AttackUser attackuser = new AttackUser (attack.skilllevel, user?.get_level ()??0, user?.is_twohanded ()??false, !attack.toleft, user);
 
+			AppDebug.Log ($"attack.damagelines.Count:{attack.damagelines.Count}");
 			Stage.get().get_combat().push_attack(attack);
-			Stage.get().get_combat().push_damageEffect(attack,attackuser);
+			//Stage.get().get_combat().push_damageEffect(attack,attackuser);
 		}
 
 		protected AttackHandler(Attack.Type t)

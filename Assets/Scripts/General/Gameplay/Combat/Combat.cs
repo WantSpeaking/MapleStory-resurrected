@@ -209,36 +209,46 @@ namespace ms
 
 		private void apply_attack (AttackResult attack)
 		{
+			SpecialMove move = get_move (attack.skill);
+			
 			Optional<OtherChar> ouser = chars.get_char (attack.attacker);
-			if (ouser)
+			Char c;
+			if (ouser)//其他玩家
 			{
 				OtherChar user = ouser;
 				user.update_skill (attack.skill, attack.skilllevel);
 				user.update_speed (attack.speed);
 
-				SpecialMove move = get_move (attack.skill);
-				move.apply_useeffects (user);
+				c = ouser.get ();
+				
+				move.apply_useeffects (c);
 
 				Stance.Id stance = Stance.by_id (attack.stance);
 				if (stance != 0)
 				{
-					user.attack (stance);
+					c.attack (stance);
 				}
 				else
 				{
-					move.apply_actions (user, attack.type);
+					move.apply_actions (c, attack.type);
 				}
 
-				user.set_afterimage (attack.skill);
-
-				extract_effects (user, move, attack);
+				c.set_afterimage (attack.skill);
 			}
+			else//玩家
+			{
+				c = player;
+			}
+			
+			extract_effects (c, move, attack);
+			
 		}
 
 		private void apply_move (SpecialMove move, int move_id, bool down = false, bool pressing = false)
 		{
 			if (move.is_attack ())
 			{
+				AppDebug.Log ($"使用攻击技能：{move_id} ");
 				if (move.get_id() == 0)
 				{
 
@@ -326,7 +336,7 @@ namespace ms
 
 				mobs.send_attack (result, attack, mob_targets, mobcount);
 				result.attacker = player.get_oid ();
-				extract_effects (player, move, result);
+				//extract_effects (player, move, result);//使用技能的时候不应用，服务器返回攻击信息才应用
 
 				apply_use_movement (move);
 				apply_result_movement (move, result);
@@ -363,7 +373,7 @@ namespace ms
 			}
 			else
 			{
-				AppDebug.Log ($"{move_id} 不是技能");
+				AppDebug.Log ($"使用Buff：{move_id} ");
 				move.apply_useeffects (player);
 				move.apply_actions (player, Attack.Type.Magic);
                 apply_use_movement(move);
@@ -574,7 +584,7 @@ namespace ms
 			}
 			else
 			{
-				/*foreach (var line in result.damagelines)
+				foreach (var line in result.damagelines)
 				{
 					int oid = line.Key;
 
@@ -590,7 +600,7 @@ namespace ms
 							i++;
 						}
 					}
-				}*/
+				}
 			}
 		}
 

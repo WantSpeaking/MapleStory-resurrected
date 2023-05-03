@@ -54,7 +54,7 @@ namespace ms
 	public class MobAttack
 	{
 		public Attack.Type type = Attack.Type.Close_Range;
-		public int watk = 0;
+		public int PaDamage = 0;
 		public int matk = 0;
 		public int mobid = 0;
 		public int oid = 0;
@@ -83,10 +83,10 @@ namespace ms
 			this.valid = false;
 		}
 
-		public MobAttack (int watk, Point_short origin, int mobid, int oid)
+		public MobAttack (int PADamage, Point_short origin, int mobid, int oid)
 		{
 			this.type = Attack.Type.Close_Range;
-			this.watk = watk;
+			this.PaDamage = PADamage;
 			this.origin = new ms.Point_short (origin);
 			this.mobid = mobid;
 			this.oid = oid;
@@ -121,7 +121,7 @@ namespace ms
 			magic = info?["magic"];
 			deadlyAttack = info?["deadlyAttack"];
 			doFirst = info?["doFirst"];
-			magic = info?["magic"];
+			PaDamage = info?["PaDamage"];
 
 			type = (Attack.Type)(int)(info?["type"] ?? 0);
 

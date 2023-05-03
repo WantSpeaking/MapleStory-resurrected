@@ -99,7 +99,7 @@ namespace ms
 		{
 			public Effect (Animation a, DrawArgument args, float s)
 			{
-				this.sprite = new ms.Sprite (new Animation (a), args);
+				this.sprite = new ms.Sprite (a, args);
 				this.speed = s;
 			}
 

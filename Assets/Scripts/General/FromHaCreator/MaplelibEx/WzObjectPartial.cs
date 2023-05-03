@@ -257,7 +257,99 @@ namespace MapleLib.WzLib
 		}
 
 		public Texture asTexture => new Texture (this);
+		public WzObject getChildByPath(string path, bool checkFirstDirectoryName = true)
+        {
+            string[] seperatedPath = path.Split("/".ToCharArray());
 
+            if (seperatedPath.Length == 1)
+                return this[path];
+            WzObject curObj = this;
+            for (int i = 1; i < seperatedPath.Length; i++)
+            {
+                if (curObj == null)
+                {
+                    return null;
+                }
+                switch (curObj.ObjectType)
+                {
+                    case WzObjectType.Directory:
+                        curObj = ((WzDirectory)curObj)[seperatedPath[i]];
+                        continue;
+                    case WzObjectType.Image:
+                        curObj = ((WzImage)curObj)[seperatedPath[i]];
+                        continue;
+                    case WzObjectType.Property:
+                        switch (((WzImageProperty)curObj).PropertyType)
+                        {
+                            case WzPropertyType.Canvas:
+                                curObj = ((WzCanvasProperty)curObj)[seperatedPath[i]];
+                                continue;
+                            case WzPropertyType.Convex:
+                                curObj = ((WzConvexProperty)curObj)[seperatedPath[i]];
+                                continue;
+                            case WzPropertyType.SubProperty:
+                                curObj = ((WzSubProperty)curObj)[seperatedPath[i]];
+                                continue;
+                            case WzPropertyType.Vector:
+                                if (seperatedPath[i] == "X")
+                                    return ((WzVectorProperty)curObj).X;
+                                else if (seperatedPath[i] == "Y")
+                                    return ((WzVectorProperty)curObj).Y;
+                                else
+                                    return null;
+                            default: // Wut?
+                                return null;
+                        }
+                }
+            }
+            if (curObj == null)
+            {
+                return null;
+            }
+            return curObj;
+        }
+
+		public List<WzImageProperty> Children
+		{
+			get
+			{
+				if (this is WzImage wzImage)
+				{
+					return wzImage.WzProperties;
+				}
+				else if (this is WzImageProperty imageProperty && imageProperty.WzProperties != null)
+				{
+					return imageProperty.WzProperties;
+				}
+				/*	else if (this is WzDirectory wzImage)
+					{
+			
+						return imageProperty.WzProperties.GetEnumerator ();
+					}*/
+				else
+				{
+					//return default;
+					return emptyWzImagePropertyList;
+				}
+			}
+			}
+
+		public WzPropertyType Type
+		{
+			get
+			{
+				if (this is WzImageProperty p)
+				{
+					return p.PropertyType;
+				}
+				else
+				{
+					return WzPropertyType.Null;
+				}
+			}
+			
+		}
+			
 	}
 
 	public struct PngInfo

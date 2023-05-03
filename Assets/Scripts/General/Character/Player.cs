@@ -509,7 +509,7 @@ namespace ms
 		// Handle an attack to the player
 		public MobAttackResult damage (MobAttack attack)
 		{
-			int damage = stats.calculate_damage (attack.watk);
+			int damage = stats.calculate_damage (attack.PaDamage);
 			show_damage (damage);
 
 			bool fromleft = attack.origin.x () > phobj.get_x ();

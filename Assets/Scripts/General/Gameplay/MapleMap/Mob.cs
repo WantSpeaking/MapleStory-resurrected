@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using FairyGUI;
 using MapleLib.WzLib;
 using ms.Helper;
 using NodeCanvas.BehaviourTrees;
@@ -258,6 +259,7 @@ namespace ms
 
 			effects.update ();
 			showhp.update ();
+			useAttack.update ();
 
 			if (!dying)
 			{
@@ -460,6 +462,7 @@ namespace ms
 					shift = new Point_short (get_head_position (new Point_short ()));
 					break;
 				case 1:
+					shift = get_position ();
 					break;
 				case 2:
 					break;
@@ -469,7 +472,7 @@ namespace ms
 					break;
 			}
 
-			effects.add (animation, new DrawArgument (new Point_short (shift), f), z);
+			effects.add (animation, new DrawArgument (shift, f), z);
 		}
 
 		List<System.Tuple<int, bool>> result = new List<System.Tuple<int, bool>> ();
@@ -713,7 +716,33 @@ namespace ms
 		// Send the current position and state to the server
 		private void update_movement ()
 		{
-			new MoveMobPacket (oid, 1, 0, 0, 0, 0, 0, 0, get_position (), new Movement (phobj, value_of (stance, flip))).dispatch ();
+			sbyte rawActivity = 50;
+			if (!useAttack && mobAttacks.Count> 0 && control)
+			{
+				useAttack.set_for (2000);
+				/*int minattack = (int)(watk * 0.8f);
+				int maxattack = watk;
+				int attackDamage = randomizer.next_int (minattack, maxattack);*/
+				int attackIndex = randomizer.next_int (0, mobAttacks.Count-1);
+				var mobAttack = mobAttacks.TryGet (attackIndex);
+				Set_MobAttackAni (mobAttack.mobAttackAni);
+				GTween.To (0, 1, mobAttack.attackAfter*1.0f / ms.Constants.TIMESTEP).OnComplete (t =>
+				{
+					Set_MobAttackAni (null);
+				});
+				GTween.To (0, 1, mobAttack.effectAfter*1.0f / ms.Constants.TIMESTEP).OnComplete (t =>
+				{
+					//ms.Stage.get ().get_combat ().push_damageEffect ();
+					show_effect (mobAttack.effect, 1, (sbyte)Layer.Id.SEVEN, flip);
+				});
+				
+				if (mobAttack)
+				{
+					MobAttackResult result = Stage.get ().get_player ().damage (mobAttack);
+					new TakeDamagePacket (result, TakeDamagePacket.From.TOUCH).dispatch ();
+				}
+			}
+			new MoveMobPacket (oid, 1, 0, rawActivity, 0, 0,  0, get_position (), new Movement (phobj, value_of (stance, flip))).dispatch ();
 		}
 
 		// Calculate the hit chance
@@ -833,7 +862,8 @@ namespace ms
 		private Randomizer randomizer = new Randomizer ();
 
 		private TimedBool showhp = new TimedBool ();
-
+		private TimedBool useAttack = new TimedBool ();
+		
 		private List<Movement> movements = new List<Movement> ();
 		private ushort counter;
 

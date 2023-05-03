@@ -22,13 +22,14 @@ using MapleLib.WzLib.Util;
 using MapleLib.WzLib.WzProperties;
 using System.Threading.Tasks;
 using MapleLib.PacketLib;
+using provider;
 
 namespace MapleLib.WzLib
 {
     /// <summary>
     /// A class that contains all the information of a wz file
     /// </summary>
-    public class WzFile : WzObject
+    public class WzFile : WzObject, MapleDataProvider
     {
         #region Fields
         internal string path;
@@ -731,5 +732,12 @@ namespace MapleLib.WzLib
         {
             Dispose();
         }
+
+        public WzObject getData (string p)
+        {
+            return this[p];
+        }
+
+        public WzFile Root { get; }
     }
 }

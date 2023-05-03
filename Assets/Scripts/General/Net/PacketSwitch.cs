@@ -40,6 +40,7 @@ namespace ms
 			emplace (Opcode.SPAWN_MOB, new SpawnMobHandler ());
 			emplace (Opcode.SPAWN_MOB_C, new SpawnMobControllerHandler ());
 			emplace (Opcode.MOB_MOVED, new MobMovedHandler ());
+			emplace (Opcode.MOVE_MONSTER_RESPONSE, new MoveMonsterResponseHandler ());
 			emplace (Opcode.SHOW_MOB_HP, new ShowMobHpHandler ());
 			emplace (Opcode.KILL_MOB, new KillMobHandler ());
 			emplace (Opcode.DROP_LOOT, new DropLootHandler ());
@@ -331,6 +332,7 @@ namespace ms
 		KILL_MOB = 237,
 		SPAWN_MOB_C = 238,
 		MOB_MOVED = 239,
+		MOVE_MONSTER_RESPONSE = 240,
 		DAMAGE_MONSTER = 246,
 		SHOW_MOB_HP = 250,
 		SPAWN_NPC = 257,

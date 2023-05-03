@@ -273,10 +273,15 @@ namespace ms
 			bool modifyopc = interopc != 1.0f;
 			bool modifyscale = interscale != 1.0f;
 
+			var additionalArgs = new DrawArgument (interscale, interscale, interopc);
+			if (frames.Count == 1)
+			{
+				//additionalArgs.SetDrawOnce (true);
+			}
 			if (modifyopc || modifyscale)
-				frames[interframe].draw (args + new DrawArgument (interscale, interscale, interopc));
+				frames[interframe].draw (args + additionalArgs);
 			else
-				frames[interframe].draw (args);
+				frames[interframe].draw (args.SetDrawOnce (true));
 
 			lastDraw_interframe = interframe;
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ms_Unity
 {
-	public class UnityPool<T>
+	public class UnityPool<T>:IEnumerable<KeyValuePair<string,Queue<T>>>
 	{
 		/// <summary>
 		/// Callback function when a new object is creating.
@@ -27,7 +27,7 @@ namespace ms_Unity
 			_pool = new Dictionary<string, Queue<T>> ();
 		}
 		/// <summary>
-		/// ĞèÒªÉèÖÃÒ»¸ömanager£¬¼ÓÈë³ØÀïµÄ¶ÔÏó¶¼³ÉÎªÕâ¸ömanagerµÄº¢×Ó
+		/// éœ€è¦è®¾ç½®ä¸€ä¸ªmanagerï¼ŒåŠ å…¥æ± é‡Œçš„å¯¹è±¡éƒ½æˆä¸ºè¿™ä¸ªmanagerçš„å­©å­
 		/// </summary>
 		/// <param name="manager"></param>
 		public UnityPool (Transform manager)
@@ -116,6 +116,21 @@ namespace ms_Unity
 			/*if (_manager != null)
 				obj.displayObject.cachedTransform.SetParent (_manager, false);*/
 			arr.Enqueue (obj);
+		}
+
+		public Dictionary<string, Queue<T>>.KeyCollection GetKeys ()
+		{
+			return _pool.Keys;
+		}
+
+		public IEnumerator<KeyValuePair<string, Queue<T>>> GetEnumerator ()
+		{
+			return _pool.GetEnumerator ();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator ()
+		{
+			return _pool.GetEnumerator ();
 		}
 	}
 

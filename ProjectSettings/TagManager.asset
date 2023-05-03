@@ -12,16 +12,16 @@ TagManager:
   - Water
   - UI
   - Player
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Character1
+  - Effect
+  - Item
+  - Map
+  - Mob
+  - Npc
+  - Skill
+  - UI_083
+  - UI_Endless
+  - Reactor
   - 
   - 
   - 

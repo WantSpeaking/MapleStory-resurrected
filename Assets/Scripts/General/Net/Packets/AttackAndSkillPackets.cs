@@ -196,18 +196,29 @@ namespace ms
 	{
 		public enum From : sbyte
 		{
-			TOUCH = -1
+			TOUCH = -1,
+			PADamage = 0
 		}
 
-		public TakeDamagePacket(sbyte from, byte element, int damage, int mobid, int oid, byte direction) : base((short)OutPacket.Opcode.TAKE_DAMAGE)
+		public TakeDamagePacket(sbyte damagefrom, byte element, int damage, int monsteridfrom, int oid, byte direction) : base((short)OutPacket.Opcode.TAKE_DAMAGE)
 		{
 			write_time();
-			write_byte(from);
+			write_byte(damagefrom);
 			write_byte((sbyte)element);
 			write_int(damage);
-			write_int(mobid);
-			write_int(oid);
-			write_byte((sbyte)direction);
+			if (damagefrom != -3 && damagefrom != -4)
+			{
+				write_int(monsteridfrom);
+				write_int(oid);
+				write_byte((sbyte)direction);
+			}
+			if (damagefrom != -1 && damagefrom != -2)
+			{
+				
+			}
+			
+			
+			
 		}
 
 		// From mob attack result

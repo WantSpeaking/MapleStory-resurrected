@@ -55,7 +55,7 @@ namespace ms
                 return;
             }
             ms_Unity.FGUI_Manager.Instance.PanelOpening = true;
-            MapleStory.Instance.showNotice = true;
+            MapleStory.Instance.ShowGUINotice ("和服务器断开连接,请重新登录");
             //FGUI_OK.ShowNotice ("和服务器断开连接,请重新登录",(b)=> MapleStory.Instance.BackToLogin ());
         }
 

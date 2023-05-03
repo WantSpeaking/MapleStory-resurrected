@@ -191,6 +191,7 @@ namespace ms
 				sortingLayer = a.sortingLayer + b.sortingLayer,
 				orderInLayer = a.orderInLayer + b.orderInLayer,
 				DrawParent = a.DrawParent != null ? a.DrawParent : b.DrawParent != null ? b.DrawParent : null,
+				drawOnce = a.drawOnce || b.drawOnce
 			};
 		}
 
@@ -301,7 +302,11 @@ namespace ms
 			this.orderInLayer = orderInLayer;
 			return this;
 		}
-
+		public DrawArgument SetDrawOnce (bool once = false)
+		{
+			this.drawOnce = once;
+			return this;
+		}
 		private Point_short pos;
 		private Point_short center;
 		private Point_short stretch;
@@ -310,6 +315,7 @@ namespace ms
 		private float angle;
 		private Color color;
 		private float rotation;
+		public bool drawOnce = false;
 
 		public DrawArgument SetParent (GameObject DrawParent)
 		{

@@ -304,7 +304,11 @@ public class AndroidIntentCallToUnZipData : MonoBehaviour
 		//jsEnv = new JsEnv ();
 		//StartCoroutine(TestPCUnZip());
 
-		
+		if (!File.Exists(Application.persistentDataPath + "/" + "Base.wz"))
+		{
+			MapleStory.Instance.ShowGUINotice ("请先安装最新客户端，打开客户端自动解压数据包后，再安装最新游戏补丁，最后开始游戏");
+			return;
+		}
 		StartCoroutine(TestCopyAllWz(5));
 
     }

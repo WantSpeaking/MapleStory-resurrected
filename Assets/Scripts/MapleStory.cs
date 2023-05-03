@@ -25,6 +25,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	string message;
 	private void Start ()
 	{
+		Application.targetFrameRate = 60;
 		DebugManager.instance.enableRuntimeUI = false;
 		/* wzFileManager = new WzFileManager();
 		 var wzFile = wzFileManager.LoadWzFile(path);
@@ -140,7 +141,16 @@ public class MapleStory : SingletonMono<MapleStory>
 	public GameObject RuntimeHierarchyInspector;
 	bool initError;
 
-	public bool showNotice = false;
+	private bool showNotice = false;
+	public System.Action okhandler;
+	
+	public void ShowGUINotice (string message, Action okHandler = null)
+	{
+		showNotice = true;
+		this.message = message;
+		this.okhandler = okHandler;
+	}
+	
 	private void OnGUI ()
 	{
 		
@@ -173,13 +183,14 @@ public class MapleStory : SingletonMono<MapleStory>
     
 			
 			//我们将创建一个框形，以便能看到该组在屏幕上的位置。
-			GUI.Box (new Rect (0,0,500,300),"和服务器断开连接,请重新登录");
-			GUI.Label (new Rect (50,0,400,100),"和服务器断开连接,请重新登录");
+			GUI.Box (new Rect (0,0,500,300),"");
+			GUI.Label (new Rect (50,0,400,150), message);
 			if (GUI.Button (new Rect (150,150,200,100), "确定"))
 			{
 				BackToLogin ();
 				showNotice = false;
 				FGUI_Manager.Instance.PanelOpening = false;
+				this.okhandler?.Invoke ();
 			}
     
 			// 结束我们上面开始的组。记住这一点非常重要！
@@ -417,8 +428,12 @@ public class MapleStory : SingletonMono<MapleStory>
 	}
 	public void update ()
 	{
-		Stage.get ().update ();
-		UI.get ().update ();
+		if (GameUtil.Instance.enableUpdate)
+		{
+			Stage.get ().update ();
+			UI.get ().update ();
+		}
+		
 		Session.get ().read ();
 		Window.get ().check_events ();
 		Window.get ().update ();
@@ -427,6 +442,8 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	public void draw (float alpha)
 	{
+		//TestURPBatcher.Instance.Log ("before"); 
+		TestURPBatcher.Instance.addBefore ();
 		//Window.get().begin();
 		GameUtil.Instance.DrawOrder = 0;
 		TestURPBatcher.Instance.HideAll ();
@@ -438,6 +455,8 @@ public class MapleStory : SingletonMono<MapleStory>
 		if (enable_DebugPlayerPos)
 			AppDebug.Log (Stage.get ().get_player ()?.get_position ());
 		//Window.get().end();
+		//TestURPBatcher.Instance.LogDiff ();
+		//TestURPBatcher.Instance.Log ("After");
 	}
 
 	public bool canStart = false;
@@ -475,7 +494,7 @@ public class MapleStory : SingletonMono<MapleStory>
 			// Draw the game. Interpolate to account for remaining time.
 			float alpha = Mathf.Clamp01 (accumulator * multiplier_elapsed / timestep);
 			//Debug.Log ($"elapsed:{elapsed} \t timestep:{timestep} \t accumulator:{accumulator} \t alpha:{alpha}");
-			draw (alpha);
+			//draw (alpha);
 			//Debug.Log ($"deltaTime:{Time.deltaTime * 1000}\t accumulator_before:{accumulator_before}\t elapsed:{elapsed}\t  accumulator_plus_elapsed:{accumulator_plus_elapsed}\t accumulator:{accumulator}\t  alpha:{alpha}");
 		}
 	}

@@ -106,6 +106,7 @@ namespace ms
 			drops.clear ();
 			reactors.clear ();
 			TestURPBatcher.Instance.Clear ();
+			camera.Reset ();
 		}
 
 		private void load_map (int mapid)
@@ -156,6 +157,8 @@ namespace ms
 			Point_double viewrpos = camera.realposition (alpha);
 			viewx = viewrpos.x ();
 			viewy = viewrpos.y ();
+			//viewx = 0;
+			//viewy = 0;
 			this.alpha = alpha;
 			MapleStory.Instance.viewx = viewx;
 			MapleStory.Instance.viewy = viewy;
@@ -164,16 +167,25 @@ namespace ms
 			//backgrounds?.drawbackgrounds (viewx, viewy, alpha);
 			foreach (ms.Layer.Id id in Enum.GetValues (typeof (ms.Layer.Id)))
 			{
-				tilesobjs?.draw (id, new Point_short (viewpos), alpha);
-				reactors?.draw (id, viewx, viewy, alpha);
-				npcs?.draw (id, viewx, viewy, alpha);
-				mobs?.draw (id, viewx, viewy, alpha);
-				chars?.draw (id, viewx, viewy, alpha);
+				if (GameUtil.Instance.drawMap)
+				{
+					//tilesobjs?.draw (id, Point_short.zero, alpha);
+					tilesobjs?.draw (id, new Point_short((short)viewx,(short)viewy), alpha);
+
+					reactors?.draw (id, viewx, viewy, alpha);
+					npcs?.draw (id, viewx, viewy, alpha);
+					mobs?.draw (id, viewx, viewy, alpha);
+					chars?.draw (id, viewx, viewy, alpha);
+					drops?.draw (id, viewx, viewy, alpha);
+				}
+				
 				player?.draw (id, viewx, viewy, alpha);
-				drops?.draw (id, viewx, viewy, alpha);
+				
 			}
 			combat?.draw (viewx, viewy, alpha);
-			portals?.draw (new Point_short (viewpos), alpha);
+			//portals?.draw (Point_short.zero, alpha);
+			portals?.draw (new Point_short((short)viewx,(short)viewy), alpha);
+
 			//backgrounds?.drawforegrounds (viewx, viewy, alpha);
 			effect?.draw ();
 		}

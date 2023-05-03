@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace ms
 {
@@ -15,9 +16,15 @@ namespace ms
             VHEIGHT = Constants.get().get_viewheight();
         }
 
+        public void Reset ()
+        {
+            //GameUtil.Instance.mainCamera.transform.position = new Vector3 (VWIDTH, -VHEIGHT, -9999);
+        }
+        
         // Update the view with the current player position. (Or any other target)
         public void update(Point_short position)
         {
+            //GameUtil.Instance.mainCamera.transform.position = new Vector3 (position.x (), -position.y (), -9999);
             //AppDebug.Log ($"player position: {position}");
             var new_width = Constants.get().get_viewwidth();
             var new_height = Constants.get().get_viewheight();

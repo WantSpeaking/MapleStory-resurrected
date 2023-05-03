@@ -56,6 +56,8 @@ namespace ms
 	// Represents a single image loaded from a of game data
 	public class Texture : IDisposable
 	{
+		public string GUIDString;
+		
 		private GameObject spriteObj;
 
 		private SpriteRenderer spriteRenderer;
@@ -117,12 +119,14 @@ namespace ms
 		public Texture2D texture2D { get; set; }
 		public FairyGUI.NTexture nTexture { get; set; }
 
+		public bool hasBeenDrew = false;
 		public RenderTexture target => SingletonMono<MapleStory>.Instance.target;
 
 		private Rect textureRelativeToCamera => new Rect (textureRect.x - cameraRect.x, textureRect.y - cameraRect.y, textureRect.width, textureRect.height);
 
 		public Texture ()
 		{
+			GUIDString = Guid.NewGuid ().ToString();
 		}
 
 		public Texture (WzObject src)
@@ -143,6 +147,7 @@ namespace ms
 
 		private void Init (WzObject src)
 		{
+			GUIDString = Guid.NewGuid ().ToString();
 			cache_src = src;
 			if (src != null && src.IsTexture ())
 			{
@@ -182,6 +187,13 @@ namespace ms
 
 		public void draw (DrawArgument args)
 		{
+			/*if (args.drawOnce && hasBeenDrew)
+			{
+				return;
+			}
+
+			hasBeenDrew = true;*/
+			
 			if (bitmap != null)
 			{
 				Vector3 position = new Vector3 (args.getpos ().x () + (args.FlipX ? -1 : 1) * (bitmap.Width / 2 - pivot.x ()), -args.getpos ().y () + (-bitmap.Height / 2 + pivot.y ()), SingletonMono<GameUtil>.Instance.DrawOrder);

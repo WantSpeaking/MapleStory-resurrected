@@ -81,19 +81,19 @@ namespace ms
 
 				if (has_map)
 				{
-					Animation portal_marker = new Animation (marker["portal"]);
+					/*Animation portal_marker = new Animation (marker["portal"]);
 
 					foreach (var sprite in static_marker_info)
 					{
 						portal_marker.draw (position + sprite.Item2, alpha);
-					}
+					}*/
 
 					draw_movable_markers (new Point_short (position), alpha);
 
-					if (listNpc_enabled)
+					/*if (listNpc_enabled)
 					{
 						draw_npclist (new Point_short (normal_dimensions), alpha);
-					}
+					}*/
 				}
 			}
 			else
@@ -108,19 +108,19 @@ namespace ms
 
 				if (has_map)
 				{
-					Animation portal_marker = new Animation (marker["portal"]);
+					/*Animation portal_marker = new Animation (marker["portal"]);
 
 					foreach (var sprite in static_marker_info)
 					{
 						portal_marker.draw (position + sprite.Item2 + new Point_short (0, MAX_ADJ), alpha);
-					}
+					}*/
 
 					draw_movable_markers (position + new Point_short (0, MAX_ADJ), alpha);
 
-					if (listNpc_enabled)
+					/*if (listNpc_enabled)
 					{
 						draw_npclist (new Point_short (max_dimensions), alpha);
-					}
+					}*/
 				}
 			}
 
@@ -639,7 +639,7 @@ namespace ms
 				return;
 			}
 
-			Animation marker_sprite = new Animation ();
+			/*Animation marker_sprite = new Animation ();
 			Point_short sprite_offset = new Point_short ();
 
 			/// NPCs
@@ -662,11 +662,11 @@ namespace ms
 			{
 				Point_short chr_pos = chr.Value.get_position ();
 				marker_sprite.draw ((chr_pos + center_offset) / scale - sprite_offset + new Point_short (map_draw_origin_x, map_draw_origin_y) + init_pos, alpha);
-			}
+			}*/
 
 			/// Player
 			Point_short player_pos = Stage.get ().get_player ().get_position ();
-			sprite_offset = player_marker.get_dimensions () / new Point_short (2, 0);
+			var sprite_offset = player_marker.get_dimensions () / new Point_short (2, 0);
 			player_marker.draw ((player_pos + center_offset) / scale - sprite_offset + new Point_short (map_draw_origin_x, map_draw_origin_y) + init_pos, alpha);
 		}
 
