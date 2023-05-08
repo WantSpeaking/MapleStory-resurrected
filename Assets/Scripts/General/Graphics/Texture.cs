@@ -62,7 +62,7 @@ namespace ms
 
 		private SpriteRenderer spriteRenderer;
 
-		private UnityEngine.Sprite sprite;
+		public UnityEngine.Sprite sprite;
 
 		public string fullPath = string.Empty;
 
@@ -122,6 +122,7 @@ namespace ms
 		public bool hasBeenDrew = false;
 		public RenderTexture target => SingletonMono<MapleStory>.Instance.target;
 
+		public bool isSprite;
 		private Rect textureRelativeToCamera => new Rect (textureRect.x - cameraRect.x, textureRect.y - cameraRect.y, textureRect.width, textureRect.height);
 
 		public Texture ()
@@ -165,7 +166,24 @@ namespace ms
 				}
 				this.canvasProperty = src as WzCanvasProperty;
 				dimensions = new Point_short ((short)bitmap.Width, (short)bitmap.Height);
-				texture2D = TextureAndSpriteUtil.PngDataToTexture2D (textureData, bitmap, pivot, dimensions);
+				
+				if (src.FullPath.Contains ("Map.wz\\Tile"))
+				{
+					//tileName = $"{ts}-{node_100000000img_0_Tile_0["u"].ToString ()}-{node_100000000img_0_Tile_0["no"]}";
+					string tileName = src.FullPath.Replace ("Map.wz\\Tile\\","").Replace ("\\","-");
+					MapleStory.Instance.tileSprites.TryGetValue (tileName, out sprite);
+					if (sprite != null)
+					{
+						texture2D = sprite.texture;
+						isSprite = true;
+					}
+					AppDebug.Log ($"{tileName}\t {sprite}");
+				}
+
+				if (texture2D == null)
+				{
+					texture2D = TextureAndSpriteUtil.PngDataToTexture2D (textureData, bitmap, pivot, dimensions);
+				}
 				nTexture = new FairyGUI.NTexture (texture2D);
 			}
 		}

@@ -10,11 +10,13 @@ using Camera = UnityEngine.Camera;
 using ms_Unity;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
+using Sprite = UnityEngine.Sprite;
 using Texture = ms.Texture;
 
 public class TestURPBatcher : SingletonMono<TestURPBatcher>
 {
 	public GameObject prefeb;
+	public GameObject prefeb_Sprite;
 
 	public Material presetMaterial;
 
@@ -92,7 +94,15 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 			
 			gobj.SetActive (true);
 			gobj.transform.position = pos;
-			gobj.transform.localScale = new Vector3 ((float)pnginfo.Width * scale.x, (float)pnginfo.Height * scale.y, 1f);
+			if (texture.isSprite)
+			{
+				gobj.transform.localScale = new Vector3 (1, 1, -1f);
+			}
+			else
+			{
+				gobj.transform.localScale = new Vector3 ((float)pnginfo.Width * scale.x, (float)pnginfo.Height * scale.y, 1f);
+
+			}
 			SingletonMono<GameUtil>.Instance.DrawOrder--;
 			//AppDebug.Log ($"fullPath:{texture.fullPath} pnginfo:{pnginfo.ToString ()}  scale:{scale}");
 		}
@@ -191,29 +201,42 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 
 	private GameObject Create (ms.Texture tex)
 	{
-		//Material tempMaterial = new Material (presetMaterial);
-		Material tempMaterial = _Material_Pool.GetObject (tex.fullPath, CreateMaterial);
-		tempMaterial.mainTexture = tex.texture2D;
-
-		//GameObject tempObj = UnityEngine.Object.Instantiate (prefeb);
-
-		GameObject tempObj = _GObj_Pool.GetObject (tex.fullPath, CreateGObj);
-		tempObj.SetActive (true);
-		tempObj.name = tex.fullPath;
-		tempObj.GetComponent<MeshRenderer> ().material = tempMaterial;
-		//empObj.SetParent (Parent.transform);
-		var n = LayerMask.NameToLayer (GetWzName (tex.fullPath));
-		if (n is < 0 or > 31)
+		GameObject tempObj;
+		if (tex.isSprite)
 		{
-			AppDebug.Log ($"layer：{GetWzName (tex.fullPath)}  不存在");
-		}	
+			tempObj = _GObj_Pool.GetObject (tex.fullPath, CreateSpriteGObj);
+			tempObj.SetActive (true);
+			tempObj.name = tex.fullPath;
+			tempObj.GetComponent<SpriteRenderer> ().sprite = tex.sprite;
+			tempObj.layer = tex.layerMask;
+		}
+		else
+		{
+			//Material tempMaterial = new Material (presetMaterial);
+			Material tempMaterial = _Material_Pool.GetObject (tex.fullPath, CreateMaterial);
+			tempMaterial.mainTexture = tex.texture2D;
+
+			//GameObject tempObj = UnityEngine.Object.Instantiate (prefeb);
+
+			tempObj = _GObj_Pool.GetObject (tex.fullPath, CreateGObj);
+			tempObj.SetActive (true);
+			tempObj.name = tex.fullPath;
+			tempObj.GetComponent<MeshRenderer> ().material = tempMaterial;
+			//empObj.SetParent (Parent.transform);
+			var n = LayerMask.NameToLayer (GetWzName (tex.fullPath));
+			if (n is < 0 or > 31)
+			{
+				AppDebug.Log ($"layer：{GetWzName (tex.fullPath)}  不存在");
+			}	
 		
-		/*tempObj.layer = LayerMask.NameToLayer (GetWzName(tex.fullPath));
-		if (tex.layerMask.value == LayerMask.NameToLayer("Player"))
-		{
-			tempObj.layer = LayerMask.NameToLayer ("Player");
-		}*/
-		tempObj.layer = tex.layerMask;
+			/*tempObj.layer = LayerMask.NameToLayer (GetWzName(tex.fullPath));
+			if (tex.layerMask.value == LayerMask.NameToLayer("Player"))
+			{
+				tempObj.layer = LayerMask.NameToLayer ("Player");
+			}*/
+			tempObj.layer = tex.layerMask;
+		}
+		
 		return tempObj;
 	}
 
@@ -232,7 +255,10 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 	{
 		return UnityEngine.Object.Instantiate (prefeb);
 	}
-
+	private GameObject CreateSpriteGObj ()
+	{
+		return UnityEngine.Object.Instantiate (prefeb_Sprite);
+	}
 	private Material CreateMaterial ()
 	{
 		return new Material (presetMaterial);

@@ -23,6 +23,7 @@ using Timer = ms.Timer;
 public class MapleStory : SingletonMono<MapleStory>
 {
 	string message;
+	public Dictionary<string, UnityEngine.Sprite> tileSprites = new Dictionary<string, UnityEngine.Sprite>();
 	private void Start ()
 	{
 		Application.targetFrameRate = 60;
@@ -36,7 +37,11 @@ public class MapleStory : SingletonMono<MapleStory>
 
 		//UnityEngine.SceneManagement.SceneManager.LoadScene (GameSceneName);
 		//UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
-
+		var sprites = Resources.LoadAll<UnityEngine.Sprite>("WzPng/Map.wz/Tile");
+		foreach (var sprite in sprites)
+		{
+			tileSprites.Add (sprite.name, sprite);
+		}
 
 #if UNITY_EDITOR
 		/*CopyStreamingAssetToPersistent.CopyResourcesFile ("WZ/", "Map", ".wz");
