@@ -311,9 +311,9 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 		//var encodeBuffer = System.Text.Encoding.Unicode.GetBytes (Convert.ToBase64String (buffer));
 		//Debug.Log ($"send encodeBuffer:{encodeBuffer.ToDebugLog ()}");
 		//AppDebug.Log ($"BeginSend:{buffer.ToDebugLog ()}");
-		//m_Client.BeginSend (buffer, 0, buffer.Length, SocketFlags.None, SendCallBack, m_Client);
-		m_Client.Send (buffer);
-		OnCheckSendQueueCallBack ();
+		m_Client.BeginSend (buffer, 0, buffer.Length, SocketFlags.None, SendCallBack, m_Client);
+		//m_Client.Send (buffer);
+		//OnCheckSendQueueCallBack ();
 	}
 
 	#endregion

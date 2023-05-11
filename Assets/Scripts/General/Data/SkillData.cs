@@ -808,7 +808,7 @@ namespace ms
              {(int)Hunter.ARROW_BOMB, (int)Flags.ATTACK},
 			//RANGER - 311
 			{(int)Ranger.RANGER_Inferno, (int)Flags.ATTACK| (int)Flags.RANGED},//无法控制的大火
-            {(int)Ranger.RANGER_Strafe, (int)Flags.ATTACK},//箭扫射
+            {(int)Ranger.RANGER_Strafe, (int)Flags.ATTACK| (int)Flags.RANGED},//箭扫射
             {(int)Ranger.ArrowRain, (int)Flags.ATTACK},//箭雨
             //{(int)SkillId.Id.RANGER_MortalBlow, (int)Flags.ATTACK},
             //{(int)SkillId.Id.RANGER_SilverHawk, (int)Flags.ATTACK| (int)Flags.RANGED},
@@ -820,9 +820,9 @@ namespace ms
             {(int)Crossbowman.StrongCROSSBOW, (int)Flags.ATTACK},
             {(int)Crossbowman.PenetratingArrow, (int)Flags.ATTACK},
             //Sniper - 321
-            {(int)Sniper.BLIZZARD, (int)Flags.ATTACK},
+            {(int)Sniper.BLIZZARD, (int)Flags.ATTACK| (int)Flags.RANGED},
             {(int)Sniper.AscendingDragonCrossbow, (int)Flags.ATTACK},
-            {(int)Sniper.Strafe, (int)Flags.ATTACK},
+            {(int)Sniper.Strafe, (int)Flags.ATTACK| (int)Flags.RANGED},
             //Marksman - 322
             {(int)Marksman.DragonStrike, (int)Flags.ATTACK},
             {(int)Marksman.PIERCING_ARROW, (int)Flags.ATTACK},//穿透箭

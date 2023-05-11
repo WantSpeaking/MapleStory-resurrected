@@ -113,7 +113,7 @@ namespace ms_Unity
 		}
 		void change_sp ()
 		{
-			_Txt_RemainSP.SetVar ("RemainSP", UISkillBook.splabel.get_text ()).FlushVars();
+			_Txt_RemainSP.SetVar ("RemainSP",  ms.Stage.get ().get_player ().get_stats ().get_stat(MapleStat.Id.SP).ToString()).FlushVars();
 		}
 		public void OnVisiblityChanged (bool isVisible)
 		{
@@ -180,6 +180,7 @@ namespace ms_Unity
 			glistItem._Txt_Level.SetVar ("level", skillInfo.get_levelstr ()).FlushVars();
 			glistItem._Btn_BT_SPUP0.visible = UISkillBook.can_raise (skillInfo.get_id ());
 			glistItem._Btn_SetupSkill.visible = !SkillData.get (skillInfo.get_id ()).is_passive();
+			
 		}
 	}
 }

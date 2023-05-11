@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
+using ms_Unity;
 
 
 namespace ms
@@ -16,14 +15,54 @@ namespace ms
         public const Type TYPE = UIElement.Type.RACESELECT;
         public const bool FOCUSED = false;
         public const bool TOGGLED = false;
+        public override UIElement.Type get_type()
+        {
+            return TYPE;
+        }
+        public bool check_name(string name)
+        {
+            WzObject ForbiddenName = ms.wz.wzFile_etc["ForbiddenName.img"];
 
+            foreach (var forbiddenName in ForbiddenName)
+            {
+                string lName = to_lower(name);
+                string fName = to_lower(forbiddenName.ToString());
+
+                if (lName.IndexOf(fName) != -1)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        private string to_lower(string value)
+        {
+            return value.ToLower();
+            //transform (value.GetEnumerator (), value.end (), value.GetEnumerator (), global::tolower);
+
+            //return value;
+        }
+        public void show_charselect()
+        {
+            new Sound(Sound.Name.SCROLLUP).play();
+
+            deactivate();
+
+            var charselect = UI.get().get_element<UICharSelect>();
+            if (charselect)
+            {
+                charselect.get().makeactive();
+            }
+        }
         public UIRaceSelect(params object[] args) : this()
         {
         }
 
         public UIRaceSelect() : base(new Point_short(0, 0), new Point_short(800, 600))
         {
-            string version_text = Configuration.get().get_version();
+            FGUI_Manager.Instance.OpenFGUI<FGUI_RaceSelect> ().OnActivityChange(this);
+            /*string version_text = Configuration.get().get_version();
             version = new Text(Text.Font.A11B, Text.Alignment.LEFT, Color.Name.LEMONGRASS, "Ver. " + version_text);
 
             WzObject Login = ms.wz.wzFile_ui["Login.img"];
@@ -134,10 +173,22 @@ namespace ms
 
             buttons[(int)Buttons.LEFT].set_state(Button.State.DISABLED);
 
-            new Sound(Sound.Name.RACESELECT).play();
+            new Sound(Sound.Name.RACESELECT).play();*/
         }
 
-        public override void draw(float inter)
+        public override void OnActivityChange (bool isActive)
+        {
+            if (isActive)
+            {
+                FGUI_Manager.Instance.OpenFGUI<FGUI_RaceSelect> ().OnActivityChange(this);
+            }
+            else
+            {
+                FGUI_Manager.Instance.CloseFGUI<FGUI_RaceSelect> ().OnActivityChange(this);
+            }
+        }
+
+        /*public override void draw(float inter)
         {
             ushort corrected_index = get_corrected_class_index(selected_class);
 
@@ -392,7 +443,7 @@ namespace ms
 				{
 					arancreation.send_naming_result (nameused);
 				}
-			}*/
+			}#1#
         }
 
         public override Button.State button_pressed(ushort buttonid)
@@ -676,7 +727,7 @@ namespace ms
         private Texture backZero = new Texture();
         private Sprite back_ani = new Sprite();
         private Texture class_details_background = new Texture();
-        private Texture class_details_backgroundZero = new Texture();
+        private Texture class_details_backgroundZero = new Texture();*/
     }
 }
 

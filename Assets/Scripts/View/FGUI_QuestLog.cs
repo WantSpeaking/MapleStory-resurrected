@@ -54,7 +54,7 @@ namespace ms_Unity
 			var questId = listPool[index];
 			var mapleQuest = MapleQuest.getInstance (questId);
 			var ListItem_QuestLog = item as FGUI_ListItem_QuestLog;
-			ListItem_QuestLog._Txt_Name.text = mapleQuest == null ? $"quest:{questId} ²»´æÔÚ" : $"{mapleQuest?.Id} {mapleQuest?.Name}";
+			ListItem_QuestLog._Txt_Name.text = mapleQuest == null ? $"quest:{questId} ä¸å­˜åœ¨" : $"{mapleQuest?.Id} {mapleQuest?.Name}";
 			ListItem_QuestLog.data = questId;
 			UnityEngine.Rendering.ListPool<short>.Release (listPool);
 		}
@@ -64,7 +64,7 @@ namespace ms_Unity
 			var questId = qs.QuestID;
 			var mapleQuest = MapleQuest.getInstance (questId);
 			var ListItem_QuestLog = item as FGUI_ListItem_QuestLog;
-			ListItem_QuestLog._Txt_Name.text = mapleQuest == null ? $"quest:{questId} ²»´æÔÚ" : $"{mapleQuest?.Id} {mapleQuest?.Name}";
+			ListItem_QuestLog._Txt_Name.text = mapleQuest == null ? $"quest:{questId} ä¸å­˜åœ¨" : $"{mapleQuest?.Id} {mapleQuest?.Name}";
 			ListItem_QuestLog.data = questId;
 
 			_Btn_ForfeitQuest.visible = true;
@@ -75,7 +75,7 @@ namespace ms_Unity
 			var questId = qs.QuestID;
 			var mapleQuest = MapleQuest.getInstance (questId);
 			var ListItem_QuestLog = item as FGUI_ListItem_QuestLog;
-			ListItem_QuestLog._Txt_Name.text = mapleQuest == null ? $"quest:{questId} ²»´æÔÚ" : $"{mapleQuest?.Id} {mapleQuest?.Name}";
+			ListItem_QuestLog._Txt_Name.text = mapleQuest == null ? $"quest:{questId} ä¸å­˜åœ¨" : $"{mapleQuest?.Id} {mapleQuest?.Name}";
 			ListItem_QuestLog.data = questId;
 		}
 
@@ -113,7 +113,7 @@ namespace ms_Unity
 				{
 					int.TryParse (progresses.TryGet (i), out var progress);
 
-					stringBuilder.Append ($"ÒÑá÷ÁÔ{Mob.get_name (mobId_Count_Pair.Key)}{progress}Ö»£¬Ğèá÷ÁÔ{mobId_Count_Pair.Value}Ö»; ");
+					stringBuilder.Append ($"å·²ç‹©çŒ{Mob.get_name (mobId_Count_Pair.Key)}{progress}åªï¼Œéœ€ç‹©çŒ{mobId_Count_Pair.Value}åª; ");
 					i++;
 				}
 				_Txt_mob.text = stringBuilder.ToString ();
@@ -129,7 +129,7 @@ namespace ms_Unity
 					var itemId = itemId_Count_Pair.Key;
 					var itemCount = itemId_Count_Pair.Value;
 
-					stringBuilder.Append ($"ÒÑÓĞ{ItemData.get (itemId).get_name ()}{ms.Stage.get ().get_player ().get_inventory ().get_total_item_count (itemId)}¸ö£¬Ğè{itemCount}¸ö; ");
+					stringBuilder.Append ($"å·²æœ‰{ItemData.get (itemId).get_name ()}{ms.Stage.get ().get_player ().get_inventory ().get_total_item_count (itemId)}ä¸ªï¼Œéœ€{itemCount}ä¸ª; ");
 				}
 				_Txt_item.text = stringBuilder.ToString ();
 			}

@@ -363,7 +363,7 @@ namespace ms
 					int cshoe = shoes[female][shoe];
 					int cwep = weapons[female][weapon];
 
-					new CreateCharPacket(cname, 2, cface, chair, chairc, cskin, ctop, cbot, cshoe, cwep, female).dispatch();
+					new CreateCharPacket(cname, 2, cface, chair, chairc, cskin, ctop, cbot, cshoe, cwep, female,2000).dispatch();
 
 					Action<bool> onok = (bool alternate) =>
 					{

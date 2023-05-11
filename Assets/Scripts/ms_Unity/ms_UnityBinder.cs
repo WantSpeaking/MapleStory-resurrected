@@ -23,6 +23,7 @@ namespace ms_Unity
             UIObjectFactory.SetPackageItemExtension(FGUI_ShopItemDetail.URL, typeof(FGUI_ShopItemDetail));
             UIObjectFactory.SetPackageItemExtension(FGUI_Inventory.URL, typeof(FGUI_Inventory));
             UIObjectFactory.SetPackageItemExtension(FGUI_Com_RichTxt_Right.URL, typeof(FGUI_Com_RichTxt_Right));
+            UIObjectFactory.SetPackageItemExtension(FGUI_RaceSelect.URL, typeof(FGUI_RaceSelect));
             UIObjectFactory.SetPackageItemExtension(FGUI_SetupUseButtons.URL, typeof(FGUI_SetupUseButtons));
             UIObjectFactory.SetPackageItemExtension(FGUI_ChatBalloon.URL, typeof(FGUI_ChatBalloon));
             UIObjectFactory.SetPackageItemExtension(FGUI_NavigationBar.URL, typeof(FGUI_NavigationBar));

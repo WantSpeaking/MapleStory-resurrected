@@ -8,8 +8,6 @@ namespace ms_Unity
     public partial class FGUI_ListItem_SkillInfo : GButton
     {
         public Controller _c_count;
-        public Controller _c_InventoryTypeId;
-        public GGraph _bg;
         public GLoader _GLoader_Icon;
         public GTextField _Txt_Name;
         public GTextField _Txt_Level;
@@ -27,13 +25,11 @@ namespace ms_Unity
             base.ConstructFromXML(xml);
 
             _c_count = GetControllerAt(1);
-            _c_InventoryTypeId = GetControllerAt(2);
-            _bg = (GGraph)GetChildAt(0);
-            _GLoader_Icon = (GLoader)GetChildAt(6);
-            _Txt_Name = (GTextField)GetChildAt(11);
-            _Txt_Level = (GTextField)GetChildAt(12);
-            _Btn_BT_SPUP0 = (GButton)GetChildAt(13);
-            _Btn_SetupSkill = (GButton)GetChildAt(14);
+            _GLoader_Icon = (GLoader)GetChildAt(1);
+            _Txt_Name = (GTextField)GetChildAt(6);
+            _Txt_Level = (GTextField)GetChildAt(7);
+            _Btn_BT_SPUP0 = (GButton)GetChildAt(8);
+            _Btn_SetupSkill = (GButton)GetChildAt(9);
             OnCreate();
 
         }

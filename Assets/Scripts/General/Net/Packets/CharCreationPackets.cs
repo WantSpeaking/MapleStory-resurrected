@@ -33,7 +33,21 @@ namespace ms
 	// Opcode: CREATE_CHAR(22)
 	public class CreateCharPacket : OutPacket
 	{
-		public CreateCharPacket (string name, ushort job, int face, int hair, byte hairc, byte skin, int top, int bot, int shoes, int weapon, bool female) : base ((short)OutPacket.Opcode.CREATE_CHAR)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="job">0=Knights of Cygnus| 1=Adventurer|2=Aran</param>
+		/// <param name="face"></param>
+		/// <param name="hair"></param>
+		/// <param name="hairc"></param>
+		/// <param name="skin"></param>
+		/// <param name="top"></param>
+		/// <param name="bot"></param>
+		/// <param name="shoes"></param>
+		/// <param name="weapon"></param>
+		/// <param name="female"></param>
+		public CreateCharPacket (string name, ushort job, int face, int hair, byte hairc, byte skin, int top, int bot, int shoes, int weapon, bool female, int jobId) : base ((short)OutPacket.Opcode.CREATE_CHAR)
 		{
 			write_string (name);
 			write_int (job);
@@ -46,6 +60,7 @@ namespace ms
 			write_int (shoes);
 			write_int (weapon);
 			write_byte ((sbyte)(female ? 1 : 0));
+			write_int (jobId);
 		}
 	}
 }

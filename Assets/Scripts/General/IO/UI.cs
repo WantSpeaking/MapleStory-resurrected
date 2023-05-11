@@ -50,11 +50,12 @@ namespace ms
         
         private void OnReceiveCallBackException ()
         {
-            if (attemptEnterGame || attemptEnterCashshop)
+            if (attemptEnterGame || attemptEnterCashshop || state is UIStateLogin)
             {
                 return;
             }
             ms_Unity.FGUI_Manager.Instance.PanelOpening = true;
+            FGUI_Manager.Instance.CloseAll ();
             MapleStory.Instance.ShowGUINotice ("和服务器断开连接,请重新登录");
             //FGUI_OK.ShowNotice ("和服务器断开连接,请重新登录",(b)=> MapleStory.Instance.BackToLogin ());
         }

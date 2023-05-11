@@ -386,7 +386,7 @@ namespace ms
 					int cshoe = shoes[female][shoe];
 					int cwep = weapons[female][weapon];
 
-					new CreateCharPacket(cname, 0, cface, chair, chairc, cskin, ctop, cbot, cshoe, cwep, female).dispatch();
+					new CreateCharPacket(cname, 0, cface, chair, chairc, cskin, ctop, cbot, cshoe, cwep, female,1000).dispatch();
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Lambda expressions cannot be assigned to 'var':
 					Action<bool> onok = (bool alternate) =>

@@ -19,6 +19,7 @@ namespace ms
 		public const Type TYPE = UIElement.Type.CLASSCREATION;
 		public const bool FOCUSED = false;
 		public const bool TOGGLED = false;
+		public static int SelectedJobId = 112;
 
 		public UIExplorerCreation() : base(new Point_short(0, 0), new Point_short(800, 600))
 		{
@@ -447,7 +448,7 @@ namespace ms
 					int cshoe = shoes[female][(int)shoe];
 					int cwep = weapons[female][(int)weapon];
 
-					new CreateCharPacket(cname, 1, cface, chair, chairc, cskin, ctop, cbot, cshoe, cwep, female).dispatch();
+					new CreateCharPacket(cname, 1, cface, chair, chairc, cskin, ctop, cbot, cshoe, cwep, female, SelectedJobId).dispatch();
 
 					Action<bool> onok = (bool alternate) =>
 					{

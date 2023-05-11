@@ -303,7 +303,7 @@ namespace ms
 					attack.maxdamage *= stats.damage;
 					attack.damagetype = Attack.DamageType.DMG_WEAPON;
 
-					AppDebug.Log ($"stats.damage:{stats.damage}");
+					//AppDebug.Log ($"stats.damage:{stats.damage}");
 					
 				}
 

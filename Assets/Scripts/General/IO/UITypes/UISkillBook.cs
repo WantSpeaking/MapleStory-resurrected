@@ -24,7 +24,7 @@ namespace ms
             this.stats = in_stats;
             this.skillbook = in_skillbook;
             this.grabbing = false;
-            this.tab = 0;
+            this.tab = 1;
             this.macro_enabled = false;
             this.sp_enabled = false;
             /*WzObject Skill = ms.wz.wzFile_ui["UIWindow.img"]["Skill"];

@@ -748,8 +748,8 @@ namespace ms
 					tab_move_pos = 0;
 
 
-					//UI.get ().emplace<UIRaceSelect> ();
-					UI.get().emplace<UIExplorerCreation>();
+					UI.get ().emplace<UIRaceSelect> ();
+					//UI.get().emplace<UIExplorerCreation>();
 					break;
 				}
 				case Buttons.CHARACTER_DELETE:

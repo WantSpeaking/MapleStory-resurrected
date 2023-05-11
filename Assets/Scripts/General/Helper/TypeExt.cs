@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ms;
 using System.Linq.Expressions;
 using MapleLib.WzLib;
+using UnityEngine;
 using Expression = System.Linq.Expressions.Expression;
 
 namespace ms.Helper
@@ -23,10 +24,9 @@ namespace ms.Helper
 			return result;
 		}
 
-		public static sbyte ToSByte<T> (this T src)
+		public static sbyte ToSByte (this bool src)
 		{
-			SByte.TryParse (src.ToString (), out var result);
-			return result;
+			return (sbyte)(src?1:0);
 		}
 		
 		public static ushort ToUshort<T> (this T src)
