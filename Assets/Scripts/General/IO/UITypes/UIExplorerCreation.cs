@@ -449,24 +449,6 @@ namespace ms
 					int cwep = weapons[female][(int)weapon];
 
 					new CreateCharPacket(cname, 1, cface, chair, chairc, cskin, ctop, cbot, cshoe, cwep, female, SelectedJobId).dispatch();
-
-					Action<bool> onok = (bool alternate) =>
-					{
-						new Sound(Sound.Name.SCROLLUP).play();
-
-						UI.get().remove(UIElement.Type.LOGINNOTICE_CONFIRM);
-						UI.get().remove(UIElement.Type.LOGINNOTICE);
-						UI.get().remove(UIElement.Type.CLASSCREATION);
-						UI.get().remove(UIElement.Type.RACESELECT);
-						var charselect = UI.get ().get_element<UICharSelect> ();
-						if (charselect)
-						{
-							charselect.get ().post_add_character();
-						}
-					};
-
-					//UI.get().emplace<UIKeySelect>(onok, true);
-					FGUI_YesNo.ShowNotice ("使用冒险岛风格按键请确定，使用WASD风格按键请取消",onok);
 				}
 				else
 				{

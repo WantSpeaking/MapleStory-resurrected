@@ -172,7 +172,10 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 
 		foreach (var pair in texture_GObj_Dict)
 		{
-			_Material_Pool.ReturnObject (pair.Key.fullPath, pair.Value.GetComponent<MeshRenderer> ().material);
+			if (!pair.Key.isSprite)
+			{
+				_Material_Pool.ReturnObject (pair.Key.fullPath, pair.Value.GetComponent<MeshRenderer> ().material);
+			}
 			_GObj_Pool.ReturnObject (pair.Key.fullPath, pair.Value);
 			pair.Value.SetActive (false);
 		}

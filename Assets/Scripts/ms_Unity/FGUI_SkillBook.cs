@@ -19,8 +19,8 @@ namespace ms_Unity
         public GTextField _Txt_RemainSP;
         public GTextField _Txt_Desc;
         public GButton _Btn_SetupSkill;
-        public FGUI_SetupActionButtons _SetupActionButtons;
         public GList _GList_SkillInfo;
+        public FGUI_SetupActionButtons _SetupActionButtons;
         public const string URL = "ui://4916gthqsxcsokt";
 
         public static FGUI_SkillBook CreateInstance()
@@ -41,11 +41,11 @@ namespace ms_Unity
             _BT_TAB2 = (GButton)GetChildAt(5);
             _BT_TAB3 = (GButton)GetChildAt(6);
             _BT_TAB4 = (GButton)GetChildAt(7);
-            _Txt_RemainSP = (GTextField)GetChildAt(9);
-            _Txt_Desc = (GTextField)GetChildAt(10);
-            _Btn_SetupSkill = (GButton)GetChildAt(11);
-            _SetupActionButtons = (FGUI_SetupActionButtons)GetChildAt(12);
-            _GList_SkillInfo = (GList)GetChildAt(13);
+            _Txt_RemainSP = (GTextField)GetChildAt(8);
+            _Txt_Desc = (GTextField)GetChildAt(9);
+            _Btn_SetupSkill = (GButton)GetChildAt(10);
+            _GList_SkillInfo = (GList)GetChildAt(11);
+            _SetupActionButtons = (FGUI_SetupActionButtons)GetChildAt(13);
             OnCreate();
 
         }

@@ -166,7 +166,7 @@ namespace ms
 				update_canvas ();
 				update_static_markers ();
 				toggle_buttons ();
-				update_npclist ();
+				//update_npclist ();
 			}
 
 			if (type == (int)Type.MIN)

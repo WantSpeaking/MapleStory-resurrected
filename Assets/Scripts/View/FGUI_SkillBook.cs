@@ -25,7 +25,8 @@ namespace ms_Unity
             _SetupActionButtons._Btn_Skill4.onClick.Add (OnClick_Btn_Skill);
 
 			_SetupActionButtons.UpdateIcon ();
-
+			//_SetupActionButtons._PlaceHolder.onClick.Add (CancelSetupAction);
+			
 			this.onClick.Add (OnClick_SkillBook);
 
 			_BT_TAB0.onClick.Add (() => UISkillBook.button_pressed ((ushort)ms.UISkillBook.Buttons.BT_TAB0));
@@ -161,11 +162,15 @@ namespace ms_Unity
 
 		private void OnClick_Btn_BT_SPUP0 (EventContext context)
 		{
-			var skillInfo = UISkillBook.skills[_GList_SkillInfo.selectedIndex];
+			var clickedBtnSPUP = context.sender as GObject;
+			var selectedIndex = _GList_SkillInfo.GetChildIndex (clickedBtnSPUP.parent);
+			_GList_SkillInfo.selectedIndex = selectedIndex;
+			var skillInfo = UISkillBook.skills.TryGet(selectedIndex);
+			
 			UISkillBook.spend_sp (skillInfo.get_id ());
 			UISkillBook.change_sp ();
 			change_sp ();
-			((GObject)context.sender).visible = UISkillBook.can_raise (skillInfo.get_id ());
+			clickedBtnSPUP.visible = UISkillBook.can_raise (skillInfo.get_id ());
 		}
 		private void OnClick_Btn_SetupSkill (EventContext context)
 		{
@@ -179,7 +184,7 @@ namespace ms_Unity
 			glistItem._Txt_Name.text = skillInfo.get_namestr ();
 			glistItem._Txt_Level.SetVar ("level", skillInfo.get_levelstr ()).FlushVars();
 			glistItem._Btn_BT_SPUP0.visible = UISkillBook.can_raise (skillInfo.get_id ());
-			glistItem._Btn_SetupSkill.visible = !SkillData.get (skillInfo.get_id ()).is_passive();
+			glistItem._Btn_SetupSkill.visible = (!SkillData.get (skillInfo.get_id ()).is_passive())&& skillInfo.get_level()!= 0;
 			
 		}
 	}

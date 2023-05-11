@@ -253,6 +253,13 @@ namespace ms
 	{
 		public override void handle (InPacket recv)
 		{
+			new Sound(Sound.Name.SCROLLUP).play();
+
+			UI.get().remove(UIElement.Type.LOGINNOTICE_CONFIRM);
+			UI.get().remove(UIElement.Type.LOGINNOTICE);
+			UI.get().remove(UIElement.Type.CLASSCREATION);
+			UI.get().remove(UIElement.Type.RACESELECT);
+			
 			recv.skip (1);
 
 			// Parse info on the new character
@@ -263,6 +270,7 @@ namespace ms
 			if (charselect)
 			{
 				charselect.get ().add_character ((character));
+				charselect.get ().post_add_character();
 			}
 		}
 	}

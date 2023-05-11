@@ -20,8 +20,8 @@ namespace ms_Unity
         {
             base.ConstructFromXML(xml);
 
-            _Joystick = (FGUI_Joystick)GetChildAt(1);
-            _ActionButtons = (FGUI_ActionButtons)GetChildAt(2);
+            _Joystick = (FGUI_Joystick)GetChildAt(0);
+            _ActionButtons = (FGUI_ActionButtons)GetChildAt(1);
             OnCreate();
 
         }

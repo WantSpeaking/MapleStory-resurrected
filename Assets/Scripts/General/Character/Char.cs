@@ -200,7 +200,7 @@ namespace ms
 		{
 			if (move is Skill skill)
 			{
-				return skill.GetKeydownEffect ().GetAniLength () / 1000f;
+				return skill.GetKeydownEffect ()?.GetAniLength ()??100 / 1000f;
 			}
 			else
 			if (SkillCooldown.SkillCooldowns.TryGetValue (move.get_id (), out var cooldown))
