@@ -125,7 +125,7 @@ namespace ms
 					if (portal.bounds ().contains (playerpos))
 					{
 						warpInfo = portal.getwarpinfo ();
-						if (warpInfo.name == "sp")//跳过出生点
+						if (warpInfo.name == "sp" || warpInfo.targetMapid == -1)//跳过出生点 跳过925020100.img/portal/6，6和8 重合，6的tm = -1
 						{
 							continue;
 						}
@@ -139,7 +139,6 @@ namespace ms
 			{
 			};*/
 		}
-
 		private readonly Point_short ABOVE = new Point_short (0, 30);
 
 		public Point_short get_portalPos_by_id (byte portal_id)

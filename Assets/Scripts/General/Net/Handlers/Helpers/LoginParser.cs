@@ -126,12 +126,12 @@ namespace ms
 			// TODO: This is similar to CashShopParser.cpp, try and merge these.
 			StatsEntry statsentry = new StatsEntry ();
 
-			statsentry.name = recv.read_padded_string (13);
+			statsentry.name = recv.read_string ();
 			statsentry.female = recv.read_bool ();
 
-			recv.read_byte (); // skin
-			recv.read_int (); // face
-			recv.read_int (); // hair
+			var skin = recv.read_byte (); // skin
+			var face =recv.read_int (); // face
+			var hair =recv.read_int (); // hair
 
 			for (int i = 0; i < 3; i++)
 				statsentry.petids.Add (recv.read_long ());

@@ -91,6 +91,10 @@ namespace ms
 			this.itemdata = ItemData.get (id);
 			string strid = "0" + Convert.ToString (id);
 			string category = itemdata.get_category ();
+			if (string.IsNullOrEmpty (category))
+			{
+				AppDebug.Log ($"EquipData category is null,id:{id}");
+			}
 			//AppDebug.Log ($"id:{id}\tstrid:{strid}\tcategory:{category}");
 			//if(category == null) return;//todo 2 why id == 3 maybe chalist parsed wrong
 			var src = ms.wz.wzFile_character[category]?[strid + ".img"]?["info"];

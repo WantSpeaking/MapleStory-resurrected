@@ -14,4 +14,5 @@ public class GameUtil : SingletonMono<GameUtil>
 	public bool drawMap = true;
 	public bool enableUpdate = true;
 	public UnityEngine.Camera mainCamera;
+	public int testTalkNpcId = 2091005;
 }

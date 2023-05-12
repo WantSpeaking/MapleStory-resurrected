@@ -120,14 +120,25 @@ namespace ms
 			//TextManager.Instance.Clear ();
 
 			this.mapid = mapid;
+			
 			string strid = string_format.extend_id (mapid, 9);
 			string prefix = Convert.ToString (mapid / 100000000);
 			WzObject node_100000000img = ((mapid == -1) ? wz.wzFile_ui["CashShopPreview.img"] : wz.wzFile_map["Map"]["Map" + prefix][strid + ".img"]);
+			if (node_100000000img["info"]?["link"] != null)
+			{
+				string linkMapIdStr = node_100000000img["info"]["link"].ToString ();
+				int.TryParse (linkMapIdStr, out var linkMapId);
+				strid = string_format.extend_id (linkMapId, 9);
+				prefix = Convert.ToString (linkMapId / 100000000);
+				node_100000000img = wz.wzFile_map["Map"]["Map" + prefix][strid + ".img"];
+				this.mapid = linkMapId;
+			}
 			tilesobjs = new MapTilesObjs (node_100000000img);
 			backgrounds = new MapBackgrounds (node_100000000img["back"]);
 			physics = new Physics (node_100000000img["foothold"]);
 			mapinfo = new MapInfo (node_100000000img, physics.get_fht ().get_walls (), physics.get_fht ().get_borders ());
 			portals = new MapPortals (node_100000000img["portal"], mapid);
+			UI.get ().get_element<UIStatusMessenger> ().get ().show_status (Color.Name.WHITE,$"进入地图：{this.mapid}");
 		}
 
 		public byte just_Entered_portalid;
@@ -275,7 +286,7 @@ namespace ms
 				Portal.WarpInfo warpinfo = portals.find_warp_at (playerpos);
 				if (warpinfo.intramap)
 				{
-					Point_short spawnpoint = portals.get_portal_by_name (warpinfo.toname);
+					Point_short spawnpoint = portals.get_portal_by_name (warpinfo.targetName);
 					Point_short startpos = physics.get_y_below (spawnpoint);
 					player.respawn (new Point_short (startpos), mapinfo.is_underwater ());
 				}
@@ -283,7 +294,7 @@ namespace ms
 				{
 					new ChangeMapPacket (died: false, -1, warpinfo.name, usewheel: false).dispatch ();
 					CharStats stats = Singleton<Stage>.get ().get_player ().get_stats ();
-					stats.set_mapid (warpinfo.mapid);
+					stats.set_mapid (warpinfo.targetMapid);
 					new Sound (Sound.Name.PORTAL).play ();
 				}
 			}
@@ -499,6 +510,11 @@ namespace ms
 			ms.Stage.get ().get_npcs ().UpdateQuest ();
 			ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_QuestLog> ().UpdateQuest ();
 
+		}
+
+		public Physics get_Physics ()
+		{
+			return physics;
 		}
 	}
 }

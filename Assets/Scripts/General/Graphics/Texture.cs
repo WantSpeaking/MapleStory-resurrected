@@ -177,7 +177,7 @@ namespace ms
 						texture2D = sprite.texture;
 						isSprite = true;
 					}
-					AppDebug.Log ($"{tileName}\t {sprite}");
+					//AppDebug.Log ($"{tileName}\t {sprite}");
 				}
 
 				if (texture2D == null)

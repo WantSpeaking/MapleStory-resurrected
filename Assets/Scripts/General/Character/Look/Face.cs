@@ -70,6 +70,13 @@ namespace ms
 			string strid = "000" + Convert.ToString (faceid);
 			WzObject face_00020000img = ms.wz.wzFile_character["Face"][strid + ".img"];
 
+			if (face_00020000img == null)
+			{
+				AppDebug.Log ($"face is null,id:{strid}");
+
+				face_00020000img = ms.wz.wzFile_character["Face"]["00020000.img"];
+				faceid = 20000;
+			}
 			foreach (var iter in Expression.names)
 			{
 				Expression.Id exp = iter.Key;

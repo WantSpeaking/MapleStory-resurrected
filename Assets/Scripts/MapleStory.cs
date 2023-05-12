@@ -202,6 +202,12 @@ public class MapleStory : SingletonMono<MapleStory>
 			GUI.EndGroup ();
 		}
 
+		var oldColor = GUI.color;
+		GUI.color = Color.black;
+		GUI.BeginGroup (new Rect (Screen.width / 2, 0, 500, 300));
+		GUI.Label (new Rect (0,0,500,300), $"游戏版本：{GameUtil.Instance.Version}");
+		GUI.EndGroup ();
+		GUI.color = oldColor;
 		//Debug.Log ($"{FairyGUI.Stage.inst.touchTarget} {FairyGUI.Stage.inst.touchTarget?.name}", FairyGUI.Stage.inst.touchTarget?.gameObject);
 
 		/*if (GUI.Button (new Rect (200, 0, 200, 100), "开始"))

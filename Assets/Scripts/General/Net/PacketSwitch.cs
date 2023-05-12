@@ -80,6 +80,8 @@ namespace ms
 			emplace (Opcode.SERVER_MESSAGE, new ServerMessageHandler ());
 			emplace (Opcode.WEEK_EVENT_MESSAGE, new WeekEventMessageHandler ());
 			emplace (Opcode.SHOW_ITEM_GAIN_INCHAT, new ShowItemGainInChatHandler ());
+			
+			emplace (Opcode.DOJO_WARP_UP, new DOJO_WARP_UPHandler ());
 
 			// Inventory Handlers
 			emplace (Opcode.MODIFY_INVENTORY, new ModifyInventoryHandler ());
@@ -321,9 +323,10 @@ namespace ms
 		SHOW_FOREIGN_EFFECT = 198,
 		UPDATE_PARTYMEMBER_HP = 201,
 		SHOW_ITEM_GAIN_INCHAT = 206, // TODO: Rename this (Terribly named)
+		DOJO_WARP_UP = 207,
 
 		UPDATE_QUEST_INFO = 211,
-
+		
 		/// Player
 		ADD_COOLDOWN = 234,
 

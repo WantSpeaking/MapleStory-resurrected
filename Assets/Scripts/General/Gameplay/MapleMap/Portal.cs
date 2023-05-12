@@ -33,8 +33,8 @@ namespace ms
 
 		public struct WarpInfo
 		{
-			public int mapid;
-			public string toname;
+			public int targetMapid;
+			public string targetName;
 			public string name;
 			public bool intramap;
 			public bool valid;
@@ -42,11 +42,11 @@ namespace ms
 
              public WarpInfo (int m, bool i, string tn, string n,string script = null)
 			{
-				this.mapid = m;
+				this.targetMapid = m;
 				this.intramap = i;
-				this.toname = tn;
+				this.targetName = tn;
 				this.name = n;
-				valid = mapid < 999999999 || !string.IsNullOrEmpty(script);
+				valid = targetMapid < 999999999 || !string.IsNullOrEmpty(script);
                 this.script = script;
 
             }
@@ -61,7 +61,7 @@ namespace ms
                 }*/
             public override string ToString ()
             {
-	            return $"WarpInfo mapid:{mapid}\t intramap:{intramap}\t toname:{toname}\t name:{name}\t script:{script}";
+	            return $"WarpInfo mapid:{targetMapid}\t intramap:{intramap}\t toname:{targetName}\t name:{name}\t script:{script}";
             }
 		}
 

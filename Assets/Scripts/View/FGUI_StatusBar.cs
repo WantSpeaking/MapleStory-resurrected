@@ -24,12 +24,19 @@ namespace ms_Unity
 			_BT_BackToChooseChar.onClick.Add (OnClick_BackToChooseChar);
 			_BT_BackToLogin.onClick.Add (OnClick_BackToLogin);
 			_BT_CustomizeButtons.onClick.Add (OnClick_CustomizeButtons);
+			_BT_Instance.onClick.Add (OnClick_BT_Instance);
 
             _Txt_Version.SetVar("count", GameUtil.Instance.Version).FlushVars();
 
         }
 
-        private void OnClick_CustomizeButtons(EventContext context)
+		private void OnClick_BT_Instance ()
+		{
+			new TalkToNPCPacket (GameUtil.Instance.testTalkNpcId).dispatch ();
+			FGUI_Manager.Instance.GetFGUI<FGUI_NpcTalk>().beginScriptTalk = true;
+		}
+
+		private void OnClick_CustomizeButtons(EventContext context)
         {
 			FGUI_Manager.Instance.OpenFGUI<FGUI_CustomizeJoystickAndButtons>();
         }

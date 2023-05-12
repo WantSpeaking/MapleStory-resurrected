@@ -32,6 +32,12 @@ namespace ms
 			init_Dict ();
 			var node_Hair_00030000img = ms.wz.wzFile_character["Hair"]["000" + Convert.ToString (hairid) + ".img"];
 
+			if (node_Hair_00030000img == null)
+			{
+				AppDebug.Log ($"hair is null,id:{hairid}");
+				node_Hair_00030000img = ms.wz.wzFile_character["Hair"]["00030000.img"];
+				hairid = 30000;
+			}
 			foreach (var stance_iter in Stance.names)
 			{
 				Stance.Id stance = stance_iter.Key;
@@ -112,7 +118,7 @@ namespace ms
 				}*/
 			}
 
-			name = ms.wz.wzFile_string["Eqp.img"]["Eqp"]["Hair"][Convert.ToString (hairid)]["name"].ToString ();
+			name = ms.wz.wzFile_string["Eqp.img"]?["Eqp"]?["Hair"]?[Convert.ToString (hairid)]?["name"]?.ToString ();
 
 			const uint NUM_COLORS = 8;
 			//string[] haircolors = {"Black", "Red", "Orange", "Blonde", "Green", "Blue", "Violet", "Brown"};

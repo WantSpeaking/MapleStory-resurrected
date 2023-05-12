@@ -470,4 +470,21 @@ namespace ms
 			}
 		}
 	}
+	
+	// Can contain numerous different effects and messages
+	// Opcode: SHOW_ITEM_GAIN_INCHAT(206)
+	public class DOJO_WARP_UPHandler : PacketHandler
+	{
+		public override void handle (InPacket recv)
+		{
+			int a = recv.read_byte ();
+			int b = recv.read_byte ();
+
+			{
+				Point_short spawnpoint = Stage.get ().get_portals ().get_portalPos_by_id (8);
+				Point_short startpos = Stage.get ().get_Physics ().get_y_below (spawnpoint);
+				Stage.get ().get_player ().respawn (new Point_short (startpos), false);
+			}
+		}
+	}
 }
