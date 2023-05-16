@@ -3,16 +3,6 @@ using System.Collections.Generic;
 using ms.Helper;
 using Unity.VisualScripting;
 
-
-
-
-
-#if USE_ASIO
-#define BOOST_DATE_TIME_NO_LIB
-#define BOOST_REGEX_NO_LIB
-#else
-#endif
-
 namespace ms
 {
 	public class Session : Singleton<Session>
@@ -24,6 +14,16 @@ namespace ms
 			pos = 0;
 		}
 
+		~Session()
+		{
+			if (connected)
+			{
+				//socket. ();
+			}
+
+			base.Dispose ();
+		}
+		
 		public new void Dispose ()
 		{
 			if (connected)

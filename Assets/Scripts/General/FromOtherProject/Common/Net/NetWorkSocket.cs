@@ -69,7 +69,27 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 
 		#region 从队列中获取数据
 
-		while (true)
+		/*lock (m_ReceiveQueue)
+		{
+			
+		}*/
+		if (m_ReceiveQueue.Count>0)
+		{
+			//得到队列中的数据包
+			byte[] buffer = m_ReceiveQueue.Dequeue ();
+			var packet_bytes = buffer.ToSbyteArray();
+
+			if (Session.get().getCrypt() != null)
+			{
+				//AppDebug.Log($"\trawPacket:{packet_bytes.ToDebugLog()}");
+
+				cryptography.decrypt(packet_bytes, packet_bytes.Length);
+				//AppDebug.Log($"\tdecryptPacket:{packet_bytes.ToDebugLog()}");
+
+			}
+			packetswitch.forward (packet_bytes.ToByteArray(), buffer.Length);
+		}
+		/*while (true)
 		{
 			if (m_ReceiveCount <= 5)
 			{
@@ -78,64 +98,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 				{
 					if (m_ReceiveQueue.Count > 0)
 					{
-						/*//得到队列中的数据包
-						byte[] buffer = m_ReceiveQueue.Dequeue();
-
-						//异或之后的数组
-						byte[] bufferNew = new byte[buffer.Length - 3];
-
-						bool isCompress = false;
-						ushort crc = 0;
-
-						using (MMO_MemoryStream ms = new MMO_MemoryStream(buffer))
-						{
-						    isCompress = ms.ReadBool();
-						    crc = ms.ReadUShort();
-						    ms.Read(bufferNew, 0, bufferNew.Length);
-						}
-
-						//先crc
-						int newCrc = Crc16.CalculateCrc16(bufferNew);
-
-						if (newCrc == crc)
-						{
-						    //异或 得到原始数据
-						    bufferNew = SecurityUtil.Xor(bufferNew);
-
-						    if (isCompress)
-						    {
-						        bufferNew = ZlibHelper.DeCompressBytes(bufferNew);
-						    }
-
-						    ushort protoCode = 0;
-						    byte[] protoContent = new byte[bufferNew.Length - 2];
-						    using (MMO_MemoryStream ms = new MMO_MemoryStream(bufferNew))
-						    {
-						        //协议编号
-						        protoCode = ms.ReadUShort();
-						        ms.Read(protoContent, 0, protoContent.Length);
-
-						        SocketDispatcher.Instance.Dispatch(protoCode, protoContent);
-						    }
-						}
-						else
-						{
-						    break;
-						}*/
-
-						//得到队列中的数据包
-						byte[] buffer = m_ReceiveQueue.Dequeue ();
-                        var packet_bytes = buffer.ToSbyteArray();
-
-                        if (Session.get().getCrypt() != null)
-						{
-                            //AppDebug.Log($"\trawPacket:{packet_bytes.ToDebugLog()}");
-
-                            cryptography.decrypt(packet_bytes, packet_bytes.Length);
-                            //AppDebug.Log($"\tdecryptPacket:{packet_bytes.ToDebugLog()}");
-
-                        }
-                        packetswitch.forward (packet_bytes.ToByteArray(), buffer.Length);
+						
 					}
 					else
 					{
@@ -148,7 +111,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 				m_ReceiveCount = 0;
 				break;
 			}
-		}
+		}*/
 
 		#endregion
 	}
@@ -525,16 +488,4 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 	public Action OnReceiveCallBackException;
 	#endregion
 
-	public int receive (bool success)
-	{
-		//异步接收数据
-		//m_Client.BeginReceive (m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallBack, m_Client);
-		//return 1;
-		return m_Client.Receive (m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, out var socketError);
-	}
-
-   /* public void setcrypt(Cryptography c)
-    {
-        cryptography = c;
-    }*/
 }

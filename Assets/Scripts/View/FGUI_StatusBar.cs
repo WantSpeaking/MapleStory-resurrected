@@ -25,6 +25,7 @@ namespace ms_Unity
 			_BT_BackToLogin.onClick.Add (OnClick_BackToLogin);
 			_BT_CustomizeButtons.onClick.Add (OnClick_CustomizeButtons);
 			_BT_Instance.onClick.Add (OnClick_BT_Instance);
+			_BT_FuctionCenter.onClick.Add (OnClick_FuctionCenter);
 
             _Txt_Version.SetVar("count", GameUtil.Instance.Version).FlushVars();
 
@@ -32,10 +33,14 @@ namespace ms_Unity
 
 		private void OnClick_BT_Instance ()
 		{
-			new TalkToNPCPacket (GameUtil.Instance.testTalkNpcId).dispatch ();
+			new TalkToNPCPacket (GameUtil.Instance.testTalkNpcId_Instance).dispatch ();
 			FGUI_Manager.Instance.GetFGUI<FGUI_NpcTalk>().beginScriptTalk = true;
 		}
-
+		private void OnClick_FuctionCenter ()
+		{
+			new TalkToNPCPacket (GameUtil.Instance.testTalkNpcId_FunctionCenter,GameUtil.Instance.testTalkNpcFileName_FunctionCenter).dispatch ();
+			FGUI_Manager.Instance.GetFGUI<FGUI_NpcTalk>().beginScriptTalk = true;
+		}
 		private void OnClick_CustomizeButtons(EventContext context)
         {
 			FGUI_Manager.Instance.OpenFGUI<FGUI_CustomizeJoystickAndButtons>();

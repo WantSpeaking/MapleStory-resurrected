@@ -153,7 +153,50 @@ namespace ms
 			Send (bytes);
 			return true;
 		}
+		public int receive (bool success)
+		{
+			//异步接收数据
+			//m_Client.BeginReceive (m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallBack, m_Client);
+			//return 1;
+			return m_Client.Receive (buffer, 0, buffer.Length, SocketFlags.None, out var socketError);
 
+			/*timeval timeout = new timeval (0, 0);
+			fd_set sockset = new fd_set ();
+
+			FD_SET (sock, sockset);
+
+			int result = select (0, sockset, 0, 0, timeout);
+
+			if (result > 0)
+			{
+				result = recv (sock, buffer, NetConstants.MAX_PACKET_LENGTH, 0);
+			}
+
+			if (result == SOCKET_ERROR)
+			{
+				success = false;
+
+				return 0;
+			}
+			else
+			{
+				return result;
+			}*/
+		}
+
+		public byte[] get_buffer ()
+		{
+			return buffer;
+		}
+
+		private ulong sock;
+
+		//private string buffer = new string (new char[NetConstants.MAX_PACKET_LENGTH]);
+		byte[] buffer = new byte[NetConstants.MAX_PACKET_LENGTH];
+		
+		
+		
+		
 		#region Send 真正发送数据包到服务器
 
 		/// <summary>
@@ -324,46 +367,7 @@ namespace ms
 
 		#endregion
 
-		public int receive (bool success)
-		{
-			//异步接收数据
-			//m_Client.BeginReceive (m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallBack, m_Client);
-			//return 1;
-			return m_Client.Receive (buffer, 0, buffer.Length, SocketFlags.None, out var socketError);
-
-			/*timeval timeout = new timeval (0, 0);
-			fd_set sockset = new fd_set ();
-
-			FD_SET (sock, sockset);
-
-			int result = select (0, sockset, 0, 0, timeout);
-
-			if (result > 0)
-			{
-				result = recv (sock, buffer, NetConstants.MAX_PACKET_LENGTH, 0);
-			}
-
-			if (result == SOCKET_ERROR)
-			{
-				success = false;
-
-				return 0;
-			}
-			else
-			{
-				return result;
-			}*/
-		}
-
-		public byte[] get_buffer ()
-		{
-			return buffer;
-		}
-
-		private ulong sock;
-
-		//private string buffer = new string (new char[NetConstants.MAX_PACKET_LENGTH]);
-		byte[] buffer = new byte[NetConstants.MAX_PACKET_LENGTH];
+		
 	}
 }
 #endif

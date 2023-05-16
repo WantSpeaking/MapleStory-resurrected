@@ -74,7 +74,9 @@ namespace ms.Util
 
 		protected string onTag_MapName (string tagName, bool end, string attr)
 		{
-			return NxHelper.Map.get_map_info_by_id (int.Parse (attr)).name;
+			int.TryParse (attr, out var mapid);
+			
+			return NxHelper.Map.get_map_info_by_id (mapid).name;
 		}
 
 		protected string onTag_MonsterName (string tagName, bool end, string attr)
@@ -253,26 +255,12 @@ namespace ms.Util
             _text = text.Replace ("\\r\\n", "\\n");
 			_text = _text.Replace ("\\n", "\r\n");
 			_text = _text.Replace ("#l#l", "#l");
-			_text = _text.Replace ("#l", "");
+			//_text = _text.Replace ("#l", "");
             //AppDebug.Log($"after  replace:{@_text}");
 
             //_text = Regex.Replace(text, @"\\r"," ");
 
-            if (_text.Contains("#L"))
-			{
-                var spiltArrayTuple = _text.Split(new Regex("#L[0-9]+#"), false);
-                var optionTxts1 = spiltArrayTuple.Item1;
-                var matchTxts = spiltArrayTuple.Item2;
-
-                buffer.Append(optionTxts1.TryGet(0));
-                for (int i = 1; i < optionTxts1.Length; i++)
-                {
-                    var matchValue = Regex.Match(matchTxts[i - 1], "[0-9]+")?.Value;
-                    buffer.Append($"<a href=\"{matchValue}\" target=\"_blank\">{optionTxts1[i]}</a>");
-                }
-                _text = buffer.ToString();
-				buffer.Clear();
-            }
+            
 			
             int pos1 = 0, pos2, pos3;
 			bool end = false;
@@ -298,12 +286,13 @@ namespace ms.Util
 				if (pos2 == -1)
 					//break;
 				{
-					pos2 = pos1 + 2;
+					//pos2 = pos1 + 2;
+					pos2 = _text.Length-1;
 				}
 
-				if (pos2 == pos1 + 1)
+				if (pos2 == pos1 + 1)//#L#B 中间没有其他内容,就不加入buffer了
 				{
-					buffer.Append (_text, pos1, 2);
+					//buffer.Append (_text, pos1, 2);
 					pos1 = pos2 + 1;
 					continue;
 				}
@@ -319,7 +308,7 @@ namespace ms.Util
 				tag = tag.Substring (0, 1);
 				if (tag == "b" || tag == "d" || tag == "g" || tag == "k" || tag == "r" || tag == "e" || tag == "n" || tag == "l")
 				{
-					var tempBufferString = buffer.ToString ();
+					/*var tempBufferString = buffer.ToString ();
 
 					var last_rn = tempBufferString.LastIndexOf (@"\r\n", tempBufferString.Length - 1, StringComparison.InvariantCulture);
 					var insertPos = last_rn != -1 ? last_rn + 1 : 0;
@@ -327,7 +316,7 @@ namespace ms.Util
 					{
 						buffer.Append ("</a>");
 					}
-					/*else if (tag == "b" || tag == "d" || tag == "g" || tag == "k" || tag == "r")
+					else if (tag == "b" || tag == "d" || tag == "g" || tag == "k" || tag == "r")
 					{
 						buffer.Append ("</font>");
 
@@ -337,13 +326,13 @@ namespace ms.Util
 							return "</font>";*//*
 						var hexColor = HexColor.MSColorTagToHexColor (tag);
 						buffer.Insert (insertPos, $"<font color=\"{hexColor}\">");
-					}*/
+					}
 					else if (tag == "e")
 					{
 						//return end ? ("</" + tagName + ">") : ("<" + tagName + ">");
 						buffer.Append ($"</{tag}>");
 						buffer.Insert (insertPos, $"<{tag}>");
-					}
+					}*/
 
 					pos1 = _readPos = pos1 + 2;
 					continue;
@@ -370,20 +359,31 @@ namespace ms.Util
 				pos1 = _readPos;
 			}
 
-			if (buffer == null)
-            {
-                var tempText = _text;
-				_text = null;
-				return tempText;
-			}
-			else
-			{
-				if (pos1 < _text.Length)
-					buffer.Append (_text, pos1, _text.Length - pos1);
+			if (pos1 < _text.Length)//释放最后收尾的 # 之后内容未处理
+				buffer.Append (_text, pos1, _text.Length - pos1);
 
-				_text = null;
-				return buffer.ToString ();
+			_text = null;
+			
+			var tempStr = buffer.ToString ();
+			buffer.Clear ();
+			if (tempStr.Contains("#L"))
+			{
+				var spiltArrayTuple = tempStr.Split(new Regex("#L[0-9]+#"), false);
+				var optionTxts1 = spiltArrayTuple.Item1;
+				var matchTxts = spiltArrayTuple.Item2;
+
+				buffer.Append(optionTxts1.TryGet(0));
+				for (int i = 1; i < optionTxts1.Length; i++)
+				{
+					var matchValue = Regex.Match(matchTxts[i - 1], "[0-9]+")?.Value;
+					buffer.Append($"<a href=\"{matchValue}\" target=\"_blank\">{optionTxts1[i]}</a>");
+				}
+				tempStr = buffer.ToString();
+				
+				buffer.Clear();
 			}
-		}
+			tempStr = tempStr.Replace ("#l", "");
+			return tempStr;
+        }
 	}
 }

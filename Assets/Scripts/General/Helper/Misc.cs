@@ -102,9 +102,14 @@ namespace ms
 			public static MapInfo get_map_info_by_id (int mapid)
 			{
 				string map_category = get_map_category (mapid);
-				WzObject map_info = ms.wz.wzFile_string["Map.img"][map_category][mapid.ToString ()];
+				WzObject map_info = ms.wz.wzFile_string["Map.img"][map_category]?[mapid.ToString ()];
 
-				return new MapInfo (map_info["mapDesc"]?.ToString (), map_info["mapName"]?.ToString (), map_info["streetName"]?.ToString (), map_info["streetName"] + " : " + map_info["mapName"]);
+				if (map_info == null || map_category == null)
+				{
+					AppDebug.LogWarning ($"mapid:{mapid}|map_info is null,map_category:{map_category}");
+				}
+
+				return new MapInfo (map_info?["mapDesc"]?.ToString (), map_info?["mapName"]?.ToString (), map_info?["streetName"]?.ToString (), map_info?["streetName"] + " : " + map_info?["mapName"]);
 			}
 
 			// Returns the category of a map
@@ -123,7 +128,7 @@ namespace ms
 					return "elin";
 
 				if (mapid < 600000000)
-					return "singapore";
+					return "SG";//singapore
 
 				if (mapid < 670000000)
 					return "MasteriaGL";
@@ -145,8 +150,11 @@ namespace ms
 				if (mapid < 683000000)
 					return "HalloweenGL";
 
-				if (mapid < 800000000)
+				if (mapid < 700000000)
 					return "event";
+				
+				if (mapid < 800000000)
+					return "chinese";
 
 				if (mapid < 900000000)
 					return "jp";

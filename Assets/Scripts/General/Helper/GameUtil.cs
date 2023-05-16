@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameUtil : SingletonMono<GameUtil>
 {
@@ -14,5 +15,7 @@ public class GameUtil : SingletonMono<GameUtil>
 	public bool drawMap = true;
 	public bool enableUpdate = true;
 	public UnityEngine.Camera mainCamera;
-	public int testTalkNpcId = 2091005;
+	[FormerlySerializedAs ("testTalkNpcId")] public int testTalkNpcId_Instance = 2091005;
+	public int testTalkNpcId_FunctionCenter = 2091006;
+	[FormerlySerializedAs ("testTalkNpcFileName")] public string testTalkNpcFileName_FunctionCenter = "extend/10200";
 }

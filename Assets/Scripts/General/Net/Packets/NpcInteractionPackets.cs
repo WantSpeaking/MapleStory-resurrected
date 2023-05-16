@@ -27,6 +27,11 @@ namespace ms
 		{
 			write_int(oid);
 		}
+		public TalkToNPCPacket(int oid,string npcFileName) : base((short)OutPacket.Opcode.TALK_TO_NPC)
+		{
+			write_int(oid);
+			write_string (npcFileName);
+		}
 	}
 
 	// Packet which sends a response to an NPC dialog to the server
