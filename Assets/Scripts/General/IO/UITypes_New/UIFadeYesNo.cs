@@ -100,6 +100,16 @@ namespace ms
 
 		// 8 seconds
 		private const long FADE_DURATION = 8_000;
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			backgrnd?.Dispose ();
+			icon?.Dispose ();
+			BtOK?.Dispose ();
+			BtCancel?.Dispose ();
+			//wzObject_FadeYesNo?.Dispose ();
+		}
 	}
 	[Beebyte.Obfuscator.Skip]
 	public class UIFadeYesNo_PartyInvite : FadeYesNoInfo_Base

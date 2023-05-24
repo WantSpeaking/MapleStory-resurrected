@@ -6,11 +6,12 @@
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using SD.Tools.Algorithmia.GeneralDataStructures;
+using System;
 
 namespace ms
 {
     // A tile and object layer
-    public class TilesObjs
+    public class TilesObjs:IDisposable
     {
         public TilesObjs()
         {
@@ -84,13 +85,32 @@ namespace ms
             }
         }
 
+        public void Dispose()
+        {
+            foreach (var pair in tiles)
+            {
+                foreach (var t in pair.Value)
+                {
+                    t?.Dispose();
+                }
+            }
+
+            foreach (var pair in objs)
+            {
+                foreach (var t in pair.Value)
+                {
+                    t?.Dispose();
+                }
+            }
+        }
+
         private MultiValueDictionary<byte, Tile> tiles = new MultiValueDictionary<byte, Tile>();
         private MultiValueDictionary<byte, Obj> objs = new MultiValueDictionary<byte, Obj>();
         private int layerId;
     }
 
     // The collection of tile and object layers on a map
-    public class MapTilesObjs
+    public class MapTilesObjs:IDisposable
     {
         public MapTilesObjs(WzObject node_100000000img)
         {
@@ -154,6 +174,14 @@ namespace ms
             foreach (var iter in layers)
             {
                 iter.Value?.update();
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach(var iter in layers)
+            {
+                iter.Value.Dispose();
             }
         }
 

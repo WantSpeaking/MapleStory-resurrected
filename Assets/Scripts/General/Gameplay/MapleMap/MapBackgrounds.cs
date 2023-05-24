@@ -13,7 +13,7 @@ using MapleLib.WzLib.WzStructure.Data;
 
 namespace ms
 {
-	public class Background
+	public class Background:IDisposable
 	{
 		public Background (WzObject src)////back1stChildMap/Map1/100000000.img/back/0
 		{
@@ -340,10 +340,13 @@ namespace ms
 
 
 		private MovingObject moveobj = new MovingObject ();
+        public void Dispose()
+        {
+            animation?.Dispose();
+        }
+        #region MapleStory-GM-Client
 
-		#region MapleStory-GM-Client
-
-		private short CX;
+        private short CX;
 		private short CY;
 		private double RX;
 		private double RY;
@@ -713,7 +716,9 @@ namespace ms
 				}
 			}
 		}
-	}
+
+        
+    }
 	public struct SpriteEngine
 	{
 		public const int WorldX = 0;
@@ -755,7 +760,7 @@ namespace ms
 	}
 
 	#endregion
-	public class MapBackgrounds
+	public class MapBackgrounds:IDisposable
 	{
 		public MapBackgrounds (WzObject src)//back2NodePathMap/Map1/100000000.img/back
 		{
@@ -837,7 +842,19 @@ namespace ms
 			}
 		}
 
-		private List<Background> backgrounds = new List<Background> ();
+        public void Dispose()
+        {
+			foreach (var b in backgrounds)
+			{
+				b?.Dispose();
+			}
+            foreach (var b in foregrounds)
+            {
+                b?.Dispose();
+            }
+        }
+
+        private List<Background> backgrounds = new List<Background> ();
 		private List<Background> foregrounds = new List<Background> ();
 		private bool black;
 	}

@@ -88,11 +88,18 @@ namespace ms
 		public BindingFlags bindingFlags_UIElementInfo = BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy;
 		public int MAX_PartyMemberCount = 6;
 
+        public KeyConfig.Key[] UseBtnKeys = new KeyConfig.Key[]
+{
+            KeyConfig.Key.Y, KeyConfig.Key.U, KeyConfig.Key.A,KeyConfig.Key.D,
+            KeyConfig.Key.J, KeyConfig.Key.V, KeyConfig.Key.B,KeyConfig.Key.N,
+             KeyConfig.Key.F9, KeyConfig.Key.F10, KeyConfig.Key.F11,KeyConfig.Key.F12
+};
+
 #if UNITY_EDITOR || WINDOWS
-		/*public string path_MapleStoryFolder = @"G:\Program Files (x86)\MapleStory";
+        /*public string path_MapleStoryFolder = @"G:\Program Files (x86)\MapleStory";
 		public string path_SettingFileFolder = @"G:\Program Files (x86)\MapleStory";*/
-		
-		public string path_MapleStoryFolder = $"{UnityEngine.Application.persistentDataPath}";
+
+        public string path_MapleStoryFolder = $"{UnityEngine.Application.persistentDataPath}";
 		public string path_SettingFileFolder = $"{UnityEngine.Application.persistentDataPath}";
 
 #elif UNITY_ANDROID || ANDROID

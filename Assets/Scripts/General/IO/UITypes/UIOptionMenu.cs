@@ -291,6 +291,15 @@ namespace ms
 
         private ushort selected_tab;
         private Texture[] tab_background = new Texture[(int)Buttons.CANCEL];
+
+        public override void Dispose ()
+        {
+            base.Dispose ();
+            foreach (var t in tab_background)
+            {
+                t?.Dispose ();
+            }
+        }
     }
 }
 

@@ -9,7 +9,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
-	public class Afterimage
+	public class Afterimage:IDisposable
 	{
 		public enum Id
 		{
@@ -98,7 +98,7 @@ namespace ms
 
 			if (displayed)
 			{
-				animation?.Dispose ();
+				//animation?.Dispose ();
 			}
 		}
 
@@ -116,6 +116,10 @@ namespace ms
 		private Rectangle_short range = new Rectangle_short ();
 		private byte firstframe;
 		private bool displayed;
+		public void Dispose ()
+		{
+			animation.Dispose ();
+		}
 	}
 }
 

@@ -820,8 +820,13 @@ namespace ms
 			
 		}
 
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			active_buffs.Dispose ();
+		}
 
-        private Inventory inventory = new Inventory ();
+		private Inventory inventory = new Inventory ();
 		private SkillBook skillbook = new SkillBook ();
 		private QuestLog questlog = new QuestLog ();
 		private CheckLog checkLog = new CheckLog ();

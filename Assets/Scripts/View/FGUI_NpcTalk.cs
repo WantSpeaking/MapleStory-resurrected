@@ -595,7 +595,7 @@ namespace ms_Unity
 		public void change_text ()
 		{
 			_GLoader_speaker.texture = uINpcTalk.speaker.nTexture;
-			_GLoader_nametag.texture = uINpcTalk.nametag.nTexture;
+			//_GLoader_nametag.texture = uINpcTalk.nametag.nTexture;
 			_Txt_name.text = uINpcTalk.name.get_text ();
 			 _Com_RichTxt._Txt_text.text = uINpcTalk.text.get_text ();
 

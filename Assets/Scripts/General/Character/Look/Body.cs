@@ -11,7 +11,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
-    public class Body
+    public class Body:IDisposable
     {
         public enum Layer
         {
@@ -121,6 +121,7 @@ namespace ms
         {
             //AppDebug.Log ($"body args.FlipX: {args.FlipX}");
             Texture frameit = null;
+            if (stances == null) return;
             stances[(int)stance, (int)layer]?.TryGetValue(frame, out frameit);
             if (drawOrErase)
             {
@@ -174,9 +175,20 @@ namespace ms
             {"handOverWeapon", Layer.HAND_OVER_WEAPON},
             {"head", Layer.HEAD}
         };
+
+        public void Dispose ()
+        {
+            if (stances == null) return;
+            foreach (var pair1 in stances)
+            {
+                foreach (var pair2 in pair1)
+                {
+                    pair2.Value.Dispose ();
+                }
+                //pair1.Clear ();
+            }
+
+            //stances = null;
+        }
     }
 }
-
-
-#if USE_NX
-#endif

@@ -40,7 +40,7 @@ namespace ms
 			this.formatted_text = "";
 			this.formatted_text_pos = 0;
 			this.timestep = 0;
-			WzObject UtilDlgEx = ms.wz.wzFile_ui["UIWindow.img"]["UtilDlgEx"];
+			/*WzObject UtilDlgEx = ms.wz.wzFile_ui["UIWindow.img"]["UtilDlgEx"];
 
 			top = UtilDlgEx["t"];
 			fill = UtilDlgEx["c"];
@@ -64,12 +64,12 @@ namespace ms
 			buttons[(int)Buttons.QNO] = new MapleButton (UtilDlgEx["BtQNo"]);
 			buttons[(int)Buttons.QSTART] = new MapleButton (UtilDlgEx["BtQStart"]);
 			buttons[(int)Buttons.QYES] = new MapleButton (UtilDlgEx["BtQYes"]);
-			buttons[(int)Buttons.YES] = new MapleButton (UtilDlgEx["BtYes"]);
+			buttons[(int)Buttons.YES] = new MapleButton (UtilDlgEx["BtYes"]);*/
 
 			name = new Text (Text.Font.A11M, Text.Alignment.CENTER, Color.Name.WHITE);
 			text = new Text (Text.Font.A12M, Text.Alignment.LEFT, Color.Name.DARKGREY, formatted_text, 320);
 
-			onmoved = (bool upwards) =>
+			/*onmoved = (bool upwards) =>
 			{
 				short shift = (short)(upwards ? -unitrows : unitrows);
 				bool above = offset + shift >= 0;
@@ -79,7 +79,7 @@ namespace ms
 				{
 					offset += shift;
 				}
-			};
+			};*/
 
 			UI.get ().remove_textfield ();
 		}
@@ -231,7 +231,7 @@ namespace ms
 				name.change_text ("");
 			}
 
-			height = min_height;
+			/*height = min_height;
 			show_slider = false;
 
 			if (text_height > height)
@@ -295,7 +295,7 @@ namespace ms
 			}
 
 			position = new Point_short ((short)(400 - top.width () / 2), (short)(240 - height / 2));
-			dimension = new Point_short (top.width (), (short)(height + 120));
+			dimension = new Point_short (top.width (), (short)(height + 120));*/
 
 			this.type = talkType;
 

@@ -27,13 +27,22 @@ namespace ms
 	// Opcode: SPEND_AP(87)
 	public class SpendApPacket : OutPacket
 	{
-		public SpendApPacket(MapleStat.Id stat) : base((short)OutPacket.Opcode.SPEND_AP)
+		public SpendApPacket(MapleStat.Id stat, int assignCount = 1) : base((short)OutPacket.Opcode.SPEND_AP)
 		{
 			write_time();
 			write_int(MapleStat.codes[stat]);
+			write_int(assignCount);
 		}
 	}
-
+	
+	public class AUTO_DISTRIBUTE_AP_Packet : OutPacket
+	{
+		public AUTO_DISTRIBUTE_AP_Packet() : base((short)OutPacket.Opcode.AUTO_DISTRIBUTE_AP)
+		{
+			skip (8);
+			skip (1);//opt  useful for pirate autoassigning
+		}
+	}
 	// Requests a skill level increase by spending SP
 	// Opcode: SPEND_SP(90)
 	public class SpendSpPacket : OutPacket

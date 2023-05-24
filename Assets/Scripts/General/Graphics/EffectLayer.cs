@@ -5,7 +5,7 @@ using System.Linq;
 namespace ms
 {
 	// A list of animations. Animations will be removed after all frames were displayed.
-	public class EffectLayer
+	public class EffectLayer : IDisposable
 	{
 		public void drawbelow (Point_short position, float alpha)
 		{
@@ -125,5 +125,16 @@ namespace ms
 		}
 
 		private SortedDictionary<sbyte, LinkedList<Effect>> effects = new SortedDictionary<sbyte, LinkedList<Effect>> ();
+
+		public void Dispose ()
+		{
+			foreach (var pair in effects)
+			{
+				foreach (var effect in pair.Value)
+				{
+					effect.Dispose ();
+				}
+			}
+		}
 	}
 }

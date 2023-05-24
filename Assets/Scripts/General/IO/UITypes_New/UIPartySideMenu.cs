@@ -165,5 +165,13 @@ namespace ms
 			BtMaster,
 			BtKickOut,
 		}
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			top?.Dispose ();
+			center?.Dispose ();
+			bottom?.Dispose ();
+		}
 	}
 }

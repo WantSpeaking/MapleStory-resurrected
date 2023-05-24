@@ -1,5 +1,6 @@
 ﻿#define USE_NX
 
+using System;
 using System.Collections.Generic;
 using MapleLib.WzLib;
 
@@ -11,13 +12,13 @@ namespace ms
 	// Collection of portals on a map
 	// Draws and updates portals
 	// Also contains methods for using portals and obtaining spawn points
-	public class MapPortals
+	public class MapPortals:IDisposable
 	{
 		public static void init ()
 		{
-			var src = ms.wz.wzFile_map["MapHelper.img"]["portal"]["game"];
+            /*var src = ms.wz.wzFile_map["MapHelper.img"]["portal"]["game"];
 
-			/*animations[Portal.Type.HIDDEN] = new Animation (src["ph"]["default"]["portalContinue"]);
+			animations[Portal.Type.HIDDEN] = new Animation (src["ph"]["default"]["portalContinue"]);
 			animations[Portal.Type.REGULAR] = new Animation (src["pv"]);
 
 			animations[Portal.Type.SPAWN] = new Animation ();
@@ -35,9 +36,9 @@ namespace ms
 			animations[Portal.Type.SPRING1] = new Animation ();
 			animations[Portal.Type.SPRING2] = new Animation ();
 			animations[Portal.Type.TYPE14] = new Animation ();*/
-		}
+        }
 
-		public MapPortals (WzObject node_100000000img_portal, int mapid)
+        public MapPortals (WzObject node_100000000img_portal, int mapid)
 		{
 			if (node_100000000img_portal is WzImageProperty property_100000000img_portal)
 			{
@@ -216,13 +217,22 @@ namespace ms
             return ani;
 		}
 
-		private static Dictionary<Portal.Type, Animation> animations = new Dictionary<Portal.Type, Animation> ();
+        public void Dispose()
+        {
+			foreach (var p in portals_by_id)
+			{
+				p.Value?.Dispose();
+			}
+        }
+
+        //private static Dictionary<Portal.Type, Animation> animations = new Dictionary<Portal.Type, Animation> ();
 
 		private Dictionary<byte, Portal> portals_by_id = new Dictionary<byte, Portal> ();
 		private Dictionary<string, byte> portal_ids_by_name = new Dictionary<string, byte> ();
 
 		private const short WARPCD = 48;
 		private short cooldown;
+
 	}
 }
 

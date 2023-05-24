@@ -829,6 +829,12 @@ namespace ms
 			}
 
 			animations.Clear ();
+			
+			mobAttackAni?.Dispose ();
+			mobAttackAni = null;
+			
+			effects.Dispose ();
+			//effects = null;
 		}
 
 		private SortedDictionary<MobStance, Animation> animations = new SortedDictionary<MobStance, Animation> ();

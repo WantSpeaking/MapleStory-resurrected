@@ -9,7 +9,7 @@ using System;
 
 namespace ms
 {
-	public class DamageNumber
+	public class DamageNumber:IDisposable
 	{
 		public const uint NUM_TYPES = 3;
 
@@ -87,7 +87,9 @@ namespace ms
 
 			if (miss)
 			{
-				charsets[(int)type][true].draw((sbyte)'M',new DrawArgument (position, interopc));
+				charsets[(int)type][true].reset();
+
+                charsets[(int)type][true].draw((sbyte)'M',new DrawArgument (position, interopc));
 			}
 			else
 			{
@@ -211,7 +213,16 @@ namespace ms
 			}
 		}
 
-		private const ushort FADE_TIME = 500;
+        public void Dispose()
+        {
+			foreach (var item in charsets)
+			{
+				item[true]?.reset();
+                item[false]?.reset();
+            }
+        }
+
+        private const ushort FADE_TIME = 500;
 
 		private Type type;
 		private bool miss;
@@ -225,6 +236,3 @@ namespace ms
 		private static BoolPairNew<Charset>[] charsets = new BoolPairNew<Charset>[NUM_TYPES];
 	}
 }
-
-#if USE_NX
-#endif

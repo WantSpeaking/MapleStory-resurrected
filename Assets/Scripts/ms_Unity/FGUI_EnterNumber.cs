@@ -11,6 +11,10 @@ namespace ms_Unity
         public GTextInput _gTextInput_Number;
         public GButton _Btn_No;
         public GButton _Btn_Yes;
+        public GButton _Btn_1_4;
+        public GButton _Btn_2_4;
+        public GButton _Btn_3_4;
+        public GButton _Btn_Max;
         public const string URL = "ui://4916gthqc1rbnpd";
 
         public static FGUI_EnterNumber CreateInstance()
@@ -26,6 +30,10 @@ namespace ms_Unity
             _gTextInput_Number = (GTextInput)GetChildAt(3);
             _Btn_No = (GButton)GetChildAt(4);
             _Btn_Yes = (GButton)GetChildAt(5);
+            _Btn_1_4 = (GButton)GetChildAt(6);
+            _Btn_2_4 = (GButton)GetChildAt(7);
+            _Btn_3_4 = (GButton)GetChildAt(8);
+            _Btn_Max = (GButton)GetChildAt(9);
             OnCreate();
 
         }

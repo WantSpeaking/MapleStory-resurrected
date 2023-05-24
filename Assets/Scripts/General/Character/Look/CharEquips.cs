@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 
 
@@ -7,7 +8,7 @@
 namespace ms
 {
 	// A characters equipment (The visual part)
-	public class CharEquips
+	public class CharEquips:IDisposable
 	{
 		// Cap types (vslot)
 		public enum CapType
@@ -49,13 +50,13 @@ namespace ms
 				return;
 			}
 
-			if (!cloth_cache.TryGetValue (itemid, out var cloth))
+            /*if (!cloth_cache.TryGetValue (itemid, out var cloth))
 			{
 				cloth = new Clothing (itemid, drawinfo);
 				cloth_cache.Add (itemid, cloth);
-			}
-
-			EquipSlot.Id slot = cloth.get_eqslot ();
+			}*/
+            var cloth = new Clothing(itemid, drawinfo);
+            EquipSlot.Id slot = cloth.get_eqslot ();
 			clothes[slot] = cloth;
 
 		}
@@ -212,5 +213,13 @@ namespace ms
 		private readonly EnumMap<EquipSlot.Id, Clothing> clothes = new EnumMap<EquipSlot.Id, Clothing> ();
 
 		private static Dictionary<int, Clothing> cloth_cache = new Dictionary<int, Clothing> ();
+		public void Dispose ()
+		{
+			foreach (var pair in clothes)
+			{
+				pair.Value?.Dispose ();
+			}
+			//clothes.Clear ();
+		}
 	}
 }

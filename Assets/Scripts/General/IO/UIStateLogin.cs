@@ -301,6 +301,17 @@ namespace ms
             return null;
         }
 
+        public override void Dispose ()
+        {
+            base.Dispose ();
+            foreach (var pair in elements)
+            {
+                var element = pair.Value;
+
+                element?.Dispose ();
+            }
+        }
+
         private void remove_cursor(UIElement.Type type)
         {
             foreach (var iter in elements)

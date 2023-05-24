@@ -50,6 +50,7 @@ using UnityEngine.Rendering;
 using Utility.PoolSystem;
 using Bitmap = MapleLib.WzLib.Bitmap;
 using Graphics = UnityEngine.Graphics;
+using ms_Unity;
 
 namespace ms
 {
@@ -125,7 +126,9 @@ namespace ms
 		public bool isSprite;
 		private Rect textureRelativeToCamera => new Rect (textureRect.x - cameraRect.x, textureRect.y - cameraRect.y, textureRect.width, textureRect.height);
 
-		public Texture ()
+		public DrawObject DrawObject { get; set; }
+
+        public Texture ()
 		{
 			GUIDString = Guid.NewGuid ().ToString();
 		}
@@ -190,6 +193,7 @@ namespace ms
 
 		public void Dispose ()
 		{
+			TestURPBatcher.Instance.UnSpawn (this);
 		}
 
 		public void erase ()

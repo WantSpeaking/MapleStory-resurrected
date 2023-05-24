@@ -23,8 +23,16 @@ namespace ms_Unity
 			_SetupActionButtons._Btn_Skill2.onClick.Add (OnClick_Btn_Skill);
 			_SetupActionButtons._Btn_Skill3.onClick.Add (OnClick_Btn_Skill);
             _SetupActionButtons._Btn_Skill4.onClick.Add (OnClick_Btn_Skill);
+            _SetupActionButtons._Btn_Skill5.onClick.Add(OnClick_Btn_Skill);
+            _SetupActionButtons._Btn_Skill6.onClick.Add(OnClick_Btn_Skill);
+            _SetupActionButtons._Btn_Skill7.onClick.Add(OnClick_Btn_Skill);
+            _SetupActionButtons._Btn_Skill8.onClick.Add(OnClick_Btn_Skill);
+            _SetupActionButtons._Btn_Skill9.onClick.Add(OnClick_Btn_Skill);
+            _SetupActionButtons._Btn_Skill10.onClick.Add(OnClick_Btn_Skill);
+            _SetupActionButtons._Btn_Skill11.onClick.Add(OnClick_Btn_Skill);
+            _SetupActionButtons._Btn_Skill12.onClick.Add(OnClick_Btn_Skill);
 
-			_SetupActionButtons.UpdateIcon ();
+            _SetupActionButtons.UpdateIcon ();
 			//_SetupActionButtons._PlaceHolder.onClick.Add (CancelSetupAction);
 			
 			this.onClick.Add (OnClick_SkillBook);

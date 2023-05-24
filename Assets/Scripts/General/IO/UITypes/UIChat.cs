@@ -239,6 +239,12 @@ namespace ms
 		private Charset charset = new Charset();
 		private Text name_left = new Text();
 		private Text name_right = new Text();
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			charset?.Dispose ();
+		}
 	}
 }
 

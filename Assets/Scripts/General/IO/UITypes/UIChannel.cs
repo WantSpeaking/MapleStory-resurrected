@@ -385,6 +385,18 @@ namespace ms
 		private short current_channel_y;
 		private short selected_channel_x;
 		private short selected_channel_y;
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			channel[true]?.Dispose ();
+			channel[false]?.Dispose ();
+			foreach (var sprite in ch)
+			{
+				sprite?.Dispose ();
+			}
+			
+		}
 	}
 }
 

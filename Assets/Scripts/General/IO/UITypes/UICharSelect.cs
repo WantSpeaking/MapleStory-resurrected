@@ -70,7 +70,7 @@ namespace ms
 			WzObject Common = Login["Common"];
 			WzObject CharSelect = Login["CharSelect"];
 			WzObject selectWorld = Common["selectWorld"];
-			WzObject selectedWorld = CharSelect["selectedWorld"];
+			//WzObject selectedWorld = CharSelect["selectedWorld"];
 			//WzObject pageNew = CharSelect["pageNew"];
 
 			world_dimensions = new Texture (selectWorld).get_dimensions ();
@@ -229,8 +229,9 @@ namespace ms
 
 						charinfo?.draw (position + charinfopos);
 
-						string levelstr = Convert.ToString (character_stats.stats[(MapleStat.Id.LEVEL)]);
-						short lvx = levelset?.draw (levelstr, pos_adj + new Point_short (12, lvy))??0;
+                        string levelstr = Convert.ToString (character_stats.stats[(MapleStat.Id.LEVEL)]);
+                        levelset.reset();
+                        short lvx = levelset?.draw (levelstr, pos_adj + new Point_short (12, lvy))??0;
 						levelset?.draw ((sbyte)'l', pos_adj + new Point_short ((short)(1 - lvx / 2), lvy));
 
 						namelabel?.draw (pos_adj + new Point_short (10, -103));
@@ -1098,8 +1099,8 @@ namespace ms
 
 		private sbyte characters_count;
 
-		private
-			int slots;
+		private int slots;
+			
 
 		private sbyte require_pic;
 		private Text version = new Text ();
@@ -1151,6 +1152,45 @@ namespace ms
 		}
 
 		private OutlinedText[] infolabels = new OutlinedText[(int)UICharSelect.InfoLabel.NUM_LABELS];
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			tab?.Dispose ();
+			burning_notice?.Dispose ();
+			burning_count?.Dispose ();
+			foreach (var sprite in world_sprites)
+			{
+				sprite?.Dispose ();
+			}
+			charinfo?.Dispose ();
+			charslot?.Dispose ();
+			pagebase?.Dispose ();
+			pagenumber?.Dispose ();
+			//pagenumberpos?.Dispose ();
+			foreach (var sprite in signpost)
+			{
+				sprite?.Dispose ();
+			}
+
+			//nametag?.Dispose ();
+			levelset?.Dispose ();
+			foreach (var sprite in charlooks)
+			{
+				sprite?.Dispose ();
+			}
+			foreach (var sprite in nametags)
+			{
+				sprite?.Dispose ();
+			}
+			emptyslot_effect?.Dispose ();
+			emptyslot?.Dispose ();
+			foreach (var sprite in selectedslot_effect)
+			{
+				sprite?.Dispose ();
+			}
+				
+		}
 	}
 }
 

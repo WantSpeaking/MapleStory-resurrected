@@ -45,6 +45,8 @@ namespace ms
 
 			//GraphicsGL.get().@lock();
 			Stage.get().clear();
+			//还在GameUI ui不用clear dispose
+			TestURPBatcher.Instance.Clear();
 			Timer.get().start();
 			UI.get().disable ();
 			UI.get().disable_draw ();

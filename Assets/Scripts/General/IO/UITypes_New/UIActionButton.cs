@@ -27,7 +27,7 @@ namespace ms
         public UIActionButton()
         {
 
-            var img_game = ms.wz.wzFile_UI_Endless["Game.img"];
+            /*var img_game = ms.wz.wzFile_UI_Endless["Game.img"];
             var wzobj_btnJump = img_game["Btn_Jump"];
 
             Texture tex_bgAction = img_game["BG_Action"];
@@ -45,16 +45,7 @@ namespace ms
             WzObject Common = Login["Common"];
             WzObject CharSelect = Login["CharSelect"];
 
-            /*var offset_baseActionButton = new Point_short((short)(Constants.get().get_viewwidth() * 3 / 4), (short)(Constants.get().get_viewheight() * 0.5f));
-
-          var baseBtnDimension = 50;
-           buttons[(int)Buttons.Attack] = new MapleButton(attack, attack, attack, attack, new Point_short((short)(baseBtnDimension), (short)(baseBtnDimension * 2)));
-           buttons[(int)Buttons.Jump] = new MapleButton(jump, jump, jump, jump, new Point_short((short)(baseBtnDimension), (short)(baseBtnDimension)));
-           //buttons[(int)Buttons.Jump] = new MapleButton(wzobj_btnJump);
-           buttons[(int)Buttons.Pickup] = new MapleButton(pickup, pickup, pickup, pickup, new Point_short((short)(0), (short)(baseBtnDimension * 2)));*/
-
             var offset_ActionButton = new Point_short((short)(Constants.get().get_viewwidth() - 55), (short)(Constants.get().get_viewheight() - 55));
-            //actionButtons = new List<ActionButton>();
 
             var btnDimension = 90;
 
@@ -95,7 +86,7 @@ namespace ms
                     //buttons.Add((uint)totalIndex, btn_Action);
 
                 }
-            }
+            }*/
 
             ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_ActionButtons> ();
 
@@ -173,7 +164,7 @@ namespace ms
 
         public override void update()
         {
-            var ref_UIKeyConfig = UI.get().get_element<UIKeyConfig>();
+            /*var ref_UIKeyConfig = UI.get().get_element<UIKeyConfig>();
             if (ref_UIKeyConfig)
             {
                 foreach (var pair in buttons)
@@ -185,7 +176,7 @@ namespace ms
                 }
             }
 
-            base.update();
+            base.update();*/
         }
 
         public override bool send_icon(Icon icon, Point_short cursorpos)

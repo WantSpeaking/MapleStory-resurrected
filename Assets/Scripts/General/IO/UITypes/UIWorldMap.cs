@@ -401,7 +401,7 @@ namespace ms
 			BT_LINK9
 		}
 
-		private class MapSpot
+		private class MapSpot:IDisposable
 		{
 			public MapSpot (string description, Texture path, string title, byte type, Texture marker, bool bolded, List<int> map_ids)
 			{
@@ -418,6 +418,11 @@ namespace ms
 			public Texture marker = new Texture ();
 			public bool bolded;
 			public List<int> map_ids = new List<int> ();
+			public void Dispose ()
+			{
+				path?.Dispose ();
+				marker?.Dispose ();
+			}
 		}
 
 		private bool search;
@@ -447,6 +452,28 @@ namespace ms
 		private Point_short bg_search_dimensions = new Point_short ();
 		private Point_short background_dimensions = new Point_short ();
 		private Point_short base_position = new Point_short ();
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			search_background?.Dispose ();
+			search_notice?.Dispose ();
+			base_img?.Dispose ();
+			path_img?.Dispose ();
+			cur_pos?.Dispose ();
+			foreach (var npc in npc_pos)
+			{
+				npc?.Dispose ();
+			}
+			foreach (var npc in link_images)
+			{
+				npc.Value?.Dispose ();
+			}
+			foreach (var npc in map_spots)
+			{
+				npc.Item2?.Dispose ();
+			}
+		}
 	}
 }
 

@@ -7,7 +7,7 @@
 namespace ms
 {
     // Represents a projectile on a map
-    public class Bullet
+    public class Bullet:IDisposable
     {
         public Bullet (Animation a)
         {
@@ -16,7 +16,7 @@ namespace ms
         public Bullet(Animation a, Point_short origin, bool toleft)
         {
             animation = new Animation(a);
-
+            //animation = a;
             moveobj.set_x(origin.x() + (toleft ? -30.0 : 30.0));
             moveobj.set_y(origin.y() - 26.0);
         }
@@ -87,8 +87,15 @@ namespace ms
             return moveobj.hspeed > 0.0 ? xdelta < 10 : xdelta > 10;
         }
 
+        public void Dispose()
+        {
+            animation?.Dispose();
+        }
+
         private Animation animation = new Animation();
         private MovingObject moveobj = new MovingObject();
         private bool flip;
+
+        
     }
 }

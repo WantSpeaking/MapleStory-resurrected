@@ -103,6 +103,7 @@ namespace ms
 
         public void change_state(State id)
         {
+            state?.Dispose();
             switch (id)
             {
                 case State.LOGIN:
@@ -159,7 +160,7 @@ namespace ms
 
         public void send_cursor(Point_short cursorpos, Cursor.State cursorstate)
         {
-            if (ms_Unity.FGUI_Manager.Get().PanelOpening) return;
+            if (ms_Unity.FGUI_Manager.Get().PanelOpening|| state == null) return;
 
             Cursor.State nextstate = state.send_cursor(cursorstate, cursorpos);
             //AppDebug.Log($"send_cursor state:{nextstate} ");

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FairyGUI;
 using MapleLib.WzLib;
@@ -7,7 +8,7 @@ using Utility;
 
 namespace ms
 {
-	public class Charset
+	public class Charset:IDisposable
 	{
 		public enum Alignment
 		{
@@ -51,7 +52,15 @@ namespace ms
 		public void reset ()
 		{
 			usedTimes.Clear ();
-		}
+            foreach (var pair in usedchars)
+            {
+                foreach (var pair1 in pair.Value)
+                {
+                    pair1.Dispose();
+                }
+            }
+			usedchars.Clear();
+        }
 		
 		public void draw (sbyte c, DrawArgument args)
 		{
@@ -67,7 +76,7 @@ namespace ms
 				if (usedCount > usedList.Count)
 				{
 					drawTexture = new Texture (texture);
-					usedList.Add (new Texture(texture));
+					usedList.Add (drawTexture);
 				}
 				else
 				{
@@ -174,10 +183,26 @@ namespace ms
 
 			return 0;
 		}
+		
 
 		private Dictionary<sbyte, Texture> chars = new Dictionary<sbyte, Texture> ();
 		private Dictionary<sbyte, int> usedTimes = new Dictionary<sbyte, int> ();
 		private Dictionary<sbyte, List<Texture>> usedchars = new Dictionary<sbyte, List<Texture>> ();
 		private Alignment alignment;
+		public void Dispose ()
+		{
+			foreach (var pair in chars)
+			{
+				pair.Value.Dispose ();
+			}
+			
+			foreach (var pair in usedchars)
+			{
+				foreach (var pair1 in pair.Value)
+				{
+					pair1.Dispose ();
+				}
+			}
+		}
 	}
 }

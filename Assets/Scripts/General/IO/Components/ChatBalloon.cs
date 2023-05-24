@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace ms
 {
-	public class ChatBalloon
+	public class ChatBalloon:IDisposable
 	{
 		public ChatBalloon (sbyte type)
 		{
@@ -102,7 +102,12 @@ namespace ms
 		private Texture arrow;
 		private short duration;
 		private FGUI_ChatBalloon fGUI_ChatBalloon;
-	}
+		public void Dispose ()
+		{
+			GRoot.inst.RemoveChild (fGUI_ChatBalloon);
+            //fGUI_ChatBalloon.Dispose ();//TODO Dispose fGUI_ChatBalloon
+        }
+    }
 
 	public class ChatBalloonHorizontal
 	{

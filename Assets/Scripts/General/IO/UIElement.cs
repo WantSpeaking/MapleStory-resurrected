@@ -294,6 +294,14 @@ namespace ms
 
         public virtual void Dispose()
         {
+            foreach (var p in buttons)
+            {
+                p.Value?.Dispose ();
+            }
+            foreach (var p in sprites)
+            {
+                p?.Dispose ();
+            }
         }
 
 

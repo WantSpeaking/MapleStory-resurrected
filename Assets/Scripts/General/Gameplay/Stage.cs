@@ -70,7 +70,14 @@ namespace ms
 		{
 			drops.init ();
 		}
+		public void ClearMap()
+		{
+            tilesobjs?.Dispose();
+            backgrounds?.Dispose();
+            portals?.Dispose();
 
+           
+        }
 		public void load (int mapid, sbyte portalid)
 		{
 			AppDebug.Log ($"load mapid:{mapid}\t portalid:{portalid}");
@@ -105,11 +112,12 @@ namespace ms
 			mobs.clear ();
 			drops.clear ();
 			reactors.clear ();
-			TestURPBatcher.Instance.Clear ();
+			//TestURPBatcher.Instance.Clear ();
 			camera.Reset ();
-		}
+            ClearMap();
+        }
 
-		private void load_map (int mapid)
+        private void load_map (int mapid)
 		{
 			//MapleStory.Instance.canStart = false;
 
@@ -133,12 +141,15 @@ namespace ms
 				node_100000000img = wz.wzFile_map["Map"]["Map" + prefix][strid + ".img"];
 				this.mapid = linkMapId;
 			}
-			tilesobjs = new MapTilesObjs (node_100000000img);
+
+			//ClearMap();
+
+            tilesobjs = new MapTilesObjs (node_100000000img);
 			backgrounds = new MapBackgrounds (node_100000000img["back"]);
 			physics = new Physics (node_100000000img["foothold"]);
 			mapinfo = new MapInfo (node_100000000img, physics.get_fht ().get_walls (), physics.get_fht ().get_borders ());
 			portals = new MapPortals (node_100000000img["portal"], mapid);
-			UI.get ().get_element<UIStatusMessenger> ().get ().show_status (Color.Name.WHITE,$"进入地图：{this.mapid}");
+			UI.get ().get_element<UIStatusMessenger> ().get ()?.show_status (Color.Name.WHITE,$"进入地图：{this.mapid}");
 		}
 
 		public byte just_Entered_portalid;
@@ -509,10 +520,11 @@ namespace ms
 		{
 			ms.Stage.get ().get_npcs ().UpdateQuest ();
 			ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_QuestLog> ().UpdateQuest ();
+            ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_StatusBar>()._QuestLogMini.UpdateQuest();
 
-		}
+        }
 
-		public Physics get_Physics ()
+        public Physics get_Physics ()
 		{
 			return physics;
 		}

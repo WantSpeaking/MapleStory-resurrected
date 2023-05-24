@@ -1,5 +1,6 @@
 ﻿#define USE_NX
 
+using System;
 using System.Collections.Generic;
 using MapleLib.WzLib;
 using System.Linq;
@@ -7,7 +8,7 @@ using Beebyte.Obfuscator;
 
 namespace ms
 {
-    public class BuffIcon
+    public class BuffIcon:IDisposable
     {
         public BuffIcon(int buff, int dur)
         {
@@ -65,6 +66,11 @@ namespace ms
         private int duration;
         private Linear_float opacity = new Linear_float();
         private float opcstep;
+        public void Dispose ()
+        {
+            icon?.Dispose ();
+            icon = null;
+        }
     }
 
     [Skip]
@@ -131,6 +137,17 @@ namespace ms
         public void add_buff(int skillid, int duration)
         {
             icons.TryAdd(skillid, new BuffIcon(skillid, duration), true);
+        }
+
+        public override void Dispose ()
+        {
+            base.Dispose ();
+            foreach (var pair in icons)
+            {
+                pair.Value.Dispose ();
+            }
+            icons.Clear ();
+            icons = null;
         }
 
         private Dictionary<int, BuffIcon> icons = new Dictionary<int, BuffIcon>();

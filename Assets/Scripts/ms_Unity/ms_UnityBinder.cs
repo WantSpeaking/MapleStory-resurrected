@@ -16,6 +16,7 @@ namespace ms_Unity
             UIObjectFactory.SetPackageItemExtension(FGUI_Equipped_ItemDetail.URL, typeof(FGUI_Equipped_ItemDetail));
             UIObjectFactory.SetPackageItemExtension(FGUI_EquipInventory.URL, typeof(FGUI_EquipInventory));
             UIObjectFactory.SetPackageItemExtension(FGUI_Equipped_ListItem.URL, typeof(FGUI_Equipped_ListItem));
+            UIObjectFactory.SetPackageItemExtension(FGUI_Panel_Debug.URL, typeof(FGUI_Panel_Debug));
             UIObjectFactory.SetPackageItemExtension(FGUI_Itemed_ItemDetail.URL, typeof(FGUI_Itemed_ItemDetail));
             UIObjectFactory.SetPackageItemExtension(FGUI_CustomizeJoystickAndButtons.URL, typeof(FGUI_CustomizeJoystickAndButtons));
             UIObjectFactory.SetPackageItemExtension(FGUI_Joystick.URL, typeof(FGUI_Joystick));
@@ -23,7 +24,9 @@ namespace ms_Unity
             UIObjectFactory.SetPackageItemExtension(FGUI_ShopItemDetail.URL, typeof(FGUI_ShopItemDetail));
             UIObjectFactory.SetPackageItemExtension(FGUI_Inventory.URL, typeof(FGUI_Inventory));
             UIObjectFactory.SetPackageItemExtension(FGUI_Com_RichTxt_Right.URL, typeof(FGUI_Com_RichTxt_Right));
+            UIObjectFactory.SetPackageItemExtension(FGUI_ListItem_QuestLogMini.URL, typeof(FGUI_ListItem_QuestLogMini));
             UIObjectFactory.SetPackageItemExtension(FGUI_RaceSelect.URL, typeof(FGUI_RaceSelect));
+            UIObjectFactory.SetPackageItemExtension(FGUI_QuestLogMini.URL, typeof(FGUI_QuestLogMini));
             UIObjectFactory.SetPackageItemExtension(FGUI_SetupUseButtons.URL, typeof(FGUI_SetupUseButtons));
             UIObjectFactory.SetPackageItemExtension(FGUI_ChatBalloon.URL, typeof(FGUI_ChatBalloon));
             UIObjectFactory.SetPackageItemExtension(FGUI_NavigationBar.URL, typeof(FGUI_NavigationBar));

@@ -836,5 +836,16 @@ namespace ms
 
 		private short VWIDTH;
 		private short VHEIGHT;
-	}
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            foreach (var pair in elements)
+            {
+                var element = pair.Value;
+
+                element?.Dispose();
+            }
+        }
+    }
 }

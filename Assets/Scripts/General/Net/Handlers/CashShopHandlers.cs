@@ -46,6 +46,8 @@ namespace ms
 			transition();
 
 			UI.get().change_state(UI.State.CASHSHOP);
+
+			TestURPBatcher.Instance.Clear();
 		}
 
 		private void transition()

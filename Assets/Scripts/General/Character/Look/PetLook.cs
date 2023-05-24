@@ -8,7 +8,7 @@ using Helper;
 
 namespace ms
 {
-    public class PetLook
+    public class PetLook:IDisposable
     {
         public enum Stance : byte
         {
@@ -212,6 +212,17 @@ namespace ms
         private PhysicsObject phobj = new PhysicsObject();
         //private Text namelabel = new Text();
         public ushort Closeness { get; set; }
+
+
+        public void Dispose ()
+        {
+            foreach (var pair in animations)
+            {
+                pair.Value.Dispose ();
+            }
+            animations.Clear ();
+            animations = null;
+        }
     }
 }
 

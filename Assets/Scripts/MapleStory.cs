@@ -26,7 +26,9 @@ public class MapleStory : SingletonMono<MapleStory>
 	public Dictionary<string, UnityEngine.Sprite> tileSprites = new Dictionary<string, UnityEngine.Sprite>();
 	private void Start ()
 	{
-		Application.targetFrameRate = 60;
+        Application.memoryUsageChanged += Application_memoryUsageChanged;
+
+        Application.targetFrameRate = 60;
 		DebugManager.instance.enableRuntimeUI = false;
 		/* wzFileManager = new WzFileManager();
 		 var wzFile = wzFileManager.LoadWzFile(path);
@@ -85,7 +87,18 @@ public class MapleStory : SingletonMono<MapleStory>
 		Debug.Log (@replaceStr);*/
 	}
 
-	private void OnSceneLoaded (Scene arg0, LoadSceneMode arg1)
+	int memoryUsage = 0;
+    private void Application_memoryUsageChanged(in ApplicationMemoryUsageChange usage)
+    {
+        if (usage.memoryUsage == ApplicationMemoryUsage.Critical)
+        {
+            // release resources here
+            Resources.UnloadUnusedAssets();
+            GC.Collect();
+        }
+    }
+
+    private void OnSceneLoaded (Scene arg0, LoadSceneMode arg1)
 	{
 		canStart = true;
 	}
@@ -520,14 +533,15 @@ public class MapleStory : SingletonMono<MapleStory>
 			ms.GraphicsGL.get().clear();
 
 			UI.get().change_state(UI.State.LOGIN);
-			UI.get().set_scrollnotice("");
+            TestURPBatcher.Instance.Clear();
+
+            UI.get().set_scrollnotice("");
 			Session.get().reconnect();
 
 			UI.get().enable();
 			Timer.get().start();
 			ms.GraphicsGL.get().unlock();
-                            
-		});
+        });
 
 		ms.GraphicsGL.get().enlock();
 		Stage.get().clear();

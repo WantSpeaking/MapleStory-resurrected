@@ -223,7 +223,7 @@ namespace ms
 			return func;
 		}
 
-		private bool check_Has_CanCompleteQuest (ref short canCompleteQuestId)
+		private bool check_Has_CanCompleteQuest (ref int canCompleteQuestId)
 		{
 			if (!check_Has_StartedQuest ())
 				return false;
@@ -262,8 +262,8 @@ namespace ms
 		{
 			return canStarted_Quests.Count != 0;
 		}
-		SortedDictionary<short, MapleQuest> canStarted_Quests = new SortedDictionary<short, MapleQuest> ();
-		SortedDictionary<short, MapleQuest> started_Quests = new SortedDictionary<short, MapleQuest> ();
+		SortedDictionary<int, MapleQuest> canStarted_Quests = new SortedDictionary<int, MapleQuest> ();
+		SortedDictionary<int, MapleQuest> started_Quests = new SortedDictionary<int, MapleQuest> ();
 		QuestLog questLog => Stage.Instance.get_player ().get_questlog ();
 		CheckLog checkLog => Stage.Instance.get_player ().get_checklog ();
 		SayLog sayLog => Stage.Instance.get_player ().get_saylog ();
@@ -274,10 +274,10 @@ namespace ms
 			canStarted_Quests.Clear ();
 			started_Quests.Clear ();
 
-			MapleCharacter.Player.RefreshCanStarted_Quest ();
+			MapleCharacter.Player.RefreshCanStart_Quest ();
 			MapleCharacter.Player.LogAllQuest ();
 			
-			foreach (var qs in MapleCharacter.Player.CanStartedQuests)
+			foreach (var qs in MapleCharacter.Player.CanStartQuests)
 			{
 				var questId = qs.Key;
 				//var sayInfo = sayLog.GetSayInfo (questId);
@@ -302,7 +302,7 @@ namespace ms
 				}
 			}
 
-			short canCompleteQuestId = 0;
+			int canCompleteQuestId = 0;
 			if (check_Has_CanCompleteQuest (ref canCompleteQuestId))
 			{
 				questIcon_Current = questIcon_CanComplete;
@@ -450,6 +450,22 @@ namespace ms
 		{
 			UpdateQuest ();
 			return canStarted_Quests.Count != 0 || started_Quests.Count != 0;
+		}
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			foreach (var pair in animations)
+			{
+				pair.Value.Dispose ();
+			}
+			animations.Clear ();
+			animations = null;
+			
+			questIcon_CanStart?.Dispose ();
+			questIcon_InProgressed?.Dispose ();
+			questIcon_CanComplete?.Dispose ();
+			
 		}
 
 		Animation questIcon_CanStart;

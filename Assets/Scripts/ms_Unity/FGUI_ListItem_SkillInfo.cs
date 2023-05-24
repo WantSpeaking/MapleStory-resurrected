@@ -26,10 +26,10 @@ namespace ms_Unity
 
             _c_count = GetControllerAt(1);
             _GLoader_Icon = (GLoader)GetChildAt(1);
-            _Txt_Name = (GTextField)GetChildAt(6);
-            _Txt_Level = (GTextField)GetChildAt(7);
-            _Btn_BT_SPUP0 = (GButton)GetChildAt(8);
-            _Btn_SetupSkill = (GButton)GetChildAt(9);
+            _Txt_Name = (GTextField)GetChildAt(5);
+            _Txt_Level = (GTextField)GetChildAt(6);
+            _Btn_BT_SPUP0 = (GButton)GetChildAt(7);
+            _Btn_SetupSkill = (GButton)GetChildAt(8);
             OnCreate();
 
         }

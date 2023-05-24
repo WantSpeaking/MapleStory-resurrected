@@ -276,6 +276,20 @@ namespace ms
 		private ushort selected_index;
 		private Point_short selected_adj = new Point_short ();
 		private Point_short parentpos = new Point_short ();
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			foreach (var p in textures)
+			{
+				p?.Dispose ();
+			}
+			foreach (var p in buttons)
+			{
+				p.Value?.Dispose ();
+			}
+			
+		}
 	}
 }
 

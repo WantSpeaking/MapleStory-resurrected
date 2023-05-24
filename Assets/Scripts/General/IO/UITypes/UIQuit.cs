@@ -22,7 +22,7 @@ namespace ms
 
         public UIQuit(CharStats st)
         {
-            this.screen_adj = new ms.Point_short(212, 114);
+            /*this.screen_adj = new ms.Point_short(212, 114);
             this.stats = st;
             WzObject askReward = ms.wz.wzFile_ui["UIWindow6.img"]["askReward"];
             WzObject userLog = askReward["userLog"];
@@ -103,14 +103,14 @@ namespace ms
 
             background = new ColorBox(width, height, Color.Name.BLACK, 0.5f);
             position = new Point_short((short)(width / 2), (short)(height / 2));
-            dimension = new Texture(backgrnd).get_dimensions();
+            dimension = new Texture(backgrnd).get_dimensions();*/
         }
 
         //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
         //ORIGINAL LINE: void draw(float inter) const override
         public override void draw(float inter)
         {
-            background.draw(new Point_short(0, 0));
+            /*background.draw(new Point_short(0, 0));
 
             base.draw(inter);
 
@@ -126,14 +126,14 @@ namespace ms
             }
 
             expBefore.draw(position + expBeforePos - exp_adj - screen_adj);
-            expAfter.draw(position + expAfterPos - exp_adj - screen_adj);
+            expAfter.draw(position + expAfterPos - exp_adj - screen_adj);*/
         }
 
         public override void update()
         {
-            base.update();
+            /*base.update();
 
-            levelupEffect.update();
+            levelupEffect.update();*/
         }
 
         public override Cursor.State send_cursor(bool clicked, Point_short cursorpos)

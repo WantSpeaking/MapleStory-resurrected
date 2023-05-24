@@ -705,12 +705,12 @@ namespace ms_Unity
 		}
 		public override void Dispose ()
 		{
-			base.Dispose ();
-			/*if (this.items != null)
+            /*base.Dispose ();
+			if (this.items != null)
 				this.items.CollectionChanged -= OnCollectionChanged;*/
-		}
+        }
 
-		protected virtual void OnInventoriesChanged ()
+        protected virtual void OnInventoriesChanged ()
 		{
 			foreach (var slotIndex_slot in inventories[InventoryType.Id.EQUIP])
 			{

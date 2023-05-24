@@ -154,11 +154,12 @@ public static class IEnumerableExt
 
     #region LinkedList
 
-    public static void remove_if<T>(this LinkedList<T> list, Func<T, bool> predict)
+    public static void remove_if<T>(this LinkedList<T> list, Func<T, bool> predict,Action<T> onRemove = null)
     {
         var results = list.Where(predict).ToArray();
         foreach (var result in results)
         {
+            onRemove?.Invoke(result);
             list.Remove(result);
         }
     }

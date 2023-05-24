@@ -26,12 +26,6 @@ namespace ms_Unity
 		public EventListener onEnd { get; private set; }
 		public EventListener onClickAction { get; private set; }
 
-		KeyConfig.Key[] keys = new KeyConfig.Key[]
-{
-			KeyConfig.Key.NUM5, KeyConfig.Key.NUM6, KeyConfig.Key.NUM7, KeyConfig.Key.NUM8,
-			KeyConfig.Key.NUM9, KeyConfig.Key.NUM0, KeyConfig.Key.MINUS, KeyConfig.Key.EQUAL,
-			KeyConfig.Key.X, KeyConfig.Key.C, KeyConfig.Key.V, KeyConfig.Key.B
-};
 		public void OnCreate ()
 		{
 			onMove = new EventListener (this, "onMove");
@@ -59,24 +53,57 @@ namespace ms_Unity
 			_Btn_Skill2.Key = KeyConfig.Key.NUM2;
 			_Btn_Skill3.Key = KeyConfig.Key.NUM3;
 			_Btn_Skill4.Key = KeyConfig.Key.NUM4;
+			_Btn_Skill5.Key = KeyConfig.Key.NUM5;
+			_Btn_Skill6.Key = KeyConfig.Key.NUM6;
+			_Btn_Skill7.Key = KeyConfig.Key.NUM7;
+			_Btn_Skill8.Key = KeyConfig.Key.NUM8;
+			_Btn_Skill9.Key = KeyConfig.Key.NUM9;
+            _Btn_Skill10.Key = KeyConfig.Key.NUM0;
+            _Btn_Skill11.Key = KeyConfig.Key.MINUS;
+            _Btn_Skill12.Key = KeyConfig.Key.EQUAL;
 
-			_Btn_Skill1.onTouchBegin.Add (OnTouchBegin_Btn_Skill);
+            _Btn_Skill1.onTouchBegin.Add (OnTouchBegin_Btn_Skill);
 			_Btn_Skill2.onTouchBegin.Add (OnTouchBegin_Btn_Skill);
 			_Btn_Skill3.onTouchBegin.Add (OnTouchBegin_Btn_Skill);
 			_Btn_Skill4.onTouchBegin.Add (OnTouchBegin_Btn_Skill);
+			_Btn_Skill5.onTouchBegin.Add (OnTouchBegin_Btn_Skill);
+			_Btn_Skill6.onTouchBegin.Add (OnTouchBegin_Btn_Skill);
+			_Btn_Skill7.onTouchBegin.Add (OnTouchBegin_Btn_Skill);
+			_Btn_Skill8.onTouchBegin.Add (OnTouchBegin_Btn_Skill);
+			_Btn_Skill9.onTouchBegin.Add (OnTouchBegin_Btn_Skill);
+            _Btn_Skill10.onTouchBegin.Add(OnTouchBegin_Btn_Skill);
+            _Btn_Skill11.onTouchBegin.Add(OnTouchBegin_Btn_Skill);
+            _Btn_Skill12.onTouchBegin.Add(OnTouchBegin_Btn_Skill);
 
-			_Btn_Skill1.onTouchEnd.Add (onTouchEnd_Btn_Skill);
+            _Btn_Skill1.onTouchEnd.Add (onTouchEnd_Btn_Skill);
 			_Btn_Skill2.onTouchEnd.Add (onTouchEnd_Btn_Skill);
 			_Btn_Skill3.onTouchEnd.Add (onTouchEnd_Btn_Skill);
 			_Btn_Skill4.onTouchEnd.Add (onTouchEnd_Btn_Skill);
+            _Btn_Skill5.onTouchBegin.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill6.onTouchBegin.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill7.onTouchBegin.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill8.onTouchBegin.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill9.onTouchBegin.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill10.onTouchBegin.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill11.onTouchBegin.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill12.onTouchBegin.Add(onTouchEnd_Btn_Skill);
 
-			_Btn_Skill1.onTouchMove.Add (onTouchMove_Btn_Skill);
+            _Btn_Skill1.onTouchMove.Add (onTouchMove_Btn_Skill);
 			_Btn_Skill2.onTouchMove.Add (onTouchMove_Btn_Skill);
 			_Btn_Skill3.onTouchMove.Add (onTouchMove_Btn_Skill);
 			_Btn_Skill4.onTouchMove.Add (onTouchMove_Btn_Skill);
-			for (int i = 0; i < keys.Length; i++)
+            _Btn_Skill5.onTouchBegin.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill6.onTouchBegin.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill7.onTouchBegin.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill8.onTouchBegin.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill9.onTouchBegin.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill10.onTouchBegin.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill11.onTouchBegin.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill12.onTouchBegin.Add(onTouchMove_Btn_Skill);
+
+            for (int i = 0; i < ms.Constants.get().UseBtnKeys.Length; i++)
 			{
-				var key = keys[i];
+				var key = ms.Constants.get().UseBtnKeys[i];
 				if (i < _GList_UseBtns.numChildren)
 				{
 					if (_GList_UseBtns.GetChildAt (i) is FGUI_Btn_Joystick_Acton _Btn_Joystick_Acton)

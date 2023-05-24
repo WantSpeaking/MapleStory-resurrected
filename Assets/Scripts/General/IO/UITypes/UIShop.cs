@@ -1035,7 +1035,7 @@ namespace ms
 
 				if (sellable > 1)
 				{
-					const string question = "How many are you willing to sell?";
+					const string question = "你想卖出多少?";
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Lambda expressions cannot be assigned to 'var':
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Only lambda expressions having all locals passed by reference can be converted to C#:
@@ -1058,7 +1058,7 @@ namespace ms
 						return;
 					}
 
-					const string question = "Are you sure you want to sell it?";
+					const string question = "确定要卖么?";
 
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Lambda expressions cannot be assigned to 'var':
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Only lambda expressions having all locals passed by reference can be converted to C#:

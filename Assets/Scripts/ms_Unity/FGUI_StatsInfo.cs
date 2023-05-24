@@ -13,6 +13,7 @@ namespace ms_Unity
         public FGUI_Com_AddSubstractAP _Label_Int;
         public FGUI_Com_AddSubstractAP _Label_Str;
         public FGUI_Com_AddSubstractAP _Label_Luck;
+        public GButton _Btn_APAutoAssign;
         public const string URL = "ui://4916gthqsxcsoks";
 
         public static FGUI_StatsInfo CreateInstance()
@@ -30,6 +31,7 @@ namespace ms_Unity
             _Label_Int = (FGUI_Com_AddSubstractAP)GetChildAt(3);
             _Label_Str = (FGUI_Com_AddSubstractAP)GetChildAt(4);
             _Label_Luck = (FGUI_Com_AddSubstractAP)GetChildAt(5);
+            _Btn_APAutoAssign = (GButton)GetChildAt(6);
             OnCreate();
 
         }

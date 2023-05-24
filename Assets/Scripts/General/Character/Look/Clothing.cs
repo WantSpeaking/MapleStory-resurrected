@@ -13,7 +13,7 @@ using MapleLib.WzLib.WzProperties;
 
 namespace ms
 {
-	public class Clothing
+	public class Clothing:IDisposable
 	{
 		public enum Layer
 		{
@@ -377,6 +377,25 @@ namespace ms
 			{"mailArmOverHair", Clothing.Layer.mailArmOverHair},
 			
 		};
+
+		public void Dispose ()
+		{
+
+			foreach (var pair in stances)
+			{
+				foreach (var pair1 in pair.Value)
+				{
+					foreach (var pair2 in pair1.Value)
+					{
+						pair2.Value.Dispose ();
+                    }
+					//pair1.Value.Clear ();
+				}
+				//pair.Value.Clear ();
+			}
+			//stances.Clear ();
+			//stances = null;
+		}
 	}
 }
 

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MapleLib.WzLib;
 
 namespace ms
 {
-	public class CharShadowLook
+	public class CharShadowLook:IDisposable
 	{
 		private Dictionary<Stance.Id, Animation> stance_animation_dict = new Dictionary<Stance.Id, Animation> ();
 		public CharShadowLook ()
@@ -40,6 +41,16 @@ namespace ms
 				
 				animation.draw(faceargs, alpha);
 			}
+		}
+
+		public void Dispose ()
+		{
+			foreach (var pair in stance_animation_dict)
+			{
+				pair.Value.Dispose ();
+			}
+			stance_animation_dict.Clear ();
+			stance_animation_dict = null;
 		}
 	}
 }

@@ -727,6 +727,50 @@ namespace ms
 
 			PartyLeaderId = leaderId;
 		}
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			//UserList?.Dispose ();
+			background?.Dispose ();
+			party_title?.Dispose ();
+			foreach (var t in party_mine_grid)
+			{
+				t?.Dispose ();
+			}
+			foreach (var t in party_mine_gridButtons)
+			{
+				t?.Dispose ();
+			}
+			foreach (var t in party_search_grid)
+			{
+				t?.Dispose ();
+			}
+			
+			party_slider?.Dispose ();
+			party_Flag_Online?.Dispose ();
+			party_Flag_Offline?.Dispose ();
+			foreach (var t in friend_sprites)
+			{
+				t?.Dispose ();
+			}
+			foreach (var t in friend_grid)
+			{
+				t?.Dispose ();
+			}
+			
+			friends_slider?.Dispose ();
+			foreach (var t in boss_sprites)
+			{
+				t?.Dispose ();
+			}
+			blacklist_title?.Dispose ();
+			foreach (var t in blacklist_grid)
+			{
+				t?.Dispose ();
+			}
+			
+		}
 	}
 }
 

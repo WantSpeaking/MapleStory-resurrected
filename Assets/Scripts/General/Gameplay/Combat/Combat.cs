@@ -127,7 +127,7 @@ namespace ms
 		{
 			attackresults.push (400, attack);
 		}
-		public void push_damageEffect (AttackResult result, AttackUser attackuser)
+		/*public void push_damageEffect (AttackResult result, AttackUser attackuser)
 		{
 			foreach (var line in result.damagelines)
 			{
@@ -146,7 +146,7 @@ namespace ms
 					}
 				}
 			}
-		}
+		}*/
 		// Show a buff effect
 		public void show_buff (int cid, int skillid, sbyte level)
 		{
@@ -528,7 +528,10 @@ namespace ms
 			if (bullets.Last.Value.bullet.settarget (effect.target))
 			{
 				apply_damage_effect (effect.damageeffect);
-				bullets.RemoveLast ();
+				bullets.Last.Value.bullet?.Dispose();
+                bullets.Last.Value.damageeffect.number.Dispose();
+
+                bullets.RemoveLast ();
 			}
 		}
 
@@ -544,27 +547,27 @@ namespace ms
 
 		public void extract_effects (Char user, SpecialMove move, AttackResult result)
 		{
-			AttackUser attackuser = new AttackUser (user.get_skilllevel (move.get_id ()), user.get_level (), user.is_twohanded (), !result.toleft, user);
+			AttackUser attackuser = new AttackUser(user.get_skilllevel(move.get_id()), user.get_level(), user.is_twohanded(), !result.toleft, user);
 
 			if (result.bulletId != 0)
 			{
-				Bullet bullet = new Bullet (move.get_bullet (user, result.bulletId), user.get_position (), result.toleft);
+				Bullet bullet = new Bullet(move.get_bullet(user, result.bulletId), user.get_position(), result.toleft);
 
 				foreach (var line in result.damagelines)
 				{
 					int oid = line.Key;
 
-					if (mobs.contains (oid))
+					if (mobs.contains(oid))
 					{
-						List<DamageNumber> numbers = place_numbers (oid, line.Value);
-						Point_short head = mobs.get_mob_head_position (oid);
+						List<DamageNumber> numbers = place_numbers(oid, line.Value);
+						Point_short head = mobs.get_mob_head_position(oid);
 
 						uint i = 0;
 
 						foreach (var number in numbers)
 						{
-							DamageEffect effect = new DamageEffect (attackuser, number, line.Value[(int)i].Item1, result.toleft, oid, move.get_id (), result.hforce, result.vforce);
-							bulleteffects.push (user.get_attackdelay (i), new BulletEffect (effect, bullet, head));
+							DamageEffect effect = new DamageEffect(attackuser, number, line.Value[(int)i].Item1, result.toleft, oid, move.get_id(), result.hforce, result.vforce);
+							bulleteffects.push(user.get_attackdelay(i), new BulletEffect(effect, bullet, head));
 							i++;
 						}
 					}
@@ -573,12 +576,12 @@ namespace ms
 				if (result.damagelines.Count == 0)
 				{
 					short xshift = (short)(result.toleft ? -400 : 400);
-					Point_short target = user.get_position () + new Point_short (xshift, -26);
+					Point_short target = user.get_position() + new Point_short(xshift, -26);
 
 					for (byte i = 0; i < result.hitcount; i++)
 					{
-						DamageEffect effect = new DamageEffect (attackuser, new DamageNumber (), 0, false, 0, 0, result.hforce, result.vforce);
-						bulleteffects.push (user.get_attackdelay (i), new BulletEffect (effect, bullet, target));
+						DamageEffect effect = new DamageEffect(attackuser, new DamageNumber(), 0, false, 0, 0, result.hforce, result.vforce);
+						bulleteffects.push(user.get_attackdelay(i), new BulletEffect(effect, bullet, target));
 					}
 				}
 			}
@@ -588,15 +591,15 @@ namespace ms
 				{
 					int oid = line.Key;
 
-					if (mobs.contains (oid))
+					if (mobs.contains(oid))
 					{
-						List<DamageNumber> numbers = place_numbers (oid, line.Value);
+						List<DamageNumber> numbers = place_numbers(oid, line.Value);
 
 						uint i = 0;
 
 						foreach (var number in numbers)
 						{
-							damageeffects.push (user.get_attackdelay (i), new DamageEffect (attackuser, number, line.Value[(int)i].Item1, result.toleft, oid, move.get_id (), result.hforce, result.vforce));
+							damageeffects.push(user.get_attackdelay(i), new DamageEffect(attackuser, number, line.Value[(int)i].Item1, result.toleft, oid, move.get_id(), result.hforce, result.vforce));
 							i++;
 						}
 					}
@@ -604,9 +607,15 @@ namespace ms
 			}
 		}
 
-		private List<DamageNumber> place_numbers (int oid, List<System.Tuple<int, bool>> damagelines)
+        List<DamageNumber> numbers = new List<DamageNumber>();
+        private List<DamageNumber> place_numbers (int oid, List<System.Tuple<int, bool>> damagelines)
 		{
-			List<DamageNumber> numbers = new List<DamageNumber> ();
+			foreach (var n in numbers)
+			{
+				n.Dispose();
+			}
+			numbers.Clear();
+           
 			short head = mobs.get_mob_head_position (oid).y ();
 
 			foreach (var line in damagelines)

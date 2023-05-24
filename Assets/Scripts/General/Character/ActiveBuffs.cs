@@ -235,7 +235,7 @@ namespace ms
             state = -1;
         }
     }
-    public class ActiveBuffs
+    public class ActiveBuffs:IDisposable
     {
         // Register all buffs effects
         public ActiveBuffs()
@@ -294,5 +294,15 @@ namespace ms
         }
 
         private readonly EnumMap<Buffstat.Id, ActiveBuff> buffs = new EnumMap<Buffstat.Id, ActiveBuff>();
+
+
+        public void Dispose ()
+        {
+            foreach (var pair in buffs)
+            {
+                pair.Value.Dispose ();
+            }
+            buffs.Clear ();
+        }
     }
 }

@@ -155,7 +155,15 @@ namespace ms
 			SETTING_NUM
 		}
 
-		private Text[] key_text =new Text[(int)UIJoypad.Setting.SETTING_NUM]; 
+		private Text[] key_text =new Text[(int)UIJoypad.Setting.SETTING_NUM];
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			backgrnd[true]?.Dispose ();
+			backgrnd[false]?.Dispose ();
+
+		}
 	}
 }
 

@@ -15,12 +15,17 @@ namespace ms
 //ORIGINAL LINE: this.animation = new ms.Animation(a);
 			this.animation = new ms.Animation(a);
 			this.stateargs = new DrawArgument(args);
+			/*this.animation = a;
+			this.stateargs = args;*/
 		}
 
 		public Sprite (WzObject src, DrawArgument args)
 		{
+			/*this.animation = new ms.Animation (src);
+			this.stateargs = new DrawArgument(args);*/
+			
 			this.animation = new ms.Animation (src);
-			this.stateargs = new DrawArgument(args);
+			this.stateargs = args;
 		}
 
 		public Sprite (WzObject src) : this (src, new DrawArgument ())

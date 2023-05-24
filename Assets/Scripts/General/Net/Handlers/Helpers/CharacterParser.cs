@@ -144,7 +144,9 @@ namespace ms
 				MapleQuestStatus qs = new MapleQuestStatus (qid, MapleQuestStatus.Status.NOT_STARTED);
 				MapleCharacter.Player.updateQuestStatus (qs);
 			}
-		}
+
+            ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_StatusBar>()._QuestLogMini.UpdateQuest();
+        }
 
 		public static void parse_ring1 (InPacket recv)
 		{

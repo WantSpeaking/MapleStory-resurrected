@@ -9,11 +9,12 @@
 using System.Diagnostics;
 using ms.Helper;
 using MapleLib.WzLib;
+using System;
 
 namespace ms
 {
 	// Represents a tile on a map
-	public class Tile
+	public class Tile:IDisposable
 	{
 		private int orderInLayer;
 
@@ -33,7 +34,12 @@ namespace ms
 			pos = new Point_short (node_100000000img_0_Tile_0["x"], node_100000000img_0_Tile_0["y"]);
 		}
 
-		public void draw (Point_short viewpos, int layerId)
+        public void Dispose()
+        {
+            texture?.Dispose ();
+        }
+
+        public void draw (Point_short viewpos, int layerId)
 		{
 			Point_short tempPoint = new Point_short ((short)(pos.x () + viewpos.x ()), (short)(pos.y () + viewpos.y ()));
 			texture.draw (new DrawArgument (tempPoint));
@@ -45,6 +51,3 @@ namespace ms
 		}
 	}
 }
-
-#if USE_NX
-#endif

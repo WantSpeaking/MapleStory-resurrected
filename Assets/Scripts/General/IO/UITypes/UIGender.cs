@@ -47,8 +47,6 @@ namespace ms
 			dimension = gender_sprites[2].get_dimensions();
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(float inter) const override
 		public override void draw(float inter)
 		{
 			Point_short gender_pos = new Point_short(355, 185);
@@ -142,6 +140,16 @@ namespace ms
 		private Texture[] gender_sprites =new Texture[3];
 		private ushort CUR_TIMESTEP;
 		private System.Action okhandler;
+
+		public override void Dispose ()
+		{
+			foreach (var s in gender_sprites)
+			{
+				s.Dispose ();
+			}
+
+			gender_sprites = null;
+		}
 	}
 }
 

@@ -30,8 +30,6 @@ namespace ms
 			WizetEnd = Logo["Wizet"]["40"];
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(float inter) const override
 		public override void draw(float inter)
 		{
 			if (!user_clicked)
@@ -91,8 +89,6 @@ namespace ms
 			return ret;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: UIElement::Type get_type() const override
 		public override UIElement.Type get_type()
 		{
 			return TYPE;
@@ -105,6 +101,14 @@ namespace ms
 		private bool nexon_ended;
 		private bool wizet_ended;
 		private bool user_clicked;
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			Nexon?.Dispose ();
+			Wizet?.Dispose ();
+			WizetEnd?.Dispose ();
+		}
 	}
 }
 

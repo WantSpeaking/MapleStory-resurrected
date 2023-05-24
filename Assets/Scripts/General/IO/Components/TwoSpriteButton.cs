@@ -69,8 +69,8 @@ namespace ms
 			}
 			else
 			{
-				absp = parentpos + npos - textures[selected].get_origin ();
-				dim = textures[selected].get_dimensions ();
+				absp = parentpos + npos - textures?[selected]?.get_origin ()??Point_short.zero;
+				dim = textures?[selected]?.get_dimensions () ?? Point_short.zero;
 			}
 
 			return new Rectangle_short (new Point_short (absp), absp + dim);
@@ -97,8 +97,18 @@ namespace ms
 			return Cursor.State.IDLE;
 		}
 
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			textures[true]?.Dispose ();
+			textures[false]?.Dispose ();
+			//textures = null;
+		}
+
 		private BoolPairNew<Texture> textures = new BoolPairNew<Texture> ();
 		private Point_short npos = new Point_short ();
 		private Point_short spos = new Point_short ();
+		
+		
 	}
 }

@@ -1577,6 +1577,37 @@ namespace ms
 			return ficon;
 
 		}
-		
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			//key?.Dispose ();
+			//icon?.Dispose ();
+			foreach (var pair in key_textures)
+			{
+				pair.Value?.Dispose ();
+			}
+			key_textures.Clear ();
+			
+			foreach (var pair in action_icons)
+			{
+				pair.Value?.Dispose ();
+			}
+			action_icons.Clear ();
+			
+			foreach (var pair in item_icons)
+			{
+				pair.Value?.Dispose ();
+			}
+			item_icons.Clear ();
+			
+			foreach (var pair in skill_icons)
+			{
+				pair.Value?.Dispose ();
+			}
+			skill_icons.Clear ();
+			
+			
+		}
 	}
 }

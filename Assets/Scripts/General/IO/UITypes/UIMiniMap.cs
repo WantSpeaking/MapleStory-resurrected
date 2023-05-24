@@ -225,7 +225,7 @@ namespace ms
 				return dstate;
 			}
 
-			Point_short cursor_relative = cursorpos - position;
+		/*	Point_short cursor_relative = cursorpos - position;
 
 			if (listNpc_slider.isenabled ())
 			{
@@ -310,17 +310,17 @@ namespace ms
 						}
 					}
 				}
-			}
+			}*/
 
 			return Cursor.State.IDLE;
 		}
 
 		public override void send_scroll (double yoffset)
 		{
-			if (listNpc_enabled && listNpc_slider.isenabled ())
+			/*if (listNpc_enabled && listNpc_slider.isenabled ())
 			{
 				listNpc_slider.send_scroll (yoffset);
-			}
+			}*/
 		}
 
 		public override void send_key (int keycode, bool pressed, bool escape)
@@ -679,10 +679,10 @@ namespace ms
 				return;
 			}
 
-			Animation marker_sprite = new Animation ();
+			//Animation marker_sprite = new Animation ();
 
 			/// Portals
-			WzObject portals = Map["portal"];
+			/*WzObject portals = Map["portal"];
 			marker_sprite = new Animation (marker["portal"]);
 			Point_short marker_offset = marker_sprite.get_dimensions () / new Point_short (2, 0);
 			foreach (var portal in portals)
@@ -694,7 +694,7 @@ namespace ms
 					Point_short marker_pos = (new Point_short (portal["x"], portal["y"]) + center_offset) / scale - marker_offset + new Point_short (map_draw_origin_x, map_draw_origin_y);
 					static_marker_info.Add (new Tuple<string, Point_short> (portal.Name, marker_pos));
 				}
-			}
+			}*/
 		}
 
 		private void set_npclist_active (bool active)
@@ -810,7 +810,7 @@ namespace ms
 			update_dimensions ();
 		}
 
-		private void draw_npclist (Point_short minimap_dims, float alpha)
+		/*private void draw_npclist (Point_short minimap_dims, float alpha)
 		{
 			Animation npc_marker = new Animation (marker["npc"]);
 
@@ -846,7 +846,7 @@ namespace ms
 
 				selected_marker.draw (position + npc_pos, 0.5f);
 			}
-		}
+		}*/
 
 		private void select_npclist (short choice)
 		{
@@ -940,6 +940,44 @@ namespace ms
 		private Animation selected_marker = new Animation ();
 
 		private readonly CharStats stats;
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			//Map?.Dispose ();
+			//MiniMap?.Dispose ();
+			//marker?.Dispose ();
+			map_sprite?.Dispose ();
+			player_marker?.Dispose ();
+			foreach (var sprite in min_sprites)
+			{
+				sprite?.Dispose ();
+			}
+			foreach (var sprite in normal_sprites)
+			{
+				sprite?.Dispose ();
+			}
+			foreach (var sprite in max_sprites)
+			{
+				sprite?.Dispose ();
+			}
+			
+			//listNpc?.Dispose ();
+			foreach (var sprite in listNpc_sprites)
+			{
+				sprite?.Dispose ();
+			}
+			foreach (var sprite in listNpc_list)
+			{
+				sprite?.Dispose ();
+			}
+			
+			listNpc_slider?.Dispose ();
+			selected_marker?.Dispose ();
+			
+			
+			
+		}
 	}
 }
 

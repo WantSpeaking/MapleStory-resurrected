@@ -50,7 +50,7 @@ namespace ms_Unity
 		private void ItemRenderer_canStarted (int index, GObject item)
 		{
 			var listPool = UnityEngine.Rendering.ListPool<short>.Get ();
-			listPool.AddRange (MapleCharacter.Player.CanStartedQuests.Keys);
+			listPool.AddRange (MapleCharacter.Player.CanStartQuests.Keys);
 			var questId = listPool[index];
 			var mapleQuest = MapleQuest.getInstance (questId);
 			var ListItem_QuestLog = item as FGUI_ListItem_QuestLog;
@@ -160,10 +160,10 @@ namespace ms_Unity
 			_Btn_ForfeitQuest.visible = false;
 			_Txt_Desc.text = "";
 
-			MapleCharacter.Player.RefreshCanStarted_Quest (true);
+			MapleCharacter.Player.RefreshCanStart_Quest (true);
 			MapleCharacter.Player.LogAllQuest ();
 
-			_GList_QuestInfo_Available.numItems = MapleCharacter.Player.CanStartedQuests.Count;
+			_GList_QuestInfo_Available.numItems = MapleCharacter.Player.CanStartQuests.Count;
 			_GList_QuestInfo_in_progress.numItems = MapleCharacter.Player.getStartedQuests ().Count;
 			_GList_QuestInfo_completed.numItems = MapleCharacter.Player.getCompletedQuests ().Count;
 

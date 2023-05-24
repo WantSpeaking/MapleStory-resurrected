@@ -533,6 +533,31 @@ namespace ms
 
 		private bool hasPendantSlot;
 		private bool hasPocketSlot;
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			foreach (var pair in icons)
+			{
+				pair.Value?.Dispose ();
+			}
+			tabbar?.Dispose ();
+			foreach (var pair in background)
+			{
+				pair?.Dispose ();
+			}
+			disabled?.Dispose ();
+			disabled2?.Dispose ();
+			foreach (var pair in Slots)
+			{
+				foreach (var s in pair)
+				{
+					s?.Dispose ();
+				}
+				pair.Clear ();
+			}
+			
+		}
 	}
 }
 

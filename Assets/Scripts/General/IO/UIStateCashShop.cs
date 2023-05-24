@@ -201,6 +201,17 @@ namespace ms
 
 		private ConcurrentDictionary<UIElement.Type, UIElement> elements = new ConcurrentDictionary<UIElement.Type,UIElement>();
 		private UIElement.Type focused;
-	}
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            foreach (var pair in elements)
+            {
+                var element = pair.Value;
+
+                element?.Dispose();
+            }
+        }
+    }
 }
 

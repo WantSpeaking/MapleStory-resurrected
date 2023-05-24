@@ -279,6 +279,8 @@ namespace ms
                         GraphicsGL.get().enlock();
                         Stage.get().clear();
                         Timer.get().start();
+                        UI.get().change_state(UI.State.GAME);
+                        TestURPBatcher.Instance.Clear();
 
                         return Button.State.NORMAL;
                     }
@@ -372,9 +374,45 @@ namespace ms
             stage.load(mapid, (sbyte)portalid);
             stage.transfer_player();
 
+            TestURPBatcher.Instance.Clear();
+
             ui.enable();
             Timer.get().start();
             //todo 2 GraphicsGL.get ().unlock ();
+        }
+
+        public override void Dispose ()
+        {
+            base.Dispose ();
+            foreach (var sprite in preview_sprites)
+            {
+                sprite.Dispose ();
+            }
+            foreach (var sprite in menu_tabs)
+            {
+                sprite.Dispose ();
+            }
+            foreach (var sprite in promotion_sprites)
+            {
+                sprite.Dispose ();
+            }
+            foreach (var sprite in mvp_sprites)
+            {
+                sprite.Dispose ();
+            }
+            charge_charset.Dispose ();
+            item_line?.Dispose ();
+            item_base?.Dispose ();
+            item_none?.Dispose ();
+            foreach (var sprite in item_labels)
+            {
+                sprite.Dispose ();
+            }
+            foreach (var sprite in items)
+            {
+                sprite.Dispose ();
+            }
+            list_slider?.Dispose ();
         }
 
         private void update_items()
@@ -439,7 +477,7 @@ namespace ms
 
         private const byte MAX_ITEMS = (byte)(7u * 2u + 1u);
 
-        private class Item
+        private class Item:IDisposable
         {
             public enum Label : byte
             {
@@ -495,6 +533,10 @@ namespace ms
             }
 
             private readonly ItemData data;
+            public void Dispose ()
+            {
+                
+            }
         }
 
         private enum Buttons : ushort

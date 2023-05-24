@@ -101,7 +101,7 @@ namespace ms
 		
 		public bool update (Physics physics, float speed)
 		{
-			damagenumbers.remove_if (number => number.update ());
+			damagenumbers.remove_if (number => number.update(), (d) => { d?.Dispose(); });
 
 			effects.update ();
 			chatballoon.update ();
@@ -142,7 +142,6 @@ namespace ms
 			var aniend = look.update ((ushort)(stancespeed * Constants.get ().animSpeed)); //todo 2 this is action speed
 			if (aniend)
 			{
-
 				OnAniEnd ();
 			}
 			return aniend;
@@ -358,6 +357,7 @@ namespace ms
 			short weapon_reqlevel = weapon.get_equipdata ().get_reqstat (MapleStat.Id.LEVEL);
 			string ai_name = hasAfterimageId ? current_afterimageName : weapon.get_afterimage ();
 
+			afterimage?.Dispose ();
 			afterimage = new Afterimage (skill_id, ai_name, stance_name, weapon_reqlevel);
 
 			//AppDebug.Log ($"set_afterimage:ai_name:{ai_name}\tstance_name:{stance_name}");
@@ -566,13 +566,20 @@ namespace ms
 			
 		}
 
-		~Char ()
+		public abstract Job get_job ();
+
+		public override void Dispose ()
 		{
+			base.Dispose ();
 			look.OnActionChanged = null;
+			
+			effects.Dispose ();
+			afterimage.Dispose ();
+			look.Dispose ();
+			chatballoon.Dispose ();
+			_charShadowLook?.Dispose ();
 		}
 
-		public abstract Job get_job ();
-		
 		public CharLook look = new CharLook ();
 		public CharLook look_preview = new CharLook ();
 		private CharShadowLook _charShadowLook;

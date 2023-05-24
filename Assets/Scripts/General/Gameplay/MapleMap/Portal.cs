@@ -3,9 +3,11 @@
 
 
 
+using System;
+
 namespace ms
 {
-	public class Portal
+	public class Portal:IDisposable
 	{
 		public enum Type
 		{
@@ -67,7 +69,7 @@ namespace ms
 
 		public Portal (Animation a, Type t, string nm, bool intramap, Point_short p, int tid, string tnm, string script = null)
 		{
-			this.animation = new Animation (a);// class Portal（） 原c++传递的是Animation指针
+			this.animation = a;// class Portal（） 原c++传递的是Animation指针
 			this.type = t;
 			this.name = nm;
 			this.position = new ms.Point_short (p);
@@ -126,7 +128,12 @@ namespace ms
 			return warpinfo;
 		}
 
-		private readonly Animation animation;
+        public void Dispose()
+        {
+			animation?.Dispose();
+        }
+
+        private readonly Animation animation;
 		private Type type;
 		private string name;
 		private Point_short position = new Point_short ();

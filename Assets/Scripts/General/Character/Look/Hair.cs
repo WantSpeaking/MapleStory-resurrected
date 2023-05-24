@@ -12,7 +12,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
-	public class Hair
+	public class Hair:IDisposable
 	{
 		public enum Layer
 		{
@@ -196,6 +196,20 @@ namespace ms
 			{"backHairBelowCapNarrow", Layer.BELOWCAPNARROW},
 			{"backHairBelowCapWide", Layer.BELOWCAPWIDE}
 		};
+
+		public void Dispose ()
+		{
+			foreach (var pair1 in stances)
+			{
+				foreach (var pair2 in pair1)
+				{
+					pair2.Value.Dispose ();
+                }
+				//pair1.Clear ();
+			}
+
+			//stances = null;
+		}
 	}
 }
 

@@ -513,6 +513,42 @@ namespace ms
 
 		private List<Sprite> item_sprites = new List<Sprite> ();
 		private Point_short item_dimensions = new Point_short ();
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			loading?.Dispose ();
+			farm_level?.Dispose ();
+			foreach (var s in personality_sprites)
+			{
+				s?.Dispose ();
+			}
+			foreach (var s in personality_sprites_enabled[true])
+			{
+				s?.Dispose ();
+			}
+			foreach (var s in personality_sprites_enabled[false])
+			{
+				s?.Dispose ();
+			}
+			foreach (var s in collect_sprites)
+			{
+				s?.Dispose ();
+			}
+			default_medal?.Dispose ();
+			foreach (var s in collect_sprites)
+			{
+				s?.Dispose ();
+			}
+			foreach (var s in damage_sprites)
+			{
+				s?.Dispose ();
+			}
+			foreach (var s in item_sprites)
+			{
+				s?.Dispose ();
+			}
+		}
 	}
 }
 

@@ -75,8 +75,11 @@ public class TextManager : SingletonMono<TextManager>
 	{
 		foreach (GRichTextField gobj in msText_GRichText_Dict.Values)
 		{
-			gobj.visible = false;
-		}
+			if (gobj.displayObject!=null)
+			{
+                gobj.visible = false;
+            }
+        }
 	}
 
 	public void Clear ()

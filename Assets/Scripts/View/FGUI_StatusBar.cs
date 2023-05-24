@@ -141,6 +141,7 @@ namespace ms_Unity
 
 			_Txt_Level.text = uIStatusBar.stats.get_stat (MapleStat.Id.LEVEL).ToString ();
 			_Txt_Name.text = uIStatusBar.stats.get_name ();
+			_Txt_EXP.SetVar ("persent", (uIStatusBar.getexppercent ()*100).ToString()).FlushVars ();
 
 /*			_ProgressBar_HP.value = uIStatusBar.gethppercent ();
 			_ProgressBar_MP.value = uIStatusBar.getmppercent ();*/

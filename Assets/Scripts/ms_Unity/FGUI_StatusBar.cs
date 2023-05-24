@@ -40,6 +40,7 @@ namespace ms_Unity
         public GProgressBar _ProgressBar_EXP;
         public GTextField _Txt_Version;
         public GGroup _Bottom;
+        public FGUI_QuestLogMini _QuestLogMini;
         public Transition _t_ShowFunctionPanel;
         public Transition _t_HideFunctionPanel;
         public const string URL = "ui://4916gthqq03inpi";
@@ -86,6 +87,7 @@ namespace ms_Unity
             _ProgressBar_EXP = (GProgressBar)GetChildAt(39);
             _Txt_Version = (GTextField)GetChildAt(40);
             _Bottom = (GGroup)GetChildAt(41);
+            _QuestLogMini = (FGUI_QuestLogMini)GetChildAt(42);
             _t_ShowFunctionPanel = GetTransitionAt(0);
             _t_HideFunctionPanel = GetTransitionAt(1);
             OnCreate();

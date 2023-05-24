@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MapleLib.WzLib;
 
 
@@ -6,7 +7,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
-	public class NameTag
+	public class NameTag:IDisposable
 	{
 		public NameTag (WzObject src, Text.Font f, string n)
 		{
@@ -61,5 +62,17 @@ namespace ms
 		private OutlinedText name = new OutlinedText ();
 		private BoolPairNew<List<Texture>> textures = new BoolPairNew<List<Texture>> (new List<Texture> (), new List<Texture> ());
 		private bool selected;
+
+		public void Dispose ()
+		{
+			foreach (var tex in textures[true])
+			{
+				tex?.Dispose ();
+			}
+			foreach (var tex in textures[false])
+			{
+				tex?.Dispose ();
+			}
+		}
 	}
 }

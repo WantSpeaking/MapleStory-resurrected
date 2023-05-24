@@ -15,12 +15,21 @@ namespace ms_Unity
             _Label_Int._Btn_Add.onClick.Add(() => OnClick(true, MapleStat.Id.INT));
             _Label_Luck._Btn_Add.onClick.Add(() => OnClick(true, MapleStat.Id.LUK));
             _Label_Str._Btn_Add.onClick.Add(() => OnClick(true, MapleStat.Id.STR));
+            
+            _Btn_APAutoAssign.onClick.Add (OnClick_Btn_APAutoAssign);
         }
 
+        private void OnClick_Btn_APAutoAssign ()
+        {
+            new AUTO_DISTRIBUTE_AP_Packet ().dispatch ();
+        }
+
+        private const string message = "分配能力值点";
         private void OnClick(bool add, MapleStat.Id id)
         {
             Refresh();
-            new SpendApPacket(id).dispatch();
+            
+            FGUI_EnterNumber.ShowNotice (message,(count)=> new SpendApPacket(id,count).dispatch(),CharStats?.get_stat(MapleStat.Id.AP) ?? 0,1);
         }
 
         private CharStats _CharStats;

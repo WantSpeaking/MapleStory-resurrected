@@ -396,5 +396,13 @@ namespace ms
 
         public string text_account;
         public string text_password;
+
+        public override void Dispose ()
+        {
+            base.Dispose();
+            accountbg?.Dispose ();
+            passwordbg?.Dispose ();
+            
+        }
     }
 }

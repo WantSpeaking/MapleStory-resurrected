@@ -26,8 +26,7 @@ namespace ms
 
 		protected UINotice (string message, NoticeType t, Text.Alignment a)
 		{
-			//this.UIDragElement<PosNOTICE> = new <type missing>();
-			this.type = t;
+			/*this.type = t;
 			this.alignment = a;
 			WzObject src = ms.wz.wzFile_ui["Basic.img"]["Notice6"];
 
@@ -65,7 +64,7 @@ namespace ms
 			if (type != NoticeType.ENTERNUMBER)
 			{
 				new Sound (Sound.Name.DLGNOTICE).play ();
-			}
+			}*/
 		}
 
 		protected UINotice (string message, NoticeType t) : this (message, t, Text.Alignment.CENTER)
@@ -74,7 +73,7 @@ namespace ms
 
 		protected void draw (bool textfield)
 		{
-			Point_short start = new Point_short (position);
+			/*Point_short start = new Point_short (position);
 
 			top.draw (start);
 			start.shift_y (top.height ());
@@ -82,7 +81,7 @@ namespace ms
 			if (textfield)
 			{
 				/*center.draw (start);
-				start.shift_y (center.height ());*/
+				start.shift_y (center.height ());#1#
 				centerbox.draw (start);
 				start.shift_y ((short)(centerbox.height () - 1));
 				box2.draw (start);
@@ -113,7 +112,7 @@ namespace ms
 				}
 			}
 
-			bottombox.draw (start);
+			bottombox.draw (start);*/
 		}
 
 		protected short box2offset (bool textfield)

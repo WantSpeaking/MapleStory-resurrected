@@ -30,8 +30,6 @@ namespace ms
 		{
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: virtual void draw(float inter, Point_short cursor) const = 0;
 		public abstract void draw (float inter, Point_short cursor);
 		public abstract void update ();
 
@@ -59,12 +57,7 @@ namespace ms
 		public abstract UIElement get (UIElement.Type type);
 		public abstract UIElement get_front (LinkedList<UIElement.Type> types);
 		public abstract UIElement get_front (Point_short pos);
-		
-		/*Optional<Icon> draggedicon;
-		public void drag_icon(Icon drgic)
-		{
-			draggedicon = drgic;
-		}*/
+
 	}
 
 	[Skip]

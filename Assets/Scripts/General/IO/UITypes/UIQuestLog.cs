@@ -393,37 +393,31 @@ namespace ms
         private Point drawRange;
         private Text text_QuestEntryName;
         private Text text_Info;
-        public class QuestButton : Button
+        /*public class QuestButton : Button
         {
             public override Rectangle_short bounds(Point_short parentpos)
             {
-                throw new System.NotImplementedException();
             }
 
             public override void draw(Point_short parentpos)
             {
-                throw new System.NotImplementedException();
             }
 
             public override Point_short origin()
             {
-                throw new System.NotImplementedException();
             }
 
             public override Cursor.State send_cursor(bool clicked, Point_short cursorpos)
             {
-                throw new System.NotImplementedException();
             }
 
             public override void update()
             {
-                throw new System.NotImplementedException();
             }
 
             public override short width()
             {
-                throw new System.NotImplementedException();
             }
-        }
+        }*/
     }
 }

@@ -127,6 +127,20 @@ namespace ms
 			return range.overlaps (bounds);
 		}
 
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			foreach (var pair in animations)
+			{
+				pair.Value.Dispose ();
+			}
+			animations.Clear ();
+			animations = null;
+			
+			normal?.Dispose ();
+			normal = null;
+		}
+
 		private int oid;
 		private int rid;
 

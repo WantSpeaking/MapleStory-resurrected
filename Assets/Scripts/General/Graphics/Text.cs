@@ -385,7 +385,7 @@ namespace ms
 		{
 			gRichTextField.onClickLink.Clear ();
 			GRoot.inst.RemoveChild (gRichTextField);
-			gRichTextField.Dispose ();
+			//gRichTextField.Dispose ();
 			gRichTextField = null;
 		}
 

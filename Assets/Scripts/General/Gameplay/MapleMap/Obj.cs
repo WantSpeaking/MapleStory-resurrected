@@ -6,12 +6,13 @@
 using ms;
 using ms.Helper;
 using MapleLib.WzLib;
+using System;
 
 namespace ms
 {
 	// Represents a map decoration (object) on a map
-	public class Obj
-	{
+	public class Obj: IDisposable
+    {
 		private int orderInLayer;
 
 		public Obj (WzImageProperty node_100000000img_0_obj_0)
@@ -63,7 +64,12 @@ namespace ms
 			return z;
 		}
 
-		private Animation animation = new Animation ();
+        public void Dispose()
+        {
+            animation?.Dispose ();
+        }
+
+        private Animation animation = new Animation ();
 		private Point_short pos = new Point_short ();
 		private byte z;
 		private bool flip;

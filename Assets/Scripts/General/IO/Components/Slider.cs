@@ -5,7 +5,7 @@ using MapleLib.WzLib;
 
 namespace ms
 {
-	public class Slider
+	public class Slider:IDisposable
 	{
 		public Slider (int t, Range_short ver, short xp, short ur, short rm, System.Action<bool> om)
 		{
@@ -395,5 +395,16 @@ namespace ms
 		private TwoSpriteButton next = new TwoSpriteButton ();
 		private TwoSpriteButton prev = new TwoSpriteButton ();
 		private TwoSpriteButton thumb = new TwoSpriteButton ();
+		public void Dispose ()
+		{
+			dbase?.Dispose ();
+			dnext?.Dispose ();
+			dprev?.Dispose ();
+			baseTexture?.Dispose ();
+			next?.Dispose ();
+			prev?.Dispose ();
+			thumb?.Dispose ();
+			
+		}
 	}
 }

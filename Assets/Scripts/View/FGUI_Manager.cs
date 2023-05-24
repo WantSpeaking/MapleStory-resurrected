@@ -95,6 +95,7 @@ namespace ms_Unity
 			fgui_StateGame = FGUI_StateGame.CreateInstance ();
 			fgui_StateShop = FGUI_StateGame.CreateInstance ();*/
 
+			OpenFGUI<FGUI_Panel_Debug> ();
 		}
 		/*        IEnumerator Start ()
 				{
@@ -311,15 +312,39 @@ namespace ms_Unity
             GRoot.inst.AddChild(Current_FGUI_State);
 			return Current_FGUI_State;
         }
+        protected override void OnUpdate()
+        {
+            /*var touchTarget = GRoot.inst.touchTarget;
+            Debug.Log($"touchTarget:{touchTarget?.name}");*/
+            /*if (FairyGUI.Stage.isTouchOnUI)
+			{
+				var touchTarget = GRoot.inst.touchTarget;
 
-    /*public void ShowNotice (string message, NoticeType t, Text.Alignment a = Text.Alignment.CENTER, int max = 0, int count = 0, System.Action<int> numhandler = null, System.Action<bool> yesnohandler = null)
-                            {
-                                var nocice = OpenFGUI<FGUI_Notice> () as FGUI_Notice;
-                                nocice.ShowNotice (message, t, a, max, count, numhandler, yesnohandler);
-                                nocice._tet_message.text = message;
+                if (touchTarget != null)
+				{
+					PanelOpening = true;
+					Debug.Log($"touchTarget:{touchTarget.name}");
+                }
+				else
+				{
+                    PanelOpening = false;
+                }
+			}
+			else
+			{
+                PanelOpening = false;
+            }*/
+        }
 
-                            }*/
-}
+
+        /*public void ShowNotice (string message, NoticeType t, Text.Alignment a = Text.Alignment.CENTER, int max = 0, int count = 0, System.Action<int> numhandler = null, System.Action<bool> yesnohandler = null)
+                                {
+                                    var nocice = OpenFGUI<FGUI_Notice> () as FGUI_Notice;
+                                    nocice.ShowNotice (message, t, a, max, count, numhandler, yesnohandler);
+                                    nocice._tet_message.text = message;
+
+                                }*/
+    }
 
 public enum Enum_Transition
 	{

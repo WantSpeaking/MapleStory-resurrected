@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace ms
 {
-    public class CharLook
+    public class CharLook : IDisposable
     {
         public CharLook(LookEntry entry)
         {
@@ -355,43 +355,31 @@ namespace ms
         public void set_body(int skin_id)
         {
 
-            /*		if (bodytypes.TryGetValue (skin_id, out body)) return;
-					body = new Body (skin_id, drawinfo);
-					bodytypes.Add (skin_id, body);*/
-
-            if (!bodytypes.TryGetValue(skin_id, out body))
+           /* if (!bodytypes.TryGetValue(skin_id, out body))
             {
                 body = new Body(skin_id, drawinfo);
                 bodytypes.Add(skin_id, body);
-            }
-
+            }*/
+            body = new Body(skin_id, drawinfo);
         }
 
         public void set_hair(int hair_id)
         {
-            /*if (!hairstyles.ContainsKey (hair_id))
-			{
-				var hair = new Hair (hair_id,drawinfo);p
-				hairstyles.Add (hair_id,hair);
-			}*/
-            if (hairstyles.TryGetValue(hair_id, out hair)) return;
-            hair = new Hair(hair_id, drawinfo);
-            hairstyles.Add(hair_id, hair);
 
+            /*if (hairstyles.TryGetValue(hair_id, out hair)) return;
+            hair = new Hair(hair_id, drawinfo);
+            hairstyles.Add(hair_id, hair);*/
+            hair = new Hair(hair_id, drawinfo);
         }
 
         public void set_face(int face_id)
         {
-            /*if (!facetypes.ContainsKey (face_id))
-			{
-				var face = new Face (face_id);
-				facetypes.Add (face_id,face);
-			}*/
-            if (facetypes.TryGetValue(face_id, out face)) return;
-            face = new Face(face_id);
-            facetypes.Add(face_id, face);
 
-  
+            /*if (facetypes.TryGetValue(face_id, out face)) return;
+            face = new Face(face_id);
+            facetypes.Add(face_id, face);*/
+
+            face = new Face(face_id);
         }
 
         private void updatetwohanded()
@@ -873,5 +861,12 @@ namespace ms
         private static Dictionary<int, Hair> hairstyles = new Dictionary<int, Hair>();
         private static Dictionary<int, Face> facetypes = new Dictionary<int, Face>();
         private static Dictionary<int, Body> bodytypes = new Dictionary<int, Body>();
+        public void Dispose ()
+        {
+            body.Dispose ();
+            hair.Dispose ();
+            face.Dispose ();
+            equips.Dispose ();
+        }
     }
 }

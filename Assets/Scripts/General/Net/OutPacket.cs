@@ -93,6 +93,8 @@ namespace ms
 
 			/// Player
 			SPEND_AP = 87,
+			AUTO_DISTRIBUTE_AP = 88,
+
 			SPEND_SP = 90,
 			CHANGE_KEYMAP = 135,
 

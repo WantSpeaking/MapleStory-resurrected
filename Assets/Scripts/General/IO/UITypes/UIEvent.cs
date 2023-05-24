@@ -395,6 +395,18 @@ namespace ms
 		private Texture label_on = new Texture ();
 		private Texture label_next = new Texture ();
 		private List<BoolPairNew<bool>> events = new List<BoolPairNew<bool>> ();
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			slider?.Dispose ();
+			item_reward?.Dispose ();
+			text_reward?.Dispose ();
+			next?.Dispose ();
+			label_on?.Dispose ();
+			label_next?.Dispose ();
+
+		}
 	}
 }
 

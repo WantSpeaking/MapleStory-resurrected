@@ -16,7 +16,7 @@ namespace client
 
 		public MapleCharacter ()
 		{
-			CanStartedQuests = new ReadOnlyDictionary<short, MapleQuest> (canStarted_Quest);
+			CanStartQuests = new ReadOnlyDictionary<short, MapleQuest> (canStart_Quest);
 		}
 		/*		ms.Quest quest => ms.Stage.get ().get_player ().get_quest ();
 				ms.QuestLog questLog => quest.questLog;*/
@@ -91,7 +91,7 @@ namespace client
 		public List<MapleQuest> getCanStartedQuests ()
 		{
 			var ret = new List<MapleQuest> ();
-			foreach (var qs in canStarted_Quest.Values)
+			foreach (var qs in canStart_Quest.Values)
 			{
 				ret.Add (qs);
 			}
@@ -114,7 +114,7 @@ namespace client
 			var ret = new List<MapleQuestStatus> ();
 			foreach (MapleQuestStatus qs in quests.Values)
 			{
-				if (qs.getStatus ().Equals (MapleQuestStatus.Status.STARTED))
+				if (qs.getStatus ().Equals (MapleQuestStatus.Status.STARTED) && MapleQuest.getInstance(qs.QuestID)!= null)
 				{
 					ret.Add (qs);
 				}
@@ -225,19 +225,19 @@ namespace client
 
         }
 
-        private readonly SortedDictionary<short, MapleQuest> canStarted_Quest = new SortedDictionary<short, MapleQuest> ();
-		public ReadOnlyDictionary<short, MapleQuest> CanStartedQuests;
+        private readonly SortedDictionary<short, MapleQuest> canStart_Quest = new SortedDictionary<short, MapleQuest> ();
+		public ReadOnlyDictionary<short, MapleQuest> CanStartQuests;
 
-		public void RefreshCanStarted_Quest (bool forceGet = false)
+		public void RefreshCanStart_Quest (bool forceGet = false)
 		{
-			canStarted_Quest.Clear ();
+			canStart_Quest.Clear ();
 			foreach (var id_quest_pair in MapleQuest.getAllQuest())
 			{
 				var questId = id_quest_pair.Key;
 				var quest = id_quest_pair.Value;
 				if (id_quest_pair.Value.canStart (Player, quest.getStartReqNpc ()))
 				{
-					canStarted_Quest.Add ((short)questId, quest);
+					canStart_Quest.Add ((short)questId, quest);
 				}
 			}
 		}

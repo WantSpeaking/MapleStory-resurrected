@@ -121,6 +121,10 @@ namespace ms
 		// Removes all MapObjects of this type
 		public void clear ()
 		{
+			foreach (var pair in objects)
+			{
+				pair.Value?.Dispose();
+			}
 			objects.Clear ();
 
 			foreach (var layer in layers)
@@ -130,8 +134,6 @@ namespace ms
 		}
 
 		// Check if a map object with the specified id exists on the map
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool contains(int oid) const
 		public bool contains (int oid)
 		{
 			return objects.Any (pair => pair.Key == oid);

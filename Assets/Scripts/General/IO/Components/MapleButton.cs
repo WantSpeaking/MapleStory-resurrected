@@ -201,6 +201,21 @@ namespace ms
 
         public Point_short Offset_FG { get => offset_FG; set => offset_FG = value; }
 
+        public override void Dispose ()
+        {
+            base.Dispose ();
+            foreach (var t in textures)
+            {
+                t?.Dispose ();
+            }
+            foreach (var a in animations)
+            {
+                a?.Dispose ();
+            }
+            Tex_BG?.Dispose ();
+            Tex_FG?.Dispose ();
+            Icon_FG?.Dispose ();
+        }
 
 
         #region to be removed

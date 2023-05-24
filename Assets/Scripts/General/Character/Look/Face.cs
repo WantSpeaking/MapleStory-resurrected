@@ -62,7 +62,7 @@ namespace ms
 		public static EnumMap<Id, string> names = new EnumMap<Id, string> ();
 	}
 
-	public class Face
+	public class Face:IDisposable
 	{
 		public Face (int faceid)
 		{
@@ -149,7 +149,7 @@ namespace ms
 		public short get_delay (Expression.Id exp, byte frame)
 		{
 			var delayit = (ushort)100;
-			if (expressions[(int)exp].TryGetValue (frame, out var frameit))
+			if (expressions?[(int)exp]?.TryGetValue (frame, out var frameit)??false)
 			{
 				delayit = frameit.delay;
 			}
@@ -167,7 +167,7 @@ namespace ms
 			return name;
 		}
 
-		private class Frame
+		private class Frame:IDisposable
 		{
 			public Texture texture = new Texture ();
 			public ushort delay;
@@ -199,6 +199,11 @@ namespace ms
 					delay = 2500;
 				}
 			}
+
+			public void Dispose ()
+			{
+				texture?.Dispose ();
+			}
 		}
 
 		private Dictionary<byte, Frame>[] expressions = new Dictionary<byte, Frame>[EnumUtil.GetEnumLength<Expression.Id> ()];
@@ -212,6 +217,21 @@ namespace ms
 		}
 
 		private string name;
+		
+		public void Dispose ()
+		{
+			if (expressions == null) return;
+			foreach (var pair1 in expressions)
+			{
+				foreach (var pair2 in pair1)
+				{
+					pair2.Value.Dispose ();
+				}
+				//pair1.Clear ();
+			}
+
+			//expressions = null;
+		}
 	}
 }
 
