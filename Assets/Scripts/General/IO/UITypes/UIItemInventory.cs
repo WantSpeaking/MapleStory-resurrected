@@ -121,7 +121,7 @@ namespace ms
 				}
 			});*/
 
-			set_full (false);
+			//set_full (true);
 			clear_new ();
 			load_icons ();
 
@@ -473,9 +473,9 @@ namespace ms
 
 		public void set_sort (bool enabled)
 		{
-			sort_enabled = enabled;
+            /*sort_enabled = enabled;
 
-			/*if (full_enabled)
+			if (full_enabled)
 			{
 				if (sort_enabled)
 				{
@@ -509,9 +509,9 @@ namespace ms
 					buttons[(int)Buttons.BT_GATHER_SM].set_active (false);
 				}
 			}*/
-		}
+        }
 
-		public void change_tab (InventoryType.Id type)
+        public void change_tab (InventoryType.Id type)
 		{
 			button_pressed (button_by_tab (type));
 		}
@@ -673,7 +673,7 @@ namespace ms
 
 				bool untradable = ItemData.get (item_id).is_untradable ();
 				bool cashitem = ItemData.get (item_id).is_cashitem ();
-				Texture texture = new Texture (ItemData.get (item_id).get_icon (false));
+				Texture texture = ItemData.get(item_id).get_icon(false);
 				EquipSlot.Id eqslot = inventory.find_equipslot (item_id);
 
 				icons[slot] = new Icon (new ItemIcon (this, tab, eqslot, slot, item_id, count, untradable, cashitem), texture, count);
@@ -893,14 +893,15 @@ namespace ms
 
 			if (full_enabled)
 			{
+                /*
 				dimension = new Point_short (bg_full_dimensions);
 
-				/*buttons[(int)Buttons.BT_FULL].set_active (false);
+				buttons[(int)Buttons.BT_FULL].set_active (false);
 				buttons[(int)Buttons.BT_FULL_SM].set_active (false);
 				buttons[(int)Buttons.BT_SMALL].set_active (false);
 				buttons[(int)Buttons.BT_SMALL_SM].set_active (true);*/
-			}
-			else
+            }
+            else
 			{
 				/*dimension = new Point_short (bg_dimensions);
 
@@ -910,10 +911,10 @@ namespace ms
 				buttons[(int)Buttons.BT_SMALL_SM].set_active (false);*/
 			}
 
-			dragarea = new Point_short (dimension.x (), 20);
+            /*dragarea = new Point_short (dimension.x (), 20);
 
 			short adj_x = (short)(full_enabled ? 20 : 22);
-			/*buttons[(int)Buttons.BT_CLOSE].set_position (new Point_short ((short)(dimension.x () - adj_x), 6));
+			buttons[(int)Buttons.BT_CLOSE].set_position (new Point_short ((short)(dimension.x () - adj_x), 6));
 
 			buttons[(int)Buttons.BT_COIN].set_active (!enabled);
 			buttons[(int)Buttons.BT_POINT].set_active (!enabled);
@@ -935,7 +936,7 @@ namespace ms
 			buttons[(int)Buttons.BT_TOAD_SM].set_active (enabled);
 			buttons[(int)Buttons.BT_CASHSHOP].set_active (enabled);*/
 
-			set_sort (sort_enabled);
+            //set_sort(sort_enabled);
 			load_icons ();
 		}
 

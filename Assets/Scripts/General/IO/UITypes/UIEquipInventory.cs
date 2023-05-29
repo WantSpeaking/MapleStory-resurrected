@@ -354,7 +354,7 @@ namespace ms
 			int item_id = inventory.get_item_id (InventoryType.Id.EQUIPPED, (short)slot);
 			if (item_id != 0)
 			{
-				Texture texture = new Texture(ItemData.get (item_id).get_icon (false));
+				Texture texture = ItemData.get(item_id).get_icon(false);
 
 				icons[slot] = new Icon (new EquipIcon ((short)slot), texture, -1);
 			}

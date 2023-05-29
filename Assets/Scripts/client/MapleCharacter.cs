@@ -228,7 +228,7 @@ namespace client
         private readonly SortedDictionary<short, MapleQuest> canStart_Quest = new SortedDictionary<short, MapleQuest> ();
 		public ReadOnlyDictionary<short, MapleQuest> CanStartQuests;
 
-		public void RefreshCanStart_Quest (bool forceGet = false)
+		public IEnumerator RefreshCanStart_Quest (bool forceGet = false)
 		{
 			canStart_Quest.Clear ();
 			foreach (var id_quest_pair in MapleQuest.getAllQuest())
@@ -238,6 +238,7 @@ namespace client
 				if (id_quest_pair.Value.canStart (Player, quest.getStartReqNpc ()))
 				{
 					canStart_Quest.Add ((short)questId, quest);
+					yield return null;
 				}
 			}
 		}

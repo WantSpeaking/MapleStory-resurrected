@@ -858,9 +858,9 @@ namespace ms
 
         public static BodyDrawInfo get_BodyDrawInfo () => drawinfo;
         private static BodyDrawInfo drawinfo = new BodyDrawInfo();
-        private static Dictionary<int, Hair> hairstyles = new Dictionary<int, Hair>();
+        /*private static Dictionary<int, Hair> hairstyles = new Dictionary<int, Hair>();
         private static Dictionary<int, Face> facetypes = new Dictionary<int, Face>();
-        private static Dictionary<int, Body> bodytypes = new Dictionary<int, Body>();
+        private static Dictionary<int, Body> bodytypes = new Dictionary<int, Body>();*/
         public void Dispose ()
         {
             body.Dispose ();

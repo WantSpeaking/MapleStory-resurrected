@@ -248,6 +248,7 @@ namespace ms
 		{
 			if (move.is_attack ())
 			{
+				GameUtil.Instance.stopwatch.Start();
 				AppDebug.Log ($"使用攻击技能：{move_id} ");
 				if (move.get_id() == 0)
 				{
@@ -341,17 +342,20 @@ namespace ms
 				apply_use_movement (move);
 				apply_result_movement (move, result);
 
+				if(GameUtil.Instance.sendAttackPacket)
 				new AttackPacket (result).dispatch ();
 				if (down == true && pressing == false && move.has_skillPrepareEffect ())//begin
 				{
-					new SkillEffectPacket (move.get_id (), Stage.get ().get_player ().get_skills ().get_masterlevel (move.get_id ()), 22, attack.toleft ? -128 : 0, 6).dispatch ();
+                    if (GameUtil.Instance.sendAttackPacket)
+                        new SkillEffectPacket (move.get_id (), Stage.get ().get_player ().get_skills ().get_masterlevel (move.get_id ()), 22, attack.toleft ? -128 : 0, 6).dispatch ();
 					move.apply_prepareEffect (player);
 					AppDebug.Log ("begin");
 
 				}
 				else if (down == false && pressing == true && move.has_skillPrepareEffect ())//end
 				{
-					new Cancel_BuffPacket (move.get_id ()).dispatch ();
+                    if (GameUtil.Instance.sendAttackPacket)
+                        new Cancel_BuffPacket (move.get_id ()).dispatch ();
 					move.apply_keydownendEffect (player);
 					AppDebug.Log ("end");
 
@@ -367,11 +371,16 @@ namespace ms
 					Optional<MapObject> reactor = reactor_objs.get (reactor_targets[0]);
 					if (reactor)
 					{
-						new DamageReactorPacket (reactor.get ().get_oid (), player.get_position (), 0, 0).dispatch ();
+                        if (GameUtil.Instance.sendAttackPacket)
+                            new DamageReactorPacket (reactor.get ().get_oid (), player.get_position (), 0, 0).dispatch ();
 					}
 				}
-			}
-			else
+                GameUtil.Instance.stopwatch.Stop();
+                AppDebug.Log($"apply_move time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
+                GameUtil.Instance.stopwatch.Restart();
+
+            }
+            else
 			{
 				AppDebug.Log ($"使用Buff：{move_id} ");
 				move.apply_useeffects (player);
@@ -380,7 +389,8 @@ namespace ms
 
                 int moveid = move.get_id ();
 				int level = player.get_skills ().get_level (moveid);
-				new UseSkillPacket (moveid, level).dispatch ();
+                if (GameUtil.Instance.sendAttackPacket)
+                    new UseSkillPacket (moveid, level).dispatch ();
 			}
 		}
 
@@ -528,8 +538,8 @@ namespace ms
 			if (bullets.Last.Value.bullet.settarget (effect.target))
 			{
 				apply_damage_effect (effect.damageeffect);
-				bullets.Last.Value.bullet?.Dispose();
-                bullets.Last.Value.damageeffect.number.Dispose();
+				//bullets.Last.Value.bullet?.Dispose();
+                bullets.Last.Value.damageeffect.number?.Dispose();
 
                 bullets.RemoveLast ();
 			}

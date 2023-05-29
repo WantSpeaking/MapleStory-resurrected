@@ -1,5 +1,6 @@
 using FairyGUI;
 using FairyGUI.Utils;
+using System;
 using UnityEngine;
 
 namespace ms_Unity
@@ -8,17 +9,20 @@ namespace ms_Unity
     {
         public void OnCreate()
         {
-			UnityEngine.Application.logMessageReceived += ApplicationOnlogMessageReceived;
+            _Btn_Close.onClick.Add(OnCLick_Btn_Close);
         }
 
-        private void ApplicationOnlogMessageReceived (string condition, string stacktrace, LogType type)
+        private void OnCLick_Btn_Close(EventContext context)
         {
-	        if (type == LogType.Error || type == LogType.Exception)
-	        {
-		        GRoot.inst.AddChild (this);
-                _c1.selectedIndex = 1;
-		        _Txt_Log.text = condition +"\r\n"+ stacktrace;
-	        }
+            FGUI_Manager.Instance.CloseFGUI<FGUI_Panel_Debug>();
         }
+
+        public void SetLogMessage(string message)
+        {
+            _c1.selectedIndex = 1;
+            _Txt_Log.text = message;
+        }
+
+       
     }
 }

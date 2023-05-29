@@ -160,9 +160,6 @@ namespace ms_Unity
 			_Btn_ForfeitQuest.visible = false;
 			_Txt_Desc.text = "";
 
-			MapleCharacter.Player.RefreshCanStart_Quest (true);
-			MapleCharacter.Player.LogAllQuest ();
-
 			_GList_QuestInfo_Available.numItems = MapleCharacter.Player.CanStartQuests.Count;
 			_GList_QuestInfo_in_progress.numItems = MapleCharacter.Player.getStartedQuests ().Count;
 			_GList_QuestInfo_completed.numItems = MapleCharacter.Player.getCompletedQuests ().Count;

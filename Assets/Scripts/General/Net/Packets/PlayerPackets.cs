@@ -47,11 +47,12 @@ namespace ms
 	// Opcode: SPEND_SP(90)
 	public class SpendSpPacket : OutPacket
 	{
-		public SpendSpPacket(int skill_id) : base((short)OutPacket.Opcode.SPEND_SP)
+		public SpendSpPacket(int skill_id,int count = 1) : base((short)OutPacket.Opcode.SPEND_SP)
 		{
 			write_time();
 			write_int(skill_id);
-		}
+            write_int(count);
+        }
 	}
 
 	// Requests the server to change key mappings

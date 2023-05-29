@@ -145,7 +145,7 @@ namespace ms
 				MapleCharacter.Player.updateQuestStatus (qs);
 			}
 
-            ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_StatusBar>()._QuestLogMini.UpdateQuest();
+            ms.Stage.get().UpdateQuest();
         }
 
 		public static void parse_ring1 (InPacket recv)

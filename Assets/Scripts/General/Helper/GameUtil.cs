@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -18,4 +19,12 @@ public class GameUtil : SingletonMono<GameUtil>
 	[FormerlySerializedAs ("testTalkNpcId")] public int testTalkNpcId_Instance = 2091005;
 	public int testTalkNpcId_FunctionCenter = 2091006;
 	[FormerlySerializedAs ("testTalkNpcFileName")] public string testTalkNpcFileName_FunctionCenter = "extend/10200";
+
+    public Stopwatch stopwatch = new Stopwatch();
+	public string debugMessage = "";
+
+	public bool sendAttackPacket = true;
+
+	public float spawnMobInterval = 0.2f;
+    public float spawnNPCInterval = 0.5f;
 }

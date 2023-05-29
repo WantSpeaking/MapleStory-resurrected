@@ -1,6 +1,7 @@
 ﻿#define USE_NX
 
 using System;
+using MapleLib.WzLib;
 using ms.Helper;
 
 

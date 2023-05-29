@@ -70,7 +70,7 @@ namespace ms
 		// Check if an equip is visible
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: bool is_visible(EquipSlot::Id slot) const
-		public bool is_visible (EquipSlot.Id slot)
+		/*public bool is_visible (EquipSlot.Id slot)
 		{
 			if (cloth_cache.TryGetValue ((int)slot, out var cloth))
 			{
@@ -80,12 +80,12 @@ namespace ms
 			{
 				return false;
 			}
-		}
+		}*/
 
 		// Check if the equip at the specified slot in the specified stance contains a part on the specified layer
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: bool comparelayer(EquipSlot::Id slot, Stance::Id stance, Clothing::Layer layer) const
-		public bool comparelayer (EquipSlot.Id slot, Stance.Id stance, Clothing.Layer layer)
+		/*public bool comparelayer (EquipSlot.Id slot, Stance.Id stance, Clothing.Layer layer)
 		{
 			if (cloth_cache.TryGetValue ((int)slot, out var cloth))
 			{
@@ -95,7 +95,7 @@ namespace ms
 			{
 				return false;
 			}
-		}
+		}*/
 
 		// Return if there is an overall equipped
 //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
@@ -118,7 +118,7 @@ namespace ms
 //ORIGINAL LINE: bool is_twohanded() const
 		public bool is_twohanded ()
 		{
-			if (cloth_cache.TryGetValue ((int)EquipSlot.Id.WEAPON, out var weapon))
+			if (clothes.TryGetValue (EquipSlot.Id.WEAPON, out var weapon) && weapon!= null)
 			{
 				return weapon.is_twohanded ();
 			}
@@ -142,7 +142,7 @@ namespace ms
 //ORIGINAL LINE: CharEquips::CapType getcaptype() const
 		public CharEquips.CapType getcaptype ()
 		{
-			if (cloth_cache.TryGetValue ((int)EquipSlot.Id.HAT, out var cap))
+			if (clothes.TryGetValue (EquipSlot.Id.HAT, out var cap) && cap != null)
 			{
 				string vslot = cap.get_vslot ();
 				if (vslot == "CpH1H5")
@@ -171,7 +171,7 @@ namespace ms
 		// Return a stance which has been adjusted to the equipped weapon type
 		public Stance.Id adjust_stance (Stance.Id stance)
 		{
-			if (clothes.TryGetValue (EquipSlot.Id.WEAPON, out var weapon))
+			if (clothes.TryGetValue (EquipSlot.Id.WEAPON, out var weapon) && weapon != null)
 			{
 				switch (stance)
 				{
@@ -212,7 +212,7 @@ namespace ms
 
 		private readonly EnumMap<EquipSlot.Id, Clothing> clothes = new EnumMap<EquipSlot.Id, Clothing> ();
 
-		private static Dictionary<int, Clothing> cloth_cache = new Dictionary<int, Clothing> ();
+		//private static Dictionary<int, Clothing> cloth_cache = new Dictionary<int, Clothing> ();
 		public void Dispose ()
 		{
 			foreach (var pair in clothes)

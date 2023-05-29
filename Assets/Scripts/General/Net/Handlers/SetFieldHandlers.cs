@@ -8,10 +8,10 @@ namespace ms
 	{
 		public override void handle (InPacket recv)
 		{
-			//Constants.get ().set_viewwidth (Setting<Width>.get ().load ());
-			//Constants.get ().set_viewheight (Setting<Height>.get ().load ());
-
-			int channel = recv.read_int ();
+            //Constants.get ().set_viewwidth (Setting<Width>.get ().load ());
+            //Constants.get ().set_viewheight (Setting<Height>.get ().load ());
+            GameUtil.Instance.stopwatch.Restart();
+            int channel = recv.read_int ();
 			sbyte mode1 = recv.read_byte ();
 			sbyte mode2 = recv.read_byte ();
 
@@ -23,7 +23,9 @@ namespace ms
 			{
 				set_field (recv);
 			}
-		}
+            GameUtil.Instance.stopwatch.Stop();
+            AppDebug.Log($"SetFieldHandler time:{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
+        }
 
 		public void transition (int mapid, byte portalid)
 		{
@@ -31,26 +33,34 @@ namespace ms
 
 			Window.get().fadeout(fadestep, () =>
 			{
-					//GraphicsGL.get().clear();
-
-					Stage.get().load(mapid, (sbyte)portalid);
-
-					UI.get().enable();
-					UI.get().enable_draw();
-					Timer.get().start();
-					//GraphicsGL.get().unlock();
-
-					Stage.get().transfer_player();
+					
 			});
 
 			//GraphicsGL.get().@lock();
 			Stage.get().clear();
 			//还在GameUI ui不用clear dispose
 			TestURPBatcher.Instance.Clear();
-			Timer.get().start();
+            TestURPBatcher.Instance.FillParentDict();
+            TestURPBatcher.Instance.CLearDestoryObjs();
+            Timer.get().start();
 			UI.get().disable ();
 			UI.get().disable_draw ();
-		}
+
+
+
+
+			//GraphicsGL.get().clear();
+			UnityEngine.SceneManagement.SceneManager.LoadScene("Game", UnityEngine.SceneManagement.LoadSceneMode.Single);
+
+            Stage.get().load(mapid, (sbyte)portalid);
+
+            UI.get().enable();
+            UI.get().enable_draw();
+            Timer.get().start();
+            //GraphicsGL.get().unlock();
+
+            Stage.get().transfer_player();
+        }
 
 		private void change_map (InPacket recv, int map_id)
 		{

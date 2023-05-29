@@ -256,7 +256,24 @@ namespace MapleLib.WzLib
 			}
 		}
 
-		public Texture asTexture => new Texture (this);
+        public Point GetBitmapWidthHeightConsideringLink()
+        {
+            if (this is WzCanvasProperty canvasProperty)
+            {
+                return canvasProperty.GetLinkedWzImageProperty().GetWidthHeight();
+                //return canvasProperty.GetLinkedWzCanvasBitmap();
+            }
+            else if (this is WzPngProperty pngProperty)
+            {
+                return pngProperty.GetWidthHeight();
+            }
+            else
+            {
+                return GetWidthHeight();
+            }
+        }
+
+        public Texture asTexture => new Texture (this);
 		public WzObject getChildByPath(string path, bool checkFirstDirectoryName = true)
         {
             string[] seperatedPath = path.Split("/".ToCharArray());
@@ -377,7 +394,12 @@ namespace MapleLib.WzLib
 		}
 
 		public static Point Empty;
-	}
+
+        public override string ToString()
+        {
+            return $"({X},{Y})";
+        }
+    }
 
 	public struct PointF
 	{

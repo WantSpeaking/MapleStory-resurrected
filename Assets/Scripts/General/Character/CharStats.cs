@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ms
 {
@@ -22,7 +23,10 @@ namespace ms
 		public CharStats()
 		{
 		}
-
+		~CharStats()
+		{
+			OnCharStatsChanged = null;
+		}
 		public void init_totalstats()
 		{
 			totalstats.SetValue ((() => 0));
@@ -61,7 +65,9 @@ namespace ms
 		public void set_stat(MapleStat.Id stat, ushort value)
 		{
 			basestats[stat] = value;
-		}
+			OnCharStatsChanged?.Invoke(stat, value);
+
+        }
 		public void set_total(EquipStat.Id stat, int value)
 		{
 			StatCaps.EQSTAT_CAPS.TryGetValue (stat, out var cap_value);
@@ -362,6 +368,8 @@ namespace ms
 		private float resiststatus;
 		private float reducedamage;
 		private bool female;
+
+		public Action<MapleStat.Id ,ushort> OnCharStatsChanged { get; set; }
 	}
 }
 

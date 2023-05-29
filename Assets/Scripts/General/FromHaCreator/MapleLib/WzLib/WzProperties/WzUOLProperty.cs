@@ -238,6 +238,10 @@ namespace MapleLib.WzLib.WzProperties
             return LinkValue?.GetBitmap();
         }
 
+        public override Point GetWidthHeight()
+        {
+            return LinkValue?.GetWidthHeight()??default(Point);
+        }
         public override byte[] GetBytes()
         {
             return LinkValue?.GetBytes();

@@ -728,6 +728,11 @@ namespace MapleLib.WzLib.WzProperties
 		{
 			return GetImage (false);
 		}
-		#endregion
-	}
+
+        public override Point GetWidthHeight()
+        {
+            return new Point(width,height);
+        }
+        #endregion
+    }
 }

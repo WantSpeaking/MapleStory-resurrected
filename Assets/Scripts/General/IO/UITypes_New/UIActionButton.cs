@@ -88,7 +88,7 @@ namespace ms
                 }
             }*/
 
-            ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_ActionButtons> ();
+            ms_Unity.FGUI_Manager.Instance.OpenFGUI<ms_Unity.FGUI_ActionButtons> ().LoadSettingPosToUI();
 
         }
 

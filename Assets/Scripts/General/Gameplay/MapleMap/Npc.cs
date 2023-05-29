@@ -274,8 +274,8 @@ namespace ms
 			canStarted_Quests.Clear ();
 			started_Quests.Clear ();
 
-			MapleCharacter.Player.RefreshCanStart_Quest ();
-			MapleCharacter.Player.LogAllQuest ();
+			/*MapleCharacter.Player.RefreshCanStart_Quest ();
+			MapleCharacter.Player.LogAllQuest ();*/
 			
 			foreach (var qs in MapleCharacter.Player.CanStartQuests)
 			{

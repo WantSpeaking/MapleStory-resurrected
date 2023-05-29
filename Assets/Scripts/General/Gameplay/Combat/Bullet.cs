@@ -15,8 +15,8 @@ namespace ms
         }
         public Bullet(Animation a, Point_short origin, bool toleft)
         {
-            animation = new Animation(a);
-            //animation = a;
+            //animation = new Animation(a);
+            animation = a;
             moveobj.set_x(origin.x() + (toleft ? -30.0 : 30.0));
             moveobj.set_y(origin.y() - 26.0);
         }

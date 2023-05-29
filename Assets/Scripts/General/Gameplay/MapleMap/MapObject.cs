@@ -19,7 +19,8 @@ namespace ms
 		
 		public virtual void Dispose()
 		{
-			UnityEngine.GameObject.Destroy( MapGameObject );
+			//UnityEngine.GameObject.Destroy( MapGameObject );
+			AppDebug.Log($"MapObject Dispose：{GetType().Name}_{oid}");
 		}
 
 		// Draws the object at the given position and with the specified interpolation.

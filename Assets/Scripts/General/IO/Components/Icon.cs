@@ -21,7 +21,9 @@ namespace ms
 
 		public virtual void Dispose ()
 		{
-		}
+            texture?.Dispose ();
+
+        }
 
 		public abstract class Type : System.IDisposable
 		{
@@ -72,8 +74,7 @@ namespace ms
 		public Icon (Type t, Texture tx, short c)
 		{
 			this.type = t;
-			this.texture = new ms.Texture (tx);
-			nTexture = new FairyGUI.NTexture (texture.texture2D);
+			this.texture = tx;
 			this.count = c;
 			texture.shift (new Point_short (0, 32));
 			showcount = c > -1;
@@ -196,7 +197,7 @@ namespace ms
 		
 		static Charset countset = new Charset (ms.wz.wzFile_ui["Basic.img"]["ItemNo"], Charset.Alignment.LEFT);
 
-		public FairyGUI.NTexture nTexture;
+		public FairyGUI.NTexture nTexture=> texture?.nTexture;
 
 	}
 }

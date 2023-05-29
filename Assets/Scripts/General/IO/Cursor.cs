@@ -8,7 +8,7 @@ using MapleLib.WzLib;
 namespace ms
 {
 	// Class that represents the mouse cursor
-	public class Cursor
+	public class Cursor : IDisposable
 	{
 		// Maple cursor states that are linked to the cursor's animation
 		public enum State
@@ -27,12 +27,12 @@ namespace ms
 			GRABBING,
 			CLICKING,
 			RCLICK,
-			LEAF = 18,
+	/*		LEAF = 18,
 			CHATBARVDRAG = 67,
 			CHATBARHDRAG,
 			CHATBARBLTRDRAG,
 			CHATBARMOVE = 72,
-			CHATBARBRTLDRAG,
+			CHATBARBRTLDRAG,*/
 		}
 
 		public Cursor ()
@@ -113,7 +113,15 @@ namespace ms
 			return position;
 		}
 
-		private EnumMap<State, Animation> animations = new EnumMap<State, Animation> ();
+        public void Dispose()
+        {
+			foreach (var pair in animations)
+			{
+				pair.Value?.Dispose();
+            }
+        }
+
+        private EnumMap<State, Animation> animations = new EnumMap<State, Animation> ();
 
 		private State state;
 		private Point_short position = new Point_short ();

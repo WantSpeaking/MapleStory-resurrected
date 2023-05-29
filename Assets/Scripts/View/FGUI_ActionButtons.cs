@@ -3,6 +3,7 @@ using FairyGUI;
 using FairyGUI.Utils;
 using Helper;
 using ms;
+using static ms.UIActionButton;
 
 namespace ms_Unity
 {
@@ -26,6 +27,7 @@ namespace ms_Unity
 		public EventListener onEnd { get; private set; }
 		public EventListener onClickAction { get; private set; }
 
+		private bool isInSetUp => _c_Mode.selectedIndex == 1;
 		public void OnCreate ()
 		{
 			onMove = new EventListener (this, "onMove");
@@ -139,18 +141,24 @@ namespace ms_Unity
 		}
 		private void OnTouchBegin_Btn_Skill (EventContext context)
 		{
+			if (isInSetUp) return;
+
 			var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
 			UI.get ().send_key ((int)clicked_ActionButton.Key, true, true, false);
 		}
 
 		private void onTouchEnd_Btn_Skill (EventContext context)
 		{
-			var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
+            if (isInSetUp) return;
+
+            var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
 			UI.get ().send_key ((int)clicked_ActionButton.Key, false, true, true);
 		}
 		private void onTouchMove_Btn_Skill (EventContext context)
 		{
-			var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
+            if (isInSetUp) return;
+
+            var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
 			UI.get ().send_key ((int)clicked_ActionButton.Key, true, true, true);
 			//AppDebug.Log ($"onTouchMove_Btn_Skill: {clicked_ActionButton.Key}");
 		}
@@ -176,51 +184,67 @@ namespace ms_Unity
 
 		private void OnDrop_Btn_Skill (EventContext context)
 		{
-			onClickAction?.Call (context);
+            if (isInSetUp) return;
+
+            onClickAction?.Call (context);
 		}
 
 		private void OnClick_Btn_PickUp (EventContext context)
 		{
-			
-		}
+            if (isInSetUp) return;
+        }
         private void OnTouchBegin_Btn_PickUp(EventContext context)
 		{
+            if (isInSetUp) return;
+
             ms.Stage.get().send_key(KeyType.Id.ACTION, (int)KeyAction.Id.PICKUP, true);
         }
 
         private void OnTouchEnd_Btn_PickUp(EventContext context)
         {
+            if (isInSetUp) return;
+
             ms.Stage.get().send_key(KeyType.Id.ACTION, (int)KeyAction.Id.PICKUP, false);
         }
 
         private void OnClick_Btn_Jump (EventContext context)
 		{
-			ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.JUMP, true);
+            if (isInSetUp) return;
+
+            ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.JUMP, true);
 		}
 		private void OnClick_Btn_Dodge (EventContext context)
 		{
-			//ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.JUMP, true);
-		}
+            if (isInSetUp) return;
+
+            //ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.JUMP, true);
+        }
 		#region LightAttack
 		private void OnTouchBegin_Btn_LightAttack (EventContext context)
 		{
-			//ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, true, true);
-			//ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.ATTACK, true, false);
+            if (isInSetUp) return;
 
-			ms.Stage.get ().get_combat ().use_move (0, true, false);
+            //ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, true, true);
+            //ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.ATTACK, true, false);
+
+            ms.Stage.get ().get_combat ().use_move (0, true, false);
 			MyJoystickInput.SetButton (Enum_ActionButton.LightAttack, true);
 		}
 		private void OnTouchMove_Btn_LightAttack (EventContext context)
 		{
-			MyJoystickInput.SetButton (Enum_ActionButton.LightAttack, true);
+            if (isInSetUp) return;
+
+            MyJoystickInput.SetButton (Enum_ActionButton.LightAttack, true);
 
 		}
 		private void OnTouchEnd_Btn_LightAttack (EventContext context)
 		{
-			//ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, false, true);
-			//ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.ATTACK, false, true);
+            if (isInSetUp) return;
 
-			ms.Stage.get ().get_combat ().use_move (0, false, false);
+            //ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, false, true);
+            //ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.ATTACK, false, true);
+
+            ms.Stage.get ().get_combat ().use_move (0, false, false);
 			MyJoystickInput.SetButton (Enum_ActionButton.LightAttack, false);
 
 		}
@@ -229,25 +253,31 @@ namespace ms_Unity
 		#region HeavyAttack
 		private void OnTouchBegin_Btn_HeavyAttack (EventContext context)
 		{
-			//ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, true, true);
-			//ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.MUTE, true, false);
+            if (isInSetUp) return;
 
-			ms.Stage.get ().get_combat ().use_move (1, true, false);
+            //ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, true, true);
+            //ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.MUTE, true, false);
+
+            ms.Stage.get ().get_combat ().use_move (1, true, false);
 			MyJoystickInput.SetButton (Enum_ActionButton.HeavyAttack, true);
 
 		}
 		private void OnTouchMove_Btn_HeavyAttack (EventContext context)
 		{
-			MyJoystickInput.SetButton (Enum_ActionButton.HeavyAttack, true);
+            if (isInSetUp) return;
+
+            MyJoystickInput.SetButton (Enum_ActionButton.HeavyAttack, true);
 
 
 		}
 		private void OnTouchEnd_Btn_HeavyAttack (EventContext context)
 		{
-			//ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, false, true);
-			//ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.MUTE, false, true);
+            if (isInSetUp) return;
 
-			ms.Stage.get ().get_combat ().use_move (1, false, false);
+            //ms.UI.get ().send_key ((int)ms.KeyConfig.Key.LEFT_CONTROL, false, true);
+            //ms.Stage.get ().send_key (KeyType.Id.ACTION, (int)KeyAction.Id.MUTE, false, true);
+
+            ms.Stage.get ().get_combat ().use_move (1, false, false);
 			MyJoystickInput.SetButton (Enum_ActionButton.HeavyAttack, false);
 
 
@@ -256,26 +286,75 @@ namespace ms_Unity
 
 		private void OnTouchBegin_Btn_DodgeAttack (EventContext context)
 		{
-			ms.Stage.get ().get_combat ().use_move (1121006, true, false);
+            if (isInSetUp) return;
+
+            ms.Stage.get ().get_combat ().use_move (1121006, true, false);
 		}
 
 		private void OnTouchEnd_Btn_DodgeAttack (EventContext context)
 		{
-			ms.Stage.get ().get_combat ().use_move (1121006, false, true);
+            if (isInSetUp) return;
+
+            ms.Stage.get ().get_combat ().use_move (1121006, false, true);
 		}
 
-		public void RefreshPos()
+		public void LoadSettingPosToUI()
 		{
 			_Btn_HeavyAttack.SetXY(ms.Setting<PosBtnHeavyAttack>.get().load().x(), ms.Setting<PosBtnHeavyAttack>.get().load().y());
 			_Btn_LightAttack.SetXY(ms.Setting<PosBtnLightAttack>.get().load().x(), ms.Setting<PosBtnLightAttack>.get().load().y());
 			_Btn_Jump.SetXY(ms.Setting<PosBtnJump>.get().load().x(), ms.Setting<PosBtnJump>.get().load().y());
 			_Btn_PickUp.SetXY(ms.Setting<PosBtnPickUp>.get().load().x(), ms.Setting<PosBtnPickUp>.get().load().y());
+
 			_Btn_Skill1.SetXY(ms.Setting<PosBtnSkill1>.get().load().x(), ms.Setting<PosBtnSkill1>.get().load().y());
 			_Btn_Skill2.SetXY(ms.Setting<PosBtnSkill2>.get().load().x(), ms.Setting<PosBtnSkill2>.get().load().y());
 			_Btn_Skill3.SetXY(ms.Setting<PosBtnSkill3>.get().load().x(), ms.Setting<PosBtnSkill3>.get().load().y());
 			_Btn_Skill4.SetXY(ms.Setting<PosBtnSkill4>.get().load().x(), ms.Setting<PosBtnSkill4>.get().load().y());
 			_Btn_Skill5.SetXY(ms.Setting<PosBtnSkill5>.get().load().x(), ms.Setting<PosBtnSkill5>.get().load().y());
             _Btn_Skill6.SetXY(ms.Setting<PosBtnSkill6>.get().load().x(), ms.Setting<PosBtnSkill6>.get().load().y());
+
+            _Btn_Skill7 .SetXY(ms.Setting<PosBtnSkill1>.get().load().x(), ms.Setting<PosBtnSkill1>.get().load().y());
+            _Btn_Skill8 .SetXY(ms.Setting<PosBtnSkill2>.get().load().x(), ms.Setting<PosBtnSkill2>.get().load().y());
+            _Btn_Skill9 .SetXY(ms.Setting<PosBtnSkill3>.get().load().x(), ms.Setting<PosBtnSkill3>.get().load().y());
+            _Btn_Skill10.SetXY(ms.Setting<PosBtnSkill4>.get().load().x(), ms.Setting<PosBtnSkill4>.get().load().y());
+            _Btn_Skill11.SetXY(ms.Setting<PosBtnSkill5>.get().load().x(), ms.Setting<PosBtnSkill5>.get().load().y());
+            _Btn_Skill12.SetXY(ms.Setting<PosBtnSkill6>.get().load().x(), ms.Setting<PosBtnSkill6>.get().load().y());
+        }
+
+		public void SaveUIPosToSetting()
+		{
+            ms.Setting<ms.PosBtnHeavyAttack>.get().save(new Point_short((short)_Btn_HeavyAttack.x, (short)_Btn_HeavyAttack.y));
+            ms.Setting<ms.PosBtnLightAttack>.get().save(new Point_short((short)_Btn_LightAttack.x, (short)_Btn_LightAttack.y));
+            ms.Setting<ms.PosBtnJump>.get().save(new Point_short((short)_Btn_Jump.x, (short)_Btn_Jump.y));
+            ms.Setting<ms.PosBtnPickUp>.get().save(new Point_short((short)_Btn_PickUp.x, (short)_Btn_PickUp.y));
+
+            ms.Setting<ms.PosBtnSkill1>.get().save(new Point_short((short)_Btn_Skill1.x, (short)_Btn_Skill1.y));
+            ms.Setting<ms.PosBtnSkill2>.get().save(new Point_short((short)_Btn_Skill2.x, (short)_Btn_Skill2.y));
+            ms.Setting<ms.PosBtnSkill3>.get().save(new Point_short((short)_Btn_Skill3.x, (short)_Btn_Skill3.y));
+            ms.Setting<ms.PosBtnSkill4>.get().save(new Point_short((short)_Btn_Skill4.x, (short)_Btn_Skill4.y));
+            ms.Setting<ms.PosBtnSkill5>.get().save(new Point_short((short)_Btn_Skill5.x, (short)_Btn_Skill5.y));
+            ms.Setting<ms.PosBtnSkill6>.get().save(new Point_short((short)_Btn_Skill6.x, (short)_Btn_Skill6.y));
+        }
+
+		public void ResetToDefaultPos()
+		{
+            _Btn_HeavyAttack.SetXY(new Point_short(Configuration.DefaultPos_Btn_HeavyAttack).x(), new Point_short(Configuration.DefaultPos_Btn_HeavyAttack).y());
+            _Btn_LightAttack.SetXY(new Point_short(Configuration.DefaultPos_Btn_LightAttack).x(), new Point_short(Configuration.DefaultPos_Btn_LightAttack).y());
+            _Btn_Jump.SetXY(new Point_short(Configuration.DefaultPos_Btn_Jump).x(), new Point_short(Configuration.DefaultPos_Btn_Jump).y());
+            _Btn_PickUp.SetXY(new Point_short(Configuration.DefaultPos_Btn_PickUp).x(), new Point_short(Configuration.DefaultPos_Btn_PickUp).y());
+
+            _Btn_Skill1.SetXY(new Point_short(Configuration.DefaultPos_Btn_Skill1).x(), new Point_short(Configuration.DefaultPos_Btn_Skill1).y());
+            _Btn_Skill2.SetXY(new Point_short(Configuration.DefaultPos_Btn_Skill2).x(), new Point_short(Configuration.DefaultPos_Btn_Skill2).y());
+            _Btn_Skill3.SetXY(new Point_short(Configuration.DefaultPos_Btn_Skill3).x(), new Point_short(Configuration.DefaultPos_Btn_Skill3).y());
+            _Btn_Skill4.SetXY(new Point_short(Configuration.DefaultPos_Btn_Skill4).x(), new Point_short(Configuration.DefaultPos_Btn_Skill4).y());
+            _Btn_Skill5.SetXY(new Point_short(Configuration.DefaultPos_Btn_Skill5).x(), new Point_short(Configuration.DefaultPos_Btn_Skill5).y());
+            _Btn_Skill6.SetXY(new Point_short(Configuration.DefaultPos_Btn_Skill6).x(), new Point_short(Configuration.DefaultPos_Btn_Skill6).y());
+
+            _Btn_Skill7.SetXY(new Point_short(Configuration.DefaultPos_Btn_Skill1).x(), new Point_short(Configuration.DefaultPos_Btn_Skill1).y());
+            _Btn_Skill8.SetXY(new Point_short(Configuration.DefaultPos_Btn_Skill2).x(), new Point_short(Configuration.DefaultPos_Btn_Skill2).y());
+            _Btn_Skill9.SetXY(new Point_short(Configuration.DefaultPos_Btn_Skill3).x(), new Point_short(Configuration.DefaultPos_Btn_Skill3).y());
+            _Btn_Skill10.SetXY(new Point_short(Configuration.DefaultPos_Btn_Skill4).x(), new Point_short(Configuration.DefaultPos_Btn_Skill4).y());
+            _Btn_Skill11.SetXY(new Point_short(Configuration.DefaultPos_Btn_Skill5).x(), new Point_short(Configuration.DefaultPos_Btn_Skill5).y());
+            _Btn_Skill12.SetXY(new Point_short(Configuration.DefaultPos_Btn_Skill6).x(), new Point_short(Configuration.DefaultPos_Btn_Skill6).y());
         }
 	}
 }

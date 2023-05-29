@@ -108,6 +108,7 @@ namespace MapleLib.WzLib
         {
             get
             {
+                if (name == null) return null;
                 string nameLower = name.ToLower();
 
                 foreach (WzImage i in images)

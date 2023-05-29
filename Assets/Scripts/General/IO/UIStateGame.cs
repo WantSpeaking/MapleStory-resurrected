@@ -233,12 +233,12 @@ namespace ms
 								}
 								case KeyAction.Id.MAPLECHAT:
 								{
-									var chat = UI.get ().get_element<UIChat> ();
+									/*var chat = UI.get ().get_element<UIChat> ();
 
 									if (chat == false || !chat.get ().is_active ())
 									{
 										UI.get ().emplace<UIChat> ();
-									}
+									}*/
 
 									break;
 								}

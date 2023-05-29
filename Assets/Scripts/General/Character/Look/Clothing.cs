@@ -398,7 +398,3 @@ namespace ms
 		}
 	}
 }
-
-
-#if USE_NX
-#endif

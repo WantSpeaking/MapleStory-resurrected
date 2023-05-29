@@ -35,10 +35,10 @@ namespace ms
 			emplace (Opcode.SHOW_FOREIGN_EFFECT, new ShowForeignEffectHandler ());
 			emplace (Opcode.REMOVE_CHAR, new RemoveCharHandler ());
 			emplace (Opcode.SPAWN_PET, new SpawnPetHandler ());
-			emplace (Opcode.SPAWN_NPC, new SpawnNpcHandler ());
-			emplace (Opcode.SPAWN_NPC_C, new SpawnNpcControllerHandler ());
-			emplace (Opcode.SPAWN_MOB, new SpawnMobHandler ());
-			emplace (Opcode.SPAWN_MOB_C, new SpawnMobControllerHandler ());
+			emplace(Opcode.SPAWN_NPC, new SpawnNpcHandler());
+			emplace(Opcode.SPAWN_NPC_C, new SpawnNpcControllerHandler());
+			emplace(Opcode.SPAWN_MOB, new SpawnMobHandler());
+			emplace(Opcode.SPAWN_MOB_C, new SpawnMobControllerHandler());
 			emplace (Opcode.MOB_MOVED, new MobMovedHandler ());
 			emplace (Opcode.MOVE_MONSTER_RESPONSE, new MoveMonsterResponseHandler ());
 			emplace (Opcode.SHOW_MOB_HP, new ShowMobHpHandler ());

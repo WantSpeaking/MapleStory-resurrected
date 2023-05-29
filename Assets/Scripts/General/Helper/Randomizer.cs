@@ -78,7 +78,13 @@ namespace ms
         public E next_enum<E>(E from, E to) where E : Enum
         {
             var next_underlying = next_int((int)Convert.ChangeType(from, typeof(int)), (int)Convert.ChangeType(to, typeof(int)));
+
+            return (E)Enum.ToObject(typeof(E), next_underlying);
+/*
             return (E)Convert.ChangeType(next_underlying, typeof(E));
+
+            var next_underlying = next_int((int)from, (int)Convert.ChangeType(to, typeof(int)));
+            return (E)Convert.ChangeType(next_underlying, typeof(E));*/
         }
     }
     /*public class Randomizer

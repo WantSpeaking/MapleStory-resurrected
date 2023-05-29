@@ -361,7 +361,7 @@ namespace ms
 				}
 				else
 				{
-					return Cursor.State.CHATBARVDRAG;
+					return Cursor.State.GRABBING;
 				}
 			}
 			else if (in_chattopleft)
@@ -374,7 +374,7 @@ namespace ms
 				}
 				else
 				{
-					return Cursor.State.CHATBARBRTLDRAG;
+					return Cursor.State.GRABBING;
 				}
 			}
 			else if (in_chattopright)
@@ -387,7 +387,7 @@ namespace ms
 				}
 				else
 				{
-					return Cursor.State.CHATBARBLTRDRAG;
+					return Cursor.State.GRABBING;
 				}
 			}
 			else if (in_chatleft)
@@ -400,7 +400,7 @@ namespace ms
 				}
 				else
 				{
-					return Cursor.State.CHATBARHDRAG;
+					return Cursor.State.GRABBING;
 				}
 			}
 			else if (in_chatright)
@@ -413,7 +413,7 @@ namespace ms
 				}
 				else
 				{
-					return Cursor.State.CHATBARHDRAG;
+					return Cursor.State.GRABBING;
 				}
 			}
 

@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-
-
-
-
+using UnityEngine;
 
 namespace ms
 {
 	// A collection of mobs on a map.
 	public class MapMobs
 	{
-		// Draw all mobs on a layer.
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(Layer::Id layer, double viewx, double viewy, float alpha) const
-		public void draw (Layer.Id layer, double viewx, double viewy, float alpha)
+		public MapMobs() 
+		{
+            TestURPBatcher.Instance.StartCoroutine(SpawnMob());
+        }
+        // Draw all mobs on a layer.
+        public void draw (Layer.Id layer, double viewx, double viewy, float alpha)
 		{
 			mobs.draw (layer, viewx, viewy, alpha);
 		}
@@ -21,33 +21,47 @@ namespace ms
 		// Update all mobs.
 		public void update (Physics physics)
 		{
-			for (; spawns.Count > 0; spawns.Dequeue ())
-			{
-				MobSpawn spawn = spawns.Peek ();
+            mobs.update(physics);
+        }
 
-				var mobRef = mobs.get (spawn.get_oid ());
-				if (mobRef.get () is Mob mob)
-				{
-					sbyte mode = spawn.get_mode ();
+        public IEnumerator SpawnMob()
+        {
+            while (true)
+            {
+                yield return null;
+                Physics physics = Stage.get().get_Physics();
 
-					if (mode > 0)
-					{
-						mob.set_control (mode);
-					}
+                for (; spawns.Count > 0; spawns.Dequeue())
+                {
+                    MobSpawn spawn = spawns.Peek();
 
-					mob.makeactive ();
-				}
-				else
-				{
-					mobs.add (spawn.instantiate ());
-				}
-			}
+                    var mobRef = mobs.get(spawn.get_oid());
+                    if (mobRef.get() is Mob mob)
+                    {
+                        sbyte mode = spawn.get_mode();
 
-			mobs.update (physics);
-		}
+                        if (mode > 0)
+                        {
+                            mob.set_control(mode);
+                        }
 
-		// Spawn a new mob.
-		public void spawn (MobSpawn spawn)
+                        mob.makeactive();
+                    }
+                    else
+                    {
+                        mobs.add(spawn.instantiate());
+                    }
+
+                    yield return new WaitForSecondsRealtime(GameUtil.Instance.spawnMobInterval);
+                }
+
+               
+
+            }
+        }
+
+        // Spawn a new mob.
+        public void spawn (MobSpawn spawn)
 		{
 			//AppDebug.Log ($"MapMobs spawn : oid:{spawn.get_oid ()}\t mode:{spawn.get_mode ()}");
 			spawns.Enqueue (spawn);
@@ -200,5 +214,10 @@ namespace ms
 		private MapObjects mobs = new MapObjects ();
 
 		private Queue<MobSpawn> spawns = new Queue<MobSpawn> ();
+
+		public void clearSpawns()
+		{
+			spawns.Clear ();
+		}
 	}
 }

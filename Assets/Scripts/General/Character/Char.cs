@@ -55,8 +55,13 @@ namespace ms
 			{
 				color = new Color (Color.Code.CWHITE);
 			}
+			var da_look = new DrawArgument(absp, color).SetParent(MapGameObject);
 
-			look.draw (new DrawArgument (absp, color).SetParent (MapGameObject), alpha);
+            if (this is Player )
+			{
+				da_look.SetDontDestoryOnLoad(true);
+            }
+			look.draw (da_look, alpha);
 			//look.draw (new DrawArgument (new Point_short (absp), new Color (color),get_layer (), 0), alpha);
 
 			afterimage.draw (look.get_frame (), new DrawArgument (absp, facing_right).SetParent (MapGameObject), alpha, look);

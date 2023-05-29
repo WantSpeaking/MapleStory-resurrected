@@ -246,7 +246,7 @@ namespace ms
 				}
 			}
 
-			return Cursor.State.LEAF;
+			return Cursor.State.IDLE;
 		}
 
 		public override void send_key (int keycode, bool pressed, bool escape)

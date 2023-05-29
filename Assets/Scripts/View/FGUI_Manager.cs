@@ -95,9 +95,19 @@ namespace ms_Unity
 			fgui_StateGame = FGUI_StateGame.CreateInstance ();
 			fgui_StateShop = FGUI_StateGame.CreateInstance ();*/
 
-			OpenFGUI<FGUI_Panel_Debug> ();
-		}
-		/*        IEnumerator Start ()
+			
+            UnityEngine.Application.logMessageReceived += ApplicationOnlogMessageReceived;
+        }
+
+        private void ApplicationOnlogMessageReceived(string condition, string stacktrace, LogType type)
+        {
+            if (type == LogType.Error || type == LogType.Exception)
+            {
+                OpenFGUI<FGUI_Panel_Debug>()?.SetLogMessage(condition + "\r\n" + stacktrace);
+            }
+        }
+
+        /*        IEnumerator Start ()
 				{
 					*//* Create a window container *//*
 					WindowContainer winContainer = WindowContainer.Create ("MAIN");
@@ -114,7 +124,7 @@ namespace ms_Unity
 					yield return transition.WaitForDone ();
 				}*/
 
-		private Dictionary<System.Type, Window> keyValuePairs = new Dictionary<System.Type, Window> ();
+        private Dictionary<System.Type, Window> keyValuePairs = new Dictionary<System.Type, Window> ();
 		private Dictionary<System.Type, GComponent> type_GComponent_dict = new Dictionary<System.Type, GComponent> ();
 		private Dictionary<System.Type, MonoBehaviour> type_MonoB_dict = new Dictionary<System.Type, MonoBehaviour> ();
 

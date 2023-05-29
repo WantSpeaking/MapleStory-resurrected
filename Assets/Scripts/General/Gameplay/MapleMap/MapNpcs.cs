@@ -1,11 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using ms_Unity;
 using server.quest;
+using UnityEngine;
 
 namespace ms
 {
     public class MapNpcs
     {
+        public MapNpcs() 
+        {
+            TestURPBatcher.Instance.StartCoroutine(SpawnNPC());
+        }
+
         // Draw all NPCs on a layer
         //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
         //ORIGINAL LINE: void draw(Layer::Id layer, double viewx, double viewy, float alpha) const
@@ -17,26 +24,38 @@ namespace ms
         // Update all NPCs
         public void update(Physics physics)
         {
-            for (; spawns.Count > 0; spawns.Dequeue())
-            {
-                NpcSpawn spawn = spawns.Peek();
-
-                int oid = spawn.get_oid();
-                Optional<MapObject> npc = npcs.get(oid);
-
-                if (npc)
-                {
-                    npc.get().makeactive();
-                }
-                else
-                {
-                    npcs.add(spawn.instantiate(physics));
-                }
-            }
-
             npcs.update(physics);
         }
 
+        public IEnumerator SpawnNPC()
+        {
+            while (true)
+            {
+                yield return null;
+                Physics physics = Stage.get().get_Physics();
+
+                for (; spawns.Count > 0; spawns.Dequeue())
+                {
+                    NpcSpawn spawn = spawns.Peek();
+
+                    int oid = spawn.get_oid();
+                    Optional<MapObject> npc = npcs.get(oid);
+
+                    if (npc)
+                    {
+                        npc.get().makeactive();
+                    }
+                    else
+                    {
+                        npcs.add(spawn.instantiate(physics));
+                    }
+                    yield return new WaitForSecondsRealtime(GameUtil.Instance.spawnNPCInterval);
+                }
+
+                
+
+            }
+        }
         // Add an NPC to the spawn queue
         public void spawn(NpcSpawn spawn)
         {
@@ -112,6 +131,7 @@ namespace ms
                 }
             }
 		}
+
         bool isFirstSpawn = false;
         private void onFirstSpawn(NpcSpawn spawn)
 		{
@@ -122,8 +142,14 @@ namespace ms
             }
 
         }
+
         private MapObjects npcs = new MapObjects();
 
         private Queue<NpcSpawn> spawns = new Queue<NpcSpawn>();
+
+        public void clearSpawns()
+        {
+            spawns.Clear();
+        }
     }
 }

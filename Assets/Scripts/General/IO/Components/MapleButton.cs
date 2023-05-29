@@ -145,8 +145,8 @@ namespace ms
                     }
                     else
                     {
-                        lt = parentpos + position - animations[(int)state].get_origin();
-                        rb = lt + animations[(int)state].get_dimensions();
+                        lt = parentpos + position - animations[(int)state]?.get_origin()??Point_short.zero;
+                        rb = lt + animations[(int)state]?.get_dimensions() ?? Point_short.zero;
                     }
                     break;
                 case 1:
@@ -204,6 +204,8 @@ namespace ms
         public override void Dispose ()
         {
             base.Dispose ();
+            AppDebug.Log("MapleButton Dispose");
+
             foreach (var t in textures)
             {
                 t?.Dispose ();

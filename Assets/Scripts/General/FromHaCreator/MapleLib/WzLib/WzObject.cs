@@ -215,7 +215,13 @@ namespace MapleLib.WzLib
             throw new NotImplementedException();
             //return null;
         }
-
+        public virtual Point GetWidthHeight()
+        {
+            //AppDebug.LogError ("GetBitmap NotImplemented");
+            return default (Point);
+            throw new NotImplementedException();
+            //return null;
+        }
         public virtual byte[] GetBytes()
         {
             AppDebug.LogWarning($"GetBytes NotImplement, FullPath: {FullPath}");

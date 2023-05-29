@@ -8,6 +8,8 @@ namespace ms
 	{
 		public override void handle(InPacket recv)
 		{
+			GameUtil.Instance.stopwatch.Restart();
+
 			AttackResult attack = new AttackResult();
 			
 			int cid = recv.read_int();
@@ -50,10 +52,13 @@ namespace ms
 			var user = Stage.get ().get_character (cid).get ();
 			AttackUser attackuser = new AttackUser (attack.skilllevel, user?.get_level ()??0, user?.is_twohanded ()??false, attack.toleft, user);
 
-			AppDebug.Log ($"attack.damagelines.Count:{attack.damagelines.Count}\t toleft:{attack.toleft}");
+			//AppDebug.Log ($"attack.damagelines.Count:{attack.damagelines.Count}\t toleft:{attack.toleft}");
 			Stage.get().get_combat().push_attack(attack);
-			//Stage.get().get_combat().push_damageEffect(attack,attackuser);
-		}
+
+            GameUtil.Instance.stopwatch.Stop();
+            AppDebug.Log($"AttackHandler time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
+            //Stage.get().get_combat().push_damageEffect(attack,attackuser);
+        }
 
 		protected AttackHandler(Attack.Type t)
 		{

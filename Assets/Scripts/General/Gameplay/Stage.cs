@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using client;
 using HaCreator;
 using HaCreator.Wz;
 using MapleLib.WzLib;
@@ -80,7 +82,10 @@ namespace ms
         }
 		public void load (int mapid, sbyte portalid)
 		{
-			AppDebug.Log ($"load mapid:{mapid}\t portalid:{portalid}");
+			
+            GameUtil.Instance.stopwatch.Restart();
+
+            AppDebug.Log ($"load mapid:{mapid}\t portalid:{portalid}");
 			switch (state)
 			{
 				case State.INACTIVE:
@@ -92,7 +97,10 @@ namespace ms
 					break;
 			}
 			state = State.ACTIVE;
-		}
+
+            GameUtil.Instance.stopwatch.Stop();
+            AppDebug.Log($"load time:{GameUtil.Instance.stopwatch.ElapsedMilliseconds}\t portalid:{portalid}");
+        }
 
 		public void loadplayer (CharEntry entry)
 		{
@@ -154,7 +162,7 @@ namespace ms
 
 		public byte just_Entered_portalid;
 		public string just_Entered_portalName;
-		private void respawn (sbyte portalid)
+		public void respawn (sbyte portalid)
 		{
 			just_Entered_portalid = (byte)portalid;
 			portals.get_portal_by_id (just_Entered_portalid)?.get_name ();
@@ -341,6 +349,7 @@ namespace ms
 
 		public void send_key (KeyType.Id type, int action, bool down, bool pressing = false)
 		{
+			//AppDebug.Log($"send_key:{type}\t uistate:{state}");
 			if (state != State.ACTIVE || !playable)
 			{
 				return;
@@ -516,9 +525,16 @@ namespace ms
 			return physics?.get_fht ();
 		}
 
-		public void UpdateQuest ()
+        /// <summary>
+        /// player 创建的时候；ShowStatusInfoHandler 收到信息的时候；判断、 职业 等级 前置任务，前置道具 变化的时候
+        /// </summary>
+        public IEnumerator UpdateQuest ()
 		{
-			ms.Stage.get ().get_npcs ().UpdateQuest ();
+            yield return MapleCharacter.Player.RefreshCanStart_Quest(true);
+            //MapleCharacter.Player.LogAllQuest();
+
+            ms.Stage.get ().get_npcs ().UpdateQuest ();
+
 			ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_QuestLog> ().UpdateQuest ();
             ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_StatusBar>()._QuestLogMini.UpdateQuest();
 

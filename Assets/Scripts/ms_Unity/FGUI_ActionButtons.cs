@@ -10,6 +10,7 @@ namespace ms_Unity
         public Controller _c_Tab;
         public Controller _c_SetupAction;
         public Controller _c_SwitchSkillBtn;
+        public Controller _c_Mode;
         public GList _GList_UseBtns;
         public FGUI_Btn_Joystick_Acton _Btn_Skill1;
         public FGUI_Btn_Joystick_Acton _Btn_Skill2;
@@ -43,6 +44,7 @@ namespace ms_Unity
             _c_Tab = GetControllerAt(0);
             _c_SetupAction = GetControllerAt(1);
             _c_SwitchSkillBtn = GetControllerAt(2);
+            _c_Mode = GetControllerAt(3);
             _GList_UseBtns = (GList)GetChildAt(0);
             _Btn_Skill1 = (FGUI_Btn_Joystick_Acton)GetChildAt(1);
             _Btn_Skill2 = (FGUI_Btn_Joystick_Acton)GetChildAt(2);

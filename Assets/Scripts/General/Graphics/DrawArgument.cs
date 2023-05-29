@@ -191,8 +191,9 @@ namespace ms
 				sortingLayer = a.sortingLayer + b.sortingLayer,
 				orderInLayer = a.orderInLayer + b.orderInLayer,
 				DrawParent = a.DrawParent != null ? a.DrawParent : b.DrawParent != null ? b.DrawParent : null,
-				drawOnce = a.drawOnce || b.drawOnce
-			};
+				drawOnce = a.drawOnce || b.drawOnce,
+                isDontDestoryOnLoad = a.isDontDestoryOnLoad || b.isDontDestoryOnLoad
+            };
 		}
 
 		public static DrawArgument operator + (DrawArgument a, Point_short argpos)
@@ -200,12 +201,12 @@ namespace ms
 			return new DrawArgument (
 				a.pos + argpos,
 				a.center + argpos,
-				a.stretch, a.xscale, a.yscale, a.color, a.angle).SetParent(a.DrawParent);
+				a.stretch, a.xscale, a.yscale, a.color, a.angle).SetParent(a.DrawParent).SetDontDestoryOnLoad(a.isDontDestoryOnLoad);
 		}
 
 		public static DrawArgument operator - (DrawArgument a, Point_short argpos)
 		{
-			return new DrawArgument (a.pos - argpos, a.center - argpos, a.stretch, a.xscale, a.yscale, a.color, a.angle).SetParent (a.DrawParent);
+			return new DrawArgument (a.pos - argpos, a.center - argpos, a.stretch, a.xscale, a.yscale, a.color, a.angle).SetParent (a.DrawParent).SetDontDestoryOnLoad(a.isDontDestoryOnLoad);
 			/*return {
 				pos + argpos,
 				center + argpos,
@@ -323,12 +324,18 @@ namespace ms
 			return this;
 		}
 		public GameObject DrawParent;
-		#region to be removed later
+        public DrawArgument SetDontDestoryOnLoad(bool b)
+        {
+			isDontDestoryOnLoad = b;
+            return this;
+        }
+        public bool isDontDestoryOnLoad = false;
+        #region to be removed later
 
-		/*public short cx;
+        /*public short cx;
 		public short cy;
 		public bool isBack;*/
-		public int sortingLayer;
+        public int sortingLayer;
 
 		public int orderInLayer;
 

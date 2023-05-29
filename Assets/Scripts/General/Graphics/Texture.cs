@@ -124,7 +124,16 @@ namespace ms
 		public RenderTexture target => SingletonMono<MapleStory>.Instance.target;
 
 		public bool isSprite;
-		private Rect textureRelativeToCamera => new Rect (textureRect.x - cameraRect.x, textureRect.y - cameraRect.y, textureRect.width, textureRect.height);
+
+		public bool isDontDestoryOnLoad = false;
+		public Texture SetIsDontDestoryOnLoad(bool b)
+		{
+			isDontDestoryOnLoad = b;
+
+			return this;
+        }
+
+        private Rect textureRelativeToCamera => new Rect (textureRect.x - cameraRect.x, textureRect.y - cameraRect.y, textureRect.width, textureRect.height);
 
 		public DrawObject DrawObject { get; set; }
 
@@ -149,48 +158,72 @@ namespace ms
 			Init (srcTexture?.cache_src);
 		}
 
-		private void Init (WzObject src)
+		public void Init (WzObject src)
 		{
-			GUIDString = Guid.NewGuid ().ToString();
-			cache_src = src;
-			if (src != null && src.IsTexture ())
+            GUIDString = Guid.NewGuid().ToString();
+            cache_src = src;
+
+			/*if (cache_src == null)
 			{
-				fullPath = src.FullPath;
-				pivot = src["origin"]?.GetPoint ().ToMSPoint () ?? Point_short.zero;
-				bitmap = src.GetBitmapConsideringLink ();
-				if (bitmap == null)
-				{
-					Debug.Log (src.FullPath + " bitmap is null");
-				}
-				textureData = bitmap.RawBytes;
-				WzCanvasProperty canvasProperty = src as WzCanvasProperty;
-				if (canvasProperty != null)
-				{
-				}
-				this.canvasProperty = src as WzCanvasProperty;
-				dimensions = new Point_short ((short)bitmap.Width, (short)bitmap.Height);
-				
-				if (src.FullPath.Contains ("Map.wz\\Tile"))
-				{
-					//tileName = $"{ts}-{node_100000000img_0_Tile_0["u"].ToString ()}-{node_100000000img_0_Tile_0["no"]}";
-					string tileName = src.FullPath.Replace ("Map.wz\\Tile\\","").Replace ("\\","-");
-					MapleStory.Instance.tileSprites.TryGetValue (tileName, out sprite);
-					if (sprite != null)
-					{
-						texture2D = sprite.texture;
-						isSprite = true;
-					}
-					//AppDebug.Log ($"{tileName}\t {sprite}");
-				}
+                pivot = Point_short.zero;
+                dimensions = Point_short.zero;
+            }
+           else
+			{
+				*//*pivot = cache_src["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
+                bitmap = cache_src.GetBitmapConsideringLink();*//*
 
-				if (texture2D == null)
-				{
-					texture2D = TextureAndSpriteUtil.PngDataToTexture2D (textureData, bitmap, pivot, dimensions);
-				}
-				nTexture = new FairyGUI.NTexture (texture2D);
+				var point = cache_src.GetBitmapWidthHeightConsideringLink();
+				pivot = cache_src["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
+				dimensions = new Point_short((short)point.X, (short)point.Y);
+				AppDebug.Log($"point:{point}");
 			}
-		}
 
+            TestURPBatcher.Instance.msTexInitTasks.Enqueue(new MsTexInitTask(this));*/
+
+			InitCostTIme();
+        }
+
+		public void InitCostTIme()
+		{
+            
+            if (cache_src != null && cache_src.IsTexture())
+            {
+                fullPath = cache_src.FullPath;
+                pivot = cache_src["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
+                bitmap = cache_src.GetBitmapConsideringLink();
+                if (bitmap == null)
+                {
+                    Debug.Log(cache_src.FullPath + " bitmap is null");
+                }
+                textureData = bitmap.RawBytes;
+                WzCanvasProperty canvasProperty = cache_src as WzCanvasProperty;
+                if (canvasProperty != null)
+                {
+                }
+                this.canvasProperty = cache_src as WzCanvasProperty;
+                dimensions = new Point_short((short)bitmap.Width, (short)bitmap.Height);
+
+                if (cache_src.FullPath.Contains("Map.wz\\Tile"))
+                {
+                    //tileName = $"{ts}-{node_100000000img_0_Tile_0["u"].ToString ()}-{node_100000000img_0_Tile_0["no"]}";
+                    string tileName = cache_src.FullPath.Replace("Map.wz\\Tile\\", "").Replace("\\", "-");
+                    MapleStory.Instance.tileSprites.TryGetValue(tileName, out sprite);
+                    if (sprite != null)
+                    {
+                        texture2D = sprite.texture;
+                        isSprite = true;
+                    }
+                    //AppDebug.Log ($"{tileName}\t {sprite}");
+                }
+
+                if (texture2D == null)
+                {
+                    texture2D = TextureAndSpriteUtil.PngDataToTexture2D(textureData, bitmap, pivot, dimensions);
+                }
+                nTexture = new FairyGUI.NTexture(texture2D);
+            }
+        }
 		public void Dispose ()
 		{
 			TestURPBatcher.Instance.UnSpawn (this);
@@ -225,7 +258,12 @@ namespace ms
 				}
 				Vector3 localScale = new Vector3 (args.get_xscale (), -args.get_yscale (), 1f);
 				//Vector3 localScale = new Vector3 (args.get_xscale () * (args.getstretch ().x ()==0?1:args.getstretch ().x ()), -args.get_yscale ()* (args.getstretch ().y ()==0?1:args.getstretch ().y ()), 1f);
-				SingletonMono<TestURPBatcher>.Instance.TryDraw (this, bitmap, position, localScale, args.DrawParent);
+				if (args.isDontDestoryOnLoad)
+				{
+                    isDontDestoryOnLoad = args.isDontDestoryOnLoad;
+
+                }
+                SingletonMono<TestURPBatcher>.Instance.TryDraw (this, bitmap, position, localScale, args.DrawParent);
 			}
 		}
 

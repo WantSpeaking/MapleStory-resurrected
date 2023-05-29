@@ -77,5 +77,14 @@ namespace ms
 
 		private State state;
 		private EnumMap<State, Texture> textures = new EnumMap<State, Texture>();
-	}
+
+        public override void Dispose()
+        {
+            base.Dispose();
+			foreach (var pair in textures)
+			{
+				pair.Value?. Dispose();
+			}
+        }
+    }
 }

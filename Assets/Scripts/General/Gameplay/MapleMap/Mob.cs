@@ -108,7 +108,7 @@ namespace ms
 			set_position (new Point_short (position));
 			set_control (mode);
 			phobj.fhid = fh;
-			//phobj.set_flag (PhysicsObject.Flag.TURNATEDGES);
+			phobj.set_flag (PhysicsObject.Flag.TURNATEDGES);
 
 			hppercent = 0;
 			dying = false;
@@ -587,7 +587,13 @@ namespace ms
 		public Point_short mobAbsolutePos = new Point_short ();
 		public Rectangle_short get_Range ()
 		{
-			return animations[stance].get_bounds (false).shift (mobAbsolutePos);
+			if (animations.TryGetValue(stance, out var ani))
+			{
+				return ani.get_bounds(false).shift(mobAbsolutePos);
+			}
+			else
+				return Rectangle_short.zero;
+			
 		}
 		// Check if this mob is still alive
 		public bool is_alive ()

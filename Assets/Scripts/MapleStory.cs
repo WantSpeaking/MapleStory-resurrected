@@ -218,8 +218,9 @@ public class MapleStory : SingletonMono<MapleStory>
 		var oldColor = GUI.color;
 		GUI.color = Color.black;
 		GUI.BeginGroup (new Rect (Screen.width / 2, 0, 500, 300));
-		GUI.Label (new Rect (0,0,500,300), $"游戏版本：{GameUtil.Instance.Version}");
-		GUI.EndGroup ();
+		GUI.Label (new Rect (0,0,250,300), $"游戏版本：{GameUtil.Instance.Version}");
+		//GUI.Label (new Rect (250,0,250,300), $"测试信息：{GameUtil.Instance.debugMessage}");
+        GUI.EndGroup ();
 		GUI.color = oldColor;
 		//Debug.Log ($"{FairyGUI.Stage.inst.touchTarget} {FairyGUI.Stage.inst.touchTarget?.name}", FairyGUI.Stage.inst.touchTarget?.gameObject);
 
@@ -611,8 +612,9 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	private void OnButtonLoadClick ()
 	{
-		//Configuration.get ().set_hwid ("2EFDB98799DD_CB4F4F88", ref fds);
-		init ();
+        //Configuration.get ().set_hwid ("2EFDB98799DD_CB4F4F88", ref fds);
+        //UnityEngine.SceneManagement.SceneManager.LoadScene("Game", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        init ();
 	}
 
 	private GUIStyle labelStyle = new GUIStyle ();

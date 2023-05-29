@@ -10,7 +10,26 @@ namespace ms_Unity
 	public partial class FGUI_SkillBook
 	{
 		UISkillBook UISkillBook => UI.get ().get_element<UISkillBook> ();
-		public void OnCreate ()
+
+        private CharStats _CharStats;
+
+        public CharStats CharStats
+        {
+            get
+            {
+				if (_CharStats == null)
+				{
+					_CharStats = ms.Stage.get()?.get_player()?.get_stats();
+					if (_CharStats!= null)
+					{
+                        _CharStats.OnCharStatsChanged += OnCharStatsChanged;
+                    }
+                }
+				return _CharStats;
+            }
+        }
+
+        public void OnCreate ()
 		{
 			//UISkillBook = UI.get ().emplace<UISkillBook> (ms.Stage.get ().get_player ().get_stats (), ms.Stage.get ().get_player ().get_skills ());
 			_GList_SkillInfo.itemRenderer = ItemRenderer;
@@ -43,9 +62,20 @@ namespace ms_Unity
 			_BT_TAB3.onClick.Add (() => UISkillBook.button_pressed ((ushort)ms.UISkillBook.Buttons.BT_TAB3));
 			_BT_TAB4.onClick.Add (() => UISkillBook.button_pressed ((ushort)ms.UISkillBook.Buttons.BT_TAB4));
 
-		}
 
-		private void OnClick_SkillBook (EventContext context)
+        }
+
+        private void OnCharStatsChanged(MapleStat.Id arg1, ushort arg2)
+        {
+            switch (arg1) 
+			{
+				case MapleStat.Id.SP:
+                    _Txt_RemainSP.SetVar("RemainSP", arg2.ToString()).FlushVars();
+                    break;
+			}
+        }
+
+        private void OnClick_SkillBook (EventContext context)
 		{
 			/*if (isSettingupAction)
 			{
@@ -130,7 +160,9 @@ namespace ms_Unity
 			if (isVisible)
 			{
 				SetGList ();
-			}
+				change_sp();
+
+            }
 		}
 
 		public void SetJobLevelTab(int index)
@@ -165,22 +197,27 @@ namespace ms_Unity
 				}
 			}
 			//AppDebug.LogError (string_SkillName);
-			change_sp ();
+			//change_sp ();
 		}
 
-		private void OnClick_Btn_BT_SPUP0 (EventContext context)
+        private const string message = "分配技能点";
+        private void OnClick_Btn_BT_SPUP0 (EventContext context)
 		{
 			var clickedBtnSPUP = context.sender as GObject;
 			var selectedIndex = _GList_SkillInfo.GetChildIndex (clickedBtnSPUP.parent);
 			_GList_SkillInfo.selectedIndex = selectedIndex;
 			var skillInfo = UISkillBook.skills.TryGet(selectedIndex);
-			
-			UISkillBook.spend_sp (skillInfo.get_id ());
-			UISkillBook.change_sp ();
-			change_sp ();
-			clickedBtnSPUP.visible = UISkillBook.can_raise (skillInfo.get_id ());
-		}
-		private void OnClick_Btn_SetupSkill (EventContext context)
+
+			//UISkillBook.spend_sp (skillInfo.get_id ());
+			//UISkillBook.change_sp ();
+			//change_sp ();
+			//clickedBtnSPUP.visible = UISkillBook.can_raise (skillInfo.get_id ());
+			clickedBtnSPUP.visible = false;
+            //new SpendSpPacket(skill_id).dispatch();
+            FGUI_EnterNumber.ShowNotice(message, (count) => new SpendSpPacket(skillInfo.get_id(), count).dispatch(), CharStats?.get_stat(MapleStat.Id.SP) ?? 0, 1);
+
+        }
+        private void OnClick_Btn_SetupSkill (EventContext context)
 		{
 			_c_SetupAction.selectedIndex = 1;
 		}
@@ -195,5 +232,15 @@ namespace ms_Unity
 			glistItem._Btn_SetupSkill.visible = (!SkillData.get (skillInfo.get_id ()).is_passive())&& skillInfo.get_level()!= 0;
 			
 		}
-	}
+
+        public override void Dispose()
+        {
+            base.Dispose();
+			if (CharStats!=null)
+			{
+				CharStats.OnCharStatsChanged -= OnCharStatsChanged;
+            }
+            
+        }
+    }
 }

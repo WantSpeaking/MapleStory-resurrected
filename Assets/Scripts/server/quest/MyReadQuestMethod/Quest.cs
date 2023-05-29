@@ -142,7 +142,7 @@ namespace ms
 			}
 		}*/
 
-		public void updateQuest (short qid, byte status, string progressData)
+		/*public void updateQuest (short qid, byte status, string progressData)
 		{
 			MapleQuestStatus qs = MapleCharacter.Player.getQuest (qid);
 			if (status == 0)//NOT_STARTED
@@ -162,7 +162,7 @@ namespace ms
 			MapleCharacter.Player.updateQuestStatus (qs);
 
 			ms.Stage.get ().UpdateQuest ();//get_npcs.UpdateQuest FGUI_QuestLog.UpdateQuest
-		}
+		}*/
 
 		public bool checkCanComplete (short questId, int npcId)
 		{

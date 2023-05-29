@@ -15,6 +15,7 @@ namespace ms_Unity
 			/*_Joystick.onMove.Add (__joystickMove);
 			_Joystick.onEnd.Add (__joystickEnd);*/
 
+			_ActionButtons.LoadSettingPosToUI();
 		}
 
 		

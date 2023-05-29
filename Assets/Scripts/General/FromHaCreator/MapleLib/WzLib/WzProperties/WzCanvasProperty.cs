@@ -393,6 +393,11 @@ namespace MapleLib.WzLib.WzProperties
             return imageProp.GetImage(false);
         }
 
+        public override Point GetWidthHeight()
+        {
+            return imageProp.GetWidthHeight();
+        }
+
         #endregion
     }
 }

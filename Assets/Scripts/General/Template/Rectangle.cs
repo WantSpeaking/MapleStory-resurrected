@@ -26,7 +26,9 @@ namespace ms
 {
 	public class Rectangle_short
 	{
-		private Point_short left_top = new Point_short ();
+		public static Rectangle_short zero = new Rectangle_short();
+
+        private Point_short left_top = new Point_short ();
 
 		private Point_short right_bottom = new Point_short ();
 

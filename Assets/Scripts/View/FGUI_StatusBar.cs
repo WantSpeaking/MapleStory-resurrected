@@ -43,7 +43,7 @@ namespace ms_Unity
 		}
 		private void OnClick_CustomizeButtons(EventContext context)
         {
-			FGUI_Manager.Instance.OpenFGUI<FGUI_CustomizeJoystickAndButtons>();
+			FGUI_Manager.Instance.OpenFGUI<FGUI_CustomizeJoystickAndButtons>().OnVisiblityChanged(true);
         }
 
         private void OnClick_OpenInventoryPanel (EventContext context)

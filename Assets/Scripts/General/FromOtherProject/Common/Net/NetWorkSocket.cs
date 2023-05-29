@@ -77,17 +77,19 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 		{
 			//得到队列中的数据包
 			byte[] buffer = m_ReceiveQueue.Dequeue ();
-			var packet_bytes = buffer.ToSbyteArray();
-
-			if (Session.get().getCrypt() != null)
+			var packet_bytes = buffer?.ToSbyteArray();
+			if (packet_bytes != null)
 			{
-				//AppDebug.Log($"\trawPacket:{packet_bytes.ToDebugLog()}");
+                if (Session.get().getCrypt() != null)
+                {
+                    //AppDebug.Log($"\trawPacket:{packet_bytes.ToDebugLog()}");
 
-				cryptography.decrypt(packet_bytes, packet_bytes.Length);
-				//AppDebug.Log($"\tdecryptPacket:{packet_bytes.ToDebugLog()}");
+                    cryptography.decrypt(packet_bytes, packet_bytes.Length);
+                    //AppDebug.Log($"\tdecryptPacket:{packet_bytes.ToDebugLog()}");
 
-			}
-			packetswitch.forward (packet_bytes.ToByteArray(), buffer.Length);
+                }
+                packetswitch.forward(packet_bytes.ToByteArray(), buffer.Length);
+            }
 		}
 		/*while (true)
 		{

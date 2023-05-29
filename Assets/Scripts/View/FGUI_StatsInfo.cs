@@ -17,6 +17,13 @@ namespace ms_Unity
             _Label_Str._Btn_Add.onClick.Add(() => OnClick(true, MapleStat.Id.STR));
             
             _Btn_APAutoAssign.onClick.Add (OnClick_Btn_APAutoAssign);
+
+            ms.Stage.get().get_player().get_stats().OnCharStatsChanged += OnCharStatsChanged;
+        }
+
+        private void OnCharStatsChanged(MapleStat.Id arg1, ushort arg2)
+        {
+            RefreshStatsUI();
         }
 
         private void OnClick_Btn_APAutoAssign ()
@@ -27,7 +34,7 @@ namespace ms_Unity
         private const string message = "分配能力值点";
         private void OnClick(bool add, MapleStat.Id id)
         {
-            Refresh();
+            //RefreshStatsUI();
             
             FGUI_EnterNumber.ShowNotice (message,(count)=> new SpendApPacket(id,count).dispatch(),CharStats?.get_stat(MapleStat.Id.AP) ?? 0,1);
         }
@@ -36,7 +43,7 @@ namespace ms_Unity
 
         public CharStats CharStats => _CharStats ??= ms.Stage.get()?.get_player()?.get_stats();
 
-        public void Refresh()
+        public void RefreshStatsUI()
         {
             var AP = CharStats?.get_stat(MapleStat.Id.AP) ?? 0;
             var DEX = CharStats?.get_stat(MapleStat.Id.DEX) ?? 0;
@@ -60,11 +67,11 @@ namespace ms_Unity
             _Label_Str.GetTextField().SetVar("count", STR.ToString()).FlushVars();
 
         }
-
+/*
         protected override void OnUpdate()
         {
             base.OnUpdate();
-            Refresh();
-        }
+            RefreshStatsUI();
+        }*/
     }
 }

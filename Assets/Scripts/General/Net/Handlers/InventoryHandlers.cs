@@ -50,7 +50,10 @@ namespace ms
 	{
 		public override void handle (InPacket recv)
 		{
-			recv.read_bool (); // 'updatetick'
+            //AppDebug.Log($"Combat to ModifyInventory time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
+            
+
+            recv.read_bool (); // 'updatetick'
 
 			Inventory inventory = Stage.get ().get_player ().get_inventory ();
 
@@ -116,7 +119,11 @@ namespace ms
 				mods.Add (mod);
 			}
 
-			Inventory.Movement move = (recv.length () > 0) ? Inventory.movementbyvalue (recv.read_byte ()) : Inventory.Movement.MOVE_INTERNAL;
+            GameUtil.Instance.stopwatch.Stop();
+            AppDebug.Log($"ModifyInventory 1 time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
+            GameUtil.Instance.stopwatch.Restart();
+
+            Inventory.Movement move = (recv.length () > 0) ? Inventory.movementbyvalue (recv.read_byte ()) : Inventory.Movement.MOVE_INTERNAL;
 
 			foreach (Mod mod in mods)
 			{
@@ -199,6 +206,9 @@ namespace ms
 
 			Stage.get ().get_player ().recalc_stats (true);
 			UI.get ().enable ();
-		}
+
+            GameUtil.Instance.stopwatch.Stop();
+            AppDebug.Log($"ModifyInventory 2 time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
+        }
 	}
 }

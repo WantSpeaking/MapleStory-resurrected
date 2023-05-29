@@ -51,7 +51,7 @@ namespace ms
 
 		public void reset ()
 		{
-			usedTimes.Clear ();
+			/*usedTimes.Clear ();
             foreach (var pair in usedchars)
             {
                 foreach (var pair1 in pair.Value)
@@ -59,7 +59,7 @@ namespace ms
                     pair1.Dispose();
                 }
             }
-			usedchars.Clear();
+			usedchars.Clear();*/
         }
 		
 		public void draw (sbyte c, DrawArgument args)

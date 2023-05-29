@@ -40,11 +40,11 @@ namespace ms
 			listNpc = ms.wz.wzFile_ui["UIWindow.img"]["MiniMap"];
 			var BasicImg = ms.wz.wzFile_ui["Basic.img"];
 
-			buttons[(int)Buttons.BT_MIN] = new MapleButton (BasicImg["BtMin"], new Point_short (195, -6));
-			buttons[(int)Buttons.BT_MAX] = new MapleButton (BasicImg["BtMax"], new Point_short (209, -6));
+			//buttons[(int)Buttons.BT_MIN] = new MapleButton (BasicImg["BtMin"], new Point_short (195, -6));
+			//buttons[(int)Buttons.BT_MAX] = new MapleButton (BasicImg["BtMax"], new Point_short (209, -6));
 			//buttons[(int)Buttons.BT_SMALL] = new MapleButton (MiniMap["BtSmall"], new Point_short (223, -6));
 			//buttons[(int)Buttons.BT_BIG] = new MapleButton (MiniMap["BtBig"], new Point_short (223, -6));
-			buttons[(int)Buttons.BT_MAP] = new MapleButton (MiniMap["BtMap"], new Point_short (237, -6));
+			//buttons[(int)Buttons.BT_MAP] = new MapleButton (MiniMap["BtMap"], new Point_short (237, -6));
 			//buttons[(int)Buttons.BT_NPC] = new MapleButton (MiniMap["BtNpc"], new Point_short (276, -6));
 
 			region_text = new Text (Text.Font.A12B, Text.Alignment.LEFT, Color.Name.WHITE);
@@ -58,8 +58,15 @@ namespace ms
 			/*player_marker = new Animation (marker["user"]);
 			selected_marker = new Animation (MiniMap["iconNpc"]);*/
 			player_marker = new Animation (marker["user"]);
-			selected_marker = new Animation (marker["npc"]);
-		}
+			//selected_marker = new Animation (marker["npc"]);
+
+			/*	Map = NxHelper.Map.get_map_node_name(mapid);
+                var miniMap = 
+                normal_sprites.Add(new Sprite(Map?["miniMap"]?["canvas"], new DrawArgument(new Point_short(map_draw_origin_x, map_draw_origin_y))));
+                center_offset = new Point_short(miniMap["centerX"], miniMap["centerY"]);*/
+
+			setupMiniMap();
+        }
 
 		public override void draw (float alpha)
 		{
@@ -127,14 +134,14 @@ namespace ms
 			base.draw (alpha);
 		}
 
-		public override void update ()
+		private void setupMiniMap()
 		{
-			int mid = Stage.get ().get_mapid ();
+			int mid = Stage.get().get_mapid();
 
-			if (mid != mapid)
+			//if (mid != mapid)
 			{
 				mapid = mid;
-				Map = NxHelper.Map.get_map_node_name (mapid);
+				Map = NxHelper.Map.get_map_node_name(mapid);
 
 				WzObject town = Map["info"]["town"];
 				WzObject miniMap = Map["miniMap"];
@@ -156,18 +163,23 @@ namespace ms
 					{
 						type = user_type;
 					}
-					
-					scale = (short)Math.Pow (2, (int)miniMap["mag"]);
-					center_offset = new Point_short (miniMap["centerX"], miniMap["centerY"]);
+
+					scale = (short)Math.Pow(2, (int)miniMap["mag"]);
+					center_offset = new Point_short(miniMap["centerX"], miniMap["centerY"]);
 				}
 
-				update_text ();
-				update_buttons ();
-				update_canvas ();
-				update_static_markers ();
-				toggle_buttons ();
+				update_text();
+				//update_buttons();
+				update_canvas();
+				update_static_markers();
+				//toggle_buttons();
 				//update_npclist ();
 			}
+		}
+
+        public override void update ()
+		{
+			
 
 			if (type == (int)Type.MIN)
 			{
@@ -191,18 +203,18 @@ namespace ms
 				}
 			}
 
-			if (listNpc_enabled)
+			/*if (listNpc_enabled)
 			{
 				foreach (Sprite sprite in listNpc_sprites)
 				{
 					sprite.update ();
 				}
-			}
+			}*/
 
-			if (selected >= 0)
+			/*if (selected >= 0)
 			{
 				selected_marker.update ();
-			}
+			}*/
 
 			base.update ();
 		}
@@ -347,7 +359,7 @@ namespace ms
 			return TYPE;
 		}
 
-		public override Button.State button_pressed (ushort buttonid)
+		/*public override Button.State button_pressed (ushort buttonid)
 		{
 			switch ((Buttons)buttonid)
 			{
@@ -374,7 +386,7 @@ namespace ms
 			}
 
 			return Button.State.NORMAL;
-		}
+		}*/
 
 		private const short CENTER_START_X = 64;
 		private const short BTN_MIN_Y = 4;

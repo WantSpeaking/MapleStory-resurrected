@@ -131,21 +131,21 @@ namespace ms_Unity
 			if (inventory != null)
 			{
 				inventory.PropertyChanged += OnInventoryPropertyChanged;
-				_Btn_Meso.GetChild ("title").asTextField.SetVar ("Meso", inventory.Meso.ToString ()).FlushVars ();
+				_Btn_Meso.GetChild("title").asTextField.SetVar("Meso", inventory.Meso.ToString()).FlushVars();
 				inventory.PropertyChanged += OnInventoryPropertyChanged;
 				for (short i = 0; i < MAXEQUIPPEDSLOTS; i++)
 				{
-					var child_Equipped = _GList_Equipped.GetChildAt (i) as FGUI_Itemed_ListItem;
+					var child_Equipped = _GList_Equipped.GetChildAt(i) as FGUI_Itemed_ListItem;
 					child_Equipped._c_InventoryTypeId.selectedIndex = (int)InventoryType.Id.EQUIPPED;
 				}
 
 				for (short i = 0; i < MAXFULLSLOTS; i++)//position:300,160
 				{
-					var child_Equip = _GList_Equip.GetChildAt (i) as FGUI_Itemed_ListItem;
-					var child_Use = _GList_Use.GetChildAt (i) as FGUI_Itemed_ListItem;
-					var child_Etc = _GList_Etc.GetChildAt (i) as FGUI_Itemed_ListItem;
-					var child_Setup = _GList_Setup.GetChildAt (i) as FGUI_Itemed_ListItem;
-					var child_Cash = _GList_Cash.GetChildAt (i) as FGUI_Itemed_ListItem;
+					var child_Equip = _GList_Equip.GetChildAt(i) as FGUI_Itemed_ListItem;
+					var child_Use = _GList_Use.GetChildAt(i) as FGUI_Itemed_ListItem;
+					var child_Etc = _GList_Etc.GetChildAt(i) as FGUI_Itemed_ListItem;
+					var child_Setup = _GList_Setup.GetChildAt(i) as FGUI_Itemed_ListItem;
+					var child_Cash = _GList_Cash.GetChildAt(i) as FGUI_Itemed_ListItem;
 
 					child_Equip._c_InventoryTypeId.selectedIndex = (int)InventoryType.Id.EQUIP;
 					child_Use._c_InventoryTypeId.selectedIndex = (int)InventoryType.Id.USE;
@@ -154,29 +154,29 @@ namespace ms_Unity
 					child_Cash._c_InventoryTypeId.selectedIndex = (int)InventoryType.Id.CASH;
 
 
-					if (i > inventory.get_slotmax (InventoryType.Id.EQUIP))
+					if (i > inventory.get_slotmax(InventoryType.Id.EQUIP))
 					{
 						child_Equip.enabled = false;
 					}
-					if (i > inventory.get_slotmax (InventoryType.Id.USE))
+					if (i > inventory.get_slotmax(InventoryType.Id.USE))
 					{
 						child_Use.enabled = false;
 					}
-					if (i > inventory.get_slotmax (InventoryType.Id.ETC))
+					if (i > inventory.get_slotmax(InventoryType.Id.ETC))
 					{
 						child_Etc.enabled = false;
 					}
-					if (i > inventory.get_slotmax (InventoryType.Id.SETUP))
+					if (i > inventory.get_slotmax(InventoryType.Id.SETUP))
 					{
 						child_Setup.enabled = false;
 					}
-					if (i > inventory.get_slotmax (InventoryType.Id.CASH))
+					if (i > inventory.get_slotmax(InventoryType.Id.CASH))
 					{
 						child_Cash.enabled = false;
 					}
 				}
 
-				Inventories = inventory.get_all_data ();
+				Inventories = inventory.get_all_data();
 				foreach (var type_dict in inventories)
 				{
 					var type = type_dict.Key;
@@ -495,7 +495,7 @@ namespace ms_Unity
 			OnCollectionChanged (sender, e, contentETC, InventoryType.Id.ETC);
 
 			//item 有变化 
-			ms.Stage.get ().UpdateQuest ();
+			//ms.Stage.get ().UpdateQuest ();
 		}
 
 		private void OnSetupsChanged (object sender, NotifyCollectionChangedEventArgs e)
@@ -508,7 +508,7 @@ namespace ms_Unity
 			OnCollectionChanged (sender, e, contentUSE, InventoryType.Id.USE);
 
 			//Uses 有变化 
-			ms.Stage.get ().UpdateQuest ();
+			//ms.Stage.get ().UpdateQuest ();
 		}
 
 		protected void OnEquippedsChanged (object sender, NotifyCollectionChangedEventArgs e)
@@ -666,7 +666,7 @@ namespace ms_Unity
 
 				bool untradable = ItemData.get (item_id).is_untradable ();
 				bool cashitem = ItemData.get (item_id).is_cashitem ();
-				Texture texture = new Texture (ItemData.get (item_id).get_icon (false));
+				Texture texture = ItemData.get(item_id).get_icon(false);
 				EquipSlot.Id eqslot = inventory.find_equipslot (item_id);
 
 				icons[tab][slot] = new Icon (new ItemIcon (UI.get ().get_element<UIItemInventory> ().get (), tab, eqslot, slot, item_id, count, untradable, cashitem), texture, count);

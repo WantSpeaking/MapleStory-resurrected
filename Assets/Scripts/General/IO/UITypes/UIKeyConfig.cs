@@ -172,7 +172,7 @@ namespace ms
 			}
 		}
 
-		public override Cursor.State send_cursor (bool clicked, Point_short cursorpos)
+		/*public override Cursor.State send_cursor (bool clicked, Point_short cursorpos)
 		{
 			Cursor.State dstate = base.send_cursor (clicked, new Point_short (cursorpos));
 
@@ -263,7 +263,7 @@ namespace ms
 			}
 
 			return base.send_cursor (clicked, new Point_short (cursorpos));
-		}
+		}*/
 
 		public override bool send_icon (Icon icon, Point_short cursorpos)
 		{

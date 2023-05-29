@@ -612,15 +612,16 @@ namespace ms
 		public TypeMap<Entry> settings = new TypeMap<Entry> ();
 
         public const string DefaultPos_Btn_HeavyAttack = "(1391,917)";
-        public const string DefaultPos_Btn_LightAttack = "(1561,922)";
-        public const string DefaultPos_Btn_Jump = "(1679,769)";
-        public const string DefaultPos_Btn_PickUp = "(1731,917)";
-        public const string DefaultPos_Btn_Skill1 = "(1391,620)";
-        public const string DefaultPos_Btn_Skill2 = "(1561,620)";
-        public const string DefaultPos_Btn_Skill3 = "(1731,620)";
-        public const string DefaultPos_Btn_Skill4 = "(1339,769)";
-        public const string DefaultPos_Btn_Skill5 = "(1509,769)";
-        public const string DefaultPos_Btn_Skill6 = "(1017,800)";
+        public const string DefaultPos_Btn_LightAttack = "(1401,920)";
+        public const string DefaultPos_Btn_Jump = "(1554,920)";
+        public const string DefaultPos_Btn_PickUp = "(1707,920)";
+
+        public const string DefaultPos_Btn_Skill1 = "(1396,618)";
+        public const string DefaultPos_Btn_Skill2 = "(1566,618)";
+        public const string DefaultPos_Btn_Skill3 = "(1736,618)";
+        public const string DefaultPos_Btn_Skill4 = "(1344,768)";
+        public const string DefaultPos_Btn_Skill5 = "(1514,768)";
+        public const string DefaultPos_Btn_Skill6 = "(1682,768)";
     }
 
 	// IP Address which the client will connect to
