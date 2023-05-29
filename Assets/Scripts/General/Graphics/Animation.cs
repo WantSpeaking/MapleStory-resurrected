@@ -141,8 +141,10 @@ namespace ms
 		{
 			texture.Dispose ();
 		}
+		public short Width => get_dimensions()?.x() ?? 0;
+        public short Height => get_dimensions()?.y() ?? 0;
 
-		private Point_short head;
+        private Point_short head;
 		private Rectangle_short bounds;
 		private Texture texture;
 		private ushort delay;
@@ -440,7 +442,7 @@ namespace ms
 			return get_frame ().get_bounds (debug);
 		}
 
-		private Frame get_frame (bool debug = false)
+		public Frame get_frame (bool debug = false)
 		{
 			return frames[frame.get ()];
 			//return frames[0];

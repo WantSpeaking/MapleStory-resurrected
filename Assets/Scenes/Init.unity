@@ -1573,7 +1573,7 @@ MonoBehaviour:
   TestMode: 0
   TestAccount: admin2
   TestPassword: admin2
-  Version: 35
+  Version: 36
   drawMap: 1
   enableUpdate: 1
   mainCamera: {fileID: 1326867178}
@@ -1584,6 +1584,8 @@ MonoBehaviour:
   sendAttackPacket: 1
   spawnMobInterval: 0.2
   spawnNPCInterval: 0.5
+  bgDrawX: 400
+  bgDrawY: 400
 --- !u!114 &609587594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2154,7 +2156,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 772691842}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 533.3333, y: -300, z: 0}
+  m_LocalPosition: {x: 400, y: -300, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3977,7 +3979,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u670D\u52A1\u5668\u7AEF\u53E3:"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c4087e78c378c4c4eaf14e6f90560cfd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: -5459410016884986833, guid: c4087e78c378c4c4eaf14e6f90560cfd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -4041,7 +4043,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1526752346
@@ -4112,7 +4114,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u670D\u52A1\u5668IP:"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c4087e78c378c4c4eaf14e6f90560cfd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: -5459410016884986833, guid: c4087e78c378c4c4eaf14e6f90560cfd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -4176,7 +4178,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1594718647

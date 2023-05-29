@@ -27,4 +27,8 @@ public class GameUtil : SingletonMono<GameUtil>
 
 	public float spawnMobInterval = 0.2f;
     public float spawnNPCInterval = 0.5f;
+
+	public int bgDrawX;
+    public int bgDrawY;
+
 }

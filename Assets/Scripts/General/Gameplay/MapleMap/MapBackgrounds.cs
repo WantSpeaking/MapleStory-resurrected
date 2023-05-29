@@ -9,6 +9,8 @@ using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using MapleLib.WzLib.WzStructure;
 using MapleLib.WzLib.WzStructure.Data;
+using UnityEngine;
+using System.Security.Policy;
 
 
 namespace ms
@@ -40,7 +42,7 @@ namespace ms
 			moveobj.set_x (src["x"]);//Map/Map1/100000000.img/back/0/x
 			moveobj.set_y (src["y"]);//Map/Map1/100000000.img/back/0/y
 
-			Type type = typebyid (src["type"]);//Map/Map1/100000000.img/back/0/type
+			type = typebyid (src["type"]);//Map/Map1/100000000.img/back/0/type
 
 			settype (type);
 
@@ -162,10 +164,9 @@ namespace ms
 
 		}
 		
-
 		public void draw (double viewx, double viewy, float alpha, int sortingLayer)
 		{
-			/*animation.draw (new DrawArgument (new Point_short ((short)x, (short)y), flipped, opacity / 255), alpha);*/
+			/*animation.draw (new DrawArgument (new Point_short ((short)x, (short)y), flipped, opacity / 255), alpha);*//*
 
 			double x;
 
@@ -233,42 +234,163 @@ namespace ms
 					animation.draw (new DrawArgument (new Point_short ((short)(ix + tx), (short)(iy + ty + 200)), flipped, opacity / 255), alpha);
 					counter++;
 				}
-			}
-			//AppDebug.Log ($"{fullPath} background draw {counter} tx:{tx} ty:{ty} tw:{tw} th:{th} cx:{cx} cy:{cy}");
+			}*/
 
-			//backgroundItem.Draw (GameUtil.Instance.Batch, GameUtil.Instance.Game.skeletonMeshRenderer, GameUtil.Instance.Game.gameTime, (int)viewx, (int)viewy, 640, 360, null, 1280, 720, 1, RenderResolution.Res_1280x720, Environment.TickCount);
-		}
-		public void update ()
+			var drawFrame = animation.get_frame();
+
+			int X = GameUtil.Instance.bgDrawX ;
+            int Y = GameUtil.Instance.bgDrawY;
+
+            int _cx = cx == 0 ? drawFrame.Width : cx;
+            int _cy = cy == 0 ? drawFrame.Height : cy;
+			var renderWidth = Width;
+			var renderHeight = Height;
+			int bgMoveShiftX = 0;
+            int bgMoveShiftY = 0;
+			var TickCount = Time.frameCount;
+
+            switch (type)
+            {
+                case BackgroundType.Regular:
+                    Draw2D( X, Y, drawFrame);
+                    break;
+                case BackgroundType.HorizontalTiling:
+                    DrawHorizontalCopies( renderWidth, X, Y, _cx, drawFrame);
+                    break;
+                case BackgroundType.VerticalTiling:
+                    DrawVerticalCopies( renderHeight, X, Y, _cy, drawFrame);
+                    break;
+                case BackgroundType.HVTiling:
+                    DrawHVCopies( renderWidth, renderHeight, X, Y, _cx, _cy, drawFrame);
+                    break;
+                case BackgroundType.HorizontalMoving:
+                    DrawHorizontalCopies( renderWidth, X + (int)bgMoveShiftX, Y, _cx, drawFrame);
+                    IncreaseShiftX(_cx, TickCount);
+                    break;
+                case BackgroundType.VerticalMoving:
+                    DrawVerticalCopies( renderHeight, X, Y + (int)bgMoveShiftY, _cy, drawFrame);
+                    IncreaseShiftY(_cy, TickCount);
+                    break;
+                case BackgroundType.HorizontalMovingHVTiling:
+                    DrawHVCopies( renderWidth, renderHeight, X + (int)bgMoveShiftX, Y, _cx, _cy, drawFrame);
+                    IncreaseShiftX(_cx, TickCount);
+                    break;
+                case BackgroundType.VerticalMovingHVTiling:
+                    DrawHVCopies( renderWidth, renderHeight, X, Y + (int)bgMoveShiftY, _cx, _cy, drawFrame);
+                    IncreaseShiftX(_cy, TickCount);
+                    break;
+                default:
+                    break;
+            }
+            //AppDebug.Log ($"{fullPath} background draw {counter} tx:{tx} ty:{ty} tw:{tw} th:{th} cx:{cx} cy:{cy}");
+
+            //backgroundItem.Draw (GameUtil.Instance.Batch, GameUtil.Instance.Game.skeletonMeshRenderer, GameUtil.Instance.Game.gameTime, (int)viewx, (int)viewy, 640, 360, null, 1280, 720, 1, RenderResolution.Res_1280x720, Environment.TickCount);
+        }
+        double bgMoveShiftX = 0;
+        double bgMoveShiftY = 0;
+
+        private int LastShiftIncreaseX = 0;
+        private int LastShiftIncreaseY = 0;
+        public void IncreaseShiftX(int cx, int TickCount)
+        {
+            bgMoveShiftX += rx * (TickCount - LastShiftIncreaseX) / 200d;
+            bgMoveShiftX %= cx;
+            LastShiftIncreaseX = TickCount;
+        }
+        public void IncreaseShiftY(int cy, int TickCount)
+        {
+            bgMoveShiftY += ry * (TickCount - LastShiftIncreaseY) / 200d;
+            bgMoveShiftY %= cy;
+            LastShiftIncreaseY = TickCount;
+        }
+        private void DrawHorizontalCopies(int simWidth, int x, int y,int cx, Frame frame)
+        {
+            int width = Width;
+            Draw2D(x, y, frame);
+            var copyX = x - cx;
+            while (copyX + width > 0)
+            {
+                Draw2D(copyX, y, frame);
+                copyX -= cx;
+            }
+            copyX = x + cx;
+            while (copyX < simWidth)
+            {
+                Draw2D(copyX, y, frame);
+                copyX += cx;
+            }
+        }
+
+        private void DrawVerticalCopies(int simHeight,int x, int y,int cy, Frame frame)
+        {
+            int height = frame.Height;
+            Draw2D(x, y, frame);
+            var copyY = y - cy;
+            while (copyY + height > 0)
+            {
+                Draw2D(x, copyY, frame);
+                copyY -= cy;
+            }
+            copyY = y + cy;
+            while (copyY < simHeight)
+            {
+                Draw2D( x, copyY, frame);
+                copyY += cy;
+            }
+        }
+        public void DrawHVCopies(int simWidth, int simHeight, int x, int y, int cx,int cy, Frame frame)
+        {
+            int width = frame.Width;
+            DrawVerticalCopies(simHeight,x, y, cy, frame);
+            var copyX = x - cx;
+            while (copyX + width > 0)
+            {
+                DrawVerticalCopies(simHeight, copyX, y, cy, frame);
+                copyX -= cx;
+            }
+            copyX = x + cx;
+            while (copyX < simWidth)
+            {
+                DrawVerticalCopies(simHeight, copyX, y, cy, frame);
+                copyX += cx;
+            }
+        }
+        public void Draw2D(int x, int y, Frame drawFrame)
+        {
+            drawFrame.draw(new DrawArgument(new Point_short((short)(x), (short)(y)), flipped, opacity / 255));
+        }
+
+        public void update ()
 		{
-			moveobj.move ();
+			//moveobj.move ();
 			animation.update ();
 		}
 
-		private enum Type
+		private enum BackgroundType
 		{
-			NORMAL,
-			HTILED,
-			VTILED,
-			TILED,
-			HMOVEA,
-			VMOVEA,
-			HMOVEB,
-			VMOVEB
+			Regular,
+			HorizontalTiling,
+			VerticalTiling,
+			HVTiling,
+			HorizontalMoving,
+			VerticalMoving,
+			HorizontalMovingHVTiling,
+			VerticalMovingHVTiling
 		}
 
-		private static Type typebyid (int id)
+		private static BackgroundType typebyid (int id)
 		{
-			if (id >= ((int)Type.NORMAL) && id <= (int)Type.VMOVEB)
+			if (id >= ((int)BackgroundType.Regular) && id <= (int)BackgroundType.VerticalMovingHVTiling)
 			{
-				return (Type)id;
+				return (BackgroundType)id;
 			}
 
 			AppDebug.Log ($"Unknown BackgroundType id [{id}]");
 
-			return Type.NORMAL;
+			return BackgroundType.Regular;
 		}
 
-		private void settype (Type type)
+		private void settype (BackgroundType type)
 		{
 			short dim_x = animation.get_dimensions ().x ();
 			short dim_y = animation.get_dimensions ().y ();
@@ -289,17 +411,17 @@ namespace ms
 
 			switch (type)
 			{
-				case Type.HTILED:
-				case Type.HMOVEA:
+				case BackgroundType.HorizontalTiling:
+				case BackgroundType.HorizontalMoving:
 					htile = (short)(VWIDTH / cx + 3);
 					break;
-				case Type.VTILED:
-				case Type.VMOVEA:
+				case BackgroundType.VerticalTiling:
+				case BackgroundType.VerticalMoving:
 					vtile = (short)(VHEIGHT / cy + 3);
 					break;
-				case Type.TILED:
-				case Type.HMOVEB:
-				case Type.VMOVEB:
+				case BackgroundType.HVTiling:
+				case BackgroundType.HorizontalMovingHVTiling:
+				case BackgroundType.VerticalMovingHVTiling:
 					htile = (short)(VWIDTH / cx + 3);
 					vtile = (short)(VHEIGHT / cy + 3);
 					break;
@@ -307,12 +429,12 @@ namespace ms
 
 			switch (type)
 			{
-				case Type.HMOVEA:
-				case Type.HMOVEB:
+				case BackgroundType.HorizontalMoving:
+				case BackgroundType.HorizontalMovingHVTiling:
 					moveobj.hspeed = rx / 16;
 					break;
-				case Type.VMOVEA:
-				case Type.VMOVEB:
+				case BackgroundType.VerticalMoving:
+				case BackgroundType.VerticalMovingHVTiling:
 					moveobj.vspeed = ry / 16;
 					break;
 			}
@@ -337,13 +459,14 @@ namespace ms
 		private double y;
 		private int orderInLayer;
 		private string fullPath;
+        private BackgroundType type;
 
-
-		private MovingObject moveobj = new MovingObject ();
+        private MovingObject moveobj = new MovingObject ();
         public void Dispose()
         {
             animation?.Dispose();
         }
+
         #region MapleStory-GM-Client
 
         private short CX;
@@ -857,6 +980,9 @@ namespace ms
         private List<Background> backgrounds = new List<Background> ();
 		private List<Background> foregrounds = new List<Background> ();
 		private bool black;
-	}
+
+	
+
+    }
 
 }

@@ -194,7 +194,7 @@ namespace ms
 			MapleStory.Instance.viewy = viewy;
 			MapleStory.Instance.alpha = alpha;
 
-			//backgrounds?.drawbackgrounds (viewx, viewy, alpha);
+			backgrounds?.drawbackgrounds (viewx, viewy, alpha);
 			foreach (ms.Layer.Id id in Enum.GetValues (typeof (ms.Layer.Id)))
 			{
 				if (GameUtil.Instance.drawMap)
@@ -216,7 +216,7 @@ namespace ms
 			//portals?.draw (Point_short.zero, alpha);
 			portals?.draw (new Point_short((short)viewx,(short)viewy), alpha);
 
-			//backgrounds?.drawforegrounds (viewx, viewy, alpha);
+			backgrounds?.drawforegrounds (viewx, viewy, alpha);
 			effect?.draw ();
 		}
 

@@ -145,7 +145,8 @@ namespace ms
 				MapleCharacter.Player.updateQuestStatus (qs);
 			}
 
-            ms.Stage.get().UpdateQuest();
+			GameUtil.Instance.StartCoroutine(ms.Stage.get().UpdateQuest());
+            //ms.Stage.get().UpdateQuest();
         }
 
 		public static void parse_ring1 (InPacket recv)
