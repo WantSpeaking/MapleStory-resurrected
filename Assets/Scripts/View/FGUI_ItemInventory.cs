@@ -12,6 +12,7 @@ using Helper;
 using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 using Stage = ms.Stage;
+using System.Collections;
 
 namespace ms_Unity
 {
@@ -524,7 +525,7 @@ namespace ms_Unity
 					this.AddItem (eventArgs.NewStartingIndex, (KeyValuePair<short, ms.Inventory.Slot>)eventArgs.NewItems[0], parent, typeId);
 					break;
 				case NotifyCollectionChangedAction.Remove:
-					this.RemoveItem (eventArgs.OldStartingIndex, eventArgs.OldItems[0], parent);
+					this.RemoveItem (eventArgs.OldStartingIndex, eventArgs.OldItems[0], parent, typeId);
 					break;
 				case NotifyCollectionChangedAction.Replace:
 					this.ReplaceItem (eventArgs.OldStartingIndex, eventArgs.OldItems[0], eventArgs.NewItems[0], parent, typeId);
@@ -555,8 +556,8 @@ namespace ms_Unity
 
 						FGUI_View.MonoBehaviour_View.SetDataContext (item);*/
 			tab = typeId;
-			update_slot (keyValuePair.Key);
-			update_slot_FGUI (keyValuePair.Key, parent);
+			update_slot (keyValuePair.Key, typeId);
+			update_slot_FGUI (keyValuePair.Key, parent,tab);
 
 			/*var itemViewGo = Instantiate (this.itemTemplate);
 			itemViewGo.GList.SetParent (parent, false);
@@ -573,10 +574,10 @@ namespace ms_Unity
 			itemView.SetDataContext (item);*/
 		}
 
-		protected virtual void RemoveItem (int index, object item, GList parent)
+		protected virtual void RemoveItem (int index, object item, GList parent, InventoryType.Id typeId)
 		{
 			var keyValuePair = (KeyValuePair<short, ms.Inventory.Slot>)item;
-			update_slot (keyValuePair.Key);
+			update_slot (keyValuePair.Key, typeId);
 
 			index = keyValuePair.Key - 1;
 			var slot = keyValuePair.Value;
@@ -591,33 +592,38 @@ namespace ms_Unity
 				var iconGLoader = FGUI_View.GetChild ("icon")?.asLoader;
 				if (iconGLoader != null)
 					iconGLoader.texture = null;
-			}
+				FGUI_View._c_EquipStatus.selectedIndex = 0;
+                FGUI_View._c_ShowEnchanceCount.selectedIndex = 0;
+				FGUI_View._txt_EnchanceCount.SetVar("count", "").FlushVars();
+				//FGUI_View._c_InventoryTypeId.selectedIndex = -1; 
+				parent.selectedIndex = -1;
+            }
 
 
 
-			/*GList GList = this.contentEQUIP.GetChild (index);
+            /*GList GList = this.contentEQUIP.GetChild (index);
 			UIView itemView = GList.GetComponent<UIView> ();
 			if (itemView.GetDataContext () == item)
 			{
 				itemView.gameObject.SetActive (false);
 				Destroy (itemView.gameObject);
 			}*/
-		}
+        }
 
 		protected virtual void ReplaceItem (int index, object oldItem, object item, GList parent, InventoryType.Id typeId)
 		{
 			var keyValuePair_Old = (KeyValuePair<short, ms.Inventory.Slot>)oldItem;
-			var keyValuePair_New = (KeyValuePair<short, ms.Inventory.Slot>)item;
+			var keyValuePair_New = (KeyValuePair<short, ms.Inventory.Slot>)item; 
 
 			//AppDebug.Log ($"Count1:{keyValuePair.Value.Count} Count2:{keyValuePair2.Value.Count}");
 
 			tab = typeId;
 
 			//update_slot (keyValuePair_Old.Key);
-			update_slot (keyValuePair_New.Key);
+			update_slot (keyValuePair_New.Key, typeId); 
 
 			//update_slot_FGUI (keyValuePair_Old.Key, parent);
-			update_slot_FGUI (keyValuePair_New.Key, parent);
+			update_slot_FGUI (keyValuePair_New.Key, parent, typeId);
 
 			
 		}
@@ -648,20 +654,20 @@ namespace ms_Unity
 
 		}
 
-		private void update_slot (short slot)
+		private void update_slot (short slot, InventoryType.Id typeId)
 		{
-			int item_id = inventory.get_item_id (tab, slot);
+			int item_id = inventory.get_item_id (typeId, slot);
 			if (item_id != 0)
 			{
 				short count;
 
-				if (tab == InventoryType.Id.EQUIP)
+				if (typeId == InventoryType.Id.EQUIP)
 				{
 					count = -1;
 				}
 				else
 				{
-					count = inventory.get_item_count (tab, slot);
+					count = inventory.get_item_count (typeId, slot);
 				}
 
 				bool untradable = ItemData.get (item_id).is_untradable ();
@@ -669,17 +675,17 @@ namespace ms_Unity
 				Texture texture = ItemData.get(item_id).get_icon(false);
 				EquipSlot.Id eqslot = inventory.find_equipslot (item_id);
 
-				icons[tab][slot] = new Icon (new ItemIcon (UI.get ().get_element<UIItemInventory> ().get (), tab, eqslot, slot, item_id, count, untradable, cashitem), texture, count);
+				icons[typeId][slot] = new Icon (new ItemIcon (UI.get ().get_element<UIItemInventory> ().get (), typeId, eqslot, slot, item_id, count, untradable, cashitem), texture, count);
 			}
-			else if (icons[tab].count (slot) > 0)
+			else if (icons[typeId].count (slot) > 0)
 			{
-				icons[tab].Remove (slot);
+				icons[typeId].Remove (slot);
 			}
 		}
 
-		private void update_slot_FGUI (short Key, GList glist)
+		private void update_slot_FGUI (short Key, GList glist, InventoryType.Id typeid)
 		{
-			if (icons[tab].TryGetValue (Key, out var icon))
+			if (icons[typeid].TryGetValue (Key, out var icon))
 			{
 				var index = Key - 1;
 				FGUI_Itemed_ListItem FGUI_View = null;
@@ -694,16 +700,66 @@ namespace ms_Unity
 				{
 					FGUI_View = glist.GetChildAt (index) as FGUI_Itemed_ListItem;
 				}
-				FGUI_View._c_InventoryTypeId.selectedIndex = (int)tab;
+				FGUI_View._c_InventoryTypeId.selectedIndex = (int)typeid;
 				FGUI_View._c_count.selectedIndex = count > 1 ? 1 : 0;
 				FGUI_View.text = count.ToString ();
 				nTexture = icon.get_texture ().nTexture;
 				var iconGLoader = FGUI_View.GetChild ("icon")?.asLoader;
 				if (iconGLoader != null)
 					iconGLoader.texture = nTexture;
-			}
+
+                var oequip = inventory.get_equip(typeid, Key);
+                if (oequip)
+                {
+                    var level = oequip.get().get_level();
+                    FGUI_View._c_ShowEnchanceCount.selectedIndex = level > 0 ? 1 : 0;
+                    FGUI_View._txt_EnchanceCount.SetVar("count", level.ToString()).FlushVars();
+                    //FGUI_View._txt_EnchanceCount.text = "+" + level;
+                    //AppDebug.Log($"update_slot_FGUI:level:{level} key:{Key}");
+                }
+            }
 		}
-		public override void Dispose ()
+
+		public void RefreshEquipEnchanceCount()
+		{
+			/*foreach (var item in inventory.get_all_data()[InventoryType.Id.EQUIPPED])
+			{
+				var index = item.Key - 1;
+				var FGUI_View = _GList_Equipped.GetChildAt(index) as FGUI_Itemed_ListItem;
+				if (FGUI_View != null)
+				{
+					var oequip = inventory.get_equip(InventoryType.Id.EQUIPPED, item.Key);
+					if (oequip)
+					{
+						var level = oequip.get().get_level();
+						FGUI_View._c_ShowEnchanceCount.selectedIndex = level > 0 ? 1 : 0;
+						//AppDebug.Log($"RefreshEquipEnchanceCount:level:{level} key:{item.Key}");
+						FGUI_View._txt_EnchanceCount.SetVar("count", level.ToString()).FlushVars();
+						//FGUI_View._txt_EnchanceCount.text = level.ToString();
+
+                    }
+				}
+			}
+
+			foreach (var item in inventory.get_all_data()[InventoryType.Id.EQUIP])
+			{
+				var index = item.Key - 1;
+				var FGUI_View = _GList_Equip.GetChildAt(index) as FGUI_Itemed_ListItem;
+				if (FGUI_View != null)
+				{
+					var oequip = inventory.get_equip(InventoryType.Id.EQUIP, item.Key);
+					if (oequip)
+					{
+						var level = oequip.get().get_level();
+						FGUI_View._c_ShowEnchanceCount.selectedIndex = level > 0 ? 1 : 0;
+						FGUI_View._txt_EnchanceCount.SetVar("count", level.ToString()).FlushVars();
+                        //FGUI_View._txt_EnchanceCount.text = level.ToString();
+                    }
+				}
+			}*/
+		}
+
+        public override void Dispose ()
 		{
             /*base.Dispose ();
 			if (this.items != null)

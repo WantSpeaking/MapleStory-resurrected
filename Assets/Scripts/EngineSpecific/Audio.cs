@@ -516,6 +516,11 @@ namespace ms
 
         private static string add_sound (WzObject src)
         {
+            if (samples.ContainsKey(src.FullPath))
+            {
+                return string.Empty;
+            }
+
             var ad = src;
 
             var data = ad.GetBytes ();
@@ -523,11 +528,6 @@ namespace ms
 			if (data != null)
 			{
 				var id = ad.FullPath;
-
-				if (samples.ContainsKey (ad.FullPath))
-				{
-					return string.Empty;
-				}
 
 				samples[id] = Bass.BASS_SampleLoad (data, 0, data.Length, 65535, BASSFlag.BASS_SAMPLE_OVER_POS);
 

@@ -19,6 +19,7 @@
 
 using System;
 using Helper;
+using ms_Unity;
 
 namespace ms
 {
@@ -120,7 +121,7 @@ namespace ms
 			inventory.add_equip (invtype, slot, id, cash, expire, (byte)slots, (byte)level, stats, owner, flag, (byte)itemlevel, itemexp, vicious);
 		}
 
-		public static void parse_item (InPacket recv, InventoryType.Id invtype, short slot, Inventory inventory)
+		public static void parse_item (InPacket recv, InventoryType.Id invtype, short slot, Inventory inventory,bool isFromInventoryHandler = false)
 		{
 			// Read type and item id
 			recv.read_byte (); // 'type' byte
@@ -130,7 +131,13 @@ namespace ms
 			{
 				// Parse an equip
 				add_equip (recv, invtype, slot, iid, inventory);
-			}
+				if (isFromInventoryHandler)
+				{
+                    FGUI_Manager.Instance.GetFGUI<FGUI_BlacksmithShop>().Refresh();
+
+					//FGUI_Manager.Instance.GetFGUI<FGUI_ItemInventory>().RefreshEquipEnchanceCount();
+                }
+            }
 			else if (iid >= 5000000 && iid <= 5000102)
 			{
 				// Parse a pet

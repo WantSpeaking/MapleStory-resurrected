@@ -329,9 +329,10 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 	{
 		try
 		{
-			/*if (m_Client.Available <= 0) return; 
+            /*if (m_Client.Available <= 0) return; 
 			if (m_Client == null) return;*/
-			if (m_Client != null && m_Client.Connected)
+            if (m_Client != null && m_Client.Connected)
+            //    if (m_Client != null)
 			{
                 int len = m_Client.EndReceive(ar);
                 if (len > 0)

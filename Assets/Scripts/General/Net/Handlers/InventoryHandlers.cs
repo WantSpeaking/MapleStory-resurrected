@@ -74,7 +74,7 @@ namespace ms
 				switch ((Inventory.Modification)mod.mode)
 				{
 					case Inventory.Modification.ADD:
-						ItemParser.parse_item (recv, mod.type, mod.pos, inventory);
+						ItemParser.parse_item (recv, mod.type, mod.pos, inventory,true);
 						if (keyconfig)
 						{
 							short count_now = inventory.get_item_count (mod.type, mod.pos);
@@ -208,7 +208,7 @@ namespace ms
 			UI.get ().enable ();
 
             GameUtil.Instance.stopwatch.Stop();
-            AppDebug.Log($"ModifyInventory 2 time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
+            //AppDebug.Log($"ModifyInventory 2 time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
         }
 	}
 }

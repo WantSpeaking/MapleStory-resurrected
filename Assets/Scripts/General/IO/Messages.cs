@@ -34,9 +34,9 @@ namespace ms
 			[Type.SKILL_NOBULLETS] = "You do not have enough bullets to use this attack.",
 			[Type.SKILL_NOSTARS] = "You do not have enough throwing stars to use this attack.",
 			[Type.SKILL_COOLDOWN] = "You cannot use this skill as it is on cooldown.",
-			[Type.SCROLL_SUCCESS] = "The scroll lights up and it's mysterious powers have been transferred to the item.",
-			[Type.SCROLL_FAILURE] = "The scroll lights up but the item remains as if nothing happened.",
-			[Type.SCROLL_DESTROYED] = "The item has been destroyed due to the overwhelming power of the scroll."
+			[Type.SCROLL_SUCCESS] = "卷轴亮起，它的神秘力量已经转移到物品上。",
+			[Type.SCROLL_FAILURE] = "卷轴亮起，但装备保持原样，好像什么都没发生。",
+			[Type.SCROLL_DESTROYED] = "由于卷轴的压倒性力量，该物品已被摧毁。"
 		};
 	}
 

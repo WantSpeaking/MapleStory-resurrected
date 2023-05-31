@@ -9,7 +9,10 @@ namespace ms_Unity
     {
         public Controller _c_count;
         public Controller _c_InventoryTypeId;
+        public Controller _c_EquipStatus;
+        public Controller _c_ShowEnchanceCount;
         public GImage _bg;
+        public GTextField _txt_EnchanceCount;
         public const string URL = "ui://4916gthq10dqm3a";
 
         public static FGUI_Itemed_ListItem CreateInstance()
@@ -23,7 +26,10 @@ namespace ms_Unity
 
             _c_count = GetControllerAt(1);
             _c_InventoryTypeId = GetControllerAt(2);
-            _bg = (GImage)GetChildAt(0);
+            _c_EquipStatus = GetControllerAt(3);
+            _c_ShowEnchanceCount = GetControllerAt(4);
+            _bg = (GImage)GetChildAt(1);
+            _txt_EnchanceCount = (GTextField)GetChildAt(13);
             OnCreate();
 
         }

@@ -252,6 +252,8 @@ namespace ms
 		private bool unique;
 		private bool unsellable;
 		private bool cashitem;
+
+		public bool isScroll() => get_item_prefix(itemid) == 204;
 	}
 }
 

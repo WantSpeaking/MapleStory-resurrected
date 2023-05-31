@@ -98,15 +98,15 @@ namespace ms
 			WHITESCROLL = 0x02
 		}
 
-		public ScrollEquipPacket (short source, EquipSlot.Id target, byte flags) : base ((short)OutPacket.Opcode.SCROLL_EQUIP)
+		public ScrollEquipPacket (short scrollSlot, short equipSlot, bool isEquipped, byte flags) : base ((short)OutPacket.Opcode.USE_UPGRADE_SCROLL)
 		{
 			write_time ();
-			write_short (source);
-			write_short ((short)(-(short)target));
+			write_short (scrollSlot);
+			write_short ((short)(equipSlot*(isEquipped?-1:1)));
 			write_short (flags);
 		}
 
-		public ScrollEquipPacket (short source, EquipSlot.Id target) : this (source, target, 0)
+		public ScrollEquipPacket (short scrollSlot, short equipSlot, bool isEquipped) : this (scrollSlot, equipSlot, isEquipped,0)
 		{
 		}
 	}

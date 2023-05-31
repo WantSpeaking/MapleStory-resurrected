@@ -1,5 +1,6 @@
 ﻿using System;
 using client;
+using ms_Unity;
 using server.quest;
 
 namespace ms
@@ -316,17 +317,22 @@ namespace ms
 				}
 			}
 
-			/*todo Stage.get ().show_character_effect (cid, effect);
+			//todo 
+			Stage.get().show_character_effect(cid, effect);
 
-			if (Stage.get ().is_player (cid))
+			if (Stage.get().is_player(cid))
 			{
-				if (var chatbar = UI.get ().get_element<UIChatBar> ())
+				var chatbar = UI.get().get_element<UIChatBar>();
+
+                if (chatbar)
 				{
-					chatbar.display_message (message, UIChatBar.LineType.RED);
+					chatbar.get().display_message(message, UIChatBar.LineType.RED);
 				}
 
-				UI.get ().enable ();
-			}*/
+				UI.get().enable();
+			}
+
+			FGUI_OK.ShowNotice(Messages.messages[message]);
 		}
 	}
 

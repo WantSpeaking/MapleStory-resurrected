@@ -182,25 +182,38 @@ namespace ms
 		// Add a general item
 		public void add_item (InventoryType.Id invtype, short slot, int item_id, bool cash, long expire, ushort count, string owner, short flags)
 		{
-			items.Add (add_slot (invtype, slot, item_id, (short)count, cash), new Item (item_id, expire, owner, flags));
-		}
+            running_uid++;
+
+            items.Add (running_uid, new Item (item_id, expire, owner, flags));
+
+            inventories[invtype][slot] = new Slot(running_uid, item_id, (short)count, cash);
+        }
 
 		// Add a pet item
 		public void add_pet (InventoryType.Id invtype, short slot, int item_id, bool cash, long expire, string name, sbyte level, short closeness, sbyte fullness)
 		{
-			pets.Add (add_slot (invtype, slot, item_id, 1, cash), new Pet (item_id, expire, name, (byte)level, (ushort)closeness, (byte)fullness));
-		}
+            running_uid++;
+
+            pets.Add (running_uid, new Pet (item_id, expire, name, (byte)level, (ushort)closeness, (byte)fullness));
+
+            inventories[invtype][slot] = new Slot(running_uid, item_id, 1, cash);
+        }
 
 		// Add an equip item
 		public void add_equip (InventoryType.Id invtype, short slot, int item_id, bool cash, long expire, byte slots, byte level, EnumMap<EquipStat.Id, ushort> stats, string owner, short flag, byte ilevel, ushort iexp, int vicious)
 		{
-			equips.Add (add_slot (invtype, slot, item_id, 1, cash), new Equip (item_id, expire, owner, flag, slots, level, stats, ilevel, (short)iexp, vicious));
-		}
+            running_uid++;
 
-		// Check if the use inventory contains at least one projectile
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool has_projectile() const
-		public bool has_projectile ()
+            equips.Add (running_uid, new Equip (item_id, expire, owner, flag, slots, level, stats, ilevel, (short)iexp, vicious));
+
+            inventories[invtype][slot] = new Slot(running_uid, item_id, 1, cash);
+
+        }
+
+        // Check if the use inventory contains at least one projectile
+        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+        //ORIGINAL LINE: bool has_projectile() const
+        public bool has_projectile ()
 		{
 			return bulletslot > 0;
 		}

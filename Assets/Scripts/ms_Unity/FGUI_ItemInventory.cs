@@ -19,8 +19,8 @@ namespace ms_Unity
         public GGroup _Bot;
         public GList _GList_Equipped;
         public GLoader _GLoader_Player;
-        public FGUI_Itemed_ItemDetail _Itemed_ItemDetail;
         public FGUI_StatsInfo _StatsInfo;
+        public FGUI_Itemed_ItemDetail _Itemed_ItemDetail;
         public FGUI_SetupUseButtons _SetupUseButtons;
         public const string URL = "ui://4916gthqfokuolp";
 
@@ -45,8 +45,8 @@ namespace ms_Unity
             _Bot = (GGroup)GetChildAt(15);
             _GList_Equipped = (GList)GetChildAt(16);
             _GLoader_Player = (GLoader)GetChildAt(17);
-            _Itemed_ItemDetail = (FGUI_Itemed_ItemDetail)GetChildAt(18);
-            _StatsInfo = (FGUI_StatsInfo)GetChildAt(19);
+            _StatsInfo = (FGUI_StatsInfo)GetChildAt(18);
+            _Itemed_ItemDetail = (FGUI_Itemed_ItemDetail)GetChildAt(19);
             _SetupUseButtons = (FGUI_SetupUseButtons)GetChildAt(20);
             OnCreate();
 

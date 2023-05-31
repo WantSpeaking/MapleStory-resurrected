@@ -26,12 +26,16 @@ namespace ms_Unity
 			_BT_CustomizeButtons.onClick.Add (OnClick_CustomizeButtons);
 			_BT_Instance.onClick.Add (OnClick_BT_Instance);
 			_BT_FuctionCenter.onClick.Add (OnClick_FuctionCenter);
+            _BT_BlacksmithShop.onClick.Add(OnClick_BT_BlacksmithShop);
 
             _Txt_Version.SetVar("count", GameUtil.Instance.Version).FlushVars();
 
         }
-
-		private void OnClick_BT_Instance ()
+        private void OnClick_BT_BlacksmithShop()
+        {
+            FGUI_Manager.Instance.OpenFGUI<FGUI_BlacksmithShop>().Refresh();
+        }
+        private void OnClick_BT_Instance ()
 		{
 			new TalkToNPCPacket (GameUtil.Instance.testTalkNpcId_Instance).dispatch ();
 			FGUI_Manager.Instance.GetFGUI<FGUI_NpcTalk>().beginScriptTalk = true;

@@ -1131,7 +1131,7 @@ namespace ms
 					}
 				case InventoryType.Id.USE:
 					{
-						new ScrollEquipPacket (source, eqslot).dispatch ();
+						new ScrollEquipPacket (source, (short)eqslot, true).dispatch ();
 						break;
 					}
 			}
