@@ -163,33 +163,33 @@ namespace ms
 			}*/
 
 		}
-		
+		private int drawCount;
 		public void draw (double viewx, double viewy, float alpha, int sortingLayer)
 		{
-			/*animation.draw (new DrawArgument (new Point_short ((short)x, (short)y), flipped, opacity / 255), alpha);*//*
+			//animation.draw(new DrawArgument(new Point_short((short)x, (short)y), flipped, opacity / 255), alpha);
 
 			double x;
 
-			if (moveobj.hmobile ())
+			if (moveobj.hmobile())
 			{
-				x = moveobj.get_absolute_x (viewx, alpha);
+				x = moveobj.get_absolute_x(viewx, alpha);
 			}
 			else
 			{
 				double shift_x = rx * (WOFFSET - viewx) / 100 + WOFFSET;
-				x = moveobj.get_absolute_x (shift_x, alpha);
+				x = moveobj.get_absolute_x(shift_x, alpha);
 			}
 
 			double y;
 
-			if (moveobj.vmobile ())
+			if (moveobj.vmobile())
 			{
-				y = moveobj.get_absolute_y (viewy, alpha);
+				y = moveobj.get_absolute_y(viewy, alpha);
 			}
 			else
 			{
 				double shift_y = ry * (HOFFSET - viewy) / 100 + HOFFSET;
-				y = moveobj.get_absolute_y (shift_y, alpha);
+				y = moveobj.get_absolute_y(shift_y, alpha);
 			}
 
 			if (htile > 1)
@@ -218,74 +218,88 @@ namespace ms
 				}
 			}
 
-			short ix = (short)Math.Round (x);
-			short iy = (short)Math.Round (y);
+			short ix = (short)Math.Round(x);
+			short iy = (short)Math.Round(y);
 
 			short tw = (short)(cx * htile);
 			short th = (short)(cy * vtile);
-			var counter = 0;
+			//var counter = 0;
 			short tx;
 			short ty;
 
+			drawCount = 0;
 			for (tx = 0; tx < tw; tx += cx)
 			{
 				for (ty = 0; ty < th; ty += cy)
 				{
-					animation.draw (new DrawArgument (new Point_short ((short)(ix + tx), (short)(iy + ty + 200)), flipped, opacity / 255), alpha);
-					counter++;
+					drawCount++;
+					Animation a;
+					if (drawCount> anim_cache.Count)
+					{
+						a = new Animation(animation);
+						anim_cache.Add(a);
+
+                    }
+					else
+					{
+						a = anim_cache.TryGet(drawCount - 1);
+                    }
+
+                    a.draw(new DrawArgument(new Point_short((short)(ix + tx), (short)(iy + ty)), flipped, opacity / 255), alpha);
+					//counter++;
 				}
-			}*/
+			}
 
-			var drawFrame = animation.get_frame();
+			/*		var drawFrame = animation.get_frame();
 
-			int X = GameUtil.Instance.bgDrawX ;
-            int Y = GameUtil.Instance.bgDrawY;
+					int X = GameUtil.Instance.bgDrawX ;
+					int Y = GameUtil.Instance.bgDrawY;
 
-            int _cx = cx == 0 ? drawFrame.Width : cx;
-            int _cy = cy == 0 ? drawFrame.Height : cy;
-			var renderWidth = Width;
-			var renderHeight = Height;
-			int bgMoveShiftX = 0;
-            int bgMoveShiftY = 0;
-			var TickCount = Time.frameCount;
+					int _cx = cx == 0 ? drawFrame.Width : cx;
+					int _cy = cy == 0 ? drawFrame.Height : cy;
+					var renderWidth = Width;
+					var renderHeight = Height;
+					int bgMoveShiftX = 0;
+					int bgMoveShiftY = 0;
+					var TickCount = Time.frameCount;
 
-            switch (type)
-            {
-                case BackgroundType.Regular:
-                    Draw2D( X, Y, drawFrame);
-                    break;
-                case BackgroundType.HorizontalTiling:
-                    DrawHorizontalCopies( renderWidth, X, Y, _cx, drawFrame);
-                    break;
-                case BackgroundType.VerticalTiling:
-                    DrawVerticalCopies( renderHeight, X, Y, _cy, drawFrame);
-                    break;
-                case BackgroundType.HVTiling:
-                    DrawHVCopies( renderWidth, renderHeight, X, Y, _cx, _cy, drawFrame);
-                    break;
-                case BackgroundType.HorizontalMoving:
-                    DrawHorizontalCopies( renderWidth, X + (int)bgMoveShiftX, Y, _cx, drawFrame);
-                    IncreaseShiftX(_cx, TickCount);
-                    break;
-                case BackgroundType.VerticalMoving:
-                    DrawVerticalCopies( renderHeight, X, Y + (int)bgMoveShiftY, _cy, drawFrame);
-                    IncreaseShiftY(_cy, TickCount);
-                    break;
-                case BackgroundType.HorizontalMovingHVTiling:
-                    DrawHVCopies( renderWidth, renderHeight, X + (int)bgMoveShiftX, Y, _cx, _cy, drawFrame);
-                    IncreaseShiftX(_cx, TickCount);
-                    break;
-                case BackgroundType.VerticalMovingHVTiling:
-                    DrawHVCopies( renderWidth, renderHeight, X, Y + (int)bgMoveShiftY, _cx, _cy, drawFrame);
-                    IncreaseShiftX(_cy, TickCount);
-                    break;
-                default:
-                    break;
-            }
-            //AppDebug.Log ($"{fullPath} background draw {counter} tx:{tx} ty:{ty} tw:{tw} th:{th} cx:{cx} cy:{cy}");
+					switch (type)
+					{
+						case BackgroundType.Regular:
+							Draw2D( X, Y, drawFrame);
+							break;
+						case BackgroundType.HorizontalTiling:
+							DrawHorizontalCopies( renderWidth, X, Y, _cx, drawFrame);
+							break;
+						case BackgroundType.VerticalTiling:
+							DrawVerticalCopies( renderHeight, X, Y, _cy, drawFrame);
+							break;
+						case BackgroundType.HVTiling:
+							DrawHVCopies( renderWidth, renderHeight, X, Y, _cx, _cy, drawFrame);
+							break;
+						case BackgroundType.HorizontalMoving:
+							DrawHorizontalCopies( renderWidth, X + (int)bgMoveShiftX, Y, _cx, drawFrame);
+							IncreaseShiftX(_cx, TickCount);
+							break;
+						case BackgroundType.VerticalMoving:
+							DrawVerticalCopies( renderHeight, X, Y + (int)bgMoveShiftY, _cy, drawFrame);
+							IncreaseShiftY(_cy, TickCount);
+							break;
+						case BackgroundType.HorizontalMovingHVTiling:
+							DrawHVCopies( renderWidth, renderHeight, X + (int)bgMoveShiftX, Y, _cx, _cy, drawFrame);
+							IncreaseShiftX(_cx, TickCount);
+							break;
+						case BackgroundType.VerticalMovingHVTiling:
+							DrawHVCopies( renderWidth, renderHeight, X, Y + (int)bgMoveShiftY, _cx, _cy, drawFrame);
+							IncreaseShiftX(_cy, TickCount);
+							break;
+						default:
+							break;
+					}
+					//AppDebug.Log ($"{fullPath} background draw {counter} tx:{tx} ty:{ty} tw:{tw} th:{th} cx:{cx} cy:{cy}");
 
-            //backgroundItem.Draw (GameUtil.Instance.Batch, GameUtil.Instance.Game.skeletonMeshRenderer, GameUtil.Instance.Game.gameTime, (int)viewx, (int)viewy, 640, 360, null, 1280, 720, 1, RenderResolution.Res_1280x720, Environment.TickCount);
-        }
+					//backgroundItem.Draw (GameUtil.Instance.Batch, GameUtil.Instance.Game.skeletonMeshRenderer, GameUtil.Instance.Game.gameTime, (int)viewx, (int)viewy, 640, 360, null, 1280, 720, 1, RenderResolution.Res_1280x720, Environment.TickCount);*/
+		}
         double bgMoveShiftX = 0;
         double bgMoveShiftY = 0;
 
@@ -446,6 +460,7 @@ namespace ms
 		private short HOFFSET;
 
 		private Animation animation = new Animation ();
+		private List<Animation> anim_cache = new List<Animation>();
 		private bool animated;
 		private short cx;
 		private short cy;
@@ -465,6 +480,11 @@ namespace ms
         public void Dispose()
         {
             animation?.Dispose();
+			foreach (var item in anim_cache)
+			{
+				item?.Dispose();
+            }
+			anim_cache.Clear();
         }
 
         #region MapleStory-GM-Client

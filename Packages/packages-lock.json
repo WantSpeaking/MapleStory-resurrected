@@ -4,7 +4,10 @@
       "version": "file:com.singularitygroup.hotreload",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0"
+      }
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
