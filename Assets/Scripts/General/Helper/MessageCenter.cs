@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ms_Unity;
+using System;
 using System.Collections.Generic;
 
 namespace ms.Util
@@ -11,15 +12,17 @@ namespace ms.Util
        
         public MessageCenter()
         {
-            PartyDataChanged += UIUserList.OnPartyDataChanged;
-            PartyDataChanged += UIPartyMember_HP.OnPartyDataChanged;
+            //PartyDataChanged += UIUserList.OnPartyDataChanged;
+            //PartyDataChanged += UIPartyMember_HP.OnPartyDataChanged;
 
+            PartyDataChanged += FGUI_Manager.Instance.GetFGUI<FGUI_StatusBar>()._QuestLogMini.OnPartyDataChanged;
         }
         ~MessageCenter()
         {
-            PartyDataChanged -= UIUserList.OnPartyDataChanged;
-            PartyDataChanged -= UIPartyMember_HP.OnPartyDataChanged;
+            //PartyDataChanged -= UIUserList.OnPartyDataChanged;
+            //PartyDataChanged -= UIPartyMember_HP.OnPartyDataChanged;
 
+            PartyDataChanged -= FGUI_Manager.Instance.GetFGUI<FGUI_StatusBar>()._QuestLogMini.OnPartyDataChanged;
         }
 
         #region Account Password

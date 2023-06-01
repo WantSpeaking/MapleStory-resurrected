@@ -3,6 +3,9 @@ using FairyGUI;
 using FairyGUI.Utils;
 using ms;
 using server.quest;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ms_Unity
@@ -11,10 +14,23 @@ namespace ms_Unity
     {
         public void OnCreate()
         {
-            _GList_QuestInfo_in_progress.itemRenderer = ListItemRenderer;
+            _GList_QuestInfo_in_progress.itemRenderer = ListItemRenderer_Quest;
+            _GList_Party.itemRenderer = ListItemRenderer_Party;
+
+            _Btn_CreateParty.onClick.Add(OnClick_Btn_CreateParty);
+            _Btn_QuitParty.onClick.Add(OnClick_Btn_QuitParty);
+
         }
 
-        private void ListItemRenderer(int index,GObject item)
+        private void OnClick_Btn_CreateParty(EventContext context)
+        {
+            new CreatePartyPacket().dispatch();
+        }
+        private void OnClick_Btn_QuitParty(EventContext context)
+        {
+            new LeavePartyPacket().dispatch();
+        }
+        private void ListItemRenderer_Quest(int index,GObject item)
         {
             var qs = MapleCharacter.Player.getStartedQuests().TryGet(index);
             var questId = qs.QuestID;
@@ -72,11 +88,55 @@ namespace ms_Unity
             ListItem_QuestLog._Txt_Desc.text = stringBuilder.ToString();
         }
 
+        private void ListItemRenderer_Party(int index, GObject item)
+        {
+            var parUI = item as FGUI_ListItem_Party;
+            var parData = partyMembers.TryGet(index);
+
+            if (parUI != null)
+            {
+                parUI._Txt_Name.text = parData.Name;
+            }
+        }
+
         private StringBuilder stringBuilder = new StringBuilder();
 
         public void UpdateQuest()
         {
             _GList_QuestInfo_in_progress.numItems = MapleCharacter.Player.getStartedQuests().Count;
         }
+
+        public void OnPartyDataChanged(List<MaplePartyCharacter> partyMemberArray, int leaderId)
+        {
+            partyMembers.Clear();
+            partyMembers.AddRange(partyMemberArray.Where(c=>c.isValid));
+
+            PartyLeaderId = leaderId;
+
+            _GList_Party.numItems = partyMembers.Count;
+
+            _c_PartyStatus.selectedIndex = PartyLeaderId != 0 ? 1 : 0;
+        }
+
+        private List<MaplePartyCharacter> partyMembers = new List<MaplePartyCharacter>();
+        private int PartyLeaderId;
+
+        public void UpdateHpBar_Char(int cid, int curHp, int maxHp)
+        {
+            for (int i = 0; i < partyMembers.Count; i++)
+            {
+                if (partyMembers[i].id == cid && partyMembers[i].isValid)
+                {
+                    var partyItemUI = _GList_Party.GetChildAt(i) as FGUI_ListItem_Party;
+                    if(partyItemUI != null)
+                    {
+                        partyItemUI._ProgressBar_HP.value = curHp;
+                        partyItemUI._ProgressBar_HP.max = maxHp;
+                        partyItemUI._ProgressBar_HP.Update(curHp);
+                    }
+                }
+            }
+        }
+       
     }
 }

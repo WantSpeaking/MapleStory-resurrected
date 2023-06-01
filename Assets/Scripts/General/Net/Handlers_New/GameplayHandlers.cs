@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ms.Util;
+using ms_Unity;
 
 namespace ms
 {
@@ -304,13 +305,15 @@ namespace ms
 			var curhp = recv.read_int ();
 			var maxhp = recv.read_int ();
 
-			var partyHP = UI.get ().get_element<UIPartyMember_HP> ();
+			/*var partyHP = UI.get ().get_element<UIPartyMember_HP> ();
 			if (partyHP == false)
 			{
 				partyHP = UI.get ().emplace<UIPartyMember_HP> ();
 			}
 
-			partyHP.get ().UpdateHpBar_Char (cid, curhp, maxhp);
-		}
+			partyHP.get ().UpdateHpBar_Char (cid, curhp, maxhp);*/
+            FGUI_Manager.Instance.GetFGUI<FGUI_StatusBar>()._QuestLogMini.UpdateHpBar_Char(cid, curhp, maxhp);
+
+        }
 	}
 }

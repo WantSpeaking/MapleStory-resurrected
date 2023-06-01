@@ -3,13 +3,8 @@
 using FairyGUI;
 using FairyGUI.Utils;
 using ms;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using static ms.Inventory;
-using static ms.KeyConfig;
-using static ms.UIUserList;
-using static Unity.VisualScripting.Member;
+
 
 namespace ms_Unity
 {
@@ -47,11 +42,6 @@ namespace ms_Unity
             var type_slot_scroll = type_slot_scroll_list.TryGet(_GList_Scroll.selectedIndex);
             var type_slot_equip = type_slot_equip_list.TryGet(_GList_Equip.selectedIndex);
 
-            //var equipSLot = inventory.get_all_data()[type_slot_equip.Item1].TryGetValue(type_slot_equip.Item2);
-
-            //EquipData.get(equipSLot.Item_id).get_eqslot();
-            //enabled = false;
-            //AppDebug.Log($"type_slot_scroll.Item2:{type_slot_scroll.Item2} type_slot_equip.Item2:{type_slot_equip.Item2}");
             new ScrollEquipPacket(type_slot_scroll.Item2, type_slot_equip.Item2, type_slot_equip.Item1 == InventoryType.Id.EQUIPPED).dispatch();
         }
         const string equipLevel = "+{count=0}";
@@ -64,11 +54,7 @@ namespace ms_Unity
             uiItem._c_EquipStatus.selectedIndex = type_slot.Item1 == InventoryType.Id.EQUIPPED ? 1 : 0;
 
             uiItem.GetChild("icon").asLoader.texture = getNTextureByIndex(index, type_slot_equip_list);
-            /*if (inventory.get_all_data()[type_slot.Item1].TryGetValue(type_slot.Item2, out var slot))
-            {
-                
-            }*/
-
+          
             var oequip = inventory.get_equip(type_slot.Item1, type_slot.Item2);
             if (oequip)
             {
