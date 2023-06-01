@@ -205,7 +205,7 @@ namespace ms
 					foreach (var sub in node_Anim.WzProperties)
 					{
 						//AppDebug.Log ($"{sub.FullPath} istexture:{istexture} type:{(sub as WzImageProperty)?.PropertyType}");
-						if (sub.PropertyType == WzPropertyType.Canvas)
+						if (sub.IsTexture())
 						{
 							short fid = string_conversion.or_default (sub.Name, (short)-1);
 

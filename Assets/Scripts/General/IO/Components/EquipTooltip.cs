@@ -37,7 +37,7 @@ namespace ms
 			potential[ms.Equip.Potential.POT_RARE] = ItemIcon["1"];
 			potential[ms.Equip.Potential.POT_EPIC] = ItemIcon["2"];
 			potential[ms.Equip.Potential.POT_UNIQUE] = ItemIcon["3"];
-			potential[ms.Equip.Potential.POT_LEGENDARY] = ItemIcon["4"];
+			potential[ms.Equip.Potential.POT_LEGENDARY] = ItemIcon["4"];*/ 
 
 			requirements.Add (MapleStat.Id.LEVEL);
 			requirements.Add (MapleStat.Id.STR);
@@ -45,7 +45,7 @@ namespace ms
 			requirements.Add (MapleStat.Id.INT);
 			requirements.Add (MapleStat.Id.LUK);
 
-			reqstattextures[MapleStat.Id.LEVEL][false] = EquipCannot["reqLEV"];
+            /*reqstattextures[MapleStat.Id.LEVEL][false] = EquipCannot["reqLEV"];
 			reqstattextures[MapleStat.Id.LEVEL][true] = EquipCan["reqLEV"];
 			reqstattextures[MapleStat.Id.FAME][false] = EquipCannot["reqPOP"];
 			reqstattextures[MapleStat.Id.FAME][true] = EquipCan["reqPOP"];
@@ -71,8 +71,8 @@ namespace ms
 			lvset[true] = new Charset (Equip["YellowNumber"], Charset.Alignment.LEFT);
 			atkincset[false] = new Charset (Equip["Summary"]["decline"], Charset.Alignment.RIGHT);
 			atkincset[true] = new Charset (Equip["Summary"]["incline"], Charset.Alignment.RIGHT);
-			
-			jobsback = Equip["Job"]["normal"];
+
+            jobsback = Equip["Job"]["normal"];
 			jobs[false][0] = Equip["Job"]["disable"]["0"];
 			jobs[false][1] = Equip["Job"]["disable"]["1"];
 			jobs[false][2] = Equip["Job"]["disable"]["2"];
@@ -88,15 +88,15 @@ namespace ms
 
 			invpos = 0;
 			invpos_preview = 0;*/
-		}
+        }
 
-		public bool hasEquip;
+        public bool hasEquip;
 		public void set_equip (Tooltip.Parent parent, short ivp)
 		{
-			if (invpos == ivp)
+			/*if (invpos == ivp)
 			{
 				return;
-			}
+			}*/
 
 			invpos = ivp;
 			invpos_preview = 0;

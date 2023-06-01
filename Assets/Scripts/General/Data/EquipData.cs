@@ -107,7 +107,7 @@ namespace ms
 				slots = src["tuc"];
 
 				reqstats[MapleStat.Id.LEVEL] = src["reqLevel"];
-				reqstats[MapleStat.Id.JOB] = (short)(src["reqJob"]*100);//todo 2 currently all the src["reqJob"] is 0-4, however actual job is 0,100,200,300,400
+				reqstats[MapleStat.Id.JOB] = (src["reqJob"]);//todo 2 currently all the src["reqJob"] is 0-4, however actual job is 0,100,200,300,400
 				reqstats[MapleStat.Id.STR] = src["reqSTR"];
 				reqstats[MapleStat.Id.DEX] = src["reqDEX"];
 				reqstats[MapleStat.Id.INT] = src["reqINT"];

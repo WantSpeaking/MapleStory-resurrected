@@ -99,7 +99,12 @@ namespace ms
 				return;
 			}
 
-			SpecialMove.ForbidReason reason = player.can_use (move);
+            /*if (player.has_cooldown(move.get_id()))
+            {
+                return SpecialMove.ForbidReason.FBR_COOLDOWN;
+            }*/
+
+            SpecialMove.ForbidReason reason = player.can_use (move);
 			Weapon.Type weapontype = player.get_stats ().get_weapontype ();
 
 			switch (reason)

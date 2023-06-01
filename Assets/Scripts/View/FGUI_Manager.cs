@@ -190,8 +190,8 @@ namespace ms_Unity
 
 		public FG_View OpenFGUI<FG_View> () where FG_View : GComponent, new()
 		{
-			
-			if (!type_GComponent_dict.TryGetValue (typeof (FG_View), out var window))
+            PanelOpening = true;
+            if (!type_GComponent_dict.TryGetValue (typeof (FG_View), out var window))
 			{
 				var viewType = typeof (FG_View);
 				var name = viewType.Name;

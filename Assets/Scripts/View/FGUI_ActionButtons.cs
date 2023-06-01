@@ -144,24 +144,25 @@ namespace ms_Unity
 			if (isInSetUp) return;
 
 			var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
-			UI.get ().send_key ((int)clicked_ActionButton.Key, true, true, false);
-		}
+			UI.get ().send_key ((int)clicked_ActionButton.Key, true, true, false); //int keycode, bool pressed, bool isMapleKeycode = false, bool pressing = false
 
-		private void onTouchEnd_Btn_Skill (EventContext context)
+        }
+        private void onTouchMove_Btn_Skill(EventContext context)
+        {
+            if (isInSetUp) return;
+
+            var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
+            UI.get().send_key((int)clicked_ActionButton.Key, true, true, true);
+            //AppDebug.Log ($"onTouchMove_Btn_Skill: {clicked_ActionButton.Key}");
+        }
+        private void onTouchEnd_Btn_Skill (EventContext context)
 		{
             if (isInSetUp) return;
 
             var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
 			UI.get ().send_key ((int)clicked_ActionButton.Key, false, true, true);
 		}
-		private void onTouchMove_Btn_Skill (EventContext context)
-		{
-            if (isInSetUp) return;
-
-            var clicked_ActionButton = (FGUI_Btn_Joystick_Acton)context.sender;
-			UI.get ().send_key ((int)clicked_ActionButton.Key, true, true, true);
-			//AppDebug.Log ($"onTouchMove_Btn_Skill: {clicked_ActionButton.Key}");
-		}
+		
 
 		public void UpdateIcon ()
 		{

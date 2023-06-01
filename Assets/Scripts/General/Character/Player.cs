@@ -360,7 +360,7 @@ namespace ms
 				return SpecialMove.ForbidReason.FBR_IsLADDER_Rope_Sit_Now_CantAttack;
 			}
 
-			if (has_cooldown (move.get_id ()))
+			if (has_cooldown(move.get_id()))
 			{
 				return SpecialMove.ForbidReason.FBR_COOLDOWN;
 			}

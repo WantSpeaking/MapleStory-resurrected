@@ -215,8 +215,8 @@ namespace ms
 			bool aniend = false;
 			if (mobAttackAni != null)
 			{
-				//aniend = mobAttackAni.update ();
-				 mobAttackAni.update ();
+				aniend = mobAttackAni.update ();
+				// mobAttackAni.update ();
 			}
 			else
 			{

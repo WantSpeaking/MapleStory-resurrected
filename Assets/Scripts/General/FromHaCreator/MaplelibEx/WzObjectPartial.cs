@@ -185,7 +185,7 @@ namespace MapleLib.WzLib
 		{
 			//return GetBitmap ()?.isValid ?? false;
 
-			return GetBitmapConsideringLink () != null;
+			return !GetBitmapWidthHeightConsideringLink ().isEmpty;
 			//return GetPngDataConsideringLink(out var pngInfo) != null;
 			//return this is WzCanvasProperty;//todo why wzObject IsTexture ,texture may be WzCanvasProperty,may be subProperty, has a child WzUolProperty
 		}
@@ -250,7 +250,11 @@ namespace MapleLib.WzLib
 			{
 				return pngProperty.GetBitmap ();
 			}
-			else
+            else if (this is WzUOLProperty uolProperty)
+            {
+                return uolProperty.GetBitmap();
+            }
+            else
 			{
 				return GetBitmap ();
 			}
@@ -266,6 +270,10 @@ namespace MapleLib.WzLib
             else if (this is WzPngProperty pngProperty)
             {
                 return pngProperty.GetWidthHeight();
+            }
+            else if (this is WzUOLProperty uolProperty)
+            {
+                return uolProperty.GetWidthHeight();
             }
             else
             {
@@ -393,7 +401,8 @@ namespace MapleLib.WzLib
 			Y = y;
 		}
 
-		public static Point Empty;
+		public static Point Zero;
+        public bool isEmpty => X == 0 && Y == 0;
 
         public override string ToString()
         {

@@ -33,58 +33,79 @@ namespace ms_Unity
         }
         private void OnClick_BT_BlacksmithShop()
         {
+			_c1.selectedIndex = 0;
             FGUI_Manager.Instance.OpenFGUI<FGUI_BlacksmithShop>().Refresh();
         }
         private void OnClick_BT_Instance ()
 		{
-			new TalkToNPCPacket (GameUtil.Instance.testTalkNpcId_Instance).dispatch ();
+            _c1.selectedIndex = 0;
+
+            new TalkToNPCPacket (GameUtil.Instance.testTalkNpcId_Instance).dispatch ();
 			FGUI_Manager.Instance.GetFGUI<FGUI_NpcTalk>().beginScriptTalk = true;
 		}
 		private void OnClick_FuctionCenter ()
-		{
-			new TalkToNPCPacket (GameUtil.Instance.testTalkNpcId_FunctionCenter,GameUtil.Instance.testTalkNpcFileName_FunctionCenter).dispatch ();
+        {
+            _c1.selectedIndex = 0;
+
+            new TalkToNPCPacket (GameUtil.Instance.testTalkNpcId_FunctionCenter,GameUtil.Instance.testTalkNpcFileName_FunctionCenter).dispatch ();
 			FGUI_Manager.Instance.GetFGUI<FGUI_NpcTalk>().beginScriptTalk = true;
 		}
 		private void OnClick_CustomizeButtons(EventContext context)
         {
-			FGUI_Manager.Instance.OpenFGUI<FGUI_CustomizeJoystickAndButtons>().OnVisiblityChanged(true);
+            _c1.selectedIndex = 0;
+
+            FGUI_Manager.Instance.OpenFGUI<FGUI_CustomizeJoystickAndButtons>().OnVisiblityChanged(true);
         }
 
         private void OnClick_OpenInventoryPanel (EventContext context)
-		{
-			UI.get ().emplace<UIItemInventory> (ms.Stage.get ().get_player ().get_inventory ());
+        {
+            _c1.selectedIndex = 0;
+
+            UI.get ().emplace<UIItemInventory> (ms.Stage.get ().get_player ().get_inventory ());
 		}
 
 		private void OnClick_BT_CHARACTER_SKILL (EventContext context)
-		{
-			UI.get ().emplace<UISkillBook> (ms.Stage.get ().get_player ().get_stats (), ms.Stage.get ().get_player ().get_skills ());
+        {
+            _c1.selectedIndex = 0;
+
+            UI.get ().emplace<UISkillBook> (ms.Stage.get ().get_player ().get_stats (), ms.Stage.get ().get_player ().get_skills ());
 		}
 
 		private void OnClick_BT_COMMUNITY_PARTY (EventContext context)
-		{
-			OnClick_PARTY_And_Friends ();
+        {
+            _c1.selectedIndex = 0;
+
+            OnClick_PARTY_And_Friends();
 		}
 
 		private void OnClick_BT_COMMUNITY_FRIENDS (EventContext context)
-		{
-			OnClick_PARTY_And_Friends ();
+        {
+            _c1.selectedIndex = 0;
+
+            OnClick_PARTY_And_Friends();
 		}
 		
 		private void OnClick_BackToChooseChar (EventContext context)
-		{
-			//OnClick_PARTY_And_Friends ();
-		}
-		
-		private void OnClick_BackToLogin (EventContext context)
-		{
-			//ms.UI.get ().emplace<UIQuit> (ms.Stage.get ().get_player ().get_stats ());
-			MapleStory.Instance.BackToLogin ();
+        {
+            _c1.selectedIndex = 0;
+
+            //OnClick_PARTY_And_Friends ();
+        }
+
+        private void OnClick_BackToLogin (EventContext context)
+        {
+            _c1.selectedIndex = 0;
+
+            //ms.UI.get ().emplace<UIQuit> (ms.Stage.get ().get_player ().get_stats ());
+            MapleStory.Instance.BackToLogin ();
 			//OnClick_PARTY_And_Friends ();
 		}
 		
 		private void OnClick_PARTY_And_Friends ()
-		{
-			/*var userlist = UI.get ().get_element<UIUserList> ();
+        {
+            _c1.selectedIndex = 0;
+
+            /*var userlist = UI.get ().get_element<UIUserList> ();
 			var tab = (id == (int)Buttons.BT_COMMUNITY_FRIENDS) ? UIUserList.Tab.FRIEND : UIUserList.Tab.PARTY;
 
 			if (!userlist)
@@ -117,26 +138,34 @@ namespace ms_Unity
 					userlist.get ().change_tab ((byte)tab);
 				}
 			}*/
-		}
+        }
 
-		private void OnClick_BT_SETTING_CHANNEL (EventContext context)
-		{
-			UI.get ().emplace<UIChannel> ();
+        private void OnClick_BT_SETTING_CHANNEL (EventContext context)
+        {
+            _c1.selectedIndex = 0;
+
+            UI.get ().emplace<UIChannel> ();
 		}
 
 		private void OnClick_BT_MENU_QUEST (EventContext context)
-		{
-			UI.get ().emplace<UIQuestLog> (ms.Stage.get ().get_player ().get_questlog ());
+        {
+            _c1.selectedIndex = 0;
+
+            UI.get ().emplace<UIQuestLog> (ms.Stage.get ().get_player ().get_questlog ());
 		}
 
 		private void OnClick_BT_MENU (EventContext context)
-		{
-			
-		}
+        {
+            _c1.selectedIndex = 0;
 
-		private void OnClick_BT_CASHSHOP (EventContext context)
-		{
-			new EnterCashShopPacket ().dispatch ();
+
+        }
+
+        private void OnClick_BT_CASHSHOP (EventContext context)
+        {
+            _c1.selectedIndex = 0;
+
+            new EnterCashShopPacket ().dispatch ();
 		}
 
 		protected override void OnUpdate ()
