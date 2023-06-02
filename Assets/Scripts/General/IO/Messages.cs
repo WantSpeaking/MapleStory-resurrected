@@ -27,13 +27,13 @@ namespace ms
 		public static EnumMap<Type, string> messages =new EnumMap<Type, string> ()
 		{
 			[Type.NONE] = "",
-			[Type.SKILL_WEAPONTYPE] = "You cannot use this skill with this weapon.",
-			[Type.SKILL_HPCOST] = "You do not have enough hp to use this skill.",
-			[Type.SKILL_MPCOST] = "You do not have enough mp to use this skill.",
-			[Type.SKILL_NOARROWS] = "You do not have enough arrows to use this attack.",
-			[Type.SKILL_NOBULLETS] = "You do not have enough bullets to use this attack.",
-			[Type.SKILL_NOSTARS] = "You do not have enough throwing stars to use this attack.",
-			[Type.SKILL_COOLDOWN] = "You cannot use this skill as it is on cooldown.",
+			[Type.SKILL_WEAPONTYPE] = "你不能用这个技能来使用这个武器。",
+			[Type.SKILL_HPCOST] = "您没有足够的HP来使用此技能。",
+			[Type.SKILL_MPCOST] = "您没有足够的MP来使用此技能。",
+			[Type.SKILL_NOARROWS] = "您没有足够的箭矢来使用此攻击。",
+			[Type.SKILL_NOBULLETS] = "您没有足够的子弹来使用此攻击。",
+            [Type.SKILL_NOSTARS] = "您没有足够的飞镖来使用此攻击。",
+			[Type.SKILL_COOLDOWN] = "您不能使用此技能，因为它在冷却时间。",
 			[Type.SCROLL_SUCCESS] = "卷轴亮起，它的神秘力量已经转移到物品上。",
 			[Type.SCROLL_FAILURE] = "卷轴亮起，但装备保持原样，好像什么都没发生。",
 			[Type.SCROLL_DESTROYED] = "由于卷轴的压倒性力量，该物品已被摧毁。"
@@ -54,11 +54,17 @@ namespace ms
 				return;
 			}
 
-			var chatbar = UI.get ().get_element<UIChatBar> ();
+			/*var chatbar = UI.get ().get_element<UIChatBar> ();
 			if (chatbar)
 			{
 				chatbar.get().display_message (type, UIChatBar.LineType.RED);
-			}
+			}*/
+			var statusMessenger =  UI.get().get_element<UIStatusMessenger>();
+			if (statusMessenger)
+			{
+				statusMessenger.get().show_status(Color.Name.WHITE, Messages.messages[type]);
+
+            }
 		}
 
 		private Messages.Type type;

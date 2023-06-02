@@ -641,10 +641,11 @@ namespace ms
 
         public class SkillDisplayMeta
         {
-            public SkillDisplayMeta(int i, int l)
+            public SkillDisplayMeta(int i, int l, int masterLevel)
             {
                 this.id = i;
                 this.level = l;
+                this.masterLevel = masterLevel;
                 SkillData data = SkillData.get(id);
 
                 Texture ntx = new Texture(data.get_icon(SkillData.Icon.NORMAL));//同一张 Texture 还画在ToolTips上 位置就不对了，必须要new
@@ -688,7 +689,10 @@ namespace ms
             {
                 return level;
             }
-
+            public int get_masterLevel()
+            {
+                return masterLevel;
+            }
             public StatefulIcon get_icon()
             {
                 return icon;
@@ -696,6 +700,7 @@ namespace ms
 
             private int id;
             private int level;
+            private int masterLevel;
             private StatefulIcon icon;
             private Text name_text;
             private Text level_text;
@@ -814,7 +819,7 @@ namespace ms
                     continue;
                 }*/
 
-                skills.Add(new SkillDisplayMeta(skill_id, level));
+                skills.Add(new SkillDisplayMeta(skill_id, level, masterlevel));
                 skillcount++;
             }
 

@@ -315,21 +315,9 @@ namespace ms
 		}
 
 		// Return whether the player can attack or not
-		public bool can_attack (int move_id, bool isForce = false)
+		public bool can_attack (bool judgeAttackAnimPlay = true)
 		{
-			bool isAttacking = false;
-			if (isForce)
-			{
-				if (has_cooldown (move_id))
-				{
-					isAttacking = true;
-				}
-			}
-			else
-			{
-				isAttacking = attacking;
-			}
-			return !isAttacking && !is_climbing () && !is_sitting () && look.get_equips ().has_weapon ();
+            return (judgeAttackAnimPlay? !attacking:true) && !is_climbing() && !is_sitting() && look.get_equips().has_weapon();
 		}
 
 		// Return whether the player can use a skill or not
@@ -413,6 +401,11 @@ namespace ms
 				{
 					case Weapon.Type.BOW:
 					case Weapon.Type.CROSSBOW:
+						{
+                            degenerate = !inventory.has_projectile() && !has_Buff_SOULARROW(); 
+                            attacktype = degenerate ? Attack.Type.Close_Range : Attack.Type.Ranged;
+                            break;
+                        }
 					case Weapon.Type.CLAW:
 					case Weapon.Type.GUN:
 						{
@@ -538,6 +531,11 @@ namespace ms
 			{
 				active_buffs.Add (stats, pair.Value.stat, pair.Value.value);
 			}
+
+			if (buff.stat ==  Buffstat.Id.SHADOWPARTNER)
+			{
+				TrySet_CharShadowLook();
+			}
 		}
 
 		// Cancel a buff
@@ -570,7 +568,7 @@ namespace ms
 		/// has SOULARROW buff
 		/// </summary>
 		/// <returns></returns>
-		public bool can_useBow_withoutArrows ()
+		public bool has_Buff_SOULARROW ()
 		{
 			return get_buff (Buffstat.Id.SOULARROW).IsValid;
 		}
@@ -638,7 +636,7 @@ namespace ms
 			show_effect_id (CharEffect.Id.JOBCHANGE);
 			stats.change_job (jobid);
 
-			TrySet_CharShadowLook ();
+			//TrySet_CharShadowLook ();
 		}
 
 		public override Job get_job ()

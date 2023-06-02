@@ -268,7 +268,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
     {
         if (tex.fullPath.Contains("Character1.wz"))
         {
-            Debug.Log($"Create:{tex.GetHashCode()}|{tex.fullPath}");
+            //Debug.Log($"Create:{tex.GetHashCode()}|{tex.fullPath}");
         }
         GameObject tempObj;
         if (tex.isSprite)
@@ -405,7 +405,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 
         if (!tex.isDontDestoryOnLoad)
         {
-            AppDebug.Log($"UnSpawn:tex.isDestoryOnLoad:{!tex.isDontDestoryOnLoad}\t{tex.fullPath}");
+            //AppDebug.Log($"UnSpawn:tex.isDestoryOnLoad:{!tex.isDontDestoryOnLoad}\t{tex.fullPath}");
             //texture_GObj_Dict.TryRemove(tex, out var gameObject);
             if (tex.DrawObject != null)
             {

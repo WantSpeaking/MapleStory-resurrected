@@ -63,9 +63,10 @@ public class TextManager : SingletonMono<TextManager>
 			var screenPos = UnityEngine.Camera.main.WorldToScreenPoint (new UnityEngine.Vector3 (args.getpos ().x (), args.getpos ().y (), 1));
 			screenPos.y = screenPos.y - UnityEngine.Screen.height;
 			gRichTextField.position = GRoot.inst.GlobalToLocal (screenPos);
-			//gRichTextField.color = new UnityEngine.Color (args.get_color ().r (), args.get_color ().g (), args.get_color ().b (), args.get_color ().a ());
-			//gRichTextField.SetPosition ((float)drawPosX * Singleton<ms.Window>.Instance.ratio, (float)(-drawPosY) * Singleton<ms.Window>.Instance.ratio, -99f);
-			gRichTextField.text = text;
+			gRichTextField.alpha = args.get_color().a();
+            //gRichTextField.color = new UnityEngine.Color (args.get_color ().r (), args.get_color ().g (), args.get_color ().b (), args.get_color ().a ());
+            //gRichTextField.SetPosition ((float)drawPosX * Singleton<ms.Window>.Instance.ratio, (float)(-drawPosY) * Singleton<ms.Window>.Instance.ratio, -99f);
+            gRichTextField.text = text;
 		}
 
 		//return gRichTextField;

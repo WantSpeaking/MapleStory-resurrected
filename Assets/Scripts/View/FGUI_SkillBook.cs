@@ -4,6 +4,7 @@ using System;
 using FairyGUI;
 using FairyGUI.Utils;
 using ms;
+using UnityEngine;
 
 namespace ms_Unity
 {
@@ -207,14 +208,14 @@ namespace ms_Unity
 			var selectedIndex = _GList_SkillInfo.GetChildIndex (clickedBtnSPUP.parent);
 			_GList_SkillInfo.selectedIndex = selectedIndex;
 			var skillInfo = UISkillBook.skills.TryGet(selectedIndex);
-
-			//UISkillBook.spend_sp (skillInfo.get_id ());
-			//UISkillBook.change_sp ();
-			//change_sp ();
-			//clickedBtnSPUP.visible = UISkillBook.can_raise (skillInfo.get_id ());
-			clickedBtnSPUP.visible = false;
+            //UISkillBook.spend_sp (skillInfo.get_id ());
+            //UISkillBook.change_sp ();
+            //change_sp ();
+            //clickedBtnSPUP.visible = UISkillBook.can_raise (skillInfo.get_id ());
+            clickedBtnSPUP.visible = false;
             //new SpendSpPacket(skill_id).dispatch();
-            FGUI_EnterNumber.ShowNotice(message, (count) => new SpendSpPacket(skillInfo.get_id(), count).dispatch(), CharStats?.get_stat(MapleStat.Id.SP) ?? 0, 1);
+            //skillInfo.getm
+            FGUI_EnterNumber.ShowNotice(message, (count) => new SpendSpPacket(skillInfo.get_id(), count).dispatch(),Mathf.Min(SkillData.get(skillInfo.get_id()).get_masterlevel(), CharStats?.get_stat(MapleStat.Id.SP) ?? 0), 1);
 
         }
         private void OnClick_Btn_SetupSkill (EventContext context)

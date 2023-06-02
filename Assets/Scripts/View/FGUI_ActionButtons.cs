@@ -81,27 +81,27 @@ namespace ms_Unity
 			_Btn_Skill2.onTouchEnd.Add (onTouchEnd_Btn_Skill);
 			_Btn_Skill3.onTouchEnd.Add (onTouchEnd_Btn_Skill);
 			_Btn_Skill4.onTouchEnd.Add (onTouchEnd_Btn_Skill);
-            _Btn_Skill5.onTouchBegin.Add(onTouchEnd_Btn_Skill);
-            _Btn_Skill6.onTouchBegin.Add(onTouchEnd_Btn_Skill);
-            _Btn_Skill7.onTouchBegin.Add(onTouchEnd_Btn_Skill);
-            _Btn_Skill8.onTouchBegin.Add(onTouchEnd_Btn_Skill);
-            _Btn_Skill9.onTouchBegin.Add(onTouchEnd_Btn_Skill);
-            _Btn_Skill10.onTouchBegin.Add(onTouchEnd_Btn_Skill);
-            _Btn_Skill11.onTouchBegin.Add(onTouchEnd_Btn_Skill);
-            _Btn_Skill12.onTouchBegin.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill5.onTouchEnd.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill6.onTouchEnd.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill7.onTouchEnd.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill8.onTouchEnd.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill9.onTouchEnd.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill10.onTouchEnd.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill11.onTouchEnd.Add(onTouchEnd_Btn_Skill);
+            _Btn_Skill12.onTouchEnd.Add(onTouchEnd_Btn_Skill);
 
             _Btn_Skill1.onTouchMove.Add (onTouchMove_Btn_Skill);
 			_Btn_Skill2.onTouchMove.Add (onTouchMove_Btn_Skill);
 			_Btn_Skill3.onTouchMove.Add (onTouchMove_Btn_Skill);
 			_Btn_Skill4.onTouchMove.Add (onTouchMove_Btn_Skill);
-            _Btn_Skill5.onTouchBegin.Add(onTouchMove_Btn_Skill);
-            _Btn_Skill6.onTouchBegin.Add(onTouchMove_Btn_Skill);
-            _Btn_Skill7.onTouchBegin.Add(onTouchMove_Btn_Skill);
-            _Btn_Skill8.onTouchBegin.Add(onTouchMove_Btn_Skill);
-            _Btn_Skill9.onTouchBegin.Add(onTouchMove_Btn_Skill);
-            _Btn_Skill10.onTouchBegin.Add(onTouchMove_Btn_Skill);
-            _Btn_Skill11.onTouchBegin.Add(onTouchMove_Btn_Skill);
-            _Btn_Skill12.onTouchBegin.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill5.onTouchMove.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill6.onTouchMove.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill7.onTouchMove.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill8.onTouchMove.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill9.onTouchMove.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill10.onTouchMove.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill11.onTouchMove.Add(onTouchMove_Btn_Skill);
+            _Btn_Skill12.onTouchMove.Add(onTouchMove_Btn_Skill);
 
             for (int i = 0; i < ms.Constants.get().UseBtnKeys.Length; i++)
 			{

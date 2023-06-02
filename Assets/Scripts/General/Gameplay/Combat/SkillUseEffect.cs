@@ -200,9 +200,9 @@ namespace ms
 
         private Effect effect;
     }
-    public class OnKeyDownEffect : SkillUseEffect
+    public class KeyDownEffect : SkillUseEffect
     {
-        public OnKeyDownEffect (WzObject src)
+        public KeyDownEffect (WzObject src)
         {
             this.effect = new ms.SkillUseEffect.Effect (src);
         }
@@ -219,9 +219,9 @@ namespace ms
 
         private Effect effect;
     }
-    public class OnKeyDownEndEffect : SkillUseEffect
+    public class KeyDownEndEffect : SkillUseEffect
     {
-        public OnKeyDownEndEffect (WzObject src)
+        public KeyDownEndEffect (WzObject src)
         {
             this.effect = new ms.SkillUseEffect.Effect (src);
         }

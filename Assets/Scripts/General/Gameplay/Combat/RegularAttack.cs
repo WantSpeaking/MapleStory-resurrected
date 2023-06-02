@@ -70,7 +70,7 @@ namespace ms
 			{
 				case Weapon.Type.BOW:
 				case Weapon.Type.CROSSBOW:
-					if (ms.Stage.get ().get_player ().can_useBow_withoutArrows () || (bullets != 0))
+					if (ms.Stage.get ().get_player ().has_Buff_SOULARROW () || (bullets != 0))
 					{
 						return ForbidReason.FBR_NONE;
 					}

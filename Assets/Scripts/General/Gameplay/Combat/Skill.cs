@@ -166,11 +166,11 @@ namespace ms
 			}
 			if (src["keydown"] != null)
 			{
-				keydownEffect = new OnKeyDownEffect (src["keydown"]);
+				keydownEffect = new KeyDownEffect (src["keydown"]);
 			}
 			if (src["keydownend"] != null)
 			{
-				keydownendEffect = new OnKeyDownEndEffect (src["keydownend"]);
+				keydownendEffect = new KeyDownEndEffect (src["keydownend"]);
 			}
 
 			bool hasball = src["ball"]?.Any () ?? false;
@@ -272,7 +272,7 @@ namespace ms
 				switch (attack.type)
 				{
 					case Attack.Type.Ranged:
-						attack.hitcount = (byte)bulletCount;
+						attack.hitcount = (byte)(bulletCount == 0? 1 : bulletCount);
 						break;
 					default:
 						attack.hitcount = (byte)attackCount;
@@ -306,8 +306,9 @@ namespace ms
 					//AppDebug.Log ($"stats.damage:{stats.damage}");
 					
 				}
+				var bulletCount = stats.bulletcount;
 
-				attack.critical += stats.critical;
+                attack.critical += stats.critical;
 				attack.ignoredef += stats.ignoredef;
 				attack.mobcount = (byte)(stats.mobcount);
 				attack.hrange = stats.hrange;
@@ -317,8 +318,8 @@ namespace ms
 				switch (attack.type)
 				{
 					case Attack.Type.Ranged:
-						attack.hitcount = stats.bulletcount;
-						break;
+						attack.hitcount = (byte)(bulletCount == 0 ? 1 : bulletCount);
+                        break;
 					default:
 						attack.hitcount = (byte)UnityEngine.Mathf.Clamp (stats.attackcount, 0, 15);
 	
@@ -418,7 +419,7 @@ namespace ms
 
 			if (hp <= stats.hpcost)
 			{
-				return ForbidReason.FBR_HPCOST;
+				return ForbidReason.FBR_HPCOST; 
 			}
 
 			if (mp < stats.mpcost)
@@ -437,7 +438,7 @@ namespace ms
 			{
 				case Weapon.Type.BOW:
 				case Weapon.Type.CROSSBOW:
-					if (player.can_useBow_withoutArrows () || (bullets >= stats.bulletcost))
+					if (player.has_Buff_SOULARROW () || (bullets >= stats.bulletcost))
 					{
 						return ForbidReason.FBR_NONE;
 					}
@@ -458,20 +459,30 @@ namespace ms
 			return action;
 		}
 
-		public OnKeyDownEffect GetKeydownEffect ()
+		public PrepareEffect GetPrepareEffect()
 		{
-			return keydownEffect;
+			return prepareEffect;
 		}
-		private SkillAction action;
+        public KeyDownEffect GetKeydownEffect()
+        {
+            return keydownEffect;
+        }
+        public KeyDownEndEffect GetKeyDownEndEffect()
+        {
+            return keydownendEffect;
+        }
+
+        private SkillAction action;
 
 		private SkillBullet bullet;
 
 		private SkillSound sound;
 		private SkillUseEffect useeffect;
 		private SkillHitEffect hiteffect;
-		private SkillUseEffect prepareEffect;
-		private OnKeyDownEffect keydownEffect;
-		private SkillUseEffect keydownendEffect;
+
+		private PrepareEffect prepareEffect;
+		private KeyDownEffect keydownEffect;
+		private KeyDownEndEffect keydownendEffect;
 
 		private int skillid;
 		private bool overregular;

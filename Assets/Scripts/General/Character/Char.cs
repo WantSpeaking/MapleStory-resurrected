@@ -550,7 +550,7 @@ namespace ms
 		{
 			//如果是无影人 才初始化 影子外观
 			//if ((this is Player player && player.get_job ().isA(MapleJob.HERMIT))||(this is OtherChar otherChar && otherChar.get_job ().isA(MapleJob.HERMIT)))
-			if (get_job ().isA (MapleJob.HERMIT))
+			//if (get_job ().isA (MapleJob.HERMIT))
 			{
 				_charShadowLook = new CharShadowLook ();
 			}

@@ -80,51 +80,70 @@ namespace ms
 			var move_id_Switched = SkillSwitcher.Instance.DoSwitch (move_id, player);
 			SpecialMove move = get_move (move_id_Switched);
 
-			if (!move.has_skillPrepareEffect () && down == false)//如果 是 普通技能 不是持续性技能，且没有按下 就返回
-				return;
-
-			if (down == true && pressing == false && move.has_skillPrepareEffect ())//begin
+            if (move.has_skillPrepareEffect() && move is Skill skill)//持续技能
 			{
-				//AppDebug.Log ("begin");
+                if (!player.can_attack(false))
+                {
+                    return;
+                }
 
-			}
-			else if (down == false && pressing == true && move.has_skillPrepareEffect ())//end
+                SpecialMove.ForbidReason reason = player.can_use(move);
+				if (reason != SpecialMove.ForbidReason.FBR_NONE)//有禁用原因
+				{
+                    AppDebug.Log($"skill Forbid Use Reason :{reason}");
+                    Weapon.Type weapontype = player.get_stats().get_weapontype();
+                    new ForbidSkillMessage(reason, weapontype).drop();
+					return;
+                }
+
+                var prepareEffect = skill.GetPrepareEffect();
+                var keydownEffect = skill.GetKeydownEffect();
+                var keydownEndEffect = skill.GetKeyDownEndEffect();
+
+                if (down == true && pressing == false)//begin
+                {
+					player.add_cooldown(skill.get_id(), prepareEffect.GetAniLength()/1000f);
+					prepareEffect.apply(player);
+
+                    //AppDebug.Log ("skill begin");
+
+                }
+				else if (down == true && pressing == true)//pressing
+				{
+                    player.add_cooldown(skill.get_id(), prepareEffect.GetAniLength() / 1000f);
+                    keydownEffect.apply(player);
+                    //AppDebug.Log("skill pressing");
+                }
+                else if (down == false && pressing == true)//end
+                {
+                    player.add_cooldown(skill.get_id(), prepareEffect.GetAniLength() / 1000f);
+                    keydownEndEffect.apply(player);
+                    //AppDebug.Log ("skill end");
+                    player.remove_cooldown(move_id);
+                }
+
+                apply_move(move, move_id, down, pressing);
+            }
+            else//瞬发技能
 			{
-				//AppDebug.Log ("end");
-				player.remove_cooldown (move_id);
-			}
+                if (!player.can_attack())
+                    return;
 
-			if (!player.can_attack (move_id, move.has_skillPrepareEffect ()))
-			{
-				return;
-			}
+                SpecialMove.ForbidReason reason = player.can_use(move);
+                Weapon.Type weapontype = player.get_stats().get_weapontype();
 
-            /*if (player.has_cooldown(move.get_id()))
-            {
-                return SpecialMove.ForbidReason.FBR_COOLDOWN;
-            }*/
-
-            SpecialMove.ForbidReason reason = player.can_use (move);
-			Weapon.Type weapontype = player.get_stats ().get_weapontype ();
-
-			switch (reason)
-			{
-				case SpecialMove.ForbidReason.FBR_NONE:
-					apply_move (move, move_id, down, pressing);
-					if (down == true && pressing == true && move.has_skillPrepareEffect ())//moving
-					{
-						//AppDebug.Log ("moving");
-						//if (ForceSkill.IsForce (move_id))
-						{
-							player.add_cooldown (move_id, player.get_total_attackdelay (move, move.get_action (player).actionStr));
-						}
-					}
-					break;
-				default:
-					AppDebug.Log ($"Forbid Use Reason :{reason}");
-					new ForbidSkillMessage (reason, weapontype).drop ();
-					break;
-			}
+                switch (reason)
+                {
+                    case SpecialMove.ForbidReason.FBR_NONE:
+                        apply_move(move, move_id, down, pressing);
+                        break;
+                    default:
+                        //AppDebug.Log($"Forbid Use Reason :{reason}");
+                        new ForbidSkillMessage(reason, weapontype).drop();
+                        break;
+                }
+            }
+               
 		}
 
 		// Add an attack to the attack queue
@@ -315,7 +334,7 @@ namespace ms
 						attack.hitcount = 1;
 					}
 				}
-				else if (move_id == Thief.DoubleDart)
+				/*else if (move_id == Thief.DoubleDart)
 				{
 					if (player.has_buff (Buffstat.Id.SHADOWPARTNER))
 					{
@@ -328,8 +347,13 @@ namespace ms
 					{
 						attack.hitcount = 6;
 					}
-				}
-				
+				}*/
+
+				if (player.has_buff( Buffstat.Id.SHADOWPARTNER))
+				{
+					attack.hitcount *= 2;
+
+                }
                 // This approach should also make it easier to implement PvP
                 byte mobcount = attack.mobcount;
 				AttackResult result = new AttackResult (attack);
@@ -349,7 +373,7 @@ namespace ms
 
 				if(GameUtil.Instance.sendAttackPacket)
 				new AttackPacket (result).dispatch ();
-				if (down == true && pressing == false && move.has_skillPrepareEffect ())//begin
+			/*	if (down == true && pressing == false && move.has_skillPrepareEffect ())//begin
 				{
                     if (GameUtil.Instance.sendAttackPacket)
                         new SkillEffectPacket (move.get_id (), Stage.get ().get_player ().get_skills ().get_masterlevel (move.get_id ()), 22, attack.toleft ? -128 : 0, 6).dispatch ();
@@ -370,7 +394,8 @@ namespace ms
 					move.apply_keydownEffect (player);
 					AppDebug.Log ("moving");
 
-				}
+				}*/
+
 				if (reactor_targets.Count != 0)
 				{
 					Optional<MapObject> reactor = reactor_objs.get (reactor_targets[0]);
@@ -381,7 +406,7 @@ namespace ms
 					}
 				}
                 GameUtil.Instance.stopwatch.Stop();
-                AppDebug.Log($"apply_move time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
+                //AppDebug.Log($"apply_move time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
                 GameUtil.Instance.stopwatch.Restart();
 
             }

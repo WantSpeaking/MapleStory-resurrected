@@ -505,7 +505,7 @@ namespace ms
                     int mastery = property_Skillwz_000img_skill_11111004_level_1["mastery"];
                     byte attackcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["attackCount"] ?? 1);
                     byte mobcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["mobCount"] ?? 1);
-                    byte bulletcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["bulletCount"] ?? 1);
+                    byte bulletcount = (byte)(property_Skillwz_000img_skill_11111004_level_1["bulletCount"] ?? 0);
                     short bulletcost = (short)(property_Skillwz_000img_skill_11111004_level_1["bulletConsume"] ?? bulletcount);
                     int hpcost = property_Skillwz_000img_skill_11111004_level_1["hpCon"];
                     int mpcost = property_Skillwz_000img_skill_11111004_level_1["mpCon"];

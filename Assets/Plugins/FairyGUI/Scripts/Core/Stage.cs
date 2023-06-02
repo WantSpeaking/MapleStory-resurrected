@@ -1108,8 +1108,8 @@ namespace FairyGUI
             {
                 Touch uTouch = Input.GetTouch(i);
 
-                if (uTouch.phase == TouchPhase.Stationary)
-                    continue;
+                /*if (uTouch.phase == TouchPhase.Stationary)
+                    continue;*/
 
                 Vector2 pos = uTouch.position;
                 pos.y = _contentRect.height - pos.y;

@@ -235,8 +235,6 @@ namespace ms
 		}
 
 		// Return the count of the currently active projectile
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: ushort get_bulletcount() const
 		public ushort get_bulletcount ()
 		{
 			return (ushort)get_item_count (InventoryType.Id.USE, bulletslot);
