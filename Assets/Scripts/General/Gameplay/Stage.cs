@@ -226,6 +226,10 @@ namespace ms
 			{
 				return;
 			}
+			if (GameUtil.Instance.PrintPlayerPos)
+			{
+				AppDebug.Log($"PlayerPos:{player.get_position()}");
+			}
 			combat.update ();
 			effect?.update ();
 			tilesobjs.update ();
@@ -395,7 +399,7 @@ namespace ms
 		}
 		public Cursor.State send_cursor (bool pressed, Point_short position)
 		{
-			if (ms_Unity.FGUI_Manager.Get().PanelOpening) return Cursor.State.GAME;
+			//if (ms_Unity.FGUI_Manager.Get().PanelOpening) return Cursor.State.GAME;
 
 			Optional<UIStatusBar> statusbar = Singleton<UI>.get ().get_element<UIStatusBar> ();
 			if ((bool)statusbar && statusbar.get ().is_menu_active ())

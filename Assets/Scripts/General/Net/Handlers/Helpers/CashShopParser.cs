@@ -74,7 +74,7 @@ namespace ms
 			for (int i = 0; i < 3; i++)
 				statsentry.petids.Add(recv.read_long());
 
-			statsentry.stats[MapleStat.Id.LEVEL] = (ushort)recv.read_byte(); // TODO: Change to recv.read_short(); to increase level cap
+			statsentry.stats[MapleStat.Id.LEVEL] = (ushort)recv.readByte(); // TODO: Change to recv.read_short(); to increase level cap
 
 			var job = recv.read_short();
 

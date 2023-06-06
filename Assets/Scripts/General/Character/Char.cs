@@ -516,21 +516,23 @@ namespace ms
 		public const short charWidth = 40;
 		public const short charHeight = 90;
 		public Point_short charHalf = new Point_short (charWidth / 2, charHeight / 2);
-
-		/// <summary>
-		/// return char Rectangle range
-		/// </summary>
-		/// <returns></returns>
-		public Rectangle_short bounds ()
+		private Rectangle_short char_bound = new Rectangle_short();
+        /// <summary>
+        /// return char Rectangle range
+        /// </summary>
+        /// <returns></returns>
+        public Rectangle_short bounds ()
 		{
 			var chaPos = absp;
 
-			AppDebug.Log ($"chaPos:{chaPos}");
+			//AppDebug.Log ($"chaPos:{chaPos}");
 			short l = (short)(chaPos.x () - charWidth / 2);
 			short t = (short)(chaPos.y () - charHeight);
 			short r = (short)(chaPos.x () + charWidth / 2);
 			short b = (short)(chaPos.y ());
-			return new Rectangle_short (l, r, t, b);
+			char_bound.Set(l, r, t, b);
+
+            return char_bound;
 		}
 
 		public Point_short headBarPos ()

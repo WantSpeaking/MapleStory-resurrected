@@ -87,7 +87,7 @@ namespace ms
 		{
 			this.type = Attack.Type.Close_Range;
 			this.PaDamage = PADamage;
-			this.origin = new ms.Point_short (origin);
+			this.origin = origin;
 			this.mobid = mobid;
 			this.oid = oid;
 			this.valid = true;
@@ -128,6 +128,11 @@ namespace ms
 			this.mobid = mobid;
 			this.oid = oid;
 			valid = true;
+		}
+
+		public Rectangle_short get_range()
+		{
+			return new Rectangle_short(range);
 		}
 
 		public static implicit operator bool (MobAttack ImpliedObject)

@@ -49,6 +49,7 @@ namespace ms_Unity
             UIObjectFactory.SetPackageItemExtension(FGUI_Com_AddSubstractAP.URL, typeof(FGUI_Com_AddSubstractAP));
             UIObjectFactory.SetPackageItemExtension(FGUI_Shop_SellItem.URL, typeof(FGUI_Shop_SellItem));
             UIObjectFactory.SetPackageItemExtension(FGUI_Shop_BuyItem.URL, typeof(FGUI_Shop_BuyItem));
+            UIObjectFactory.SetPackageItemExtension(FGUI_Boss_HPBar.URL, typeof(FGUI_Boss_HPBar));
             UIObjectFactory.SetPackageItemExtension(FGUI_BlacksmithShop.URL, typeof(FGUI_BlacksmithShop));
             UIObjectFactory.SetPackageItemExtension(FGUI_BlacksmithShopItemDetail.URL, typeof(FGUI_BlacksmithShopItemDetail));
             UIObjectFactory.SetPackageItemExtension(FGUI_ListItem_Party.URL, typeof(FGUI_ListItem_Party));

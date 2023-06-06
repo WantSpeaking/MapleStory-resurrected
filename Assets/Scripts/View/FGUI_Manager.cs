@@ -103,7 +103,7 @@ namespace ms_Unity
         {
             if (type == LogType.Error || type == LogType.Exception)
             {
-                OpenFGUI<FGUI_Panel_Debug>()?.SetLogMessage(condition + "\r\n" + stacktrace);
+                OpenFGUI<FGUI_Panel_Debug>()?.SetLogMessage(condition + "\r\n\r\n" + stacktrace);
             }
         }
 

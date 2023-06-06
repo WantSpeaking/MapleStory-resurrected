@@ -657,9 +657,9 @@ PlayerSettings:
   scriptingBackend:
     Android: 1
   il2cppCompilerConfiguration:
-    Android: 0
-  il2cppCodeGeneration:
     Android: 1
+  il2cppCodeGeneration:
+    Android: 0
   managedStrippingLevel:
     Android: 4
   incrementalIl2cppBuild: {}

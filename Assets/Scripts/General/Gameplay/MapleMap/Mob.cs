@@ -69,8 +69,9 @@ namespace ms
 			canjump = (src["jump"] as WzImageProperty)?.WzProperties.Count > 0;
 			canfly = (src["fly"] as WzImageProperty)?.WzProperties.Count > 0;
 			canmove = (src["move"] as WzImageProperty)?.WzProperties.Count > 0 || canfly;
+            _isBoss = info["boss"] > 0;
 
-			if (canfly)
+            if (canfly)
 			{
 				animations[MobStance.STAND] = src["fly"];
 				animations[MobStance.MOVE] = src["fly"];
@@ -445,9 +446,14 @@ namespace ms
 			hppercent = percent;
 			showhp.set_for (2000);
 		}
-
-		// Show an effect at the mob's position
-		public void show_effect (Animation animation, sbyte pos, sbyte z, bool f)
+        public void bosshp(int currHP, int maxHP)
+        {
+			this.currHP = currHP;
+			this.maxHP = maxHP;
+		}
+        
+        // Show an effect at the mob's position
+        public void show_effect (Animation animation, sbyte pos, sbyte z, bool f)
 		{
 			if (!active)
 			{
@@ -584,7 +590,24 @@ namespace ms
 			return range.overlaps (bounds);
 		}
 
-		public Point_short mobAbsolutePos = new Point_short ();
+        public bool is_in_attack_range(MobAttack mobAttack, bool debug = false)
+        {
+            if (!active)
+            {
+                return false;
+            }
+
+            Rectangle_short bounds = mobAttack.get_range();
+            bounds.shift(get_position());
+            if (debug)
+            {
+                //AppDebug.Log ($"range:{range}\t get_bounds:{tempCacheBounds}\t get_position():{get_position ()}\t bounds.shift(get_position()):{bounds}\t {range.overlaps (bounds)}");
+            }
+
+            return bounds.overlaps(Stage.get().get_player().bounds());
+        }
+
+        public Point_short mobAbsolutePos = new Point_short ();
 		public Rectangle_short get_Range ()
 		{
 			if (animations.TryGetValue(stance, out var ani))
@@ -615,6 +638,7 @@ namespace ms
 		{
 			return phobj;
 		}
+
 		public static string get_name (int mobId)
 		{
 			return ms.wz.wzFile_string["Mob.img"][Convert.ToString (mobId)]["name"].ToString ();
@@ -742,10 +766,10 @@ namespace ms
 					show_effect (mobAttack.effect, 1, (sbyte)Layer.Id.SEVEN, flip);
 				});
 				
-				if (mobAttack)
+				if (mobAttack && is_in_attack_range(mobAttack))
 				{
 					MobAttackResult result = Stage.get ().get_player ().damage (mobAttack);
-					new TakeDamagePacket (result, TakeDamagePacket.From.TOUCH).dispatch ();
+					new TakeDamagePacket (result, TakeDamagePacket.From.PADamage).dispatch ();
 				}
 			}
 			new MoveMobPacket (oid, 1, 0, rawActivity, 0, 0,  0, get_position (), new Movement (phobj, value_of (stance, flip))).dispatch ();
@@ -866,8 +890,11 @@ namespace ms
 		private bool canmove;
 		private bool canjump;
 		private bool canfly;
+		private bool _isBoss;
+		private int currHP;
+		private int maxHP;
 
-		private EffectLayer effects = new EffectLayer ();
+        private EffectLayer effects = new EffectLayer ();
 
 		private Text namelabel;
 		private MobHpBar hpbar = new MobHpBar ();
@@ -927,8 +954,14 @@ namespace ms
 			}
 			set => agent = value;
 		}
+		public bool isBoss => _isBoss;
+		public string get_MobName() => name;
 
+		public sbyte get_hppercent() => hppercent;
 
+		public int get_CurrHP() => currHP;
+		public int get_MaxHP() => maxHP;
+		
 		public bool PlayMobBTree (BehaviourTree BTree, Mob mob)
 		{
 			bool result = false;

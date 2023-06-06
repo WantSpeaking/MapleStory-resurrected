@@ -31,4 +31,6 @@ public class GameUtil : SingletonMono<GameUtil>
 	public int bgDrawX;
     public int bgDrawY;
 
+	public bool PrintPlayerPos;
+
 }

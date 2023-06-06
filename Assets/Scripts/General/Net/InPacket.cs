@@ -60,7 +60,7 @@ namespace ms
         // Read a byte
         public sbyte read_byte()
         {
-            return unchecked((sbyte)readByte());
+            return ((sbyte)readByte());
             //return _memoryStream.ReadByte ().ToSByte ();
             return read<sbyte>();
         }

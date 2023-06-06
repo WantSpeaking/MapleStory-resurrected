@@ -446,6 +446,10 @@ namespace ms
 						int oid = mob.get_oid ();
 						var distance = mob.get_position ().distance (new Point_short (origin));
 						distances.Add ((ushort)distance, oid);
+						if (mob.isBoss)
+						{
+							lastestAttackedBoss = mob;
+						}
 					}
 				}
 				else
@@ -708,6 +712,10 @@ namespace ms
 
 		private LinkedList<BulletEffect> bullets = new LinkedList<BulletEffect> ();
 		private LinkedList<DamageNumber> damagenumbers = new LinkedList<DamageNumber> ();
+
+		private Mob lastestAttackedBoss;
+
+        public Mob get_lastestAttackedBoss() => lastestAttackedBoss;
 	}
 }
 

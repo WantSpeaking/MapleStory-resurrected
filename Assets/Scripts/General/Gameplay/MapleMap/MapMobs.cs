@@ -101,9 +101,15 @@ namespace ms
 				mob.show_hp (percent, playerlevel);
 			}
 		}
-
-		// Update a mob's movements.
-		public void send_movement (int oid, Point_short start, List<Movement> movements)
+        public void send_bosshp(int oid, int currHP,int maxHP)
+        {
+            if (mobs.get(oid).get() is Mob mob)
+            {
+                mob.bosshp(currHP, maxHP);
+            }
+        }
+        // Update a mob's movements.
+        public void send_movement (int oid, Point_short start, List<Movement> movements)
 		{
 			if (mobs.get (oid).get () is Mob mob)
 			{

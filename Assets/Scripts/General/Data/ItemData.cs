@@ -141,7 +141,7 @@ namespace ms
 				case 1:
 					category = get_eqcategory (itemid);
 					src = ms.wz.wzFile_character[category]?[strid + ".img"]?["info"];
-					strsrc = ms.wz.wzFile_string["Eqp.img"]["Eqp"][category][Convert.ToString (itemid)];
+					strsrc = ms.wz.wzFile_string["Eqp.img"]?["Eqp"]?[category]?[Convert.ToString (itemid)];
 					break;
 				case 2:
 					category = "Consume";
@@ -176,8 +176,8 @@ namespace ms
 				cashitem = src["cash"];
 				gender = get_item_gender (itemid);
 
-				name = strsrc["name"].ToString ();
-				desc = strsrc["desc"]?.ToString () ?? string.Empty;
+				name = strsrc?["name"]?.ToString ();
+				desc = strsrc?["desc"]?.ToString () ?? string.Empty;
 
 				valid = true;
 			}

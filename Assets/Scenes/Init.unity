@@ -1573,7 +1573,7 @@ MonoBehaviour:
   TestMode: 0
   TestAccount: admin2
   TestPassword: admin2
-  Version: 49
+  Version: 52
   drawMap: 1
   enableUpdate: 1
   mainCamera: {fileID: 1326867178}
@@ -1586,6 +1586,7 @@ MonoBehaviour:
   spawnNPCInterval: 0.5
   bgDrawX: 400
   bgDrawY: 400
+  PrintPlayerPos: 0
 --- !u!114 &609587594
 MonoBehaviour:
   m_ObjectHideFlags: 0

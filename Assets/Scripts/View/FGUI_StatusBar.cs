@@ -95,7 +95,7 @@ namespace ms_Unity
         private void OnClick_BackToLogin (EventContext context)
         {
             _c1.selectedIndex = 0;
-
+			_t_HideFunctionPanel.Play ();
             //ms.UI.get ().emplace<UIQuit> (ms.Stage.get ().get_player ().get_stats ());
             MapleStory.Instance.BackToLogin ();
 			//OnClick_PARTY_And_Friends ();
@@ -187,6 +187,18 @@ namespace ms_Unity
 			_ProgressBar_MP.value = uIStatusBar.stats.get_stat (MapleStat.Id.MP);
 			_ProgressBar_MP.max = uIStatusBar.stats.get_total (EquipStat.Id.MP);
 
+			if (ms.Stage.get().get_combat().get_lastestAttackedBoss() is Mob boss)
+			{
+				_Boss_HPBar.visible = true;
+
+                _Boss_HPBar._txt_Name.text = boss.get_MobName();
+				_Boss_HPBar._ProgressBar_HP.value = boss.get_CurrHP();
+				_Boss_HPBar._ProgressBar_HP.max = boss.get_MaxHP();
+            }
+			else
+			{
+                _Boss_HPBar.visible = false;
+            }
 			//AppDebug.Log ($"hp:{uIStatusBar.gethppercent ()} \t mp:{uIStatusBar.getmppercent ()} \t exp:{uIStatusBar.getexppercent ()}");
 		}
 	}

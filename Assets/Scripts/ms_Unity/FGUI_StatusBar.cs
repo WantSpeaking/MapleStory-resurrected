@@ -43,6 +43,7 @@ namespace ms_Unity
         public GTextField _Txt_Version;
         public GGroup _Bottom;
         public FGUI_QuestLogMini _QuestLogMini;
+        public FGUI_Boss_HPBar _Boss_HPBar;
         public Transition _t_ShowFunctionPanel;
         public Transition _t_HideFunctionPanel;
         public const string URL = "ui://4916gthqq03inpi";
@@ -92,6 +93,7 @@ namespace ms_Unity
             _Txt_Version = (GTextField)GetChildAt(42);
             _Bottom = (GGroup)GetChildAt(43);
             _QuestLogMini = (FGUI_QuestLogMini)GetChildAt(44);
+            _Boss_HPBar = (FGUI_Boss_HPBar)GetChildAt(45);
             _t_ShowFunctionPanel = GetTransitionAt(0);
             _t_HideFunctionPanel = GetTransitionAt(1);
             OnCreate();
