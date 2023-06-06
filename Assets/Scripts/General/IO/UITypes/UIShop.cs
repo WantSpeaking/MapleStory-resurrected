@@ -692,13 +692,13 @@ namespace ms
 				pricelabel.change_text (mesostr + "meso");
 			}
 
-			public void draw (Point_short pos)
+			/*public void draw (Point_short pos)
 			{
 				icon.draw (pos + new Point_short (0, 42));
 				namelabel.draw (pos + new Point_short (40, 6));
 				currency.draw (pos + new Point_short (38, 29));
 				pricelabel.draw (pos + new Point_short (55, 24));
-			}
+			}*/
 
 			public int get_id ()
 			{
@@ -748,10 +748,10 @@ namespace ms
 
 				string name = idata.get_name ();
 
-				if (name.Length >= 28)
+				/*if (name.Length >= 28)
 				{
 					name = name.Substring (0, 28) + "..";
-				}
+				}*/
 
 				namelabel.change_text (name);
 
@@ -761,19 +761,19 @@ namespace ms
 				pricelabel.change_text (mesostr + "meso");
 			}
 
-			public void draw (Point_short pos)
+			/*public void draw(Point_short pos)
 			{
-				icon.draw (pos + new Point_short (43, 42));
+				icon.draw(pos + new Point_short(43, 42));
 
 				if (showcount)
 				{
-					Charset countset = new Charset (ms.wz.wzFile_ui["Basic.img"]["ItemNo"], Charset.Alignment.LEFT);
-					countset.draw (Convert.ToString (sellable), pos + new Point_short (41, 28));
+					Charset countset = new Charset(ms.wz.wzFile_ui["Basic.img"]["ItemNo"], Charset.Alignment.LEFT);
+					countset.draw(Convert.ToString(sellable), pos + new Point_short(41, 28));
 				}
 
-				namelabel.draw (pos + new Point_short (84, 6));
-				pricelabel.draw (pos + new Point_short (84, 24));
-			}
+				namelabel.draw(pos + new Point_short(84, 6));
+				pricelabel.draw(pos + new Point_short(84, 24));
+			}*/
 
 			public int get_id ()
 			{
@@ -822,7 +822,7 @@ namespace ms
                 _fgui_Shop?.Refresh();
             }
 
-			public void draw (Point_short parentpos, Texture selected)
+			/*public void draw (Point_short parentpos, Texture selected)
 			{
 				for (short i = 0; i < 9; i++)
 				{
@@ -842,7 +842,7 @@ namespace ms
 
 					items[slot].draw (parentpos + itempos);
 				}
-			}
+			}*/
 
 			public void show_item (short slot)
 			{
@@ -978,7 +978,7 @@ namespace ms
                 _fgui_Shop?.Refresh();
             }
 
-			public void draw (Point_short parentpos, Texture selected)
+			/*public void draw (Point_short parentpos, Texture selected)
 			{
 				for (short i = 0; i <= 8; i++)
 				{
@@ -998,7 +998,7 @@ namespace ms
 
 					items[slot].draw (parentpos + itempos);
 				}
-			}
+			}*/
 
 			public void show_item (short slot)
 			{
