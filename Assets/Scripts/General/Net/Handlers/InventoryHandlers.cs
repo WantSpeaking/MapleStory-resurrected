@@ -120,7 +120,7 @@ namespace ms
 			}
 
             GameUtil.Instance.stopwatch.Stop();
-            AppDebug.Log($"ModifyInventory 1 time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
+            //AppDebug.Log($"ModifyInventory 1 time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
             GameUtil.Instance.stopwatch.Restart();
 
             Inventory.Movement move = (recv.length () > 0) ? Inventory.movementbyvalue (recv.read_byte ()) : Inventory.Movement.MOVE_INTERNAL;

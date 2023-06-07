@@ -51,119 +51,145 @@ using Utility.PoolSystem;
 using Bitmap = MapleLib.WzLib.Bitmap;
 using Graphics = UnityEngine.Graphics;
 using ms_Unity;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ms
 {
-	// Represents a single image loaded from a of game data
-	public class Texture : IDisposable
-	{
-		public string GUIDString;
-		
-		private GameObject spriteObj;
+    // Represents a single image loaded from a of game data
+    public class Texture : IDisposable
+    {
+        public string GUIDString;
 
-		private SpriteRenderer spriteRenderer;
 
-		public UnityEngine.Sprite sprite;
 
-		public string fullPath = string.Empty;
+        public UnityEngine.Sprite sprite;
 
-		private byte[] textureData;
+        public string fullPath = string.Empty;
 
-		private Bitmap bitmap;
+        private Bitmap bitmap;
 
-		private short real_X;
+        private Point_short pivot = new Point_short();
 
-		private short real_Y;
+        private Point_short dimensions = new Point_short();
 
-		public int textureWidth;
+        public UnityEngine.LayerMask layerMask = LayerMask.NameToLayer("Default");
 
-		public int textureHight;
 
-		public byte[] data;
+        private WzObject cache_src { get; set; }
 
-		private WzCanvasProperty canvasProperty;
+        public Texture2D texture2D { get; set; }
+        public FairyGUI.NTexture nTexture { get; set; }
 
-		private Point_short pivot = new Point_short ();
+        public bool isSprite;
 
-		private Point_short dimensions = new Point_short ();
+        public bool isDontDestoryOnLoad = false;
 
-		private DrawArgument _drawArgument;
+        public DrawObject DrawObject { get; set; }
 
-		private Texture2D mainTexture;
+        public void DestoryUnityObject()
+        {
+            UnityEngine.Object.DestroyImmediate(sprite);
+            UnityEngine.Object.DestroyImmediate(texture2D);
 
-		public UnityEngine.LayerMask layerMask = LayerMask.NameToLayer ("Default");
-		public UnityEngine.Color clearColor = UnityEngine.Color.magenta;
 
-		private CommandBuffer clearBuffer = new CommandBuffer
-		{
-			name = "Clear Buffer"
-		};
-
-		private const short camera_left = 0;
-
-		private const short camera_top = 0;
-
-		private const short camera_right = 800;
-
-		private const short camera_bottom = 600;
-
-		private Rectangle_short cameraRange = new Rectangle_short (0, 800, 0, 600);
-
-		private Rect cameraRect = new Rect (0f, 0f, 800f, 600f);
-
-		private Rectangle_short textureRange;
-
-		private Rect textureRect;
-
-		private WzObject cache_src { get; set; }
-
-		public Texture2D texture2D { get; set; }
-		public FairyGUI.NTexture nTexture { get; set; }
-
-		public bool hasBeenDrew = false;
-		public RenderTexture target => SingletonMono<MapleStory>.Instance.target;
-
-		public bool isSprite;
-
-		public bool isDontDestoryOnLoad = false;
-		public Texture SetIsDontDestoryOnLoad(bool b)
-		{
-			isDontDestoryOnLoad = b;
-
-			return this;
+            this.sprite = null;
+            this.fullPath = null;
+            this.bitmap = null;
+            this.pivot = null;
+            this.dimensions = null;
+            this.cache_src = null;
+            this.texture2D = null;
+            this.nTexture = null;
+            this.DrawObject = null;
         }
 
-        private Rect textureRelativeToCamera => new Rect (textureRect.x - cameraRect.x, textureRect.y - cameraRect.y, textureRect.width, textureRect.height);
+        public void Dispose()
+        {
 
-		public DrawObject DrawObject { get; set; }
 
-        public Texture ()
-		{
-			GUIDString = Guid.NewGuid ().ToString();
-		}
+            TestURPBatcher.Instance.UnSpawn(this);
 
-		public Texture (WzObject src)
-		{
-			Init (src);
-		}
+        }
+        private static List<string> dontDestoryList = new List<string>() { "Character", "BasicEff.img", "icon" };
+        public static Dictionary<string, Texture> cache_Texture = new Dictionary<string, Texture>();
+        private static List<string> destoryList = new List<string>();
+        public static void DestoryUnityObjects()
+        {
+            destoryList.Clear();
 
-		public Texture (WzObject src, string layerMaskName)
-		{
-			Init (src);
-			layerMask = LayerMask.NameToLayer (layerMaskName);
-		}
+            foreach (var pair in cache_Texture)
+            {
+                if (pair.Value.fullPath == null) continue;
+                if (dontDestoryList.Where(k => pair.Value.fullPath.Contains(k)).Any()) continue;
 
-		public Texture (ms.Texture srcTexture)
-		{
-			Init (srcTexture?.cache_src);
-		}
+                pair.Value?.DestoryUnityObject();
+                destoryList.Add(pair.Key);
 
-		public void Init (WzObject src)
-		{
+                /*foreach (var keyWord in dontDestoryList)
+                {
+
+                }
+                if (!(pair.Value.fullPath?.Contains("Character") ?? false))
+                {
+                    pair.Value?.DestoryUnityObject();
+                    destoryList.Add(pair.Key);
+                }*/
+            }
+
+            foreach (var item in destoryList)
+            {
+                cache_Texture.Remove(item);
+            }
+        }
+
+        public Texture(ms.Texture srcTexture)
+        {
+            Init(srcTexture);
+
+            //Init(srcTexture?.cache_src);
+        }
+
+        public Texture()
+        {
+            GUIDString = Guid.NewGuid().ToString();
+        }
+
+        public Texture(WzObject src)
+        {
+            Init(src);
+        }
+
+        public Texture(WzObject src, string layerMaskName)
+        {
+            Init(src);
+            layerMask = LayerMask.NameToLayer(layerMaskName);
+        }
+
+
+        public void Init(ms.Texture srcTexture)
+        {
+            this.sprite = srcTexture.sprite;
+            this.fullPath = srcTexture.fullPath;
+            this.bitmap = srcTexture.bitmap;
+            //this.pivot = srcTexture.pivot;
+            this.pivot = srcTexture?.cache_src?["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
+            this.dimensions = srcTexture.dimensions;
+            this.layerMask = srcTexture.layerMask;
+            this.cache_src = srcTexture.cache_src;
+            this.texture2D = srcTexture.texture2D;
+            this.nTexture = srcTexture.nTexture;
+            this.isSprite = srcTexture.isSprite;
+            this.isDontDestoryOnLoad = srcTexture.isDontDestoryOnLoad;
+            this.DrawObject = srcTexture.DrawObject;
+        }
+
+        public void Init(WzObject src)
+        {
             GUIDString = Guid.NewGuid().ToString();
             cache_src = src;
 
-			/*if (cache_src == null)
+            /*if (cache_src == null)
 			{
                 pivot = Point_short.zero;
                 dimensions = Point_short.zero;
@@ -181,12 +207,23 @@ namespace ms
 
             TestURPBatcher.Instance.msTexInitTasks.Enqueue(new MsTexInitTask(this));*/
 
-			InitCostTIme();
+            if (cache_src == null) return;
+
+            if (cache_Texture.TryGetValue(cache_src.FullPath, out var cacheTexture))
+            {
+                Init(cacheTexture);
+            }
+            else
+            {
+                InitCostTIme();
+                cache_Texture.TryAdd(fullPath, this);
+            }
+
         }
 
-		public void InitCostTIme()
-		{
-            
+        public void InitCostTIme()
+        {
+
             if (cache_src != null && cache_src.IsTexture())
             {
                 fullPath = cache_src.FullPath;
@@ -196,12 +233,7 @@ namespace ms
                 {
                     Debug.Log(cache_src.FullPath + " bitmap is null");
                 }
-                textureData = bitmap.RawBytes;
-                WzCanvasProperty canvasProperty = cache_src as WzCanvasProperty;
-                if (canvasProperty != null)
-                {
-                }
-                this.canvasProperty = cache_src as WzCanvasProperty;
+
                 dimensions = new Point_short((short)bitmap.Width, (short)bitmap.Height);
 
                 if (cache_src.FullPath.Contains("Map.wz\\Tile"))
@@ -219,214 +251,87 @@ namespace ms
 
                 if (texture2D == null)
                 {
-                    texture2D = TextureAndSpriteUtil.PngDataToTexture2D(textureData, bitmap, pivot, dimensions);
+                    texture2D = TextureAndSpriteUtil.PngDataToTexture2D(bitmap.RawBytes, bitmap, pivot, dimensions);
                 }
                 nTexture = new FairyGUI.NTexture(texture2D);
             }
         }
-		public void Dispose ()
-		{
-			TestURPBatcher.Instance.UnSpawn (this);
-		}
 
-		public void erase ()
-		{
-			if (!(spriteRenderer != null))
-			{
-			}
-		}
 
-		public void draw ()
-		{
-		}
+        public void erase()
+        {
 
-		public void draw (DrawArgument args)
-		{
-			/*if (args.drawOnce && hasBeenDrew)
+        }
+
+
+        public void draw(DrawArgument args)
+        {
+            /*if (args.drawOnce && hasBeenDrew)
 			{
 				return;
 			}
 
 			hasBeenDrew = true;*/
-			
-			if (bitmap != null)
-			{
-				Vector3 position = new Vector3 (args.getpos ().x () + (args.FlipX ? -1 : 1) * (bitmap.Width / 2 - pivot.x ()), -args.getpos ().y () + (-bitmap.Height / 2 + pivot.y ()), SingletonMono<GameUtil>.Instance.DrawOrder);
-				/*Vector3 position = new Vector3 (args.getpos ().x () + bitmap.Width / 2 - pivot.x (), -args.getpos ().y () - bitmap.Height / 2 + pivot.y (), Singleton<GameUtil>.Instance.DrawOrder);*/
-				if (fullPath == "Ui-new.wz\\Login.img\\Title\\BtNew\\normal\\0")
-				{
-				}
-				Vector3 localScale = new Vector3 (args.get_xscale (), -args.get_yscale (), 1f);
-				//Vector3 localScale = new Vector3 (args.get_xscale () * (args.getstretch ().x ()==0?1:args.getstretch ().x ()), -args.get_yscale ()* (args.getstretch ().y ()==0?1:args.getstretch ().y ()), 1f);
-				if (args.isDontDestoryOnLoad)
-				{
+
+            if (bitmap != null)
+            {
+                Vector3 position = new Vector3(args.getpos().x() + (args.FlipX ? -1 : 1) * (bitmap.Width / 2 - pivot.x()), -args.getpos().y() + (-bitmap.Height / 2 + pivot.y()), SingletonMono<GameUtil>.Instance.DrawOrder);
+                /*Vector3 position = new Vector3 (args.getpos ().x () + bitmap.Width / 2 - pivot.x (), -args.getpos ().y () - bitmap.Height / 2 + pivot.y (), Singleton<GameUtil>.Instance.DrawOrder);*/
+                if (fullPath == "Ui-new.wz\\Login.img\\Title\\BtNew\\normal\\0")
+                {
+                }
+                Vector3 localScale = new Vector3(args.get_xscale(), -args.get_yscale(), 1f);
+                //Vector3 localScale = new Vector3 (args.get_xscale () * (args.getstretch ().x ()==0?1:args.getstretch ().x ()), -args.get_yscale ()* (args.getstretch ().y ()==0?1:args.getstretch ().y ()), 1f);
+                if (args.isDontDestoryOnLoad)
+                {
                     isDontDestoryOnLoad = args.isDontDestoryOnLoad;
 
                 }
-                SingletonMono<TestURPBatcher>.Instance.TryDraw (this, bitmap, position, localScale, args.DrawParent);
-			}
-		}
+                SingletonMono<TestURPBatcher>.Instance.TryDraw(this, bitmap, position, localScale, args.DrawParent);
+            }
+        }
 
-		private float format_Scale_X (float X, int pngFormat)
-		{
-			float result = 1f;
-			switch (pngFormat)
-			{
-				case 1:
-					result = 1f;
-					break;
-				case 2:
-				case 3:
-				case 1026:
-				case 2050:
-					result = 1f;
-					break;
-				case 513:
-				case 517:
-					result = 1f;
-					break;
-			}
-			return result * X;
-		}
 
-		private float format_Scale_Y (float X, int pngFormat)
-		{
-			float result = -1f;
-			switch (pngFormat)
-			{
-				case 1:
-					result = -1f;
-					break;
-				case 2:
-				case 3:
-				case 1026:
-				case 2050:
-					result = -1f;
-					break;
-				case 513:
-				case 517:
-					result = -1f;
-					break;
-			}
-			return result * X;
-		}
+        public void draw(DrawArgument args, Range_short vertical)
+        {
+        }
 
-		private SpriteRenderer SpriteRendererCreator ()
-		{
-			GameObject obj = new GameObject (fullPath);
-			SpriteRenderer renderer = obj.AddComponent<SpriteRenderer> ();
-			renderer.flipY = true;
-			if (sprite == null)
-			{
-				sprite = TextureAndSpriteUtil.PngDataToSprite (textureData, bitmap, pivot, dimensions);
-				renderer.sprite = sprite;
-			}
-			return renderer;
-		}
+        public void shift(Point_short amount)
+        {
+            pivot -= amount;
+        }
 
-		public void DrawTextureToTarget ()
-		{
-			Graphics.SetRenderTarget (target);
-			GL.PushMatrix ();
-			GL.LoadPixelMatrix (0f, target.width, target.height, 0f);
-			Graphics.DrawTexture (textureRelativeToCamera, mainTexture);
-			GL.PopMatrix ();
-		}
+        public bool is_valid()
+        {
+            return dimensions != null;
+        }
 
-		private bool overlaps ()
-		{
-			return cameraRange.overlaps (textureRange);
-		}
+        public short width()
+        {
+            return dimensions.x();
+        }
 
-		private bool contains ()
-		{
-			return cameraRange.contains (textureRange);
-		}
+        public short height()
+        {
+            return dimensions.y();
+        }
 
-		public void draw (DrawArgument args, Range_short vertical)
-		{
-		}
+        public Point_short get_origin()
+        {
+            return pivot;
+        }
 
-		private void setPos (Vector3 pos)
-		{
-			GameObject gameObject = spriteRenderer?.gameObject;
-			if ((object)gameObject != null)
-			{
-				gameObject.transform.position = pos;
-			}
-		}
+        public Point_short get_dimensions()
+        {
+            return dimensions;
+        }
 
-		private void setScale (Vector3 pos)
-		{
-			GameObject gameObject = spriteRenderer?.gameObject;
-			if ((object)gameObject != null)
-			{
-				gameObject.transform.localScale = pos;
-			}
-		}
 
-		public void shift (Point_short amount)
-		{
-			pivot -= amount;
-		}
-
-		public bool is_valid ()
-		{
-			return textureData != null;
-		}
-
-		public short width ()
-		{
-			return dimensions.x ();
-		}
-
-		public short height ()
-		{
-			return dimensions.y ();
-		}
-
-		public Point_short get_origin ()
-		{
-			return pivot;
-		}
-
-		public Point_short get_dimensions ()
-		{
-			return dimensions;
-		}
-
-		private void AddToParent (GameObject gObj, string path)
-		{
-			if (!(gObj == null) && !string.IsNullOrEmpty (path) && !(SingletonMono<MapleStory>.Instance.Map_Parent == null) && !(SingletonMono<MapleStory>.Instance.Character_Parent == null) && !(SingletonMono<MapleStory>.Instance.Mob_Parent == null))
-			{
-				if (path.Contains ("map"))
-				{
-					gObj.SetParent (SingletonMono<MapleStory>.Instance.Map_Parent.transform);
-				}
-				else if (path.Contains ("character"))
-				{
-					gObj.SetParent (SingletonMono<MapleStory>.Instance.Character_Parent.transform);
-				}
-				else if (path.Contains ("mob"))
-				{
-					gObj.SetParent (SingletonMono<MapleStory>.Instance.Mob_Parent.transform);
-				}
-				else if (path.Contains ("effect"))
-				{
-					gObj.SetParent (SingletonMono<MapleStory>.Instance.Effect_Parent.transform);
-				}
-			}
-		}
-
-		public override int GetHashCode ()
-		{
-			int hashCode = 339610899;
-			hashCode *= -1521134295;
-			return base.GetHashCode () + hashCode;
-		}
-	}
+        public override int GetHashCode()
+        {
+            int hashCode = 339610899;
+            hashCode *= -1521134295;
+            return base.GetHashCode() + hashCode;
+        }
+    }
 }
-
-
-#if USE_NX
-#endif

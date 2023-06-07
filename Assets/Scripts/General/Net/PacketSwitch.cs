@@ -91,9 +91,10 @@ namespace ms
 			// NPC Interaction Handlers
 			emplace (Opcode.NPC_TALK, new NpcTalkHandler ());
 			emplace (Opcode.OPEN_NPC_SHOP, new OpenNpcShopHandler ());
-
-			// Player Interaction
-			emplace (Opcode.CHAR_INFO, new CharInfoHandler ());
+			emplace (Opcode.CONFIRM_SHOP_TRANSACTION, new CONFIRM_SHOP_TRANSACTION_Handler());
+            
+            // Player Interaction
+            emplace (Opcode.CHAR_INFO, new CharInfoHandler ());
 
 			// Cash Shop
 			emplace (Opcode.SET_CASH_SHOP, new SetCashShopHandler ());

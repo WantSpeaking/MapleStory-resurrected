@@ -285,7 +285,7 @@ namespace ms
         {
             base.remove_cursor();
 
-            slider.remove_cursor();
+            //slider.remove_cursor();
         }
 
         static readonly Rectangle_short bounds = new Rectangle_short(0, 32, 0, 32);
@@ -801,7 +801,7 @@ namespace ms
 
             JobData data = JobData.get(subid);
 
-            bookicon = new Texture(data.get_icon());
+            //bookicon = new Texture(data.get_icon());
             booktext.change_text(data.get_name());
 
             foreach (int skill_id in data.get_skills())
@@ -823,7 +823,7 @@ namespace ms
                 skillcount++;
             }
 
-            slider.setrows(ROWS, (short)skillcount);
+            //slider.setrows(ROWS, (short)skillcount);
             change_offset(0);
             change_sp();
         }
@@ -1140,12 +1140,12 @@ namespace ms
         private readonly CharStats stats;
         private readonly SkillBook skillbook;
 
-        private Slider slider = new Slider();
+        /*private Slider slider = new Slider();
         private Texture skille = new Texture();
         private Texture skilld = new Texture();
         private Texture skillb = new Texture();
         private Texture line = new Texture();
-        private Texture bookicon = new Texture();
+        private Texture bookicon = new Texture();*/
         private Text booktext = new Text();
         public Text splabel = new Text();
 

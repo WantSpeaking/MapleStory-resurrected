@@ -504,11 +504,11 @@ namespace ms
 				//buttons[newtab].set_state (Button.State.PRESSED);
 			}
 
-			sellstate.change_tab (inventory, type, new Texture (meso));
+            //sellstate.change_tab (inventory, type, new Texture (meso));
+            sellstate.change_tab(inventory, type);
+            //sellslider.setrows (5, sellstate.lastslot);
 
-			//sellslider.setrows (5, sellstate.lastslot);
-
-			/*for (uint i = (int)Buttons.SELL0; i < (ulong)Buttons.SELL8; i++)
+            /*for (uint i = (int)Buttons.SELL0; i < (ulong)Buttons.SELL8; i++)
 			{
 				if (i - (ulong)Buttons.SELL0 < (ulong)sellstate.lastslot)
 				{
@@ -519,7 +519,7 @@ namespace ms
 					buttons[i].set_state (Button.State.DISABLED);
 				}
 			}*/
-		}
+        }
 
 		private short slot_by_position (short y)
 		{
@@ -733,7 +733,7 @@ namespace ms
 
 		public class SellItem
 		{
-			public SellItem (int item_id, short count, short s, bool sc, Texture cur)
+			public SellItem (int item_id, short count, short s, bool sc, Texture cur = null)
 			{
 				ItemData idata = ItemData.get (item_id);
 
@@ -953,7 +953,7 @@ namespace ms
 				_fgui_Shop?.Refresh();
 			}
 
-			public void change_tab (Inventory inventory, InventoryType.Id newtab, Texture meso)
+			public void change_tab (Inventory inventory, InventoryType.Id newtab, Texture meso = null)
 			{
 				tab = newtab;
 

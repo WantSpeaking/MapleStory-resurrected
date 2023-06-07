@@ -16,9 +16,9 @@ public class GameUtil : SingletonMono<GameUtil>
 	public bool drawMap = true;
 	public bool enableUpdate = true;
 	public UnityEngine.Camera mainCamera;
-	[FormerlySerializedAs ("testTalkNpcId")] public int testTalkNpcId_Instance = 2091005;
+	public int testTalkNpcId_Instance = 2091005;
 	public int testTalkNpcId_FunctionCenter = 2091006;
-	[FormerlySerializedAs ("testTalkNpcFileName")] public string testTalkNpcFileName_FunctionCenter = "extend/10200";
+	public string testTalkNpcFileName_FunctionCenter = "extend/10200";
 
     public Stopwatch stopwatch = new Stopwatch();
 	public string debugMessage = "";

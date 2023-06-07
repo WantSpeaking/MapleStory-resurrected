@@ -42,6 +42,8 @@ namespace ms
 			TestURPBatcher.Instance.Clear();
             TestURPBatcher.Instance.FillParentDict();
             TestURPBatcher.Instance.CLearDestoryObjs();
+			Texture.DestoryUnityObjects();
+
             Timer.get().start();
 			UI.get().disable ();
 			UI.get().disable_draw ();
