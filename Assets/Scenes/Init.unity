@@ -1573,7 +1573,7 @@ MonoBehaviour:
   TestMode: 0
   TestAccount: admin2
   TestPassword: admin2
-  Version: 54
+  Version: 56
   drawMap: 1
   enableUpdate: 1
   mainCamera: {fileID: 1326867178}
@@ -1587,6 +1587,10 @@ MonoBehaviour:
   bgDrawX: 400
   bgDrawY: 400
   PrintPlayerPos: 0
+  combo_radius: 50
+  superCombo_radius: 100
+  combo_roate_speed: 0.7
+  combo_buff_attack_increase_per: 10
 --- !u!114 &609587594
 MonoBehaviour:
   m_ObjectHideFlags: 0

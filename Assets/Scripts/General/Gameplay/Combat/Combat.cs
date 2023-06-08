@@ -102,22 +102,25 @@ namespace ms
 
                 if (down == true && pressing == false)//begin
                 {
+					if (prepareEffect == null) return;
 					player.add_cooldown(skill.get_id(), prepareEffect.GetAniLength()/1000f);
-					prepareEffect.apply(player);
+					prepareEffect?.apply(player);
 
                     //AppDebug.Log ("skill begin");
 
                 }
 				else if (down == true && pressing == true)//pressing
 				{
-                    player.add_cooldown(skill.get_id(), prepareEffect.GetAniLength() / 1000f);
-                    keydownEffect.apply(player);
+                    if (keydownEffect == null) return;
+                    player.add_cooldown(skill.get_id(), keydownEffect.GetAniLength() / 1000f);
+                    keydownEffect?.apply(player);
                     //AppDebug.Log("skill pressing");
                 }
                 else if (down == false && pressing == true)//end
                 {
-                    player.add_cooldown(skill.get_id(), prepareEffect.GetAniLength() / 1000f);
-                    keydownEndEffect.apply(player);
+                    if (keydownEndEffect == null) return;
+                    player.add_cooldown(skill.get_id(), keydownEndEffect.GetAniLength() / 1000f);
+                    keydownEndEffect?.apply(player);
                     //AppDebug.Log ("skill end");
                     player.remove_cooldown(move_id);
                 }
@@ -296,11 +299,12 @@ namespace ms
 				Point_short origin = new Point_short (attack.origin);
 				Rectangle_short range = new Rectangle_short (attack.range);
 				short hrange = (short)(range.left () * attack.hrange);
-				int x = attack.x;
-				int y = attack.y;
+                /*int x = attack.x;
+				int y = attack.y;*///金钱炸弹 超出范围 x=500，y=0 ，攻击不到
+                int x = 0;
+                int y = 0;
 
-				
-				MapleStory.Instance.attackRange = range;
+                MapleStory.Instance.attackRange = range;
 				//AppDebug.Log ($"center:{center}\t size:{size}\t attackRange:{attackRange}");
 				if (attack.toleft)
 				{
@@ -483,15 +487,20 @@ namespace ms
 
 		public void apply_use_movement (SpecialMove move)
 		{
-			switch ((SkillId.Id)move.get_id ())
+			switch (move.get_id ())
 			{
-				case SkillId.Id.TELEPORT_FP:
-				case SkillId.Id.IL_TELEPORT:
-				case SkillId.Id.PRIEST_TELEPORT:
+				case FPWizard.FP_TELEPORT:
+				case ILWizard.IL_TELEPORT:
+				case Cleric.Cleric_TELEPORT:
 					apply_TELEPORT_movement((Skill)move);
                     break;
-                case SkillId.Id.FLASH_JUMP:
+                case Hermit.FLASH_JUMP:
                     apply_FLASH_JUMP_movement((Skill)move);
+                    break;
+                case Hero.MONSTER_MAGNET:
+                case Paladin.MONSTER_MAGNET:
+                case DarkKnight.MONSTER_MAGNET:
+                    apply_MONSTER_MAGNET((Skill)move);
                     break;
                 default:
 					break;
@@ -538,7 +547,30 @@ namespace ms
 			
             //player.rush(targetX);
         }
+		//private List<Mob> MONSTER_MAGNET_List = new List<Mob>();
 
+        public void apply_MONSTER_MAGNET(Skill skill)
+		{
+			//MultiValueDictionary<ushort, int> distances = new MultiValueDictionary<ushort, int>();
+			var range = new Rectangle_short(MONSTER_MAGNET_Range);
+			var origin = player.get_position();
+            range.shift(origin);
+
+            foreach (var mmo in mobs.get_mobs())
+			{
+				Mob mob = (Mob)mmo.Value;
+
+				if (mob != null && mob.is_alive() && mob.is_in_range(range, true) && !mob.isBoss && mob.get_Control())
+				{
+					/*int oid = mob.get_oid();
+					var distance = mob.get_position().distance(origin);
+					distances.Add((ushort)distance, oid);
+					MONSTER_MAGNET_List.Add(mob);*/
+					mob.set_position(origin);
+                }
+			}
+
+        }
         public void apply_result_movement (SpecialMove move, AttackResult result)
 		{
 			switch ((SkillId.Id)move.get_id ())
@@ -714,7 +746,7 @@ namespace ms
 		private LinkedList<DamageNumber> damagenumbers = new LinkedList<DamageNumber> ();
 
 		private Mob lastestAttackedBoss;
-
+		private Rectangle_short MONSTER_MAGNET_Range = new Rectangle_short((short)(-Constants.get().get_viewwidth() / 2), (short)(Constants.get().get_viewwidth() / 2), (short)(-Constants.get().get_viewheight() / 2), (short)(Constants.get().get_viewheight() / 2));
         public Mob get_lastestAttackedBoss() => lastestAttackedBoss;
 	}
 }

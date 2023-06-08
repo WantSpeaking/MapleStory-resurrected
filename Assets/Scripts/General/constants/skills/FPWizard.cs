@@ -29,7 +29,8 @@ namespace constants.skills
 	{
 		public const int MP_EATER = 2100000;
 		public const int MEDITATION = 2101001;
-		public const int SLOW = 2101003;
+        public const int FP_TELEPORT = 2101002;
+        public const int SLOW = 2101003;
 		public const int FIRE_ARROW = 2101004;
 		public const int POISON_BREATH = 2101005;
 	}

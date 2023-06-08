@@ -117,7 +117,7 @@ namespace ms
              { 14, "未知的错误" },
         };
 
-        private const string unknowError = "未知的错误";
+        private const string unknowError = "成功";
 
         public override void handle(InPacket recv)
         {

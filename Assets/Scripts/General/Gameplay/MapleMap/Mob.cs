@@ -961,7 +961,7 @@ namespace ms
 
 		public int get_CurrHP() => currHP;
 		public int get_MaxHP() => maxHP;
-		
+		public bool get_Control() => control;
 		public bool PlayMobBTree (BehaviourTree BTree, Mob mob)
 		{
 			bool result = false;

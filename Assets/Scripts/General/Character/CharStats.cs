@@ -96,7 +96,13 @@ namespace ms
 			set_total(stat, current + value);
 			buffdeltas[stat] += value;
 		}
-		public void add_value(EquipStat.Id stat, int value)
+        public void remove_buff(EquipStat.Id stat, int value)
+        {
+            int current = get_total(stat);
+            set_total(stat, current - value);
+            buffdeltas[stat] -= value;
+        }
+        public void add_value(EquipStat.Id stat, int value)
 		{
 			int current = get_total(stat);
 			set_total(stat, current + value);

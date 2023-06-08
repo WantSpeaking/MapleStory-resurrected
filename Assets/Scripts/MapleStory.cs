@@ -721,6 +721,11 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	private void OnDrawGizmos ()
 	{
+		if (UnityEngine.Camera.current != UnityEngine.Camera.main)
+		{
+			return;
+		}
+
 		if (enable_DrawFootHolder)
 			DrawFootHolder ();
 

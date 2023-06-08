@@ -89,8 +89,8 @@ namespace ms
 
         public void DestoryUnityObject()
         {
-            UnityEngine.Object.DestroyImmediate(sprite);
-            UnityEngine.Object.DestroyImmediate(texture2D);
+            UnityEngine.Object.DestroyImmediate(sprite,true);
+            UnityEngine.Object.DestroyImmediate(texture2D,true);
 
 
             this.sprite = null;
@@ -111,7 +111,7 @@ namespace ms
             TestURPBatcher.Instance.UnSpawn(this);
 
         }
-        private static List<string> dontDestoryList = new List<string>() { "Character", "BasicEff.img", "icon" };
+        private static List<string> dontDestoryList = new List<string>() { "Character", "BasicEff.img", "icon", "skill/1111002" , "skill/1120003" };
         public static Dictionary<string, Texture> cache_Texture = new Dictionary<string, Texture>();
         private static List<string> destoryList = new List<string>();
         public static void DestoryUnityObjects()

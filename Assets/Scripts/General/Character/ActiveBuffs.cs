@@ -114,13 +114,19 @@ namespace ms
         private Texture tex_state_3;
         private Texture tex_state_4;
         private Texture tex_state_5;
-        private List<Texture> stateTexture_List;
+        private List<(Texture, float)> stateTexture_List;
+        private List<(Texture, float)> super_stateTexture_List;
         //private List<SceneNode> stateSceneNode_List;
         private const string path_skill_111100 = "Skill.wz/111.img/skill/1111002";
+        private const string path_skill_1120003 = "Skill.wz/112.img/skill/1120003";
 
         private short r = 61;
         private float _speed = 0.02f;
+        private float _super_rotation = 0f;
         private float _rotation = 0f;
+
+        public float combo_angle = 0;
+        private const float max_combo_count = 5;
         /*private SceneGraph _sceneGraph;
         private SceneNode _node_state_0;
         private SceneNode _node_state_1;
@@ -128,27 +134,43 @@ namespace ms
         private SceneNode _node_state_3;
         private SceneNode _node_state_4;
         private SceneNode _node_state_5;*/
-
+        private int superComboSkillId = 1120003;
         public ComboBuff()
         {
-            stateTexture_List = new List<Texture>();
+
+        }
+        private void InitComboTex()
+        {
+            if (stateTexture_List != null) return;
+
+            stateTexture_List = new List<(Texture, float)>();
+            super_stateTexture_List = new List<(Texture, float)>();
 
             var wzObj_skill_1111002 = wz.wzFile_skill.GetObjectFromPath(path_skill_111100);
-
-            tex_state_0 = wzObj_skill_1111002["state"]["0"];
+            var wzObj_skill_1120003 = wz.wzFile_skill.GetObjectFromPath(path_skill_1120003);
+            /*tex_state_0 = wzObj_skill_1111002["state"]["0"];
             tex_state_1 = wzObj_skill_1111002["state"]["1"];
             tex_state_2 = wzObj_skill_1111002["state"]["2"];
             tex_state_3 = wzObj_skill_1111002["state"]["3"];
             tex_state_4 = wzObj_skill_1111002["state"]["4"];
-            tex_state_5 = wzObj_skill_1111002["state"]["5"];
+            tex_state_5 = wzObj_skill_1111002["state"]["5"];*/
 
-            stateTexture_List.Add(tex_state_0);
+            /*stateTexture_List.Add(tex_state_0);
             stateTexture_List.Add(tex_state_1);
             stateTexture_List.Add(tex_state_2);
             stateTexture_List.Add(tex_state_3);
             stateTexture_List.Add(tex_state_4);
-            stateTexture_List.Add(tex_state_5);
+            stateTexture_List.Add(tex_state_5);*/
 
+            var perComboAngle = 360 / max_combo_count;
+            for (int i = 0; i <= max_combo_count; i++)
+            {
+                stateTexture_List.Add((wzObj_skill_1111002["state"][$"{i}"], perComboAngle * i));
+            }
+            for (int i = 0; i <= max_combo_count; i++)
+            {
+                super_stateTexture_List.Add((wzObj_skill_1120003["state"][$"{i}"], perComboAngle * i /*+ perComboAngle / 2*/));
+            }
             /*stateSceneNode_List = new List<SceneNode>();
             _sceneGraph = new SceneGraph();
             _node_state_0 = new SceneNode("_node_state_0", new Vector2(0, 0));
@@ -174,11 +196,11 @@ namespace ms
             stateSceneNode_List.Add(_node_state_4);
             stateSceneNode_List.Add(_node_state_5);*/
         }
-
         public override void OnAdd(CharStats stats, short value)
         {
             state = value;
             AppDebug.Log($"OnAdd combo value:{value}");
+            InitComboTex();
         }
 
         public override void OnUpdate(CharStats stats, short value)
@@ -188,9 +210,20 @@ namespace ms
                 return;
             }
 
-            _rotation += _speed;
+            //_rotation += _speed;
+            _rotation += GameUtil.Instance.combo_roate_speed;
+            if (_rotation > 360)
+            {
+                _rotation -= 360;
+            }
 
-            var playerPos = Stage.Instance.get_player().absp;
+            if (!IsPlayerhasLearnedSuperCombo()) return;
+            _super_rotation -= GameUtil.Instance.combo_roate_speed;
+            if (_super_rotation < -360)
+            {
+                _super_rotation += 360;
+            }
+            //var playerPos = Stage.Instance.get_player().absp;
             /*_node_state_0.Position = new Vector2(playerPos.x(), playerPos.y() - 45);
             _node_state_0.Rotation = _rotation;*/
 
@@ -203,6 +236,43 @@ namespace ms
                 return;
             }
             var playerPos = Stage.Instance.get_player().absp;
+
+            for (int i = 1; i <= state; i++)
+            {
+
+                var tempState = Math.Clamp(i, 1, 5);
+
+                var tex_angle = stateTexture_List.TryGet(tempState);
+                //var node = stateSceneNode_List.TryGet(tempState);
+
+                if (tex_angle.Item1 != null)
+                {
+
+                    //node.WorldMatrix.Transform(node.Position.X * r, node.Position.Y * r, out var nodeWorldPos);
+                    var angle = Math.PI * (_rotation + tex_angle.Item2) / 180.0;
+                    var localx = GameUtil.Instance.combo_radius * Math.Sin(angle);
+                    var localy = GameUtil.Instance.combo_radius * Math.Cos(angle);
+
+                    DrawArgument d2 = new DrawArgument((short)(localx + playerPos.x()), (short)(localy + playerPos.y() - Char.charHeight / 2), -_rotation, 1f);
+
+                    tex_angle.Item1.draw(d2);
+                }
+
+                if (!IsPlayerhasLearnedSuperCombo()) continue;
+
+                var super_tex_angle = super_stateTexture_List.TryGet(tempState);
+                if (super_tex_angle.Item1 != null)
+                {
+                    //node.WorldMatrix.Transform(node.Position.X * r, node.Position.Y * r, out var nodeWorldPos);
+                    var angle = Math.PI * (_super_rotation + super_tex_angle.Item2) / 180.0;
+                    var localx = GameUtil.Instance.superCombo_radius * Math.Sin(angle);
+                    var localy = GameUtil.Instance.superCombo_radius * Math.Cos(angle);
+
+                    DrawArgument d2 = new DrawArgument((short)(localx + playerPos.x()), (short)(localy + playerPos.y() - Char.charHeight / 2), +_super_rotation, 1f);
+
+                    super_tex_angle.Item1.draw(d2);
+                }
+            }
 
             /*var pos0 = stateSceneNode_List.TryGet(0).WorldPosition;
             DrawArgument d1 = new DrawArgument((short)(pos0.X), (short)(pos0.Y), _rotation,0.3f);
@@ -229,13 +299,23 @@ namespace ms
             //AppDebug.Log($"OnAdd combo value:{value}");
 
         }
+        private bool IsPlayerhasLearnedSuperCombo()
+        {
+            return Stage.get().get_player().get_skilllevel(superComboSkillId) > 0;
+        }
         public override void OnRemove(CharStats stats, short value)
         {
             AppDebug.Log($"OnAdd combo value:{value}");
             state = -1;
         }
+
+        public override void apply_to(CharStats stats, short value)
+        {
+            stats.add_buff(EquipStat.Id.WATK, value * GameUtil.Instance.combo_buff_attack_increase_per * (IsPlayerhasLearnedSuperCombo() ? 2 : 1));
+        }
     }
-    public class ActiveBuffs:IDisposable
+
+    public class ActiveBuffs : IDisposable
     {
         // Register all buffs effects
         public ActiveBuffs()
@@ -296,13 +376,13 @@ namespace ms
         private readonly EnumMap<Buffstat.Id, ActiveBuff> buffs = new EnumMap<Buffstat.Id, ActiveBuff>();
 
 
-        public void Dispose ()
+        public void Dispose()
         {
             foreach (var pair in buffs)
             {
-                pair.Value.Dispose ();
+                pair.Value.Dispose();
             }
-            buffs.Clear ();
+            buffs.Clear();
         }
     }
 }

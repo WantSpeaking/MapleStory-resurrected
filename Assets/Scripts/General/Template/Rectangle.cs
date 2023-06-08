@@ -166,7 +166,19 @@ namespace ms
 			return this;
 		}
 
-		public Rectangle_short expand (short value)
+        public Rectangle_short shift_x(short value)
+        {
+			left_top.shift_x(value);
+            right_bottom.shift_x(value);
+            return this;
+        }
+        public Rectangle_short shift_y(short value)
+        {
+            left_top.shift_y(value);
+            right_bottom.shift_y(value);
+            return this;
+        }
+        public Rectangle_short expand (short value)
 		{
 			Point_short expand = new Point_short (value, value);
 			left_top -= expand;

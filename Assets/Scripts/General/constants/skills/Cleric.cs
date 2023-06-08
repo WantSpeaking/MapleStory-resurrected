@@ -24,7 +24,8 @@ namespace constants.skills
 	public class Cleric
 	{
 		public const int MP_EATER = 2300000;
-		public const int HEAL = 2301002;
+        public const int Cleric_TELEPORT = 2300001;
+        public const int HEAL = 2301002;
 		public const int INVINCIBLE = 2301003;
 		public const int BLESS = 2301004;
 		public const int HolyArrow = 2301005;

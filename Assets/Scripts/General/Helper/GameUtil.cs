@@ -33,4 +33,8 @@ public class GameUtil : SingletonMono<GameUtil>
 
 	public bool PrintPlayerPos;
 
+	public float combo_radius = 5f;
+	public float superCombo_radius = 5f;
+    public float combo_roate_speed = 1f;
+	public short combo_buff_attack_increase_per = 100;
 }

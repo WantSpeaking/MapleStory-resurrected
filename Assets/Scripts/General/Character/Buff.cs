@@ -70,10 +70,10 @@ namespace ms
 			POISON,
 			SEAL,
 			DARKNESS,
-			COMBO,
-			SUMMON,
-			WK_CHARGE,
-			DRAGONBLOOD,
+			COMBO,// 斗气集中
+            SUMMON,
+			WK_CHARGE,// 属性攻击
+            DRAGONBLOOD,
 			HOLY_SYMBOL,
 			MESOUP,
 			SHADOWPARTNER,
