@@ -111,7 +111,7 @@ namespace ms
             TestURPBatcher.Instance.UnSpawn(this);
 
         }
-        private static List<string> dontDestoryList = new List<string>() { "Character", "BasicEff.img", "icon", "skill/1111002" , "skill/1120003" };
+        private static List<string> dontDestoryList = new List<string>() { "Character", "BasicEff.img", "icon", "skill/1111002" , "skill/1120003", "4111002/special" };
         public static Dictionary<string, Texture> cache_Texture = new Dictionary<string, Texture>();
         private static List<string> destoryList = new List<string>();
         public static void DestoryUnityObjects()

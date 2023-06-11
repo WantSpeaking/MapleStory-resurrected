@@ -453,11 +453,12 @@ namespace ms
                 jobid = (id / 10000).ToString();
             }
 
-            var node_Skillwz_1111img_skill_11111004 = wz.findSkillImage($"{jobid}.img")["skill"][strid];
+            var node_Skillwz_1111img_skill_11111004 = wz.findSkillImage($"{jobid}.img")?["skill"]?[strid];
             var node_Stringwz_Skillimg_000 = wz.wzFile_string["Skill.img"][strid];
 
             if (node_Skillwz_1111img_skill_11111004 == null)//sever send skillId 100 ,or others ,which doesn't exist in skillWz
             {
+                AppDebug.LogWarning($"SkillData {jobid}.img/skill/{strid} is null");
                 return;
             }
 
@@ -490,7 +491,7 @@ namespace ms
                 foreach (var property_Skillwz_000img_skill_11111004_level_1 in property_Skillwz_000img_skill_0000008_level.WzProperties)
                 {
                     int level = string_conversion.or_default(property_Skillwz_000img_skill_11111004_level_1.Name, -1);
-                    float damage = (float)property_Skillwz_000img_skill_11111004_level_1["damage"] / 100;
+                    float damage = (float)property_Skillwz_000img_skill_11111004_level_1["damage"] / 100f;
                     int mad = property_Skillwz_000img_skill_11111004_level_1["mad"];
                     //群体治愈
                     if (id == Cleric.HEAL)

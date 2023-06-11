@@ -889,12 +889,13 @@ namespace ms
                 return false;
             }
 
-            switch ((SkillId.Id)skill_id)
+            if (skill_id == constants.skills.Beginner.BLESSING_OF_THE_FAIRY)
             {
-                case SkillId.Id.ANGEL_BLESSING:
-                    return false;
-                default:
-                    return check_required(skill_id);
+                return false;
+            }
+            else
+            {
+                return check_required(skill_id);
             }
         }
 

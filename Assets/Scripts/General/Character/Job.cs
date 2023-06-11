@@ -187,6 +187,24 @@
 		{
 			return name;
 		}
+
+		public EquipStat.Id get_percentStats_type(EquipStat.Id pureStats_type)
+		{
+			switch (pureStats_type)
+			{
+				case EquipStat.Id.INT:
+					return EquipStat.Id.INT_Percent;
+				case EquipStat.Id.DEX:
+					return EquipStat.Id.DEX_Percent;
+				case EquipStat.Id.LUK:
+					return EquipStat.Id.LUK_Percent;
+				case EquipStat.Id.STR:
+					return EquipStat.Id.STR_Percent;
+				default:
+					return EquipStat.Id.STR_Percent;
+			}
+		}
+
 		public EquipStat.Id get_primary (Weapon.Type weapontype)
 		{
 			switch (id / 100)

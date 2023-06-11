@@ -19,6 +19,10 @@
 			HANDS,
 			SPEED,
 			JUMP,
+			STR_Percent,
+			DEX_Percent,
+			INT_Percent,
+			LUK_Percent,
 		}
 		
 		public static readonly string[] names={

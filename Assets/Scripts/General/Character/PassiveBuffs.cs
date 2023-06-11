@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using constants.skills;
 using MapleLib.WzLib;
 
 
@@ -75,7 +76,7 @@ namespace ms
 
 		public override void apply_to (CharStats stats, WzObject level)
 		{
-			float mastery = (float)(level["mastery"]) / 100;
+			float mastery = (float)(level["mastery"]) / 100f;
 			stats.set_mastery (mastery);
 			stats.add_value (EquipStat.Id.ACC, level["x"]);
 		}
@@ -116,9 +117,9 @@ namespace ms
 		// Register all effects
 		public PassiveBuffs ()
 		{
-			foreach (SkillId.Id skillId in Enum.GetValues (typeof (SkillId.Id)))
+			/*foreach (SkillId.Id skillId in Enum.GetValues (typeof (SkillId.Id)))
 			{
-				if (skillId == SkillId.Id.ANGEL_BLESSING ||
+				if (skillId == constants.skills.Beginner.BLESSING_OF_THE_FAIRY ||
 				    skillId == SkillId.Id.SWORD_MASTERY_FIGHTER ||
 				    skillId == SkillId.Id.AXE_MASTERY ||
 				    skillId == SkillId.Id.ACHILLES_HERO ||
@@ -131,53 +132,96 @@ namespace ms
 				{
 					buffs.TryAdd ((int)skillId, null);
 				}
-			}
+			}*/
 
 			// Beginner
-			buffs[(int)SkillId.Id.ANGEL_BLESSING] = new AngelBlessingBuff ();
+			buffs[(int)Beginner.BLESSING_OF_THE_FAIRY] = new AngelBlessingBuff ();
 
+			#region 战士
 			// Fighter
-			buffs[(int)SkillId.Id.SWORD_MASTERY_FIGHTER] = new WeaponMasteryBuff (Weapon.Type.SWORD_1H, Weapon.Type.SWORD_2H);
-			buffs[(int)SkillId.Id.AXE_MASTERY] = new WeaponMasteryBuff (Weapon.Type.AXE_1H, Weapon.Type.AXE_2H);
+			buffs[(int)Fighter.SWORD_MASTERY] = new WeaponMasteryBuff(Weapon.Type.SWORD_1H, Weapon.Type.SWORD_2H);
+			buffs[(int)Fighter.AXE_MASTERY] = new WeaponMasteryBuff(Weapon.Type.AXE_1H, Weapon.Type.AXE_2H);
 
 			// Crusader
 
 			// Hero
-			buffs[(int)SkillId.Id.ACHILLES_HERO] = new AchillesBuff ();
+			buffs[(int)Hero.ACHILLES] = new AchillesBuff();
 
 			// Page
-			//buffs[(int)SkillId.Id.SWORD_MASTERY_FIGHTER] = new WeaponMasteryBuff (Weapon.Type.SWORD_1H, Weapon.Type.SWORD_2H);//repeated added
-			buffs[(int)SkillId.Id.BW_MASTERY] = new WeaponMasteryBuff (Weapon.Type.MACE_1H, Weapon.Type.MACE_2H);
+			buffs[(int)Page.SWORD_MASTERY] = new WeaponMasteryBuff(Weapon.Type.SWORD_1H, Weapon.Type.SWORD_2H);//repeated added
+			buffs[(int)Page.BW_MASTERY] = new WeaponMasteryBuff(Weapon.Type.MACE_1H, Weapon.Type.MACE_2H);
 
 			// White Knight
 
 			// Paladin
-			buffs[(int)SkillId.Id.ACHILLES_PALADIN] = new AchillesBuff ();
+			buffs[(int)Paladin.ACHILLES] = new AchillesBuff();
 
 			// Spearman
-			buffs[(int)SkillId.Id.SPEAR_MASTERY] = new WeaponMasteryBuff (Weapon.Type.SPEAR);
-			buffs[(int)SkillId.Id.PA_MASTERY] = new WeaponMasteryBuff (Weapon.Type.POLEARM);
+			buffs[(int)Spearman.SPEAR_MASTERY] = new WeaponMasteryBuff(Weapon.Type.SPEAR);
+			buffs[(int)Spearman.POLEARM_MASTERY] = new WeaponMasteryBuff(Weapon.Type.POLEARM);
 
 			// Dragon Knight
 
 			// Dark Knight
-			buffs[(int)SkillId.Id.ACHILLES_DK] = new AchillesBuff ();
-			buffs[(int)SkillId.Id.BERSERK] = new BerserkBuff ();
-		}
+			buffs[(int)DarkKnight.ACHILLES] = new AchillesBuff();
+			buffs[(int)DarkKnight.BERSERK] = new BerserkBuff();
+            #endregion
 
-		// Apply a passive skill effect to the character stats
-		public void apply_buff (CharStats stats, int skill_id, int skill_level)
+            //精准弓
+            //神箭手
+            buffs[(int)Hunter.BOW_MASTERY] = new WeaponMasteryBuff(Weapon.Type.BOW);
+            buffs[(int)Bowmaster.BOW_EXPERT] = new WeaponMasteryBuff(Weapon.Type.BOW);
+
+            //精准弩
+            //神弩手
+            buffs[(int)Crossbowman.CROSSBOW_MASTERY] = new WeaponMasteryBuff(Weapon.Type.CROSSBOW);
+            buffs[(int)Marksman.MARKSMAN_BOOST] = new WeaponMasteryBuff(Weapon.Type.CROSSBOW);
+
+            //精准暗器
+            //精准短刀
+            buffs[(int)Assassin.CLAW_MASTERY] = new WeaponMasteryBuff(Weapon.Type.CLAW);
+            buffs[(int)Bandit.DAGGER_MASTERY] = new WeaponMasteryBuff(Weapon.Type.DAGGER);
+
+            //精准拳
+            //精准枪
+            buffs[(int)Brawler.KNUCKLER_MASTERY] = new WeaponMasteryBuff(Weapon.Type.KNUCKLE);
+            buffs[(int)Gunslinger.GUN_MASTERY] = new WeaponMasteryBuff(Weapon.Type.GUN);
+
+            //魂骑士
+            buffs[(int)DawnWarrior.SWORD_MASTERY] = new WeaponMasteryBuff(Weapon.Type.SWORD_1H, Weapon.Type.SWORD_2H);
+
+            //风灵使者
+            buffs[(int)WindArcher.BOW_MASTERY] = new WeaponMasteryBuff(Weapon.Type.BOW);
+
+            //夜行者
+            buffs[(int)NightWalker.CLAW_MASTERY] = new WeaponMasteryBuff(Weapon.Type.CLAW);
+
+            //奇袭者
+            buffs[(int)ThunderBreaker.KNUCKLER_MASTERY] = new WeaponMasteryBuff(Weapon.Type.KNUCKLE);
+
+            //战神
+            buffs[(int)Aran.POLEARM_MASTER] = new WeaponMasteryBuff(Weapon.Type.SPEAR);
+            buffs[(int)Aran.HIGH_MASTERY] = new WeaponMasteryBuff(Weapon.Type.SPEAR);
+
+        }
+
+        // Apply a passive skill effect to the character stats
+        public void apply_buff (CharStats stats, int skill_id, int skill_level)
 		{
 			if (buffs.TryGetValue (skill_id, out var buff))
 			{
-				bool wrong_job = !stats.get_job ().can_use (skill_id);
+				bool wrong_job = !stats.get_job().can_use(skill_id);
 
 				if (wrong_job)
 				{
 					return;
 				}
+				if (skill_level<=0)
+                {
+                    return;
+                }
 
-				string strid;
+                string strid;
 
 				if (skill_id < 10000000)
 				{
@@ -188,7 +232,7 @@ namespace ms
 					strid = Convert.ToString (skill_id);
 				}
 
-				WzObject src = ms.wz.findSkillImage($"{strid.Substring (0, 3)}.img")["skill"][strid]["level"][skill_level.ToString ()];//why has skillId 100;why skillId 12 have skillLevel 0
+				WzObject src = ms.wz.findSkillImage($"{strid.Substring (0, 3)}.img")["skill"]?[strid]?["level"]?[skill_level.ToString ()];//why has skillId 100;why skillId 12 have skillLevel 0
 
 				if (src != null)
 				{
@@ -199,7 +243,7 @@ namespace ms
 				}
 				else
 				{
-					//AppDebug.LogWarning ($"buff doesn't exist, skill_id:{skill_id}\t skill_level:{skill_level}");
+					AppDebug.LogWarning ($"passivebuff doesn't exist, skill_id:{skill_id}\t skill_level:{skill_level}");
 				}
 			}
 		}

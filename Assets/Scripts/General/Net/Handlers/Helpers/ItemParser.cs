@@ -83,10 +83,14 @@ namespace ms
 			// Read equip stats
 			EnumMapNew<EquipStat.Id, ushort> stats = new EnumMapNew<EquipStat.Id, ushort> ();
 
-			foreach (EquipStat.Id stateId in Enum.GetValues (typeof(EquipStat.Id)))
+            for (EquipStat.Id es = EquipStat.Id.STR; es <= EquipStat.Id.JUMP; es = (EquipStat.Id)(es + 1))
+			{
+                stats[es] = (ushort)recv.read_short();//todo 2 maybe read length
+            }
+            /*foreach (EquipStat.Id stateId in Enum.GetValues (typeof(EquipStat.Id)))
 			{
 				stats[stateId] = (ushort)recv.read_short ();//todo 2 maybe read length
-			}
+			}*/
 
 			// Some more information
 			string owner = recv.read_string ();

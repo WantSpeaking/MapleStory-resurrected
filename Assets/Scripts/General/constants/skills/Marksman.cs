@@ -31,7 +31,7 @@ namespace constants.skills
 		public const int PIERCING_ARROW = 3221001;
 		public const int SHARP_EYES = 3221002;
         public const int DragonStrike = 3221003;
-        public const int MARKSMAN_BOOST = 3220004;
+        public const int MARKSMAN_BOOST = 3220004;//神弩手
 		public const int FROST_PREY = 3221005;
 		public const int BLIND = 3221006;
 		public const int SNIPE = 3221007;
