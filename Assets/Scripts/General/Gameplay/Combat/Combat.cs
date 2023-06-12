@@ -112,7 +112,7 @@ namespace ms
 				else if (down == true && pressing == true)//pressing
 				{
                     if (keydownEffect == null) return;
-                    player.add_cooldown(skill.get_id(), keydownEffect.GetAniLength() / 1000f);
+                    player.add_cooldown(skill.get_id(), keydownEffect.GetAvergeFrameLength() / 1000f);
                     keydownEffect?.apply(player);
                     //AppDebug.Log("skill pressing");
                 }
@@ -135,6 +135,7 @@ namespace ms
                 SpecialMove.ForbidReason reason = player.can_use(move);
                 Weapon.Type weapontype = player.get_stats().get_weapontype();
 
+
                 switch (reason)
                 {
                     case SpecialMove.ForbidReason.FBR_NONE:
@@ -145,6 +146,11 @@ namespace ms
                         new ForbidSkillMessage(reason, weapontype).drop();
                         break;
                 }
+
+                /*if (move is Skill s)
+                {
+                    player.add_cooldown(move.get_id(), s.GetUseeffect().GetAniLength() / 1000f);
+                }*/
             }
                
 		}
@@ -700,8 +706,8 @@ namespace ms
 				bool critical = line.Item2;
 				DamageNumber.Type type = critical ? DamageNumber.Type.CRITICAL : DamageNumber.Type.NORMAL;
 				numbers.Add (new DamageNumber (type, amount, head));
-
-				head -= DamageNumber.rowheight (critical);
+                //AppDebug.Log($"place_numbers damage:{line.Item1}");
+                head -= DamageNumber.rowheight (critical);
 			}
 
 			return numbers;

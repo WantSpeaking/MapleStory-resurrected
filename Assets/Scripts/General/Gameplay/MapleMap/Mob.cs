@@ -829,12 +829,13 @@ namespace ms
 			{
 				damage = 1;
 			}
-			else if (damage > DAMAGECAP)
+			/*else if (damage > DAMAGECAP)
 			{
 				damage = DAMAGECAP;
-			}
+			}*/
 
 			var intdamage = (int)damage;
+			//AppDebug.Log($"next_damage:{intdamage}");
 
 			return new System.Tuple<int, bool> (intdamage, iscritical);
 		}

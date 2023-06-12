@@ -23,11 +23,12 @@ using Timer = ms.Timer;
 public class MapleStory : SingletonMono<MapleStory>
 {
 	string message;
+	public float timeScale = 4.0f;
 	public Dictionary<string, UnityEngine.Sprite> tileSprites = new Dictionary<string, UnityEngine.Sprite>();
 	private void Start ()
 	{
         Application.memoryUsageChanged += Application_memoryUsageChanged;
-
+		Time.timeScale = timeScale;
         Application.targetFrameRate = 60;
 		DebugManager.instance.enableRuntimeUI = false;
 		/* wzFileManager = new WzFileManager();
@@ -139,8 +140,13 @@ public class MapleStory : SingletonMono<MapleStory>
 			float alpha = Mathf.Clamp01 (accumulator * multiplier_elapsed / timestep);
 			//Debug.Log ($"elapsed:{elapsed} \t timestep:{timestep} \t accumulator:{accumulator} \t alpha:{alpha}");
 			draw (alpha);
-			//Debug.Log ($"deltaTime:{Time.deltaTime * 1000}\t accumulator_before:{accumulator_before}\t elapsed:{elapsed}\t  accumulator_plus_elapsed:{accumulator_plus_elapsed}\t accumulator:{accumulator}\t  alpha:{alpha}");
-		}
+
+            Session.get().read();
+            Window.get().check_events();
+            Window.get().update();
+            TimerManager.get().update();
+            //Debug.Log ($"deltaTime:{Time.deltaTime * 1000}\t accumulator_before:{accumulator_before}\t elapsed:{elapsed}\t  accumulator_plus_elapsed:{accumulator_plus_elapsed}\t accumulator:{accumulator}\t  alpha:{alpha}");
+        }
 #if BackgroundStatic
 		var playerPos = Stage.get ().get_player ()?.get_position ();
 		if (playerPos != null)
@@ -459,10 +465,7 @@ public class MapleStory : SingletonMono<MapleStory>
 			UI.get ().update ();
 		}
 		
-		Session.get ().read ();
-		Window.get ().check_events ();
-		Window.get ().update ();
-		TimerManager.get ().update ();
+		
 	}
 
 	public void draw (float alpha)

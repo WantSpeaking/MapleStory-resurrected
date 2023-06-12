@@ -191,7 +191,7 @@ namespace ms
 			}
 		}
 		/// <summary>
-		/// 特效
+		/// 特效、音效
 		/// </summary>
 		/// <param name="user"></param>
 		public override void apply_useeffects (Char user)
@@ -470,6 +470,10 @@ namespace ms
         public KeyDownEndEffect GetKeyDownEndEffect()
         {
             return keydownendEffect;
+        }
+        public SkillUseEffect GetUseeffect()
+        {
+            return useeffect;
         }
 
         private SkillAction action;

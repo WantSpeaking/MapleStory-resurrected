@@ -1432,6 +1432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5543904772fbacb47a547d5b06e0439e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeScale: 4
   RuntimeHierarchyInspector: {fileID: 1485019414}
   GameSceneName: Game
   canStart: 0
@@ -1573,7 +1574,7 @@ MonoBehaviour:
   TestMode: 0
   TestAccount: admin2
   TestPassword: admin2
-  Version: 57
+  Version: 62
   drawMap: 1
   enableUpdate: 1
   mainCamera: {fileID: 1326867178}

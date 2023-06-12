@@ -201,7 +201,7 @@ namespace ms
 
 			Point_short absp = get_position () + viewpos;
 
-			Point_short dim = animations.count (stance) > 0 ? animations[stance].get_dimensions () : new Point_short ();
+			Point_short dim = animations.count (stance) > 0 ? animations?[stance]?.get_dimensions ()??Point_short.zero : Point_short.zero;
 
 			return new Rectangle_short ((short)(absp.x () - dim.x () / 2), (short)(absp.x () + dim.x () / 2), (short)(absp.y () - dim.y ()*2f), absp.y ()).contains (cursorpos);
 		}

@@ -2,6 +2,8 @@
 
 
 
+using UnityEngine;
+
 namespace ms
 {
 	public class AttackHandler : PacketHandler
@@ -42,7 +44,12 @@ namespace ms
 				for (byte j = 0; j < length; j++)
 				{
 					int damage = recv.read_int();
-					bool critical = false; // TODO: ?
+					bool critical = damage<0; // TODO: ?
+					if (critical)
+					{
+						damage = damage + int.MaxValue + 1;
+                    }
+					
 					var singledamage = System.Tuple.Create(damage, critical);
 					attack.damagelines.TryAdd (oid);
 					attack.damagelines[oid].Add(singledamage);

@@ -200,14 +200,13 @@ namespace ms
 		// Return the head position of a mob.
 		public Point_short get_mob_head_position (int oid)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 TODO TASK: Variables cannot be declared in if/while/switch conditions in C#:
 			if (mobs.get (oid).get () is Mob mob)
 			{
 				return mob.get_head_position ();
 			}
 			else
 			{
-				return new Point_short (0, 0);
+				return Point_short.zero;
 			}
 		}
 

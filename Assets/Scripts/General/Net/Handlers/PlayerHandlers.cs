@@ -1,6 +1,7 @@
 ﻿
 
 
+using ms_Unity;
 using System;
 
 namespace ms
@@ -324,6 +325,7 @@ namespace ms
                 keyConfig.reset();
             }
 
+            FGUI_Manager.Instance.GetFGUI<FGUI_ActionButtons>().UpdateIcon();
         }
     }
 }

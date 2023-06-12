@@ -52,7 +52,7 @@ namespace ms
 
 
 			//GraphicsGL.get().clear();
-			UnityEngine.SceneManagement.SceneManager.LoadScene("Game", UnityEngine.SceneManagement.LoadSceneMode.Single);
+			//UnityEngine.SceneManagement.SceneManager.LoadScene("Game", UnityEngine.SceneManagement.LoadSceneMode.Single);
 
             Stage.get().load(mapid, (sbyte)portalid);
 

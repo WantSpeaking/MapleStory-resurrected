@@ -23,8 +23,9 @@ namespace ms
 		public DamageNumber(Type t, int damage, short starty, short x = 0)
 		{
 			type = t;
+            //AppDebug.Log($"DamageNumber:{damage}");
 
-			if (damage > 0)
+            if (damage > 0)
 			{
 				miss = false;
 
@@ -87,13 +88,13 @@ namespace ms
 
 			if (miss)
 			{
-				charsets[(int)type][true].reset();
+				//charsets[(int)type][true].reset();
 
                 charsets[(int)type][true].draw((sbyte)'M',new DrawArgument (position, interopc));
 			}
 			else
 			{
-				charsets?[(int)type]?[false].reset ();
+				//charsets?[(int)type]?[false].reset ();
 				
 				var tempcha = charsets?[(int)type]?[false];
 				if(tempcha == null) return;

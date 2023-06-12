@@ -51,17 +51,20 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
     private GTextInput gTextInput;
 
     UnityObjectPool<GameObject> pool = new UnityObjectPool<GameObject>();
+    private static List<string> drawImmediateList = new List<string>() { "Character", "BasicEff.img", "icon", "skill", "No" };
+
     public GameObject TryGetGObj(ms.Texture hashCode, Func<GameObject> create = null)
     {
         if (!texture_GObj_Dict.TryGetValue(hashCode, out var result))
         {
-           if(hashCode.fullPath.Contains("No"))
+            if (drawImmediateList.Where(k => hashCode.fullPath.Contains(k)).Any())
+                //if (hashCode.fullPath.Contains("No"))
             {
                 result = Create (hashCode);
-            if (result != null)
-            {
-                texture_GObj_Dict.TryAdd (hashCode, result);
-            }
+                if (result != null)
+                {
+                    texture_GObj_Dict.TryAdd (hashCode, result);
+                }
             }
            else
             {
@@ -193,7 +196,10 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
         }
         foreach (var t in textures)
         {
+            if (ms.Texture.dontDestoryList.Where(k => t.fullPath.Contains(k)).Any()) continue;
             texture_GObj_Dict.TryRemove(t, out var g);
+            /*if (g != null)
+            m_DrawObjectPool.Unspawn(g);*/
         }
         //AppDebug.Log($"texture_GObj_Dict count:{texture_GObj_Dict.Count}\tCharacter1 tex count:{texture_GObj_Dict.Where(p=>p.Key.fullPath.Contains("Character1.wz")).Count()}");
 
@@ -273,7 +279,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
         GameObject tempObj;
         if (tex.isSprite)
         {
-            /*var drawObj = m_DrawObjectPool.Spawn(tex.isSprite.ToString());
+            var drawObj = m_DrawObjectPool.Spawn(tex.isSprite.ToString());
             if (drawObj != null)
             {
                 tempObj = (GameObject)drawObj.Target;
@@ -285,9 +291,9 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 
                 m_DrawObjectPool.Register(drawObj, true);
             }
-            tex.DrawObject = drawObj;*/
-            tempObj = CreateSpriteGObj();
-            //tempObj = _GObj_Pool.GetObject (tex.fullPath, CreateSpriteGObj);
+            tex.DrawObject = drawObj;
+            //tempObj = CreateSpriteGObj();
+
             tempObj.SetActive(true);
             tempObj.name = tex.fullPath;
             tempObj.layer = tex.layerMask;
@@ -323,8 +329,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
             tempMaterial.mainTexture = tex.texture2D;
             //Debug.Log ($"after:{tempMaterial.GetHashCode ()}");
 
-            //GameObject tempObj = UnityEngine.Object.Instantiate (prefeb);
-            /*var drawObj = m_DrawObjectPool.Spawn(tex.fullPath);
+            var drawObj = m_DrawObjectPool.Spawn(tex.fullPath);
             if (drawObj?.Target is GameObject targetGobj)
             {
                 tempObj = targetGobj;
@@ -336,11 +341,10 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
 
                 m_DrawObjectPool.Register(drawObj, true);
             }
-            tex.DrawObject = drawObj;*/
+            tex.DrawObject = drawObj;
 
-            tempObj = CreateGObj();
+            //tempObj = CreateGObj();
             if (tempObj == null) return null;
-            //tempObj = _GObj_Pool.GetObject (tex.fullPath, CreateGObj);
             tempObj.SetActive(true);
             tempObj.name = tex.fullPath;
             if (tempObj.TryGetComponent<MeshRenderer>(out var meshRenderer))
@@ -396,10 +400,12 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
             Destroy(material);
 
         }
-        if (texture_GObj_Dict.TryGetValue(tex,out var gameObject))
+        if (texture_GObj_Dict.TryGetValue(tex,out var gameObject) && tex.DrawObject?.Target != null)
         {
-            
-            Destroy(gameObject);
+            if (ms.Texture.dontDestoryList.Where(k => tex.fullPath.Contains(k)).Any()) return;
+
+            m_DrawObjectPool.Unspawn(tex.DrawObject);
+            //Destroy(gameObject);
         }
 
 

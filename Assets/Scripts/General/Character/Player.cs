@@ -240,7 +240,7 @@ namespace ms
 						skillCooldown_toBeRemoved.Add (skillId);
 					}
 					cooldowns[skillId] = cooldown;
-					//AppDebug.Log ($"skillId:{skillId} cooldown:{cooldown}");
+					AppDebug.Log ($"skillId:{skillId} cooldown:{cooldown}");
 					i++;
 				}
 				/*foreach (var pair in cooldowns)

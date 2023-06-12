@@ -18,6 +18,12 @@ namespace ms
         {
             return 0;
         }
+
+        public virtual int GetAvergeFrameLength()
+        {
+            return 0;
+        }
+
         protected class Effect
         {
             public Effect(WzObject src)//todo src["effect"]["0"] == null
@@ -36,6 +42,10 @@ namespace ms
                 return animation.get_total_delay();
             }
 
+            public int GetAvergeFrameLength()
+            {
+                return animation.GetAvergeFrameLength();
+            }
             private Animation animation;
             private sbyte z;
         }
@@ -216,7 +226,11 @@ namespace ms
         {
             return effect.GetAniLength ();
         }
-
+        public override int GetAvergeFrameLength()
+        {
+            return effect.GetAvergeFrameLength();
+        }
+        
         private Effect effect;
     }
     public class KeyDownEndEffect : SkillUseEffect

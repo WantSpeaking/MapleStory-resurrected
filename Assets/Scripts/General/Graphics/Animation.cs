@@ -422,7 +422,13 @@ namespace ms
 			}
 			return frames.Sum (frame => frame.get_delay ());
 		}
-		public Point_short get_origin ()
+
+        public int GetAvergeFrameLength()
+		{
+            return (int)frames.Average(f=>f.get_delay ());
+        }
+        
+        public Point_short get_origin ()
 		{
 			return get_frame ().get_origin ();
 		}

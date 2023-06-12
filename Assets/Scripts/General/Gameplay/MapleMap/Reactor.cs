@@ -1,6 +1,8 @@
 ﻿#define USE_NX
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using MapleLib.WzLib;
 
 
@@ -63,18 +65,20 @@ namespace ms
 			}
 			else
 			{
-				animations[(sbyte)(state - 1)].draw (drawArgum, 1.0F);
-			}
+				//animations[(sbyte)(state - 1)].draw (drawArgum, 1.0F);
+                animations[(sbyte)(state)].draw(drawArgum, 1.0F);
+            }
 		}
 
-		public new sbyte update (Physics physics)
+		public override sbyte update (Physics physics)
 		{
 			physics.move_object (phobj);
 
 			if (!animation_ended)
 			{
-				animation_ended = animations[(sbyte)(state - 1)].update ();
-			}
+				//animation_ended = animations[(sbyte)(state - 1)].update ();
+                animation_ended = animations[(sbyte)(state)].update();
+            }
 
 			if (animation_ended && dead)
 			{
@@ -86,10 +90,13 @@ namespace ms
 
 		public void set_state (sbyte state)
 		{
-			// TODO: hit/break sounds
-			if (hittable)
+			AppDebug.Log($"set_state:{state}");
+			//state = Math.Clamp(state, animations.Keys.Min(), animations.Keys.Max());
+            // TODO: hit/break sounds
+            if (hittable)
 			{
-				animations[this.state] = src[this.state.ToString ()]["hit"];
+                //animations[this.state] = src[this.state.ToString()]["hit"];
+                animations[state] = src[state.ToString ()]["hit"];
 				animation_ended = false;
 			}
 
@@ -98,9 +105,11 @@ namespace ms
 
 		public void destroy (sbyte state, Point_short position)
 		{
-			animations[this.state] = src[this.state.ToString ()]["hit"];
-			state++;
-			dead = true;
+			//animations[this.state] = src[this.state.ToString ()]["hit"];
+            animations[state] = src[state.ToString()]["hit"];
+            this.state = state;
+            //state++;
+            dead = true;
 			animation_ended = false;
 		}
 
@@ -141,7 +150,6 @@ namespace ms
 			normal = null;
 		}
 
-		private int oid;
 		private int rid;
 
 		private sbyte state;
@@ -156,7 +164,7 @@ namespace ms
 		private SortedDictionary<sbyte, Animation> animations = new SortedDictionary<sbyte, Animation> ();
 		private bool animation_ended;
 
-		private bool active;
+		//private bool active;
 		private bool hittable;
 		private bool dead;
 
