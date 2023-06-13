@@ -109,13 +109,13 @@ public class MapleStory : SingletonMono<MapleStory>
 		/*clearBuffer.Clear ();
 		clearBuffer.ClearRenderTarget (true, true, clearColor);
 		Graphics.ExecuteCommandBuffer (clearBuffer);*/
-
+/*
 		Constants.get ().walkSpeed = walkSpeed;
 		Constants.get ().jumpSpeed = jumpSpeed;
 		Constants.get ().climbSpeed = climbSpeed;
 		Constants.get ().flySpeed = flySpeed;
 		Constants.get ().fallSpeed = fallSpeed;
-		Constants.get ().animSpeed = animSpeed;
+		Constants.get ().animSpeed = animSpeed;*/
 
 		Constants.get ().frameDelay = frameDelay;
 
@@ -124,27 +124,24 @@ public class MapleStory : SingletonMono<MapleStory>
 
 		if (running ())
 		{
-			var elapsed = Timer.get ().stop ();
 
-			var accumulator_before = accumulator;
-			var accumulator_plus_elapsed = accumulator + elapsed;
-			// Update game with constant timestep as many times as possible.
-			for (accumulator += elapsed; accumulator >= timestep; accumulator -= timestep)
-			{
-				//update ();
-				//Debug.Log ($"{DateTime.Now.Millisecond}");
+            var elapsed = Timer.get().stop();
 
-			}
+            var accumulator_before = accumulator;
+            var accumulator_plus_elapsed = accumulator + elapsed;
+            // Update game with constant timestep as many times as possible.
+            for (accumulator += elapsed; accumulator >= timestep; accumulator -= timestep)
+            {
+                //update ();
+                //Debug.Log ($"{DateTime.Now.Millisecond}");
 
-			// Draw the game. Interpolate to account for remaining time.
-			float alpha = Mathf.Clamp01 (accumulator * multiplier_elapsed / timestep);
-			//Debug.Log ($"elapsed:{elapsed} \t timestep:{timestep} \t accumulator:{accumulator} \t alpha:{alpha}");
-			draw (alpha);
+            }
 
-            Session.get().read();
-            Window.get().check_events();
-            Window.get().update();
-            TimerManager.get().update();
+            // Draw the game. Interpolate to account for remaining time.
+            float alpha = Mathf.Clamp01(accumulator * multiplier_elapsed / timestep);
+            //Debug.Log ($"elapsed:{elapsed} \t timestep:{timestep} \t accumulator:{accumulator} \t alpha:{alpha}");
+            ms_draw(alpha);
+
             //Debug.Log ($"deltaTime:{Time.deltaTime * 1000}\t accumulator_before:{accumulator_before}\t elapsed:{elapsed}\t  accumulator_plus_elapsed:{accumulator_plus_elapsed}\t accumulator:{accumulator}\t  alpha:{alpha}");
         }
 #if BackgroundStatic
@@ -155,12 +152,14 @@ public class MapleStory : SingletonMono<MapleStory>
 
 	}
 
-	private void FixedUpdate ()
+    protected override void OnFixedUpdate()
 	{
 		if (running ())
 		{
-			update ();
-		}
+			ms_update ();
+
+            
+        }
 	}
 	public GameObject RuntimeHierarchyInspector;
 	bool initError;
@@ -457,28 +456,60 @@ public class MapleStory : SingletonMono<MapleStory>
 			FindChild (item);
 		}
 	}
-	public void update ()
+
+	public bool stage_update = true;
+    public bool UI_update = true;
+    public bool Session_update = true;
+    public bool Window_check_events = true;
+    public bool Window_update = true;
+    public bool TimerManager_update = true;
+
+
+    public void ms_update ()
 	{
 		if (GameUtil.Instance.enableUpdate)
 		{
-			Stage.get ().update ();
-			UI.get ().update ();
-		}
+            if (TestURPBatcherHideAll)
+                Stage.get ().update ();
+            if (TestURPBatcherHideAll)
+                UI.get ().update ();
+            if (TestURPBatcherHideAll)
+                Session.get().read();
+            if (TestURPBatcherHideAll)
+                Window.get().check_events();
+            if (TestURPBatcherHideAll)
+                Window.get().update();
+            if (TestURPBatcherHideAll)
+                TimerManager.get().update();
+        }
 		
 		
 	}
 
-	public void draw (float alpha)
+    public bool TestURPBatcheraddBefore = true;
+    public bool TestURPBatcherHideAll = true;
+    public bool TextManagerHideAll = true;
+    public bool TextInputManagerHideAll = true;
+    public bool Stagedraw = true;
+    public bool UIdraw = true;
+
+    public void ms_draw (float alpha)
 	{
 		//TestURPBatcher.Instance.Log ("before"); 
+		if(TestURPBatcheraddBefore)
 		TestURPBatcher.Instance.addBefore ();
 		//Window.get().begin();
 		GameUtil.Instance.DrawOrder = 0;
-		TestURPBatcher.Instance.HideAll ();
-		TextManager.Instance.HideAll ();
-		TextInputManager.Instance.HideAll ();
-		Stage.get ().draw (alpha);
-		UI.get ().draw (alpha);
+        if (TestURPBatcherHideAll)
+            TestURPBatcher.Instance.HideAll ();
+        if (TextManagerHideAll)
+            TextManager.Instance.HideAll ();
+        if (TextInputManagerHideAll)
+            TextInputManager.Instance.HideAll ();
+        if (Stagedraw)
+            Stage.get ().draw (alpha);
+        if (UIdraw)
+            UI.get ().draw (alpha);
 
 		if (enable_DebugPlayerPos)
 			AppDebug.Log (Stage.get ().get_player ()?.get_position ());
@@ -503,7 +534,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	//private static long timestep = (long)(8 * 1000 * 1);
 	private long accumulator = 0;
 
-	private void loop ()
+	/*private void loop ()
 	{
 		if (running ())
 		{
@@ -525,7 +556,7 @@ public class MapleStory : SingletonMono<MapleStory>
 			//draw (alpha);
 			//Debug.Log ($"deltaTime:{Time.deltaTime * 1000}\t accumulator_before:{accumulator_before}\t elapsed:{elapsed}\t  accumulator_plus_elapsed:{accumulator_plus_elapsed}\t accumulator:{accumulator}\t  alpha:{alpha}");
 		}
-	}
+	}*/
 
 	public void BackToLogin ()
 	{

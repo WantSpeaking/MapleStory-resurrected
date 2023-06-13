@@ -125,17 +125,18 @@ namespace ms
             ClearMap();
         }
 
-        private void load_map (int mapid)
+        public void load_map (int mapid)
 		{
-			//MapleStory.Instance.canStart = false;
+            state = State.ACTIVE;
+            //MapleStory.Instance.canStart = false;
 
-			//UnityEngine.SceneManagement.SceneManager.LoadScene ("Game");
+            //UnityEngine.SceneManagement.SceneManager.LoadScene ("Game");
 
-			//TestURPBatcher.Instance.Clear ();
+            //TestURPBatcher.Instance.Clear ();
 
-			//TextManager.Instance.Clear ();
+            //TextManager.Instance.Clear ();
 
-			this.mapid = mapid;
+            this.mapid = mapid;
 			
 			string strid = string_format.extend_id (mapid, 9);
 			string prefix = Convert.ToString (mapid / 100000000);
@@ -548,5 +549,6 @@ namespace ms
 		{
 			return physics;
 		}
+
 	}
 }

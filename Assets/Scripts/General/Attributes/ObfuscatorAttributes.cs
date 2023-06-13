@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using ms;
 
 namespace Beebyte.Obfuscator
@@ -10,4 +10,4 @@ namespace Beebyte.Obfuscator
 			
 		}
 	}
-}
+}*/

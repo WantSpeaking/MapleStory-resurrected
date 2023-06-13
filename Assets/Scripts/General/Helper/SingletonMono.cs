@@ -73,7 +73,12 @@ public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
 		OnLateUpdate ();
 	}
 
-	void OnDestroy ()
+    private void FixedUpdate()
+    {
+        OnFixedUpdate();
+    }
+
+    void OnDestroy ()
 	{
 		BeforeOnDestroy ();
 	}
@@ -93,7 +98,10 @@ public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
 	protected virtual void OnLateUpdate ()
 	{
 	}
-	protected virtual void BeforeOnDestroy ()
+    protected virtual void OnFixedUpdate()
+    {
+    }
+    protected virtual void BeforeOnDestroy ()
 	{
 	}
 }

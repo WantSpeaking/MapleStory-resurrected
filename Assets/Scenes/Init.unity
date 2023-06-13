@@ -1432,9 +1432,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5543904772fbacb47a547d5b06e0439e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeScale: 4
+  timeScale: 1
   RuntimeHierarchyInspector: {fileID: 1485019414}
   GameSceneName: Game
+  stage_update: 1
+  UI_update: 1
+  Session_update: 1
+  Window_check_events: 1
+  Window_update: 1
+  TimerManager_update: 1
+  TestURPBatcheraddBefore: 1
+  TestURPBatcherHideAll: 1
+  TextManagerHideAll: 1
+  TextInputManagerHideAll: 1
+  Stagedraw: 1
+  UIdraw: 1
   canStart: 0
   target: {fileID: 8400000, guid: 1eb4d1811e6ead943a0bb73b3d722e2d, type: 2}
   prefab_SpriteDrawer: {fileID: 396630667909382766, guid: 871971db59652a3448352f044903c321, type: 3}
@@ -1781,7 +1793,7 @@ MonoBehaviour:
     reporterScrollerSkin: {fileID: 11400000, guid: 1cc68832d00d3284a9324a4dc05be753, type: 2}
   size: {x: 32, y: 32}
   maxSize: 20
-  numOfCircleToShow: 3
+  numOfCircleToShow: 1
   Initialized: 0
 --- !u!1 &703174475
 GameObject:

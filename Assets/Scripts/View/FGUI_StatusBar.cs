@@ -27,9 +27,14 @@ namespace ms_Unity
 			_BT_Instance.onClick.Add (OnClick_BT_Instance);
 			_BT_FuctionCenter.onClick.Add (OnClick_FuctionCenter);
             _BT_BlacksmithShop.onClick.Add(OnClick_BT_BlacksmithShop);
+            _BT_Debug.onClick.Add(OnClick_Debug);
 
             _Txt_Version.SetVar("count", GameUtil.Instance.Version).FlushVars();
 
+        }
+        private void OnClick_Debug()
+        {
+            _c1.selectedIndex = 0;
         }
         private void OnClick_BT_BlacksmithShop()
         {
