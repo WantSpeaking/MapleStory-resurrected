@@ -63,7 +63,7 @@ namespace ms
 			Stage.get().get_combat().push_attack(attack);
 
             GameUtil.Instance.stopwatch.Stop();
-            AppDebug.Log($"AttackHandler time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
+            //AppDebug.Log($"AttackHandler time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
             //Stage.get().get_combat().push_damageEffect(attack,attackuser);
         }
 

@@ -456,7 +456,7 @@ namespace ms
 						int oid = mob.get_oid ();
 						var distance = mob.get_position ().distance (new Point_short (origin));
 						distances.Add ((ushort)distance, oid);
-						if (mob.isBoss)
+						if (mob.hasBossHPBar())
 						{
 							lastestAttackedBoss = mob;
 						}
@@ -566,7 +566,7 @@ namespace ms
 			{
 				Mob mob = (Mob)mmo.Value;
 
-				if (mob != null && mob.is_alive() && mob.is_in_range(range, true) && !mob.isBoss && mob.get_Control())
+				if (mob != null && mob.is_alive() && mob.is_in_range(range, true) && !mob.isBoss() && mob.get_Control())
 				{
 					/*int oid = mob.get_oid();
 					var distance = mob.get_position().distance(origin);
@@ -736,6 +736,11 @@ namespace ms
 
 		private Player player => Stage.get ().get_player ();
 		//private Player player;
+
+		public void clear ()
+		{
+            lastestAttackedBoss = null;
+        }
 
 		private MapChars chars;
 		private MapMobs mobs;

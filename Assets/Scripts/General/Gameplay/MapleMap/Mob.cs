@@ -70,6 +70,8 @@ namespace ms
 			canfly = (src["fly"] as WzImageProperty)?.WzProperties.Count > 0;
 			canmove = (src["move"] as WzImageProperty)?.WzProperties.Count > 0 || canfly;
             _isBoss = info["boss"] > 0;
+			hpTagColor = info["hpTagColor"];
+            hpTagBgcolor = info["hpTagBgcolor"];
 
             if (canfly)
 			{
@@ -894,6 +896,8 @@ namespace ms
 		private bool _isBoss;
 		private int currHP;
 		private int maxHP;
+        private int hpTagColor;
+        private int hpTagBgcolor;
 
         private EffectLayer effects = new EffectLayer ();
 
@@ -955,7 +959,7 @@ namespace ms
 			}
 			set => agent = value;
 		}
-		public bool isBoss => _isBoss;
+		public bool isBoss() => _isBoss;
 		public string get_MobName() => name;
 
 		public sbyte get_hppercent() => hppercent;
@@ -993,5 +997,13 @@ namespace ms
 			}
 			return result;
 		}
-	}
+        public int getTagColor()
+        {
+            return hpTagBgcolor;
+        }
+        public bool hasBossHPBar()
+        {
+            return isBoss() && getTagColor() > 0;
+        }
+    }
 }

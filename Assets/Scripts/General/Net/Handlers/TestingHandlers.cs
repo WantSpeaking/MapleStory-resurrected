@@ -30,7 +30,7 @@ namespace ms
 
 	// TODO: Comment
 	/// <summary>
-	/// Boss hp
+	/// Boss hp opcode 138
 	/// </summary>
 	public class FieldEffectHandler : PacketHandler
 	{

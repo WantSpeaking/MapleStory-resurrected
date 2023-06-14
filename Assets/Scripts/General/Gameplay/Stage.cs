@@ -123,6 +123,7 @@ namespace ms
 			//TestURPBatcher.Instance.Clear ();
 			camera.Reset ();
             ClearMap();
+			combat.clear();
         }
 
         public void load_map (int mapid)

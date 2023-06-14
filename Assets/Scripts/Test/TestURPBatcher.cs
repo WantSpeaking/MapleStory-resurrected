@@ -15,6 +15,7 @@ using UnityEngine.Serialization;
 using Sprite = UnityEngine.Sprite;
 using Texture = ms.Texture;
 using System.Linq;
+using tools;
 
 //namespace ms_Unity
 //{
@@ -72,9 +73,6 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
                 spawnTasks.Enqueue(spTask);
                 texture_GObj_Dict.TryAdd(hashCode, null);
             }
-            
-
-            
         }
         /*else if (result == null)
         {
@@ -131,7 +129,13 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
             //AppDebug.Log ($"fullPath:{texture.fullPath} pnginfo:{pnginfo.ToString ()}  scale:{scale}");
         }
     }
-
+    public void HideOne(ms.Texture texture)
+    {
+        if (texture_GObj_Dict.TryGetValue(texture,out var gobj))
+        {
+            gobj?.SetActive(false);
+        }
+    }
     public void HideAll()
     {
 
@@ -139,14 +143,23 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
         //Clear ();
         foreach (GameObject gobj in texture_GObj_Dict.Values)
         {
-            /*Vector3 originalPos = gobj.transform.position;
-            gobj.transform.position = new Vector3 (originalPos.x, originalPos.y, 1f);*/
-
             if (gobj != null)
             {
                 gobj.SetActive(false);
             }
         }
+
+        /*foreach (GameObject gobj in texture_GObj_Dict.Values)
+        {
+            *//*Vector3 originalPos = gobj.transform.position;
+            gobj.transform.position = new Vector3 (originalPos.x, originalPos.y, 1f);*//*
+
+            if (gobj != null)
+            {
+                m_DrawObjectPool.Unspawn(gobj);
+            }
+        }*/
+        //texture_GObj_Dict.Clear();
     }
 
     public void addBefore()
@@ -185,7 +198,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
         StartCoroutine(ms.Stage.get().get_mobs().SpawnMob());
         StartCoroutine(ms.Stage.get().get_npcs().SpawnNPC());
 
-        textures.Clear();
+       /* textures.Clear();
         foreach (var pair in texture_GObj_Dict)
         {
             //AppDebug.Log($"pair.Key.isDontDestoryOnLoad:{pair.Key.isDontDestoryOnLoad}");
@@ -198,9 +211,18 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
         {
             if (ms.Texture.dontDestoryList.Where(k => t.fullPath.Contains(k)).Any()) continue;
             texture_GObj_Dict.TryRemove(t, out var g);
-            /*if (g != null)
-            m_DrawObjectPool.Unspawn(g);*/
+            *//*if (g != null)
+            m_DrawObjectPool.Unspawn(g);*//*
+        }*/
+
+        foreach (var gobj in texture_GObj_Dict)
+        {
+            if (gobj.Key.DrawObject != null)
+            {
+                m_DrawObjectPool.Unspawn(gobj.Key.DrawObject);
+            }
         }
+        texture_GObj_Dict.Clear();
         //AppDebug.Log($"texture_GObj_Dict count:{texture_GObj_Dict.Count}\tCharacter1 tex count:{texture_GObj_Dict.Where(p=>p.Key.fullPath.Contains("Character1.wz")).Count()}");
 
     }
@@ -279,7 +301,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
         GameObject tempObj;
         if (tex.isSprite)
         {
-            var drawObj = m_DrawObjectPool.Spawn(tex.isSprite.ToString());
+            var drawObj = m_DrawObjectPool.Spawn(tex.fullPath);
             if (drawObj != null)
             {
                 tempObj = (GameObject)drawObj.Target;
@@ -287,7 +309,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
             else
             {
                 tempObj = CreateSpriteGObj();
-                drawObj = DrawObject.Create(tex.isSprite.ToString(), tempObj);
+                drawObj = DrawObject.Create(tex.fullPath, tempObj);
 
                 m_DrawObjectPool.Register(drawObj, true);
             }
@@ -400,14 +422,15 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
             Destroy(material);
 
         }
-        if (texture_GObj_Dict.TryGetValue(tex,out var gameObject) && tex.DrawObject?.Target != null)
+        if (texture_GObj_Dict.TryRemove(tex,out var gameObject) && tex.DrawObject?.Target != null)
         {
-            if (ms.Texture.dontDestoryList.Where(k => tex.fullPath.Contains(k)).Any()) return;
+            /*if (tex.fullPath == null) return;
+            if (ms.Texture.dontDestoryList.Where(k => tex.fullPath.Contains(k)).Any()) return;*/
 
             m_DrawObjectPool.Unspawn(tex.DrawObject);
             //Destroy(gameObject);
         }
-
+        //AppDebug.Log($"UnSpawn:{tex.fullPath}\t ContainsKey:{texture_GObj_Dict.ContainsKey(tex)}");
 
         if (!tex.isDontDestoryOnLoad)
         {
@@ -510,7 +533,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
         {
             Destroy(pair.Value);
         }*/
-        name_gobj_ParentDict.Clear();
+        /*name_gobj_ParentDict.Clear();
 
         //Parent = new GameObject("Parent");
         name_gobj_ParentDict.Add("Character1", new GameObject("Character1"));
@@ -522,7 +545,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
         name_gobj_ParentDict.Add("Skill", new GameObject("Skill"));
         name_gobj_ParentDict.Add("UI_083", new GameObject("UI_083"));
         name_gobj_ParentDict.Add("UI_Endless", new GameObject("UI_Endless"));
-        name_gobj_ParentDict.Add("Reactor", new GameObject("Reactor"));
+        name_gobj_ParentDict.Add("Reactor", new GameObject("Reactor"));*/
 
         
 

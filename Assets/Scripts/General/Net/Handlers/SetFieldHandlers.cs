@@ -128,11 +128,12 @@ namespace ms
 			byte portalid = player.get_stats ().get_portal ();
 			int mapid = player.get_stats ().get_mapid ();
 
-			transition (mapid, portalid);
+            transition(mapid, portalid);
+
+            UI.get().change_state(UI.State.GAME);
 
 			new Sound (Sound.Name.GAMESTART).play ();
 
-			UI.get ().change_state (UI.State.GAME);
 		}
 	}
 }

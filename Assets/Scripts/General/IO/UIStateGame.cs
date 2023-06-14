@@ -32,7 +32,7 @@ namespace ms
 			emplace<UIStatusMessenger> ();
 			emplace<UIStatusBar> (stats);
 			emplace<UIChatBar> ();
-			emplace<UIMiniMap> (stats);
+			//emplace<UIMiniMap> (stats);
 			emplace<UIBuffList> ();
 			emplace<UIShop> (look, inventory);
 	
@@ -244,11 +244,11 @@ namespace ms
 								}
 								case KeyAction.Id.MINIMAP:
 								{
-									var minimap = UI.get ().get_element<UIMiniMap> ();
+									/*var minimap = UI.get ().get_element<UIMiniMap> ();
 									if (minimap)
 									{
 										minimap.get ().send_key (action, pressed, escape);
-									}
+									}*/
 
 									break;
 								}

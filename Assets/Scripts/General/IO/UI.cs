@@ -6,6 +6,7 @@ using Attributes;
 using Beebyte.Obfuscator;
 using Helper;
 using ms_Unity;
+using UnityEngine;
 
 namespace ms
 {
@@ -123,6 +124,7 @@ namespace ms
         public void quit()
         {
             quitted = true;
+            Application.Quit();
         }
 
         public bool not_quitted()

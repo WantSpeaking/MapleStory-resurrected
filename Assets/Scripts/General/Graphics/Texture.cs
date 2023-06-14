@@ -236,7 +236,7 @@ namespace ms
 
                 dimensions = new Point_short((short)bitmap.Width, (short)bitmap.Height);
 
-                if (cache_src.FullPath.Contains("Map.wz\\Tile"))
+                /*if (cache_src.FullPath.Contains("Map.wz\\Tile"))
                 {
                     //tileName = $"{ts}-{node_100000000img_0_Tile_0["u"].ToString ()}-{node_100000000img_0_Tile_0["no"]}";
                     string tileName = cache_src.FullPath.Replace("Map.wz\\Tile\\", "").Replace("\\", "-");
@@ -247,7 +247,7 @@ namespace ms
                         isSprite = true;
                     }
                     //AppDebug.Log ($"{tileName}\t {sprite}");
-                }
+                }*/
 
                 if (texture2D == null)
                 {
@@ -260,7 +260,7 @@ namespace ms
 
         public void erase()
         {
-
+            //TestURPBatcher.Instance.HideOne(this);
         }
 
 
