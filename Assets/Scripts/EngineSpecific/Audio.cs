@@ -518,7 +518,7 @@ namespace ms
         {
             if (samples.ContainsKey(src.FullPath))
             {
-                return string.Empty;
+                return src.FullPath;
             }
 
             var ad = src;

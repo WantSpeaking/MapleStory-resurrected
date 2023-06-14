@@ -144,7 +144,7 @@ namespace ms
             var weapon_multiplier = get_weapon_multiplier();//武器系数
 
             var AddedAttacks = 0;
-            var PercentAttacks = 0;
+            var PercentAttacks = damagepercent * 100;
             var FinalAttacks = 0;
             if (job.isA(MapleJob.MAGICIAN))
             {

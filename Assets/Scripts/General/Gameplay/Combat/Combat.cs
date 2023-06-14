@@ -76,7 +76,7 @@ namespace ms
 		// Make the player use a special move
 		public void use_move (int move_id, bool down = false, bool pressing = false)
 		{
-			AppDebug.Log ($"use_move:{move_id}");
+			//AppDebug.Log ($"use_move:{move_id}");
 			var move_id_Switched = SkillSwitcher.Instance.DoSwitch (move_id, player);
 			SpecialMove move = get_move (move_id_Switched);
 
