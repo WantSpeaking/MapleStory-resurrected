@@ -249,7 +249,7 @@ namespace ms
 				message = "[Notice] " + message;
 			}
 
-			UI.get ().get_element<UIChatBar> ().get ().send_chatline (message, UIChatBar.LineType.YELLOW);
+			UI.get ().get_element<UIStatusMessenger> ().get ().show_status ( Color.Name.YELLOW,message);
 		}
 	}
 
@@ -322,11 +322,11 @@ namespace ms
 
 			if (Stage.get().is_player(cid))
 			{
-				var chatbar = UI.get().get_element<UIChatBar>();
+				var chatbar = UI.get().get_element<UIStatusMessenger>();
 
                 if (chatbar)
 				{
-					chatbar.get().display_message(message, UIChatBar.LineType.RED);
+					chatbar.get().show_status(Color.Name.RED, Messages.messages[message]);
 				}
 
 				UI.get().enable();
@@ -372,12 +372,18 @@ namespace ms
 					string name = idata.get_name ();
 					string sign = (qty < 0) ? "-" : "+";
 					string message = "Gained an item: " + name + " (" + sign + Convert.ToString (qty) + ")";
-					/*todo var chatbar = UI.get ().get_element<UIChatBar> ();
+
+                    var chatbar = UI.get().get_element<UIStatusMessenger>();
+                    if (chatbar)
+                    {
+                        chatbar.get().show_status(Color.Name.BLUE, message);
+                    }
+                    /*todo var chatbar = UI.get ().get_element<UIChatBar> ();
 					if (chatbar)
 					{
 						chatbar.send_chatline (message, UIChatBar.LineType.BLUE);
 					}*/
-				}
+                }
 			}
 			else if (mode1 == 4)//showOwnPetLevelUp
 			{

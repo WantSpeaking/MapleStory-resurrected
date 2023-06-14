@@ -24,10 +24,10 @@ namespace ms
 		{
 			return id;
 		}
-		private Point_short spawnOffset = new Point_short(0, -10);
+		//private Point_short spawnOffset = new Point_short(0, -10);
 		public MapObject instantiate(Physics physics)
 		{
-			var spawnposition = physics.get_y_below(position+spawnOffset);
+			var spawnposition = physics.get_y_below(position).shift_y(-10);
 			return new Npc(id, oid, flip, fh, false, spawnposition) ;
             //return new Npc(id, oid, flip, fh, false, position);
 

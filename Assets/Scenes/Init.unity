@@ -1586,7 +1586,7 @@ MonoBehaviour:
   TestMode: 0
   TestAccount: admin2
   TestPassword: admin2
-  Version: 64
+  Version: 66
   drawMap: 1
   enableUpdate: 1
   mainCamera: {fileID: 1326867178}
@@ -5184,7 +5184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1926790368
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -150,7 +150,7 @@ namespace ms
 				return phobj.fhlayer;
 			}
 
-			//physics.move_object (phobj);
+			physics.move_object (phobj);
 
 			if (animations.count (stance) > 0)
 			{
