@@ -49,5 +49,8 @@ namespace ms
 		{
 			return z;
 		}
-	}
+
+		public Texture get_Texture()=> texture;
+		public Point_short get_Point() => pos;
+    }
 }

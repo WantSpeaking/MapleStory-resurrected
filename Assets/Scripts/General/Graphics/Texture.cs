@@ -76,7 +76,7 @@ namespace ms
         public UnityEngine.LayerMask layerMask = LayerMask.NameToLayer("Default");
 
 
-        private WzObject cache_src { get; set; }
+        public WzObject cache_src { get;private set; }
 
         public Texture2D texture2D { get; set; }
         public FairyGUI.NTexture nTexture { get; set; }
@@ -335,7 +335,8 @@ namespace ms
         {
             return dimensions;
         }
-
+        public Bitmap get_Bitmap() => bitmap;
+        
 
         public override int GetHashCode()
         {

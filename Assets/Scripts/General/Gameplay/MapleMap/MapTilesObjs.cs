@@ -107,6 +107,9 @@ namespace ms
         private MultiValueDictionary<byte, Tile> tiles = new MultiValueDictionary<byte, Tile>();
         private MultiValueDictionary<byte, Obj> objs = new MultiValueDictionary<byte, Obj>();
         private int layerId;
+
+        public MultiValueDictionary<byte, Tile> get_tiles()=> tiles;
+        public MultiValueDictionary<byte, Obj> get_objs() => objs;
     }
 
     // The collection of tile and object layers on a map
@@ -186,5 +189,7 @@ namespace ms
         }
 
         private EnumMap<Layer.Id, TilesObjs> layers = new EnumMap<Layer.Id, TilesObjs>();
+
+        public EnumMap<Layer.Id, TilesObjs> get_layers() => layers;
     }
 }

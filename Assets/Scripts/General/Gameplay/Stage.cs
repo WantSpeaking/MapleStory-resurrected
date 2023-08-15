@@ -551,5 +551,11 @@ namespace ms
 			return physics;
 		}
 
-	}
+		public MapTilesObjs get_Tilesobjs()
+		{
+			return tilesobjs;
+		}
+
+
+    }
 }
