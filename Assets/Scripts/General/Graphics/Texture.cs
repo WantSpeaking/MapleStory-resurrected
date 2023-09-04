@@ -275,13 +275,13 @@ namespace ms
 
             if (bitmap != null)
             {
-                var X = args.getpos().x();
+                /*var X = args.getpos().x();
                 var Y = args.getpos().y();
 
                 if (X + bitmap.Width < 0 || X - bitmap.Width > Constants.Instance.get_viewwidth() || Y + bitmap.Height < 0 || Y - bitmap.Height > Constants.Instance.get_viewheight())
                 {
                     return;
-                }
+                }*/
 
                 Vector3 position = new Vector3(args.getpos().x() + (args.FlipX ? -1 : 1) * (bitmap.Width / 2 - pivot.x()), -args.getpos().y() + (-bitmap.Height / 2 + pivot.y()), SingletonMono<GameUtil>.Instance.DrawOrder);
                 /*Vector3 position = new Vector3 (args.getpos ().x () + bitmap.Width / 2 - pivot.x (), -args.getpos ().y () - bitmap.Height / 2 + pivot.y (), Singleton<GameUtil>.Instance.DrawOrder);*/

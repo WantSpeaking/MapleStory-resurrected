@@ -129,13 +129,6 @@ namespace ms
         public void load_map (int mapid)
 		{
             state = State.ACTIVE;
-            //MapleStory.Instance.canStart = false;
-
-            //UnityEngine.SceneManagement.SceneManager.LoadScene ("Game");
-
-            //TestURPBatcher.Instance.Clear ();
-
-            //TextManager.Instance.Clear ();
 
             this.mapid = mapid;
 			
@@ -152,14 +145,12 @@ namespace ms
 				this.mapid = linkMapId;
 			}
 
-			//ClearMap();
-
             tilesobjs = new MapTilesObjs (node_100000000img);
-			backgrounds = new MapBackgrounds (node_100000000img["back"]);
+	/*		backgrounds = new MapBackgrounds (node_100000000img["back"]);
 			physics = new Physics (node_100000000img["foothold"]);
 			mapinfo = new MapInfo (node_100000000img, physics.get_fht ().get_walls (), physics.get_fht ().get_borders ());
 			portals = new MapPortals (node_100000000img["portal"], mapid);
-			UI.get ().get_element<UIStatusMessenger> ().get ()?.show_status (Color.Name.WHITE,$"进入地图：{this.mapid}");
+			UI.get ().get_element<UIStatusMessenger> ().get ()?.show_status (Color.Name.WHITE,$"进入地图：{this.mapid}")*/;
 		}
 
 		public byte just_Entered_portalid;

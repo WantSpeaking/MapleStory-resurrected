@@ -29,13 +29,13 @@ namespace ms
                 //tiles.emplace(z, move(tile));
             }
 
-            foreach (var node_100000000img_0_obj_0 in node_100000000img_0["obj"].WzProperties)
+            /*foreach (var node_100000000img_0_obj_0 in node_100000000img_0["obj"].WzProperties)
             {
                 Obj obj = new Obj(node_100000000img_0_obj_0);
                 var z = obj.getz();
                 objs.Add(z, obj);
                 //objs.emplace(z, move(obj));
-            }
+            }*/
         }
 
         public void draw(Point_short viewpos, float alpha)
