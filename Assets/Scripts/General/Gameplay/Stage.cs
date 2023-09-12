@@ -137,23 +137,29 @@ namespace ms
 			WzObject node_100000000img = ((mapid == -1) ? wz.wzFile_ui["CashShopPreview.img"] : wz.wzFile_map["Map"]["Map" + prefix][strid + ".img"]);
 			if (node_100000000img["info"]?["link"] != null)
 			{
-				string linkMapIdStr = node_100000000img["info"]["link"].ToString ();
+                
+
+                string linkMapIdStr = node_100000000img["info"]["link"].ToString ();
 				int.TryParse (linkMapIdStr, out var linkMapId);
 				strid = string_format.extend_id (linkMapId, 9);
 				prefix = Convert.ToString (linkMapId / 100000000);
 				node_100000000img = wz.wzFile_map["Map"]["Map" + prefix][strid + ".img"];
-				this.mapid = linkMapId;
 			}
 
-            tilesobjs = new MapTilesObjs (node_100000000img);
-	/*		backgrounds = new MapBackgrounds (node_100000000img["back"]);
-			physics = new Physics (node_100000000img["foothold"]);
-			mapinfo = new MapInfo (node_100000000img, physics.get_fht ().get_walls (), physics.get_fht ().get_borders ());
-			portals = new MapPortals (node_100000000img["portal"], mapid);
-			UI.get ().get_element<UIStatusMessenger> ().get ()?.show_status (Color.Name.WHITE,$"进入地图：{this.mapid}")*/;
-		}
+//id、info用自己的，其他用link
+            tilesobjs = new MapTilesObjs(strid);
 
-		public byte just_Entered_portalid;
+            portals = new MapPortals(node_100000000img["portal"], mapid);
+
+            backgrounds = new MapBackgrounds (node_100000000img["back"]);
+			physics = new Physics (node_100000000img["foothold"]);
+            mapinfo = new MapInfo(node_100000000img, physics.get_fht().get_walls(), physics.get_fht().get_borders());
+
+            UI.get ().get_element<UIStatusMessenger> ().get ()?.show_status (Color.Name.WHITE,$"进入地图：{this.mapid}");
+
+        }
+
+        public byte just_Entered_portalid;
 		public string just_Entered_portalName;
 		public void respawn (sbyte portalid)
 		{
@@ -225,7 +231,7 @@ namespace ms
 			}
 			combat.update ();
 			effect?.update ();
-			tilesobjs.update ();
+			tilesobjs?.update ();
 			reactors.update (physics);
 			npcs.update (physics);
 			mobs.update (physics);

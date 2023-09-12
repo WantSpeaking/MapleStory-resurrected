@@ -199,7 +199,7 @@ namespace ms_Unity
         {
             
             Base = UnityGameFramework.Runtime.GameEntry.GetComponent<BaseComponent>();
-            /*Config = UnityGameFramework.Runtime.GameEntry.GetComponent<ConfigComponent>();
+            Config = UnityGameFramework.Runtime.GameEntry.GetComponent<ConfigComponent>();
             DataNode = UnityGameFramework.Runtime.GameEntry.GetComponent<DataNodeComponent>();
             DataTable = UnityGameFramework.Runtime.GameEntry.GetComponent<DataTableComponent>();
             Debugger = UnityGameFramework.Runtime.GameEntry.GetComponent<DebuggerComponent>();
@@ -209,16 +209,16 @@ namespace ms_Unity
             FileSystem = UnityGameFramework.Runtime.GameEntry.GetComponent<FileSystemComponent>();
             Fsm = UnityGameFramework.Runtime.GameEntry.GetComponent<FsmComponent>();
             Localization = UnityGameFramework.Runtime.GameEntry.GetComponent<LocalizationComponent>();
-            Network = UnityGameFramework.Runtime.GameEntry.GetComponent<NetworkComponent>();*/
+            Network = UnityGameFramework.Runtime.GameEntry.GetComponent<NetworkComponent>();
             ObjectPool = UnityGameFramework.Runtime.GameEntry.GetComponent<ObjectPoolComponent>();
             //Debug.Log ($"ObjectPool:{ObjectPool}");
-            /*Procedure = UnityGameFramework.Runtime.GameEntry.GetComponent<ProcedureComponent>();
+            Procedure = UnityGameFramework.Runtime.GameEntry.GetComponent<ProcedureComponent>();
             Resource = UnityGameFramework.Runtime.GameEntry.GetComponent<ResourceComponent>();
             Scene = UnityGameFramework.Runtime.GameEntry.GetComponent<SceneComponent>();
             Setting = UnityGameFramework.Runtime.GameEntry.GetComponent<SettingComponent>();
             Sound = UnityGameFramework.Runtime.GameEntry.GetComponent<SoundComponent>();
             UI = UnityGameFramework.Runtime.GameEntry.GetComponent<UIComponent>();
-            WebRequest = UnityGameFramework.Runtime.GameEntry.GetComponent<WebRequestComponent>();*/
+            WebRequest = UnityGameFramework.Runtime.GameEntry.GetComponent<WebRequestComponent>();
         }
     }
 }

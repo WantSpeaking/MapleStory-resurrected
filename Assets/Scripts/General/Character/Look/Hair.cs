@@ -77,7 +77,7 @@ namespace ms
 							
 							//Point_short shift = hairPosFromDrawInfo - brow;
 							Point_short shift = (drawinfo.gethairpos (stance, frame) ?? Point_short.zero) - brow;
-							var texture = new Texture (property_Hair_00030000img_alert_0_hair, "Player");
+							var texture = new Texture (property_Hair_00030000img_alert_0_hair, "Player", GameUtil.Instance.sortingLayerName_DefaultPlayer);
 							texture.shift (shift);
 							stances[(int)stance, (int)layer]?.Add (frame, texture);
 						}

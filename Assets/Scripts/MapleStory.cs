@@ -25,7 +25,11 @@ public class MapleStory : SingletonMono<MapleStory>
 	string message;
 	public float timeScale = 4.0f;
 	public Dictionary<string, UnityEngine.Sprite> tileSprites = new Dictionary<string, UnityEngine.Sprite>();
-	private void Start ()
+    protected override void OnAwake()
+    {
+        Application.targetFrameRate = 60;
+    }
+    private void Start ()
 	{
         Application.memoryUsageChanged += Application_memoryUsageChanged;
 		Time.timeScale = timeScale;
@@ -370,7 +374,8 @@ public class MapleStory : SingletonMono<MapleStory>
 		*/
 		//try
 		{
-			maplestoryFolder = Constants.get ().path_MapleStoryFolder;
+            Application.targetFrameRate = 60;
+            maplestoryFolder = Constants.get ().path_MapleStoryFolder;
 			ms.Setting<ServerIP>.get().save(inputField_IP.text);
 			ms.Setting<ServerPort>.get().save(inputField_Port.text);
             Session.get ().init (ms.Setting<ServerIP>.get().load(), ms.Setting<ServerPort>.get().load());

@@ -17,7 +17,7 @@ namespace ms
 {
 	public class Background:IDisposable
 	{
-		public Background (WzObject src)////back1stChildMap/Map1/100000000.img/back/0
+		public Background (WzObject src,bool front)////back1stChildMap/Map1/100000000.img/back/0
 		{
 			//AppDebug.Log(src.FullPath);
 			VWIDTH = Constants.get ().get_viewwidth ();
@@ -31,7 +31,7 @@ namespace ms
            if(node_0 == null){AppDebug.Log ($"Background() node_0 == null");}
            animation = new Animation(node_0);*/
 			animated = src["ani"];//animatedMap/Map1/100000000.img/back/0/ani
-			animation = backsrc[$"{src["bS"]}.img"]?[animated ? "ani" : "back"]?[src["no"]?.ToString ()]; //animationMap.wz/Back/{Map/Map1/100000000.img/back/0/bS}.img/(ani|back)/{Map/Map1/100000000.img/back/0/no}   Map.wz/Back/grassySoil.img/ani/0
+			animation = new Animation( backsrc[$"{src["bS"]}.img"]?[animated ? "ani" : "back"]?[src["no"]?.ToString ()],GameUtil.layerNameDefault,front? GameUtil.Instance.sortingLayerName_Foreground:GameUtil.Instance.sortingLayerName_Background); //animationMap.wz/Back/{Map/Map1/100000000.img/back/0/bS}.img/(ani|back)/{Map/Map1/100000000.img/back/0/no}   Map.wz/Back/grassySoil.img/ani/0
 			opacity = src["a"];//Map/Map1/100000000.img/back/0/a
 			flipped = src["f"];//Map/Map1/100000000.img/back/0/f
 			cx = src["cx"];//Map/Map1/100000000.img/back/0/cx
@@ -912,7 +912,7 @@ namespace ms
 				foreach (var wzProperty in subProperty.WzProperties)//directoryap/Map1/100000000.img/back/0
 				{
 					bool front = wzProperty["front"]; //frontMap/Map1/100000000.img/back/0/front
-					Background background = new Background (wzProperty);
+					Background background = new Background (wzProperty, front);
 
 
 					if (front)

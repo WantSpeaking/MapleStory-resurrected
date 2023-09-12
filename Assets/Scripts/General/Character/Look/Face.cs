@@ -182,7 +182,7 @@ namespace ms
 
 			private void Init (WzObject src, string layerMaskName = "Default")
 			{
-				texture = new Texture (src["face"], layerMaskName);
+				texture = new Texture (src["face"], layerMaskName, GameUtil.Instance.sortingLayerName_DefaultPlayer);
 
 				Point_short shift = src["face"]?["map"]?["brow"]?.GetPoint ().ToMSPoint () ?? Point_short.zero;
 				if (src.FullPath.Contains ("default"))

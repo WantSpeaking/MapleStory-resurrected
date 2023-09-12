@@ -232,7 +232,7 @@ namespace ms
 									break;
 							}
 
-							var tempTexture = new Texture (property_00002000img_walk1_0_arm, "Player");
+							var tempTexture = new Texture (property_00002000img_walk1_0_arm, "Player", GameUtil.Instance.sortingLayerName_DefaultPlayer);
 							tempTexture.shift (shift);
 							//if (stance.ToString ().Contains ("STAND"))
 							{

@@ -12,11 +12,20 @@ namespace ms
 {
 	public class Frame : IDisposable
 	{
-		public Frame (WzObject src) // Map.wz/Back/grassySoil.img/ani/0
+		public Frame (WzObject src, string layerMaskName,string sortingLayerName) // Map.wz/Back/grassySoil.img/ani/0/0
 		{
+			if (src == null)
+			{
+				AppDebug.LogError("Frame src is null");
+			}
+			if (src is WzUOLProperty uOLProperty)
+			{
+				src = uOLProperty.LinkValue;
+            }
+
 			temp = src;
 
-			texture = new Texture (src);
+			texture = new Texture (src, layerMaskName, sortingLayerName);
 			bounds = new Rectangle_short (src);
 			head = src["head"];
 			delay = src["delay"];
@@ -151,22 +160,32 @@ namespace ms
 		private Tuple<byte, byte> opacities;
 
 		private Tuple<short, short> scales;
-		//private Rectangle_short bounds = new Rectangle_short();
-		//private Point_short head = new Point_short();
-	}
+        //private Rectangle_short bounds = new Rectangle_short();
+        //private Point_short head = new Point_short();
+
+        public Texture get_Texture() => texture;
+        //public Point_short get_Point() => pos;
+
+    }
 
 	public class Animation : IDisposable
 	{
-		private SortedSet<short> frameids = new SortedSet<short> ();
-
+		//private SortedSet<short> frameids = new SortedSet<short> ();
+		SortedDictionary<short,string> frameid_name_dict = new SortedDictionary<short,string> ();
 		private WzObject cache_src { get; set; }
+		private string layerMaskName;
+		private string sortingLayerName;
 
-		public Animation (WzObject src) // Map.wz/Back/grassySoil.img/ani/0
+        public Animation (WzObject src) // Map.wz/Back/grassySoil.img/ani/0
 		{
 			Init (src);
 		}
-
-		public Animation ()
+        public Animation(WzObject src, string layerMaskName = GameUtil.layerNameDefault, string sortingLayerName = GameUtil.sortingLayerName_Default) // Map.wz/Back/grassySoil.img/ani/0
+        {
+			
+            Init(src, layerMaskName, sortingLayerName);
+        }
+        public Animation ()
 		{
 			animated = false;
 			zigzag = false;
@@ -178,12 +197,15 @@ namespace ms
 
 		public Animation (Animation srcAnimation)
 		{
-			Init (srcAnimation?.cache_src);
+			Init (srcAnimation?.cache_src, srcAnimation?.layerMaskName, srcAnimation?.sortingLayerName);
 		}
 
-		private void Init (WzObject src)
+		private void Init (WzObject src,string layerMaskName = GameUtil.layerNameDefault,string sortingLayerName = GameUtil.sortingLayerName_Default)
 		{
-			if (src == null)
+            this.layerMaskName = layerMaskName;
+            this.sortingLayerName = sortingLayerName;
+
+            if (src == null)
 			{
 				//AppDebug.Log ($"Animation(src):src == null");
 				frames.Add (new Frame ());
@@ -196,7 +218,7 @@ namespace ms
 
 			if (istexture) //WzCanvasProperty
 			{
-				frames.Add (new Frame (src));
+				frames.Add (new Frame (src, layerMaskName,sortingLayerName));
 			}
 			else
 			{
@@ -208,24 +230,25 @@ namespace ms
 						if (sub.IsTexture())
 						{
 							short fid = string_conversion.or_default (sub.Name, (short)-1);
-
+							
 							if (fid >= 0)
 							{
-								frameids.Add (fid);
+								//frameids.Add (fid);
+								frameid_name_dict.Add(fid, sub.Name);
 							}
 						}
 					}
 
-					foreach (var fid in frameids)
+					foreach (var fid in frameid_name_dict.Values)
 					{
-						var sub = src[Convert.ToString (fid)];
-						frames.Add (new Frame (sub));
-					}
+						var sub = src[fid];
+						frames.Add (new Frame (sub, layerMaskName,sortingLayerName));//KualaLumpur_MY.img/Adventure Rides/adventure/3/3空格，名字中含有空格，转换过来的没有空格，导致读取不到
+                    }
 
-					if (frames.Count == 0)
+					/*if (frames.Count == 0)
 					{
 						frames.Add (new Frame ());
-					}
+					}*/
 				}
 			}
 
@@ -416,10 +439,6 @@ namespace ms
 		}
 		public int get_total_delay ()
 		{
-			foreach (var frame in frames)
-			{
-
-			}
 			return frames.Sum (frame => frame.get_delay ());
 		}
 
@@ -473,7 +492,17 @@ namespace ms
 		private ushort delay;
 		private short framestep;
 		private float opcstep;
-	}
+
+        public IReadOnlyList<Frame> get_frames()
+        {
+            return frames;
+        }
+
+		public WzObject get_CacheWzObject ()
+		{
+			return cache_src;
+		}
+    }
 
 	public enum Enum_Animation
 	{

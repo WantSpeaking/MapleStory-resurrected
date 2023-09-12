@@ -48,7 +48,7 @@ namespace ms
 		/// </summary>
 		/// <param name="source">["range"]</param>
 		public Rectangle_short (WzObject source)
-			: this (source["lt"], source["rb"])
+			: this (source?["lt"], source?["rb"])
 		{
 		}
 

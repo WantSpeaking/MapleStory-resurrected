@@ -3,20 +3,23 @@
 
 
 
+using GameFramework.Resource;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
+using ms_Unity;
 using SD.Tools.Algorithmia.GeneralDataStructures;
 using System;
+using UnityEngine;
 
 namespace ms
 {
     // A tile and object layer
-    public class TilesObjs:IDisposable
+    public class TilesObjs : IDisposable
     {
         public TilesObjs()
         {
         }
-        public TilesObjs(WzImageProperty node_100000000img_0,int layerId)//node:100000000.img/0
+        public TilesObjs(WzImageProperty node_100000000img_0, int layerId)//node:100000000.img/0
         {
             this.layerId = layerId;
             var tileset = node_100000000img_0["info"]["tS"] + ".img";
@@ -29,13 +32,13 @@ namespace ms
                 //tiles.emplace(z, move(tile));
             }
 
-            /*foreach (var node_100000000img_0_obj_0 in node_100000000img_0["obj"].WzProperties)
+            foreach (var node_100000000img_0_obj_0 in node_100000000img_0["obj"].WzProperties)
             {
                 Obj obj = new Obj(node_100000000img_0_obj_0);
                 var z = obj.getz();
                 objs.Add(z, obj);
                 //objs.emplace(z, move(obj));
-            }*/
+            }
         }
 
         public void draw(Point_short viewpos, float alpha)
@@ -44,14 +47,14 @@ namespace ms
             {
                 foreach (var obj in pair.Value)
                 {
-                    obj.draw(viewpos, alpha,layerId);
+                    obj.draw(viewpos, alpha, layerId);
                 }
             }
             foreach (var pair in tiles)
             {
                 foreach (var tile in pair.Value)
                 {
-                    tile.draw(viewpos,layerId);
+                    tile.draw(viewpos, layerId);
                 }
             }
             /* foreach (var iter in objs)
@@ -66,21 +69,21 @@ namespace ms
         }
         public void update()
         {
-             foreach (var iter in objs)
-             {
-                 foreach (var obj in iter.Value)
-                 {
-                     obj.update();
-                 }
-             }
-        }
-        public void ClearDisplayObj ()
-		{
             foreach (var iter in objs)
             {
                 foreach (var obj in iter.Value)
                 {
-                    obj.update ();
+                    obj.update();
+                }
+            }
+        }
+        public void ClearDisplayObj()
+        {
+            foreach (var iter in objs)
+            {
+                foreach (var obj in iter.Value)
+                {
+                    obj.update();
                 }
             }
         }
@@ -104,17 +107,30 @@ namespace ms
             }
         }
 
-        private MultiValueDictionary<byte, Tile> tiles = new MultiValueDictionary<byte, Tile>();
-        private MultiValueDictionary<byte, Obj> objs = new MultiValueDictionary<byte, Obj>();
+        private MultiValueDictionary<int, Tile> tiles = new MultiValueDictionary<int, Tile>();
+        private MultiValueDictionary<int, Obj> objs = new MultiValueDictionary<int, Obj>();
         private int layerId;
 
-        public MultiValueDictionary<byte, Tile> get_tiles()=> tiles;
-        public MultiValueDictionary<byte, Obj> get_objs() => objs;
+        public MultiValueDictionary<int, Tile> get_tiles() => tiles;
+        public MultiValueDictionary<int, Obj> get_objs() => objs;
     }
 
     // The collection of tile and object layers on a map
-    public class MapTilesObjs:IDisposable
+    public class MapTilesObjs : IDisposable
     {
+        GameObject gobj_Tile;
+        GameObject gobj_Obj;
+
+        public MapTilesObjs(string mapId)
+        {
+
+            /*gobj_Obj = UnityEngine.Object.Instantiate<GameObject>(Resources.Load<GameObject>($"Prefabs/Obj/Map_{mapId}_Obj"));
+            gobj_Tile = UnityEngine.Object.Instantiate<GameObject>( Resources.Load<GameObject>($"Prefabs/Tile/Map_{mapId}_Tile"));*/
+
+            GameEntry.Resource.LoadAsset($"Assets/GameMain/Prefabs/Obj/Map_{mapId}_Obj.prefab", typeof(UnityEngine.GameObject), new LoadAssetCallbacks((assetName, asset, duration, userData) => { gobj_Obj = UnityEngine.Object.Instantiate<GameObject>((GameObject)asset); }));
+
+            GameEntry.Resource.LoadAsset($"Assets/GameMain/Prefabs/Tile/Map_{mapId}_Tile.prefab", typeof(UnityEngine.GameObject), new LoadAssetCallbacks((assetName, asset, duration, userData) => { gobj_Tile = UnityEngine.Object.Instantiate<GameObject>((GameObject)asset); }));
+        }
         public MapTilesObjs(WzObject node_100000000img)
         {
 
@@ -125,7 +141,7 @@ namespace ms
                     if (node_100000000img[i.ToString()] is WzImageProperty node)//node:100000000.img/0
                     {
                         //LoadLayer(node, i);
-                        var tileObj = new TilesObjs(node,i);
+                        var tileObj = new TilesObjs(node, i);
                         layers[(Layer.Id)i] = tileObj;
                     }
                 }
@@ -170,22 +186,32 @@ namespace ms
 
         public void draw(Layer.Id layer, Point_short viewpos, float alpha)
         {
-            layers[layer]?.draw(viewpos, alpha);
+            //layers[layer]?.draw(viewpos, alpha);
+            if (gobj_Obj == null || gobj_Tile == null) return;
+            gobj_Obj.transform.position = new Vector3(viewpos.x(), -viewpos.y(), 0);
+            gobj_Tile.transform.position = new Vector3(viewpos.x(), -viewpos.y(), -1);
+
         }
         public void update()
         {
-            foreach (var iter in layers)
+            /*foreach (var iter in layers)
             {
                 iter.Value?.update();
-            }
+            }*/
         }
 
         public void Dispose()
         {
-            foreach(var iter in layers)
+            /*foreach(var iter in layers)
             {
-                iter.Value.Dispose();
-            }
+                iter.Value?.Dispose();
+            }*/
+
+            UnityEngine.Object.Destroy(gobj_Tile);
+            UnityEngine.Object.Destroy(gobj_Obj);
+
+            AppDebug.Log("Dispose MapTilesObjs");
+            GameEntry.Resource.UnloadUnusedAssets(true);
         }
 
         private EnumMap<Layer.Id, TilesObjs> layers = new EnumMap<Layer.Id, TilesObjs>();

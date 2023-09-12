@@ -16,6 +16,7 @@ using Sprite = UnityEngine.Sprite;
 using Texture = ms.Texture;
 using System.Linq;
 using tools;
+using Utility;
 
 //namespace ms_Unity
 //{
@@ -319,6 +320,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
             tempObj.SetActive(true);
             tempObj.name = tex.fullPath;
             tempObj.layer = tex.layerMask;
+            tempObj.SetSortingLayer(tex.sortingLayerName);
 
             if (tempObj.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
             {
@@ -386,6 +388,8 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
                 tempObj.layer = LayerMask.NameToLayer ("Player");
             }*/
             tempObj.layer = tex.layerMask;
+            tempObj.SetSortingLayer(tex.sortingLayerName);
+
         }
 
         return tempObj;
@@ -564,8 +568,15 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
         StartCoroutine(SpawnGObj());
         //StartCoroutine(MsTexInit());
 
+        GameEntry.Resource.InitResources(OnInitResourcesComplete);
     }
 
+    private bool m_InitResourcesComplete = false;
+    private void OnInitResourcesComplete()
+    {
+        m_InitResourcesComplete = true;
+        AppDebug.Log("Init resources complete.");
+    }
     private new void Update()
     {
         /*Vector3 screenPos = StageCamera.main.WorldToScreenPoint (test.transform.position);

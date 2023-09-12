@@ -74,7 +74,7 @@ namespace ms
         private Point_short dimensions = new Point_short();
 
         public UnityEngine.LayerMask layerMask = LayerMask.NameToLayer("Default");
-
+        public string sortingLayerName = GameUtil.sortingLayerName_Default;
 
         public WzObject cache_src { get;private set; }
 
@@ -160,10 +160,11 @@ namespace ms
             Init(src);
         }
 
-        public Texture(WzObject src, string layerMaskName)
+        public Texture(WzObject src, string layerMaskName, string sortingLayerName)
         {
             Init(src);
             layerMask = LayerMask.NameToLayer(layerMaskName);
+            this.sortingLayerName = sortingLayerName;
         }
 
 
@@ -176,6 +177,7 @@ namespace ms
             this.pivot = srcTexture?.cache_src?["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
             this.dimensions = srcTexture.dimensions;
             this.layerMask = srcTexture.layerMask;
+            this.sortingLayerName = srcTexture.sortingLayerName;
             this.cache_src = srcTexture.cache_src;
             this.texture2D = srcTexture.texture2D;
             this.nTexture = srcTexture.nTexture;

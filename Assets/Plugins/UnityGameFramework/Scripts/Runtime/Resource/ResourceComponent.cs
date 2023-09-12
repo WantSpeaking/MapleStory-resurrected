@@ -1497,5 +1497,10 @@ namespace UnityGameFramework.Runtime
         {
             m_EventComponent.Fire(this, ResourceUpdateAllCompleteEventArgs.Create(e));
         }
+
+        public void LoadAsset(string v, Type type, object onLoadAssetComplete)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

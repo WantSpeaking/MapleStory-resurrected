@@ -37,4 +37,55 @@ public class GameUtil : SingletonMono<GameUtil>
 	public float superCombo_radius = 5f;
     public float combo_roate_speed = 1f;
 	public short combo_buff_attack_increase_per = 100;
+
+	public string sortingLayerName_Background = "Background";
+    public string sortingLayerName_Layer0 = "Layer0";
+    public string sortingLayerName_Layer1 = "Layer1";
+    public string sortingLayerName_Layer2 = "Layer2";
+    public string sortingLayerName_Layer3 = "Layer3";
+    public string sortingLayerName_Layer4 = "Layer4";
+    public string sortingLayerName_Layer5 = "Layer5";
+    public string sortingLayerName_Layer6 = "Layer6";
+    public string sortingLayerName_Layer7 = "Layer7";
+    public string sortingLayerName_Layer8 = "Layer8";
+    public string sortingLayerName_Portal = "Portal";
+    public string sortingLayerName_Foreground = "Foreground";
+    public string sortingLayerName_DefaultPlayer = "Layer8";
+
+    public const string sortingLayerName_Default = "Layer7";
+	public const string layerNameDefault = "Default";
+    public string msLayerToSortingLayerName (ms.Layer.Id id)
+	{
+		var n = sortingLayerName_Layer0;
+		switch (id)
+		{
+			case ms.Layer.Id.ZERO:
+				n = sortingLayerName_Layer0;
+                break;
+			case ms.Layer.Id.ONE:
+                n = sortingLayerName_Layer1;
+                break;
+			case ms.Layer.Id.TWO:
+                n = sortingLayerName_Layer2;
+                break;
+			case ms.Layer.Id.THREE:
+                n = sortingLayerName_Layer3;
+                break;
+			case ms.Layer.Id.FOUR:
+                n = sortingLayerName_Layer4;
+                break;
+			case ms.Layer.Id.FIVE:
+                n = sortingLayerName_Layer5;
+                break;
+			case ms.Layer.Id.SIX:
+                n = sortingLayerName_Layer6;
+                break;
+			case ms.Layer.Id.SEVEN:
+                n = sortingLayerName_Layer7;
+                break;
+			default:
+				break;
+		}
+		return n;
+	}
 }

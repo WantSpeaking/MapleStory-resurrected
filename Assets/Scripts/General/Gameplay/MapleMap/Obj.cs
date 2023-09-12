@@ -7,6 +7,7 @@ using ms;
 using ms.Helper;
 using MapleLib.WzLib;
 using System;
+using System.IO;
 
 namespace ms
 {
@@ -14,31 +15,40 @@ namespace ms
 	public class Obj: IDisposable
     {
 		private int orderInLayer;
+		private string path;
 
-		public Obj (WzImageProperty node_100000000img_0_obj_0)
+        public Obj (WzImageProperty node_100000000img_0_obj_0)
 		{
 			try
 			{
+				path = node_100000000img_0_obj_0.FullPath;
                 int.TryParse(node_100000000img_0_obj_0.Name, out orderInLayer);
 
-                //UnityEngine.AppDebug.Log(node_100000000img_0_obj_0["oS"] + ".img" + "\t" + node_100000000img_0_obj_0["l0"] + "\t" + node_100000000img_0_obj_0["l1"] + "\t" + node_100000000img_0_obj_0["l2"]);
+				//UnityEngine.AppDebug.Log(node_100000000img_0_obj_0["oS"] + ".img" + "\t" + node_100000000img_0_obj_0["l0"] + "\t" + node_100000000img_0_obj_0["l1"] + "\t" + node_100000000img_0_obj_0["l2"]);
+				var oS = $"{node_100000000img_0_obj_0["oS"]}.img";
+				var l0 = node_100000000img_0_obj_0["l0"].ToString();
+				var l1 = node_100000000img_0_obj_0["l1"].ToString();
+				var l2 = node_100000000img_0_obj_0["l2"].ToString();
 
-                animation = new Animation(ms.wz.wzFile_map["Obj"][$"{node_100000000img_0_obj_0["oS"]}.img"]?[node_100000000img_0_obj_0["l0"].ToString()]?[node_100000000img_0_obj_0["l1"].ToString()]?[node_100000000img_0_obj_0["l2"].ToString()]);
-                //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-                //ORIGINAL LINE: pos = Point_short(src["x"], src["y"]);
+				var oS_WZO = ms.wz.wzFile_map["Obj"][oS];
+				var l0_WZO = oS_WZO?[l0];
+				var l1_WZO = l0_WZO?[l1];
+				var l2_WZO = l1_WZO?[l2];
+
+                animation = new Animation(l2_WZO);
 
                 pos = new Point_short(node_100000000img_0_obj_0["x"], node_100000000img_0_obj_0["y"]);
                 flip = node_100000000img_0_obj_0["f"];
                 //z = (byte)(255- node_100000000img_0_obj_0["z"].GetShort ().ToByte ());//orderInLayer wz和unity正好相反
                 z = (node_100000000img_0_obj_0["z"]); //orderInLayer wz和unity正好相反
-                if (z == 0)
+                /*if (z == 0)
                 {
                     z = (node_100000000img_0_obj_0["zM"]);
-                }
+                }*/
             }
 			catch (Exception ex)
 			{
-				AppDebug.Log($"{node_100000000img_0_obj_0.FullPath} {ex.Message}");
+				AppDebug.LogError($"{node_100000000img_0_obj_0.FullPath} Message:{ex.Message} StackTrace:{ex.StackTrace}");
 			}
 		}
 
@@ -64,13 +74,14 @@ namespace ms
 		}
 
 		// Return the depth of the object
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: byte getz() const
-		public byte getz ()
+		public int getz ()
 		{
 			return z;
 		}
-
+		public string getPath()
+		{
+			return path;
+		}
         public void Dispose()
         {
             animation?.Dispose ();
@@ -78,9 +89,12 @@ namespace ms
 
         private Animation animation = new Animation ();
 		private Point_short pos = new Point_short ();
-		private byte z;
+		private int z;
 		private bool flip;
-	}
+
+        public Animation get_Ani() => animation;
+        public Point_short get_Point() => pos;
+    }
 }
 
 #if USE_NX

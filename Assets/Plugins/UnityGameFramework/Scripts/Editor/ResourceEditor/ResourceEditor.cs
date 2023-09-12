@@ -517,7 +517,7 @@ namespace UnityGameFramework.Editor.ResourceTools
                     {
                         EditorUtility.DisplayProgressBar("Add Resources", Utility.Text.Format("{0}/{1} processing...", ++index, count), (float)index / count);
                         int dotIndex = sourceAsset.FromRootPath.IndexOf('.');
-                        string name = dotIndex > 0 ? sourceAsset.FromRootPath.Substring(0, dotIndex) : sourceAsset.FromRootPath;
+                        string name = /*dotIndex > 0 ? sourceAsset.FromRootPath.Substring(0, dotIndex) : */sourceAsset.FromRootPath;
                         AddResource(name, null, false);
                         Resource resource = m_Controller.GetResource(name, null);
                         if (resource == null)

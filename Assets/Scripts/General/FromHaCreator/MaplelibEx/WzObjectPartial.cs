@@ -190,7 +190,25 @@ namespace MapleLib.WzLib
 			//return this is WzCanvasProperty;//todo why wzObject IsTexture ,texture may be WzCanvasProperty,may be subProperty, has a child WzUolProperty
 		}
 
-		private static List< WzImageProperty> emptyWzImagePropertyList = new List<WzImageProperty>();
+        public bool IsTextureQuickly()
+        {
+            if (this is WzCanvasProperty canvasProperty)
+            {
+                return true;
+            }
+            else if (this is WzPngProperty pngProperty)
+            {
+                return true;
+            }
+            else if (this is WzUOLProperty uolProperty)
+            {
+                return uolProperty.LinkValue.IsTextureQuickly();
+            }
+
+            return false;
+        }
+
+        private static List< WzImageProperty> emptyWzImagePropertyList = new List<WzImageProperty>();
 		public IEnumerator<WzImageProperty> GetEnumerator ()
 		{
 			if (this is WzImage wzImage)

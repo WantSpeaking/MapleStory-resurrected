@@ -32,5 +32,27 @@ namespace Utility
 				go.layer = layer;
 			}
 		}
-	}
+
+        public static void SetSortingLayer(this GameObject go, string sortingLayerName, bool includeChildren = true)
+        {
+            if (go == null) return;
+            if (includeChildren)
+			{
+                foreach (var transform in go.GetComponentsInChildren<Transform>())
+                {
+					SetSortingLayer(transform.gameObject, sortingLayerName, false);
+                }
+            }
+			else
+			{
+				
+                var render = go.GetComponent<Renderer>();
+                if (render != null)
+                {
+                    //Debug.Log($"SetSortingLayer:{go.name} {sortingLayerName}");
+                    render.sortingLayerName = sortingLayerName;
+                }
+            }
+        }
+    }
 }

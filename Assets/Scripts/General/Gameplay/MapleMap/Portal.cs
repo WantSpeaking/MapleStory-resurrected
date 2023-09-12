@@ -96,8 +96,8 @@ namespace ms
 			}
 
 			//AppDebug.Log ($"protal type:{type,-10} name:{name,-10}, draw postion: {position}");
-			animation.update ();
-			animation.draw (new DrawArgument (position + viewpos), inter);
+			animation?.update ();
+			animation?.draw (new DrawArgument (position + viewpos), inter);
 		}
 
 		public string get_name ()
@@ -114,8 +114,15 @@ namespace ms
 		{
 			return position;
 		}
-
-		public Rectangle_short bounds ()
+        public Point_short get_origin()
+        {
+            return animation.get_origin();
+        }
+        public Point_short get_dimensions()
+        {
+            return animation.get_dimensions();
+        }
+        public Rectangle_short bounds ()
 		{
 			var lt = position + new Point_short (-25, -100);
 			var rb = position + new Point_short (25, 25);

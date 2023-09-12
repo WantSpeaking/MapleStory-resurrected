@@ -41,3 +41,39 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 2447275235
+    locked: 0
+  - name: Layer0
+    uniqueID: 2117653071
+    locked: 0
+  - name: Layer1
+    uniqueID: 2602605033
+    locked: 0
+  - name: Layer2
+    uniqueID: 1032988163
+    locked: 0
+  - name: Layer3
+    uniqueID: 1633514075
+    locked: 0
+  - name: Layer4
+    uniqueID: 3905015037
+    locked: 0
+  - name: Layer5
+    uniqueID: 2449785861
+    locked: 0
+  - name: Layer6
+    uniqueID: 1051803117
+    locked: 0
+  - name: Layer7
+    uniqueID: 827819111
+    locked: 0
+  - name: Layer8
+    uniqueID: 2885325687
+    locked: 0
+  - name: Portal
+    uniqueID: 1455714157
+    locked: 0
+  - name: Foreground
+    uniqueID: 2033772699
+    locked: 0
