@@ -374,6 +374,7 @@ public class MapleStory : SingletonMono<MapleStory>
 		*/
 		//try
 		{
+			AssetBundleLoaderMgr.Instance.Init();
             Application.targetFrameRate = 60;
             maplestoryFolder = Constants.get ().path_MapleStoryFolder;
 			ms.Setting<ServerIP>.get().save(inputField_IP.text);

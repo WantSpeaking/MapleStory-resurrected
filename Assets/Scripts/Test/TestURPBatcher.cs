@@ -568,7 +568,7 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
         StartCoroutine(SpawnGObj());
         //StartCoroutine(MsTexInit());
 
-        GameEntry.Resource.InitResources(OnInitResourcesComplete);
+        //GameEntry.Resource.InitResources(OnInitResourcesComplete);
     }
 
     private bool m_InitResourcesComplete = false;

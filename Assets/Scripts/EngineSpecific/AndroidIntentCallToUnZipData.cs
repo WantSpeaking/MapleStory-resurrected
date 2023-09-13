@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
+using CL.IO.Zip;
 using ICSharpCode.SharpZipLib.Zip;
 using ms;
 using UnityEngine;
@@ -95,60 +97,96 @@ public class AndroidIntentCallToUnZipData : MonoBehaviour
 
 		//CopyStreamingAssetToPersistent.CopyFile ("Quest.wz", destinationPath);
 	}
+    public int GetZipFileCount(string zipPath)
+    {
+        int num = 0;
+        try
+        {
+            using ZipInputStream zipInputStream = new ZipInputStream(File.OpenRead(zipPath));
+            ZipEntry zipEntry = null;
+            while ((zipEntry = zipInputStream.GetNextEntry()) != null)
+            {
+                foreach (Match item in Regex.Matches(zipEntry.Name, "[^/]+$"))
+                {
+                    num++;
+                }
+            }
+        }
+        catch
+        {
+        }
 
-	public IEnumerator TestUnZipFile (string zipPath, string outPath, string password)
+        return num;
+    }
+    public IEnumerator TestUnZipFile (string zipPath, string outPath, string password, bool haspassword = true,float waitTime = 3f)
 	{
-		if (!File.Exists (zipPath))
+		yield return new WaitForSeconds(waitTime);
+
+        if (!File.Exists (zipPath))
 		{
 			Debug.LogError ("没有此文件路径：" + zipPath);
 			yield break;
 		}
-		using (ZipInputStream stream = new ZipInputStream (File.OpenRead (zipPath)))
+		if (!Directory.Exists(outPath))
 		{
-			stream.Password = password;
-			ZipEntry theEntry;
-			while ((theEntry = stream.GetNextEntry ()) != null)
-			{
+			Directory.CreateDirectory(outPath);
+        }
 
-				// Debug.Log ("theEntry.Name：" + theEntry.Name);
-				string fileName = Path.GetFileName (theEntry.Name);
+        ZipHandler handler = ZipHandler.GetInstance();
+
+        var totalFileCount = GetZipFileCount(zipPath);
+        //handler.UnpackAll(zipPath, outPath,num => message= $"解压进度：{num}");
+        var readedCount = 0;
+        using (ZipInputStream stream = new ZipInputStream(File.OpenRead(zipPath)))
+		{
+			if (haspassword)
+				stream.Password = password;
+			ZipEntry theEntry;
+			
+			while ((theEntry = stream.GetNextEntry()) != null)
+			{
+				readedCount++;
+                message = $"解压进度：{readedCount * 1f / totalFileCount * 100:f2}%";
+
+                // Debug.Log ("theEntry.Name：" + theEntry.Name);
+                string fileName = Path.GetFileName(theEntry.Name);
 				// Debug.Log ("fileName：" + fileName);
-				string filePath = Path.Combine (outPath, theEntry.Name);
+				string filePath = Path.Combine(outPath, theEntry.Name);
 				// Debug.Log ("filePath:" + filePath);
-				string directoryName = Path.GetDirectoryName (filePath);
+				string directoryName = Path.GetDirectoryName(filePath);
 				// Debug.Log ("directoryName：" + directoryName);
 
 				// 创建压缩文件中文件的位置
 				if (directoryName.Length > 0)
 				{
-					Directory.CreateDirectory (directoryName);
+					Directory.CreateDirectory(directoryName);
 				}
 				if (fileName != String.Empty)
 				{
-					
-                    using (FileStream streamWriter = File.Create (filePath))
+					if (File.Exists(filePath)) continue;
+					using (FileStream streamWriter = File.Create(filePath))
 					{
-                        long readedLength = 0;
-                        long totalLength = stream.Length;
+						long readedLength = 0;
+						long totalLength = stream.Length;
 
-                        int size = 2048;
+						int size = 2048;
 						byte[] data = new byte[2048];
 						while (true)
 						{
-							size = stream.Read (data, 0, data.Length);
+							size = stream.Read(data, 0, data.Length);
 							if (size > 0)
 							{
 								readedLength += size;
 								progress = readedLength * 1f / totalLength * 100;
-								message = $"解压进度：{progress:f2}%";
+								//message = $"解压进度：{filePath}\t{progress:f2}%";
 								timer += Time.deltaTime;
 								if (timer > 1f)
 								{
 									timer = 0;
-                                    yield return null;
-                                }
+									yield return null;
+								}
 
-                                streamWriter.Write (data, 0, size);
+								streamWriter.Write(data, 0, size);
 							}
 							else
 							{
@@ -161,7 +199,7 @@ public class AndroidIntentCallToUnZipData : MonoBehaviour
 			}
 			message = $"解压完成！解压至：{outPath}";
 
-            Debug.Log (message);
+			Debug.Log(message);
 		}
 	}
 
@@ -293,24 +331,42 @@ public class AndroidIntentCallToUnZipData : MonoBehaviour
 
 	private void Awake ()
 	{
-		if (isWzFileCopy)
+		/*if (isWzFileCopy)
 		{
 			message = "正在解压数据包，请耐心等待10分钟,解压完成会有提示";
-		}
+		}*/
 	}
 
 	private void Start()
     {
-		//jsEnv = new JsEnv ();
-		//StartCoroutine(TestPCUnZip());
+        //jsEnv = new JsEnv ();
+        //StartCoroutine(TestPCUnZip());
+        var assetBundleZipPath = Path.Combine(Application.persistentDataPath, "AssetBundle.zip");
+        var assetBundleOutPath = Path.Combine(Application.persistentDataPath, "");
+        var baseWzPath = Path.Combine(Application.persistentDataPath, "Base.wz");
 
-		if (!File.Exists(Application.persistentDataPath + "/" + "Base.wz"))
+        if (!File.Exists(assetBundleZipPath))
 		{
-			MapleStory.Instance.ShowGUINotice ("请先安装最新客户端，打开客户端自动解压数据包后，再安装最新游戏补丁，最后开始游戏");
+            message = $"正在复制资产包压缩包";
+            CopyStreamingAssetToPersistent.CopyFile("AssetBundle.zip");
+            message = $"复制资产包压缩包完毕";
+        }
+        if (!File.Exists(Path.Combine(assetBundleOutPath, "AssetBundle","Android.manifest")))
+        {
+            message = $"正在解压资产包压缩包";
+            StartCoroutine(TestUnZipFile(assetBundleZipPath, assetBundleOutPath, password, false));
+        }
+
+        if (!File.Exists(baseWzPath))
+		{
+            message = $"正在复制数据包";
+            StartCoroutine(TestCopyAllWz(5));
+
+            //MapleStory.Instance.ShowGUINotice ("请先安装最新客户端，打开客户端自动解压数据包后，再安装最新游戏补丁，最后开始游戏");
 			return;
 		}
-		StartCoroutine(TestCopyAllWz(5));
-
+        
+		
     }
 
 	IEnumerator TestCopyAllWz (float waitSecong)
@@ -328,7 +384,7 @@ public class AndroidIntentCallToUnZipData : MonoBehaviour
 			{
 				//StartCoroutine (CopyFile (fileName)) ;
 				CopyStreamingAssetToPersistent.CopyFile (fileName);
-				message = $"解压进度：{wzFiles.IndexOf (fileName) * 100f / wzFiles.Count:f2}%";
+				message = $"复制进度：{wzFiles.IndexOf (fileName) * 100f / wzFiles.Count:f2}%";
 				yield return new WaitForSeconds (1);
 				
 			}

@@ -77,7 +77,7 @@ namespace ms
             tilesobjs?.Dispose();
             backgrounds?.Dispose();
             portals?.Dispose();
-
+			UnityEngine.Resources.UnloadUnusedAssets();
            
         }
 		public void load (int mapid, sbyte portalid)
@@ -147,7 +147,7 @@ namespace ms
 			}
 
 //id、info用自己的，其他用link
-            tilesobjs = new MapTilesObjs(strid);
+            tilesobjs = new MapTilesObjs(mapid);
 
             portals = new MapPortals(node_100000000img["portal"], mapid);
 

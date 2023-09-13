@@ -120,16 +120,26 @@ namespace ms
     {
         GameObject gobj_Tile;
         GameObject gobj_Obj;
-
-        public MapTilesObjs(string mapId)
+        string o_assetPath = "";
+        string t_assetPath = "";
+        public MapTilesObjs(int mapid)
         {
 
             /*gobj_Obj = UnityEngine.Object.Instantiate<GameObject>(Resources.Load<GameObject>($"Prefabs/Obj/Map_{mapId}_Obj"));
             gobj_Tile = UnityEngine.Object.Instantiate<GameObject>( Resources.Load<GameObject>($"Prefabs/Tile/Map_{mapId}_Tile"));*/
 
-            GameEntry.Resource.LoadAsset($"Assets/GameMain/Prefabs/Obj/Map_{mapId}_Obj.prefab", typeof(UnityEngine.GameObject), new LoadAssetCallbacks((assetName, asset, duration, userData) => { gobj_Obj = UnityEngine.Object.Instantiate<GameObject>((GameObject)asset); }));
+            /*GameEntry.Resource.LoadAsset($"Assets/GameMain/Prefabs/Obj/Map_{mapId}_Obj.prefab", typeof(UnityEngine.GameObject), new LoadAssetCallbacks((assetName, asset, duration, userData) => { gobj_Obj = UnityEngine.Object.Instantiate<GameObject>((GameObject)asset); }));
 
-            GameEntry.Resource.LoadAsset($"Assets/GameMain/Prefabs/Tile/Map_{mapId}_Tile.prefab", typeof(UnityEngine.GameObject), new LoadAssetCallbacks((assetName, asset, duration, userData) => { gobj_Tile = UnityEngine.Object.Instantiate<GameObject>((GameObject)asset); }));
+            GameEntry.Resource.LoadAsset($"Assets/GameMain/Prefabs/Tile/Map_{mapId}_Tile.prefab", typeof(UnityEngine.GameObject), new LoadAssetCallbacks((assetName, asset, duration, userData) => { gobj_Tile = UnityEngine.Object.Instantiate<GameObject>((GameObject)asset); }));*/
+            string strid = string_format.extend_id(mapid, 9);
+            string prefix = Convert.ToString(mapid / 100000000);
+            o_assetPath = $"Prefabs/Obj/Map{prefix}_Obj";
+            t_assetPath = $"Prefabs/Tile/Map{prefix}_Tile";
+            var o_asset= AssetBundleLoaderMgr.Instance.LoadAsset<GameObject>(o_assetPath, $"Map{prefix}_Obj.{strid}");
+            var t_asset = AssetBundleLoaderMgr.Instance.LoadAsset<GameObject>(t_assetPath, $"Map{prefix}_Tile.{strid}");
+            gobj_Obj = UnityEngine.Object.Instantiate<GameObject>(o_asset);
+            gobj_Tile = UnityEngine.Object.Instantiate<GameObject>(t_asset);
+
         }
         public MapTilesObjs(WzObject node_100000000img)
         {
@@ -211,7 +221,9 @@ namespace ms
             UnityEngine.Object.Destroy(gobj_Obj);
 
             AppDebug.Log("Dispose MapTilesObjs");
-            GameEntry.Resource.UnloadUnusedAssets(true);
+            /*AssetBundleLoaderMgr.Instance.UnloadAssetBundle(t_assetPath);
+            AssetBundleLoaderMgr.Instance.UnloadAssetBundle(o_assetPath);*/
+            //GameEntry.Resource.UnloadUnusedAssets(true);
         }
 
         private EnumMap<Layer.Id, TilesObjs> layers = new EnumMap<Layer.Id, TilesObjs>();

@@ -15,6 +15,7 @@ namespace ms
 	public class MapPortals:IDisposable
 	{
         GameObject gobj_Portal;
+        string p_assetPath = "";
 
         public static void init ()
 		{
@@ -79,7 +80,13 @@ namespace ms
 
             //gobj_Portal = UnityEngine.Object.Instantiate<GameObject>(Resources.Load<GameObject>($"Prefabs/Portal/Map_{string_format.extend_id(mapid, 9)}_Portal"));
 
-            GameEntry.Resource.LoadAsset($"Assets/GameMain/Prefabs/Portal/Map_{string_format.extend_id(mapid, 9)}_Portal.prefab", typeof(UnityEngine.GameObject), new LoadAssetCallbacks((assetName, asset, duration, userData) => { gobj_Portal = UnityEngine.Object.Instantiate<GameObject>((GameObject)asset); }));
+            //GameEntry.Resource.LoadAsset($"Assets/GameMain/Prefabs/Portal/Map_{string_format.extend_id(mapid, 9)}_Portal.prefab", typeof(UnityEngine.GameObject), new LoadAssetCallbacks((assetName, asset, duration, userData) => { gobj_Portal = UnityEngine.Object.Instantiate<GameObject>((GameObject)asset); }));
+
+            string strid = string_format.extend_id(mapid, 9);
+            string prefix = Convert.ToString(mapid / 100000000);
+			p_assetPath = $"Prefabs/Portal/Map{prefix}_Portal";
+            var p_asset = AssetBundleLoaderMgr.Instance.LoadAsset<GameObject>(p_assetPath, $"Map{prefix}_Portal.{strid}");
+            gobj_Portal = UnityEngine.Object.Instantiate<GameObject>(p_asset);
         }
 
 		public MapPortals ()
@@ -235,7 +242,8 @@ namespace ms
             UnityEngine.Object.Destroy(gobj_Portal);
 
             AppDebug.Log("Dispose MapPortals");
-            GameEntry.Resource.UnloadUnusedAssets(true);
+            //AssetBundleLoaderMgr.Instance.UnloadAssetBundle(p_assetPath);
+            //GameEntry.Resource.UnloadUnusedAssets(true);
         }
 
         //private static Dictionary<Portal.Type, Animation> animations = new Dictionary<Portal.Type, Animation> ();
