@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -41,41 +42,47 @@ public class CopyStreamingAssetToPersistent : Singleton<CopyStreamingAssetToPers
 		string path = pre + Application.streamingAssetsPath + "/";
 		return path;
 	}
-	public static void CopyFile (string fileName)
+	public static IEnumerator CopyFile (string fileName, Action<string,float> onChecking = null, Action<string,bool> onCheckComplete = null)
 	{
-		if (File.Exists(Application.persistentDataPath + "/" + fileName) && new FileInfo (Application.persistentDataPath + "/" + fileName).Length != 0)
+		var sourcePath = Path.Combine(Application.persistentDataPath, fileName);
+		var targetPath = Path.Combine(Application.streamingAssetsPath, fileName);
+        if (File.Exists(sourcePath) && new FileInfo (sourcePath).Length != 0)
 		{
-			return;
+			yield break;
 		}
 		if (Application.platform == RuntimePlatform.Android)
 		{
-
-			using (UnityWebRequest request = UnityWebRequest.Get (Application.streamingAssetsPath + "/" + fileName))
+			using (UnityWebRequest request = UnityWebRequest.Get(sourcePath))
 			{
 				request.timeout = 3;
-				request.downloadHandler = new DownloadHandlerFile (Application.persistentDataPath + "/" + fileName);//直接将文件下载到外存
-				request.SendWebRequest ();
+				request.downloadHandler = new DownloadHandlerFile(targetPath);//直接将文件下载到外存
+				request.SendWebRequest();
 				if (request.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError or UnityWebRequest.Result.DataProcessingError)
 				{
-					return;
+					yield break;
 				}
-				
+
 				//下载完成后执行的回调
 				while (!request.isDone)
 				{
+					onChecking?.Invoke($"正在复制{fileName}", request.downloadProgress);
+					yield return null;
 				}
-				request.Abort ();
+
+				request.Abort();
 				//默认值是true，调用该方法不需要设置Dispose()，Unity就会自动在完成后调用Dispose()释放资源。
 				request.disposeDownloadHandlerOnDispose = true;
-				request.Dispose ();
+				request.Dispose();
+				onCheckComplete?.Invoke($"{fileName}复制完毕", true);
+
 			}
 		}
 		else
 		{
 			if (!File.Exists(Application.streamingAssetsPath + "/" + fileName))
 			{
-				return;
-			}
+                yield break;
+            }
 			
 			File.Copy (Application.streamingAssetsPath + "/" + fileName, Application.persistentDataPath + "/" + fileName, true);
 		}

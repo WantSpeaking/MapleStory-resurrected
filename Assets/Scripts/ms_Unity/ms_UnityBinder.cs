@@ -27,6 +27,7 @@ namespace ms_Unity
             UIObjectFactory.SetPackageItemExtension(FGUI_ListItem_QuestLogMini.URL, typeof(FGUI_ListItem_QuestLogMini));
             UIObjectFactory.SetPackageItemExtension(FGUI_RaceSelect.URL, typeof(FGUI_RaceSelect));
             UIObjectFactory.SetPackageItemExtension(FGUI_QuestLogMini.URL, typeof(FGUI_QuestLogMini));
+            UIObjectFactory.SetPackageItemExtension(FGUI_Button_TitleAtlas_0.URL, typeof(FGUI_Button_TitleAtlas_0));
             UIObjectFactory.SetPackageItemExtension(FGUI_SetupUseButtons.URL, typeof(FGUI_SetupUseButtons));
             UIObjectFactory.SetPackageItemExtension(FGUI_ChatBalloon.URL, typeof(FGUI_ChatBalloon));
             UIObjectFactory.SetPackageItemExtension(FGUI_NavigationBar.URL, typeof(FGUI_NavigationBar));

@@ -23,7 +23,10 @@ using Timer = ms.Timer;
 public class MapleStory : SingletonMono<MapleStory>
 {
 	string message;
-	public float timeScale = 4.0f;
+	public FairyGUI.UIPanel panel_StateLogin;
+	public FGUI_StateLogin fGUI_StateLogin;
+
+    public float timeScale = 4.0f;
 	public Dictionary<string, UnityEngine.Sprite> tileSprites = new Dictionary<string, UnityEngine.Sprite>();
     protected override void OnAwake()
     {
@@ -50,8 +53,10 @@ public class MapleStory : SingletonMono<MapleStory>
 			tileSprites.Add (sprite.name, sprite);
 		}
 
+		fGUI_StateLogin = (FGUI_StateLogin)panel_StateLogin.ui;
+        fGUI_StateLogin.StartCheck();
 #if UNITY_EDITOR
-		/*CopyStreamingAssetToPersistent.CopyResourcesFile ("WZ/", "Map", ".wz");
+        /*CopyStreamingAssetToPersistent.CopyResourcesFile ("WZ/", "Map", ".wz");
 		CopyStreamingAssetToPersistent.CopyResourcesFile ("WZ/", "Sound", ".wz");
 		CopyStreamingAssetToPersistent.CopyResourcesFile ("WZ/", "UI_New", ".wz");
 
@@ -81,16 +86,16 @@ public class MapleStory : SingletonMono<MapleStory>
 
 		
 #endif
-		//Debug.Log ($"{System.DateTime.Now.ToString("yyyyMMddHH")}");
-		//System.DateTime.Parse ("2009010100");
-		//Debug.Log (System.DateTime.Parse ("2009010100"));
+        //Debug.Log ($"{System.DateTime.Now.ToString("yyyyMMddHH")}");
+        //System.DateTime.Parse ("2009010100");
+        //Debug.Log (System.DateTime.Parse ("2009010100"));
 
-		/*var str = $"abc\r\ndef\ngh";
+        /*var str = $"abc\r\ndef\ngh";
 		var replaceStr = str.Replace ("\r\n", "\n").Replace ("\n", "\r\n");
 		// replaceStr = replaceStr.Replace ("\n", "\r\n");
 		Debug.Log (replaceStr);
 		Debug.Log (@replaceStr);*/
-	}
+    }
 
 	int memoryUsage = 0;
     private void Application_memoryUsageChanged(in ApplicationMemoryUsageChange usage)

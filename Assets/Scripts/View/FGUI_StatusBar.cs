@@ -177,8 +177,8 @@ namespace ms_Unity
 		{
 			base.OnUpdate ();
 
-			_Txt_Level.text = uIStatusBar.stats.get_stat (MapleStat.Id.LEVEL).ToString ();
-			_Txt_Name.text = uIStatusBar.stats.get_name ();
+			_Txt_Level.SetVar("count", uIStatusBar.stats.get_stat(MapleStat.Id.LEVEL).ToString()).FlushVars();
+			_Txt_Name.text =  uIStatusBar.stats.get_name ();
 			_Txt_EXP.SetVar ("persent", (uIStatusBar.getexppercent ()*100).ToString()).FlushVars ();
 
 /*			_ProgressBar_HP.value = uIStatusBar.gethppercent ();

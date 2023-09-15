@@ -86,16 +86,19 @@ namespace ms_Unity
 
 		private void Start ()
 		{
-			//OpenFGUI<FGUI_Inventory> ();
+            //OpenFGUI<FGUI_Inventory> ();
 
-			/*var window = (GComponent)UIPackage.CreateObject (packageName, "InventoryListItemView");
+            /*var window = (GComponent)UIPackage.CreateObject (packageName, "InventoryListItemView");
 			GRoot.inst.AddChild (window);*/
 
-			/*fgui_StateLogin = FGUI_StateLogin.CreateInstance ();
+            /*fgui_StateLogin = FGUI_StateLogin.CreateInstance ();
 			fgui_StateGame = FGUI_StateGame.CreateInstance ();
 			fgui_StateShop = FGUI_StateGame.CreateInstance ();*/
 
-			
+            message_Popup = (GButton)UIPackage.CreateObject("ms_Unity", "Button_EditableMenuAtlas_60");
+			/*GRoot.inst.AddChild(message_Popup);
+			message_Popup.Center();*/
+
             UnityEngine.Application.logMessageReceived += ApplicationOnlogMessageReceived;
         }
 
@@ -270,6 +273,7 @@ namespace ms_Unity
 		public FGUI_StateLogin fgui_StateLogin;
 		public FGUI_StateGame fgui_StateGame;
 		public FGUI_StateGame fgui_StateShop;
+		public GButton message_Popup;
 
 		public GComponent Current_FGUI_State;
 
@@ -346,7 +350,13 @@ namespace ms_Unity
             }*/
         }
 
+		public void ShowPopupMessage(string message)
+		{
+            message_Popup.text = message;
+			GRoot.inst.ShowPopup(message_Popup);
+            message_Popup.Center();
 
+        }
         /*public void ShowNotice (string message, NoticeType t, Text.Alignment a = Text.Alignment.CENTER, int max = 0, int count = 0, System.Action<int> numhandler = null, System.Action<bool> yesnohandler = null)
                                 {
                                     var nocice = OpenFGUI<FGUI_Notice> () as FGUI_Notice;
