@@ -117,7 +117,9 @@ namespace ms
 					}
 				}
 				file.Close ();
-			}
+                file.Dispose();
+
+            }
 			catch (Exception ex)
             {
 				AppDebug.Log($"load config error:{ex.Message}");
@@ -159,9 +161,12 @@ namespace ms
 					{
 						writer.WriteLine ($"{setting.Value.name} = {setting.Value.value}");
 					}
-				}
+					writer.Close();
+					writer.Dispose();
+                }
 				config.Close ();
-			}
+				config.Dispose();
+            }
 		}
 
 		// Get private member SHOW_FPS

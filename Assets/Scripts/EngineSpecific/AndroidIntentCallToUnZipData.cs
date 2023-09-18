@@ -285,7 +285,7 @@ public class AndroidIntentCallToUnZipData : SingletonMono<AndroidIntentCallToUnZ
 	bool copyComplete;
 	bool clicked;
 
-	private void OnGUI ()
+	/*private void OnGUI ()
 	{
 		if (isWzFileCopy)
 		{
@@ -307,7 +307,7 @@ public class AndroidIntentCallToUnZipData : SingletonMono<AndroidIntentCallToUnZ
 			{
 			
 			}
-			/*if (unzipFinished)
+			*//*if (unzipFinished)
 			{
 				GUILayout.Label ("数据解压完成, 请点击开始游戏按钮");
 			}*/
@@ -318,12 +318,12 @@ public class AndroidIntentCallToUnZipData : SingletonMono<AndroidIntentCallToUnZ
 		            {
 						EvalJs();
 		            }
-		        }*/
+		        }*//*
         
 
 			GUILayout.EndVertical ();
 		}
-	}
+	}*/
 
     //JsEnv jsEnv;
 
@@ -458,7 +458,7 @@ public class AndroidIntentCallToUnZipData : SingletonMono<AndroidIntentCallToUnZ
 		}
 
 		copyComplete = true;
-		message = "数据解压完成，请点击开始按钮进行游戏";
+		//message = "数据解压完成，请点击开始按钮进行游戏";
 		
 	}
     public List<string> wzFiles = new List<string> ()
