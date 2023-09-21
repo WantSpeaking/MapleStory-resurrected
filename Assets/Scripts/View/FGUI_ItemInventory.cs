@@ -105,7 +105,8 @@ namespace ms_Unity
 
 		public FGUI_ItemInventory OnCreate ()
 		{
-			_GLoader_Player.texture = new NTexture (FGUI_Manager.Instance.playerRenderTexture);
+            GameUtil.Instance.stopwatch.Restart();
+            _GLoader_Player.texture = new NTexture (FGUI_Manager.Instance.playerRenderTexture);
 
 			_GList_Equip.onClickItem.Add (OnClick_ItemEquip);
 			_GList_Use.onClickItem.Add (OnClick_ItemUse);
@@ -201,8 +202,9 @@ namespace ms_Unity
 			_Btn_Meso.onClick.Add (OnClick_Btn_Meso);
 
 			_SetupUseButtons._GList_UseBtns.onClickItem.Add (OnClick_UseSlot);
-
-			return this;
+            GameUtil.Instance.stopwatch.Stop();
+            AppDebug.Log($"FGUI_ItemInventory time:{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
+            return this;
 		}
 
 		private void OnClick_UseSlot (EventContext context)

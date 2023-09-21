@@ -12,8 +12,10 @@ namespace ms
 {
 	public class Reactor : MapObject
 	{
+		private Point_short _p;
 		public Reactor (int o, int r, sbyte s, Point_short p) : base (o, p)
 		{
+			_p = p;
 			this.rid = r;
 			this.state = s;
 			string strid = string_format.extend_id (rid, 7);
@@ -37,7 +39,9 @@ namespace ms
             }
 
 			normal = src_0;
-			animation_ended = true;
+            animations[s] = normal;
+
+            animation_ended = true;
 			dead = false;
 			hittable = false;
 
@@ -57,8 +61,11 @@ namespace ms
 		{
 			Point_short absp = phobj.get_absolute (viewx, viewy, alpha);
 			Point_short shift = new Point_short (0, normal.get_origin ().y ());
-			var drawArgum = new DrawArgument (absp - shift).SetParent (MapGameObject);
-			if (animation_ended)
+			//var drawArgum = new DrawArgument (absp - shift).SetParent (MapGameObject);
+			//AppDebug.Log($"reactor pos:{phobj.get_position()}");
+            var drawArgum = new DrawArgument((short)(_p.x()+ viewx), (short)(_p.y()+ viewy)).SetParent(MapGameObject);
+
+			/*if (animation_ended)
 			{
 				// TODO: Handle 'default' animations (horntail reactor floating)
 				normal.draw (drawArgum, alpha);
@@ -67,8 +74,12 @@ namespace ms
 			{
 				//animations[(sbyte)(state - 1)].draw (drawArgum, 1.0F);
                 animations[(sbyte)(state)].draw(drawArgum, 1.0F);
+            }*/
+			if (animations.ContainsKey(state))
+			{
+                animations[(sbyte)(state)]?.draw(drawArgum, 1.0F);
             }
-		}
+        }
 
 		public override sbyte update (Physics physics)
 		{
@@ -95,9 +106,18 @@ namespace ms
             // TODO: hit/break sounds
             if (hittable)
 			{
-                //animations[this.state] = src[this.state.ToString()]["hit"];
-                animations[state] = src[state.ToString ()]["hit"];
-				animation_ended = false;
+				//animations[this.state] = src[this.state.ToString()]["hit"];
+				var hitNode = src[state.ToString()]["hit"];
+                if (hitNode == null)
+				{
+                    animations[state] = src[state.ToString()];
+                }
+                else
+				{
+                    animations[state] = src[state.ToString()]["hit"];
+
+                }
+                animation_ended = false;
 			}
 
 			this.state = state;

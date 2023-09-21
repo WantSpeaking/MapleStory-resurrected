@@ -1588,7 +1588,7 @@ MonoBehaviour:
   TestMode: 0
   TestAccount: admin2
   TestPassword: admin2
-  Version: 82
+  Version: 83
   drawMap: 1
   enableUpdate: 1
   mainCamera: {fileID: 1326867178}

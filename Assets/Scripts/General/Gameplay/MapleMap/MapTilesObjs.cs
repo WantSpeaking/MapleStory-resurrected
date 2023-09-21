@@ -122,7 +122,7 @@ namespace ms
         GameObject gobj_Obj;
         string o_assetPath = "";
         string t_assetPath = "";
-        public MapTilesObjs(int mapid)
+        public MapTilesObjs(WzObject node_100000000img,int mapid)
         {
 
             /*gobj_Obj = UnityEngine.Object.Instantiate<GameObject>(Resources.Load<GameObject>($"Prefabs/Obj/Map_{mapId}_Obj"));
@@ -137,9 +137,24 @@ namespace ms
             t_assetPath = $"Prefabs/Tile/Map{prefix}_Tile";
             var o_asset= AssetBundleLoaderMgr.Instance.LoadAsset<GameObject>(o_assetPath, $"Map{prefix}_Obj.{strid}");
             var t_asset = AssetBundleLoaderMgr.Instance.LoadAsset<GameObject>(t_assetPath, $"Map{prefix}_Tile.{strid}");
-            gobj_Obj = UnityEngine.Object.Instantiate<GameObject>(o_asset);
-            gobj_Tile = UnityEngine.Object.Instantiate<GameObject>(t_asset);
+            if(o_asset!=null)
+                gobj_Obj = UnityEngine.Object.Instantiate<GameObject>(o_asset);
+            if (t_asset != null)
+                gobj_Tile = UnityEngine.Object.Instantiate<GameObject>(t_asset);
 
+
+            /*if (node_100000000img != null)
+            {
+                for (int i = 0; i <= 7; i++)
+                {
+                    if (node_100000000img[i.ToString()] is WzImageProperty node)//node:100000000.img/0
+                    {
+                        //LoadLayer(node, i);
+                        var tileObj = new TilesObjs(node, i);
+                        layers[(Layer.Id)i] = tileObj;
+                    }
+                }
+            }*/
         }
         public MapTilesObjs(WzObject node_100000000img)
         {

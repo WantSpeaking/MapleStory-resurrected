@@ -245,10 +245,10 @@ namespace ms
 						frames.Add (new Frame (sub, layerMaskName,sortingLayerName));//KualaLumpur_MY.img/Adventure Rides/adventure/3/3空格，名字中含有空格，转换过来的没有空格，导致读取不到
                     }
 
-					/*if (frames.Count == 0)
+					if (frames.Count == 0)
 					{
-						frames.Add (new Frame ());
-					}*/
+						frames.Add(new Frame());
+					}
 				}
 			}
 

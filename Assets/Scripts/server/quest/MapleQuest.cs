@@ -8,6 +8,7 @@ using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using ms;
 using provider;
+using SD.Tools.Algorithmia.GeneralDataStructures;
 using server.quest.actions;
 using server.quest.requirements;
 using static client.MapleQuestStatus;
@@ -17,6 +18,7 @@ namespace server.quest
 	public class MapleQuest
 	{
 		private static IDictionary<int, MapleQuest> quests = new Dictionary<int, MapleQuest> ();
+		private static MultiValueDictionary<int, MapleQuest> quests_byNpc = new MultiValueDictionary<int, MapleQuest>();
 		private static IDictionary<int, int> infoNumberQuests = new Dictionary<int, int> ();
 		private static IDictionary<short, int> medals = new Dictionary<short, int> ();
 
@@ -486,8 +488,10 @@ namespace server.quest
 
 					MapleQuest q = new MapleQuest (questID);
 					quests[questID] = q;
+                    //quests_byNpc.Add (questID, q);
 
-					int infoNumber;
+
+                    int infoNumber;
 
 					infoNumber = q.getInfoNumber (MapleQuestStatus.Status.STARTED);
 					if (infoNumber > 0)
@@ -865,7 +869,8 @@ namespace server.quest
 		{
 			return quests;
 		}
+        public static MultiValueDictionary<int, MapleQuest> getQuests_byNpc() => quests_byNpc;
 
-	}
+    }
 
 }

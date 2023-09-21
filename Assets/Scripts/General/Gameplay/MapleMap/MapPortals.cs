@@ -86,7 +86,8 @@ namespace ms
             string prefix = Convert.ToString(mapid / 100000000);
 			p_assetPath = $"Prefabs/Portal/Map{prefix}_Portal";
             var p_asset = AssetBundleLoaderMgr.Instance.LoadAsset<GameObject>(p_assetPath, $"Map{prefix}_Portal.{strid}");
-            gobj_Portal = UnityEngine.Object.Instantiate<GameObject>(p_asset);
+            if (p_asset != null)
+                gobj_Portal = UnityEngine.Object.Instantiate<GameObject>(p_asset);
         }
 
 		public MapPortals ()

@@ -45,9 +45,9 @@ namespace ms
 			emplace (Opcode.KILL_MOB, new KillMobHandler ());
 			emplace (Opcode.DROP_LOOT, new DropLootHandler ());
 			emplace (Opcode.REMOVE_LOOT, new RemoveLootHandler ());
-			emplace (Opcode.HIT_REACTOR, new HitReactorHandler ());
-			emplace (Opcode.SPAWN_REACTOR, new SpawnReactorHandler ());
-			emplace (Opcode.REMOVE_REACTOR, new RemoveReactorHandler ());
+			emplace (Opcode.REACTOR_HIT, new HitReactorHandler ());
+			emplace (Opcode.REACTOR_SPAWN, new SpawnReactorHandler ());
+			emplace (Opcode.REACTOR_DESTROY, new RemoveReactorHandler ());
 
 			// Attack handlers
 			emplace (Opcode.ATTACKED_CLOSE, new CloseAttackHandler ());
@@ -343,9 +343,9 @@ namespace ms
 		SPAWN_NPC_C = 259,
 		DROP_LOOT = 268,
 		REMOVE_LOOT = 269,
-		HIT_REACTOR = 277,
-		SPAWN_REACTOR = 279,
-		REMOVE_REACTOR = 280,
+		REACTOR_HIT = 277,
+		REACTOR_SPAWN = 279,
+		REACTOR_DESTROY = 280,
 
 		/// NPC Interaction
 		NPC_TALK = 304,

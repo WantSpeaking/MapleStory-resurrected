@@ -84,7 +84,7 @@ namespace ms
 			this.oid = o;
 			this.rid = r;
 			this.state = s;
-			this.position = new ms.Point_short(p);
+			this.position = p;
 		}
 
 		public int get_oid()
@@ -93,16 +93,15 @@ namespace ms
 		}
 		public MapObject instantiate(Physics physics)
 		{
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: var spawnposition = physics.get_y_below(position);
-			var spawnposition = physics.get_y_below(new ms.Point_short(position));
-			return new Reactor(oid, rid, state, spawnposition);
+			//var spawnposition = physics.get_y_below(position);
+			var spawnposition = position;
+            return new Reactor(oid, rid, state, spawnposition);
 		}
 
 		private int oid;
 		private int rid;
 		private sbyte state;
-		private Point_short position = new Point_short();
+		private Point_short position;
 	}
 
 	public class DropSpawn

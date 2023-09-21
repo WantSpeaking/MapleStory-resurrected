@@ -219,8 +219,11 @@ namespace ms
 
 			LoginParser.parse_login (recv);
 
-			int cid = recv.read_int ();
-			new PlayerLoginPacket (cid).dispatch ();
+            int cid = recv.read_int();
+            TimerManager.Instance.register(() => {
+                new PlayerLoginPacket(cid).dispatch();
+            }, 3);
+			
 		}
 	}
 

@@ -147,7 +147,7 @@ namespace ms
 			}
 
 //id、info用自己的，其他用link
-            tilesobjs = new MapTilesObjs(mapid);
+            tilesobjs = new MapTilesObjs(node_100000000img,mapid);
 
             portals = new MapPortals(node_100000000img["portal"], mapid);
 

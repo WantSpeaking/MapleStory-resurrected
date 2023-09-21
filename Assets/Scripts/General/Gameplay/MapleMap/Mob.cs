@@ -146,9 +146,12 @@ namespace ms
 				mobAttacks.Add (mobAttack);
 				i++;
 			}
-		}
 
-		private int lastDraw_Stance = -1;
+            AppDebug.Log($"SpawnMob{(mode!=0?"C":"")} name:{name} oid:{oid}\t id:{id}\t stance:{stance}\t fh:{fh}\t position:{position}");
+
+        }
+
+        private int lastDraw_Stance = -1;
 
 		private Animation mobAttackAni;
 		public void Set_MobAttackAni(Animation ani)

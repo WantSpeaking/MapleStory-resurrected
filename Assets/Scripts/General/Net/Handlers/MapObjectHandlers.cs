@@ -249,7 +249,6 @@ namespace ms
 
 			recv.skip (4);
 
-			//AppDebug.Log ($"SpawnMobHandler oid:{oid}\t id:{id}\t stance:{stance}\t fh:{fh}\t position:{position}");
 			Stage.get ().get_mobs ().spawn (new MobSpawn (oid, id, 0, stance, fh, effect == -2, team, position));
 		}
 	}
@@ -314,8 +313,8 @@ namespace ms
 					sbyte team = recv.read_byte ();
 
 					recv.skip (4);// getItemEffect
-
-					Stage.get ().get_mobs ().spawn (new MobSpawn (oid, id, mode, stance, fh, effect == -2, team, position));
+                    //AppDebug.Log($"SpawnMobC oid:{oid}\t id:{id}\t stance:{stance}\t fh:{fh}\t position:{position}");
+                    Stage.get ().get_mobs ().spawn (new MobSpawn (oid, id, mode, stance, fh, effect == -2, team, position));
 				}
 				else
 				{

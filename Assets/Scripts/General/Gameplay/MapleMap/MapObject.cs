@@ -11,7 +11,7 @@ namespace ms
 		protected MapObject(int o, Point_short p )
 		{
 			this.oid = o;
-			set_position (new Point_short (p));
+			set_position (p);
 			active = true;
 			MapGameObject = new GameObject ($"{GetType().Name}_{oid}");
 			//MapGameObject.AddComponent(GetType ());

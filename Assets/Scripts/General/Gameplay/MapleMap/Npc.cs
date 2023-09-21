@@ -110,7 +110,7 @@ namespace ms
 
 			UpdateQuest ();
 		}
-
+		
 		private string lastDraw_Stance = string.Empty;
 
 		// Draws the current animation and name/function tags

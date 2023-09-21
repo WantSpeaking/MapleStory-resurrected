@@ -19,9 +19,9 @@ namespace ms_Unity
         public GButton _Btn_OpenInventoryPanel;
         public GGroup _TopRight;
         public GGroup _Left;
-        public GButton _Btn_OpenFunctionPanel1;
-        public GButton _Btn_OpenInventoryPanel1;
         public GButton _BT_MENU;
+        public GButton _Btn_OpenInventoryPanel_2;
+        public GButton _Btn_CloseFunctionPanel;
         public GButton _BT_CASHSHOP;
         public GButton _BT_CHARACTER_SKILL;
         public GButton _BT_SETTING_CHANNEL;
@@ -72,9 +72,9 @@ namespace ms_Unity
             _Btn_OpenInventoryPanel = (GButton)GetChildAt(12);
             _TopRight = (GGroup)GetChildAt(13);
             _Left = (GGroup)GetChildAt(15);
-            _Btn_OpenFunctionPanel1 = (GButton)GetChildAt(18);
-            _Btn_OpenInventoryPanel1 = (GButton)GetChildAt(19);
-            _BT_MENU = (GButton)GetChildAt(20);
+            _BT_MENU = (GButton)GetChildAt(17);
+            _Btn_OpenInventoryPanel_2 = (GButton)GetChildAt(18);
+            _Btn_CloseFunctionPanel = (GButton)GetChildAt(20);
             _BT_CASHSHOP = (GButton)GetChildAt(21);
             _BT_CHARACTER_SKILL = (GButton)GetChildAt(22);
             _BT_SETTING_CHANNEL = (GButton)GetChildAt(24);

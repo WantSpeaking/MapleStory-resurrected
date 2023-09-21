@@ -134,8 +134,9 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 	/// <param name="port">端口号</param>
 	public bool Connect (string ip, int port)
 	{
-		//如果socket已经存在 并且处于连接中状态 则直接返回
-		if (m_Client != null && m_Client.Connected) return true;
+        Debug.Log($"Connect: ip:{ip} port:{port} {m_Client?.GetHashCode()}");
+        //如果socket已经存在 并且处于连接中状态 则直接返回
+        if (m_Client != null && m_Client.Connected) return true;
 
 		m_Client = new Socket (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -145,7 +146,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 			m_CheckSendQuene = OnCheckSendQueueCallBack;
 
             //ReceiveMsg ();
-			Debug.Log ($"开始连接: ip:{ip} port:{port}");
+			Debug.Log ($"开始连接: ip:{ip} port:{port} {m_Client?.GetHashCode()} connect?:{m_Client.Connected}");
 			if (OnConnectOK != null)
 			{
 				OnConnectOK ();
@@ -179,7 +180,8 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 			m_Client.Shutdown (SocketShutdown.Both);
 			//m_Client.Disconnect(false);
 			m_Client.Close ();
-		}
+            Debug.Log($"DisConnect {m_Client?.GetHashCode()}");
+        }
 	}
 
 	#region OnCheckSendQueueCallBack 检查队列的委托回调
@@ -331,8 +333,8 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 		{
             /*if (m_Client.Available <= 0) return; 
 			if (m_Client == null) return;*/
-            if (m_Client != null && m_Client.Connected)
-            //    if (m_Client != null)
+            //if (m_Client != null && m_Client.Connected)
+                if (m_Client != null)
 			{
                 int len = m_Client.EndReceive(ar);
                 if (len > 0)
@@ -475,7 +477,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 				{
                     m_ReceiveQueue.Clear();
                 }*/
-                Debug.LogWarning($"Disconnected! m_Client != null:{m_Client != null}\t m_Client.Connected:{m_Client.Connected} ");
+                Debug.LogWarning($"Disconnected! {m_Client?.GetHashCode()} m_Client != null:{m_Client != null}\t m_Client.Connected:{m_Client.Connected} ");
                 OnReceiveCallBackException?.Invoke ();
             }
 			

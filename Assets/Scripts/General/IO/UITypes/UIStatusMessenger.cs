@@ -15,6 +15,7 @@ namespace ms
 
 		public void draw(Point_short position, float alpha)
 		{
+			if (end) return;
 			float interopc = opacity.get(alpha);
 
 			shadow.draw(new DrawArgument(position + new Point_short(1, 1), interopc));
@@ -25,9 +26,11 @@ namespace ms
 			const float FADE_STEP = Constants.TIMESTEP * 1.0f / FADE_DURATION;
 			opacity -= FADE_STEP;
 
-			return opacity.last() < FADE_STEP;
-		}
+			end = opacity.last() < FADE_STEP;
 
+            return end;
+		}
+		private bool end;
 		private Text text = new Text();
 		private Text shadow = new Text();
 		private Linear_float opacity = new Linear_float();
