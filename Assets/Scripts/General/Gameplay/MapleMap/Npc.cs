@@ -283,7 +283,7 @@ namespace ms
 				//var sayInfo = sayLog.GetSayInfo (questId);
 
 				//var checkInfo = checkLog.GetCheckInfo (questId);
-				if (qs.Value.getStartReqNpc () == npcid)
+				if (qs.Value.getStartReqNpc () == npcid && MapleCharacter.Player.getQuest(questId).status == MapleQuestStatus.Status.NOT_STARTED)
 				{
 					canStarted_Quests.Add (questId, MapleQuest.getInstance (qs.Value.Id));
 				}
@@ -296,7 +296,7 @@ namespace ms
 
 				var questNpcId = qs.Npc;
 				//var questNpcId = checkInfo.checkStages.TryGet (1).npc != 0 ? checkInfo.checkStages.TryGet (1).npc : checkInfo.checkStages.TryGet (0).npc;
-				if (qs.StartReqNpc == npcid || qs.CompleteReqNpc == npcid)
+				if ((qs.StartReqNpc == npcid || qs.CompleteReqNpc == npcid)&& MapleCharacter.Player.getQuest(questId).status == MapleQuestStatus.Status.STARTED)
 				{
 					started_Quests.Add (questId, MapleQuest.getInstance (qs.QuestID));
 				}

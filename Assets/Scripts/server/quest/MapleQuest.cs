@@ -7,6 +7,7 @@ using config;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using ms;
+using ms.Util;
 using provider;
 using SD.Tools.Algorithmia.GeneralDataStructures;
 using server.quest.actions;
@@ -79,17 +80,17 @@ namespace server.quest
 					{
 						medals[this.Id] = medalid;
 					}
-
-					this.Info_started = reqInfo["0"]?.ToString ();
-					this.Info_in_progress = reqInfo["1"]?.ToString ();
-					this.Info_completed = reqInfo["2"]?.ToString ();
+					
+					this.Info_started = NpcTextParser.inst.Parse(reqInfo["0"]?.ToString());
+					this.Info_in_progress = NpcTextParser.inst.Parse(reqInfo["1"]?.ToString());
+					this.Info_completed = NpcTextParser.inst.Parse(reqInfo["2"]?.ToString());
 					this.Area = reqInfo["area"];
 					this.Order = reqInfo["order"];
 
 					this.oneShot = reqInfo["oneShot"];
-					this.Summary = reqInfo["summary"]?.ToString ();
-					this.DemandSummary = reqInfo["demandSummary"]?.ToString ();
-					this.RewardSummary = reqInfo["rewardSummary"]?.ToString ();
+					this.Summary = NpcTextParser.inst.Parse(reqInfo["summary"]?.ToString ());
+					this.DemandSummary = NpcTextParser.inst.Parse(reqInfo["demandSummary"]?.ToString ());
+					this.RewardSummary = NpcTextParser.inst.Parse(reqInfo["rewardSummary"]?.ToString ());
 					this.medalCategory = reqInfo["medalCategory"];
 					this.viewMedalItem = reqInfo["viewMedalItem"];
 					this.timerUI = reqInfo["timerUI"]?.ToString ();

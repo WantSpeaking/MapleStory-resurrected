@@ -136,8 +136,8 @@ namespace ms
 					qs.CompletionTime = long.Parse (progressData.ToString ());
 				}
 
-                GameUtil.Instance.StartCoroutine(ms.Stage.get().UpdateQuest());
-                //ms.Stage.get ().UpdateQuest ();
+                //GameUtil.Instance.StartCoroutine(ms.Stage.get().UpdateQuest());
+                ms.Stage.get ().UpdateQuest_NoRefreshCanStartQuest ();
 			}
 			else if (mode == 3)
 			{

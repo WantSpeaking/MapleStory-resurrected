@@ -425,6 +425,7 @@ namespace ms_Unity
 		{
 			AppDebug.Log ($"Choosed Quest {mapleQuest.Id}\t {mapleQuest.Name} stageIndex:{stageIndex}");
             currentQuestId = mapleQuest.Id;
+			currentNpcId = npcId;
 
             var sayStage = mapleQuest.GetSayStage(stageIndex);
 			if (sayStage != null)
@@ -449,7 +450,16 @@ namespace ms_Unity
                 {
                     if (stageIndex == 0)//can start
                     {
-                        ShowIntroducePage();
+						if (currentSayStage.introducePages.Count == 0)//没有介绍对话页 就直接接受任务
+						{
+                            new StartQuestPacket(currentQuestId, currentNpcId).dispatch();
+                            AppDebug.Log($"StartQuest ID:{currentQuestId}, NpcId:{currentNpcId}");
+                            UI.get().get_element<UINpcTalk>().get()?.deactivate();
+                        }
+						else
+						{
+                            ShowIntroducePage();
+                        }
                     }
                     else if (stageIndex == 1)//in progress
                     {

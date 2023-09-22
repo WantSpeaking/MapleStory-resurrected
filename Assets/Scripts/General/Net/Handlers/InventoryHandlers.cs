@@ -208,6 +208,8 @@ namespace ms
 			UI.get ().enable ();
 
             GameUtil.Instance.stopwatch.Stop();
+
+			Stage.get().UpdateQuest_NoRefreshCanStartQuest();
             //AppDebug.Log($"ModifyInventory 2 time：{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
         }
 	}

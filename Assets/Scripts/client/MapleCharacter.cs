@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -114,7 +115,7 @@ namespace client
 			var ret = new List<MapleQuestStatus> ();
 			foreach (MapleQuestStatus qs in quests.Values)
 			{
-				if (qs.getStatus ().Equals (MapleQuestStatus.Status.STARTED) && MapleQuest.getInstance(qs.QuestID)!= null)
+				if (qs.getStatus ().Equals (MapleQuestStatus.Status.STARTED) && MapleQuest.getInstance(qs.QuestID)!= null && !exclude_startQuest.Contains(qs.QuestID))
 				{
 					ret.Add (qs);
 				}
@@ -227,7 +228,7 @@ namespace client
 
         private readonly SortedDictionary<short, MapleQuest> canStart_Quest = new SortedDictionary<short, MapleQuest> ();
 		public ReadOnlyDictionary<short, MapleQuest> CanStartQuests;
-
+		private List<int> exclude_startQuest = new List<int> {29005,29007};
 		public IEnumerator RefreshCanStart_Quest (bool forceGet = false)
 		{
 			canStart_Quest.Clear ();
@@ -237,6 +238,7 @@ namespace client
 				var quest = id_quest_pair.Value;
 				if (id_quest_pair.Value.canStart (Player, quest.getStartReqNpc ()))
 				{
+					//AppDebug.Log($"{questId}");
 					canStart_Quest.Add ((short)questId, quest);
 					yield return null;
 				}

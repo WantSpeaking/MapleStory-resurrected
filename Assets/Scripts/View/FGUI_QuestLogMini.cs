@@ -60,13 +60,19 @@ namespace ms_Unity
             {
                 //stringBuilder.AppendLine("");
                 var i = 0;
-
+                var k = 0;
+                var c = mobs.Count;
                 foreach (var mobId_Count_Pair in mobs)
                 {
+                    k++;
                     int.TryParse(progresses.TryGet(i), out var progress);
 
-                    stringBuilder.Append($"已狩猎{Mob.get_name(mobId_Count_Pair.Key)}{progress}只，需{mobId_Count_Pair.Value}只");
+                    stringBuilder.AppendLine($"狩猎 {Mob.get_name(mobId_Count_Pair.Key)} ({progress}/{mobId_Count_Pair.Value})");
                     i++;
+                    if (k < c)
+                    {
+                        stringBuilder.AppendLine("");
+                    }
                 }
 
             }
@@ -75,13 +81,20 @@ namespace ms_Unity
             if (items != null)
             {
                 //stringBuilder.AppendLine("");
-
+                var k = 0;
+                var c = items.Count;
                 foreach (var itemId_Count_Pair in items)
                 {
+                    k++;
+                    
                     var itemId = itemId_Count_Pair.Key;
                     var itemCount = itemId_Count_Pair.Value;
 
-                    stringBuilder.Append($"已有{ItemData.get(itemId).get_name()}{ms.Stage.get().get_player().get_inventory().get_total_item_count(itemId)}个，需{itemCount}个");
+                    stringBuilder.Append($"获取 {ItemData.get(itemId).get_name()} ({ms.Stage.get().get_player().get_inventory().get_total_item_count(itemId)}/{itemCount})");
+                    if (k < c)
+                    {
+                        stringBuilder.AppendLine("");
+                    }
                 }
 
             }
@@ -104,6 +117,12 @@ namespace ms_Unity
         public void UpdateQuest()
         {
             _GList_QuestInfo_in_progress.numItems = MapleCharacter.Player.getStartedQuests().Count;
+            _GList_QuestInfo_in_progress.ResizeToFit(3);
+
+            /*foreach (var item in _GList_QuestInfo_in_progress.GetChildren())
+            {
+                AppDebug.Log(item.position);
+            }*/
         }
 
         public void OnPartyDataChanged(List<MaplePartyCharacter> partyMemberArray, int leaderId)
@@ -116,6 +135,7 @@ namespace ms_Unity
             _GList_Party.numItems = partyMembers.Count;
 
             _c_PartyStatus.selectedIndex = PartyLeaderId != 0 ? 1 : 0;
+           
         }
 
         private List<MaplePartyCharacter> partyMembers = new List<MaplePartyCharacter>();

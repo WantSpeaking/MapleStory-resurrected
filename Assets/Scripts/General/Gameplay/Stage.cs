@@ -536,13 +536,15 @@ namespace ms
             yield return MapleCharacter.Player.RefreshCanStart_Quest(true);
             //MapleCharacter.Player.LogAllQuest();
 
-            ms.Stage.get ().get_npcs ().UpdateQuest ();
-
-			ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_QuestLog> ().UpdateQuest ();
-            ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_StatusBar>()._QuestLogMini.UpdateQuest();
-
+			UpdateQuest_NoRefreshCanStartQuest();
         }
+		public void UpdateQuest_NoRefreshCanStartQuest()
+		{
+            ms.Stage.get().get_npcs().UpdateQuest();
 
+            ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_QuestLog>().UpdateQuest();
+            ms_Unity.FGUI_Manager.Instance.GetFGUI<ms_Unity.FGUI_StatusBar>()._QuestLogMini.UpdateQuest();
+        }
         public Physics get_Physics ()
 		{
 			return physics;
