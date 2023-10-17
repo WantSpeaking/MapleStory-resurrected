@@ -44,6 +44,7 @@ namespace client
 
 		public MapleQuestStatus getQuest (MapleQuest quest)
 		{
+			if (quest == null) return null;
 			short questid = quest.Id;
 			MapleQuestStatus qs = quests.TryGetValue (questid);
 			if (qs == null)

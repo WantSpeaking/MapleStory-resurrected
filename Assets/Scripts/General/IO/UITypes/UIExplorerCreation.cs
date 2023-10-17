@@ -30,16 +30,16 @@ namespace ms
 			string version_text = Configuration.get().get_version();
 			version = new Text(Text.Font.A11B, Text.Alignment.LEFT, Color.Name.LEMONGRASS, "Ver. " + version_text);
 
-			WzObject Login = ms.wz.wzFile_ui["Login.img"];
-			WzObject Common = Login["Common"];
+			var Login = ms.wz.wzFile_ui["Login.img"];
+			var Common = Login["Common"];
 			//WzObject CustomizeChar = Login["CustomizeChar"]["000"];
-			WzObject NewChar = Login["NewChar"];
+			var NewChar = Login["NewChar"];
 
-			WzObject back = ms.wz.wzFile_map["Back"]["login.img"]["back"];
+			var back = ms.wz.wzProvider_map["Back"]["login.img"]["back"];
 			//WzObject signboard = ms.wz.wzFile_map["Obj"]["login.img"]["NewChar"]["signboard"];
 			//WzObject board = NewChar["board"];
 			//WzObject genderSelect = NewChar["genderSelect"];
-			WzObject frame = ms.wz.wzFile_map["Obj"]["login.img"]["Common"]["frame"]["0"]["0"];
+			var frame = ms.wz.wzProvider_map["Obj"]["login.img"]["Common"]["frame"]["0"]["0"];
 
 			sky = back["2"];
 			cloud = back["27"];

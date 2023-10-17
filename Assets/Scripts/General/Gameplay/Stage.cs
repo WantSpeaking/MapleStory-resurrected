@@ -126,7 +126,7 @@ namespace ms
             ClearMap();
 			combat.clear();
         }
-        private static readonly MapleDataProvider mapDataProvider = MapleDataProviderFactory.getDataProvider("/Map.wz");
+
         public void load_map (int mapid)
 		{
             state = State.ACTIVE;
@@ -135,35 +135,35 @@ namespace ms
 			
 			string strid = string_format.extend_id (mapid, 9);
 			string prefix = Convert.ToString (mapid / 100000000);
-			WzObject node_100000000img = ((mapid == -1) ? wz.wzFile_ui["CashShopPreview.img"] : wz.wzFile_map["Map"]["Map" + prefix][strid + ".img"]);
+			//WzObject node_100000000img = ((mapid == -1) ? wz.wzFile_ui["CashShopPreview.img"] : wz.wzFile_map["Map"]["Map" + prefix][strid + ".img"]);
 
-			var data_100000000img = mapDataProvider.getData($"Map/Map{prefix}/{strid}.img");
+			var data_100000000img = wz.wzProvider_map[$"Map/Map{prefix}/{strid}.img"];
             if (data_100000000img["info"]?["link"] != null)
             {
                 string linkMapIdStr = data_100000000img["info"]["link"];
                 int.TryParse(linkMapIdStr, out var linkMapId);
                 strid = string_format.extend_id(linkMapId, 9);
                 prefix = Convert.ToString(linkMapId / 100000000);
-                data_100000000img = mapDataProvider.getData($"Map/Map{prefix}/{strid}.img");
+                data_100000000img = wz.wzProvider_map[$"Map/Map{prefix}/{strid}.img"];
             }
 
-            if (node_100000000img["info"]?["link"] != null)
+            /*if (node_100000000img["info"]?["link"] != null)
 			{
                 string linkMapIdStr = node_100000000img["info"]["link"].ToString ();
 				int.TryParse (linkMapIdStr, out var linkMapId);
 				strid = string_format.extend_id (linkMapId, 9);
 				prefix = Convert.ToString (linkMapId / 100000000);
 				node_100000000img = wz.wzFile_map["Map"]["Map" + prefix][strid + ".img"];
-			}
+			}*/
 
 //id、info用自己的，其他用link
-            tilesobjs = new MapTilesObjs(node_100000000img,mapid);
+            tilesobjs = new MapTilesObjs(data_100000000img, mapid);
 
-            portals = new MapPortals(node_100000000img["portal"], mapid);
+            portals = new MapPortals(data_100000000img["portal"], mapid);
 
             backgrounds = new MapBackgrounds (data_100000000img["back"], mapid);
-			physics = new Physics (node_100000000img["foothold"]);
-            mapinfo = new MapInfo(node_100000000img, physics.get_fht().get_walls(), physics.get_fht().get_borders());
+			physics = new Physics (data_100000000img["foothold"]);
+            mapinfo = new MapInfo(data_100000000img, physics.get_fht().get_walls(), physics.get_fht().get_borders());
 
             UI.get ().get_element<UIStatusMessenger> ().get ()?.show_status (Color.Name.WHITE,$"进入地图：{this.mapid}");
 

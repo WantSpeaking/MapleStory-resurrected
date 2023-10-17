@@ -1,20 +1,18 @@
 ﻿#define USE_NX
 
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
 	public class MapEffect
 	{
-		public MapEffect(string path)
+        public MapEffect(string path)
 		{
 			this.active = false;
-			WzObject Effect = ms.wz.wzFile_map["Effect.img"];
+			var Effect = wz.wzProvider_map["Effect.img"];
 
-			effect = Effect.resolve(path);
+			effect = Effect.getChildByPath(path);
 
 			short width = Constants.get().get_viewwidth();
 
@@ -24,8 +22,6 @@ namespace ms
 		{
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw() const
 		public void draw()
 		{
 			if (!active)

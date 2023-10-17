@@ -89,16 +89,16 @@ namespace ms
 			world_sprites.Add (new Sprite (selectedWorld["name"][world.ToString ()], worldpos - new Point_short (8, 1)));
 			world_sprites.Add (new Sprite (selectedWorld["ch"][channel_id.ToString ()], worldpos - new Point_short (0, 1)));*/
 
-			WzObject map = ms.wz.wzFile_map["Back"]["login.img"];
-			WzObject ani = map["ani"];
+			var map = ms.wz.wzProvider_map["Back/login.img"];
+			var ani = map["ani"];
 
-			WzObject frame = ms.wz.wzFile_map["Obj"]["login.img"]["Common"]["frame"]["0"]["0"];
+			//var frame = ms.wz.wzProvider_map["Obj/login.img"]["Common"]["frame"]["0"]["0"];
 
 			sprites.Add (new Sprite (map["back"]["13"], new Point_short (392, 297)));
 			sprites.Add (new Sprite (ani["17"], new Point_short (151, 283)));
 			sprites.Add (new Sprite (ani["18"], new Point_short (365, 252)));
 			sprites.Add (new Sprite (ani["19"], new Point_short (191, 208)));
-			sprites.Add (new Sprite (frame, new Point_short (400, 300)));
+			//sprites.Add (new Sprite (frame, new Point_short (400, 300)));
 			sprites.Add (new Sprite (Common["frame"], new Point_short (400, 300)));
 			sprites.Add (new Sprite (Common["step"]["2"], new Point_short (40, 0)));
 

@@ -10,6 +10,7 @@ using System.Diagnostics;
 using ms.Helper;
 using MapleLib.WzLib;
 using System;
+using provider;
 
 namespace ms
 {
@@ -42,7 +43,23 @@ namespace ms
                 z = orderInLayer;
             }
         }
+        public Tile(MapleData node_100000000img_0_Tile_0, string ts)
+        {
+            path = node_100000000img_0_Tile_0.Name;
 
+            string tileName = "";
+
+            int.TryParse(node_100000000img_0_Tile_0.Name, out orderInLayer);
+            WzObject node_Tile_allblackTileimg_bsc_0 = wz.wzFile_map["Tile"][ts][node_100000000img_0_Tile_0["u"].ToString()][node_100000000img_0_Tile_0["no"].ToString()];
+            texture = new Texture(node_Tile_allblackTileimg_bsc_0);
+            pos = new Point_short(node_100000000img_0_Tile_0["x"], node_100000000img_0_Tile_0["y"]);
+
+            z = node_100000000img_0_Tile_0["z"];
+            if (z == 0)
+            {
+                z = orderInLayer;
+            }
+        }
         public void Dispose()
         {
             texture?.Dispose ();

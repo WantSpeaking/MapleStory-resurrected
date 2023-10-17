@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using GameFramework.Resource;
 using MapleLib.WzLib;
 using ms_Unity;
+using provider;
 using UnityEngine;
 
 namespace ms
@@ -89,8 +90,55 @@ namespace ms
             if (p_asset != null)
                 gobj_Portal = UnityEngine.Object.Instantiate<GameObject>(p_asset);
         }
+        public MapPortals(MapleData node_100000000img_portal, int mapid)
+        {
+            if (node_100000000img_portal is MapleData property_100000000img_portal)
+            {
+                foreach (var property_100000000img_portal_0 in property_100000000img_portal)
+                {
+                    sbyte portal_id = string_conversion.or_default(property_100000000img_portal_0.Name, (sbyte)-1);
 
-		public MapPortals ()
+                    if (portal_id < 0)
+                    {
+                        continue;
+                    }
+
+					int portalType = property_100000000img_portal_0["pt"];
+                    Portal.Type type = Portal.typebyid(portalType);
+                    string name = property_100000000img_portal_0["pn"].ToString();
+
+                    //if (name.Contains ("west00"))
+                    {
+                        string target_name = property_100000000img_portal_0["tn"].ToString();
+                        int target_id = property_100000000img_portal_0["tm"];
+                        var script = property_100000000img_portal_0["script"]?.ToString();
+                        Point_short position = new Point_short(property_100000000img_portal_0["x"], property_100000000img_portal_0["y"]);
+                        //AppDebug.Log($"portal target_id:{target_id}\t target_name:{target_name}");
+                        //Animation animation = Get_AnimationByType (type);
+                        bool intramap = target_id == mapid;
+                        portals_by_id.Add((byte)portal_id, new Portal(null, type, name, intramap, position, target_id, target_name, script));
+                        //portals_by_id.emplace(piecewise_construct, forward_as_tuple(portal_id), forward_as_tuple(animation, type, name, intramap, position, target_id, target_name));
+
+                        portal_ids_by_name.TryAdd(name, (byte)portal_id); //todo 2 add repeatedly
+                    }
+                }
+            }
+
+
+            cooldown = WARPCD;
+
+            //gobj_Portal = UnityEngine.Object.Instantiate<GameObject>(Resources.Load<GameObject>($"Prefabs/Portal/Map_{string_format.extend_id(mapid, 9)}_Portal"));
+
+            //GameEntry.Resource.LoadAsset($"Assets/GameMain/Prefabs/Portal/Map_{string_format.extend_id(mapid, 9)}_Portal.prefab", typeof(UnityEngine.GameObject), new LoadAssetCallbacks((assetName, asset, duration, userData) => { gobj_Portal = UnityEngine.Object.Instantiate<GameObject>((GameObject)asset); }));
+
+            string strid = string_format.extend_id(mapid, 9);
+            string prefix = Convert.ToString(mapid / 100000000);
+            p_assetPath = $"Prefabs/Portal/Map{prefix}_Portal";
+            var p_asset = AssetBundleLoaderMgr.Instance.LoadAsset<GameObject>(p_assetPath, $"Map{prefix}_Portal.{strid}");
+            if (p_asset != null)
+                gobj_Portal = UnityEngine.Object.Instantiate<GameObject>(p_asset);
+        }
+        public MapPortals ()
 		{
 			cooldown = WARPCD;
 		}
@@ -187,12 +235,12 @@ namespace ms
 			return Point_short.zero;
 		}
 
-		private Animation Get_AnimationByType (Portal.Type portalType)
+		/*private Animation Get_AnimationByType (Portal.Type portalType)
 		{
 			Animation ani;
 			var src = ms.wz.wzFile_map["MapHelper.img"]["portal"]["game"];
             //ani = new Animation(src["pv"]);
-            /*if (portalType == Portal.Type.HIDDEN)
+            *//*if (portalType == Portal.Type.HIDDEN)
 			{
 				ani = new Animation (src["ph"]["default"]["portalContinue"]);
 			}
@@ -216,7 +264,7 @@ namespace ms
             else
             {
                 ani = new Animation(src["pv"]);
-            }*/
+            }*//*
             
             if (portalType == Portal.Type.HIDDEN)
 			{
@@ -231,7 +279,7 @@ namespace ms
 				ani = new Animation ();
 			}
             return ani;
-		}
+		}*/
 
         public void Dispose()
         {

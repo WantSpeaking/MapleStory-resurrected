@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -51,7 +49,7 @@ namespace ms
 			town_text = new Text (Text.Font.A12B, Text.Alignment.LEFT, Color.Name.WHITE);
 			combined_text = new Text (Text.Font.A12M, Text.Alignment.LEFT, Color.Name.WHITE);
 
-			marker = ms.wz.wzFile_map["MapHelper.img"]["minimap"];
+			marker = ms.wz.wzProvider_map["MapHelper.img"]["minimap"];
 			//marker = Setting<MiniMapDefaultHelpers>.get ().load () ? ms.wz.wzFile_ui["UIWindow2.img"]["MiniMapSimpleMode"]["DefaultHelper"] : ms.wz.wzFile_mapLatest["MapHelper.img"]["minimap"];
 			//marker = true ? nl.nx.wzFile_ui["UIWindow2.img"]["MiniMapSimpleMode"]["DefaultHelper"] : nl.nx.wzFile_mapLatest["MapHelper.img"]["minimap"];
 
@@ -143,8 +141,8 @@ namespace ms
 				mapid = mid;
 				Map = NxHelper.Map.get_map_node_name(mapid);
 
-				WzObject town = Map["info"]["town"];
-				WzObject miniMap = Map["miniMap"];
+				var town = Map["info"]["town"];
+				var miniMap = Map["miniMap"];
 
 				if (miniMap == null)
 				{
@@ -526,8 +524,8 @@ namespace ms
 			max_sprites.Clear ();
 
 			WzObject Min;
-			WzObject Normal;
-			WzObject Max;
+            WzObject Normal;
+            WzObject Max;
 
 			if (simpleMode)
 			{
@@ -587,7 +585,7 @@ namespace ms
 
 			// SimpleMode's backdrop is opaque, the other is transparent but lightly colored
 			// UI.wz v208 has normal center sprite in-linked to bottom right window frame, not sure why.
-			WzObject MiddleCenter = simpleMode ? MiniMap["Window"]["Max"]["MiddleCenter"] : MiniMap["MaxMap"]["c"];
+			var MiddleCenter = simpleMode ? MiniMap["Window"]["Max"]["MiddleCenter"] : MiniMap["MaxMap"]["c"];
 
 			short dl_dr_y = Math.Max (map_dimensions.y (), (short)10);
 
@@ -639,7 +637,7 @@ namespace ms
 			max_sprites.Add (new Sprite (Max[DownCenter], new DrawArgument (new Point_short (CENTER_START_X, (short)(down_y_offset + MAX_ADJ + 18)), new Point_short (c_stretch, 0))));
 			max_sprites.Add (new Sprite (Max[DownLeft], new Point_short (0, (short)(down_y_offset + MAX_ADJ))));
 			max_sprites.Add (new Sprite (Max[DownRight], new Point_short (ur_x_offset, (short)(down_y_offset + MAX_ADJ))));
-			max_sprites.Add (new Sprite (ms.wz.wzFile_map["MapHelper.img"]["mark"][Map["info"]["mapMark"].ToString ()], new DrawArgument (new Point_short (7, 17))));
+			max_sprites.Add (new Sprite (ms.wz.wzProvider_map["MapHelper.img"]["mark"][Map["info"]["mapMark"].ToString ()], new DrawArgument (new Point_short (7, 17))));
 
 			max_dimensions = normal_dimensions + new Point_short (0, MAX_ADJ);
 		}
@@ -913,9 +911,9 @@ namespace ms
 		private bool big_map;
 		private bool has_map;
 		private short scale = 1;
-		private WzObject Map;
+		private MapleData Map;
 		private WzObject MiniMap;
-		private WzObject marker;
+		private MapleData marker;
 		private Texture map_sprite = new Texture ();
 		private Animation player_marker = new Animation ();
 		private short combined_text_width;

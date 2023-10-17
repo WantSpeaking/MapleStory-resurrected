@@ -99,6 +99,14 @@ namespace provider
         {
             return MapleDataTool.getString(wzObject);
         }
+        public static implicit operator Animation(MapleData wzObject)
+        {
+            return new Animation(wzObject);
+        }
+        public static implicit operator ms.Texture(MapleData wzObject)
+        {
+            return new ms.Texture(wzObject);
+        }
         #endregion
     }
 

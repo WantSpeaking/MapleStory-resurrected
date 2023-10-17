@@ -2,6 +2,7 @@
 
 
 using MapleLib.WzLib;
+using provider;
 
 namespace ms
 {
@@ -13,9 +14,13 @@ namespace ms
 			fht = new FootholdTree(node_100000000img_foothold);
 			//fht = src;
 		}
-
-		// Move the specified object over the specified game-time
-		public void move_object(PhysicsObject phobj)
+        public Physics(MapleData node_100000000img_foothold)
+        {
+            fht = new FootholdTree(node_100000000img_foothold);
+            //fht = src;
+        }
+        // Move the specified object over the specified game-time
+        public void move_object(PhysicsObject phobj)
 		{
 			// Determine which platform the object is currently on
 			fht.update_fh(phobj);

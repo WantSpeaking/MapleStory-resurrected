@@ -1,4 +1,5 @@
 ﻿using MapleLib.WzLib;
+using provider;
 
 namespace ms
 {
@@ -23,8 +24,17 @@ namespace ms
 			this.m_layer = ly;
 		}
 
-		// Returns the foothold id aka the identifier in game data of this platform
-		public ushort id ()
+        public Foothold(MapleData src, ushort id, byte ly)
+        {
+            this.m_prev = (ushort)src["prev"];
+            this.m_next = (ushort)src["next"];
+            this.m_horizontal = new ms.Range_short(src["x1"], src["x2"]);
+            this.m_vertical = new ms.Range_short(src["y1"], src["y2"]);
+            this.m_id = id;
+            this.m_layer = ly;
+        }
+        // Returns the foothold id aka the identifier in game data of this platform
+        public ushort id ()
 		{
 			return m_id;
 		}

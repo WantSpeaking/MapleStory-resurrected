@@ -100,7 +100,7 @@ namespace ms
         {
             var node_node_100000000img_info = node_100000000img["info"];
 
-            if (node_node_100000000img_info["VRLeft"] != null)//todo 2 MapInfo VRLeft
+            if (node_node_100000000img_info?["VRLeft"] != null)//todo 2 MapInfo VRLeft
             {
                 mapwalls = new Range_short(node_node_100000000img_info["VRLeft"], node_node_100000000img_info["VRRight"]);
                 mapborders = new Range_short(node_node_100000000img_info["VRTop"], node_node_100000000img_info["VRBottom"]);

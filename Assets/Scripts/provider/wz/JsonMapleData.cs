@@ -13,16 +13,20 @@ namespace provider.wz
 {
     public class JsonMapleData : MapleData
     {
-        public override MapleDataType Type => MapleDataTool.JsonTokenToMapleDataType( (node as JProperty)?.Value.Type);
+        public override MapleDataType Type => MapleDataTool.JsonTokenToMapleDataType((node as JProperty)?.Value.Type);
 
         public static List<MapleData> emptyMapleDataList = new List<MapleData>();
         public override IList<MapleData> Children
         {
             get
             {
-                if (node is JContainer c)
+                if (node is JProperty p)
                 {
-                    return c.Select(n => (MapleData)new JsonMapleData(n)).ToList();
+                    return p.Value.Children().Select(n => (MapleData)new JsonMapleData(n)).ToList();
+                }
+                else if (node is JContainer c)
+                {
+                    return c.Children().Select(n => (MapleData)new JsonMapleData(n)).ToList();
                 }
                 //AppDebug.Log($"JsonMapleData: node==null?:{node == null} {Name} {_path} {node?.Type} {node?.GetType()}");
                 return emptyMapleDataList;
@@ -34,7 +38,7 @@ namespace provider.wz
         {
             get
             {
-                if(node is JValue jv)
+                if (node is JValue jv)
                 {
                     return jv.Value;
                 }
@@ -60,7 +64,7 @@ namespace provider.wz
                 {
                     return null;
                 }*/
-                var g = node[""];g.ToString();
+                var g = node[""]; g.ToString();
                 var parentData = new JsonMapleData(parentNode);
                 parentData.imageDataDir = System.IO.Directory.GetParent(imageDataDir).FullName;
                 return parentData;
@@ -105,6 +109,7 @@ namespace provider.wz
         string _name;
         public override MapleData getChildByPath(string path)
         {
+            if (path == null) return null;
             _name = path;
             string[] segments = path.Split('/');
             if (segments[0].Equals(".."))
@@ -113,9 +118,25 @@ namespace provider.wz
             }
 
             var myNode = node;
+
             foreach (string s in segments)
             {
-                myNode = myNode[s];
+                if (myNode is JProperty p)
+                {
+                    if (p.Value is JValue jv)
+                    {
+                        myNode = jv;
+                    }
+                    else
+                    {
+                        myNode = p.Value[s];
+                    }
+                }
+                else
+                {
+                    myNode = myNode[s];
+                }
+
                 _name = s;
             }
             if (myNode == null)
@@ -129,7 +150,7 @@ namespace provider.wz
 
         public override bool IsTexture()
         {
-            return node[MapleDataTool.JsonNodeName_CanvasFullpath]!=null;
+            return node[MapleDataTool.JsonNodeName_CanvasFullpath] != null;
         }
         public override Point GetPoint()
         {
@@ -139,7 +160,7 @@ namespace provider.wz
         private JToken node;
         private string imageDataDir;
 
-        public JsonMapleData(string jasonText,string imageDataDir)
+        public JsonMapleData(string jasonText, string imageDataDir)
         {
             this.node = JObject.Parse(jasonText);
             this.imageDataDir = imageDataDir;

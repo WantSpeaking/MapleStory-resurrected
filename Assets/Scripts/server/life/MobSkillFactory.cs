@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MapleLib.WzLib;
+using ms;
 using provider;
 
 /*
@@ -44,7 +45,7 @@ namespace server.life
 	{
 
 		private static IDictionary<string, MobSkill> mobSkills = new Dictionary<string, MobSkill>();
-		private static readonly MapleDataProvider dataSource = MapleDataProviderFactory.getDataProvider("/Skill.wz");
+		private static readonly MapleDataProvider dataSource = wz.wzProvider_skill;
 		private static MapleData skillRoot = dataSource.getData("MobSkill.img");
 
 

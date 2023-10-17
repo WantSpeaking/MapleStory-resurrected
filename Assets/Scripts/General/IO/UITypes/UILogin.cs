@@ -33,18 +33,18 @@ namespace ms
             string version_text = Configuration.get().get_version();
             version = new Text(Text.Font.A11B, Text.Alignment.LEFT, Color.Name.LEMONGRASS, "Ver. " + version_text);
 
-            WzObject map001 = ms.wz.wzFile_map["Back"]["login.img"];
-            WzObject back = map001["back"];
-            WzObject ani = map001["ani"];
+            var map001 = ms.wz.wzProvider_map["Back/login.img"];
+            var back = map001["back"];
+            var ani = map001["ani"];
 
-            WzObject Login = ms.wz.wzFile_ui["Login.img"];
-            WzObject UI_Title = Login["Title"];
-            WzObject MapObj_Title = ms.wz.wzFile_map["Obj"]["login.img"]["Title"];
+            var Login = ms.wz.wzFile_ui["Login.img"];
+            var UI_Title = Login["Title"];
+            //var MapObj_Title = ms.wz.wzProvider_map["Obj"]["login.img"]["Title"];
 
-            WzObject Common = Login["Common"];
+            var Common = Login["Common"];
 
-            WzObject prettyLogo = ms.wz.wzFile_UI_Endless["Game.img"]["logo"];
-            WzObject frame = ms.wz.wzFile_map["Obj"]["login.img"]["Common"]["frame"]["0"]["0"];
+            var prettyLogo = ms.wz.wzFile_UI_Endless["Game.img"]["logo"];
+            //var frame = ms.wz.wzProvider_map["Obj"]["login.img"]["Common"]["frame"]["0"]["0"];
             //WzObject frame = nl.nx.wzFile_map["Obj"]["login.img"]["Common"]["frame"]["0"];
 
             sprites.Add(new Sprite(back["11"], new Point_short(400, 300)));
@@ -54,8 +54,8 @@ namespace ms
             sprites.Add(new Sprite(ani["19"], new Point_short(348, 161)));
             sprites.Add(new Sprite(back["35"], new Point_short(399, 260)));
             sprites.Add(new Sprite(prettyLogo, new Point_short(409, 144)));
-            sprites.Add(new Sprite(MapObj_Title["signboard"]["0"]["0"], signboard_pos));
-            sprites.Add(new Sprite(frame, new Point_short(400, 300)));
+            //sprites.Add(new Sprite(MapObj_Title["signboard"]["0"]["0"], signboard_pos));
+            //sprites.Add(new Sprite(frame, new Point_short(400, 300)));
             //sprites.Add(new Sprite(Common["frame"], new Point_short(400, 300)));
 
             buttons[(int)Buttons.BT_LOGIN] = new MapleButton(UI_Title["BtLogin"], new Point_short(470, 237));

@@ -15,11 +15,8 @@ namespace provider.wz
     {
         public MapleDataDirectoryEntry Root => throw new NotImplementedException();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="imgPath">imgPath</param>
-        /// <returns></returns>
+        public MapleData this[string imgPath] => getData(imgPath);
+
         public MapleData getData(string imgPath)
         {
             if (string.IsNullOrEmpty(imgPath)) return null;
@@ -41,9 +38,6 @@ namespace provider.wz
 
         private void ParseImgJson(string imgPath = "")
         {
-            if (parsed) return;
-
-            parsed = true;
             var fullpath = System.IO.Path.Combine(wzPath, $"{imgPath}.json");
             using (StreamReader r = new StreamReader(fullpath))
             {

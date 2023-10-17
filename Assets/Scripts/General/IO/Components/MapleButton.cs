@@ -4,7 +4,7 @@
 using System;
 using System.Linq;
 using MapleLib.WzLib;
-
+using provider;
 
 namespace ms
 {
@@ -58,7 +58,36 @@ namespace ms
             position = new Point_short(pos);
             state = Button.State.NORMAL;
         }
+        public MapleButton(MapleData src, Point_short pos)
+        {
+            srcCache_MapleData = src;
+            if (src == null)
+            {
+                AppDebug.Log($"MapleButton(src):{src}");
+                animations[(int)Button.State.NORMAL] = new Animation();
+                return;
+            }
 
+            var normal = src["normal"];
+
+            if (normal.Count() > 1)
+            {
+                animations[(int)Button.State.NORMAL] = normal;
+            }
+            else
+            {
+                textures[(int)Button.State.NORMAL] = normal["0"];
+            }
+
+            textures[(int)Button.State.PRESSED] = src["pressed"]?["0"];
+            //textures[(int)Button.State.MOUSEOVER] = src["pressed"]?["0"];
+            textures[(int)Button.State.MOUSEOVER] = src["mouseOver"]?["0"]; //todo 2 mouseOver has _inlink property which can't be read now
+            textures[(int)Button.State.DISABLED] = src["disabled"]?["0"];
+
+            active = true;
+            position = new Point_short(pos);
+            state = Button.State.NORMAL;
+        }
         public MapleButton(WzObject src, short x, short y) : this(src, new Point_short(x, y))
         {
         }
@@ -223,6 +252,7 @@ namespace ms
         #region to be removed
 
         private WzObject srcCache;
+        private MapleData srcCache_MapleData;
 
 
 

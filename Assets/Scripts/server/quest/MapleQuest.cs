@@ -42,7 +42,7 @@ namespace server.quest
         protected internal LinkedList<int> relevantMobs = new LinkedList<int>();
 
 
-        private static readonly MapleDataProvider questData = MapleDataProviderFactory.getDataProvider("/Quest.wz");
+        private static readonly MapleDataProvider questData = wz.wzProvider_quest;
         private static readonly MapleData questInfo = questData.getData("QuestInfo.img");
         private static readonly MapleData questAct = questData.getData("Act.img");
         private static readonly MapleData questReq = questData.getData("Check.img");
@@ -338,7 +338,15 @@ namespace server.quest
 
         public static MapleQuest getInstance(int id)
         {
-            return quests.TryGetValue(id);
+            if (quests.ContainsKey(id))
+            {
+                return quests.TryGetValue(id);
+            }
+            else
+            {
+                AppDebug.LogWarning($"MapleQuest is null,id:{id}");
+                return null;
+            }
         }
 
         public bool canStartQuestByStatus(MapleCharacter chr)
@@ -491,11 +499,11 @@ namespace server.quest
                 foreach (var quest in questInfo)
                 {
                     int.TryParse(quest.Name,out int questID);
+                    //AppDebug.Log($"load Quest:{quest.Name}\t{questID}");
 
                     MapleQuest q = new MapleQuest(questID);
                     quests[questID] = q;
                     //quests_byNpc.Add (questID, q);
-
 
                     int infoNumber;
 

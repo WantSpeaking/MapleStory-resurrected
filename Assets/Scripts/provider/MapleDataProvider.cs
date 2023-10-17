@@ -4,13 +4,11 @@ namespace provider
 {
 	public interface MapleDataProvider
 	{
-        /// <summary>
-        /// imgPath
-        /// </summary>
-        /// <param name="path">imgPath</param>
-        /// <returns></returns>
-        MapleData getData(string path);
+        MapleData getData(string imgPath);
         MapleDataDirectoryEntry Root {get;}
-	}
+
+        MapleData this[string imgPath] { get;}
+
+    }
 
 }

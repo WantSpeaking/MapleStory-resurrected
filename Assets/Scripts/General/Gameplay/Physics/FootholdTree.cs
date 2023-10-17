@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using MapleLib.WzLib;
+using provider;
 using SD.Tools.Algorithmia.GeneralDataStructures;
 using UnityEngine;
 
@@ -105,9 +106,102 @@ namespace ms
 			walls = new Range_short ((short)(leftw + 25), (short)(rightw - 25));
 			borders = new Range_short ((short)(topb - 300), (short)(botb + 100));
 		}
+        public FootholdTree(MapleData src)
+        {
+            footholds = new Dictionary<ushort, Foothold>();
+            Footholds = new ReadOnlyDictionary<ushort, Foothold>(footholds);
 
-		// Takes an accelerated PhysicsObject and limits its movement based on the platforms in this tree
-		public void limit_movement (PhysicsObject phobj)
+            footholdsbyx = new MultiValueDictionary<short, ushort>();
+
+            short leftw = 30000;
+            short rightw = -30000;
+            short botb = -30000;
+            short topb = 30000;
+            if (src is MapleData node_100000000img_foothold)
+            {
+                foreach (var basef in node_100000000img_foothold)
+                {
+                    byte layer;
+
+                    try
+                    {
+                        layer = (byte)Convert.ToInt32(basef.Name);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        //Console.Write(__func__);
+                        Console.Write(": ");
+                        Console.Write(ex.Message);
+                        Console.Write("\n");
+                        continue;
+                    }
+
+                    foreach (var midf in basef)
+                    {
+                        foreach (var lastf in midf)
+                        {
+                            ushort id;
+
+                            try
+                            {
+                                id = (ushort)Convert.ToInt32(lastf.Name);
+                            }
+                            catch (System.Exception ex)
+                            {
+                                //Console.Write(__func__);
+                                Console.Write(": ");
+                                Console.Write(ex.Message);
+                                Console.Write("\n");
+                                continue;
+                            }
+
+                            Foothold foothold = new Foothold(lastf, id, layer);
+                            footholds[id] = foothold;
+                            //Foothold foothold = footholds.emplace(piecewise_construct, forward_as_tuple(id), forward_as_tuple(lastf, id, layer)).first.second;
+
+                            if (foothold.l() < leftw)
+                            {
+                                leftw = foothold.l();
+                            }
+
+                            if (foothold.r() > rightw)
+                            {
+                                rightw = foothold.r();
+                            }
+
+                            if (foothold.b() > botb)
+                            {
+                                botb = foothold.b();
+                            }
+
+                            if (foothold.t() < topb)
+                            {
+                                topb = foothold.t();
+                            }
+
+                            if (foothold.is_wall())
+                            {
+                                continue;
+                            }
+
+                            short start = foothold.l();
+                            short end = foothold.r();
+
+                            for (short i = start; i <= end; i++)
+                            {
+                                footholdsbyx.Add(i, id);
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            walls = new Range_short((short)(leftw + 25), (short)(rightw - 25));
+            borders = new Range_short((short)(topb - 300), (short)(botb + 100));
+        }
+        // Takes an accelerated PhysicsObject and limits its movement based on the platforms in this tree
+        public void limit_movement (PhysicsObject phobj)
 		{
 			if (phobj.hmobile ())
 			{

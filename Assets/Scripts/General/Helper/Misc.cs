@@ -3,9 +3,7 @@
 using System;
 using System.Collections.Generic;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -168,7 +166,7 @@ namespace ms
 			public static Dictionary<long, Tuple<string, string>> get_life_on_map (int mapid)
 			{
 				map_life.Clear ();
-				WzObject portal = get_map_node_name (mapid);
+				var portal = get_map_node_name (mapid);
 
 				foreach (var life in portal["life"])
 				{
@@ -199,12 +197,12 @@ namespace ms
 			}
 
 			// Returns the name of the node, under which the argument map id is in
-			public static WzObject get_map_node_name (int mapid)
+			public static MapleData get_map_node_name (int mapid)
 			{
 				string prefix = (mapid / 100000000).ToString ();
 				string mapid_str = string_format.extend_id (mapid, 9);
 
-				return ms.wz.wzFile_map["Map"]["Map" + prefix][mapid_str + ".img"];
+				return ms.wz.wzProvider_map["Map"]["Map" + prefix][mapid_str + ".img"];
 			}
 
 			public static bool exist(int mapid)

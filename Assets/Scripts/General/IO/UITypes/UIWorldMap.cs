@@ -29,7 +29,7 @@ namespace ms
 			WzObject WorldMapSearch = WorldMap["WorldMapSearch"];
 			WzObject Border = WorldMap["Border"]["0"];
 			WzObject backgrnd = WorldMapSearch["backgrnd"];
-			WzObject MapHelper = ms.wz.wzFile_map["MapHelper.img"]["worldMap"];
+			var MapHelper = ms.wz.wzProvider_map["MapHelper.img"]["worldMap"];
 
 			cur_pos = MapHelper["curPos"];
 
@@ -303,11 +303,11 @@ namespace ms
 
 		private void update_world (string map)
 		{
-			WzObject WorldMap = ms.wz.wzFile_map["WorldMap"][$"{map}.img"];
+			var WorldMap = ms.wz.wzProvider_map["WorldMap"][$"{map}.img"];
 
 			if (WorldMap == null)
 			{
-				WorldMap = ms.wz.wzFile_map["WorldMap"]["WorldMap.img"];
+				WorldMap = ms.wz.wzProvider_map["WorldMap"]["WorldMap.img"];
 			}
 
 			base_img = WorldMap["BaseImg"][0.ToString ()];
@@ -334,7 +334,7 @@ namespace ms
 			{
 				foreach (var link in WorldMap["MapLink"])
 				{
-					WzObject l = link["link"];
+					var l = link["link"];
 					Texture link_image = l["linkImg"];
 
 					link_images[(ushort)i] = link_image;
@@ -347,19 +347,19 @@ namespace ms
 				}
 			}
 
-			WzObject mapImage = ms.wz.wzFile_map["MapHelper.img"]["worldMap"]["mapImage"];
+			var mapImage = ms.wz.wzProvider_map["MapHelper.img"]["worldMap"]["mapImage"];
 
 			map_spots.Clear ();
 
 			foreach (var list in WorldMap["MapList"])
 			{
-				WzObject desc = list["desc"];
-				WzObject mapNo = list["mapNo"];
-				WzObject path = list["path"];
-				WzObject spot = list["spot"];
-				WzObject title = list["title"];
-				WzObject type = list["type"];
-				WzObject marker = mapImage[type.ToString ()];
+				var desc = list["desc"];
+				var mapNo = list["mapNo"];
+				var path = list["path"];
+				var spot = list["spot"];
+				var title = list["title"];
+				var type = list["type"];
+				var marker = mapImage[type.ToString ()];
 
 				List<int> map_ids = new List<int> ();
 

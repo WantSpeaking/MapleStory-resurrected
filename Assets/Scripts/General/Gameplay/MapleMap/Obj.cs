@@ -8,6 +8,7 @@ using ms.Helper;
 using MapleLib.WzLib;
 using System;
 using System.IO;
+using provider;
 
 namespace ms
 {
@@ -51,9 +52,42 @@ namespace ms
 				AppDebug.LogError($"{node_100000000img_0_obj_0.FullPath} Message:{ex.Message} StackTrace:{ex.StackTrace}");
 			}
 		}
+        public Obj(MapleData node_100000000img_0_obj_0)
+        {
+            try
+            {
+                path = node_100000000img_0_obj_0.Name;
+                int.TryParse(node_100000000img_0_obj_0.Name, out orderInLayer);
 
-		// Update animation
-		public void update ()
+                //UnityEngine.AppDebug.Log(node_100000000img_0_obj_0["oS"] + ".img" + "\t" + node_100000000img_0_obj_0["l0"] + "\t" + node_100000000img_0_obj_0["l1"] + "\t" + node_100000000img_0_obj_0["l2"]);
+                var oS = $"{node_100000000img_0_obj_0["oS"]}.img";
+                var l0 = node_100000000img_0_obj_0["l0"].ToString();
+                var l1 = node_100000000img_0_obj_0["l1"].ToString();
+                var l2 = node_100000000img_0_obj_0["l2"].ToString();
+
+                var oS_WZO = ms.wz.wzFile_map["Obj"][oS];
+                var l0_WZO = oS_WZO?[l0];
+                var l1_WZO = l0_WZO?[l1];
+                var l2_WZO = l1_WZO?[l2];
+
+                animation = new Animation(l2_WZO);
+
+                pos = new Point_short(node_100000000img_0_obj_0["x"], node_100000000img_0_obj_0["y"]);
+                flip = node_100000000img_0_obj_0["f"];
+                //z = (byte)(255- node_100000000img_0_obj_0["z"].GetShort ().ToByte ());//orderInLayer wz和unity正好相反
+                z = (node_100000000img_0_obj_0["z"]); //orderInLayer wz和unity正好相反
+                /*if (z == 0)
+                {
+                    z = (node_100000000img_0_obj_0["zM"]);
+                }*/
+            }
+            catch (Exception ex)
+            {
+                AppDebug.LogError($"{node_100000000img_0_obj_0.Name} Message:{ex.Message} StackTrace:{ex.StackTrace}");
+            }
+        }
+        // Update animation
+        public void update ()
 		{
 			animation.update ();
 		}

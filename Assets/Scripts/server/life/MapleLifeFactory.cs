@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MapleLib.WzLib;
+using ms;
 using provider;
 
 namespace server.life
@@ -13,8 +14,8 @@ namespace server.life
 	public class MapleLifeFactory
 	{
 
-		private static MapleDataProvider data = MapleDataProviderFactory.getDataProvider("/Mob.wz");
-		private static readonly MapleDataProvider stringDataWZ = MapleDataProviderFactory.getDataProvider("/String.wz");
+		private static MapleDataProvider data = wz.wzProvider_mob;
+		private static readonly MapleDataProvider stringDataWZ = wz.wzProvider_string;
 		private static MapleData mobStringData = stringDataWZ.getData("Mob.img");
 		private static MapleData npcStringData = stringDataWZ.getData("Npc.img");
 		private static IDictionary<int, MapleMonsterStats> monsterStats = new Dictionary<int, MapleMonsterStats>();
@@ -26,7 +27,7 @@ namespace server.life
 			{
 				ISet<int> ret = new HashSet<int>();
     
-				MapleDataProvider uiDataWZ = MapleDataProviderFactory.getDataProvider("UI.wz");
+				MapleDataProvider uiDataWZ = wz.wzProvider_ui;
 				foreach (var bossData in uiDataWZ.getData("UIWindow.img").getChildByPath("MobGage/Mob").Children)
 				{
 					ret.Add(Convert.ToInt32(bossData.Name));

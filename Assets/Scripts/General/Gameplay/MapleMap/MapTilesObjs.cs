@@ -7,6 +7,7 @@ using GameFramework.Resource;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using ms_Unity;
+using provider;
 using SD.Tools.Algorithmia.GeneralDataStructures;
 using System;
 using UnityEngine;
@@ -40,7 +41,27 @@ namespace ms
                 //objs.emplace(z, move(obj));
             }
         }
+        public TilesObjs(MapleData node_100000000img_0, int layerId)//node:100000000.img/0
+        {
+            this.layerId = layerId;
+            var tileset = node_100000000img_0["info"]["tS"] + ".img";
 
+            foreach (var node_100000000img_0_Tile_0 in node_100000000img_0["tile"])
+            {
+                Tile tile = new Tile(node_100000000img_0_Tile_0, tileset);
+                var z = tile.getz();
+                tiles.Add(z, tile);
+                //tiles.emplace(z, move(tile));
+            }
+
+            foreach (var node_100000000img_0_obj_0 in node_100000000img_0["obj"])
+            {
+                Obj obj = new Obj(node_100000000img_0_obj_0);
+                var z = obj.getz();
+                objs.Add(z, obj);
+                //objs.emplace(z, move(obj));
+            }
+        }
         public void draw(Point_short viewpos, float alpha)
         {
             foreach (var pair in objs)
@@ -131,6 +152,44 @@ namespace ms
                     for (int i = 0; i <= 7; i++)
                     {
                         if (node_100000000img[i.ToString()] is WzImageProperty node)//node:100000000.img/0
+                        {
+                            //LoadLayer(node, i);
+                            var tileObj = new TilesObjs(node, i);
+                            layers[(Layer.Id)i] = tileObj;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                /*gobj_Obj = UnityEngine.Object.Instantiate<GameObject>(Resources.Load<GameObject>($"Prefabs/Obj/Map_{mapId}_Obj"));
+           gobj_Tile = UnityEngine.Object.Instantiate<GameObject>( Resources.Load<GameObject>($"Prefabs/Tile/Map_{mapId}_Tile"));*/
+
+                /*GameEntry.Resource.LoadAsset($"Assets/GameMain/Prefabs/Obj/Map_{mapId}_Obj.prefab", typeof(UnityEngine.GameObject), new LoadAssetCallbacks((assetName, asset, duration, userData) => { gobj_Obj = UnityEngine.Object.Instantiate<GameObject>((GameObject)asset); }));
+
+                GameEntry.Resource.LoadAsset($"Assets/GameMain/Prefabs/Tile/Map_{mapId}_Tile.prefab", typeof(UnityEngine.GameObject), new LoadAssetCallbacks((assetName, asset, duration, userData) => { gobj_Tile = UnityEngine.Object.Instantiate<GameObject>((GameObject)asset); }));*/
+                string strid = string_format.extend_id(mapid, 9);
+                string prefix = Convert.ToString(mapid / 100000000);
+                o_assetPath = $"Prefabs/Obj/Map{prefix}_Obj";
+                t_assetPath = $"Prefabs/Tile/Map{prefix}_Tile";
+                var o_asset = AssetBundleLoaderMgr.Instance.LoadAsset<GameObject>(o_assetPath, $"Map{prefix}_Obj.{strid}");
+                var t_asset = AssetBundleLoaderMgr.Instance.LoadAsset<GameObject>(t_assetPath, $"Map{prefix}_Tile.{strid}");
+                if (o_asset != null)
+                    gobj_Obj = UnityEngine.Object.Instantiate<GameObject>(o_asset);
+                if (t_asset != null)
+                    gobj_Tile = UnityEngine.Object.Instantiate<GameObject>(t_asset);
+            }
+        }
+
+        public MapTilesObjs(MapleData node_100000000img, int mapid)
+        {
+            if (GameUtil.Instance.Use_wz_or_ab_draw_ObjTile)
+            {
+                if (node_100000000img != null)
+                {
+                    for (int i = 0; i <= 7; i++)
+                    {
+                        if (node_100000000img[i.ToString()] is MapleData node)//node:100000000.img/0
                         {
                             //LoadLayer(node, i);
                             var tileObj = new TilesObjs(node, i);
