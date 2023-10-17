@@ -204,7 +204,7 @@ namespace ms
         public override void Dispose ()
         {
             base.Dispose ();
-            AppDebug.Log("MapleButton Dispose");
+            //AppDebug.Log("MapleButton Dispose");
 
             foreach (var t in textures)
             {

@@ -1,45 +1,4 @@
-﻿#define USE_NX
-
-//////////////////////////////////////////////////////////////////////////////////
-//	This file is part of the continued Journey MMORPG client					//
-//	Copyright (C) 2015-2019  Daniel Allendorf, Ryan Payton						//
-//																				//
-//	This program is free software: you can redistribute it and/or modify		//
-//	it under the terms of the GNU Affero General Public License as published by	//
-//	the Free Software Foundation, either version 3 of the License, or			//
-//	(at your option) any later version.											//
-//																				//
-//	This program is distributed in the hope that it will be useful,				//
-//	but WITHOUT ANY WARRANTY; without even the implied warranty of				//
-//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the				//
-//	GNU Affero General Public License for more details.							//
-//																				//
-//	You should have received a copy of the GNU Affero General Public License	//
-//	along with this program.  If not, see <https://www.gnu.org/licenses/>.		//
-//////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
-//	This file is part of the continued Journey MMORPG client					//
-//	Copyright (C) 2015-2019  Daniel Allendorf, Ryan Payton						//
-//																				//
-//	This program is free software: you can redistribute it and/or modify		//
-//	it under the terms of the GNU Affero General Public License as published by	//
-//	the Free Software Foundation, either version 3 of the License, or			//
-//	(at your option) any later version.											//
-//																				//
-//	This program is distributed in the hope that it will be useful,				//
-//	but WITHOUT ANY WARRANTY; without even the implied warranty of				//
-//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the				//
-//	GNU Affero General Public License for more details.							//
-//																				//
-//	You should have received a copy of the GNU Affero General Public License	//
-//	along with this program.  If not, see <https://www.gnu.org/licenses/>.		//
-//////////////////////////////////////////////////////////////////////////////////
-
-
-#if USE_NX
-#endif
-
-using System;
+﻿using System;
 using System.Drawing;
 using System.IO;
 using ms.Helper;
@@ -53,6 +12,7 @@ using Graphics = UnityEngine.Graphics;
 using ms_Unity;
 using System.Collections.Generic;
 using System.Linq;
+using provider;
 
 namespace ms
 {
@@ -77,9 +37,11 @@ namespace ms
         public string sortingLayerName = GameUtil.sortingLayerName_Default;
 
         public WzObject cache_src { get;private set; }
+        public MapleData cache_src_maple { get; private set; }
 
         public Texture2D texture2D { get; set; }
-        public FairyGUI.NTexture nTexture { get; set; }
+        public FairyGUI.NTexture nTexture { get => _nTexture ??= new FairyGUI.NTexture(texture2D); set { _nTexture = value; } }
+        private FairyGUI.NTexture _nTexture;
 
         public bool isSprite;
 
@@ -149,7 +111,12 @@ namespace ms
 
             //Init(srcTexture?.cache_src);
         }
+        public Texture(MapleData srcTexture)
+        {
+            Init(srcTexture);
 
+            //Init(srcTexture?.cache_src);
+        }
         public Texture()
         {
             GUIDString = Guid.NewGuid().ToString();
@@ -166,7 +133,12 @@ namespace ms
             layerMask = LayerMask.NameToLayer(layerMaskName);
             this.sortingLayerName = sortingLayerName;
         }
-
+        public Texture(MapleData src, string layerMaskName, string sortingLayerName)
+        {
+            Init(src);
+            layerMask = LayerMask.NameToLayer(layerMaskName);
+            this.sortingLayerName = sortingLayerName;
+        }
 
         public void Init(ms.Texture srcTexture)
         {
@@ -185,7 +157,7 @@ namespace ms
             this.isDontDestoryOnLoad = srcTexture.isDontDestoryOnLoad;
             this.DrawObject = srcTexture.DrawObject;
         }
-
+        
         public void Init(WzObject src)
         {
             GUIDString = Guid.NewGuid().ToString();
@@ -217,23 +189,41 @@ namespace ms
             }
             else
             {
-                InitCostTIme();
+                InitCostTime(src);
                 cache_Texture.TryAdd(fullPath, this);
             }
 
         }
-
-        public void InitCostTIme()
+        public void Init(MapleData src)
         {
+            GUIDString = Guid.NewGuid().ToString();
+            cache_src_maple = src;
+            if (cache_src_maple == null) return;
 
-            if (cache_src != null && cache_src.IsTexture())
+            string canvasFullpath = cache_src_maple[MapleDataTool.JsonNodeName_CanvasFullpath];
+            if (canvasFullpath == null) return;
+
+            if (cache_Texture.TryGetValue(canvasFullpath, out var cacheTexture))
             {
-                fullPath = cache_src.FullPath;
-                pivot = cache_src["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
-                bitmap = cache_src.GetBitmapConsideringLink();
+                Init(cacheTexture);
+            }
+            else
+            {
+                InitCostTime(cache_src_maple);
+                cache_Texture.TryAdd(canvasFullpath, this);
+            }
+
+        }
+        public void InitCostTime(WzObject src)
+        {
+            if (src != null && src.IsTexture())
+            {
+                fullPath = src.FullPath;
+                pivot = src["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
+                bitmap = src.GetBitmapConsideringLink();
                 if (bitmap == null)
                 {
-                    Debug.Log(cache_src.FullPath + " bitmap is null");
+                    Debug.Log(src.FullPath + " bitmap is null");
                 }
 
                 dimensions = new Point_short((short)bitmap.Width, (short)bitmap.Height);
@@ -255,11 +245,58 @@ namespace ms
                 {
                     texture2D = TextureAndSpriteUtil.PngDataToTexture2D(bitmap.RawBytes, bitmap, pivot, dimensions);
                 }
-                nTexture = new FairyGUI.NTexture(texture2D);
+                //nTexture = new FairyGUI.NTexture(texture2D);
             }
         }
 
+        public void InitCostTime(MapleData src)
+        {
+            if (src != null && src.IsTexture())
+            {
+                fullPath = src[MapleDataTool.JsonNodeName_CanvasFullpath];
+                pivot = src["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
+                bitmap = new Bitmap(src["width"], src["height"]);
+                if (fullPath == null)
+                {
+                    Debug.Log(src.Name + "MapleData fullPath is null");
+                }
 
+                dimensions = new Point_short((short)bitmap.Width, (short)bitmap.Height);
+
+                /*if (cache_src.FullPath.Contains("Map.wz\\Tile"))
+                {
+                    //tileName = $"{ts}-{node_100000000img_0_Tile_0["u"].ToString ()}-{node_100000000img_0_Tile_0["no"]}";
+                    string tileName = cache_src.FullPath.Replace("Map.wz\\Tile\\", "").Replace("\\", "-");
+                    MapleStory.Instance.tileSprites.TryGetValue(tileName, out sprite);
+                    if (sprite != null)
+                    {
+                        texture2D = sprite.texture;
+                        isSprite = true;
+                    }
+                    //AppDebug.Log ($"{tileName}\t {sprite}");
+                }*/
+
+                isSprite = true;
+                var dotimgIndex = fullPath.IndexOf(".img");
+                var imgPath = fullPath.Substring(0, dotimgIndex + 4);
+                var img_FileInfo = new FileInfo(imgPath);
+                var imgName = img_FileInfo.Name;
+                var imgName_Remove_Img = imgName.Replace(".img", "");
+                var abName = $"wzpng\\map\\back\\{imgName_Remove_Img}";
+
+                var imgNameIndex = fullPath.IndexOf(imgName);
+                var texPath = fullPath.Substring(imgNameIndex);
+                var assetName = texPath.Replace("\\", "-");
+
+                sprite = TextureAndSpriteUtil.LoadSpriteFromAB(abName,assetName);
+                /*if (texture2D == null)
+                {
+                    texture2D = TextureAndSpriteUtil.PngDataToTexture2D(bitmap.RawBytes, bitmap, pivot, dimensions);
+                }
+                nTexture = new FairyGUI.NTexture(texture2D);*/
+
+            }
+        }
         public void erase()
         {
             //TestURPBatcher.Instance.HideOne(this);
@@ -284,8 +321,18 @@ namespace ms
                 {
                     return;
                 }*/
+                Vector3 position = Vector3.zero;
+                if (texture2D != null)
+                {
+                    position = new Vector3(args.getpos().x() + (args.FlipX ? -1 : 1) * (bitmap.Width / 2 - pivot.x()), -args.getpos().y() + (-bitmap.Height / 2 + pivot.y()), SingletonMono<GameUtil>.Instance.DrawOrder);
+                }
+                else
+                {
+                    //var position = new Vector3(obj.get_Point().x(), -obj.get_Point().y(), -obj.getz());
 
-                Vector3 position = new Vector3(args.getpos().x() + (args.FlipX ? -1 : 1) * (bitmap.Width / 2 - pivot.x()), -args.getpos().y() + (-bitmap.Height / 2 + pivot.y()), SingletonMono<GameUtil>.Instance.DrawOrder);
+                    position = new Vector3(args.getpos().x() , -args.getpos().y(), SingletonMono<GameUtil>.Instance.DrawOrder);
+                }
+                 
                 /*Vector3 position = new Vector3 (args.getpos ().x () + bitmap.Width / 2 - pivot.x (), -args.getpos ().y () - bitmap.Height / 2 + pivot.y (), Singleton<GameUtil>.Instance.DrawOrder);*/
                 
                 if (fullPath == "Ui-new.wz\\Login.img\\Title\\BtNew\\normal\\0")

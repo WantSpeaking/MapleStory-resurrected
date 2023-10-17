@@ -1,6 +1,6 @@
 ﻿using System;
 using ms;
-
+using provider.wz;
 
 namespace provider
 {
@@ -13,8 +13,16 @@ namespace provider
 
 		private static MapleDataProvider getWZ(string wzFileName, bool provideImages)
 		{
-			
-			return wz.get_file (wzFileName);
+			switch (GameUtil.Instance.wZProviderType)
+			{
+                default:
+                case WZProviderType.wz:
+					return new JsonWZFile(wzFileName);
+				case WZProviderType.xml:
+                    return new JsonWZFile(wzFileName);
+                case WZProviderType.jason:
+					return new JsonWZFile(wzFileName);
+			}
 			/*if (@in.Name.ToLower().EndsWith("wz", StringComparison.Ordinal) && !@in.Directory)
 			{
 				try

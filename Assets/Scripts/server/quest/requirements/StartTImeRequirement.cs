@@ -23,21 +23,22 @@ namespace server.quest.requirements
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
 	using System;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Ronan
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Ronan
+    /// </summary>
 	public class StartTimeRequirement : MapleQuestRequirement
 	{
 		private string start;
 
-		public StartTimeRequirement (MapleQuest quest, WzImageProperty data) : base (MapleQuestRequirementType.START)
+		public StartTimeRequirement (MapleQuest quest, MapleData data) : base (MapleQuestRequirementType.START)
 		{
 			processData (data);
 		}
 
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
 			start = data?.ToString ();
 		}

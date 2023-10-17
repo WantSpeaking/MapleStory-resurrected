@@ -25,23 +25,24 @@ namespace server.quest.actions
 	using YamlConfig = config.YamlConfig;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Tyler (Twdtwd)
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Tyler (Twdtwd)
+    /// </summary>
 	public class MesoAction : MapleQuestAction
 	{
 		internal int mesos;
 
-		public MesoAction (MapleQuest quest, WzImageProperty data) : base (MapleQuestActionType.MESO, quest)
+		public MesoAction (MapleQuest quest, MapleData data) : base (MapleQuestActionType.MESO, quest)
 		{
 			questID = quest.Id;
 			processData (data);
 		}
 
 
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
 			mesos = MapleDataTool.getInt (data);
 		}

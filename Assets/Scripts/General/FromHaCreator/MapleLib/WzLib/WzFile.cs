@@ -29,7 +29,7 @@ namespace MapleLib.WzLib
     /// <summary>
     /// A class that contains all the information of a wz file
     /// </summary>
-    public class WzFile : WzObject, MapleDataProvider
+    public class WzFile : WzObject
     {
         #region Fields
         internal string path;

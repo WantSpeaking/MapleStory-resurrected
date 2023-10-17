@@ -177,4 +177,9 @@ public static class TextureAndSpriteUtil
 
 		return result;
 	}
+
+	public static UnityEngine.Sprite LoadSpriteFromAB(string abName,string assetName)
+	{
+		return AssetBundleLoaderMgr.Instance.LoadSubAsset<UnityEngine.Sprite>(abName, assetName);
+	}
 }

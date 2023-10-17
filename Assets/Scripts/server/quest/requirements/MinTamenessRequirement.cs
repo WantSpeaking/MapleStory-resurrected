@@ -25,24 +25,25 @@ namespace server.quest.requirements
 	using MaplePet = client.inventory.MaplePet;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Tyler (Twdtwd)
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Tyler (Twdtwd)
+    /// </summary>
 	public class MinTamenessRequirement : MapleQuestRequirement
 	{
 		private int minTameness;
 
 
-		public MinTamenessRequirement (MapleQuest quest, WzImageProperty data) : base (MapleQuestRequirementType.MIN_PET_TAMENESS)
+		public MinTamenessRequirement (MapleQuest quest, MapleData data) : base (MapleQuestRequirementType.MIN_PET_TAMENESS)
 		{
 			processData (data);
 		}
 
 		/// 
 		/// <param name="data">  </param>
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
 			minTameness = MapleDataTool.getInt (data);
 		}

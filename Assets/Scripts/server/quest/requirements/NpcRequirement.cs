@@ -24,21 +24,22 @@ namespace server.quest.requirements
 	using MapleCharacter = client.MapleCharacter;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Tyler (Twdtwd)
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Tyler (Twdtwd)
+    /// </summary>
 	public class NpcRequirement : MapleQuestRequirement
 	{
 		private int reqNPC;
 
-		public NpcRequirement (MapleQuest quest, WzImageProperty data) : base (MapleQuestRequirementType.NPC)
+		public NpcRequirement (MapleQuest quest, MapleData data) : base (MapleQuestRequirementType.NPC)
 		{
 			processData (data);
 		}
 
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
 			reqNPC = MapleDataTool.getInt (data);
 		}

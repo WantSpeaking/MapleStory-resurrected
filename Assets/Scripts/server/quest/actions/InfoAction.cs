@@ -23,24 +23,25 @@ namespace server.quest.actions
 	using MapleQuestStatus = client.MapleQuestStatus;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Ronan
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Ronan
+    /// </summary>
 	public class InfoAction : MapleQuestAction
 	{
 
 			private string info;
 			private new int questID;
 
-			public InfoAction(MapleQuest quest, WzImageProperty data) : base(MapleQuestActionType.INFO, quest)
+			public InfoAction(MapleQuest quest, MapleData data) : base(MapleQuestActionType.INFO, quest)
 			{
 					questID = quest.Id;
 					processData(data);
 			}
 
-			public override void processData(WzImageProperty data)
+			public override void processData(MapleData data)
 			{
 					info = MapleDataTool.getString(data, "");
 			}

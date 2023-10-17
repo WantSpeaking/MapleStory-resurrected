@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using provider;
+using System.Collections.Generic;
 
 /*
  This file is part of the OdinMS Maple Story Server
@@ -37,17 +38,17 @@ namespace server.quest.requirements
 		internal IList<int> petIDs = new List<int> ();
 
 
-		public PetRequirement (MapleQuest quest, WzImageProperty data) : base (MapleQuestRequirementType.PET)
+		public PetRequirement (MapleQuest quest, MapleData data) : base (MapleQuestRequirementType.PET)
 		{
 			processData (data);
 		}
 
 
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
-			foreach (WzImageProperty petData in data)
+			foreach (var petData in data)
 			{
-				petIDs.Add (MapleDataTool.getInt (petData.GetFromPath ("id")));
+				petIDs.Add (MapleDataTool.getInt (petData.getChildByPath("id")));
 			}
 		}
 

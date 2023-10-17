@@ -24,23 +24,24 @@ namespace server.quest.requirements
 	using MapleCharacter = client.MapleCharacter;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Tyler (Twdtwd)
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Tyler (Twdtwd)
+    /// </summary>
 	public class MinLevelRequirement : MapleQuestRequirement
 	{
 		private int minLevel;
 
 
-		public MinLevelRequirement(MapleQuest quest, WzImageProperty data) : base(MapleQuestRequirementType.MIN_LEVEL)
+		public MinLevelRequirement(MapleQuest quest, MapleData data) : base(MapleQuestRequirementType.MIN_LEVEL)
 		{
 			processData(data);
 		}
 
 
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
 			minLevel = MapleDataTool.getInt(data);
 		}

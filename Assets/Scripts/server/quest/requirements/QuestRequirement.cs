@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using provider;
+using System.Collections.Generic;
 
 /*
 	This file is part of the MapleSolaxia Maple Story Server
@@ -34,19 +35,19 @@ namespace server.quest.requirements
 	{
 		internal IDictionary<int, int> quests = new Dictionary<int, int> ();
 
-		public QuestRequirement (MapleQuest quest, WzImageProperty data) : base (MapleQuestRequirementType.QUEST)
+		public QuestRequirement (MapleQuest quest, MapleData data) : base (MapleQuestRequirementType.QUEST)
 		{
 			processData (data);
 		}
 
 		/// 
 		/// <param name="data">  </param>
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
-			foreach (WzImageProperty questEntry in data)
+			foreach (MapleData questEntry in data)
 			{
-				int questID = MapleDataTool.getInt (questEntry.GetFromPath ("id"));
-				int stateReq = MapleDataTool.getInt (questEntry.GetFromPath ("state"));
+				int questID = MapleDataTool.getInt (questEntry.getChildByPath ("id"));
+				int stateReq = MapleDataTool.getInt (questEntry.getChildByPath("state"));
 				quests[questID] = stateReq;
 			}
 		}

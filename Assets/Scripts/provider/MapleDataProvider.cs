@@ -4,8 +4,13 @@ namespace provider
 {
 	public interface MapleDataProvider
 	{
-		WzObject getData(string path);
-		WzFile Root {get;}
+        /// <summary>
+        /// imgPath
+        /// </summary>
+        /// <param name="path">imgPath</param>
+        /// <returns></returns>
+        MapleData getData(string path);
+        MapleDataDirectoryEntry Root {get;}
 	}
 
 }

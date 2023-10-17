@@ -24,22 +24,23 @@ namespace server.quest.requirements
 	using MapleCharacter = client.MapleCharacter;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Tyler (Twdtwd)
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Tyler (Twdtwd)
+    /// </summary>
 	public class MonsterBookCountRequirement : MapleQuestRequirement
 	{
 		private int reqCards;
 
 
-		public MonsterBookCountRequirement(MapleQuest quest, WzImageProperty data) : base(MapleQuestRequirementType.MONSTER_BOOK)
+		public MonsterBookCountRequirement(MapleQuest quest, MapleData data) : base(MapleQuestRequirementType.MONSTER_BOOK)
 		{
 			processData(data);
 		}
 
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
 			reqCards = MapleDataTool.getInt(data);
 		}

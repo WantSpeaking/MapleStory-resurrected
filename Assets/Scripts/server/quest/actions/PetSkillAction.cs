@@ -26,23 +26,24 @@ namespace server.quest.actions
 	using ItemConstants = constants.inventory.ItemConstants;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Tyler (Twdtwd)
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Tyler (Twdtwd)
+    /// </summary>
 	public class PetSkillAction : MapleQuestAction
 	{
 		internal int flag;
 
-		public PetSkillAction(MapleQuest quest, WzImageProperty data) : base(MapleQuestActionType.PETSKILL, quest)
+		public PetSkillAction(MapleQuest quest, MapleData data) : base(MapleQuestActionType.PETSKILL, quest)
 		{
 			questID = quest.Id;
 			processData(data);
 		}
 
 
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
 			flag = MapleDataTool.getInt("petskill", data);
 		}

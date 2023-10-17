@@ -1516,7 +1516,6 @@ Transform:
   - {fileID: 772691846}
   - {fileID: 1909571331}
   - {fileID: 2107217196}
-  - {fileID: 645349678}
   - {fileID: 818775074}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1548,7 +1547,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefeb: {fileID: 6136293655556676435, guid: be060539b5ae34143a2e0a29898cf543, type: 3}
   prefeb_Sprite: {fileID: 845495291410106458, guid: e96be679b72257247971069b14bb63cc, type: 3}
-  presetMaterial: {fileID: 2100000, guid: 558bc8a2b81ef1a40b04706d5737ada8, type: 2}
+  unlit_presetMaterial: {fileID: 2100000, guid: 558bc8a2b81ef1a40b04706d5737ada8, type: 2}
+  pixelate_presetMaterial: {fileID: 2100000, guid: 7e9b01690c1817b4aad3d582ae5608de, type: 2}
   presetTextureList: []
   urlList_before: []
   urlList_after: []
@@ -1588,7 +1588,7 @@ MonoBehaviour:
   TestMode: 0
   TestAccount: admin2
   TestPassword: admin2
-  Version: 83
+  Version: 84
   drawMap: 1
   enableUpdate: 1
   mainCamera: {fileID: 1326867178}
@@ -1619,6 +1619,8 @@ MonoBehaviour:
   sortingLayerName_Portal: Portal
   sortingLayerName_Foreground: Foreground
   sortingLayerName_DefaultPlayer: Layer8
+  Use_wz_or_ab_draw_ObjTile: 0
+  Use_Unlit_or_Pixelate_Material: 1
 --- !u!114 &609587594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1746,8 +1748,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 609587585}
-  m_RootOrder: -1
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &645349679
 MonoBehaviour:
@@ -5356,7 +5358,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!850595691 &1960783480
 LightingSettings:

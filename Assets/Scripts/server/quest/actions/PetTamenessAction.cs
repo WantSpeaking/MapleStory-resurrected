@@ -24,23 +24,24 @@ namespace server.quest.actions
 	using MaplePet = client.inventory.MaplePet;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Ronan
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Ronan
+    /// </summary>
 	public class PetTamenessAction : MapleQuestAction
 	{
 		internal int tameness;
 
-		public PetTamenessAction(MapleQuest quest, WzImageProperty data) : base(MapleQuestActionType.PETTAMENESS, quest)
+		public PetTamenessAction(MapleQuest quest, MapleData data) : base(MapleQuestActionType.PETTAMENESS, quest)
 		{
 			questID = quest.Id;
 			processData(data);
 		}
 
 
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
 			tameness = MapleDataTool.getInt(data);
 		}

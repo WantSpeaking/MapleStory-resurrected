@@ -24,24 +24,25 @@ namespace server.quest.requirements
 	using MapleCharacter = client.MapleCharacter;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Tyler (Twdtwd)
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Tyler (Twdtwd)
+    /// </summary>
 	public class FieldEnterRequirement : MapleQuestRequirement
 	{
 		private int mapId = -1;
 
 
-		public FieldEnterRequirement(MapleQuest quest, WzImageProperty data) : base(MapleQuestRequirementType.FIELD_ENTER)
+		public FieldEnterRequirement(MapleQuest quest, MapleData data) : base(MapleQuestRequirementType.FIELD_ENTER)
 		{
 			processData(data);
 		}
 
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
-			WzImageProperty zeroField = data.GetFromPath("0");
+			var zeroField = data.getChildByPath("0");
 			if (zeroField != null)
 			{
 				 mapId = MapleDataTool.getInt(zeroField);

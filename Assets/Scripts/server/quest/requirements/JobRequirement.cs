@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using provider;
+using System.Collections.Generic;
 
 /*
  This file is part of the OdinMS Maple Story Server
@@ -37,16 +38,16 @@ namespace server.quest.requirements
 	{
 		internal IList<int> jobs = new List<int> ();
 
-		public JobRequirement (MapleQuest quest, WzImageProperty data) : base (MapleQuestRequirementType.JOB)
+		public JobRequirement (MapleQuest quest, MapleData data) : base (MapleQuestRequirementType.JOB)
 		{
 			processData (data);
 		}
 
 		/// 
 		/// <param name="data">  </param>
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
-			foreach (WzImageProperty jobEntry in data)
+			foreach (var jobEntry in data)
 			{
 				jobs.Add (MapleDataTool.getInt (jobEntry));
 			}

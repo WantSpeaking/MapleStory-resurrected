@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MapleLib.WzLib;
+using provider;
 
 /*
 	This file is part of the MapleSolaxia Maple Story Server
@@ -41,7 +42,7 @@ namespace server.quest.actions
 		}
 
 		public abstract void run(MapleCharacter chr, int? extSelection);
-		public abstract void processData(WzImageProperty data);
+		public abstract void processData(MapleData data);
 
 		public virtual bool check(MapleCharacter chr, int? extSelection)
 		{

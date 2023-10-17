@@ -1,4 +1,5 @@
-﻿using System;
+﻿using provider;
+using System;
 using System.Collections.Generic;
 
 /*
@@ -40,30 +41,30 @@ namespace server.quest.actions
 		private int itemEffect;
 		private IDictionary<int, SkillData> skillData = new Dictionary<int, SkillData>();
 
-		public SkillAction(MapleQuest quest, WzImageProperty data) : base(MapleQuestActionType.SKILL, quest)
+		public SkillAction(MapleQuest quest, MapleData data) : base(MapleQuestActionType.SKILL, quest)
 		{
 			processData(data);
 		}
 
 
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
-			foreach (WzImageProperty sEntry in data)
+			foreach (var sEntry in data)
 			{
 				sbyte skillLevel = 0;
-				int skillid = MapleDataTool.getInt(sEntry.GetFromPath("id"));
-				WzImageProperty skillLevelData = sEntry.GetFromPath("skillLevel");
+				int skillid = MapleDataTool.getInt(sEntry.getChildByPath("id"));
+				var skillLevelData = sEntry.getChildByPath("skillLevel");
 				if (skillLevelData != null)
 				{
 					skillLevel = (sbyte) MapleDataTool.getInt(skillLevelData);
 				}
-				int masterLevel = MapleDataTool.getInt(sEntry.GetFromPath("masterLevel"));
+				int masterLevel = MapleDataTool.getInt(sEntry.getChildByPath("masterLevel"));
 				IList<int> jobs = new List<int>();
 
-				WzImageProperty applicableJobs = sEntry.GetFromPath("job");
+				var applicableJobs = sEntry.getChildByPath("job");
 				if (applicableJobs != null)
 				{
-					foreach (WzImageProperty applicableJob in applicableJobs)
+					foreach (var applicableJob in applicableJobs)
 					{
 						jobs.Add(MapleDataTool.getInt(applicableJob));
 					}

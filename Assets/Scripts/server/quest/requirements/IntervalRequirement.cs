@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using provider;
+using System.Text;
 
 /*
  This file is part of the OdinMS Maple Story Server
@@ -37,7 +38,7 @@ namespace server.quest.requirements
 		private int interval = -1;
 		private int questID;
 
-		public IntervalRequirement (MapleQuest quest, WzImageProperty data) : base (MapleQuestRequirementType.INTERVAL)
+		public IntervalRequirement (MapleQuest quest, MapleData data) : base (MapleQuestRequirementType.INTERVAL)
 		{
 			questID = quest.Id;
 			processData (data);
@@ -51,7 +52,7 @@ namespace server.quest.requirements
 			}
 		}
 
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
 			interval = MapleDataTool.getInt (data) * 60 * 1000;
 		}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using provider;
+using System;
 using System.Collections.Generic;
 
 /*
@@ -46,36 +47,36 @@ namespace server.quest.actions
 	{
 		private SortedList<int, ItemData> items = new SortedList<int, ItemData> ();
 
-		public ItemAction (MapleQuest quest, WzImageProperty data) : base (MapleQuestActionType.ITEM, quest)
+		public ItemAction (MapleQuest quest, MapleData data) : base (MapleQuestActionType.ITEM, quest)
 		{
 			processData (data);
 		}
 
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
-			foreach (WzImageProperty iEntry in data)
+			foreach (var iEntry in data)
 			{
-				int id = MapleDataTool.getInt (iEntry.GetFromPath ("id"));
-				int count = MapleDataTool.getInt (iEntry.GetFromPath ("count"), 1);
-				int period = MapleDataTool.getInt (iEntry.GetFromPath ("period"), 0);
+				int id = MapleDataTool.getInt (iEntry.getChildByPath ("id"));
+				int count = MapleDataTool.getInt (iEntry.getChildByPath ("count"), 1);
+				int period = MapleDataTool.getInt (iEntry.getChildByPath ("period"), 0);
 
 				int? prop = null;
-				WzImageProperty propData = iEntry.GetFromPath ("prop");
+				var propData = iEntry.getChildByPath("prop");
 				if (propData != null)
 				{
 					prop = MapleDataTool.getInt (propData);
 				}
 
 				int gender = 2;
-				if (iEntry.GetFromPath ("gender") != null)
+				if (iEntry.getChildByPath("gender") != null)
 				{
-					gender = MapleDataTool.getInt (iEntry.GetFromPath ("gender"));
+					gender = MapleDataTool.getInt (iEntry.getChildByPath("gender"));
 				}
 
 				int job = -1;
-				if (iEntry.GetFromPath ("job") != null)
+				if (iEntry.getChildByPath("job") != null)
 				{
-					job = MapleDataTool.getInt (iEntry.GetFromPath ("job"));
+					job = MapleDataTool.getInt (iEntry.getChildByPath("job"));
 				}
 
 				var map = int.Parse (iEntry.Name);

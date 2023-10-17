@@ -23,21 +23,22 @@ namespace server.quest.requirements
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
 	using System;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Ronan
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Ronan
+    /// </summary>
 	public class EndTimeRequirement : MapleQuestRequirement
 	{
 		private string end;
 
-		public EndTimeRequirement (MapleQuest quest, WzImageProperty data) : base (MapleQuestRequirementType.START)
+		public EndTimeRequirement (MapleQuest quest, MapleData data) : base (MapleQuestRequirementType.START)
 		{
 			processData (data);
 		}
 
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
 			end = data?.ToString ();
 		}

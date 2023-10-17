@@ -25,22 +25,23 @@ namespace server.quest.actions
 	using YamlConfig = config.YamlConfig;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Tyler (Twdtwd)
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Tyler (Twdtwd)
+    /// </summary>
 	public class ExpAction : MapleQuestAction
 	{
 		internal int exp;
 
-		public ExpAction (MapleQuest quest, WzImageProperty data) : base (MapleQuestActionType.EXP, quest)
+		public ExpAction (MapleQuest quest, MapleData data) : base (MapleQuestActionType.EXP, quest)
 		{
 			processData (data);
 		}
 
 
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
 			exp = MapleDataTool.getInt (data);
 		}

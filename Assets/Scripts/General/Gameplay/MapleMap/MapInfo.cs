@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using ms.Helper;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -14,10 +12,14 @@ namespace ms
 			var tempPoint = node_100000000img_seat_0.GetPoint ();
 			pos = new Point_short ((short)tempPoint.X, (short)tempPoint.Y);
 		}
-
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: bool inrange(Point_short position) const
-		public bool inrange (Point_short position)
+        public Seat(MapleData node_100000000img_seat_0)
+        {
+            var tempPoint = (Point)node_100000000img_seat_0;
+            pos = new Point_short((short)tempPoint.X, (short)tempPoint.Y);
+        }
+        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+        //ORIGINAL LINE: bool inrange(Point_short position) const
+        public bool inrange (Point_short position)
 		{
 			var hor = Range_short.symmetric (position.x (), 10);
 			var ver = Range_short.symmetric (position.y (), 10);
@@ -44,10 +46,16 @@ namespace ms
 			y2 = node_100000000img_ladderRope_1["y2"];
 			ladder = node_100000000img_ladderRope_1["l"];
 		}
-
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: bool is_ladder() const
-		public bool is_ladder ()
+        public Ladder(MapleData node_100000000img_ladderRope_1)
+        {
+            x = node_100000000img_ladderRope_1["x"];
+            y1 = node_100000000img_ladderRope_1["y1"];
+            y2 = node_100000000img_ladderRope_1["y2"];
+            ladder = node_100000000img_ladderRope_1["l"];
+        }
+        //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+        //ORIGINAL LINE: bool is_ladder() const
+        public bool is_ladder ()
 		{
 			return ladder;
 		}
@@ -88,7 +96,57 @@ namespace ms
 
 	public class MapInfo
 	{
-		public MapInfo (WzObject node_100000000img, Range_short walls, Range_short borders)
+        public MapInfo(MapleData node_100000000img, Range_short walls, Range_short borders)
+        {
+            var node_node_100000000img_info = node_100000000img["info"];
+
+            if (node_node_100000000img_info["VRLeft"] != null)//todo 2 MapInfo VRLeft
+            {
+                mapwalls = new Range_short(node_node_100000000img_info["VRLeft"], node_node_100000000img_info["VRRight"]);
+                mapborders = new Range_short(node_node_100000000img_info["VRTop"], node_node_100000000img_info["VRBottom"]);
+            }
+            else
+            {
+                mapwalls = new Range_short(walls);
+                mapborders = new Range_short(borders);
+            }
+
+            string bgmpath = node_node_100000000img_info["bgm"].ToString();
+            var split = bgmpath.IndexOf('/');
+            if (split < 0)
+            {
+                AppDebug.LogWarning($"{bgmpath} format is wrong,{node_node_100000000img_info.Name}");
+                bgm = bgmpath;
+            }
+            else
+            {
+                bgm = bgmpath.Substring(0, split) + ".img/" + bgmpath.Substring(split + 1);
+            }
+
+            cloud = node_node_100000000img_info["cloud"];
+            fieldlimit = node_node_100000000img_info["fieldLimit"];
+            hideminimap = node_node_100000000img_info["hideMinimap"];
+            mapmark = node_node_100000000img_info["mapMark"]?.ToString() ?? string.Empty; //todo 2 mapmark maybe empty string
+            swim = node_node_100000000img_info["swim"];
+            town = node_node_100000000img_info["town"];
+
+            if (node_100000000img["seat"] != null)
+            {
+                foreach (var node_100000000img_seat_0 in node_100000000img["seat"])
+                {
+                    seats.Add(new Seat(node_100000000img_seat_0));
+                }
+            }
+
+            if (node_100000000img["ladderRope"] != null)
+            {
+                foreach (var node_100000000img_ladderRope_1 in node_100000000img["ladderRope"])
+                {
+                    ladders.Add(new Ladder(node_100000000img_ladderRope_1));
+                }
+            }
+        }
+        public MapInfo (WzObject node_100000000img, Range_short walls, Range_short borders)
 		{
 			var node_node_100000000img_info = node_100000000img["info"];
 
@@ -105,9 +163,17 @@ namespace ms
 
 			string bgmpath = node_node_100000000img_info["bgm"].ToString ();
 			var split = bgmpath.IndexOf ('/');
-			bgm = bgmpath.Substring (0, split) + ".img/" + bgmpath.Substring (split + 1);
+			if (split <0)
+			{
+				AppDebug.LogWarning($"{bgmpath} format is wrong,{node_node_100000000img_info.FullPath}");
+				bgm = bgmpath;
+            }
+			else
+			{
+                bgm = bgmpath.Substring(0, split) + ".img/" + bgmpath.Substring(split + 1);
+            }
 
-			cloud = node_node_100000000img_info["cloud"];
+            cloud = node_node_100000000img_info["cloud"];
 			fieldlimit = node_node_100000000img_info["fieldLimit"];
 			hideminimap = node_node_100000000img_info["hideMinimap"];
 			mapmark = node_node_100000000img_info["mapMark"]?.ToString () ?? string.Empty; //todo 2 mapmark maybe empty string
@@ -131,26 +197,16 @@ namespace ms
 			}
 		}
 
-		public MapInfo ()
-		{
-		}
-
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: bool is_underwater() const
-		public bool is_underwater ()
+        public bool is_underwater ()
 		{
 			return swim;
 		}
 
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: string get_bgm() const
 		public string get_bgm ()
 		{
 			return bgm;
 		}
 
-		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-		//ORIGINAL LINE: Range_short get_walls() const
 		public Range_short get_walls ()
 		{
 			return mapwalls;

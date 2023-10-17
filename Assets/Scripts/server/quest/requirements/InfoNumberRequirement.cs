@@ -22,24 +22,25 @@ namespace server.quest.requirements
 	using MapleCharacter = client.MapleCharacter;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Ronan
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Ronan
+    /// </summary>
 	public class InfoNumberRequirement : MapleQuestRequirement
 	{
 
 		private short infoNumber;
 		private int questID;
 
-		public InfoNumberRequirement (MapleQuest quest, WzImageProperty data) : base (MapleQuestRequirementType.INFO_NUMBER)
+		public InfoNumberRequirement (MapleQuest quest, MapleData data) : base (MapleQuestRequirementType.INFO_NUMBER)
 		{
 			questID = quest.Id;
 			processData (data);
 		}
 
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
 			infoNumber = (short)MapleDataTool.getIntConvert (data, 0);
 		}

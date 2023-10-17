@@ -26,22 +26,23 @@ namespace server.quest.actions
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
 	using MaplePacketCreator = tools.MaplePacketCreator;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Tyler (Twdtwd)
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Tyler (Twdtwd)
+    /// </summary>
 	public class NextQuestAction : MapleQuestAction
 	{
 		internal int nextQuest;
 
-		public NextQuestAction(MapleQuest quest, WzImageProperty data) : base(MapleQuestActionType.NEXTQUEST, quest)
+		public NextQuestAction(MapleQuest quest, MapleData data) : base(MapleQuestActionType.NEXTQUEST, quest)
 		{
 			processData(data);
 		}
 
 
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
 			nextQuest = MapleDataTool.getInt(data);
 		}

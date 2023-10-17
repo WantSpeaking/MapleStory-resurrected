@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using provider;
+using System.Collections.Generic;
 
 /*
  This file is part of the OdinMS Maple Story Server
@@ -40,17 +41,17 @@ namespace server.quest.requirements
 		internal IDictionary<int, int> items = new Dictionary<int, int> ();
 
 
-		public ItemRequirement (MapleQuest quest, WzImageProperty data) : base (MapleQuestRequirementType.ITEM)
+		public ItemRequirement (MapleQuest quest, MapleData data) : base (MapleQuestRequirementType.ITEM)
 		{
 			processData (data);
 		}
 
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
-			foreach (WzImageProperty itemEntry in data)
+			foreach (var itemEntry in data)
 			{
-				int itemId = MapleDataTool.getInt (itemEntry.GetFromPath ("id"));
-				int count = MapleDataTool.getInt (itemEntry.GetFromPath ("count"), 0);
+				int itemId = MapleDataTool.getInt (itemEntry.getChildByPath ("id"));
+				int count = MapleDataTool.getInt (itemEntry.getChildByPath("count"), 0);
 
 				items[itemId] = count;
 			}

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using MapleLib.WzLib;
+using provider;
 
 namespace server.life
 {
-	using MapleData = WzObject;
 	using MapleDataProvider = provider.MapleDataProvider;
 	using MapleDataProviderFactory = provider.MapleDataProviderFactory;
 	using MapleDataTool = provider.MapleDataTool;
@@ -151,7 +151,7 @@ namespace server.life
 			int firstAttack = 0;
 			if (firstAttackData != null)
 			{
-				if (firstAttackData.Type == WzPropertyType.Float)
+				if (firstAttackData.Type ==  provider.wz.MapleDataType.FLOAT)
 				{
 					firstAttack = (int)Math.Round(MapleDataTool.getFloat(firstAttackData), MidpointRounding.AwayFromZero);
 				}

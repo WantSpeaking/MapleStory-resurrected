@@ -25,16 +25,17 @@ namespace server.quest.actions
 	using MapleCharacter = client.MapleCharacter;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Tyler (Twdtwd)
-	/// </summary>
-	public class BuffAction : MapleQuestAction
+    /// 
+    /// <summary>
+    /// @author Tyler (Twdtwd)
+    /// </summary>
+    public class BuffAction : MapleQuestAction
 	{
 		internal int itemEffect;
 
-		public BuffAction(MapleQuest quest, WzImageProperty data) : base(MapleQuestActionType.BUFF, quest)
+		public BuffAction(MapleQuest quest, MapleData data) : base(MapleQuestActionType.BUFF, quest)
 		{
 			processData(data);
 		}
@@ -44,7 +45,7 @@ namespace server.quest.actions
 			return true;
 			}
 
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
 			itemEffect = MapleDataTool.getInt(data);
 		}

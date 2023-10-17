@@ -24,22 +24,23 @@ namespace server.quest.requirements
 	using MapleCharacter = client.MapleCharacter;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Tyler (Twdtwd)
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Tyler (Twdtwd)
+    /// </summary>
 	public class CompletedQuestRequirement : MapleQuestRequirement
 	{
 		private int reqQuest;
 
 
-		public CompletedQuestRequirement(MapleQuest quest, WzImageProperty data) : base(MapleQuestRequirementType.COMPLETED_QUEST)
+		public CompletedQuestRequirement(MapleQuest quest, MapleData data) : base(MapleQuestRequirementType.COMPLETED_QUEST)
 		{
 			processData(data);
 		}
 
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
 			reqQuest = MapleDataTool.getInt(data);
 		}

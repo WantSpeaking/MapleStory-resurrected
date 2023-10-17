@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using provider;
+using System.Collections.Generic;
 
 /*
  This file is part of the OdinMS Maple Story Server
@@ -37,18 +38,18 @@ namespace server.quest.requirements
 		private int questID;
 
 
-		public InfoExRequirement(MapleQuest quest, WzImageProperty data) : base(MapleQuestRequirementType.INFO_EX)
+		public InfoExRequirement(MapleQuest quest, MapleData data) : base(MapleQuestRequirementType.INFO_EX)
 		{
 			questID = quest.Id;
 					processData(data);
 		}
 
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
 			// Because we have to...
-					foreach (WzImageProperty infoEx in data)
+					foreach (var infoEx in data)
 					{
-				WzImageProperty value = infoEx.GetFromPath("value");
+				var value = infoEx.getChildByPath("value");
 				infoExpected.Add(MapleDataTool.getString(value, ""));
 					}
 		}

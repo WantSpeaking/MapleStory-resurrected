@@ -24,24 +24,25 @@ namespace server.quest.requirements
 	using MapleCharacter = client.MapleCharacter;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Tyler (Twdtwd)
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Tyler (Twdtwd)
+    /// </summary>
 	public class MaxLevelRequirement : MapleQuestRequirement
 	{
 		private int maxLevel;
 
 
-		public MaxLevelRequirement(MapleQuest quest, WzImageProperty data) : base(MapleQuestRequirementType.MAX_LEVEL)
+		public MaxLevelRequirement(MapleQuest quest, MapleData data) : base(MapleQuestRequirementType.MAX_LEVEL)
 		{
 			processData(data);
 		}
 
 		/// 
 		/// <param name="data">  </param>
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
 			maxLevel = MapleDataTool.getInt(data);
 		}

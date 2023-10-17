@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MapleLib.WzLib;
+using provider;
 
 /*
 This file is part of the OdinMS Maple Story Server
@@ -31,7 +32,6 @@ namespace server.life
 	using MonitoredWriteLock = net.server.audit.locks.MonitoredWriteLock;
 	using MonitoredReadLockFactory = net.server.audit.locks.factory.MonitoredReadLockFactory;
 	using MonitoredWriteLockFactory = net.server.audit.locks.factory.MonitoredWriteLockFactory;*/
-	using MapleData = WzObject;
 	using MapleDataProvider = provider.MapleDataProvider;
 	using MapleDataProviderFactory = provider.MapleDataProviderFactory;
 	using MapleDataTool = provider.MapleDataTool;
@@ -100,8 +100,8 @@ namespace server.life
 						Point rb = default(Point);
 						if (ltd != null)
 						{
-							lt = (Point) ltd.GetPoint ();
-							rb = (Point) skillData.getChildByPath("rb").GetPoint ();
+							lt = (Point) ltd.Data;
+							rb = (Point) skillData.getChildByPath("rb").Data;
 						}
 						ret = new MobSkill(skillId, level);
 						ret.addSummons(toSummon);

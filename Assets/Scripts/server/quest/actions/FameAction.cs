@@ -24,23 +24,24 @@ namespace server.quest.actions
 	using MapleCharacter = client.MapleCharacter;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Tyler (Twdtwd)
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Tyler (Twdtwd)
+    /// </summary>
 	public class FameAction : MapleQuestAction
 	{
 		internal int fame;
 
-		public FameAction(MapleQuest quest, WzImageProperty data) : base(MapleQuestActionType.FAME, quest)
+		public FameAction(MapleQuest quest, MapleData data) : base(MapleQuestActionType.FAME, quest)
 		{
 			questID = quest.Id;
 			processData(data);
 		}
 
 
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
 			fame = MapleDataTool.getInt(data);
 		}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using provider;
+using System;
 
 /*
     This file is part of the HeavenMS MapleStory Server
@@ -33,12 +34,12 @@ namespace server.quest.requirements
 	{
 		private int buffId = 1;
 
-		public BuffRequirement (MapleQuest quest, WzImageProperty data) : base (MapleQuestRequirementType.BUFF)
+		public BuffRequirement (MapleQuest quest, MapleData data) : base (MapleQuestRequirementType.BUFF)
 		{
 			processData (data);
 		}
 
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
 			// item buffs are negative
 			buffId = -1 * Convert.ToInt32 (MapleDataTool.getString (data));

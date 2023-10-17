@@ -22,21 +22,22 @@ namespace server.quest.requirements
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
 	using MapleCharacter = client.MapleCharacter;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Ronan
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Ronan
+    /// </summary>
 	public class MesoRequirement : MapleQuestRequirement
 	{
 			private int meso = 0;
 
-		public MesoRequirement(MapleQuest quest, WzImageProperty data) : base(MapleQuestRequirementType.MESO)
+		public MesoRequirement(MapleQuest quest, MapleData data) : base(MapleQuestRequirementType.MESO)
 		{
 			processData(data);
 		}
 
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
 			meso = MapleDataTool.getInt(data);
 		}

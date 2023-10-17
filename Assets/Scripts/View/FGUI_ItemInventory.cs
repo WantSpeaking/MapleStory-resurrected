@@ -127,8 +127,8 @@ namespace ms_Unity
 			_GList_Setup.numItems = MAXFULLSLOTS;
 			_GList_Cash.numItems = MAXFULLSLOTS;
 			_GList_Equipped.numItems = MAXEQUIPPEDSLOTS;
-
-			inventory = Stage.get ()?.get_player ()?.get_inventory ();
+            GameUtil.Instance.LogTime("_GList_Equip");
+            inventory = Stage.get ()?.get_player ()?.get_inventory ();
 
 			if (inventory != null)
 			{
@@ -140,8 +140,9 @@ namespace ms_Unity
 					var child_Equipped = _GList_Equipped.GetChildAt(i) as FGUI_Itemed_ListItem;
 					child_Equipped._c_InventoryTypeId.selectedIndex = (int)InventoryType.Id.EQUIPPED;
 				}
+                GameUtil.Instance.LogTime("MAXEQUIPPEDSLOTS");
 
-				for (short i = 0; i < MAXFULLSLOTS; i++)//position:300,160
+                for (short i = 0; i < MAXFULLSLOTS; i++)//position:300,160
 				{
 					var child_Equip = _GList_Equip.GetChildAt(i) as FGUI_Itemed_ListItem;
 					var child_Use = _GList_Use.GetChildAt(i) as FGUI_Itemed_ListItem;
@@ -177,8 +178,9 @@ namespace ms_Unity
 						child_Cash.enabled = false;
 					}
 				}
+                GameUtil.Instance.LogTime("MAXFULLSLOTS");
 
-				Inventories = inventory.get_all_data();
+				/*Inventories = inventory.get_all_data();
 				foreach (var type_dict in inventories)
 				{
 					var type = type_dict.Key;
@@ -187,7 +189,7 @@ namespace ms_Unity
 
 						//AppDebug.Log ($"type:{type} slotIndex:{slotIndex_slot.Key} slotname:{ItemData.get (slotIndex_slot.Value.Item_id)?.get_name ()}");
 					}
-				}
+				}*/
 			}
 			_Itemed_ItemDetail._Btn_Close.onClick.Add (OnClick_Btn_Close);
 			_Itemed_ItemDetail._ClickToHide.onClick.Add (OnClick_Btn_Close);
@@ -202,8 +204,9 @@ namespace ms_Unity
 			_Btn_Meso.onClick.Add (OnClick_Btn_Meso);
 
 			_SetupUseButtons._GList_UseBtns.onClickItem.Add (OnClick_UseSlot);
-            GameUtil.Instance.stopwatch.Stop();
-            AppDebug.Log($"FGUI_ItemInventory time:{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");
+            GameUtil.Instance.LogTime("stop");
+            /*GameUtil.Instance.stopwatch.Stop();
+            AppDebug.Log($"FGUI_ItemInventory time:{GameUtil.Instance.stopwatch.ElapsedMilliseconds}");*/
             return this;
 		}
 

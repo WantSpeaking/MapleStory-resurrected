@@ -54,6 +54,12 @@ public class GameUtil : SingletonMono<GameUtil>
 
     public const string sortingLayerName_Default = "Layer7";
 	public const string layerNameDefault = "Default";
+
+	[Tooltip("true 使用wz画Obj，false使用ab")]
+	public bool Use_wz_or_ab_draw_ObjTile = true;
+	public bool Use_Unlit_or_Pixelate_Material = true;
+
+	public WZProviderType wZProviderType = WZProviderType.wz;
     public string msLayerToSortingLayerName (ms.Layer.Id id)
 	{
 		var n = sortingLayerName_Layer0;
@@ -88,4 +94,18 @@ public class GameUtil : SingletonMono<GameUtil>
 		}
 		return n;
 	}
+
+	public void LogTime (string message)
+	{
+		stopwatch.Stop();
+		AppDebug.Log($"{message} used time:{stopwatch.ElapsedMilliseconds}");
+		stopwatch.Restart();
+    }
+}
+
+public enum WZProviderType
+{
+	wz,
+	xml,
+	jason
 }

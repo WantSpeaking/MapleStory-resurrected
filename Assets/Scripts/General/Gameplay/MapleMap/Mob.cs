@@ -147,7 +147,7 @@ namespace ms
 				i++;
 			}
 
-            AppDebug.Log($"SpawnMob{(mode!=0?"C":"")} name:{name} oid:{oid}\t id:{id}\t stance:{stance}\t fh:{fh}\t position:{position}");
+            //AppDebug.Log($"SpawnMob{(mode!=0?"C":"")} name:{name} oid:{oid}\t id:{id}\t stance:{stance}\t fh:{fh}\t position:{position}");
 
         }
 

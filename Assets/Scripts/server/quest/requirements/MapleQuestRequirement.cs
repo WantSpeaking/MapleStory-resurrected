@@ -23,11 +23,12 @@ namespace server.quest.requirements
 {
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleCharacter = client.MapleCharacter;
+    using provider;
 
-	/// <summary>
-	/// Base class for a Quest Requirement. Quest system uses it for all requirements.
-	/// @author Tyler (Twdtwd)
-	/// </summary>
+    /// <summary>
+    /// Base class for a Quest Requirement. Quest system uses it for all requirements.
+    /// @author Tyler (Twdtwd)
+    /// </summary>
 	public abstract class MapleQuestRequirement
 	{
 		private readonly MapleQuestRequirementType type;
@@ -48,7 +49,7 @@ namespace server.quest.requirements
 		/// <summary>
 		/// Processes the data and stores it in the class for future use. </summary>
 		/// <param name="data"> The data to process. </param>
-		public abstract void processData(WzImageProperty data);
+		public abstract void processData(MapleData data);
 
 		public virtual MapleQuestRequirementType Type
 		{

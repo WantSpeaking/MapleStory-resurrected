@@ -28,7 +28,8 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
     public GameObject prefeb;
     public GameObject prefeb_Sprite;
 
-    public Material presetMaterial;
+    public Material unlit_presetMaterial;
+    public Material pixelate_presetMaterial;
 
     public List<Texture2D> presetTextureList = new List<Texture2D>();
 
@@ -352,7 +353,10 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
             tempMaterial.name = tex.fullPath;
             tempMaterial.mainTexture = tex.texture2D;
             //Debug.Log ($"after:{tempMaterial.GetHashCode ()}");
-
+            if (!GameUtil.Instance.Use_Unlit_or_Pixelate_Material)
+            {
+                tempMaterial.SetVector("_PixelCount", new Vector4(tex.width() /3, tex.height() /3, 0, 0));
+            }
             var drawObj = m_DrawObjectPool.Spawn(tex.fullPath);
             if (drawObj?.Target is GameObject targetGobj)
             {
@@ -416,7 +420,14 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
     }
     private Material CreateMaterial()
     {
-        return new Material(presetMaterial);
+        if (GameUtil.Instance.Use_Unlit_or_Pixelate_Material)
+        {
+            return new Material(unlit_presetMaterial);
+        }
+        else
+        {
+            return new Material(pixelate_presetMaterial);
+        }
     }
 
     public void UnSpawn(ms.Texture tex)

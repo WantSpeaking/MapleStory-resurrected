@@ -22,21 +22,22 @@ namespace server.quest.requirements
 	using MapleCharacter = client.MapleCharacter;
 	using WzImageProperty = MapleLib.WzLib.WzImageProperty;
 	using MapleDataTool = provider.MapleDataTool;
+    using provider;
 
-	/// 
-	/// <summary>
-	/// @author Ronan
-	/// </summary>
+    /// 
+    /// <summary>
+    /// @author Ronan
+    /// </summary>
 	public class ScriptRequirement : MapleQuestRequirement
 	{
 		private bool reqScript;
 
-		public ScriptRequirement (MapleQuest quest, WzImageProperty data) : base (MapleQuestRequirementType.BUFF)
+		public ScriptRequirement (MapleQuest quest, MapleData data) : base (MapleQuestRequirementType.BUFF)
 		{
 			processData (data);
 		}
 
-		public override void processData (WzImageProperty data)
+		public override void processData (MapleData data)
 		{
 			reqScript = !string.IsNullOrEmpty (MapleDataTool.getString (data, ""));
 		}

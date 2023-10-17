@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using ms;
-
+using provider;
 
 namespace ms
 {
@@ -70,8 +70,65 @@ namespace ms
 			else
 				scales = new Tuple<short, short> (100, 100);
 		}
+        public Frame(MapleData src, string layerMaskName, string sortingLayerName) // Map.wz/Back/grassySoil.img/ani/0/0
+        {
+            if (src == null)
+            {
+                AppDebug.LogError("Frame src is null");
+            }
+            /*if (src is WzUOLProperty uOLProperty)
+            {
+                src = uOLProperty.LinkValue;
+            }*/
 
-		public Frame ()
+            temp_maple = src;
+
+            texture = new Texture(src, layerMaskName, sortingLayerName);
+            bounds = new Rectangle_short(src);
+            head = src["head"];
+            delay = src["delay"];
+            //if (temp?.FullPath.Contains ("1210100.img") ?? false)
+            //AppDebug.Log ($"\t delay:{delay}");
+            if (delay == 0)
+                delay = 100;
+
+			bool hasa0 = src["a0"] != null ;
+            bool hasa1 = src["a1"] != null;
+
+            if (hasa0 && hasa1)
+            {
+                opacities = new Tuple<byte, byte>(src["a0"], src["a1"]);
+            }
+            else if (hasa0)
+            {
+                byte a0 = src["a0"];
+                opacities = new Tuple<byte, byte>(a0, (byte)(255 - a0));
+            }
+            else if (hasa1)
+            {
+                byte a1 = src["a1"];
+                opacities = new Tuple<byte, byte>((byte)(255 - a1), a1);
+            }
+            else
+            {
+                opacities = new Tuple<byte, byte>(255, 255);
+            }
+
+            bool hasz0 = src["z0"]!=null;
+
+            bool hasz1 = src["z1"] != null;
+
+
+            if (hasz0 && hasz1)
+                scales = new Tuple<short, short>(src["z0"], src["z1"]);
+            else if (hasz0)
+                scales = new Tuple<short, short>(src["z0"], 0);
+            else if (hasz1)
+                scales = new Tuple<short, short>(100, src["z1"]);
+            else
+                scales = new Tuple<short, short>(100, 100);
+        }
+        public Frame ()
 		{
 			delay = 0;
 			opacities = new Tuple<byte, byte> (0, 0);
@@ -88,8 +145,9 @@ namespace ms
 		}
 
 		private WzObject temp;
+		private MapleData temp_maple;
 
-		public void draw (DrawArgument args)
+        public void draw (DrawArgument args)
 		{
 			//AppDebug.Log ($"frame draw FullPath:{temp?.FullPath}");
 
@@ -173,7 +231,8 @@ namespace ms
 		//private SortedSet<short> frameids = new SortedSet<short> ();
 		SortedDictionary<short,string> frameid_name_dict = new SortedDictionary<short,string> ();
 		private WzObject cache_src { get; set; }
-		private string layerMaskName;
+		private MapleData cache_src_mapledata { get; set; }
+        private string layerMaskName;
 		private string sortingLayerName;
 
         public Animation (WzObject src) // Map.wz/Back/grassySoil.img/ani/0
@@ -185,6 +244,12 @@ namespace ms
 			
             Init(src, layerMaskName, sortingLayerName);
         }
+        public Animation(MapleData src, string layerMaskName = GameUtil.layerNameDefault, string sortingLayerName = GameUtil.sortingLayerName_Default) // Map.wz/Back/grassySoil.img/ani/0
+        {
+
+            Init(src, layerMaskName, sortingLayerName);
+        }
+
         public Animation ()
 		{
 			animated = false;
@@ -197,16 +262,23 @@ namespace ms
 
 		public Animation (Animation srcAnimation)
 		{
-			Init (srcAnimation?.cache_src, srcAnimation?.layerMaskName, srcAnimation?.sortingLayerName);
-		}
+			if (srcAnimation?.cache_src != null)
+			{
+                Init(srcAnimation?.cache_src, srcAnimation?.layerMaskName, srcAnimation?.sortingLayerName);
+            }
+			else
+			{
+                Init(srcAnimation?.cache_src_mapledata, srcAnimation?.layerMaskName, srcAnimation?.sortingLayerName);
+            }
+        }
 
 		private void Init (WzObject src,string layerMaskName = GameUtil.layerNameDefault,string sortingLayerName = GameUtil.sortingLayerName_Default)
 		{
             this.layerMaskName = layerMaskName;
             this.sortingLayerName = sortingLayerName;
 
-            if (src == null)
-			{
+            if (src == null)//801040004.img/ back/0/bS 值为空
+            {
 				//AppDebug.Log ($"Animation(src):src == null");
 				frames.Add (new Frame ());
 				return;
@@ -257,7 +329,64 @@ namespace ms
 
 			reset ();
 		}
-		public void reset ()
+        private void Init(MapleData src, string layerMaskName = GameUtil.layerNameDefault, string sortingLayerName = GameUtil.sortingLayerName_Default)
+        {
+            this.layerMaskName = layerMaskName;
+            this.sortingLayerName = sortingLayerName;
+
+            if (src == null)//801040004.img/ back/0/bS 值为空
+            {
+                //AppDebug.Log ($"Animation(src):src == null");
+                frames.Add(new Frame());
+                return;
+            }
+
+            cache_src_mapledata = src;
+
+            bool istexture = src.IsTexture();
+
+            if (istexture) //WzCanvasProperty
+            {
+                frames.Add(new Frame(src, layerMaskName, sortingLayerName));
+            }
+            else
+            {
+                if (src is MapleData node_Anim)
+                {
+                    foreach (var sub in node_Anim)
+                    {
+                        //AppDebug.Log ($"{sub.FullPath} istexture:{istexture} type:{(sub as WzImageProperty)?.PropertyType}");
+                        if (sub.IsTexture())
+                        {
+                            short fid = string_conversion.or_default(sub.Name, (short)-1);
+
+                            if (fid >= 0)
+                            {
+                                //frameids.Add (fid);
+                                frameid_name_dict.Add(fid, sub.Name);
+                            }
+                        }
+                    }
+
+                    foreach (var fid in frameid_name_dict.Values)
+                    {
+                        var sub = src[fid];
+                        frames.Add(new Frame(sub, layerMaskName, sortingLayerName));//KualaLumpur_MY.img/Adventure Rides/adventure/3/3空格，名字中含有空格，转换过来的没有空格，导致读取不到
+                    }
+
+                    if (frames.Count == 0)
+                    {
+                        frames.Add(new Frame());
+                    }
+                }
+            }
+
+            animated = frames.Count > 1;
+            zigzag = src["zigzag"];
+
+            reset();
+        }
+        public void reset ()
 		{
 			frame.set (0);
 			opacity.set (frames[0].start_opacity ());

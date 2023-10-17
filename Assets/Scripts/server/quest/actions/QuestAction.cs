@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using provider;
+using System.Collections.Generic;
 
 /*
  This file is part of the OdinMS Maple Story Server
@@ -37,19 +38,19 @@ namespace server.quest.actions
 		internal int mesos;
 		internal IDictionary<int, int> quests = new Dictionary<int, int>();
 
-		public QuestAction(MapleQuest quest, WzImageProperty data) : base(MapleQuestActionType.QUEST, quest)
+		public QuestAction(MapleQuest quest, MapleData data) : base(MapleQuestActionType.QUEST, quest)
 		{
 			questID = quest.Id;
 			processData(data);
 		}
 
 
-		public override void processData(WzImageProperty data)
+		public override void processData(MapleData data)
 		{
-			foreach (WzImageProperty qEntry in data)
+			foreach (var qEntry in data)
 			{
-				int questid = MapleDataTool.getInt(qEntry.GetFromPath("id"));
-				int stat = MapleDataTool.getInt(qEntry.GetFromPath("state"));
+				int questid = MapleDataTool.getInt(qEntry.getChildByPath("id"));
+				int stat = MapleDataTool.getInt(qEntry.getChildByPath("state"));
 				quests[questid] = stat;
 			}
 		}
