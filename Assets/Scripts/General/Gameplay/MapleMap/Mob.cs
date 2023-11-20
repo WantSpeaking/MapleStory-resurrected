@@ -7,6 +7,7 @@ using MapleLib.WzLib;
 using ms.Helper;
 using NodeCanvas.BehaviourTrees;
 using NodeCanvas.Framework;
+using provider;
 
 namespace ms
 {
@@ -41,14 +42,14 @@ namespace ms
 		public Mob (int oi, int mid, sbyte mode, sbyte st, ushort fh, bool newspawn, sbyte tm, Point_short position) : base (oi, position)
 		{
 			string strid = string_format.extend_id (mid, 7);
-			var src = ms.wz.wzFile_mob[strid + ".img"];
+			var src = ms.wz.wzProvider_mob[strid + ".img"];
 
 			var info = src["info"];
 			if (info["link"]!=null)
 			{
 				var linkMobId = info["link"].ToString();
                 strid = string_format.extend_id(linkMobId, 7);
-                src = ms.wz.wzFile_mob[strid + ".img"];
+                src = ms.wz.wzProvider_mob[strid + ".img"];
                 info = src["info"]; 
             }
 
@@ -66,9 +67,9 @@ namespace ms
 			undead = info["undead"];
 			noflip = info["noFlip"];
 			notattack = info["notAttack"];
-			canjump = (src["jump"] as WzImageProperty)?.WzProperties.Count > 0;
-			canfly = (src["fly"] as WzImageProperty)?.WzProperties.Count > 0;
-			canmove = (src["move"] as WzImageProperty)?.WzProperties.Count > 0 || canfly;
+			canjump = (src["jump"] as MapleData)?.Children.Count > 0;
+			canfly = (src["fly"] as MapleData)?.Children.Count > 0;
+			canmove = (src["move"] as MapleData)?.Children.Count > 0 || canfly;
             _isBoss = info["boss"] > 0;
 			hpTagColor = info["hpTagColor"];
             hpTagBgcolor = info["hpTagBgcolor"];
@@ -88,9 +89,9 @@ namespace ms
 			animations[MobStance.HIT] = src["hit1"];
 			animations[MobStance.DIE] = src["die1"];
 
-			name = ms.wz.wzFile_string["Mob.img"][Convert.ToString (mid)]["name"].ToString ();
+			name = ms.wz.wzProvider_string["Mob.img"][Convert.ToString (mid)]["name"].ToString ();
 
-			var sndsrc = ms.wz.wzFile_sound["Mob.img"][strid];
+			var sndsrc = ms.wz.wzProvider_sound["Mob.img"][strid];
 
 			hitsound = sndsrc?["Damage"];
 			diesound = sndsrc?["Die"];
@@ -646,7 +647,7 @@ namespace ms
 
 		public static string get_name (int mobId)
 		{
-			return ms.wz.wzFile_string["Mob.img"][Convert.ToString (mobId)]["name"].ToString ();
+			return ms.wz.wzProvider_string["Mob.img"][Convert.ToString (mobId)]["name"].ToString ();
 		}
 
 		private enum FlyDirection

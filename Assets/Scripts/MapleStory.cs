@@ -395,7 +395,7 @@ public class MapleStory : SingletonMono<MapleStory>
 			MapPortals.init ();
 			Stage.get ().init ();
 			UI.get ().init ();
-			MapleQuest.loadAllQuest ();
+			//MapleQuest.loadAllQuest ();
 
 			canStart = true;
 			button_load.transform.parent.gameObject.SetActive (false);

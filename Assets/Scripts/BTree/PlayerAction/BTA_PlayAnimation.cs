@@ -21,7 +21,7 @@ namespace ms_Unity
 		{
 			if (pressType == Enum_Animation.ShowChargeHeavyAttack)
 			{
-				animation = wz.wzFile_skill?.GetObjectFromPath ("Skill.wz/232.img/skill/2321001/keydown");
+				animation = wz.wzProvider_skill?["232.img"]["skill/2321001/keydown"];
 			}
 		}
 

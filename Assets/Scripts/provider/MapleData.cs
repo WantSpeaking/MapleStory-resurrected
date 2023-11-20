@@ -48,7 +48,7 @@ namespace provider
         public abstract object Data {get;}
 
         public abstract string Name { get; }
-
+        public abstract string FullPath { get; }
         public abstract MapleDataEntity Parent { get; }
 
         public abstract MapleData this[string dataPath] { get;}
@@ -106,6 +106,14 @@ namespace provider
         public static implicit operator ms.Texture(MapleData wzObject)
         {
             return new ms.Texture(wzObject);
+        }
+        public static implicit operator ms.Sprite(MapleData wzObject)
+        {
+            return new ms.Sprite(wzObject);
+        }
+        public static implicit operator ms.Sound(MapleData wzObject)
+        {
+            return new ms.Sound(wzObject);
         }
         #endregion
     }

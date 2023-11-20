@@ -37,13 +37,13 @@ namespace ms
             var back = map001["back"];
             var ani = map001["ani"];
 
-            var Login = ms.wz.wzFile_ui["Login.img"];
+            var Login = ms.wz.wzProvider_ui["Login.img"];
             var UI_Title = Login["Title"];
             //var MapObj_Title = ms.wz.wzProvider_map["Obj"]["login.img"]["Title"];
 
             var Common = Login["Common"];
 
-            var prettyLogo = ms.wz.wzFile_UI_Endless["Game.img"]["logo"];
+            //var prettyLogo = ms.wz.wzProvider_ui_Endless["Game.img"]["logo"];
             //var frame = ms.wz.wzProvider_map["Obj"]["login.img"]["Common"]["frame"]["0"]["0"];
             //WzObject frame = nl.nx.wzFile_map["Obj"]["login.img"]["Common"]["frame"]["0"];
 
@@ -53,7 +53,7 @@ namespace ms
             sprites.Add(new Sprite(ani["19"], new Point_short(374, 200)));
             sprites.Add(new Sprite(ani["19"], new Point_short(348, 161)));
             sprites.Add(new Sprite(back["35"], new Point_short(399, 260)));
-            sprites.Add(new Sprite(prettyLogo, new Point_short(409, 144)));
+            //sprites.Add(new Sprite(prettyLogo, new Point_short(409, 144)));
             //sprites.Add(new Sprite(MapObj_Title["signboard"]["0"]["0"], signboard_pos));
             //sprites.Add(new Sprite(frame, new Point_short(400, 300)));
             //sprites.Add(new Sprite(Common["frame"], new Point_short(400, 300)));

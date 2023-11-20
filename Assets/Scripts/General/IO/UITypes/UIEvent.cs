@@ -2,6 +2,7 @@
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 using ms.Helper;
+using provider;
 
 namespace ms
 {
@@ -21,10 +22,10 @@ namespace ms
 			offset = 0;
 			event_count = 16;
 
-			WzObject main = ms.wz.wzFile_ui["UIWindow2.img"]["EventList"]["main"];
-			WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
+			MapleData main = ms.wz.wzProvider_ui["UIWindow2.img"]["EventList"]["main"];
+			MapleData close = ms.wz.wzProvider_ui["Basic.img"]["BtClose3"];
 
-			WzObject backgrnd = main["backgrnd"];
+			MapleData backgrnd = main["backgrnd"];
 			Point_short bg_dimensions = new Texture (backgrnd).get_dimensions ();
 
 			sprites.Add (backgrnd);

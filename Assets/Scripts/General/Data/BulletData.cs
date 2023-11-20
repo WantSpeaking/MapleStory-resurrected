@@ -54,7 +54,7 @@ namespace ms
 			this.itemdata = ItemData.get(itemid);
 			string prefix = "0" + Convert.ToString(itemid / 10000);
 			string strid = "0" + Convert.ToString(itemid);
-			var src  = ms.wz.wzFile_item["Consume"][prefix + ".img"][strid];
+			var src  = ms.wz.wzProvider_item[$"Consume/{prefix}.img"][strid];
 
 			bullet =new Animation(src["bullet"]); 
 			watk = src["info"]["incPAD"];

@@ -4,12 +4,7 @@ using Beebyte.Obfuscator;
 using MapleLib.WzLib;
 using ms_Unity;
 using ms.Util;
-
-
-
-
-
-
+using provider;
 
 namespace ms
 {
@@ -30,16 +25,16 @@ namespace ms
 			string version_text = Configuration.get().get_version();
 			version = new Text(Text.Font.A11B, Text.Alignment.LEFT, Color.Name.LEMONGRASS, "Ver. " + version_text);
 
-			var Login = ms.wz.wzFile_ui["Login.img"];
+			var Login = ms.wz.wzProvider_ui["Login.img"];
 			var Common = Login["Common"];
 			//WzObject CustomizeChar = Login["CustomizeChar"]["000"];
 			var NewChar = Login["NewChar"];
 
-			var back = ms.wz.wzProvider_map["Back"]["login.img"]["back"];
+			var back = ms.wz.wzProvider_map["Back/login.img"]["back"];
 			//WzObject signboard = ms.wz.wzFile_map["Obj"]["login.img"]["NewChar"]["signboard"];
 			//WzObject board = NewChar["board"];
 			//WzObject genderSelect = NewChar["genderSelect"];
-			var frame = ms.wz.wzProvider_map["Obj"]["login.img"]["Common"]["frame"]["0"]["0"];
+			var frame = ms.wz.wzProvider_map["Obj/login.img"]["Common"]["frame"]["0"]["0"];
 
 			sky = back["2"];
 			cloud = back["27"];
@@ -183,12 +178,12 @@ namespace ms
 			wepname = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK);
 			gendername = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK);
 
-			WzObject mkinfo = ms.wz.wzFile_etc["MakeCharInfo.img"]["Info"];
+			var mkinfo = ms.wz.wzProvider_etc["MakeCharInfo.img"]["Info"];
 
 			for (uint i = 0; i < 2; i++)
 			{
 				bool f;
-				WzObject CharGender;
+				MapleData CharGender;
 
 				if (i == 0)
 				{
@@ -854,7 +849,7 @@ namespace ms
 		}
 		public bool check_name(string name)
 		{
-			WzObject ForbiddenName = ms.wz.wzFile_etc["ForbiddenName.img"];
+			var ForbiddenName = ms.wz.wzProvider_etc["ForbiddenName.img"];
 
 			foreach (var forbiddenName in ForbiddenName)
 			{

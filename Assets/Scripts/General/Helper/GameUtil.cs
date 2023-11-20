@@ -58,8 +58,9 @@ public class GameUtil : SingletonMono<GameUtil>
 	[Tooltip("true 使用wz画Obj，false使用ab")]
 	public bool Use_wz_or_ab_draw_ObjTile = true;
 	public bool Use_Unlit_or_Pixelate_Material = true;
+    public bool Use_ab_or_assetDatabase = true;
 
-	public WZProviderType wZProviderType = WZProviderType.wz;
+    public WZProviderType wZProviderType = WZProviderType.wz;
     public string msLayerToSortingLayerName (ms.Layer.Id id)
 	{
 		var n = sortingLayerName_Layer0;

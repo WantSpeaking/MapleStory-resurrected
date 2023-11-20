@@ -3,6 +3,7 @@
 
 using System;
 using MapleLib.WzLib;
+using provider;
 
 namespace ms
 {
@@ -31,8 +32,10 @@ namespace ms
 		public Sprite (WzObject src) : this (src, new DrawArgument ())
 		{
 		}
-
-		public Sprite ()
+        public Sprite(MapleData src) : this(src, new DrawArgument())
+        {
+        }
+        public Sprite ()
 		{
 		}
 

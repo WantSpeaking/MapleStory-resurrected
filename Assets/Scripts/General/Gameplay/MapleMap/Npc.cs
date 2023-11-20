@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using client;
 using MapleLib.WzLib;
+using provider;
 using server.quest;
 using Sirenix.Serialization;
 using tools;
@@ -25,15 +26,15 @@ namespace ms
 			strid = strid.insert (0, 7 - strid.Length, '0');
 			strid = strid.append (".img");
 
-			WzObject src = ms.wz.wzFile_npc[strid];
-			WzObject strsrc = ms.wz.wzFile_string["Npc.img"][Convert.ToString (id)];
+			var src = ms.wz.wzProvider_npc[strid];
+			var strsrc = ms.wz.wzProvider_string["Npc.img"][Convert.ToString (id)];
 
 			string link = src?["info"]?["link"]?.ToString ();
 
 			if (!string.IsNullOrEmpty (link) && link.Length > 0)
 			{
 				link.append (".img");
-				src = ms.wz.wzFile_npc[link];
+				src = ms.wz.wzProvider_npc[link];
 			}
 
 			if (src == null)
@@ -42,7 +43,7 @@ namespace ms
 				return;
 			}
 
-			WzObject info = src["info"];
+			var info = src["info"];
 
 			hidename = info["hideName"];
 			mouseonly = info["talkMouseOnly"];
@@ -57,7 +58,7 @@ namespace ms
 					var ScriptInfo = "对话或进入";
 					if (script!= null)
 					{
-						ScriptInfo = ms.wz.wzFile_etc["ScriptInfo.img"]?[script]?.ToString ()??script;
+						ScriptInfo = ms.wz.wzProvider_etc["ScriptInfo.img"]?[script]?.ToString ()??script;
 					}
 					ScriptInfos.Add (ScriptInfo);
 				}
@@ -73,7 +74,7 @@ namespace ms
 					states.Add (state);
 				}
 
-				if (npcnode["speak"] is WzImageProperty property_speak)
+				if (npcnode["speak"] is MapleData property_speak)
 				{
 					foreach (var speaknode in property_speak)
 					{
@@ -104,9 +105,9 @@ namespace ms
 			phobj.fhid = f;
 			set_position (new Point_short (position));
 
-			questIcon_CanStart = wz.wzFile_ui["UIWindow.img"]["QuestIcon"]["0"];
-			questIcon_InProgressed = wz.wzFile_ui["UIWindow.img"]["QuestIcon"]["1"];
-			questIcon_CanComplete = wz.wzFile_ui["UIWindow.img"]["QuestIcon"]["2"];
+			questIcon_CanStart = wz.wzProvider_ui["UIWindow.img"]["QuestIcon"]["0"];
+			questIcon_InProgressed = wz.wzProvider_ui["UIWindow.img"]["QuestIcon"]["1"];
+			questIcon_CanComplete = wz.wzProvider_ui["UIWindow.img"]["QuestIcon"]["2"];
 
 			UpdateQuest ();
 		}

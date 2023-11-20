@@ -17,6 +17,9 @@ using Texture = ms.Texture;
 using System.Linq;
 using tools;
 using Utility;
+using System.Drawing;
+using UnityEngine.Rendering;
+using UnityEngine.UIElements;
 
 //namespace ms_Unity
 //{
@@ -82,8 +85,73 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
         }*/
         return result;
     }
+    public void TryDraw(DrawArgument args, ms.Texture texture)
+    {
+        var bitmap = texture.get_Bitmap();
+        var texture2D = texture.texture2D;
+        var pivot = texture.get_origin();
+        var drawParent = args.DrawParent;
 
-    public void TryDraw(ms.Texture texture, Bitmap pnginfo, Vector3 pos, Vector3 scale, GameObject drawParent)
+        if (bitmap != null)
+        {
+            /*var X = args.getpos().x();
+            var Y = args.getpos().y();
+
+            if (X + bitmap.Width < 0 || X - bitmap.Width > Constants.Instance.get_viewwidth() || Y + bitmap.Height < 0 || Y - bitmap.Height > Constants.Instance.get_viewheight())
+            {
+                return;
+            }*/
+
+           
+            /*Vector3 position = new Vector3 (args.getpos ().x () + bitmap.Width / 2 - pivot.x (), -args.getpos ().y () - bitmap.Height / 2 + pivot.y (), Singleton<GameUtil>.Instance.DrawOrder);*/
+
+            //Vector3 localScale = new Vector3 (args.get_xscale () * (args.getstretch ().x ()==0?1:args.getstretch ().x ()), -args.get_yscale ()* (args.getstretch ().y ()==0?1:args.getstretch ().y ()), 1f);
+
+            GameObject gobj = TryGetGObj(texture);
+            if (gobj == null || bitmap == null)
+            {
+                //throw new NullReferenceException ();
+                return;
+            }
+            if (gobj != null)
+            {
+                if (drawParent != null && !gobj.transform.IsChildOf(drawParent.transform))
+                {
+                    gobj.SetParent(drawParent.transform);
+                }
+
+                gobj.SetActive(true);
+
+                Vector3 position = Vector3.zero;
+                if (texture.fullPath.Contains("Map.wz"))
+                {
+                    position = new Vector3(args.getpos().x(), -args.getpos().y(), Singleton<GameUtil>.Instance.DrawOrder);
+                }
+                else
+                {
+                    position = new Vector3(args.getpos().x() + (args.FlipX ? -1 : 1) * (bitmap.Width / 2 - pivot.x()), -args.getpos().y() + (-bitmap.Height / 2 + pivot.y()), SingletonMono<GameUtil>.Instance.DrawOrder);
+                }
+
+                //Vector3 position = new Vector3(args.getpos().x() + (args.FlipX ? -1 : 1) * (bitmap.Width / 2 - pivot.x()), -args.getpos().y() + (-bitmap.Height / 2 + pivot.y()), SingletonMono<GameUtil>.Instance.DrawOrder);
+                gobj.transform.position = position;
+
+                var localScale = Vector3.zero;
+                if (texture.isSprite)
+                {
+                    localScale = new Vector3((float)args.get_xscale(), (float)args.get_yscale(), 1f);
+                }
+                else
+                {
+                    localScale = new Vector3((float)args.get_xscale() * bitmap.Width , (float)args.get_yscale() * bitmap.Height * -1, 1f);
+                }
+                gobj.transform.localScale = localScale;
+
+                SingletonMono<GameUtil>.Instance.DrawOrder--;
+                //AppDebug.Log ($"fullPath:{texture.fullPath} pnginfo:{pnginfo.ToString ()}  scale:{scale}");
+            }
+        }
+    }
+    public void TryDraw(ms.Texture texture, MapleLib.WzLib.Bitmap pnginfo, Vector3 pos, Vector3 scale, GameObject drawParent)
     {
         GameObject gobj = TryGetGObj(texture);
         if (gobj == null || pnginfo == null)
@@ -120,11 +188,12 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
             gobj.transform.position = pos;
             if (texture.isSprite)
             {
-                gobj.transform.localScale = new Vector3(1, 1, -1f);
+                //gobj.transform.localScale = new Vector3(1, 1, -1f);
+                gobj.transform.localScale = new Vector3((float)scale.x * 100, (float)scale.y * 100, 1f);
             }
             else
             {
-                gobj.transform.localScale = new Vector3((float)pnginfo.Width * scale.x, (float)pnginfo.Height * scale.y, 1f);
+                gobj.transform.localScale = new Vector3((float)pnginfo.Width * scale.x, (float)pnginfo.Height * scale.y * -1, 1f);
 
             }
             SingletonMono<GameUtil>.Instance.DrawOrder--;

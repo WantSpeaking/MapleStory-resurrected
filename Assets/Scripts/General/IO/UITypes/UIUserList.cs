@@ -3,9 +3,7 @@
 using System;
 using System.Collections.Generic;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -24,16 +22,16 @@ namespace ms
 		public UIUserList (ushort t) : base (new Point_short (260, 20))
 		{
 			this.tab = t;
-			WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose2"];
-			UserList = ms.wz.wzFile_ui["UIWindow.img"]["UserList"];
-			WzObject Main = UserList["Main"];
+			MapleData close = ms.wz.wzProvider_ui["Basic.img"]["BtClose2"];
+			UserList = ms.wz.wzProvider_ui["UIWindow.img"]["UserList"];
+			MapleData Main = UserList["Main"];
 
 			sprites.Add (Main["backgrnd"]);
 
 			buttons[(int)Buttons.BT_CLOSE] = new MapleButton (close, new Point_short (244, 7));
 
-			WzObject taben = Main["Tab"]["enabled"];
-			WzObject tabdis = Main["Tab"]["disabled"];
+			MapleData taben = Main["Tab"]["enabled"];
+			MapleData tabdis = Main["Tab"]["disabled"];
 
 			buttons[(int)Buttons.BT_TAB_FRIEND] = new TwoSpriteButton (tabdis["0"], taben["0"]);
 			buttons[(int)Buttons.BT_TAB_PARTY] = new TwoSpriteButton (tabdis["1"], taben["1"]);
@@ -41,15 +39,15 @@ namespace ms
 			buttons[(int)Buttons.BT_TAB_BLACKLIST] = new TwoSpriteButton (tabdis["3"], taben["3"]);
 
 			// Party Tab
-			WzObject Party = Main["Party"];
-			WzObject PartySearch = Party["PartySearch"];
+			MapleData Party = Main["Party"];
+			MapleData PartySearch = Party["PartySearch"];
 
 			party_tab = (int)Tab.PARTY_MINE;
 			party_title = Party["title"];
 
 			for (int i = 0; i < Constants.get ().MAX_PartyMemberCount; i++)
 			{
-				party_mine_gridButtons[i] = new MapleButton (UserList["Sheet2"]["1"].asTexture, UserList["Sheet2"]["2"].asTexture, UserList["Sheet2"]["3"].asTexture, UserList["Sheet2"]["0"].asTexture);
+				party_mine_gridButtons[i] = new MapleButton (UserList["Sheet2"]["1"], UserList["Sheet2"]["2"], UserList["Sheet2"]["3"], UserList["Sheet2"]["0"]);
 			}
 
 			for (uint i = 0; i <= 4; i++)
@@ -59,8 +57,8 @@ namespace ms
 
 			party_mine_name = new Text (Text.Font.A12M, Text.Alignment.LEFT, Color.Name.BLACK, "none", 0);
 
-			WzObject party_taben = Party["Tab"]["enabled"];
-			WzObject party_tabdis = Party["Tab"]["disabled"];
+			MapleData party_taben = Party["Tab"]["enabled"];
+			MapleData party_tabdis = Party["Tab"]["disabled"];
 
 			buttons[(int)Buttons.BT_PARTY_CREATE] = new MapleButton (Party["BtPartyMake"]);
 			buttons[(int)Buttons.BT_PARTY_INVITE] = new MapleButton (Party["BtPartyInvite"]);
@@ -93,7 +91,7 @@ namespace ms
 			party_Flag_Online = Party["icon0"]?["0"];
 			party_Flag_Offline = Party["icon0"]?["1"];
 			// Buddy Tab
-			WzObject Friend = Main["Friend"];
+			MapleData Friend = Main["Friend"];
 
 			friend_tab = (int)Tab.FRIEND_ALL;
 			friend_sprites.Add (Friend["title"]);
@@ -135,7 +133,7 @@ namespace ms
 			friends_slider = new Slider ((int)Slider.Type.DEFAULT_SILVER, new Range_short (friends_y, friends_height), friends_x, friends_unitrows, friends_rowmax, (bool UnnamedParameter1) => { });
 
 			// Boss tab
-			WzObject Boss = Main["Boss"];
+			MapleData Boss = Main["Boss"];
 
 			boss_sprites.Add (Boss["base"]);
 			boss_sprites.Add (Boss["base3"]);
@@ -163,7 +161,7 @@ namespace ms
 			buttons[(int)Buttons.BT_BOSS_GO].set_active (false);
 
 			// Blacklist tab
-			WzObject BlackList = Main["BlackList"];
+			MapleData BlackList = Main["BlackList"];
 
 			blacklist_title = BlackList["base"];
 
@@ -174,8 +172,8 @@ namespace ms
 
 			blacklist_name = new Text (Text.Font.A12M, Text.Alignment.LEFT, Color.Name.BLACK, "none", 0);
 
-			/*WzObject blacklist_taben = BlackList["Tab"]["enabled"];
-			WzObject blacklist_tabdis = BlackList["Tab"]["disabled"];*/
+			/*MapleData blacklist_taben = BlackList["Tab"]["enabled"];
+			MapleData blacklist_tabdis = BlackList["Tab"]["disabled"];*/
 
 			buttons[(int)Buttons.BT_BLACKLIST_ADD] = new MapleButton (BlackList["BtAdd"]);
 			buttons[(int)Buttons.BT_BLACKLIST_DELETE] = new MapleButton (BlackList["BtDelete"]);
@@ -665,7 +663,7 @@ namespace ms
 		}
 
 		private ushort tab;
-		private WzObject UserList;
+		private MapleData UserList;
 		private Texture background = new Texture ();
 
 		// Party tab

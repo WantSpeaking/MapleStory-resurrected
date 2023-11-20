@@ -163,7 +163,7 @@ namespace ms
 				charsets[i] = new BoolPairNew<Charset> ();
 			}
 
-			var BasicEff = ms.wz.wzFile_effect["BasicEff.img"];
+			var BasicEff = ms.wz.wzProvider_effect["BasicEff.img"];
 
 			charsets[(int)DamageNumber.Type.NORMAL].set(false, new Charset(BasicEff["NoRed1"], Charset.Alignment.LEFT));
 			charsets[(int)DamageNumber.Type.NORMAL].set(true, new Charset(BasicEff["NoRed0"], Charset.Alignment.LEFT));

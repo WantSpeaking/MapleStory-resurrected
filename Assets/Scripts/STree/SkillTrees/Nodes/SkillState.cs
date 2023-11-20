@@ -34,7 +34,7 @@ namespace ms.SkillTrees
             {
                 ms.wz.load_string(ms.Constants.get().path_MapleStoryFolder);
                 source.Clear();
-                foreach (var skill in ms.wz.wzFile_string["skill.img"])
+                foreach (var skill in ms.wz.wzProvider_string["skill.img"])
                 {
                     //Debug.Log(skill["name"]);
                     if (skill?["name"] != null)
@@ -45,7 +45,7 @@ namespace ms.SkillTrees
             }
         }
 
-        string SkillIdToName(string id) => ms.wz.wzFile_string["skill.img"]?[id]?["name"]?.ToString() ?? id;
+        string SkillIdToName(string id) => ms.wz.wzProvider_string["skill.img"]?[id]?["name"]?.ToString() ?? id;
         
 
      

@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static UnityEngine.Rendering.HableCurve;
 
 namespace provider.wz
 {
@@ -53,6 +54,7 @@ namespace provider.wz
 
         public override string Name => (string)(node as JProperty)?.Name;
         //public override string Name => _name;
+        public override string FullPath => node.Path;
 
         public override MapleDataEntity Parent
         {
@@ -116,8 +118,8 @@ namespace provider.wz
             {
                 return ((MapleData)Parent).getChildByPath(path.Substring(path.IndexOf("/", StringComparison.Ordinal) + 1));
             }
-
-            var myNode = node;
+            var myNode = getRealChild(node, path);
+            /*var myNode = node;
 
             foreach (string s in segments)
             {
@@ -125,7 +127,14 @@ namespace provider.wz
                 {
                     if (p.Value is JValue jv)
                     {
-                        myNode = jv;
+                        if (p.Name.Contains(s))
+                        {
+                            myNode = jv;
+                        }
+                        else
+                        {
+                            myNode = null;
+                        }
                     }
                     else
                     {
@@ -138,7 +147,7 @@ namespace provider.wz
                 }
 
                 _name = s;
-            }
+            }*/
             if (myNode == null)
             {
                 return null;
@@ -147,13 +156,57 @@ namespace provider.wz
             //ret.imageDataDir = Directory.GetParent(Path.Combine(imageDataDir, Name, path)).Parent.FullName;
             return ret;
         }
+        static JToken getRealChild(JToken node,string path)
+        {
+            if (path == null) return null;
+            string[] segments = path.Split('/');
 
+            var myNode = node;
+
+            foreach (string s in segments)
+            {
+                if (myNode is JProperty p)
+                {
+                    if (p.Value is JValue jv)
+                    {
+                        if (p.Name.Contains(s))
+                        {
+                            myNode = jv;
+                        }
+                        else
+                        {
+                            myNode = null;
+                        }
+                    }
+                    else
+                    {
+                        myNode = p.Value[s];
+                    }
+                }
+                else
+                {
+                    myNode = myNode[s];
+                }
+            }
+
+            return myNode;
+        }
         public override bool IsTexture()
         {
+            return getRealChild(node, MapleDataTool.JsonNodeName_CanvasFullpath) != null;
+            if (node is JProperty p && p.Value.Type == JTokenType.Object)
+            {
+                return p.Value[MapleDataTool.JsonNodeName_CanvasFullpath] != null;
+            }
             return node[MapleDataTool.JsonNodeName_CanvasFullpath] != null;
         }
         public override Point GetPoint()
         {
+            return new Point((int)getRealChild(node,"x"), (int)getRealChild(node, "y"));
+            if (node is JProperty p && p.Value.Type == JTokenType.Object)
+            {
+                return new Point((int)p?.Value?["x"], (int)p?.Value?["y"]);
+            }
             return new Point((int)node?["x"], (int)node?["y"]);
         }
 

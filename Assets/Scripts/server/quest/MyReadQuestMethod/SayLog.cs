@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
+using NodeCanvas.Tasks.Actions;
+using provider;
 using server.quest;
 
 namespace ms
@@ -27,7 +29,7 @@ namespace ms
 				sayInfo.questName = questInfo.Name;
 				sayInfo.questId = questId;
 				sayInfo.sayStages = new List<SayStage> ();
-				if (wz.wzFile_quest.GetObjectFromPath ($"Quest.wz/Say.img/{questId}") is WzSubProperty sayimg_1000)
+				if (wz.wzProvider_quest?["Say.img"][$"{questId}"] is MapleData sayimg_1000)
 				{
 					var count = sayimg_1000.Count ();
 					for (int i = 0; i < count; i++)
@@ -57,7 +59,7 @@ namespace ms
 						bool isAsk = sayimg_1000_0["ask"];
 						foreach (var sayimg_1000_0_0 in sayimg_1000_0)
 						{
-							if (sayimg_1000_0_0 == null || sayimg_1000_0_0 is WzNullProperty)
+							if (sayimg_1000_0_0 == null)
 								continue;
 
 
@@ -71,7 +73,7 @@ namespace ms
 								{
 
 									numberSayPage.text = sayimg_1000_0_0?.ToString ();
-									if (sayimg_1000_0["stop"]?[sayimg_1000_0_0.Name] is WzImageProperty sayimg_1000_0_stop_0)
+									if (sayimg_1000_0["stop"]?[sayimg_1000_0_0.Name] is MapleData sayimg_1000_0_stop_0)
 									{
 										numberSayPage.rightAnswerChoiceNumber = sayimg_1000_0_stop_0?["answer"];
 										numberSayPage.wrongAnswer_index_Texts = new SortedDictionary<int, string> ();

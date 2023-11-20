@@ -12,7 +12,7 @@ namespace ms
 	{
 		public TextTooltip()
 		{
-			/*WzObject Frame = ms.wz.wzFile_ui["UIToolTip.img"]["Item"]["Frame2"];
+			/*WzObject Frame = ms.wz.wzProvider_ui["UIToolTip.img"]["Item"]["Frame2"];
 
 			frame = new MapleFrame (Frame);
 			cover = Frame["cover"];*/

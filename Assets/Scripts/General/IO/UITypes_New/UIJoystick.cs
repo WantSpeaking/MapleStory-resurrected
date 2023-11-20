@@ -23,7 +23,7 @@ namespace ms
 
         public UIJoystick()
         {
-            /*WzObject Login = ms.wz.wzFile_ui["Login.img"];
+            /*WzObject Login = ms.wz.wzProvider_ui["Login.img"];
             WzObject Common = Login["Common"];
             WzObject CharSelect = Login["CharSelect"];
 

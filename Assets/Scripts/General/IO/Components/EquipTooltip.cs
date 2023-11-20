@@ -15,7 +15,7 @@ namespace ms
 	{
 		public EquipTooltip ()
 		{
-			/*WzObject Item = ms.wz.wzFile_ui["UIToolTip.img"]["Item"];
+			/*WzObject Item = ms.wz.wzProvider_ui["UIToolTip.img"]["Item"];
 			WzObject Frame = Item["Frame"];
 			WzObject ItemIcon = Item["ItemIcon"];
 			WzObject Equip = Item["Equip"];

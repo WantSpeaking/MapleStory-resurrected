@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -25,13 +23,13 @@ namespace ms
         {
             //this.UIDragElement<PosOPTIONMENU> = new <type missing>();
             this.selected_tab = 0;
-            WzObject OptionMenu = ms.wz.wzFile_ui["StatusBar.img"]["OptionMenu"];
-            WzObject backgrnd = OptionMenu["backgrnd"];
+            MapleData OptionMenu = ms.wz.wzProvider_ui["StatusBar.img"]["OptionMenu"];
+            MapleData backgrnd = OptionMenu["backgrnd"];
 
             sprites.Add(backgrnd);
             sprites.Add(OptionMenu["backgrnd2"]);
 
-            WzObject graphic = OptionMenu["graphic"];
+            MapleData graphic = OptionMenu["graphic"];
 
             tab_background[(int)Buttons.TAB0] = graphic["layer:backgrnd"];
             tab_background[(int)Buttons.TAB1] = OptionMenu["sound"]["layer:backgrnd"];
@@ -43,9 +41,9 @@ namespace ms
             buttons[(int)Buttons.OK] = new MapleButton(OptionMenu["button:OK"]);
             buttons[(int)Buttons.UIRESET] = new MapleButton(OptionMenu["button:UIReset"]);
 
-            WzObject tab = OptionMenu["tab"];
-            WzObject tab_disabled = tab["disabled"];
-            WzObject tab_enabled = tab["enabled"];
+            MapleData tab = OptionMenu["tab"];
+            MapleData tab_disabled = tab["disabled"];
+            MapleData tab_enabled = tab["enabled"];
 
             for (uint i = (int)Buttons.TAB0; i < (ulong)Buttons.CANCEL; i++)
             {

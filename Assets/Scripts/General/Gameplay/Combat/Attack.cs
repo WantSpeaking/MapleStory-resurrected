@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MapleLib.WzLib;
+using provider;
 using UnityEngine;
 
 namespace ms
@@ -129,8 +130,43 @@ namespace ms
 			this.oid = oid;
 			valid = true;
 		}
+        public MobAttack(MapleData src, int mobid, int oid)
+        {
+            mobAttackAni = src;
 
-		public Rectangle_short get_range()
+            var info = src["info"];
+            if (info?["range"]?["r"])
+            {
+                short r = src["info"]["range"]["r"];
+                range = new ms.Rectangle_short(new Point_short((short)-r, (short)-r), new Point_short(r, r));
+            }
+            else
+            {
+                range = new ms.Rectangle_short(src["info"]["range"]);
+            }
+
+            hasBall = info?["ball"] != null;
+            hasEffect = info?["effect"] != null;
+
+            effect = info?["effect"];
+            hit = info?["hit"];
+            ball = info?["ball"];
+
+            conMP = info?["conMP"];
+            effectAfter = info?["effectAfter"];
+            attackAfter = info?["attackAfter"];
+            magic = info?["magic"];
+            deadlyAttack = info?["deadlyAttack"];
+            doFirst = info?["doFirst"];
+            PaDamage = info?["PaDamage"];
+
+            type = (Attack.Type)(int)(info?["type"] ?? 0);
+
+            this.mobid = mobid;
+            this.oid = oid;
+            valid = true;
+        }
+        public Rectangle_short get_range()
 		{
 			return new Rectangle_short(range);
 		}

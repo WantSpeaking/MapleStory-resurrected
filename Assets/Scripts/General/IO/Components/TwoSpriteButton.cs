@@ -2,12 +2,22 @@
 
 
 using MapleLib.WzLib;
+using provider;
 
 namespace ms
 {
 	public class TwoSpriteButton : Button
 	{
-		public TwoSpriteButton (WzObject nsrc, WzObject ssrc, Point_short np, Point_short sp)
+        public TwoSpriteButton(MapleData nsrc, MapleData ssrc, Point_short np, Point_short sp)
+        {
+            this.textures = new ms.BoolPairNew<Texture>(ssrc, nsrc);
+            this.npos = new Point_short(np);
+            this.spos = new Point_short(sp);
+            state = Button.State.NORMAL;
+            active = true;
+        }
+
+        public TwoSpriteButton (WzObject nsrc, WzObject ssrc, Point_short np, Point_short sp)
 		{
 			this.textures = new ms.BoolPairNew<Texture> (ssrc, nsrc);
 			this.npos = new Point_short (np);
@@ -15,18 +25,20 @@ namespace ms
 			state = Button.State.NORMAL;
 			active = true;
 		}
-
-		public TwoSpriteButton (WzObject nsrc, WzObject ssrc, Point_short pos) : this (nsrc, ssrc, new Point_short (pos), new Point_short (pos))
+        
+        public TwoSpriteButton (WzObject nsrc, WzObject ssrc, Point_short pos) : this (nsrc, ssrc, new Point_short (pos), new Point_short (pos))
 		{
 		}
-
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
-//ORIGINAL LINE: this(nsrc, ssrc, Point_short());
-		public TwoSpriteButton (WzObject nsrc, WzObject ssrc) : this (nsrc, ssrc, new Point_short ())
+        public TwoSpriteButton(MapleData nsrc, MapleData ssrc, Point_short pos) : this(nsrc, ssrc, new Point_short(pos), new Point_short(pos))
+        {
+        }
+        public TwoSpriteButton (WzObject nsrc, WzObject ssrc) : this (nsrc, ssrc, new Point_short ())
 		{
 		}
-
-		public TwoSpriteButton ()
+        public TwoSpriteButton(MapleData nsrc, MapleData ssrc) : this(nsrc, ssrc, new Point_short())
+        {
+        }
+        public TwoSpriteButton ()
 		{
 			this.textures = new ms.BoolPairNew<Texture> (new Texture (), new Texture ());
 		}

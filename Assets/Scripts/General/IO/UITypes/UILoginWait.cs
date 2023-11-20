@@ -23,7 +23,7 @@ namespace ms
 		public UILoginWait (System.Action okhandler)
 		{
 			this.okhandler = okhandler;
-			var Loading = ms.wz.wzFile_ui["Login.img"]["Notice"]["Loading"];
+			var Loading = ms.wz.wzProvider_ui["Login.img"]["Notice"]["Loading"];
 			var backgrnd = Loading["backgrnd"];
 
 			sprites.Add (backgrnd);

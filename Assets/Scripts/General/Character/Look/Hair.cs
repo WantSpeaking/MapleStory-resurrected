@@ -5,10 +5,7 @@ using System.Collections.Generic;
 using Helper;
 using ms.Helper;
 using MapleLib.WzLib;
-
-
-
-
+using provider;
 
 namespace ms
 {
@@ -30,12 +27,12 @@ namespace ms
 		public Hair (int hairid, BodyDrawInfo drawinfo)
 		{
 			init_Dict ();
-			var node_Hair_00030000img = ms.wz.wzFile_character["Hair"]["000" + Convert.ToString (hairid) + ".img"];
+			var node_Hair_00030000img = ms.wz.wzProvider_character[$"Hair/000{hairid}.img"];
 
 			if (node_Hair_00030000img == null)
 			{
 				AppDebug.Log ($"hair is null,id:{hairid}");
-				node_Hair_00030000img = ms.wz.wzFile_character["Hair"]["00030000.img"];
+				node_Hair_00030000img = ms.wz.wzProvider_character[$"Hair/00030000.img"];
 				hairid = 30000;
 			}
 			foreach (var stance_iter in Stance.names)
@@ -50,9 +47,9 @@ namespace ms
 					continue;
 				}
 
-				if (node_Hair_00030000img_alert is WzImageProperty property_Hair_00030000img_alert)
+				if (node_Hair_00030000img_alert is MapleData property_Hair_00030000img_alert)
 				{
-					foreach (var property_Hair_00030000img_alert_0 in property_Hair_00030000img_alert.WzProperties)
+					foreach (var property_Hair_00030000img_alert_0 in property_Hair_00030000img_alert)
 					{
 						var frame = byte.Parse (property_Hair_00030000img_alert_0.Name);
 
@@ -118,7 +115,7 @@ namespace ms
 				}*/
 			}
 
-			name = ms.wz.wzFile_string["Eqp.img"]?["Eqp"]?["Hair"]?[Convert.ToString (hairid)]?["name"]?.ToString ();
+			name = ms.wz.wzProvider_string["Eqp.img"]?["Eqp"]?["Hair"]?[Convert.ToString (hairid)]?["name"]?.ToString ();
 
 			const uint NUM_COLORS = 8;
 			//string[] haircolors = {"Black", "Red", "Orange", "Blonde", "Green", "Blue", "Violet", "Brown"};

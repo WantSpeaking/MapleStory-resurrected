@@ -24,7 +24,7 @@ namespace ms
         {
             /*this.screen_adj = new ms.Point_short(212, 114);
             this.stats = st;
-            WzObject askReward = ms.wz.wzFile_ui["UIWindow6.img"]["askReward"];
+            WzObject askReward = ms.wz.wzProvider_ui["UIWindow6.img"]["askReward"];
             WzObject userLog = askReward["userLog"];
             WzObject exp = userLog["exp"];
             WzObject level = userLog["level"];

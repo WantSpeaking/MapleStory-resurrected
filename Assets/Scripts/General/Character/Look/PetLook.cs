@@ -41,7 +41,7 @@ namespace ms
             //namelabel = new Text(Text.Font.A13M, Text.Alignment.CENTER, Color.Name.WHITE, Text.Background.NAMETAG, name);
 
             string strid = Convert.ToString(iid);
-            var src = ms.wz.wzFile_item["Pet"][strid + ".img"];
+            var src = ms.wz.wzProvider_item[$"Pet/{strid}.img"];
 
             animations[Stance.MOVE] = new Animation(src["move"]);
             animations[Stance.STAND] = new Animation(src["stand0"]);
@@ -51,7 +51,7 @@ namespace ms
             animations[Stance.FLY] = new Animation(src["fly"]);
             animations[Stance.HANG] = new Animation(src["hang"]);
 
-            var effsrc = ms.wz.wzFile_effect["PetEff.img"][strid];
+            var effsrc = ms.wz.wzProvider_effect["PetEff.img"][strid];
 
             animations[Stance.WARP] = new Animation(effsrc["warp"]);
         }

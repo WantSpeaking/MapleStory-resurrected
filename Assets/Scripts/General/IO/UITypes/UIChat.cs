@@ -26,11 +26,11 @@ namespace ms
 			//this.UIDragElement<PosMAPLECHAT> = new <type missing>();
 			show_weekly = Configuration.get().get_show_weekly();
 
-			WzObject socialChatEnter = ms.wz.wzFile_ui["UIWindow2.img"]["socialChatEnter"];
+			var socialChatEnter = ms.wz.wzProvider_ui["UIWindow2.img"]["socialChatEnter"];
 
-			WzObject backgrnd = socialChatEnter["backgrnd"];
-			WzObject backgrnd4 = socialChatEnter["backgrnd4"];
-			WzObject backgrnd5 = socialChatEnter["backgrnd5"];
+            var backgrnd = socialChatEnter["backgrnd"];
+            var backgrnd4 = socialChatEnter["backgrnd4"];
+            var backgrnd5 = socialChatEnter["backgrnd5"];
 
 			rank_shift = new Point_short(86, 130);
 			name_shift = new Point_short(50, 5);
@@ -149,11 +149,11 @@ namespace ms
 			//this.UIDragElement<PosMAPLECHAT> = new <type missing>();
 			Configuration.get().set_show_weekly(false);
 
-			WzObject socialRank = ms.wz.wzFile_ui["UIWindow2.img"]["socialRank"];
+			var socialRank = ms.wz.wzProvider_ui["UIWindow2.img"]["socialRank"];
 
-			WzObject backgrnd = socialRank["backgrnd"];
-			WzObject backgrnd4 = socialRank["backgrnd4"];
-			WzObject backgrnd5 = socialRank["backgrnd5"];
+			var backgrnd = socialRank["backgrnd"];
+			var backgrnd4 = socialRank["backgrnd4"];
+			var backgrnd5 = socialRank["backgrnd5"];
 
 			rank_shift = new Point_short(86, 130);
 			name_shift = new Point_short(52, 4);

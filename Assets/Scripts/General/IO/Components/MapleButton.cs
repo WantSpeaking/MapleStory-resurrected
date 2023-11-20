@@ -91,11 +91,15 @@ namespace ms
         public MapleButton(WzObject src, short x, short y) : this(src, new Point_short(x, y))
         {
         }
-
+        public MapleButton(MapleData src, short x, short y) : this(src, new Point_short(x, y))
+        {
+        }
         public MapleButton(WzObject src) : this(src, new Point_short())
         {
         }
-
+        public MapleButton(MapleData src) : this(src, new Point_short())
+        {
+        }
         public MapleButton(Point_short pos, int downEffect, float downEffectValue, Texture tex_BG = null, Texture tex_FG = null, Icon icon_FG = null, Point_short offset_FG = null)
         {
             active = true;

@@ -195,7 +195,7 @@ namespace ms
 		private bool dragged;
 		private Point_short cursoroffset = new Point_short ();
 		
-		static Charset countset = new Charset (ms.wz.wzFile_ui["Basic.img"]["ItemNo"], Charset.Alignment.LEFT);
+		static Charset countset = new Charset (ms.wz.wzProvider_ui["Basic.img"]["ItemNo"], Charset.Alignment.LEFT);
 
 		public FairyGUI.NTexture nTexture=> texture?.nTexture;
 

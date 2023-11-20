@@ -27,7 +27,7 @@
 	{
 		public SingleSkillSound(string strid)
 		{
-			var soundsrc = ms.wz.wzFile_sound["Skill.img"][strid];
+			var soundsrc = ms.wz.wzProvider_sound["Skill.img"][strid];
 
 			usesound = soundsrc?["Use"];
 			hitsound = soundsrc?["Hit"];

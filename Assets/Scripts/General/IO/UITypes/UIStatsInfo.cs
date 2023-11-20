@@ -26,8 +26,8 @@ namespace ms
 		{
 			//this.UIDragElement<PosSTATS> = new Point_short(212, 20);
 			this.stats = st;
-			/*WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
-			WzObject Stat = ms.wz.wzFile_ui["UIWindow.img"]["Stat"];
+			/*WzObject close = ms.wz.wzProvider_ui["Basic.img"]["BtClose3"];
+			WzObject Stat = ms.wz.wzProvider_ui["UIWindow.img"]["Stat"];
 			WzObject main = Stat["main"];
 			WzObject detail = Stat["detail"];
 			WzObject abilityTitle = detail["abilityTitle"];

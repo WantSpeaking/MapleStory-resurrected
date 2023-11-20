@@ -30,7 +30,7 @@ namespace ms
 			}
 			string strid = string_format.extend_id(id, 3);
 			var node_SkillWZ_000img = ms.wz.findSkillImage(strid + ".img");
-			var strsrc = ms.wz.wzFile_string["Skill.img"][strid];
+			var strsrc = ms.wz.wzProvider_string["Skill.img"][strid];
 
 			if (node_SkillWZ_000img == null)
 			{

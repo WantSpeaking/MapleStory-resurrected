@@ -6,10 +6,7 @@ using System.Text;
 using Helper;
 using ms.Helper;
 using MapleLib.WzLib;
-
-
-
-
+using provider;
 
 namespace ms
 {
@@ -67,8 +64,35 @@ namespace ms
 				attackframe = false;
 			}
 		}
+        public BodyAction(MapleData Characterwz00002000img_airstrike_3)
+        {
+            /*if (Characterwz00002000img_airstrike_3.FullPath.Contains("burster2"))
+            {
+                var f = 0;
+            }*/
+            stance = Stance.by_string(Characterwz00002000img_airstrike_3["action"].ToString());
+            frame = Characterwz00002000img_airstrike_3["frame"];
+            move = Characterwz00002000img_airstrike_3["move"];
 
-		public BodyAction ()
+            short sgndelay = Characterwz00002000img_airstrike_3["delay"];
+
+            if (sgndelay == 0)
+            {
+                sgndelay = 100;
+            }
+
+            if (sgndelay > 0)
+            {
+                delay = (ushort)sgndelay;
+                attackframe = true;
+            }
+            else if (sgndelay < 0)
+            {
+                delay = (ushort)-sgndelay;
+                attackframe = false;
+            }
+        }
+        public BodyAction ()
 		{
 		}
 
@@ -109,18 +133,18 @@ namespace ms
 		public void init ()
 		{
 			init_Dict ();
-			var node_Characterwz_00002000img = ms.wz.wzFile_character["00002000.img"];
-			var node_Characterwz_00012000img = ms.wz.wzFile_character["00012000.img"];
+			var node_Characterwz_00002000img = ms.wz.wzProvider_character["00002000.img"];
+			var node_Characterwz_00012000img = ms.wz.wzProvider_character["00012000.img"];
 
-			if (node_Characterwz_00002000img is WzImage property_Characterwz_00002000img)
+			if (node_Characterwz_00002000img is MapleData property_Characterwz_00002000img)
 			{
-				foreach (var property_Characterwz_00002000img_airstrike in property_Characterwz_00002000img.WzProperties)
+				foreach (var property_Characterwz_00002000img_airstrike in property_Characterwz_00002000img)
 				{
 					string ststr = property_Characterwz_00002000img_airstrike.Name;
 
 					ushort attackdelay = 0;
 
-					foreach (var property_Characterwz_00002000img_fly_0 in property_Characterwz_00002000img_airstrike.WzProperties)
+					foreach (var property_Characterwz_00002000img_fly_0 in property_Characterwz_00002000img_airstrike)
 					{
 						/*for (byte frame = 0; WzObject framenode = property_Characterwz_00002000img_airstrike[frame];
 					++frame)*/
@@ -185,9 +209,9 @@ namespace ms
 									bodyshiftmap[Body.Layer.HEAD].TryAdd ("neck");
 									bodyshiftmap[Body.Layer.HAND_BELOW_WEAPON].TryAdd ("handMove");
 
-									if (property_Characterwz_00002000img_fly_0?.WzProperties != null) //todo 2 WzProperties == null?
+									if (property_Characterwz_00002000img_fly_0 is MapleData) //todo 2 WzProperties == null?
 									{
-										foreach (var property_Characterwz_00002000img_fly_0_arm in property_Characterwz_00002000img_fly_0.WzProperties)
+										foreach (var property_Characterwz_00002000img_fly_0_arm in property_Characterwz_00002000img_fly_0)
 										{
 											string part = property_Characterwz_00002000img_fly_0_arm.Name;
 
@@ -198,7 +222,7 @@ namespace ms
 													continue;
 												Body.Layer z = Body.layer_by_name (zstr);
 
-												foreach (var property_Characterwz_00002000img_fly_0_arm_hand in property_Characterwz_00002000img_fly_0_arm["map"].WzProperties)
+												foreach (var property_Characterwz_00002000img_fly_0_arm_hand in property_Characterwz_00002000img_fly_0_arm["map"])
 												{
 													//bodyshiftmap.TryAdd (z, new Dictionary<string, Point_short> ());
 
@@ -216,9 +240,9 @@ namespace ms
 
 									var node_Characterwz_00012000img_front_head_map = map;
 									//var node_Characterwz_00012000img_front_head_map = node_Characterwz_00012000img[ststr][frame.ToString ()]["head"]["map"];
-									if (node_Characterwz_00012000img_front_head_map is WzImageProperty property_Characterwz_00012000img_front_head_map)
+									if (node_Characterwz_00012000img_front_head_map is MapleData property_Characterwz_00012000img_front_head_map)
 									{
-										foreach (var property_Characterwz_00012000img_front_head_map_brow in property_Characterwz_00012000img_front_head_map.WzProperties)
+										foreach (var property_Characterwz_00012000img_front_head_map_brow in property_Characterwz_00012000img_front_head_map)
 										{
 											//AppDebug.Log ($"{property_Characterwz_00012000img_front_head_map_brow.FullPath}");
 											//bodyshiftmap.TryAdd (Body.Layer.HEAD);

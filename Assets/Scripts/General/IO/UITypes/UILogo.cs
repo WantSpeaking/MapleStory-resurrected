@@ -2,9 +2,7 @@
 
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -23,7 +21,7 @@ namespace ms
 			wizet_ended = false;
 			user_clicked = false;
 
-			WzObject Logo = ms.wz.wzFile_ui["Logo.img"];
+			MapleData Logo = ms.wz.wzProvider_ui["Logo.img"];
 
 			Nexon = Logo["Nexon"];
 			Wizet = Logo["Wizet"];

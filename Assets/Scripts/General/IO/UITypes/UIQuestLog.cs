@@ -24,8 +24,8 @@ namespace ms
             this.questlog = ql;
             tab = (int)Buttons.TAB0;
 
-            /*WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose2"];
-            WzObject quest = ms.wz.wzFile_ui["UIWindow.img"]["Quest"];
+            /*WzObject close = ms.wz.wzProvider_ui["Basic.img"]["BtClose2"];
+            WzObject quest = ms.wz.wzProvider_ui["UIWindow.img"]["Quest"];
             WzObject list = quest["list"];
 
             WzObject backgrnd = list["backgrnd"];

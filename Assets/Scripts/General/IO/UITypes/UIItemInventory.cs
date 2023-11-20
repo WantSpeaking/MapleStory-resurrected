@@ -26,7 +26,7 @@ namespace ms
 			this.ignore_tooltip = false;
 			this.tab = InventoryType.Id.EQUIP;
 			this.sort_enabled = false;
-			/*WzObject Item = ms.wz.wzFile_ui["UIWindow2.img"]["Item"];
+			/*WzObject Item = ms.wz.wzProvider_ui["UIWindow2.img"]["Item"];
 
 			//backgrnd = Item["productionBackgrnd"];//todo 2 Width height 1,1, it's outlink fault
 			backgrnd = Item["backgrnd"];
@@ -51,7 +51,7 @@ namespace ms
 			WzObject taben = Tab["enabled"];
 			WzObject tabdis = Tab["disabled"];
 
-			WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
+			WzObject close = ms.wz.wzProvider_ui["Basic.img"]["BtClose3"];
 			buttons[(int)Buttons.BT_CLOSE] = new MapleButton (close);
 
 			buttons[(int)Buttons.BT_TAB_EQUIP] = new TwoSpriteButton (tabdis["0"], taben["0"]);

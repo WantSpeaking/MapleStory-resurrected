@@ -15,7 +15,7 @@ namespace ms
 
 		public UIPartySideMenu ()
 		{
-			WzObject src = ms.wz.wzFile_ui["UIWindow.img"]["UserList"]["Main"]["Party"]["SideMenu"];
+			var src = ms.wz.wzProvider_ui["UIWindow.img"]["UserList"]["Main"]["Party"]["SideMenu"];
 
 			top = src["top"];
 			center = src["center"];

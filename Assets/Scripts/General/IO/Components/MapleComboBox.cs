@@ -39,7 +39,7 @@ namespace ms
 				combobox += Convert.ToString ((byte)type);
 			}
 
-			WzObject src = ms.wz.wzFile_ui["Basic.img"][combobox];
+			var src = ms.wz.wzProvider_ui["Basic.img"][combobox];
 
 			textures[(int)Button.State.PRESSED, 0] = src["pressed"][0.ToString ()];
 			textures[(int)Button.State.PRESSED, 1] = src["pressed"][1.ToString ()];

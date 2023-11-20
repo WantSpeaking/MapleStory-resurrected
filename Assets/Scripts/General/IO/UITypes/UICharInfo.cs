@@ -31,10 +31,10 @@ namespace ms
 			this.collect_enabled = false;
 			this.damage_enabled = false;
 			this.item_enabled = false;
-			WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose2"];
-			WzObject UserInfo = ms.wz.wzFile_ui["UIWindow.img"]["UserInfo"];
-			WzObject character = UserInfo["character"];
-			WzObject backgrnd = character["backgrnd"];
+			var close = ms.wz.wzProvider_ui["Basic.img"]["BtClose2"];
+			var UserInfo = ms.wz.wzProvider_ui["UIWindow.img"]["UserInfo"];
+			var character = UserInfo["character"];
+			var backgrnd = character["backgrnd"];
 
 			/// Main Window
 			sprites.Add (backgrnd);
@@ -69,8 +69,8 @@ namespace ms
 			buttons[(int)Buttons.BtRide].set_state (Button.State.DISABLED);
 
 			/// Farm
-			WzObject farm = UserInfo["farm"];
-			WzObject farm_backgrnd = farm["backgrnd"];
+			var farm = UserInfo["farm"];
+			var farm_backgrnd = farm["backgrnd"];
 
 			loading = farm["loading"];
 
@@ -93,8 +93,8 @@ namespace ms
 			bottom_window_adj = new Point_short (0, (short)(backgrnd_dim.y () + 1));
 
 			/// Personality
-			WzObject personality = UserInfo["personality"];
-			WzObject personality_backgrnd = personality["backgrnd"];
+			var personality = UserInfo["personality"];
+			var personality_backgrnd = personality["backgrnd"];
 
 			personality_sprites.Add (new Sprite (personality_backgrnd, bottom_window_adj));
 			personality_sprites.Add (new Sprite (personality["backgrnd2"], bottom_window_adj));
@@ -107,8 +107,8 @@ namespace ms
 			personality_dimensions = new Texture (personality_backgrnd).get_dimensions ();
 
 			/// Collect
-			WzObject collect = UserInfo["collect"];
-			WzObject collect_backgrnd = collect["backgrnd"];
+			var collect = UserInfo["collect"];
+			var collect_backgrnd = collect["backgrnd"];
 
 			collect_sprites.Add (new Sprite (collect_backgrnd, bottom_window_adj));
 			collect_sprites.Add (new Sprite (collect["backgrnd2"], bottom_window_adj));
@@ -124,8 +124,8 @@ namespace ms
 			collect_dimensions = new Texture (collect_backgrnd).get_dimensions ();
 
 			/// Damage
-			WzObject damage = UserInfo["damage"];
-			WzObject damage_backgrnd = damage["backgrnd"];
+			var damage = UserInfo["damage"];
+			var damage_backgrnd = damage["backgrnd"];
 
 			damage_sprites.Add (new Sprite (damage_backgrnd, bottom_window_adj));
 			damage_sprites.Add (new Sprite (damage["backgrnd2"], bottom_window_adj));
@@ -143,8 +143,8 @@ namespace ms
 			right_window_adj = new Point_short (backgrnd_dim.x (), 0);
 
 			/// Item
-			WzObject item = UserInfo["item"];
-			WzObject item_backgrnd = item["backgrnd"];
+			var item = UserInfo["item"];
+			var item_backgrnd = item["backgrnd"];
 
 			item_sprites.Add (new Sprite (item_backgrnd, right_window_adj));
 			item_sprites.Add (new Sprite (item["backgrnd2"], right_window_adj));

@@ -5,10 +5,7 @@ using System.Collections.Generic;
 using Helper;
 using ms.Helper;
 using MapleLib.WzLib;
-
-
-
-
+using provider;
 
 namespace ms
 {
@@ -68,13 +65,13 @@ namespace ms
 		{
 			init_Dict ();
 			string strid = "000" + Convert.ToString (faceid);
-			WzObject face_00020000img = ms.wz.wzFile_character["Face"][strid + ".img"];
+			var face_00020000img = ms.wz.wzProvider_character[$"Face/{strid}.img"];
 
 			if (face_00020000img == null)
 			{
 				AppDebug.Log ($"face is null,id:{strid}");
 
-				face_00020000img = ms.wz.wzFile_character["Face"]["00020000.img"];
+				face_00020000img = ms.wz.wzProvider_character[$"Face/00020000.img"];
 				faceid = 20000;
 			}
 			foreach (var iter in Expression.names)
@@ -88,10 +85,10 @@ namespace ms
 				else
 				{
 					string expname = iter.Key.ToString ();
-					WzObject wzObj_face_00020000img_angry = face_00020000img[expname];
-					if (wzObj_face_00020000img_angry is WzImageProperty property_face_00020000img_angry)
+					var wzObj_face_00020000img_angry = face_00020000img[expname];
+					if (wzObj_face_00020000img_angry is MapleData property_face_00020000img_angry)
 					{
-						foreach (var property_face_00020000img_angry_0 in property_face_00020000img_angry.WzProperties)
+						foreach (var property_face_00020000img_angry_0 in property_face_00020000img_angry)
 						{
 							byte.TryParse (property_face_00020000img_angry_0.Name, out var tempKey);
 
@@ -107,7 +104,7 @@ namespace ms
 				}
 			}
 
-			name = ms.wz.wzFile_string["Eqp.img"]["Eqp"]["Face"][Convert.ToString (faceid)]["name"].ToString ();
+			name = ms.wz.wzProvider_string["Eqp.img"]["Eqp"]["Face"][Convert.ToString (faceid)]["name"].ToString ();
 		}
 
 
@@ -175,7 +172,11 @@ namespace ms
 			{
 				Init (src, layerMaskName);
 			}
-			public Frame (WzObject src)
+            public Frame(MapleData src, string layerMaskName)
+            {
+                Init(src, layerMaskName);
+            }
+            public Frame (WzObject src)
 			{
 				Init (src);
 			}
@@ -199,8 +200,26 @@ namespace ms
 					delay = 2500;
 				}
 			}
+            private void Init(MapleData src, string layerMaskName = "Default")
+            {
+                texture = new Texture(src["face"], layerMaskName, GameUtil.Instance.sortingLayerName_DefaultPlayer);
 
-			public void Dispose ()
+                Point_short shift = src["face"]?["map"]?["brow"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
+                if (src.FullPath.Contains("default"))
+                {
+                    //AppDebug.Log ($"initial origin :{texture.get_origin ()} \t Face.Frame shift: {shift}");
+                }
+
+                texture.shift(-shift);
+
+                delay = src["delay"];
+
+                if (delay == 0)
+                {
+                    delay = 2500;
+                }
+            }
+            public void Dispose ()
 			{
 				texture?.Dispose ();
 			}

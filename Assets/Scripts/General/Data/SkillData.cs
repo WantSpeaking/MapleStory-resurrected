@@ -9,6 +9,7 @@ using org.mariuszgromada.math.mxparser;
 using Expression = org.mariuszgromada.math.mxparser.Expression;
 using Jint;
 using System;
+using provider;
 
 namespace ms
 {
@@ -454,7 +455,7 @@ namespace ms
             }
 
             var node_Skillwz_1111img_skill_11111004 = wz.findSkillImage($"{jobid}.img")?["skill"]?[strid];
-            var node_Stringwz_Skillimg_000 = wz.wzFile_string["Skill.img"][strid];
+            var node_Stringwz_Skillimg_000 = wz.wzProvider_string["Skill.img"][strid];
 
             if (node_Skillwz_1111img_skill_11111004 == null)//sever send skillId 100 ,or others ,which doesn't exist in skillWz
             {
@@ -469,9 +470,9 @@ namespace ms
             name = node_Stringwz_Skillimg_000?["name"]?.ToString() ?? "name is null";//todo 2 newly added skill name is null
             desc = node_Stringwz_Skillimg_000?["desc"]?.ToString() ?? "desc is null";
 
-            if (node_Stringwz_Skillimg_000 is WzImageProperty property_Stringwz_Skillimg_000)
+            if (node_Stringwz_Skillimg_000 is MapleData property_Stringwz_Skillimg_000)
             {
-                var childNodeCount = property_Stringwz_Skillimg_000.WzProperties.Count;
+                var childNodeCount = property_Stringwz_Skillimg_000.Children.Count;
                 for (int level = 1; level <= childNodeCount; level++)
                 {
                     var node_Stringwz_Skillimg_000_h1 = property_Stringwz_Skillimg_000["h" + level]; //todo 2 可能除了h1、h2、h3等类似节点 还有其他节点 

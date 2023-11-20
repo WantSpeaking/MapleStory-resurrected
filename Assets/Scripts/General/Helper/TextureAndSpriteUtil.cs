@@ -7,6 +7,8 @@ using MapleLib.WzLib.WzProperties;
 using ms;
 using UnityEngine;
 using Bitmap = MapleLib.WzLib.Bitmap;
+using System.Linq;
+using UnityEditor;
 
 public static class TextureAndSpriteUtil
 {
@@ -182,4 +184,26 @@ public static class TextureAndSpriteUtil
 	{
 		return AssetBundleLoaderMgr.Instance.LoadSubAsset<UnityEngine.Sprite>(abName, assetName);
 	}
+
+    public static UnityEngine.Sprite LoadSpriteFromAssetDatabase(string imgName, string objName)
+    {
+        UnityEngine.Sprite sprite = null;
+
+
+        for (int k = 0; k < 10; k++)
+        {
+            var sprites = AssetDatabase.LoadAllAssetsAtPath($"Assets/GameMain/WzPng/{imgName}.img_Sheet{k}.png");
+            if (sprites != null)
+            {
+                sprite = (UnityEngine.Sprite)sprites.FirstOrDefault(s => s.name == objName);
+                if (sprite != null)
+                {
+                    break;
+                }
+            }
+        }
+
+
+        return sprite;
+    }
 }

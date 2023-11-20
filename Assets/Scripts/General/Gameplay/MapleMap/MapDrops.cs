@@ -20,7 +20,7 @@ namespace ms
 		// Initialize the meso icons
 		public void init ()
 		{
-			WzObject src = ms.wz.wzFile_item["Special"]["0900.img"];
+			var src = ms.wz.wzProvider_item["Special/0900.img"];
 
 			mesoicons[(int)MesoIcon.BRONZE] = src["09000000"]["iconRaw"];
 			mesoicons[(int)MesoIcon.GOLD] = src["09000001"]["iconRaw"];
@@ -29,8 +29,6 @@ namespace ms
 		}
 
 		// Draw all drops on a layer
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(Layer::Id layer, double viewx, double viewy, float alpha) const
 		public void draw (Layer.Id layer, double viewx, double viewy, float alpha)
 		{
 			drops.draw (layer, viewx, viewy, alpha);

@@ -2,10 +2,7 @@
 
 using System;
 using MapleLib.WzLib;
-
-
-
-
+using provider;
 
 namespace ms
 {
@@ -36,17 +33,17 @@ namespace ms
 			this.afterImageName = afterImageName;
 			this.stance_name = stance_name;
 
-			WzObject src = null;
+			MapleData src = null;
 
 			if (skill_id > 0)
 			{
 				string strid = string_format.extend_id (skill_id, 7);
-				src = ms.wz.findSkillImage(strid.Substring (0, 3) + ".img")?["skill"]?[strid]?["afterimage"]?[afterImageName]?[stance_name];
+				src = ms.wz.wzProvider_skill[strid.Substring (0, 3) + ".img"]?["skill"]?[strid]?["afterimage"]?[afterImageName]?[stance_name];
 			}
 
 			if (src == null)
 			{
-				src = ms.wz.wzFile_character["Afterimage"]?[afterImageName + ".img"]?[(level / 10).ToString ()]?[stance_name];
+				src = ms.wz.wzProvider_character[$"Afterimage/{afterImageName}.img"]?[(level / 10).ToString ()]?[stance_name];
 			}
 
 			if (src == null)
@@ -60,7 +57,7 @@ namespace ms
 			displayed = false;
 
 			
-			foreach (var sub in ((WzImageProperty)src).WzProperties)
+			foreach (var sub in src)
 			{
 				byte frame = string_conversion.or_default (sub.Name, (byte)255);
 

@@ -43,7 +43,7 @@ namespace ms
 
 		public void init ()
 		{
-			WzObject src = ms.wz.wzFile_ui["Basic.img"]["Cursor"];
+			var src = ms.wz.wzProvider_ui["Basic.img"]["Cursor"];
 			var count = animations.Count;
 			foreach (State stateKey in Enum.GetValues (typeof (State)))
 			{

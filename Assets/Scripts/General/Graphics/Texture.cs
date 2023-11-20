@@ -13,6 +13,7 @@ using ms_Unity;
 using System.Collections.Generic;
 using System.Linq;
 using provider;
+using UnityEditor;
 
 namespace ms
 {
@@ -253,7 +254,7 @@ namespace ms
         {
             if (src != null && src.IsTexture())
             {
-                fullPath = src[MapleDataTool.JsonNodeName_CanvasFullpath];
+                fullPath = src[MapleDataTool.JsonNodeName_CanvasFullpath];//
                 pivot = src["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
                 bitmap = new Bitmap(src["width"], src["height"]);
                 if (fullPath == null)
@@ -277,18 +278,27 @@ namespace ms
                 }*/
 
                 isSprite = true;
-                var dotimgIndex = fullPath.IndexOf(".img");
-                var imgPath = fullPath.Substring(0, dotimgIndex + 4);
-                var img_FileInfo = new FileInfo(imgPath);
-                var imgName = img_FileInfo.Name;
-                var imgName_Remove_Img = imgName.Replace(".img", "");
-                var abName = $"wzpng\\map\\back\\{imgName_Remove_Img}";
+                var dotimgIndex = fullPath.IndexOf(".img");//
+                var imgPath = fullPath.Substring(0, dotimgIndex + 4);//
+                var img_FileInfo = new FileInfo(imgPath);//
+                var imgName = img_FileInfo.Name;//
+                var imgName_Remove_Img = imgName.Replace(".img", "");//
+                var abName = $"wzpng\\{imgPath.Replace(".img", "").Replace(".wz", "")}" ;//
 
-                var imgNameIndex = fullPath.IndexOf(imgName);
-                var texPath = fullPath.Substring(imgNameIndex);
-                var assetName = texPath.Replace("\\", "-");
+                var imgNameIndex = fullPath.IndexOf(imgName);//
+                var texPath = fullPath.Substring(imgNameIndex);//
+                var assetName = texPath.Replace("\\", "-");//
 
-                sprite = TextureAndSpriteUtil.LoadSpriteFromAB(abName,assetName);
+                if (GameUtil.Instance.Use_ab_or_assetDatabase)
+                {
+                    sprite = TextureAndSpriteUtil.LoadSpriteFromAB(abName, assetName);
+                }
+                else
+                {
+#if UNITY_EDITOR
+                    sprite = TextureAndSpriteUtil.LoadSpriteFromAssetDatabase(abName.Replace("wzpng\\", ""), assetName);
+#endif
+                }
                 /*if (texture2D == null)
                 {
                     texture2D = TextureAndSpriteUtil.PngDataToTexture2D(bitmap.RawBytes, bitmap, pivot, dimensions);
@@ -305,22 +315,23 @@ namespace ms
 
         public void draw(DrawArgument args)
         {
+            SingletonMono<TestURPBatcher>.Instance.TryDraw(args,this);
             /*if (args.drawOnce && hasBeenDrew)
 			{
 				return;
 			}
 
-			hasBeenDrew = true;*/
+			hasBeenDrew = true;*//*
 
             if (bitmap != null)
             {
-                /*var X = args.getpos().x();
+                *//*var X = args.getpos().x();
                 var Y = args.getpos().y();
 
                 if (X + bitmap.Width < 0 || X - bitmap.Width > Constants.Instance.get_viewwidth() || Y + bitmap.Height < 0 || Y - bitmap.Height > Constants.Instance.get_viewheight())
                 {
                     return;
-                }*/
+                }*//*
                 Vector3 position = Vector3.zero;
                 if (texture2D != null)
                 {
@@ -330,16 +341,17 @@ namespace ms
                 {
                     //var position = new Vector3(obj.get_Point().x(), -obj.get_Point().y(), -obj.getz());
 
-                    position = new Vector3(args.getpos().x() , -args.getpos().y(), SingletonMono<GameUtil>.Instance.DrawOrder);
+                    //position = new Vector3(args.getpos().x() , -args.getpos().y(), SingletonMono<GameUtil>.Instance.DrawOrder);
+                    position = new Vector3(args.getpos().x() + bitmap.Width / 2 - pivot.x(), -args.getpos().y() - bitmap.Height / 2 + pivot.y(), Singleton<GameUtil>.Instance.DrawOrder);
                 }
                  
-                /*Vector3 position = new Vector3 (args.getpos ().x () + bitmap.Width / 2 - pivot.x (), -args.getpos ().y () - bitmap.Height / 2 + pivot.y (), Singleton<GameUtil>.Instance.DrawOrder);*/
+                *//*Vector3 position = new Vector3 (args.getpos ().x () + bitmap.Width / 2 - pivot.x (), -args.getpos ().y () - bitmap.Height / 2 + pivot.y (), Singleton<GameUtil>.Instance.DrawOrder);*//*
                 
                 if (fullPath == "Ui-new.wz\\Login.img\\Title\\BtNew\\normal\\0")
                 {
                 }
                 
-                Vector3 localScale = new Vector3(args.get_xscale(), -args.get_yscale(), 1f);
+                Vector3 localScale = new Vector3(args.get_xscale(), args.get_yscale(), 1f);
                 //Vector3 localScale = new Vector3 (args.get_xscale () * (args.getstretch ().x ()==0?1:args.getstretch ().x ()), -args.get_yscale ()* (args.getstretch ().y ()==0?1:args.getstretch ().y ()), 1f);
                 if (args.isDontDestoryOnLoad)
                 {
@@ -347,7 +359,7 @@ namespace ms
 
                 }
                 SingletonMono<TestURPBatcher>.Instance.TryDraw(this, bitmap, position, localScale, args.DrawParent);
-            }
+            }*/
         }
 
 

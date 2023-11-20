@@ -9,12 +9,8 @@ namespace ms
 		private Dictionary<Stance.Id, Animation> stance_animation_dict = new Dictionary<Stance.Id, Animation> ();
 		public CharShadowLook ()
 		{
-			WzObject skillwz_411img_skill_4111002_special = wz.wzFile_skill["411.img"]["skill"]["4111002"]["special"];
+			var skillwz_411img_skill_4111002_special = wz.wzProvider_skill["411.img"]["skill"]["4111002"]["special"];
 			if (skillwz_411img_skill_4111002_special == null) return;
-			foreach (var child in skillwz_411img_skill_4111002_special)
-			{
-				
-			}
 
 			foreach (var iter in Stance.names)
 			{

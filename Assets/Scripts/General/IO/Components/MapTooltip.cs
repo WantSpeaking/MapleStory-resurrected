@@ -16,8 +16,8 @@ namespace ms
 			this.description = "";
 			this.fillwidth = MIN_WIDTH;
 			this.fillheight = 0;
-			WzObject Frame = ms.wz.wzFile_ui["UIToolTip.img"]["Item"]["Frame2"];
-			WzObject WorldMap = ms.wz.wzFile_ui["UIWindow2.img"]["ToolTip"]["WorldMap"];
+			WzObject Frame = ms.wz.wzProvider_ui["UIToolTip.img"]["Item"]["Frame2"];
+			WzObject WorldMap = ms.wz.wzProvider_ui["UIWindow2.img"]["ToolTip"]["WorldMap"];
 
 			frame =new MapleFrame (Frame);
 			cover = Frame["cover"];

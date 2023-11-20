@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using MapleLib.WzLib;
 using ms;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -23,7 +21,7 @@ namespace ms
 
 			update_screen (width, height);
 
-			wzObject_FadeYesNo = wz.wzFile_ui["UIWindow.img"]["FadeYesNo"];
+			wzObject_FadeYesNo = wz.wzProvider_ui["UIWindow.img"]["FadeYesNo"];
 
 			BtOK = new MapleButton (wzObject_FadeYesNo["BtOK"]);
 			BtCancel = new MapleButton (wzObject_FadeYesNo["BtCancel"]);
@@ -96,7 +94,7 @@ namespace ms
 		protected MapleButton BtOK;
 		protected MapleButton BtCancel;
 
-		protected WzObject wzObject_FadeYesNo;
+		protected MapleData wzObject_FadeYesNo;
 
 		// 8 seconds
 		private const long FADE_DURATION = 8_000;

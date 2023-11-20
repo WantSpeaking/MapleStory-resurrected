@@ -4,12 +4,7 @@ using System;
 using System.Collections.Generic;
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
-
-
-
-
+using provider;
 
 namespace ms
 {
@@ -29,14 +24,14 @@ namespace ms
 			string version_text = Configuration.get().get_version();
 			version = new Text(Text.Font.A11B, Text.Alignment.LEFT, Color.Name.LEMONGRASS, "Ver. " + version_text);
 
-			WzObject Login = ms.wz.wzFile_ui["Login.img"];
-			WzObject Common = Login["Common"];
-			WzObject CustomizeChar = Login["CustomizeChar"]["1000"];
-			WzObject back = ms.wz.wzFile_map001["Back"]["login.img"]["back"];
-			WzObject signboard = ms.wz.wzFile_mapLatest["Obj"]["login.img"]["NewChar"]["signboard"];
-			WzObject board = CustomizeChar["board"];
-			WzObject genderSelect = CustomizeChar["genderSelect"];
-			WzObject frame = ms.wz.wzFile_mapLatest["Obj"]["login.img"]["Common"]["frame"]["2"]["0"];
+			var Login = ms.wz.wzProvider_ui["Login.img"];
+			var Common = Login["Common"];
+			var CustomizeChar = Login["CustomizeChar"]["1000"];
+			var back = ms.wz.wzFile_map001["Back"]["login.img"]["back"];
+			var signboard = ms.wz.wzFile_mapLatest["Obj"]["login.img"]["NewChar"]["signboard"];
+			var board = CustomizeChar["board"];
+			var genderSelect = CustomizeChar["genderSelect"];
+			var frame = ms.wz.wzFile_mapLatest["Obj"]["login.img"]["Common"]["frame"]["2"]["0"];
 
 			sky = back["2"];
 			cloud = back["27"];
@@ -112,12 +107,12 @@ namespace ms
 			shoename = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK);
 			wepname = new Text(Text.Font.A11M, Text.Alignment.CENTER, Color.Name.BLACK);
 
-			WzObject mkinfo = ms.wz.wzFile_etc["MakeCharInfo.img"]["Info"];
+			var mkinfo = ms.wz.wzProvider_etc["MakeCharInfo.img"]["Info"];
 
 			for (uint i = 0; i < 2; i++)
 			{
 				bool f;
-				WzObject CharGender;
+				MapleData CharGender;
 
 				if (i == 0)
 				{

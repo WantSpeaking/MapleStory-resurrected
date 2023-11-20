@@ -6,9 +6,7 @@ using System.Linq;
 using Beebyte.Obfuscator;
 using Helper;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -32,12 +30,12 @@ namespace ms
 			keyboard = UI.get ().get_keyboard ();
 			staged_mappings = new SortedDictionary<int, Keyboard.Mapping> (keyboard.get_maplekeys ());
 
-			WzObject KeyConfig = ms.wz.wzFile_ui["UIWindow.img"]["KeyConfig"];
+			MapleData KeyConfig = ms.wz.wzProvider_ui["UIWindow.img"]["KeyConfig"];
 
 			icon = (KeyConfig["icon"]);
 			key = (KeyConfig["key"]);
 
-			WzObject backgrnd = KeyConfig["backgrnd"];
+			MapleData backgrnd = KeyConfig["backgrnd"];
 			Texture bg = backgrnd;
 			Point_short bg_dimensions = bg.get_dimensions ();
 
@@ -45,7 +43,7 @@ namespace ms
 			//sprites.Add (KeyConfig["backgrnd2"]);
 			//sprites.Add (KeyConfig["backgrnd3"]);
 
-			WzObject BtClose3 = ms.wz.wzFile_ui["Basic.img"]["BtClose2"];
+			MapleData BtClose3 = ms.wz.wzProvider_ui["Basic.img"]["BtClose2"];
 			buttons[(int)Buttons.CLOSE] = new MapleButton (BtClose3, new Point_short ((short)(bg_dimensions.x () - 18), 3));
 			buttons[(int)Buttons.CANCEL] = new MapleButton (KeyConfig["BtCancel"]);
 			buttons[(int)Buttons.DEFAULT] = new MapleButton (KeyConfig["BtDefault"]);
@@ -1402,8 +1400,8 @@ namespace ms
 
 		private Keyboard keyboard = null;
 
-		private WzObject key;
-		private WzObject icon;
+		private MapleData key;
+		private MapleData icon;
 
 		private EnumMap<KeyConfig.Key, Texture> key_textures = new EnumMap<KeyConfig.Key, Texture> ();
 		private EnumMapNew<KeyConfig.Key, Point_short> keys_pos = new EnumMapNew<KeyConfig.Key, Point_short> ();

@@ -4,8 +4,7 @@ using System;
 using System.Collections.Generic;
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
+using provider;
 
 namespace ms
 {
@@ -28,20 +27,20 @@ namespace ms
             this.mvp_grade = 1;
             this.mvp_exp = 0.07f;
             this.list_offset = 0;
-            WzObject CashShop = ms.wz.wzFile_ui["CashShop.img"];
-            WzObject Base = CashShop["Base"];
-            WzObject backgrnd = Base["backgrnd"];
-            WzObject BestNew = Base["BestNew"];
-            WzObject Preview = Base["Preview"];
-            WzObject CSTab = CashShop["CSTab"];
-            WzObject CSGLChargeNX = CSTab["CSGLChargeNX"];
-            WzObject CSStatus = CashShop["CSStatus"];
-            WzObject CSPromotionBanner = CashShop["CSPromotionBanner"];
-            WzObject CSMVPBanner = CashShop["CSMVPBanner"];
-            WzObject CSItemSearch = CashShop["CSItemSearch"];
-            WzObject CSChar = CashShop["CSChar"];
-            WzObject CSList = CashShop["CSList"];
-            WzObject CSEffect = CashShop["CSEffect"];
+            MapleData CashShop = ms.wz.wzProvider_ui["CashShop.img"];
+            MapleData Base = CashShop["Base"];
+            MapleData backgrnd = Base["backgrnd"];
+            MapleData BestNew = Base["BestNew"];
+            MapleData Preview = Base["Preview"];
+            MapleData CSTab = CashShop["CSTab"];
+            MapleData CSGLChargeNX = CSTab["CSGLChargeNX"];
+            MapleData CSStatus = CashShop["CSStatus"];
+            MapleData CSPromotionBanner = CashShop["CSPromotionBanner"];
+            MapleData CSMVPBanner = CashShop["CSMVPBanner"];
+            MapleData CSItemSearch = CashShop["CSItemSearch"];
+            MapleData CSChar = CashShop["CSChar"];
+            MapleData CSList = CashShop["CSList"];
+            MapleData CSEffect = CashShop["CSEffect"];
 
             sprites.Add(backgrnd);
             sprites.Add(new Sprite(BestNew, new Point_short(139, 346)));

@@ -135,7 +135,7 @@ namespace ms
 			
 			string strid = string_format.extend_id (mapid, 9);
 			string prefix = Convert.ToString (mapid / 100000000);
-			//WzObject node_100000000img = ((mapid == -1) ? wz.wzFile_ui["CashShopPreview.img"] : wz.wzFile_map["Map"]["Map" + prefix][strid + ".img"]);
+			//WzObject node_100000000img = ((mapid == -1) ? wz.wzProvider_ui["CashShopPreview.img"] : wz.wzFile_map["Map"]["Map" + prefix][strid + ".img"]);
 
 			var data_100000000img = wz.wzProvider_map[$"Map/Map{prefix}/{strid}.img"];
             if (data_100000000img["info"]?["link"] != null)

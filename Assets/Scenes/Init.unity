@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.172768, g: 0.21589169, b: 0.29782546, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276807, g: 0.21589197, b: 0.29782572, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1621,6 +1621,8 @@ MonoBehaviour:
   sortingLayerName_DefaultPlayer: Layer8
   Use_wz_or_ab_draw_ObjTile: 0
   Use_Unlit_or_Pixelate_Material: 1
+  Use_ab_or_assetDatabase: 0
+  wZProviderType: 0
 --- !u!114 &609587594
 MonoBehaviour:
   m_ObjectHideFlags: 0

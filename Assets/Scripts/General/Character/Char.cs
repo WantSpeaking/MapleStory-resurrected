@@ -493,7 +493,7 @@ namespace ms
 		{
 			CharLook.init ();
 
-			var file_BasicEffimg = ms.wz.wzFile_effect["BasicEff.img"];
+			var file_BasicEffimg = ms.wz.wzProvider_effect["BasicEff.img"];
 			foreach (var iter in CharEffect.PATHS_One)
 			{
 				if (iter.Value != null)

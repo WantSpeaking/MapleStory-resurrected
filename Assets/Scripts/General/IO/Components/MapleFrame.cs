@@ -2,9 +2,7 @@
 
 using System;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -13,7 +11,23 @@ namespace ms
 		public MapleFrame()
 		{
 		}
-		public MapleFrame(WzObject src)
+        public MapleFrame(MapleData src)
+        {
+            center = src["c"];
+            east = src["e"];
+            northeast = src["ne"];
+            north = src["n"];
+            northwest = src["nw"];
+            west = src["w"];
+            southwest = src["sw"];
+            south = src["s"];
+            southeast = src["se"];
+
+            xtile = Math.Max(north.width(), (short)1);
+            ytile = Math.Max(west.height(), (short)1);
+        }
+
+        public MapleFrame(WzObject src)
 		{
 			center = src["c"];
 			east = src["e"];

@@ -27,12 +27,12 @@ namespace ms
         public UIActionButton()
         {
 
-            /*var img_game = ms.wz.wzFile_UI_Endless["Game.img"];
+            /*var img_game = ms.wz.wzProvider_ui_Endless["Game.img"];
             var wzobj_btnJump = img_game["Btn_Jump"];
 
             Texture tex_bgAction = img_game["BG_Action"];
 
-            var KeyConfig = ms.wz.wzFile_ui["UIWindow.img"]["KeyConfig"];
+            var KeyConfig = ms.wz.wzProvider_ui["UIWindow.img"]["KeyConfig"];
 
 
             var icon = (KeyConfig["icon"]);
@@ -41,7 +41,7 @@ namespace ms
             Texture attack = icon[52.ToString()];
             Texture jump = icon[53.ToString()];
 
-            WzObject Login = ms.wz.wzFile_ui["Login.img"];
+            WzObject Login = ms.wz.wzProvider_ui["Login.img"];
             WzObject Common = Login["Common"];
             WzObject CharSelect = Login["CharSelect"];
 

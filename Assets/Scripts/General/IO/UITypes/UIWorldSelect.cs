@@ -46,7 +46,7 @@ namespace ms
 			byte regionid = Setting<DefaultRegion>.get ().load ();
 
 			WzObject obj = ms.wz.wzFile_mapLatest["Obj"]["login.img"];
-			WzObject login = ms.wz.wzFile_ui["Login.img"];
+			WzObject login = ms.wz.wzProvider_ui["Login.img"];
 			worldselect = (login["WorldSelect"]);
 			worldsrc = (worldselect["BtWorld"]["release"]);
 			channelsrc = (worldselect["BtChannel"]);

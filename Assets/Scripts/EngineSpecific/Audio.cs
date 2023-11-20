@@ -333,6 +333,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
+using provider;
 using Un4seen.Bass;
 
 namespace ms
@@ -410,16 +411,19 @@ namespace ms
         {
             id = add_sound (src);
         }
-
+        public Sound(MapleData src)
+        {
+            //id = add_sound(src);
+        }
         public void play ()
         {
-            if (!string.IsNullOrEmpty (id))
-                play (id);
+            /*if (!string.IsNullOrEmpty (id))
+                play (id);*/
         }
 
         public static Error init ()
         {
-            if (!Bass.BASS_Init (-1, 44100, 0, IntPtr.Zero, Guid.Empty))
+            /*if (!Bass.BASS_Init (-1, 44100, 0, IntPtr.Zero, Guid.Empty))
             {
                 return Error.Code.AUDIO;
             }
@@ -486,7 +490,7 @@ namespace ms
             if (!set_sfxvolume (volume))
             {
                 return Error.Code.AUDIO;
-            }
+            }*/
 
             return Error.Code.NONE;
         }
@@ -505,13 +509,13 @@ namespace ms
 
         private static void play (string id)
         {
-            if (!samples.ContainsKey (id))
+            /*if (!samples.ContainsKey (id))
             {
                 return;
             }
 
             var channel = Bass.BASS_SampleGetChannel (samples[id], false);
-            Bass.BASS_ChannelPlay (channel, true);
+            Bass.BASS_ChannelPlay (channel, true);*/
         }
 
         private static string add_sound (WzObject src)
@@ -596,7 +600,7 @@ namespace ms
         GCHandle _hGCFile;
         public void play (string path)
         {
-			if (path == play_bgmpath)
+			/*if (path == play_bgmpath)
 			{
 				return;
 			}
@@ -618,7 +622,7 @@ namespace ms
 				Bass.BASS_ChannelPlay (play_stream, true);
 
 				play_bgmpath = path;
-			}
+			}*/
 		}
 
         private int play_once_stream = 0;
@@ -627,12 +631,7 @@ namespace ms
 
         public void play_once (string path)
         {
-            //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 NOTE: This static local variable declaration (not allowed in C#) has been moved just prior to the method:
-            //			static HSTREAM stream = 0;
-            //C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 NOTE: This static local variable declaration (not allowed in C#) has been moved just prior to the method:
-            //			static string bgmpath = "";
-
-            if (path == play_once_bgmpath)
+            /*if (path == play_once_bgmpath)
             {
                 return;
             }
@@ -652,18 +651,18 @@ namespace ms
                 play_once_stream = Bass.BASS_StreamCreateFile (pData, 0, data.Length, BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_SAMPLE_LOOP);
                 Bass.BASS_ChannelPlay (play_once_stream, true);
 				
-				/*File.WriteAllBytes("D:\\test.dat", data);
+				*//*File.WriteAllBytes("D:\\test.dat", data);
 
                 GCHandle pinnedObject = GCHandle.Alloc(data, GCHandleType.Pinned);
                 IntPtr pinnedObjectPtr = pinnedObject.AddrOfPinnedObject();
 
 
                 play_once_stream = Bass.BASS_StreamCreateFile("D:\\test.dat", 82, 0, BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_STREAM_PRESCAN);
-                Bass.BASS_ChannelPlay(play_once_stream, true);*/
+                Bass.BASS_ChannelPlay(play_once_stream, true);*//*
 
 
 				play_once_bgmpath = path;
-            }
+            }*/
         }
 
         public void Pause ()

@@ -4,10 +4,7 @@ using System;
 using System.Collections.Generic;
 using ms.Helper;
 using MapleLib.WzLib;
-
-
-
-
+using provider;
 
 namespace ms
 {
@@ -34,8 +31,8 @@ namespace ms
             init_Dict();
 
             string strid = string_format.extend_id(skin, 2);
-            var bodynode = ms.wz.wzFile_character["000020" + strid + ".img"];
-            var headnode = ms.wz.wzFile_character["000120" + strid + ".img"];
+            var bodynode = ms.wz.wzProvider_character["000020" + strid + ".img"];
+            var headnode = ms.wz.wzProvider_character["000120" + strid + ".img"];
 
             foreach (var iter in Stance.names)
             {
@@ -49,12 +46,12 @@ namespace ms
                     continue;
                 }
 
-                if (node_00002000img_alert is WzImageProperty property_00002000img_alert)
+                if (node_00002000img_alert is MapleData property_00002000img_alert)
                 {
-                    foreach (var property_00002000img_alert_0 in property_00002000img_alert.WzProperties)
+                    foreach (var property_00002000img_alert_0 in property_00002000img_alert)
                     {
                         var frame = byte.Parse(property_00002000img_alert_0.Name);
-                        foreach (var property_00002000img_alert_0_arm in property_00002000img_alert_0.WzProperties)
+                        foreach (var property_00002000img_alert_0_arm in property_00002000img_alert_0)
                         {
                             string part = property_00002000img_alert_0_arm.Name;
 
@@ -96,7 +93,7 @@ namespace ms
                             }
                         }
 
-                        if (headnode[stancename]?[frame.ToString()]?["head"] is WzObject headsfnode)
+                        if (headnode[stancename]?[frame.ToString()]?["head"] is MapleData headsfnode)
                         {
                             Point_short shift = drawinfo.get_head_position(stance, frame) ?? new Point_short();
 

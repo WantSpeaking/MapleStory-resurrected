@@ -27,7 +27,7 @@ namespace ms
             this.tab = 1;
             this.macro_enabled = false;
             this.sp_enabled = false;
-            /*WzObject Skill = ms.wz.wzFile_ui["UIWindow.img"]["Skill"];
+            /*WzObject Skill = ms.wz.wzProvider_ui["UIWindow.img"]["Skill"];
             WzObject main = Skill["main"];
             WzObject ui_backgrnd = main["backgrnd"];
 
@@ -47,7 +47,7 @@ namespace ms
             buttons[(int)Buttons.BT_GUILDSKILL].set_state(Button.State.DISABLED);
             buttons[(int)Buttons.BT_RIDE].set_state(Button.State.DISABLED);
 
-            WzObject skillPoint = ms.wz.wzFile_ui["UIWindow.img"]["Skill"]["skillPoint"];
+            WzObject skillPoint = ms.wz.wzProvider_ui["UIWindow.img"]["Skill"]["skillPoint"];
 
             sp_backgrnd = skillPoint["backgrnd"];
             sp_backgrnd2 = skillPoint["backgrnd2"];
@@ -81,7 +81,7 @@ namespace ms
 
             buttons[(int)Buttons.BT_MACRO_OK].set_state(Button.State.DISABLED);
 
-            WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
+            WzObject close = ms.wz.wzProvider_ui["Basic.img"]["BtClose3"];
 
             buttons[(int)Buttons.BT_CLOSE] = new MapleButton(close, new Point_short((short)(bg_dimensions.x() - 23), 6));
 

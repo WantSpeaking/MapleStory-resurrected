@@ -4,9 +4,7 @@ using System;
 using Attributes;
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -25,8 +23,8 @@ namespace ms
 		{
 			this.okhandler = oh;
 			this.login = l;
-			WzObject alert = ms.wz.wzFile_ui["UIWindow.img"]["KeyConfig"]["KeyType"]["alert"];
-			WzObject background = alternate ? alert["alternate"] : alert["default"];
+			MapleData alert = ms.wz.wzProvider_ui["UIWindow.img"]["KeyConfig"]["KeyType"]["alert"];
+			MapleData background = alternate ? alert["alternate"] : alert["default"];
 
 			sprites.Add (background);
 
@@ -96,8 +94,8 @@ namespace ms
 		{
 			this.okhandler = oh;
 			this.login = l;
-			WzObject KeyType = ms.wz.wzFile_ui["UIWindow.img"]["KeyConfig"]["KeyType"];
-			WzObject backgrnd = KeyType["backgrnd"];
+			MapleData KeyType = ms.wz.wzProvider_ui["UIWindow.img"]["KeyConfig"]["KeyType"];
+			MapleData backgrnd = KeyType["backgrnd"];
 
 			sprites.Add (backgrnd);
 
@@ -191,10 +189,10 @@ namespace ms
 		public UIClassConfirm (ushort selected_class, bool unavailable, System.Action okhandler)
 		{
 			this.okhandler = okhandler;
-			WzObject RaceSelect = ms.wz.wzFile_ui["Login.img"]["RaceSelect_new"];
-			WzObject type = unavailable ? RaceSelect["deny"] : RaceSelect["confirm"];
-			WzObject backgrnd = type["backgrnd"];
-			WzObject race = type["race"][selected_class.ToString ()];
+			MapleData RaceSelect = ms.wz.wzProvider_ui["Login.img"]["RaceSelect_new"];
+			MapleData type = unavailable ? RaceSelect["deny"] : RaceSelect["confirm"];
+			MapleData backgrnd = type["backgrnd"];
+			MapleData race = type["race"][selected_class.ToString ()];
 
 			short backgrnd_x = new Texture (backgrnd).get_dimensions ().x ();
 			short race_x = new Texture (race).get_dimensions ().x ();
@@ -300,8 +298,8 @@ namespace ms
 
 		public UIQuitConfirm ()
 		{
-			WzObject notice = ms.wz.wzFile_ui["Login.img"]["Notice"];
-			WzObject backgrnd = notice["backgrnd"]["0"];
+			MapleData notice = ms.wz.wzProvider_ui["Login.img"]["Notice"];
+			MapleData backgrnd = notice["backgrnd"]["0"];
 
 			sprites.Add (backgrnd);
 			sprites.Add (new Sprite (notice["text"][UILoginNotice.Message.CONFIRM_EXIT.ToString ()], new Point_short (17, 13)));
@@ -499,8 +497,8 @@ namespace ms
 			this.cancelhandler = cancelhandler;
 			multiple = false;
 
-			WzObject Notice = ms.wz.wzFile_ui["Login.img"]["Notice"];
-			WzObject backgrnd;
+			MapleData Notice = ms.wz.wzProvider_ui["Login.img"]["Notice"];
+			MapleData backgrnd;
 
 			switch ((Message)message)
 			{

@@ -98,7 +98,7 @@ namespace ms
 			}
 			//AppDebug.Log ($"id:{id}\tstrid:{strid}\tcategory:{category}");
 			//if(category == null) return;//todo 2 why id == 3 maybe chalist parsed wrong
-			var src = ms.wz.wzFile_character[category]?[strid + ".img"]?["info"];
+			var src = ms.wz.wzProvider_character[$"{category}/{strid}.img"]?["info"];
 
 			if (src != null)
 			{

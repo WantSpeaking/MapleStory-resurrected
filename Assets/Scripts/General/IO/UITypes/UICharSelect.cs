@@ -6,10 +6,7 @@ using Beebyte.Obfuscator;
 using Helper;
 using MapleLib.WzLib;
 using ms.Helper;
-
-
-
-
+using provider;
 
 namespace ms
 {
@@ -48,7 +45,7 @@ namespace ms
 			selected_page = (byte)(selected_character / PAGESIZE);
 			page_count = (byte)Math.Ceiling ((double)slots / (double)PAGESIZE);
 
-			tab = ms.wz.wzFile_ui["Basic.img"]["Cursor"]["1"]["0"];
+			tab = ms.wz.wzProvider_ui["Basic.img"]["Cursor"]["1"]["0"];
 
 			tab_index = 0;
 			tab_active = false;
@@ -66,10 +63,10 @@ namespace ms
 			tab_map[1] = (int)Buttons.CHARACTER_NEW;
 			tab_map[2] = (int)Buttons.CHARACTER_DELETE;
 
-			WzObject Login = ms.wz.wzFile_ui["Login.img"];
-			WzObject Common = Login["Common"];
-			WzObject CharSelect = Login["CharSelect"];
-			WzObject selectWorld = Common["selectWorld"];
+			var Login = ms.wz.wzProvider_ui["Login.img"];
+			var Common = Login["Common"];
+			var CharSelect = Login["CharSelect"];
+			var selectWorld = Common["selectWorld"];
 			//WzObject selectedWorld = CharSelect["selectedWorld"];
 			//WzObject pageNew = CharSelect["pageNew"];
 
@@ -1127,7 +1124,7 @@ namespace ms
 		private Charset pagenumber = new Charset ();
 		private WzObject pagenumberpos;
 		private Texture[] signpost = new Texture[3];
-		private WzObject nametag;
+		private MapleData nametag;
 		private Charset levelset = new Charset ();
 		private OutlinedText namelabel = new OutlinedText ();
 		private List<CharLook> charlooks = new List<CharLook> ();

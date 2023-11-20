@@ -28,7 +28,7 @@ namespace ms
 				typestr = Convert.ToString (type);
 			}
 
-			var src = ms.wz.wzFile_ui["ChatBalloon.img"][typestr];
+			var src = ms.wz.wzProvider_ui["ChatBalloon.img"][typestr];
 
 			arrow = src["arrow"];
 			frame = new MapleFrame (src);
@@ -113,7 +113,7 @@ namespace ms
 	{
 		public ChatBalloonHorizontal ()
 		{
-			WzObject Balloon = ms.wz.wzFile_ui["Login.img"]["WorldNotice"]["Balloon"];
+			var Balloon = ms.wz.wzProvider_ui["Login.img"]["WorldNotice"]["Balloon"];
 
 			arrow = Balloon["arrow"];
 			center = Balloon["c"];

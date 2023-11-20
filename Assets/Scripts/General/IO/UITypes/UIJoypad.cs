@@ -2,11 +2,7 @@
 
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
-
-
-
+using provider;
 
 namespace ms
 {
@@ -27,8 +23,8 @@ namespace ms
 			//this.UIDragElement<PosJOYPAD> = new <type missing>();
 			alternative_settings = false; // TODO: Get user's key settings type
 
-			WzObject JoyPad = ms.wz.wzFile_ui["UIWindow.img"]["JoyPad"];
-			WzObject Basic = ms.wz.wzFile_ui["Basic.img"];
+			MapleData JoyPad = ms.wz.wzProvider_ui["UIWindow.img"]["JoyPad"];
+			MapleData Basic = ms.wz.wzProvider_ui["Basic.img"];
 
 			backgrnd[true] = JoyPad["backgrnd_alternative"];
 			backgrnd[false] = JoyPad["backgrnd_classic"];

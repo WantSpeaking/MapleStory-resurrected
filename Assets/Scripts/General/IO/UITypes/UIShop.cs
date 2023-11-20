@@ -28,7 +28,7 @@ namespace ms
 		{
 			this.charlook = in_charlook;
 			this.inventory = in_inventory;
-			/*WzObject src = ms.wz.wzFile_ui["UIWindow.img"]["Shop2"];
+			/*WzObject src = ms.wz.wzProvider_ui["UIWindow.img"]["Shop2"];
 
 			WzObject background = src["backgrnd"];
 			Texture bg = background;
@@ -361,7 +361,7 @@ namespace ms
 		public void reset (int npcid)
 		{
 			string strid = string_format.extend_id (npcid, 7);
-			npc = ms.wz.wzFile_npc[strid + ".img"]["stand"]["0"];
+			npc = ms.wz.wzProvider_npc[strid + ".img"]["stand"]["0"];
 
 			/*foreach (var button in buttons)
 			{
@@ -767,7 +767,7 @@ namespace ms
 
 				if (showcount)
 				{
-					Charset countset = new Charset(ms.wz.wzFile_ui["Basic.img"]["ItemNo"], Charset.Alignment.LEFT);
+					Charset countset = new Charset(ms.wz.wzProvider_ui["Basic.img"]["ItemNo"], Charset.Alignment.LEFT);
 					countset.draw(Convert.ToString(sellable), pos + new Point_short(41, 28));
 				}
 

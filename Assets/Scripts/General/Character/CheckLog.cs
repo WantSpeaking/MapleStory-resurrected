@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using MapleLib.WzLib.WzProperties;
+using provider;
 
 namespace ms
 {
@@ -16,11 +17,11 @@ namespace ms
 
 		public CheckInfo GetCheckInfo (short questId)
 		{
-			if (!questId_Info_Dict.TryGetValue (questId, out var checkInfo))
+			if (!questId_Info_Dict.TryGetValue(questId, out var checkInfo))
 			{
-				checkInfo = new CheckInfo ();
-				checkInfo.checkStages = new List<CheckStage> ();
-				if (wz.wzFile_quest.GetObjectFromPath ($"Quest.wz/Check.img/{questId}") is WzSubProperty wzObj_Checkimg_1000)
+				checkInfo = new CheckInfo();
+				checkInfo.checkStages = new List<CheckStage>();
+				if (wz.wzProvider_quest["Check.img"][$"{questId}"] is MapleData wzObj_Checkimg_1000)
 				{
 					var count = wzObj_Checkimg_1000.Count ();
 					for (int i = 0; i < count; i++)
@@ -67,7 +68,7 @@ namespace ms
 						checkStage.tamingmoblevelmin = checkimg_1000_0["tamingmoblevelmin"];
 
 						checkStage.items = new List<CheckRequireItem> ();
-						if (checkimg_1000_0["item"] is WzSubProperty checkimg_1000_0_item)
+						if (checkimg_1000_0["item"] is MapleData checkimg_1000_0_item)
 						{
 							foreach (var checkimg_1000_0_item_0 in checkimg_1000_0_item)
 							{
@@ -79,7 +80,7 @@ namespace ms
 						}
 
 						checkStage.quests = new List<CheckRequireQuest> ();
-						if (checkimg_1000_0["quest"] is WzSubProperty checkimg_1000_0_quest)
+						if (checkimg_1000_0["quest"] is MapleData checkimg_1000_0_quest)
 						{
 							foreach (var checkimg_1000_0_quest_0 in checkimg_1000_0_quest)
 							{
@@ -91,7 +92,7 @@ namespace ms
 						}
 
 						checkStage.jobs = new List<int> ();
-						if (checkimg_1000_0["job"] is WzSubProperty checkimg_1000_0_job)
+						if (checkimg_1000_0["job"] is MapleData checkimg_1000_0_job)
 						{
 							foreach (var checkimg_1000_0_job_0 in checkimg_1000_0_job)
 							{
@@ -101,7 +102,7 @@ namespace ms
 						}
 
 						checkStage.fieldEnters = new List<int> ();
-						if (checkimg_1000_0["fieldEnter"] is WzSubProperty checkimg_1000_0_fieldEnter)
+						if (checkimg_1000_0["fieldEnter"] is MapleData checkimg_1000_0_fieldEnter)
 						{
 							foreach (var checkimg_1000_0_fieldEnter_0 in checkimg_1000_0_fieldEnter)
 							{
@@ -111,7 +112,7 @@ namespace ms
 						}
 
 						checkStage.pets = new List<int> ();
-						if (checkimg_1000_0["pet"] is WzSubProperty checkimg_1000_0_pet)
+						if (checkimg_1000_0["pet"] is MapleData checkimg_1000_0_pet)
 						{
 							foreach (var checkimg_1000_0_pet_0 in checkimg_1000_0_pet)
 							{
@@ -121,7 +122,7 @@ namespace ms
 						}
 
 						checkStage.infoexs = new List<CheckRequireInfoex> ();
-						if (checkimg_1000_0["infoex"] is WzSubProperty checkimg_1000_0_infoex)
+						if (checkimg_1000_0["infoex"] is MapleData checkimg_1000_0_infoex)
 						{
 							foreach (var checkimg_1000_0_infoex_0 in checkimg_1000_0_infoex)
 							{
@@ -133,7 +134,7 @@ namespace ms
 						}
 
 						checkStage.mbcards = new List<CheckRequireMbcard> ();
-						if (checkimg_1000_0["mbcard"] is WzSubProperty checkimg_1000_0_mbcard)
+						if (checkimg_1000_0["mbcard"] is MapleData checkimg_1000_0_mbcard)
 						{
 							foreach (var checkimg_1000_0_mbcard_0 in checkimg_1000_0_mbcard)
 							{
@@ -145,7 +146,7 @@ namespace ms
 						}
 
 						checkStage.mobs = new List<CheckRequireMob> ();
-						if (checkimg_1000_0["mob"] is WzSubProperty checkimg_1000_0_mob)
+						if (checkimg_1000_0["mob"] is MapleData checkimg_1000_0_mob)
 						{
 							foreach (var checkimg_1000_0_mob_0 in checkimg_1000_0_mob)
 							{

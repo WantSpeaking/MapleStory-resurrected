@@ -2,11 +2,7 @@
 
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
-
-
-
+using provider;
 
 namespace ms
 {
@@ -25,8 +21,8 @@ namespace ms
 			this.okhandler = oh;
 			this.offset = 0;
 			this.unit_rows = 1;
-			WzObject Login = ms.wz.wzFile_ui["Login.img"];
-			WzObject TOS = Login["TOS"];
+			MapleData Login = ms.wz.wzProvider_ui["Login.img"];
+			MapleData TOS = Login["TOS"];
 
 			sprites.Add(new Sprite (TOS, new Point_short(399, 250)));
 

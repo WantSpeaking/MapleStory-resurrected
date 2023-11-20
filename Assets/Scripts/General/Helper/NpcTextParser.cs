@@ -81,12 +81,12 @@ namespace ms.Util
 
 		protected string onTag_MonsterName (string tagName, bool end, string attr)
 		{
-			return ms.wz.wzFile_string["Mob.img"][attr]?["name"]?.ToString () ?? attr;
+			return ms.wz.wzProvider_string["Mob.img"][attr]?["name"]?.ToString () ?? attr;
 		}
 
 		protected string onTag_NpcName (string tagName, bool end, string attr)
 		{
-			return ms.wz.wzFile_string["Npc.img"][attr]?["name"]?.ToString () ?? attr;
+			return ms.wz.wzProvider_string["Npc.img"][attr]?["name"]?.ToString () ?? attr;
 		}
 
 		protected string onTag_SkillName (string tagName, bool end, string attr)
@@ -101,7 +101,7 @@ namespace ms.Util
 
 		protected string onTag_ItemName (string tagName, bool end, string attr)
 		{
-			return ms.wz.wzFile_string["Consume.img"][attr]?["name"].ToString () ?? attr;
+			return ms.wz.wzProvider_string["Consume.img"][attr]?["name"].ToString () ?? attr;
 		}
 
 		protected string onTag_ItemImage (string tagName, bool end, string attr)

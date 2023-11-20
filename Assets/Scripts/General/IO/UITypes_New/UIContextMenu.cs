@@ -2,6 +2,7 @@
 
 using System;
 using MapleLib.WzLib;
+using provider;
 
 namespace ms
 {
@@ -15,7 +16,7 @@ namespace ms
 
 		public UIContextMenu ()
 		{
-			WzObject src = ms.wz.wzFile_ui["UIWindow.img"]["ContextMenu"];
+			MapleData src = ms.wz.wzProvider_ui["UIWindow.img"]["ContextMenu"];
 
 			top = src["t"];
 			center = src["c"];

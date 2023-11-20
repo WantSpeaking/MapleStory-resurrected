@@ -21,7 +21,7 @@ namespace ms
         }
         public bool check_name(string name)
         {
-            WzObject ForbiddenName = ms.wz.wzFile_etc["ForbiddenName.img"];
+            var ForbiddenName = ms.wz.wzProvider_etc["ForbiddenName.img"];
 
             foreach (var forbiddenName in ForbiddenName)
             {
@@ -65,7 +65,7 @@ namespace ms
             /*string version_text = Configuration.get().get_version();
             version = new Text(Text.Font.A11B, Text.Alignment.LEFT, Color.Name.LEMONGRASS, "Ver. " + version_text);
 
-            WzObject Login = ms.wz.wzFile_ui["Login.img"];
+            WzObject Login = ms.wz.wzProvider_ui["Login.img"];
             WzObject Common = Login["Common"];
             WzObject RaceSelect = Login["RaceSelect_new"];
 

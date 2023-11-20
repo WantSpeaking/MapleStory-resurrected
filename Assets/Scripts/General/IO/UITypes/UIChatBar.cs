@@ -32,7 +32,7 @@ namespace ms
 			rowpos = 0;
 			rowmax = -1;
 
-			WzObject chat = ms.wz.wzFile_ui["StatusBar3.img"]["chat"];
+			WzObject chat = ms.wz.wzProvider_ui["StatusBar3.img"]["chat"];
 			WzObject ingame = chat["ingame"];
 			WzObject view = ingame["view"];
 			WzObject input = ingame["input"];

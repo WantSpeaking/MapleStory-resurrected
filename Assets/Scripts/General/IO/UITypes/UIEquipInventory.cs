@@ -3,9 +3,7 @@
 using System.Collections.Generic;
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -77,8 +75,8 @@ namespace ms
 			tab_source[(int)Buttons.BT_TAB2] = "Pet";
 			tab_source[(int)Buttons.BT_TAB3] = "Android";
 
-			WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose2"];
-			WzObject Equip = ms.wz.wzFile_ui["UIWindow4.img"]["Equip"];
+			MapleData close = ms.wz.wzProvider_ui["Basic.img"]["BtClose2"];
+			MapleData Equip = ms.wz.wzProvider_ui["UIWindow4.img"]["Equip"];
 
 			background[(int)Buttons.BT_TAB0] = Equip[tab_source[(int)Buttons.BT_TAB0]]["backgrnd"];
 			background[(int)Buttons.BT_TAB1] = Equip[tab_source[(int)Buttons.BT_TAB1]]["backgrnd"];
@@ -98,9 +96,9 @@ namespace ms
 				}
 			}
 
-			WzObject EquipGL = ms.wz.wzFile_ui["UIWindowGL.img"]["Equip"];
-			WzObject backgrnd = Equip["backgrnd"];
-			WzObject totem_backgrnd = EquipGL["Totem"]["backgrnd"];
+			MapleData EquipGL = ms.wz.wzProvider_ui["UIWindowGL.img"]["Equip"];
+			MapleData backgrnd = Equip["backgrnd"];
+			MapleData totem_backgrnd = EquipGL["Totem"]["backgrnd"];
 
 			Point_short bg_dimensions = new Texture (backgrnd).get_dimensions ();
 			totem_dimensions = new Texture (totem_backgrnd).get_dimensions ();
@@ -126,7 +124,7 @@ namespace ms
 			buttons[(int)Buttons.BT_EXCEPTION].set_state (Button.State.DISABLED);
 			buttons[(int)Buttons.BT_SHOP].set_state (Button.State.DISABLED);
 
-			WzObject Tab = Equip["Tab"];
+			MapleData Tab = Equip["Tab"];
 
 			for (ushort i = (int)Buttons.BT_TAB0; i < (int)Buttons.BT_TABE; i++)
 			{

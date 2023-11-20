@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -19,7 +17,7 @@ namespace ms
 			this.rid = r;
 			this.state = s;
 			string strid = string_format.extend_id (rid, 7);
-			src = ms.wz.wzFile_reactor[strid + ".img"];//9102001.img
+			src = ms.wz.wzProvider_reactor[strid + ".img"];//9102001.img
             if (src == null)
 			{
 				AppDebug.Log($"Reactor rid:{rid} is null");
@@ -33,7 +31,7 @@ namespace ms
 
                 if (!string.IsNullOrEmpty(linkNodeName))
 				{
-					src_0 = ms.wz.wzFile_reactor[string_format.extend_id(int.Parse(linkNodeName), 7) + ".img"]?["0"];
+					src_0 = ms.wz.wzProvider_reactor[string_format.extend_id(int.Parse(linkNodeName), 7) + ".img"]?["0"];
                 }
 
             }
@@ -180,7 +178,7 @@ namespace ms
 		//int32_t questid;
 		//bool activates_by_touch;
 
-		private WzObject src;
+		private MapleData src;
 		private SortedDictionary<sbyte, Animation> animations = new SortedDictionary<sbyte, Animation> ();
 		private bool animation_ended;
 

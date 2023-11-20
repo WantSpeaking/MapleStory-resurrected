@@ -52,7 +52,7 @@ namespace ms
 				stat += "800";
 			}
 
-			/*WzObject mainBar = ms.wz.wzFile_ui["StatusBar3.img"]["mainBar"];
+			/*WzObject mainBar = ms.wz.wzProvider_ui["StatusBar3.img"]["mainBar"];
 			WzObject status = mainBar[stat];
 			WzObject EXPBar = mainBar["EXPBar"];
 			WzObject EXPBarRes = EXPBar[VWIDTH.ToString ()];

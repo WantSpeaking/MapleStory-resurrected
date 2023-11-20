@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -29,8 +27,8 @@ namespace ms
 			this.cancel_callback = cancel_callback;
 			this.tooltip_pos = new Point_short (tooltip_pos);
 			this.highCase = false;
-			WzObject SoftKey = ms.wz.wzFile_ui["Login.img"]["Common"]["SoftKey"];
-			WzObject backgrnd = SoftKey["backgrnd"];
+			MapleData SoftKey = ms.wz.wzProvider_ui["Login.img"]["Common"]["SoftKey"];
+			MapleData backgrnd = SoftKey["backgrnd"];
 
 			sprites.Add (backgrnd);
 

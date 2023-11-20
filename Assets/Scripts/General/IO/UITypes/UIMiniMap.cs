@@ -33,10 +33,10 @@ namespace ms
 			simpleMode = false;
 
 			string node = simpleMode ? "MiniMapSimpleMode" : "MiniMap";
-			MiniMap = ms.wz.wzFile_ui["UIWindow.img"][node];
-			//listNpc = ms.wz.wzFile_ui["UIWindow.img"]["MiniMap"]["ListNpc"];
-			listNpc = ms.wz.wzFile_ui["UIWindow.img"]["MiniMap"];
-			var BasicImg = ms.wz.wzFile_ui["Basic.img"];
+			MiniMap = ms.wz.wzProvider_ui["UIWindow.img"][node];
+			//listNpc = ms.wz.wzProvider_ui["UIWindow.img"]["MiniMap"]["ListNpc"];
+			listNpc = ms.wz.wzProvider_ui["UIWindow.img"]["MiniMap"];
+			var BasicImg = ms.wz.wzProvider_ui["Basic.img"];
 
 			//buttons[(int)Buttons.BT_MIN] = new MapleButton (BasicImg["BtMin"], new Point_short (195, -6));
 			//buttons[(int)Buttons.BT_MAX] = new MapleButton (BasicImg["BtMax"], new Point_short (209, -6));
@@ -50,8 +50,8 @@ namespace ms
 			combined_text = new Text (Text.Font.A12M, Text.Alignment.LEFT, Color.Name.WHITE);
 
 			marker = ms.wz.wzProvider_map["MapHelper.img"]["minimap"];
-			//marker = Setting<MiniMapDefaultHelpers>.get ().load () ? ms.wz.wzFile_ui["UIWindow2.img"]["MiniMapSimpleMode"]["DefaultHelper"] : ms.wz.wzFile_mapLatest["MapHelper.img"]["minimap"];
-			//marker = true ? nl.nx.wzFile_ui["UIWindow2.img"]["MiniMapSimpleMode"]["DefaultHelper"] : nl.nx.wzFile_mapLatest["MapHelper.img"]["minimap"];
+			//marker = Setting<MiniMapDefaultHelpers>.get ().load () ? ms.wz.wzProvider_ui["UIWindow2.img"]["MiniMapSimpleMode"]["DefaultHelper"] : ms.wz.wzFile_mapLatest["MapHelper.img"]["minimap"];
+			//marker = true ? nl.nx.wzProvider_ui["UIWindow2.img"]["MiniMapSimpleMode"]["DefaultHelper"] : nl.nx.wzFile_mapLatest["MapHelper.img"]["minimap"];
 
 			/*player_marker = new Animation (marker["user"]);
 			selected_marker = new Animation (MiniMap["iconNpc"]);*/
@@ -307,9 +307,9 @@ namespace ms
 
 					if (marker_spot.contains (cursor_relative))
 					{
-						WzObject portal_tm = Map["portal"][sprite.Item1]["tm"];
+						MapleData portal_tm = Map["portal"][sprite.Item1]["tm"];
 						string portal_cat = NxHelper.Map.get_map_category (portal_tm);
-						WzObject portal_name = ms.wz.wzFile_string["Map.img"][portal_cat][portal_tm.ToString ()]["mapName"];
+						MapleData portal_name = ms.wz.wzFile_string["Map.img"][portal_cat][portal_tm.ToString ()]["mapName"];
 
 						if (portal_name != null)
 						{
@@ -523,9 +523,9 @@ namespace ms
 			normal_sprites.Clear ();
 			max_sprites.Clear ();
 
-			WzObject Min;
-            WzObject Normal;
-            WzObject Max;
+			MapleData Min;
+            MapleData Normal;
+            MapleData Max;
 
 			if (simpleMode)
 			{
@@ -692,7 +692,7 @@ namespace ms
 			//Animation marker_sprite = new Animation ();
 
 			/// Portals
-			/*WzObject portals = Map["portal"];
+			/*MapleData portals = Map["portal"];
 			marker_sprite = new Animation (marker["portal"]);
 			Point_short marker_offset = marker_sprite.get_dimensions () / new Point_short (2, 0);
 			foreach (var portal in portals)
@@ -912,7 +912,7 @@ namespace ms
 		private bool has_map;
 		private short scale = 1;
 		private MapleData Map;
-		private WzObject MiniMap;
+		private MapleData MiniMap;
 		private MapleData marker;
 		private Texture map_sprite = new Texture ();
 		private Animation player_marker = new Animation ();
@@ -936,7 +936,7 @@ namespace ms
 		private Text town_text = new Text ();
 
 		private bool listNpc_enabled;
-		private WzObject listNpc;
+		private MapleData listNpc;
 		private List<Sprite> listNpc_sprites = new List<Sprite> ();
 		private List<MapObject> listNpc_list = new List<MapObject> ();
 		private List<Text> listNpc_names = new List<Text> ();

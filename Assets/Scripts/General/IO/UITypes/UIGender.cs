@@ -25,7 +25,7 @@ namespace ms
 			this.okhandler = oh;
 			CUR_TIMESTEP = 0;
 
-			WzObject Gender = ms.wz.wzFile_ui["Login.img"]["Gender"];
+			var Gender = ms.wz.wzProvider_ui["Login.img"]["Gender"];
 
 			for (uint i = 0; i < 3; i++)
 			{

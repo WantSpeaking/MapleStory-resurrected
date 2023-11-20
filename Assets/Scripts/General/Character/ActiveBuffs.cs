@@ -117,8 +117,8 @@ namespace ms
         private List<(Texture, float)> stateTexture_List;
         private List<(Texture, float)> super_stateTexture_List;
         //private List<SceneNode> stateSceneNode_List;
-        private const string path_skill_111100 = "Skill.wz/111.img/skill/1111002";
-        private const string path_skill_1120003 = "Skill.wz/112.img/skill/1120003";
+        //private const string path_skill_111100 = "Skill.wz/111.img/skill/1111002";
+        //private const string path_skill_1120003 = "Skill.wz/112.img/skill/1120003";
 
         private short r = 61;
         private float _speed = 0.02f;
@@ -146,8 +146,8 @@ namespace ms
             stateTexture_List = new List<(Texture, float)>();
             super_stateTexture_List = new List<(Texture, float)>();
 
-            var wzObj_skill_1111002 = wz.wzFile_skill.GetObjectFromPath(path_skill_111100);
-            var wzObj_skill_1120003 = wz.wzFile_skill.GetObjectFromPath(path_skill_1120003);
+            var wzObj_skill_1111002 = wz.wzProvider_skill["111.img"]["skill/1111002"];
+            var wzObj_skill_1120003 = wz.wzProvider_skill["112.img"]["skill/1120003"];
             /*tex_state_0 = wzObj_skill_1111002["state"]["0"];
             tex_state_1 = wzObj_skill_1111002["state"]["1"];
             tex_state_2 = wzObj_skill_1111002["state"]["2"];

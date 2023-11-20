@@ -3,10 +3,7 @@
 using System.Collections.Generic;
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
-
-
+using provider;
 
 namespace ms
 {
@@ -29,9 +26,9 @@ namespace ms
 			selected_channel = current_channel;
 			channel_count = 20; // TODO: Need to get total number of channels on world
 
-			WzObject Channel = ms.wz.wzFile_ui["UIWindow2.img"]["Channel"];
+			MapleData Channel = ms.wz.wzProvider_ui["UIWindow2.img"]["Channel"];
 
-			WzObject backgrnd = Channel["backgrnd"];
+			MapleData backgrnd = Channel["backgrnd"];
 			Texture bg = backgrnd;
 
 			sprites.Add(new Sprite (backgrnd, new Point_short(1, 0)));

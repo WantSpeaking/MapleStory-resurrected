@@ -395,4 +395,70 @@ public static class MyCustomTool
         Debug.Log(assetName);*/
 
     }
+
+    [MenuItem("Custom/Set Custom Png format")]
+    static void UpdateSettings4()
+    {
+        var maplestoryFolder = ms.Constants.get().path_MapleStoryFolder;
+
+        NxFiles.init(maplestoryFolder);
+
+        foreach (var obj in Selection.objects)
+        {
+            if (obj is Texture2D)
+            {
+                var factory = new SpriteDataProviderFactories();
+                factory.Init();
+                var dataProvider = factory.GetSpriteEditorDataProviderFromObject(obj);
+                dataProvider.InitSpriteEditorDataProvider();
+
+                /* Use the data provider */
+                // Get all the existing Sprites
+                var spriteRects = dataProvider.GetSpriteRects();
+
+                // Loop over all Sprites and update the pivots
+                foreach (var rect in spriteRects)
+                {
+                    var spriteName = rect.name;
+                    if (spriteName.Contains("etc.img-coconut-fontTime-"))
+                    {
+                        spriteName = spriteName.TrimEnd(' ').append("+");
+                    }
+
+                    var textureWzPaths = spriteName.Split('-');
+
+                    var textureWzO = wz.wzFile_map["Back"];
+
+                    foreach (var textureWzPath in textureWzPaths)
+                    {
+                        var tempPath = textureWzPath;
+                        
+                        textureWzO = textureWzO?[tempPath];
+                    }
+                    if (textureWzO == null)
+                    {
+                        Debug.Log($"textureWzO is null, path:{rect.name} ");
+                        continue;
+                    }
+                    Point_short origin = textureWzO?["origin"];
+                    //Debug.Log($"{rect.name} {textureWzO?["origin"]}");
+                    rect.alignment = SpriteAlignment.Custom;
+                    rect.pivot = new Vector2(origin?.x() / rect.rect.size.x ?? 0.5f, 1 - origin?.y() / rect.rect.size.y ?? 0.5f);
+
+                    /* rect.pivot = new Vector2(0.1f, 0.2f);
+                     rect.alignment = SpriteAlignment.Custom;*/
+                }
+
+                // Write the updated data back to the data provider
+                dataProvider.SetSpriteRects(spriteRects);
+
+                // Apply the changes made to the data provider
+                dataProvider.Apply();
+
+                // Reimport the asset to have the changes applied
+                var assetImporter = dataProvider.targetObject as AssetImporter;
+                assetImporter.SaveAndReimport();
+            }
+        }
+    }
 }

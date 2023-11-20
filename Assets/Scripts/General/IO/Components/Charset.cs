@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FairyGUI;
 using MapleLib.WzLib;
+using provider;
 using Utility;
 
 
@@ -17,7 +18,7 @@ namespace ms
 			RIGHT
 		}
 
-		public Charset (WzObject src, Alignment alignment)
+		public Charset (MapleData src, Alignment alignment)
 		{
 			this.alignment = alignment;
 			foreach (var sub in src)

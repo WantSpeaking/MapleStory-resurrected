@@ -3,9 +3,7 @@
 using System;
 using ms.Helper;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -129,8 +127,8 @@ namespace ms
 			cashitem = false;
 			gender = 0;
 
-			WzObject src = null;
-			WzObject strsrc = null;
+			MapleData src = null;
+			MapleData strsrc = null;
 
 			string strprefix = "0" + Convert.ToString (get_item_prefix (itemid));
 			string strid = "0" + Convert.ToString (itemid);
@@ -140,28 +138,28 @@ namespace ms
 			{
 				case 1:
 					category = get_eqcategory (itemid);
-					src = ms.wz.wzFile_character[category]?[strid + ".img"]?["info"];
-					strsrc = ms.wz.wzFile_string["Eqp.img"]?["Eqp"]?[category]?[Convert.ToString (itemid)];
+					src = ms.wz.wzProvider_character[$"{category}/{strid}.img"]?["info"];
+					strsrc = ms.wz.wzProvider_string["Eqp.img"]?["Eqp"]?[category]?[Convert.ToString (itemid)];
 					break;
 				case 2:
 					category = "Consume";
-					src = ms.wz.wzFile_item["Consume"]?[strprefix + ".img"]?[strid]?["info"];
-					strsrc = ms.wz.wzFile_string["Consume.img"][Convert.ToString (itemid)];
+					src = ms.wz.wzProvider_item[$"Consume/{strprefix}.img"]?[strid]?["info"];
+					strsrc = ms.wz.wzProvider_string["Consume.img"][Convert.ToString (itemid)];
 					break;
 				case 3:
 					category = "Install";
-					src = ms.wz.wzFile_item["Install"]?[strprefix + ".img"]?[strid]?["info"];
-					strsrc = ms.wz.wzFile_string["Ins.img"]?[Convert.ToString (itemid)];
+					src = ms.wz.wzProvider_item[$"Install/{strprefix}.img"]?[strid]?["info"];
+					strsrc = ms.wz.wzProvider_string["Ins.img"]?[Convert.ToString (itemid)];
 					break;
 				case 4:
 					category = "Etc";
-					src = ms.wz.wzFile_item["Etc"]?[strprefix + ".img"]?[strid]?["info"];
-					strsrc = ms.wz.wzFile_string["Etc.img"]["Etc"][Convert.ToString (itemid)];
+					src = ms.wz.wzProvider_item[$"Etc/{strprefix}.img"]?[strid]?["info"];
+					strsrc = ms.wz.wzProvider_string["Etc.img"]["Etc"][Convert.ToString (itemid)];
 					break;
 				case 5:
 					category = "Cash";
-					src = ms.wz.wzFile_item["Cash"]?[strprefix + ".img"]?[strid]?["info"];
-					strsrc = ms.wz.wzFile_string["Cash.img"][Convert.ToString (itemid)];
+					src = ms.wz.wzProvider_item[$"Cash/{strprefix}.img"]?[strid]?["info"];
+					strsrc = ms.wz.wzProvider_string["Cash.img"][Convert.ToString (itemid)];
 					break;
 			}
 

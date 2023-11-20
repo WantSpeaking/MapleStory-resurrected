@@ -3,9 +3,7 @@
 using System;
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -28,7 +26,7 @@ namespace ms
 		{
 			/*this.type = t;
 			this.alignment = a;
-			WzObject src = ms.wz.wzFile_ui["Basic.img"]["Notice6"];
+			MapleData src = ms.wz.wzProvider_ui["Basic.img"]["Notice6"];
 
 			top = src["t"];
 			center = src["c"];
@@ -159,7 +157,7 @@ namespace ms
 
 			short belowtext = box2offset (false);
 
-			WzObject src = ms.wz.wzFile_ui["Basic.img"];
+			MapleData src = ms.wz.wzProvider_ui["Basic.img"];
 
 			buttons[(int)Buttons.YES] = new MapleButton (src["BtOK4"], new Point_short (156, belowtext));
 			buttons[(int)Buttons.NO] = new MapleButton (src["BtCancel4"], new Point_short (198, belowtext));
@@ -234,7 +232,7 @@ namespace ms
 			short belowtext = (short)(box2offset (true) - 21);
 			short pos_y = (short)(belowtext + 35);
 
-			WzObject src = ms.wz.wzFile_ui["Basic.img"];
+			MapleData src = ms.wz.wzProvider_ui["Basic.img"];
 
 			buttons[(int)Buttons.OK] = new MapleButton (src["BtOK4"], 156, pos_y);
 			buttons[(int)Buttons.CANCEL] = new MapleButton (src["BtCancel4"], 198, pos_y);
@@ -381,7 +379,7 @@ namespace ms
 		{
 			okhandler = oh;
 
-			WzObject src = ms.wz.wzFile_ui["Basic.img"];
+			MapleData src = ms.wz.wzProvider_ui["Basic.img"];
 
 			buttons[(int)Buttons.OK] = new MapleButton (src["BtOK4"], 197, box2offset (false));
 		}

@@ -6,10 +6,7 @@ using System.Linq;
 using ms.Helper;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
-
-
-
-
+using provider;
 
 namespace ms
 {
@@ -103,7 +100,7 @@ namespace ms
 			//AppDebug.Log ($"strid:{strid}\t category:{category}\t eqslot:{eqslot}\t chlayer:{chlayer}");
 			if (category == null) return;
 
-			var src = ms.wz.wzFile_character[category]?[strid + ".img"];
+			var src = ms.wz.wzProvider_character[$"{category}/{strid}.img"];
 			if (src == null) return; //todo 2 why cloth src is it null
 			var info = src["info"];
 
@@ -144,17 +141,17 @@ namespace ms
 
 				var node_00002000img_walk1 = src[stancename];
 
-				if (node_00002000img_walk1 is WzImageProperty property_00002000img_walk1)
+				if (node_00002000img_walk1 is MapleData property_00002000img_walk1)
 				{
 					if (stance.ToString ().Contains ("STABTF")&& itemid == 1052202)
 					{
 						var fdsfg = 0;
 					}
-					foreach (var property_00002000img_walk1_0 in property_00002000img_walk1.WzProperties)
+					foreach (var property_00002000img_walk1_0 in property_00002000img_walk1)
 					{
 						byte.TryParse (property_00002000img_walk1_0.Name, out byte frame);
 
-						foreach (var property_00002000img_walk1_0_arm in property_00002000img_walk1_0.WzProperties)
+						foreach (var property_00002000img_walk1_0_arm in property_00002000img_walk1_0)
 						{
 							string part = property_00002000img_walk1_0_arm.Name;
 
@@ -181,11 +178,11 @@ namespace ms
 							string parent = string.Empty;
 							Point_short parentpos = new Point_short ();
 
-							if (property_00002000img_walk1_0_arm["map"] is WzImageProperty property_property_00002000img_walk1_0_arm_map)
+							if (property_00002000img_walk1_0_arm["map"] is MapleData property_property_00002000img_walk1_0_arm_map)
 							{
-								foreach (var property_property_00002000img_walk1_0_arm_map_hand in property_property_00002000img_walk1_0_arm_map.WzProperties)
+								foreach (var property_property_00002000img_walk1_0_arm_map_hand in property_property_00002000img_walk1_0_arm_map)
 								{
-									if (property_property_00002000img_walk1_0_arm_map_hand.PropertyType == WzPropertyType.Vector)
+									if (property_property_00002000img_walk1_0_arm_map_hand is MapleData)
 									{
 										parent = property_property_00002000img_walk1_0_arm_map_hand.Name;
 										parentpos = property_property_00002000img_walk1_0_arm_map_hand.GetPoint ().ToMSPoint ();

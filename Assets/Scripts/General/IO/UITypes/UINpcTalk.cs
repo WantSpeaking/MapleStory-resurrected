@@ -40,7 +40,7 @@ namespace ms
 			this.formatted_text = "";
 			this.formatted_text_pos = 0;
 			this.timestep = 0;
-			/*WzObject UtilDlgEx = ms.wz.wzFile_ui["UIWindow.img"]["UtilDlgEx"];
+			/*WzObject UtilDlgEx = ms.wz.wzProvider_ui["UIWindow.img"]["UtilDlgEx"];
 
 			top = UtilDlgEx["t"];
 			fill = UtilDlgEx["c"];
@@ -220,9 +220,9 @@ namespace ms
 				strid = strid.insert (0, 7 - strid.Length, '0');
 				strid = strid.append (".img");
 
-				speaker = ms.wz.wzFile_npc[strid]["stand"]["0"];
+				speaker = ms.wz.wzProvider_npc[strid]["stand"]["0"];
 
-				string namestr = ms.wz.wzFile_string["Npc.img"][Convert.ToString (npcid)]["name"].ToString ();
+				string namestr = ms.wz.wzProvider_string["Npc.img"][Convert.ToString (npcid)]["name"].ToString ();
 				name.change_text (namestr);
 			}
 			else

@@ -100,7 +100,7 @@ namespace ms
 			public static MapInfo get_map_info_by_id (int mapid)
 			{
 				string map_category = get_map_category (mapid);
-				WzObject map_info = ms.wz.wzFile_string["Map.img"][map_category]?[mapid.ToString ()];
+				var map_info = ms.wz.wzProvider_string["Map.img"][map_category]?[mapid.ToString ()];
 
 				if (map_info == null || map_category == null)
 				{
@@ -176,10 +176,10 @@ namespace ms
 					if (life_type == "m")
 					{
 						// Mob
-						WzObject life_name = ms.wz.wzFile_string["Mob.img"][life_id.ToString ()]["name"];
+						var life_name = ms.wz.wzProvider_string["Mob.img"][life_id.ToString ()]["name"];
 
 						string life_id_str = string_format.extend_id ((int)life_id, 7);
-						WzObject life_level = ms.wz.wzFile_mob[life_id_str + ".img"]["info"]["level"];
+						var life_level = ms.wz.wzProvider_mob[life_id_str + ".img"]["info"]["level"];
 
 						if (life_name && life_level)
 							map_life[life_id] = new Tuple<string, string> (life_type, life_name + "(Lv. " + life_level + ")");
@@ -187,7 +187,7 @@ namespace ms
 					else if (life_type == "n")
 					{
 						// NPC
-						WzObject life_name = ms.wz.wzFile_string["Npc.img"][life_id.ToString ()]["name"];
+						var life_name = ms.wz.wzProvider_string["Npc.img"][life_id.ToString ()]["name"];
 						if (life_name != null)
 							map_life[life_id] = new Tuple<string, string> (life_type, life_name.ToString ());
 					}
@@ -208,7 +208,7 @@ namespace ms
 			public static bool exist(int mapid)
 			{
 				string map_category = get_map_category (mapid);
-				return ms.wz.wzFile_string["Map.img"][map_category]?[mapid.ToString ()] != null;
+				return ms.wz.wzProvider_string["Map.img"][map_category]?[mapid.ToString ()] != null;
 			}
 		}
 	}

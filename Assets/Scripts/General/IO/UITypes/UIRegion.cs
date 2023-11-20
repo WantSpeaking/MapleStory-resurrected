@@ -2,9 +2,7 @@
 
 using Beebyte.Obfuscator;
 using MapleLib.WzLib;
-
-
-
+using provider;
 
 namespace ms
 {
@@ -17,11 +15,11 @@ namespace ms
 
 		public UIRegion() : base(new Point_short(0, 0), new Point_short(800, 600))
 		{
-			WzObject Common = ms.wz.wzFile_ui["Login.img"]["Common"];
-			WzObject frame = ms.wz.wzFile_mapLatest["Obj"]["login.img"]["Common"]["frame"]["2"]["0"];
-			WzObject Gateway = ms.wz.wzFile_ui["Gateway.img"]["WorldSelect"];
-			WzObject na = Gateway["BtButton0"];
-			WzObject eu = Gateway["BtButton1"];
+			MapleData Common = ms.wz.wzProvider_ui["Login.img"]["Common"];
+			MapleData frame = ms.wz.wzProvider_mapLatest["Obj/login.img"]["Common"]["frame"]["2"]["0"];
+			MapleData Gateway = ms.wz.wzProvider_ui["Gateway.img"]["WorldSelect"];
+			MapleData na = Gateway["BtButton0"];
+			MapleData eu = Gateway["BtButton1"];
 
 			sprites.Add(Gateway["backgrnd2"]);
 			sprites.Add(new Sprite (frame, new Point_short(400, 300)));

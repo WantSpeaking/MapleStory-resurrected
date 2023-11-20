@@ -2,6 +2,7 @@
 
 using System;
 using MapleLib.WzLib;
+using provider;
 
 namespace ms
 {
@@ -16,12 +17,12 @@ namespace ms
 			start = new Point_short (x, vertical.first ());
 			end = new Point_short (x, vertical.second ());
 
-			WzObject src;
+			MapleData src;
 			string base_str = "base";
 
 			if (type == (int)Type.CHATBAR)
 			{
-				src = ms.wz.wzFile_ui["StatusBar.img"]["chat"]["common"]["scroll"];
+				src = ms.wz.wzProvider_ui["StatusBar.img"]["chat"]["common"]["scroll"];
 				base_str += "_c";
 			}
 			else
@@ -33,17 +34,17 @@ namespace ms
 					VScr += Convert.ToString (type);
 				}
 
-				src = ms.wz.wzFile_ui["Basic.img"][VScr];
+				src = ms.wz.wzProvider_ui["Basic.img"][VScr];
 			}
 
-			WzObject dsrc = src["disabled"];
+			var dsrc = src["disabled"];
 
 			dbase = dsrc[base_str];
 
 			dprev = dsrc["prev"];
 			dnext = dsrc["next"];
 
-			WzObject esrc = src["enabled"];
+			var esrc = src["enabled"];
 
 			baseTexture = esrc[base_str];
 

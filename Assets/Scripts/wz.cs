@@ -34,10 +34,10 @@ namespace ms
             return file;
         }
 
-        public static WzFile wzFile_base, wzFile_character, wzFile_effect, wzFile_etc, wzFile_item, wzFile_map, wzFile_wzFile_mapPretty, wzFile_mapLatest, wzFile_map001, wzFile_mob, wzFile_morph, wzFile_npc, wzFile_quest, wzFile_reactor, wzFile_skill, wzFile_SkillMy1, wzFile_sound, wzFile_string, wzFile_tamingmob, wzFile_ui, wzFile_UI_Endless;
+        public static WzFile wzFile_base, wzFile_character, wzFile_effect, wzFile_etc, wzFile_item, wzFile_map, wzFile_wzFile_mapPretty, wzFile_mapLatest, wzFile_map001, wzFile_mob, wzFile_morph, wzFile_npc, wzFile_quest, wzFile_reactor, wzFile_skill, wzFile_SkillMy1, wzFile_sound, wzFile_string, wzFile_tamingmob, wzFile_ui, wzFile_ui_Endless;
         //NXNode baseFile, character, effect, etc, item, map, mapPretty, mapLatest, map001, mob, morph, npc, quest, reactor, skill, sound, stringFile, tamingmob, ui;
 
-        public static MapleDataProvider wzProvider_base, wzProvider_character, wzProvider_effect, wzProvider_etc, wzProvider_item, wzProvider_map, wzProvider_wzProvider_mapPretty, wzProvider_mapLatest, wzProvider_map001, wzProvider_mob, wzProvider_morph, wzProvider_npc, wzProvider_quest, wzProvider_reactor, wzProvider_skill, wzProvider_SkillMy1, wzProvider_sound, wzProvider_string, wzProvider_tamingmob, wzProvider_ui, wzProvider_UI_Endless;
+        public static MapleDataProvider wzProvider_base, wzProvider_character, wzProvider_effect, wzProvider_etc, wzProvider_item, wzProvider_map, wzProvider_wzProvider_mapPretty, wzProvider_mapLatest, wzProvider_map001, wzProvider_mob, wzProvider_morph, wzProvider_npc, wzProvider_quest, wzProvider_reactor, wzProvider_skill, wzProvider_SkillMy1, wzProvider_sound, wzProvider_string, wzProvider_tamingmob, wzProvider_ui, wzProvider_ui_Endless;
 
         public static WzFile get_file (string wzPath)
         {
@@ -47,7 +47,7 @@ namespace ms
         {
 	        WzManager ??= new WzFileManager(wzPath);
 
-			wzFile_base = add_file("base");
+			/*wzFile_base = add_file("base");
             wzFile_character = add_file("character1");
             wzFile_effect = add_file("effect");
             wzFile_etc = add_file("etc");
@@ -61,25 +61,25 @@ namespace ms
 			wzFile_sound = add_file("sound");
             wzFile_string = add_file("string");
             wzFile_ui = add_file("UI_083");
-			wzFile_UI_Endless = add_file("UI_Endless");
+            wzFile_ui_Endless = add_file("UI_Endless");*/
 
 
 
-            wzProvider_base = MapleDataProviderFactory.getDataProvider("base.wz") ;
-            wzProvider_character = MapleDataProviderFactory.getDataProvider("character1.wz");
-            wzProvider_effect = MapleDataProviderFactory.getDataProvider("effect.wz");
-            wzProvider_etc = MapleDataProviderFactory.getDataProvider("etc.wz");
-            wzProvider_item = MapleDataProviderFactory.getDataProvider("item.wz");
-            wzProvider_map = MapleDataProviderFactory.getDataProvider("map.wz");
-            wzProvider_mob = MapleDataProviderFactory.getDataProvider("mob.wz");
-            wzProvider_npc = MapleDataProviderFactory.getDataProvider("npc.wz");
+            wzProvider_base = MapleDataProviderFactory.getDataProvider("Base.wz") ;
+            wzProvider_character = MapleDataProviderFactory.getDataProvider("Character.wz");
+            wzProvider_effect = MapleDataProviderFactory.getDataProvider("Effect.wz");
+            wzProvider_etc = MapleDataProviderFactory.getDataProvider("Etc.wz");
+            wzProvider_item = MapleDataProviderFactory.getDataProvider("Item.wz");
+            wzProvider_map = MapleDataProviderFactory.getDataProvider("Map.wz");
+            wzProvider_mob = MapleDataProviderFactory.getDataProvider("Mob.wz");
+            wzProvider_npc = MapleDataProviderFactory.getDataProvider("Npc.wz");
             wzProvider_quest = MapleDataProviderFactory.getDataProvider("Quest.wz");
             wzProvider_reactor = MapleDataProviderFactory.getDataProvider("Reactor.wz");
-            wzProvider_skill = MapleDataProviderFactory.getDataProvider("skill.wz");
-            wzProvider_sound = MapleDataProviderFactory.getDataProvider("sound.wz");
-            wzProvider_string = MapleDataProviderFactory.getDataProvider("string.wz");
-            wzProvider_ui = MapleDataProviderFactory.getDataProvider("UI_083.wz");
-            wzProvider_UI_Endless = MapleDataProviderFactory.getDataProvider("UI_Endless.wz");
+            wzProvider_skill = MapleDataProviderFactory.getDataProvider("Skill.wz");
+            wzProvider_sound = MapleDataProviderFactory.getDataProvider("Sound.wz");
+            wzProvider_string = MapleDataProviderFactory.getDataProvider("String.wz");
+            wzProvider_ui = MapleDataProviderFactory.getDataProvider("UI.wz");
+            wzProvider_ui_Endless = MapleDataProviderFactory.getDataProvider("UI_Endless.wz");
 
             /*if (exists("Base.nx"))
 			{

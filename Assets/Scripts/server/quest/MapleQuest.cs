@@ -496,12 +496,15 @@ namespace server.quest
             try
             {
                 AppDebug.Log($"loadAllQuest start");
+                int counter = 0;
                 foreach (var quest in questInfo)
                 {
                     int.TryParse(quest.Name,out int questID);
-                    //AppDebug.Log($"load Quest:{quest.Name}\t{questID}");
+                    counter++;
 
-                    MapleQuest q = new MapleQuest(questID);
+                    AppDebug.Log($"load Quest:{quest.Name}\t{questID}\t{counter}");
+                    MapleQuest q = new MapleQuest 
+                        (questID);
                     quests[questID] = q;
                     //quests_byNpc.Add (questID, q);
 

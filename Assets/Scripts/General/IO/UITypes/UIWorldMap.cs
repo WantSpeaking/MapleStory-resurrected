@@ -23,12 +23,12 @@ namespace ms
 		public UIWorldMap ()
 		{
 			//this.UIDragElement<PosMAP> = new <type missing>();
-			//WzObject close = ms.wz.wzFile_ui["Basic.img"]["BtClose3"];
-			WzObject close = ms.wz.wzFile_ui["UIWindow2.img"]?["Scenario"]?["BtClose"];
-			WzObject WorldMap = ms.wz.wzFile_ui["UIWindow2.img"]["WorldMap"];
-			WzObject WorldMapSearch = WorldMap["WorldMapSearch"];
-			WzObject Border = WorldMap["Border"]["0"];
-			WzObject backgrnd = WorldMapSearch["backgrnd"];
+			//WzObject close = ms.wz.wzProvider_ui["Basic.img"]["BtClose3"];
+			var close = ms.wz.wzProvider_ui["UIWindow2.img"]?["Scenario"]?["BtClose"];
+			var WorldMap = ms.wz.wzProvider_ui["UIWindow2.img"]["WorldMap"];
+			var WorldMapSearch = WorldMap["WorldMapSearch"];
+			var Border = WorldMap["Border"]["0"];
+            var backgrnd = WorldMapSearch["backgrnd"];
 			var MapHelper = ms.wz.wzProvider_map["MapHelper.img"]["worldMap"];
 
 			cur_pos = MapHelper["curPos"];
