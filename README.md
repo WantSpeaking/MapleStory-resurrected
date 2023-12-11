@@ -41,6 +41,5 @@ Another important note to remember is that this is a free open-sourced client de
 [Bass]:              http://www.un4seen.com/
 
 # Screenshots
-<img src="Screenshots/1.jpg"  width="auto" height="auto">
 <img src="Screenshots/2.jpg"  width="auto" height="auto">
 <img src="Screenshots/3.jpg"  width="auto" height="auto">
