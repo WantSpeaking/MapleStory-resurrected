@@ -33,7 +33,7 @@ The default settings can be configured by editing the **Configuration.cs** file.
 [Bass]
 
 # Notes
-Please remember this is ONLY for the HeavenClient development and will only be used in the support of helping further develop the client. *Also please remember to support Nexon as this is not meant to replace anything Nexon offers*
+Please remember this is ONLY for the development and will only be used in the support of helping further develop the client，not commercial usage. *Also please remember to support Nexon as this is not meant to replace anything Nexon offers*
 
 Another important note to remember is that this is a free open-sourced client developed for personal use. Do NOT pay for any services requested by anyone in regards to this client. It will always remain open and free of charge. There is no intent to publish this code with any payment in mind. If that ever changes, donations and disclaimers for donations will be removed.
 
@@ -41,6 +41,6 @@ Another important note to remember is that this is a free open-sourced client de
 [Bass]:              http://www.un4seen.com/
 
 # Screenshots
-<img src="Screenshots/1.png"  width="auto" height="auto">
-<img src="Screenshots/2.png"  width="auto" height="auto">
-<img src="Screenshots/3.png"  width="auto" height="auto">
+<img src="Screenshots/1.jpg"  width="auto" height="auto">
+<img src="Screenshots/2.jpg"  width="auto" height="auto">
+<img src="Screenshots/3.jpg"  width="auto" height="auto">
