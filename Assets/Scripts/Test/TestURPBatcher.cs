@@ -125,12 +125,19 @@ public class TestURPBatcher : SingletonMono<TestURPBatcher>
                 Vector3 position = Vector3.zero;
                 if (texture.fullPath.Contains("Map.wz"))
                 {
-                    position = new Vector3(args.getpos().x(), -args.getpos().y(), Singleton<GameUtil>.Instance.DrawOrder);
+                    position = new Vector3(args.getpos().x(), -args.getpos().y(), SingletonMono<GameUtil>.Instance.DrawOrder);
                 }
                 else
                 {
+
                     position = new Vector3(args.getpos().x() + (args.FlipX ? -1 : 1) * (bitmap.Width / 2 - pivot.x()), -args.getpos().y() + (-bitmap.Height / 2 + pivot.y()), SingletonMono<GameUtil>.Instance.DrawOrder);
+
                 }
+
+                /*if (texture.fullPath.Contains("Character"))
+                {
+                    AppDebug.Log($"texture.fullPath:{texture.fullPath,-30} draw position:{position,-15} bitmap.Width:{bitmap.Width,-15} bitmap.Height:{bitmap.Height,-15} pivot:{pivot,-15}");
+                }*/
 
                 //Vector3 position = new Vector3(args.getpos().x() + (args.FlipX ? -1 : 1) * (bitmap.Width / 2 - pivot.x()), -args.getpos().y() + (-bitmap.Height / 2 + pivot.y()), SingletonMono<GameUtil>.Instance.DrawOrder);
                 gobj.transform.position = position;

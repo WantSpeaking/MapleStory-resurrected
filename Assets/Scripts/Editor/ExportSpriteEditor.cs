@@ -140,7 +140,7 @@ public static class MyCustomTool
                 {
                     var textureWzPaths = rect.name.Split('-');
 
-                    var textureWzO = wz.wzFile_map["MapHelper.img"]["portal"]["game"];
+                    var textureWzO = wz.wzProvider_map["MapHelper.img"]["portal"]["game"];
 
                     foreach (var textureWzPath in textureWzPaths)
                     {

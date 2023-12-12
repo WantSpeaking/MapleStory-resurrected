@@ -46,7 +46,9 @@ namespace ms
         public static void load_all(string wzPath)
         {
 	        WzManager ??= new WzFileManager(wzPath);
-
+	       /* wzFile_character = add_file("character1");
+	        wzFile_string = add_file("string");*/
+	        
 			/*wzFile_base = add_file("base");
             wzFile_character = add_file("character1");
             wzFile_effect = add_file("effect");

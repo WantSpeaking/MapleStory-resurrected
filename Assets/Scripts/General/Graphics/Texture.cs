@@ -30,7 +30,8 @@ namespace ms
 
         private Bitmap bitmap;
 
-        private Point_short pivot = new Point_short();
+        private Point_short pivot_original = new Point_short();
+        private Point_short pivot_modified = new Point_short();
 
         private Point_short dimensions = new Point_short();
 
@@ -59,7 +60,7 @@ namespace ms
             this.sprite = null;
             this.fullPath = null;
             this.bitmap = null;
-            this.pivot = null;
+            this.pivot_original = null;
             this.dimensions = null;
             this.cache_src = null;
             this.texture2D = null;
@@ -146,8 +147,9 @@ namespace ms
             this.sprite = srcTexture.sprite;
             this.fullPath = srcTexture.fullPath;
             this.bitmap = srcTexture.bitmap;
-            //this.pivot = srcTexture.pivot;
-            this.pivot = srcTexture?.cache_src?["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
+            this.pivot_original = srcTexture.pivot_original;
+            pivot_modified.Set(pivot_original.x(), pivot_original.y());
+            //this.pivot = srcTexture?.cache_src?["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
             this.dimensions = srcTexture.dimensions;
             this.layerMask = srcTexture.layerMask;
             this.sortingLayerName = srcTexture.sortingLayerName;
@@ -203,7 +205,10 @@ namespace ms
 
             string canvasFullpath = cache_src_maple[MapleDataTool.JsonNodeName_CanvasFullpath];
             if (canvasFullpath == null) return;
-
+            if (canvasFullpath==("Character.wz\\Hair\\00030023.img\\default\\hairOverHead"))
+            {
+                var fdsf = 0;
+            }
             if (cache_Texture.TryGetValue(canvasFullpath, out var cacheTexture))
             {
                 Init(cacheTexture);
@@ -220,7 +225,8 @@ namespace ms
             if (src != null && src.IsTexture())
             {
                 fullPath = src.FullPath;
-                pivot = src["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
+                pivot_original = src["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
+                pivot_modified.Set(pivot_original.x(), pivot_original.y());
                 bitmap = src.GetBitmapConsideringLink();
                 if (bitmap == null)
                 {
@@ -244,7 +250,7 @@ namespace ms
 
                 if (texture2D == null)
                 {
-                    texture2D = TextureAndSpriteUtil.PngDataToTexture2D(bitmap.RawBytes, bitmap, pivot, dimensions);
+                    texture2D = TextureAndSpriteUtil.PngDataToTexture2D(bitmap.RawBytes, bitmap, pivot_original, dimensions);
                 }
                 //nTexture = new FairyGUI.NTexture(texture2D);
             }
@@ -255,7 +261,8 @@ namespace ms
             if (src != null && src.IsTexture())
             {
                 fullPath = src[MapleDataTool.JsonNodeName_CanvasFullpath];//
-                pivot = src["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
+                pivot_original = src["origin"]?.GetPoint().ToMSPoint() ?? Point_short.zero;
+                pivot_modified.Set(pivot_original.x(), pivot_original.y());
                 bitmap = new Bitmap(src["width"], src["height"]);
                 if (fullPath == null)
                 {
@@ -369,7 +376,7 @@ namespace ms
 
         public void shift(Point_short amount)
         {
-            pivot -= amount;
+            pivot_modified -= amount;
         }
 
         public bool is_valid()
@@ -389,7 +396,7 @@ namespace ms
 
         public Point_short get_origin()
         {
-            return pivot;
+            return pivot_modified;
         }
 
         public Point_short get_dimensions()

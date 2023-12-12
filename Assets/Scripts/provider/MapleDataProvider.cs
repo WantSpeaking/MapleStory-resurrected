@@ -5,7 +5,7 @@ namespace provider
 	public interface MapleDataProvider
 	{
         MapleData getData(string imgPath);
-        MapleDataDirectoryEntry Root {get;}
+        //MapleDataDirectoryEntry Root {get;}
 
         MapleData this[string imgPath] { get;}
 

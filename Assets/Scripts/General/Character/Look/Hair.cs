@@ -9,7 +9,7 @@ using provider;
 
 namespace ms
 {
-	public class Hair:IDisposable
+	public class Hair : IDisposable
 	{
 		public enum Layer
 		{
@@ -24,14 +24,14 @@ namespace ms
 			BELOWCAPWIDE = 8,
 		}
 
-		public Hair (int hairid, BodyDrawInfo drawinfo)
+		public Hair(int hairid, BodyDrawInfo drawinfo)
 		{
-			init_Dict ();
+			init_Dict();
 			var node_Hair_00030000img = ms.wz.wzProvider_character[$"Hair/000{hairid}.img"];
 
 			if (node_Hair_00030000img == null)
 			{
-				AppDebug.Log ($"hair is null,id:{hairid}");
+				AppDebug.Log($"hair is null,id:{hairid}");
 				node_Hair_00030000img = ms.wz.wzProvider_character[$"Hair/00030000.img"];
 				hairid = 30000;
 			}
@@ -51,34 +51,34 @@ namespace ms
 				{
 					foreach (var property_Hair_00030000img_alert_0 in property_Hair_00030000img_alert)
 					{
-						var frame = byte.Parse (property_Hair_00030000img_alert_0.Name);
+						var frame = byte.Parse(property_Hair_00030000img_alert_0.Name);
 
 						foreach (var property_Hair_00030000img_alert_0_hair in property_Hair_00030000img_alert_0)
 						{
 							string layername = property_Hair_00030000img_alert_0_hair.Name;
 
-							if (!layers_by_name.TryGetValue (layername, out var layer))
+							if (!layers_by_name.TryGetValue(layername, out var layer))
 							{
-								AppDebug.Log ($"Unknown Hair::Layer name: [{layername}]\tLocation: [{node_Hair_00030000img.Name}][{stancename}][{frame}]");
+								AppDebug.Log($"Unknown Hair::Layer name: [{layername}]\tLocation: [{node_Hair_00030000img.Name}][{stancename}][{frame}]");
 							}
 
 
-							if (stance == Stance.Id.ROPE)
+							if (stance == Stance.Id.WALK1)
 							{
 								var fds = 2;
 							}
-							
-							
+
+
 							Point_short brow = property_Hair_00030000img_alert_0_hair["map"]?["brow"];
 							//var hairPosFromDrawInfo = drawinfo.gethairpos (stance, frame);
-							
+
 							//Point_short shift = hairPosFromDrawInfo - brow;
-							Point_short shift = (drawinfo.gethairpos (stance, frame) ?? Point_short.zero) - brow;
-							var texture = new Texture (property_Hair_00030000img_alert_0_hair, "Player", GameUtil.Instance.sortingLayerName_DefaultPlayer);
-							texture.shift (shift);
-							stances[(int)stance, (int)layer]?.Add (frame, texture);
+							Point_short shift = (drawinfo.gethairpos(stance, frame) ?? Point_short.zero) - brow;
+							var texture = new Texture(property_Hair_00030000img_alert_0_hair, "Player", GameUtil.Instance.sortingLayerName_DefaultPlayer);
+							texture.shift(shift);
+							stances[(int)stance, (int)layer]?.Add(frame, texture);
 						}
-						
+
 					}
 				}
 
@@ -115,30 +115,30 @@ namespace ms
 				}*/
 			}
 
-			name = ms.wz.wzProvider_string["Eqp.img"]?["Eqp"]?["Hair"]?[Convert.ToString (hairid)]?["name"]?.ToString ();
+			name = ms.wz.wzProvider_string["Eqp.img"]?["Eqp"]?["Hair"]?[Convert.ToString(hairid)]?["name"]?.ToString();
 
 			const uint NUM_COLORS = 8;
 			//string[] haircolors = {"Black", "Red", "Orange", "Blonde", "Green", "Blue", "Violet", "Brown"};
-			string[] haircolors = {"黑", "红", "橙", "金", "绿", "蓝", "紫", "棕"};
+			string[] haircolors = { "黑", "红", "橙", "金", "绿", "蓝", "紫", "棕" };
 			uint index = (uint)(hairid % 10);
 			color = (index < NUM_COLORS) ? haircolors[index] : "";
 		}
 
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: void draw(Stance::Id stance, Layer layer, byte frame, const DrawArgument& args) const
-		public void draw (Stance.Id stance, Layer layer, byte frame, DrawArgument args, bool drawOrErase = true)
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: void draw(Stance::Id stance, Layer layer, byte frame, const DrawArgument& args) const
+		public void draw(Stance.Id stance, Layer layer, byte frame, DrawArgument args, bool drawOrErase = true)
 		{
 			Texture frameit = null;
-			stances[(int)stance, (int)layer]?.TryGetValue (frame, out frameit);
+			stances[(int)stance, (int)layer]?.TryGetValue(frame, out frameit);
 
 			if (drawOrErase)
 			{
-				frameit?.draw (args);
+				frameit?.draw(args);
 			}
 			else
 			{
-				frameit?.erase ();
+				frameit?.erase();
 			}
 
 			/*var frameit = stances[(int)stance, (int)layer].find(frame);
@@ -152,29 +152,29 @@ namespace ms
 			frameit.second.draw(args);*/
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: const string& get_name() const
-		public string get_name ()
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: const string& get_name() const
+		public string get_name()
 		{
 			return name;
 		}
 
-//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: const string& getcolor() const
-		public string getcolor ()
+		//C++ TO C# CONVERTER CRACKED BY X-CRACKER 2017 WARNING: 'const' methods are not available in C#:
+		//ORIGINAL LINE: const string& getcolor() const
+		public string getcolor()
 		{
 			return color;
 		}
 
-		private Dictionary<byte, Texture>[,] stances = new Dictionary<byte, Texture>[EnumUtil.GetEnumLength<Stance.Id> (), EnumUtil.GetEnumLength<Layer> ()];
+		private Dictionary<byte, Texture>[,] stances = new Dictionary<byte, Texture>[EnumUtil.GetEnumLength<Stance.Id>(), EnumUtil.GetEnumLength<Layer>()];
 
-		private void init_Dict ()
+		private void init_Dict()
 		{
-			for (int i = 0; i < EnumUtil.GetEnumLength<Stance.Id> (); i++)
+			for (int i = 0; i < EnumUtil.GetEnumLength<Stance.Id>(); i++)
 			{
-				for (int j = 0; j < EnumUtil.GetEnumLength<Layer> (); j++)
+				for (int j = 0; j < EnumUtil.GetEnumLength<Layer>(); j++)
 				{
-					stances[i, j] = new Dictionary<byte, Texture> ();
+					stances[i, j] = new Dictionary<byte, Texture>();
 				}
 			}
 		}
@@ -182,7 +182,7 @@ namespace ms
 		private string name;
 		private string color;
 
-		private readonly Dictionary<string, Layer> layers_by_name = new Dictionary<string, Layer> ()
+		private readonly Dictionary<string, Layer> layers_by_name = new Dictionary<string, Layer>()
 		{
 			{"hair", Layer.DEFAULT},
 			{"hairBelowBody", Layer.BELOWBODY},
@@ -194,14 +194,14 @@ namespace ms
 			{"backHairBelowCapWide", Layer.BELOWCAPWIDE}
 		};
 
-		public void Dispose ()
+		public void Dispose()
 		{
 			foreach (var pair1 in stances)
 			{
 				foreach (var pair2 in pair1)
 				{
-					pair2.Value.Dispose ();
-                }
+					pair2.Value.Dispose();
+				}
 				//pair1.Clear ();
 			}
 

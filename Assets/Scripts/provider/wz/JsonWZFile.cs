@@ -13,7 +13,7 @@ namespace provider.wz
 {
     public class JsonWZFile : MapleDataProvider
     {
-        public MapleDataDirectoryEntry Root => throw new NotImplementedException();
+        //public MapleDataDirectoryEntry Root => throw new NotImplementedException();
 
         public MapleData this[string imgPath] => getData(imgPath);
 

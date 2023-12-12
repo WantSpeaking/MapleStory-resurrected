@@ -55,7 +55,7 @@ public class GameUtil : SingletonMono<GameUtil>
     public const string sortingLayerName_Default = "Layer7";
 	public const string layerNameDefault = "Default";
 
-	[Tooltip("true 使用wz画Obj，false使用ab")]
+	[Tooltip("true 浣跨敤wz鐢籓bj锛宖alse浣跨敤ab")]
 	public bool Use_wz_or_ab_draw_ObjTile = true;
 	public bool Use_Unlit_or_Pixelate_Material = true;
     public bool Use_ab_or_assetDatabase = true;
