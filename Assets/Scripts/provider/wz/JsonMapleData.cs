@@ -183,6 +183,10 @@ namespace provider.wz
                         myNode = p.Value[s];
                     }
                 }
+                else if(myNode is JValue v)
+                {
+
+                }
                 else
                 {
                     myNode = myNode[s];
