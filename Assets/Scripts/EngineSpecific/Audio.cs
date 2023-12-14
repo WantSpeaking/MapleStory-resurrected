@@ -331,10 +331,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Gaskellgames.AudioController;
 using MapleLib.WzLib;
 using MapleLib.WzLib.WzProperties;
 using provider;
 using Un4seen.Bass;
+using Unity.VisualScripting;
+using UnityEngine;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 namespace ms
 {
@@ -379,6 +383,7 @@ namespace ms
 
         public Sound (Name name)
         {
+			//SoundManager.instance.
             id = soundids[name];
         }
 
@@ -413,89 +418,157 @@ namespace ms
         }
         public Sound(MapleData src)
         {
-            //id = add_sound(src);
+            id = add_sound(src);
         }
         public void play ()
         {
-            /*if (!string.IsNullOrEmpty (id))
-                play (id);*/
-        }
+			if (!string.IsNullOrEmpty(id))
+				play(id);
+		}
 
-        public static Error init ()
+		public static Error init()
+		{
+			var uisrc = ms.wz.wzProvider_sound["UI.img"];
+
+
+			add_sound(Sound.Name.BUTTONCLICK, uisrc["BtMouseClick"]);
+
+			add_sound(Sound.Name.BUTTONOVER, uisrc["BtMouseOver"]);
+
+			add_sound(Sound.Name.CHARSELECT, uisrc["CharSelect"]);
+
+			add_sound(Sound.Name.DLGNOTICE, uisrc["DlgNotice"]);
+
+			add_sound(Sound.Name.MENUDOWN, uisrc["MenuDown"]);
+
+			add_sound(Sound.Name.MENUUP, uisrc["MenuUp"]);
+
+			add_sound(Sound.Name.RACESELECT, uisrc["RaceSelect"]);
+
+			add_sound(Sound.Name.SCROLLUP, uisrc["ScrollUp"]);
+
+			add_sound(Sound.Name.SELECTMAP, uisrc["SelectMap"]);
+
+			add_sound(Sound.Name.TAB, uisrc["Tab"]);
+
+			add_sound(Sound.Name.WORLDSELECT, uisrc["WorldSelect"]);
+
+			add_sound(Sound.Name.DRAGSTART, uisrc["DragStart"]);
+
+			add_sound(Sound.Name.DRAGEND, uisrc["DragEnd"]);
+
+			add_sound(Sound.Name.WORLDMAPOPEN, uisrc["WorldmapOpen"]);
+
+			add_sound(Sound.Name.WORLDMAPCLOSE, uisrc["WorldmapClose"]);
+
+			var gamesrc = ms.wz.wzProvider_sound["Game.img"];
+
+
+			add_sound(Sound.Name.GAMESTART, gamesrc["GameIn"]);
+
+			add_sound(Sound.Name.JUMP, gamesrc["Jump"]);
+
+			add_sound(Sound.Name.DROP, gamesrc["DropItem"]);
+
+			add_sound(Sound.Name.PICKUP, gamesrc["PickUpItem"]);
+
+			add_sound(Sound.Name.PORTAL, gamesrc["Portal"]);
+
+			add_sound(Sound.Name.LEVELUP, gamesrc["LevelUp"]);
+
+			add_sound(Sound.Name.TOMBSTONE, gamesrc["Tombstone"]);
+
+			var itemsrc = ms.wz.wzProvider_sound["Item.img"];
+
+			foreach (var node in itemsrc)
+			{
+				add_sound(node.Name, node["Use"]);
+			}
+
+			byte volume = Setting<SFXVolume>.get().load();
+
+			if (!set_sfxvolume(volume))
+			{
+				return Error.Code.AUDIO;
+			}
+
+			return Error.Code.NONE;
+		}
+		/*public static Error init ()
         {
-            /*if (!Bass.BASS_Init (-1, 44100, 0, IntPtr.Zero, Guid.Empty))
-            {
-                return Error.Code.AUDIO;
-            }
+			if (!Bass.BASS_Init(-1, 44100, 0, IntPtr.Zero, Guid.Empty))
+			{
+				return Error.Code.AUDIO;
+			}
 
-            WzObject uisrc = ms.wz.wzFile_sound["UI.img"];
-
-
-            add_sound (Sound.Name.BUTTONCLICK, uisrc["BtMouseClick"]);
-
-            add_sound (Sound.Name.BUTTONOVER, uisrc["BtMouseOver"]);
-
-            add_sound (Sound.Name.CHARSELECT, uisrc["CharSelect"]);
-
-            add_sound (Sound.Name.DLGNOTICE, uisrc["DlgNotice"]);
-
-            add_sound (Sound.Name.MENUDOWN, uisrc["MenuDown"]);
-
-            add_sound (Sound.Name.MENUUP, uisrc["MenuUp"]);
-
-            add_sound (Sound.Name.RACESELECT, uisrc["RaceSelect"]);
-
-            add_sound (Sound.Name.SCROLLUP, uisrc["ScrollUp"]);
-
-            add_sound (Sound.Name.SELECTMAP, uisrc["SelectMap"]);
-
-            add_sound (Sound.Name.TAB, uisrc["Tab"]);
-
-            add_sound (Sound.Name.WORLDSELECT, uisrc["WorldSelect"]);
-
-            add_sound (Sound.Name.DRAGSTART, uisrc["DragStart"]);
-
-            add_sound (Sound.Name.DRAGEND, uisrc["DragEnd"]);
-
-            add_sound (Sound.Name.WORLDMAPOPEN, uisrc["WorldmapOpen"]);
-
-            add_sound (Sound.Name.WORLDMAPCLOSE, uisrc["WorldmapClose"]);
-
-            WzObject gamesrc = ms.wz.wzFile_sound["Game.img"];
+			WzObject uisrc = ms.wz.wzFile_sound["UI.img"];
 
 
-            add_sound (Sound.Name.GAMESTART, gamesrc["GameIn"]);
+			add_sound(Sound.Name.BUTTONCLICK, uisrc["BtMouseClick"]);
 
-            add_sound (Sound.Name.JUMP, gamesrc["Jump"]);
+			add_sound(Sound.Name.BUTTONOVER, uisrc["BtMouseOver"]);
 
-            add_sound (Sound.Name.DROP, gamesrc["DropItem"]);
+			add_sound(Sound.Name.CHARSELECT, uisrc["CharSelect"]);
 
-            add_sound (Sound.Name.PICKUP, gamesrc["PickUpItem"]);
+			add_sound(Sound.Name.DLGNOTICE, uisrc["DlgNotice"]);
 
-            add_sound (Sound.Name.PORTAL, gamesrc["Portal"]);
+			add_sound(Sound.Name.MENUDOWN, uisrc["MenuDown"]);
 
-            add_sound (Sound.Name.LEVELUP, gamesrc["LevelUp"]);
+			add_sound(Sound.Name.MENUUP, uisrc["MenuUp"]);
 
-            add_sound (Sound.Name.TOMBSTONE, gamesrc["Tombstone"]);
+			add_sound(Sound.Name.RACESELECT, uisrc["RaceSelect"]);
 
-            WzObject itemsrc = ms.wz.wzFile_sound["Item.img"];
+			add_sound(Sound.Name.SCROLLUP, uisrc["ScrollUp"]);
 
-            foreach (var node in itemsrc)
-            {
-                add_sound (node.Name, node["Use"]);
-            }
+			add_sound(Sound.Name.SELECTMAP, uisrc["SelectMap"]);
 
-            byte volume = Setting<SFXVolume>.get ().load ();
+			add_sound(Sound.Name.TAB, uisrc["Tab"]);
 
-            if (!set_sfxvolume (volume))
-            {
-                return Error.Code.AUDIO;
-            }*/
+			add_sound(Sound.Name.WORLDSELECT, uisrc["WorldSelect"]);
 
-            return Error.Code.NONE;
-        }
+			add_sound(Sound.Name.DRAGSTART, uisrc["DragStart"]);
 
-        public static void close ()
+			add_sound(Sound.Name.DRAGEND, uisrc["DragEnd"]);
+
+			add_sound(Sound.Name.WORLDMAPOPEN, uisrc["WorldmapOpen"]);
+
+			add_sound(Sound.Name.WORLDMAPCLOSE, uisrc["WorldmapClose"]);
+
+			WzObject gamesrc = ms.wz.wzFile_sound["Game.img"];
+
+
+			add_sound(Sound.Name.GAMESTART, gamesrc["GameIn"]);
+
+			add_sound(Sound.Name.JUMP, gamesrc["Jump"]);
+
+			add_sound(Sound.Name.DROP, gamesrc["DropItem"]);
+
+			add_sound(Sound.Name.PICKUP, gamesrc["PickUpItem"]);
+
+			add_sound(Sound.Name.PORTAL, gamesrc["Portal"]);
+
+			add_sound(Sound.Name.LEVELUP, gamesrc["LevelUp"]);
+
+			add_sound(Sound.Name.TOMBSTONE, gamesrc["Tombstone"]);
+
+			WzObject itemsrc = ms.wz.wzFile_sound["Item.img"];
+
+			foreach (var node in itemsrc)
+			{
+				add_sound(node.Name, node["Use"]);
+			}
+
+			byte volume = Setting<SFXVolume>.get().load();
+
+			if (!set_sfxvolume(volume))
+			{
+				return Error.Code.AUDIO;
+			}
+
+			return Error.Code.NONE;
+        }*/
+
+		public static void close ()
         {
             Bass.BASS_Free ();
         }
@@ -509,6 +582,12 @@ namespace ms
 
         private static void play (string id)
         {
+			if (!samples.ContainsKey(id))
+			{
+				return;
+			}
+			SoundController.Instance.PlaySoundFX(samples[id]);
+
             /*if (!samples.ContainsKey (id))
             {
                 return;
@@ -517,8 +596,49 @@ namespace ms
             var channel = Bass.BASS_SampleGetChannel (samples[id], false);
             Bass.BASS_ChannelPlay (channel, true);*/
         }
+		private static string add_sound(MapleData src)
+		{
+			string clipFullName = src;//sound\\skill_9001001\\use
+			if(string.IsNullOrEmpty(clipFullName))
+			{
+				AppDebug.LogWarning("AudioclipFullName IS NULL");
+				return string.Empty;
+			}
 
-        private static string add_sound (WzObject src)
+			if (samples.ContainsKey(clipFullName))
+			{
+				return clipFullName;
+			}
+
+			
+
+			/*clipFullName = clipFullName.ToLower();//sound_skill.img,2301004_Use
+			clipFullName = clipFullName.Replace("_", "/"); //sound/skill.img,2301004/Use
+			clipFullName = clipFullName.Replace(".img", ""); //sound/skill,2301004/Use*/
+
+			var paths = clipFullName.Split('_');
+			if (paths.Length != 2)
+			{
+				return string.Empty;
+			}
+			var imgPath = paths[0];// sound\\skill
+			var clipPath = paths[1];// 9001001\\use
+
+			var p_assetPath = $"wzpng/{imgPath}";
+			var clip = AssetBundleLoaderMgr.Instance.LoadAsset<AudioClip>(p_assetPath, clipPath);
+
+			if (clip != null)
+			{
+				samples[clipFullName] = clip;
+
+				return clipFullName;
+			}
+			else
+			{
+				return string.Empty;
+			}
+		}
+		private static string add_sound (WzObject src)
         {
             if (samples.ContainsKey(src.FullPath))
             {
@@ -533,7 +653,7 @@ namespace ms
 			{
 				var id = ad.FullPath;
 
-				samples[id] = Bass.BASS_SampleLoad (data, 0, data.Length, 65535, BASSFlag.BASS_SAMPLE_OVER_POS);
+				//samples[id] = Bass.BASS_SampleLoad (data, 0, data.Length, 65535, BASSFlag.BASS_SAMPLE_OVER_POS);
 
 				return id;
 			}
@@ -542,8 +662,17 @@ namespace ms
                 return string.Empty;
             }
         }
+		private static void add_sound(Name name, MapleData src)
+		{
+			//ORIGINAL LINE: uint id = add_sound(src);
+			var id = add_sound(src);
 
-        private static void add_sound (Name name, WzObject src)
+			if (id.Length != 0)
+			{
+				soundids[name] = id;
+			}
+		}
+		private static void add_sound (Name name, WzObject src)
         {
             //ORIGINAL LINE: uint id = add_sound(src);
             var id = add_sound (src);
@@ -553,8 +682,21 @@ namespace ms
                 soundids[name] = id;
             }
         }
+		private static void add_sound(string itemid, MapleData src)
+		{
+			//ORIGINAL LINE: uint id = add_sound(src);
+			if (src == null)
+			{
+				AppDebug.Log($"add_sound src is null, name:{itemid}");
+			}
+			var id = add_sound(src);
 
-        private static void add_sound (string itemid, WzObject src)
+			if (id.Length != 0)
+			{
+				itemids[itemid] = id;
+			}
+		}
+		private static void add_sound (string itemid, WzObject src)
         {
             //ORIGINAL LINE: uint id = add_sound(src);
             if (src == null)
@@ -577,7 +719,7 @@ namespace ms
             return strid;
         }
 
-        private static Dictionary<string, int> samples = new Dictionary<string, int> ();
+        private static Dictionary<string, AudioClip> samples = new Dictionary<string, AudioClip> ();
         private static EnumMap<Name, string> soundids = new EnumMap<Name, string> ();
         private static Dictionary<string, string> itemids = new Dictionary<string, string> ();
     }
@@ -595,31 +737,71 @@ namespace ms
          }*/
 
         private int play_stream = 0;
+        private AudioClip play_clip;
 
-        private string play_bgmpath = "";
+		private string play_bgmpath = "";
         GCHandle _hGCFile;
-        public void play (string path)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="path">BgmUI.img/Title</param>
+		public void play (string path)
         {
+			if (path == play_bgmpath)
+			{
+				return;
+			}
+
+			if (string.IsNullOrEmpty(path))
+			{
+				return ;
+			}
+
+			path = path.ToLower ();
+			var imgIndex = path.IndexOf (".img");
+
+			var imgPath = path.Substring(0, imgIndex);// sound\\skill
+			var clipPath = path.Substring(imgIndex+5);// 9001001\\use
+
+			var p_assetPath = $"wzpng/sound/{imgPath}";
+			var clip = AssetBundleLoaderMgr.Instance.LoadAsset<AudioClip>(p_assetPath, clipPath);
+
+			
+
+			if (clip != null)
+			{
+				if (play_clip != null)
+				{
+					play_clip = null;
+					AssetBundleLoaderMgr.Instance.UnloadAssetBundle(play_bgmpath);
+				}
+
+				play_clip = clip;
+				SoundController.Instance.PlayMusic(clip);
+
+				play_bgmpath = path;
+			}
+
 			/*if (path == play_bgmpath)
 			{
 				return;
 			}
 
-			var ad = ms.wz.wzFile_sound.GetObjectFromPath (Path.Combine ("Sound.wz", path).Replace ('\\', '/'));
-			var data = ad?.GetBytes ();
+			var ad = ms.wz.wzFile_sound.GetObjectFromPath(Path.Combine("Sound.wz", path).Replace('\\', '/'));
+			var data = ad?.GetBytes();
 
 			if (data != null)
 			{
 				if (play_stream != 0)
 				{
-					Bass.BASS_ChannelStop (play_stream);
-					Bass.BASS_StreamFree (play_stream);
-					_hGCFile.Free ();
+					Bass.BASS_ChannelStop(play_stream);
+					Bass.BASS_StreamFree(play_stream);
+					_hGCFile.Free();
 				}
 
-				_hGCFile = GCHandle.Alloc (data, GCHandleType.Pinned);
-				play_stream = Bass.BASS_StreamCreateFile (_hGCFile.AddrOfPinnedObject (), 0, data.Length, BASSFlag.BASS_SAMPLE_LOOP | BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_SAMPLE_MONO);
-				Bass.BASS_ChannelPlay (play_stream, true);
+				_hGCFile = GCHandle.Alloc(data, GCHandleType.Pinned);
+				play_stream = Bass.BASS_StreamCreateFile(_hGCFile.AddrOfPinnedObject(), 0, data.Length, BASSFlag.BASS_SAMPLE_LOOP | BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_SAMPLE_MONO);
+				Bass.BASS_ChannelPlay(play_stream, true);
 
 				play_bgmpath = path;
 			}*/

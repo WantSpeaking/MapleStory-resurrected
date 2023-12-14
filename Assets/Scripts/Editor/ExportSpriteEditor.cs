@@ -6,6 +6,8 @@ using Sprite = UnityEngine.Sprite;
 using static Codice.CM.Common.CmCallContext;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
+using UnityEditor.Android;
 
 /// <summary>
 /// 导出精灵工具
@@ -461,4 +463,31 @@ public static class MyCustomTool
             }
         }
     }
+
+	[MenuItem("Custom/Build ab")]
+	static void UpdateSettings5()
+	{
+		/*List<AssetBundleBuild> buildInfoList = new List<AssetBundleBuild>();
+
+		foreach (var obj in Selection.objects)
+		{
+			AssetBundleBuild buildInfo = new AssetBundleBuild();
+			buildInfo.assetNames = new string[] {AssetDatabase.GetAssetPath(obj)  } ;
+			buildInfo.assetBundleName = obj.name;
+		}
+
+		//打包（“输出路径”，备打文件集合，打包设置，目标平台）
+		BuildPipeline.BuildAssetBundles("Assets/StreamingAssets", buildInfoList.ToArray(), BuildAssetBundleOptions.None, BuildTarget.Android);*/
+
+		// Create the array of bundle build details.
+		AssetBundleBuild[] buildMap = new AssetBundleBuild[1];
+
+		buildMap[0].assetBundleName = "login";
+
+		string[] enemyAssets = new string[1];
+		enemyAssets[0] = "Assets\\GameMain\\WzPng\\UI\\Login.img_Sheet0.png";
+		buildMap[0].assetNames = enemyAssets;
+
+		BuildPipeline.BuildAssetBundles("Assets/StreamingAssets", buildMap, BuildAssetBundleOptions.None, BuildTarget.Android);
+	}
 }

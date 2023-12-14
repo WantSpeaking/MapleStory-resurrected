@@ -19,28 +19,28 @@ public class AssetBundleLoaderMgr
     /// <summary>
     /// 加载AssetBundle
     /// </summary>
-    /// <param name="abName">AssetBundle名称</param>
+    /// <param name="abPath">AssetBundle名称</param>
     /// <returns></returns>
-    public AssetBundle LoadAssetBundle(string abName)
+    public AssetBundle LoadAssetBundle(string abPath)
     {
        
-        abName = abName.ToLower();
+        abPath = abPath.ToLower();
         AssetBundle ab = null;
-        if (!m_abDic.ContainsKey(abName))
+        if (!m_abDic.ContainsKey(abPath))
         {
-            string abResPath = Path.Combine(Application.persistentDataPath, "AssetBundle", abName);
+            string abResPath = Path.Combine(Application.persistentDataPath, "AssetBundle", abPath);
             //AppDebug.Log(m_abDic.ToDebugLog());
             //AppDebug.Log(abName);
             ab = AssetBundle.LoadFromFile(abResPath);
-            m_abDic[abName] = ab;
+            m_abDic[abPath] = ab;
         }
         else
         {
-            ab = m_abDic[abName];
+            ab = m_abDic[abPath];
         }
 
         //加载依赖
-        string[] dependences = m_manifest.GetAllDependencies(abName);
+        string[] dependences = m_manifest.GetAllDependencies(abPath);
         int dependenceLen = dependences.Length;
         if (dependenceLen > 0)
         {
@@ -62,17 +62,17 @@ public class AssetBundleLoaderMgr
     /// 从AssetBundle中加载Asset
     /// </summary>
     /// <typeparam name="T">类型</typeparam>
-    /// <param name="abName">AssetBundle名 AssetBundle的子路径</param>
+    /// <param name="abPath">AssetBundle名 AssetBundle的子路径</param>
     /// <param name="assetName">Asset名</param>
     /// <returns></returns>
-    public T LoadAsset<T>(string abName, string assetName) where T : Object
+    public T LoadAsset<T>(string abPath, string assetName) where T : Object
     {
         if (m_manifest == null)
         {
             return null;
         }
 
-        AssetBundle ab = LoadAssetBundle(abName);
+        AssetBundle ab = LoadAssetBundle(abPath);
         T t = ab.LoadAsset<T>(assetName);
         return t;
     }
@@ -84,24 +84,24 @@ public class AssetBundleLoaderMgr
         }
 
         AssetBundle ab = LoadAssetBundle(abName);
-        var t = ab.LoadAllAssets<T>().FirstOrDefault(a=>a.name == assetName);
+        var assets = ab.LoadAllAssets<T>();
+		var t = assets.FirstOrDefault(a=>a.name == assetName);
 
         //T t = ab.LoadAsset<T>(assetName);
         return t;
     }
-    public bool UnloadAssetBundle(string abName)
+    public bool UnloadAssetBundle(string abPath)
     {
-        abName = abName.ToLower();
-        AssetBundle ab = null;
-        if (!m_abDic.ContainsKey(abName))
+        abPath = abPath.ToLower();
+        if (m_abDic.TryGetValue(abPath,out var ab))
         {
-            return false;
-        }
+			ab.Unload(true);
+			m_abDic.Remove(abPath);
+		}
         else
         {
-            m_abDic[abName].UnloadAsync(true);
-            m_abDic.Remove(abName);
-        }
+			return false;
+		}
 
         //加载依赖
         /*string[] dependences = m_manifest.GetAllDependencies(abName);

@@ -189,8 +189,8 @@ public static class TextureAndSpriteUtil
     {
         UnityEngine.Sprite sprite = null;
 
-
-        for (int k = 0; k < 10; k++)
+#if UNITY_EDITOR
+		for (int k = 0; k < 10; k++)
         {
             var sprites = AssetDatabase.LoadAllAssetsAtPath($"Assets/GameMain/WzPng/{imgName}.img_Sheet{k}.png");
             if (sprites != null)
@@ -202,8 +202,8 @@ public static class TextureAndSpriteUtil
                 }
             }
         }
+#endif
 
-
-        return sprite;
+		return sprite;
     }
 }
