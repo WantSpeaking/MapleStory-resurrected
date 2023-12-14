@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -51,63 +52,137 @@ namespace server.quest
 
         public MapleQuest(int id)
         {
+            if (id == 10046)
+            {
+                var ff = 0;
+            }
             this.Id = (short)id;
+			//AppDebug.Log($"load quest:{id}");
 
-            var reqData = questReq.getChildByPath(id.ToString());
+			//GameUtil.Instance.RestartWatch();
+			var reqData = questReq.getChildByPath(id.ToString());
             if (reqData == null)
             { //most likely infoEx
                 return;
             }
+            //GameUtil.Instance.LogTime("reqData");
 
-            if (questInfo != null)
+
+			if (questInfo != null)
             {
                 var reqInfo = questInfo.getChildByPath(id.ToString());
-                if (reqInfo != null)
+				//GameUtil.Instance.LogTime("questInfo");
+
+				if (reqInfo != null)
                 {
                     /*		var tempName = reqInfo["name"]?.ToString ();
 							this.Name = string.IsNullOrEmpty (tempName) ? $"name none,id:{id}" : tempName;*/
                     this.Name = MapleDataTool.getString("name", reqInfo,"");
-                    this.Parent = MapleDataTool.getString("parent", reqInfo, "");
+					//GameUtil.Instance.LogTime("reqInfo1");
 
-                    
-                    
-                    
+					this.Parent = MapleDataTool.getString("parent", reqInfo, "");
+					//GameUtil.Instance.LogTime("reqInfo2");
 
-                    this.timeLimit = MapleDataTool.getInt("timeLimit", reqInfo, 0);
-                    this.timeLimit2 = MapleDataTool.getInt("timeLimit2", reqInfo, 0);
-                    this.AutoStart = MapleDataTool.getInt("autoStart", reqInfo, 0) == 1;
-                    this.AutoPreComplete = MapleDataTool.getInt("autoPreComplete", reqInfo, 0) == 1; 
-                    this.AutoComplete = MapleDataTool.getInt("autoComplete", reqInfo, 0) == 1;
 
-                    int medalid = MapleDataTool.getInt("viewMedalItem", reqInfo, 0);
-                    if (medalid != 0)
+
+
+
+					this.timeLimit = MapleDataTool.getInt("timeLimit", reqInfo, 0);
+					//GameUtil.Instance.LogTime("reqInfo3");
+
+					this.timeLimit2 = MapleDataTool.getInt("timeLimit2", reqInfo, 0);
+					//GameUtil.Instance.LogTime("reqInfo4");
+
+					this.AutoStart = MapleDataTool.getInt("autoStart", reqInfo, 0) == 1;
+					//GameUtil.Instance.LogTime("reqInfo5");
+
+					this.AutoPreComplete = MapleDataTool.getInt("autoPreComplete", reqInfo, 0) == 1;
+					//GameUtil.Instance.LogTime("reqInfo6");
+
+					this.AutoComplete = MapleDataTool.getInt("autoComplete", reqInfo, 0) == 1;
+					//GameUtil.Instance.LogTime("reqInfo7");
+
+
+					int medalid = MapleDataTool.getInt("viewMedalItem", reqInfo, 0);
+					//GameUtil.Instance.LogTime("reqInfo8");
+
+					if (medalid != 0)
                     {
                         medals[this.Id] = medalid;
                     }
-                    
-                    this.Info_started = NpcTextParser.inst.Parse(MapleDataTool.getString("0", reqInfo, ""));
-                    this.Info_in_progress = NpcTextParser.inst.Parse(MapleDataTool.getString("1", reqInfo, ""));
-                    this.Info_completed = NpcTextParser.inst.Parse(MapleDataTool.getString("2", reqInfo, ""));
-                    this.Area = MapleDataTool.getInt("area", reqInfo, 0);
-                    this.Order = MapleDataTool.getInt("order", reqInfo, 0);
+					//GameUtil.Instance.LogTime("reqInfo9");
 
-                    this.oneShot = MapleDataTool.getInt("oneShot", reqInfo, 0);
-                    this.Summary = NpcTextParser.inst.Parse(MapleDataTool.getString("summary", reqInfo, ""));
-                    this.DemandSummary = NpcTextParser.inst.Parse(MapleDataTool.getString("demandSummary", reqInfo, ""));
-                    this.RewardSummary = NpcTextParser.inst.Parse(MapleDataTool.getString("rewardSummary", reqInfo, ""));
+					//this.Info_started = NpcTextParser.inst.Parse(MapleDataTool.getString("0", reqInfo, ""));
+					this.Info_started = MapleDataTool.getString("0", reqInfo, "");
+					//GameUtil.Instance.LogTime("reqInfo10");
 
-                    this.medalCategory = MapleDataTool.getInt("medalCategory", reqInfo, 0); 
-                    this.viewMedalItem = MapleDataTool.getInt("viewMedalItem", reqInfo, 0); 
-                    this.timerUI = MapleDataTool.getString("timerUI", reqInfo, ""); 
-                    this.selectedMob = MapleDataTool.getInt("selectedMob", reqInfo, 0); 
-                    this.sortkey = MapleDataTool.getString("sortkey", reqInfo, ""); 
-                    this.autoAccept = MapleDataTool.getInt("autoAccept", reqInfo, 0) == 1; 
-                    this.type = MapleDataTool.getString("type", reqInfo, "");
-                    this.showLayerTag = MapleDataTool.getString("showLayerTag", reqInfo, ""); 
-                    this.selectedSkillID = MapleDataTool.getInt("selectedSkillID", reqInfo, 0); 
-                    this.dailyPlayTime = MapleDataTool.getInt("dailyPlayTime", reqInfo, 0); 
-                }
-                else
+					//this.Info_in_progress = NpcTextParser.inst.Parse(MapleDataTool.getString("1", reqInfo, ""));
+					this.Info_in_progress = MapleDataTool.getString("1", reqInfo, "");
+					//GameUtil.Instance.LogTime("reqInfo11");
+
+					//this.Info_completed = NpcTextParser.inst.Parse(MapleDataTool.getString("2", reqInfo, ""));
+					this.Info_completed = MapleDataTool.getString("2", reqInfo, "");
+					//GameUtil.Instance.LogTime("reqInfo12");
+
+					this.Area = MapleDataTool.getInt("area", reqInfo, 0);
+					//GameUtil.Instance.LogTime("reqInfo13");
+
+					this.Order = MapleDataTool.getInt("order", reqInfo, 0);
+					//GameUtil.Instance.LogTime("reqInfo14");
+
+
+					this.oneShot = MapleDataTool.getInt("oneShot", reqInfo, 0);
+					//GameUtil.Instance.LogTime("reqInfo15");
+
+                    //this.Summary = NpcTextParser.inst.Parse(MapleDataTool.getString("summary", reqInfo, ""));
+                    this.Summary = MapleDataTool.getString("summary", reqInfo, "");
+
+					//GameUtil.Instance.LogTime("reqInfo16");
+
+                    //this.DemandSummary = NpcTextParser.inst.Parse(MapleDataTool.getString("demandSummary", reqInfo, ""));
+                    this.DemandSummary = MapleDataTool.getString("demandSummary", reqInfo, "");
+
+					//GameUtil.Instance.LogTime("reqInfo17");
+
+					//this.RewardSummary = NpcTextParser.inst.Parse(MapleDataTool.getString("rewardSummary", reqInfo, ""));
+					this.RewardSummary = MapleDataTool.getString("rewardSummary", reqInfo, "");
+
+					//GameUtil.Instance.LogTime("reqInfo18");
+
+
+					this.medalCategory = MapleDataTool.getInt("medalCategory", reqInfo, 0);
+					//GameUtil.Instance.LogTime("reqInfo19");
+
+					this.viewMedalItem = MapleDataTool.getInt("viewMedalItem", reqInfo, 0);
+					//GameUtil.Instance.LogTime("reqInfo20");
+
+					this.timerUI = MapleDataTool.getString("timerUI", reqInfo, "");
+					//GameUtil.Instance.LogTime("reqInfo21");
+
+					this.selectedMob = MapleDataTool.getInt("selectedMob", reqInfo, 0);
+					//GameUtil.Instance.LogTime("reqInfo22");
+
+					this.sortkey = MapleDataTool.getString("sortkey", reqInfo, "");
+					//GameUtil.Instance.LogTime("reqInfo23");
+
+					this.autoAccept = MapleDataTool.getInt("autoAccept", reqInfo, 0) == 1;
+					//GameUtil.Instance.LogTime("reqInfo24");
+
+					this.type = MapleDataTool.getString("type", reqInfo, "");
+					//GameUtil.Instance.LogTime("reqInfo25");
+
+					this.showLayerTag = MapleDataTool.getString("showLayerTag", reqInfo, "");
+					//GameUtil.Instance.LogTime("reqInfo26");
+
+					this.selectedSkillID = MapleDataTool.getInt("selectedSkillID", reqInfo, 0);
+					//GameUtil.Instance.LogTime("reqInfo27");
+
+					this.dailyPlayTime = MapleDataTool.getInt("dailyPlayTime", reqInfo, 0);
+
+					//GameUtil.Instance.LogTime("reqInfo28");
+
+				}
+				else
                 {
                     var tempName = $"Quest doesn't exist,id:{id}";
                     this.Name = tempName;
@@ -116,7 +191,9 @@ namespace server.quest
             }
 
             var startReqData = reqData.getChildByPath("0");
-            if (startReqData != null)
+			//GameUtil.Instance.LogTime("startReqData");
+
+			if (startReqData != null)
             {
                 foreach (var startReq in startReqData)
                 {
@@ -141,10 +218,14 @@ namespace server.quest
 
                     startReqs[type] = req;
                 }
-            }
+				//GameUtil.Instance.LogTime("startReqData2");
 
-            var completeReqData = reqData.getChildByPath("1");
-            if (completeReqData != null)
+			}
+
+			var completeReqData = reqData.getChildByPath("1");
+			//GameUtil.Instance.LogTime("completeReqData");
+
+			if (completeReqData != null)
             {
                 foreach (var completeReq in completeReqData)
                 {
@@ -165,16 +246,22 @@ namespace server.quest
                     }
                     completeReqs[type] = req;
                 }
-            }
+				//GameUtil.Instance.LogTime("completeReqData2");
 
-            var actData = questAct.getChildByPath(id.ToString());
-            if (actData == null)
+			}
+
+			var actData = questAct.getChildByPath(id.ToString());
+			//GameUtil.Instance.LogTime("actData");
+
+			if (actData == null)
             {
                 return;
             }
 
             var startActData = actData.getChildByPath("0");
-            if (startActData != null)
+			//GameUtil.Instance.LogTime("startActData");
+
+			if (startActData != null)
             {
                 foreach (var startAct in startActData)
                 {
@@ -188,10 +275,14 @@ namespace server.quest
 
                     startActs[questActionType] = act;
                 }
-            }
+				//GameUtil.Instance.LogTime("startActData2");
 
-            var completeActData = actData.getChildByPath("1");
-            if (completeActData != null)
+			}
+
+			var completeActData = actData.getChildByPath("1");
+			//GameUtil.Instance.LogTime("completeActData");
+
+			if (completeActData != null)
             {
                 foreach (var completeAct in completeActData)
                 {
@@ -205,8 +296,10 @@ namespace server.quest
 
                     completeActs[questActionType] = act;
                 }
-            }
-        }
+				//GameUtil.Instance.LogTime("completeActData2");
+
+			}
+		}
         private MapleQuestRequirement getRequirement(MapleQuestRequirementType type, MapleData data)
         {
             MapleQuestRequirement ret = null;
@@ -493,22 +586,30 @@ namespace server.quest
         }
         public static void loadAllQuest()
         {
-            try
+            //try
             {
                 AppDebug.Log($"loadAllQuest start");
-                int counter = 0;
+				GameUtil.Instance.stopwatch.Restart();
+				int counter = 0;
+                float totalTime = 0;
                 foreach (var quest in questInfo)
                 {
                     int.TryParse(quest.Name,out int questID);
                     counter++;
 
-                    AppDebug.Log($"load Quest:{quest.Name}\t{questID}\t{counter}");
-                    MapleQuest q = new MapleQuest 
+                    //AppDebug.Log($"load Quest:{quest.Name}\t{questID}\t{counter}");
+
+                    //yield return null;
+					//GameUtil.Instance.stopwatch.Restart();
+
+					MapleQuest q = new MapleQuest 
                         (questID);
                     quests[questID] = q;
-                    //quests_byNpc.Add (questID, q);
-
-                    int infoNumber;
+					//quests_byNpc.Add (questID, q);
+					//GameUtil.Instance.stopwatch.Stop();
+                    //var time = GameUtil.Instance.stopwatch.ElapsedMilliseconds / 1000f;
+					//AppDebug.Log($"loadQuest Name:{questID} time:{time} totalTime:{totalTime+= time}");
+					int infoNumber;
 
                     infoNumber = q.getInfoNumber(MapleQuestStatus.Status.STARTED);
                     if (infoNumber > 0)
@@ -522,14 +623,15 @@ namespace server.quest
                         infoNumberQuests[infoNumber] = questID;
                     }
                 }
-                AppDebug.Log($"loadAllQuest end count:{quests.Count}");
-            }
-            catch (Exception ex)
+
+				AppDebug.Log($"loadAllQuest end count:{quests.Count} time:{GameUtil.Instance.stopwatch.ElapsedMilliseconds/1000f}");
+			}
+           /* catch (Exception ex)
             {
 
                 AppDebug.Log(ex.ToString());
                 AppDebug.Log(ex.StackTrace);
-            }
+            }*/
         }
         public IList<string> getInfoEx(Status qs)
         {

@@ -22,6 +22,96 @@ using Timer = ms.Timer;
 
 public class MapleStory : SingletonMono<MapleStory>
 {
+	#region Placeholder
+
+	[Button("main", "Connect")] public string placeholder0;
+
+
+	[Button("LoginStartPacket", "LoginStartPacket 35")]
+	public string placeholder1;
+
+	void LoginStartPacket()
+	{
+		new LoginStartPacket().dispatch();
+	}
+
+	[Button("LoginPacket", "LoginPacket 1")]
+	public string placeholder2;
+
+	void LoginPacket()
+	{
+		new LoginPacket(account, password).dispatch();
+	}
+
+	[Button("ServerStatusRequestPacket", "ServerStatusRequestPacket 6")]
+	public string placeholder3;
+
+	void ServerStatusRequestPacket()
+	{
+		new ServerStatusRequestPacket(0).dispatch();
+	}
+
+	[Button("CharlistRequestPacket", "CharlistRequestPacket 5")]
+	public string placeholder4;
+
+	void CharlistRequestPacket()
+	{
+		new CharlistRequestPacket(0, 0).dispatch();
+	}
+
+	[Button("SelectCharPacket", "SelectCharPacket 19")]
+	public string placeholder5;
+
+	void SelectCharPacket()
+	{
+		new SelectCharPacket(characterIdToLoad).dispatch();
+		if (disableDebugPacketAfterLogin)
+			enableDebugPacket = false;
+	}
+
+	/*[Utility.Inspector. Button("PlayerLoginPacket","PlayerLoginPacket 20")]
+	public string placeholder6;
+
+	void PlayerLoginPacket ()
+	{
+		new PlayerLoginPacket (1).dispatch ();
+	}*/
+
+	[Button("loadAllQuest", "loadAllQuest")]
+	public string placeholder6;
+
+	[Button("stopLoadAllQuest", "stopLoadAllQuest")]
+	public string placeholder7;
+
+	public string expressionString = "80+3*x";
+
+	public string Argument_Name = "x";
+	public double Argument_Value = 1;
+	void loadAllQuest()
+	{
+		/*var e = new org.mariuszgromada.math.mxparser.Expression (expressionString);
+		e.addArguments (new org.mariuszgromada.math.mxparser.Argument (Argument_Name, Argument_Value));
+		Debug.Log (e.calculate ());
+
+		var toReplace = expressionString.Contains ("y") ? "y"
+							: expressionString.Contains ("X") ? "X"
+							: "x";
+
+		var je = new Jint.Engine ().Execute (expressionString.Replace (toReplace, Argument_Value + ""));
+		Debug.Log (je.GetCompletionValue());*/
+
+		maplestoryFolder = Constants.get().path_MapleStoryFolder;
+		NxFiles.init(maplestoryFolder);
+		MapleQuest.loadAllQuest();
+		//StartCoroutine(MapleQuest.loadAllQuest());
+	}
+	void stopLoadAllQuest()
+	{
+
+		StopAllCoroutines();
+	}
+	#endregion
+
 	string message;
 	public FairyGUI.UIPanel panel_StateLogin;
 	public FGUI_StateLogin fGUI_StateLogin;
@@ -395,7 +485,7 @@ public class MapleStory : SingletonMono<MapleStory>
 			MapPortals.init ();
 			Stage.get ().init ();
 			UI.get ().init ();
-			//MapleQuest.loadAllQuest ();
+			MapleQuest.loadAllQuest ();
 
 			canStart = true;
 			button_load.transform.parent.gameObject.SetActive (false);
@@ -784,82 +874,7 @@ public class MapleStory : SingletonMono<MapleStory>
 	}
 #endif
 
-	#region Placeholder
-
-	[Button ("main", "Connect")] public string placeholder0;
-
-
-	[Button ("LoginStartPacket", "LoginStartPacket 35")]
-	public string placeholder1;
-
-	void LoginStartPacket ()
-	{
-		new LoginStartPacket ().dispatch ();
-	}
-
-	[Button ("LoginPacket", "LoginPacket 1")]
-	public string placeholder2;
-
-	void LoginPacket ()
-	{
-		new LoginPacket (account, password).dispatch ();
-	}
-
-	[Button ("ServerStatusRequestPacket", "ServerStatusRequestPacket 6")]
-	public string placeholder3;
-
-	void ServerStatusRequestPacket ()
-	{
-		new ServerStatusRequestPacket (0).dispatch ();
-	}
-
-	[Button ("CharlistRequestPacket", "CharlistRequestPacket 5")]
-	public string placeholder4;
-
-	void CharlistRequestPacket ()
-	{
-		new CharlistRequestPacket (0, 0).dispatch ();
-	}
-
-	[Button ("SelectCharPacket", "SelectCharPacket 19")]
-	public string placeholder5;
-
-	void SelectCharPacket ()
-	{
-		new SelectCharPacket (characterIdToLoad).dispatch ();
-		if (disableDebugPacketAfterLogin)
-			enableDebugPacket = false;
-	}
-
-	/*[Utility.Inspector. Button("PlayerLoginPacket","PlayerLoginPacket 20")]
-	public string placeholder6;
-
-	void PlayerLoginPacket ()
-	{
-		new PlayerLoginPacket (1).dispatch ();
-	}*/
-
-	[Button ("Test", "Test")]
-	public string placeholder6;
-	public string expressionString = "80+3*x";
-
-	public string Argument_Name = "x";
-	public double Argument_Value = 1;
-	void Test ()
-	{
-		var e = new org.mariuszgromada.math.mxparser.Expression (expressionString);
-		e.addArguments (new org.mariuszgromada.math.mxparser.Argument (Argument_Name, Argument_Value));
-		Debug.Log (e.calculate ());
-
-		var toReplace = expressionString.Contains ("y") ? "y"
-							: expressionString.Contains ("X") ? "X"
-							: "x";
-
-		var je = new Jint.Engine ().Execute (expressionString.Replace (toReplace, Argument_Value + ""));
-		Debug.Log (je.GetCompletionValue());
-
-	}
-	#endregion
+	
 
 	#endregion
 }

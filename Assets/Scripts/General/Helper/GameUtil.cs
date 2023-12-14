@@ -96,10 +96,18 @@ public class GameUtil : SingletonMono<GameUtil>
 		return n;
 	}
 
+	public void RestartWatch()
+	{
+		stopwatch.Restart();
+	}
 	public void LogTime (string message)
 	{
 		stopwatch.Stop();
-		AppDebug.Log($"{message} used time:{stopwatch.ElapsedMilliseconds}");
+		var time = stopwatch.ElapsedMilliseconds / 1000f;
+		if (time >= 0.0001f)
+		{
+			AppDebug.Log($"used time:{time,-10} {message}");
+		}
 		stopwatch.Restart();
     }
 }
