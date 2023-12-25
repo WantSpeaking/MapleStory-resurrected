@@ -111,7 +111,7 @@ namespace ms
 			type = Weapon.by_value(prefix);
 			twohanded = prefix == (int)Weapon.Type.STAFF || (prefix >= ((int)Weapon.Type.SWORD_2H) && prefix <= (int)Weapon.Type.POLEARM) || prefix == (int)Weapon.Type.CROSSBOW;
 
-			var src = ms.wz.wzProvider_character[$"Weapon\\0{Convert.ToString (equipid)}.img"]?["info"];
+			var src = ms.wz.wzProvider_character[$"Weapon/0{Convert.ToString (equipid)}.img"]?["info"];
 
 			attackspeed = src["attackSpeed"];
 			attack = src["attack"];

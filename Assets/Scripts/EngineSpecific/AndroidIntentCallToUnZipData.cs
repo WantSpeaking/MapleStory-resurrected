@@ -407,30 +407,34 @@ public class AndroidIntentCallToUnZipData : SingletonMono<AndroidIntentCallToUnZ
         yield return new WaitForSeconds(1f);
 
         var assetBundleZipPath = Path.Combine(Application.persistentDataPath, "AssetBundle.zip");
-        var assetBundleOutPath = Path.Combine(Application.persistentDataPath, "");
+        var jsonPath = Path.Combine(Application.persistentDataPath, "Json.zip");
+		var assetBundleOutPath = Path.Combine(Application.persistentDataPath, "");
         var baseWzPath = Path.Combine(Application.persistentDataPath, "Base.wz");
 
         if (!File.Exists(assetBundleZipPath))
         {
             yield return StartCoroutine(CopyFile("AssetBundle.zip", onChecking, onCheckComplete, onError));
         }
-
-        if (!File.Exists(Path.Combine(assetBundleOutPath, "AssetBundle", "Android.manifest")))
+		if (!File.Exists(jsonPath))
+		{
+			yield return StartCoroutine(CopyFile("Json.zip", onChecking, onCheckComplete, onError));
+		}
+		if (!File.Exists(Path.Combine(assetBundleOutPath, "AssetBundle", "Android.manifest")))
         {
             //message = $"正在解压资产包压缩包";
             yield return StartCoroutine(TestUnZipFile(assetBundleZipPath, assetBundleOutPath, password, false, 1, onChecking, onCheckComplete));
         }
-
-        if (!File.Exists(baseWzPath))
+		if (!File.Exists(Path.Combine(assetBundleOutPath, "Json", "Character.wz", "00002000.img.json")))
+		{
+			//message = $"正在解压资产包压缩包";
+			yield return StartCoroutine(TestUnZipFile(jsonPath, assetBundleOutPath, password, false, 1, onChecking, onCheckComplete));
+		}
+		/*if (!File.Exists(baseWzPath))
         {
-            //message = $"正在复制数据包";
             yield return StartCoroutine(TestCopyAllWz(3, onChecking, onCheckComplete, onError));
+        }*/
 
-            //MapleStory.Instance.ShowGUINotice ("请先安装最新客户端，打开客户端自动解压数据包后，再安装最新游戏补丁，最后开始游戏");
-            //return;
-        }
-
-        onCheckComplete?.Invoke("数据更新完毕,请点击开始按钮 开始游戏", true);
+		onCheckComplete?.Invoke("数据更新完毕,请点击开始按钮 开始游戏", true);
     }
 
     public void CheckData(Action<string,float> onChecking, Action<string,bool> onCheckComplete, Action<string> onError)

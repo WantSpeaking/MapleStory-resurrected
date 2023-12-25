@@ -16,18 +16,23 @@ namespace provider.wz
     {
         public override MapleDataType Type => MapleDataTool.JsonTokenToMapleDataType((node as JProperty)?.Value.Type);
 
-        public static List<MapleData> emptyMapleDataList = new List<MapleData>();
+        public List<MapleData> emptyMapleDataList = new List<MapleData>();
         public override IList<MapleData> Children
         {
             get
             {
+                if (emptyMapleDataList.Count>0)
+                {
+					return emptyMapleDataList;
+				}
+
                 if (node is JProperty p)
                 {
-                    return p.Value.Children().Select(n => (MapleData)new JsonMapleData(n)).ToList();
+                    emptyMapleDataList.AddRange(p.Value.Children().Select(n => (MapleData)new JsonMapleData(n)));
                 }
                 else if (node is JContainer c)
                 {
-                    return c.Children().Select(n => (MapleData)new JsonMapleData(n)).ToList();
+                    emptyMapleDataList.AddRange(c.Children().Select(n => (MapleData)new JsonMapleData(n)));
                 }
                 //AppDebug.Log($"JsonMapleData: node==null?:{node == null} {Name} {_path} {node?.Type} {node?.GetType()}");
                 return emptyMapleDataList;
@@ -185,7 +190,10 @@ namespace provider.wz
                 }
                 else if(myNode is JValue v)
                 {
-
+                    if (v.Type == JTokenType.String && (string)v.Value== "_null_")
+                    {
+                        myNode = null;
+					}
                 }
                 else
                 {

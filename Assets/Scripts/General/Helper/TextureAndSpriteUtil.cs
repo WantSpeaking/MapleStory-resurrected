@@ -180,12 +180,19 @@ public static class TextureAndSpriteUtil
 		return result;
 	}
 
-	public static UnityEngine.Sprite LoadSpriteFromAB(string abName,string assetName)
+	public static UnityEngine.Sprite LoadSpriteFromAB(string abName,string assetName,string imgName)
 	{
-		return AssetBundleLoaderMgr.Instance.LoadSubAsset<UnityEngine.Sprite>(abName, assetName);
+		return AssetBundleLoaderMgr.Instance.LoadSubAsset<UnityEngine.Sprite>(abName, assetName, imgName);
+	}
+	public static UnityEngine.Sprite LoadSpriteFromAtlasObjAB(string abPath, string assetName, string spriteName)
+	{
+		var AtlasObj= AssetBundleLoaderMgr.Instance.LoadAsset<AtlasScriptObj>(abPath, assetName);
+		var s = AtlasObj?.GetSprite(spriteName);
+		return s;
 	}
 
-    public static UnityEngine.Sprite LoadSpriteFromAssetDatabase(string imgName, string objName)
+	
+	public static UnityEngine.Sprite LoadSpriteFromAssetDatabase(string imgName, string objName)
     {
         UnityEngine.Sprite sprite = null;
 

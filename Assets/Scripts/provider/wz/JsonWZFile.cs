@@ -13,11 +13,22 @@ namespace provider.wz
 {
     public class JsonWZFile : MapleDataProvider
     {
-        //public MapleDataDirectoryEntry Root => throw new NotImplementedException();
+		//public MapleDataDirectoryEntry Root => throw new NotImplementedException();
 
-        public MapleData this[string imgPath] => getData(imgPath);
+		public MapleData this[string imgPath]
+		{
+			get
+			{
+                if (!datas.TryGetValue(imgPath,out var mapleData))
+                {
+					mapleData = getData(imgPath);
+					datas.Add(imgPath, mapleData);
+				}
+				return mapleData;
+			}
+		}
 
-        public MapleData getData(string imgPath)
+		public MapleData getData(string imgPath)
         {
             if (string.IsNullOrEmpty(imgPath)) return null;
             if (!imgPath.Contains(".img")) return null;
@@ -45,5 +56,7 @@ namespace provider.wz
                 imgJOb = JObject.Parse(jasonText);
             }
         }
+
+        private Dictionary<string,MapleData> datas = new Dictionary<string, MapleData>();
     }
 }

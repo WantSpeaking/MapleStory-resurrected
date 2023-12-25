@@ -83,6 +83,14 @@ public class MapleStory : SingletonMono<MapleStory>
 	[Button("stopLoadAllQuest", "stopLoadAllQuest")]
 	public string placeholder7;
 
+	[Button("testScriptObj", "testScriptObj")]
+	public string placeholder8;
+	public AtlasScriptObj AtlasScriptObj;
+	public void testScriptObj()
+	{
+		var s = AtlasScriptObj.GetSprite("QuestIcon-1-0");
+		Debug.Log(s);
+	}
 	public string expressionString = "80+3*x";
 
 	public string Argument_Name = "x";

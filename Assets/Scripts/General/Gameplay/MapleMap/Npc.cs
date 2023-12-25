@@ -21,11 +21,15 @@ namespace ms
 		public Npc (int id, int o, bool fl, ushort f, bool cnt, Point_short position) : base (o, position)
 		{
 			//AppDebug.Log ($"npc {id} on ctor");
+			//GameUtil.Instance.RestartWatch ();
 
 			string strid = Convert.ToString (id);
 			strid = strid.insert (0, 7 - strid.Length, '0');
 			strid = strid.append (".img");
-
+			/*if (id == 1103004)
+			{
+				var fdsf = 0;
+			}*/
 			var src = ms.wz.wzProvider_npc[strid];
 			var strsrc = ms.wz.wzProvider_string["Npc.img"][Convert.ToString (id)];
 
@@ -42,6 +46,7 @@ namespace ms
 				AppDebug.Log ($"cant't find Npc strid:{strid}\t id:{id}");
 				return;
 			}
+			//GameUtil.Instance.LogTime(id + " 1");
 
 			var info = src["info"];
 
@@ -63,6 +68,7 @@ namespace ms
 					ScriptInfos.Add (ScriptInfo);
 				}
 			}
+			//GameUtil.Instance.LogTime(id + " 2");
 
 			foreach (var npcnode in src)
 			{
@@ -90,12 +96,15 @@ namespace ms
 					}
 				}
 			}
+			//GameUtil.Instance.LogTime(id + " 3");
 
 			name = strsrc?["name"]?.ToString ();
 			func = strsrc?["func"]?.ToString ();
+			//GameUtil.Instance.LogTime(id + " 4");
 
 			namelabel = new Text (Text.Font.A13B, Text.Alignment.CENTER, Color.Name.YELLOW, Text.Background.NAMETAG, name);
 			funclabel = new Text (Text.Font.A13B, Text.Alignment.CENTER, Color.Name.YELLOW, Text.Background.NAMETAG, func);
+			//GameUtil.Instance.LogTime(id + " 5");
 
 			npcid = id;
 			flip = !fl;
@@ -104,12 +113,16 @@ namespace ms
 
 			phobj.fhid = f;
 			set_position (new Point_short (position));
+			//GameUtil.Instance.LogTime(id + " 6");
 
 			questIcon_CanStart = wz.wzProvider_ui["UIWindow.img"]["QuestIcon"]["0"];
+			//GameUtil.Instance.LogTime(id + " 7");
 			questIcon_InProgressed = wz.wzProvider_ui["UIWindow.img"]["QuestIcon"]["1"];
+			//GameUtil.Instance.LogTime(id + " 8");
 			questIcon_CanComplete = wz.wzProvider_ui["UIWindow.img"]["QuestIcon"]["2"];
 
 			UpdateQuest ();
+			//GameUtil.Instance.LogTime(id+" 9");
 		}
 		
 		private string lastDraw_Stance = string.Empty;

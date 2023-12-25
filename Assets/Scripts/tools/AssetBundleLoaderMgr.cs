@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ms;
+using System;
 
 public class AssetBundleLoaderMgr
 {
@@ -24,19 +26,31 @@ public class AssetBundleLoaderMgr
     public AssetBundle LoadAssetBundle(string abPath)
     {
        
-        abPath = abPath.ToLower();
+        //abPath = abPath.ToLower();
         AssetBundle ab = null;
-        if (!m_abDic.ContainsKey(abPath))
+        var lowerPath = abPath.ToLower();
+        if (!m_abDic.ContainsKey(lowerPath))
         {
-            string abResPath = Path.Combine(Application.persistentDataPath, "AssetBundle", abPath);
+            //string abResPath = Path.Combine(Application.persistentDataPath, "AssetBundle", abPath);
+            var abResPath = $"{Application.persistentDataPath}\\AssetBundle\\{abPath}";
             //AppDebug.Log(m_abDic.ToDebugLog());
             //AppDebug.Log(abName);
-            ab = AssetBundle.LoadFromFile(abResPath);
-            m_abDic[abPath] = ab;
-        }
+            /*var allbundles = AssetBundle. GetAllLoadedAssetBundles();
+            AppDebug.Log($"{abPath}\r\n{allbundles.ToDebugLog()}");*/
+			ab = AssetBundle.LoadFromFile(abResPath);
+
+            if (ab == null)
+            {
+                AppDebug.LogError($"Can't,LoadAssetBundle abResPath:{abResPath}");
+            }
+            else
+            {
+				m_abDic[lowerPath] = ab;
+			}
+		}
         else
         {
-            ab = m_abDic[abPath];
+            ab = m_abDic[lowerPath];
         }
 
         //加载依赖
@@ -65,30 +79,55 @@ public class AssetBundleLoaderMgr
     /// <param name="abPath">AssetBundle名 AssetBundle的子路径</param>
     /// <param name="assetName">Asset名</param>
     /// <returns></returns>
-    public T LoadAsset<T>(string abPath, string assetName) where T : Object
+    public T LoadAsset<T>(string abPath, string assetName) where T : UnityEngine.Object
     {
+        T t = null;
         if (m_manifest == null)
         {
-            return null;
+            return t;
         }
 
         AssetBundle ab = LoadAssetBundle(abPath);
-        T t = ab.LoadAsset<T>(assetName);
+        if (ab != null)
+        {
+            //var assets = ab.LoadAllAssets();
+			t = ab.LoadAsset<T>(assetName);
+		}
+        
         return t;
     }
-    public T LoadSubAsset<T>(string abName, string assetName) where T : Object
+    public T LoadSubAsset<T>(string abName, string assetName,string imgName) where T : UnityEngine.Object
     {
+        GameUtil.Instance.RestartWatch();
         if (m_manifest == null)
         {
             return null;
         }
+        AppDebug.Log($"LoadSubAsset\t abName:{abName}\t assetName:{assetName}");
 
-        AssetBundle ab = LoadAssetBundle(abName);
-        var assets = ab.LoadAllAssets<T>();
+		AssetBundle ab = LoadAssetBundle(abName);
+        GameUtil.Instance.LogTime("LoadAssetBundle");
+        T t = default;
+        for (int i = 0; i < 10; i++)
+        {
+			var sprites = ab.LoadAssetWithSubAssets<T>($"{imgName}_Sheet{i}");
+			var sprite = Array.Find(sprites, item => item.name == assetName);
+            t = sprite;
+			if (sprite != null)
+                break;
+		}
+
+		/*var assets = ab.LoadAllAssets<T>();
 		var t = assets.FirstOrDefault(a=>a.name == assetName);
+		if (t == null)
+		{
+			AppDebug.LogError($"LoadSubAsset assetName:{assetName}");
+		}*/
+		//var t = assets.FirstOrDefault();
+		GameUtil.Instance.LogTime("FindSubAsset");
 
-        //T t = ab.LoadAsset<T>(assetName);
-        return t;
+		//T t = ab.LoadAsset<T>(assetName);
+		return t;
     }
     public bool UnloadAssetBundle(string abPath)
     {

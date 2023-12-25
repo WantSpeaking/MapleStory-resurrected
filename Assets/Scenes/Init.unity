@@ -1045,6 +1045,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 359681243}
   m_CullTransparentMesh: 0
+--- !u!1 &369666282
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 369666284}
+  - component: {fileID: 369666283}
+  m_Layer: 0
+  m_Name: MainUIHudAtlas_0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &369666283
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369666282}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: b4617d786131fe04d854dad1bd8336f9, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.12, y: 0.12}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &369666284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369666282}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &401688262
 GameObject:
   m_ObjectHideFlags: 0
@@ -1796,6 +1880,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5543904772fbacb47a547d5b06e0439e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  placeholder0: 
+  placeholder1: 
+  placeholder2: 
+  placeholder3: 
+  placeholder4: 
+  placeholder5: 
+  placeholder6: 
+  placeholder7: 
+  expressionString: 80+3*x
+  Argument_Name: x
+  Argument_Value: 1
   panel_StateLogin: {fileID: 818775073}
   timeScale: 1
   RuntimeHierarchyInspector: {fileID: 1485019414}
@@ -1824,7 +1919,7 @@ MonoBehaviour:
   inpuField_MapAccount: {fileID: 61339802}
   inpuField_MapPassword: {fileID: 736100726}
   inpuField_MapCharacter: {fileID: 1430400027}
-  maplestoryFolder: D:\Program Files (x86)\MapleStory\
+  maplestoryFolder: C:/Users/Administrator/AppData/LocalLow/DefaultCompany/ForeverStory
   account: admin
   password: admin
   characterIdToLoad: 1
@@ -1847,16 +1942,6 @@ MonoBehaviour:
   viewx: 0
   viewy: 0
   alpha: 0
-  placeholder0: 
-  placeholder1: 
-  placeholder2: 
-  placeholder3: 
-  placeholder4: 
-  placeholder5: 
-  placeholder6: 
-  expressionString: 80+3*x
-  Argument_Name: x
-  Argument_Value: 1
 --- !u!4 &609587585
 Transform:
   m_ObjectHideFlags: 0
@@ -1954,7 +2039,7 @@ MonoBehaviour:
   TestMode: 0
   TestAccount: admin2
   TestPassword: admin2
-  Version: 84
+  Version: 86
   drawMap: 1
   enableUpdate: 1
   mainCamera: {fileID: 1326867178}
@@ -2112,7 +2197,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 645349677}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6642,3 +6727,4 @@ SceneRoots:
   - {fileID: 609587585}
   - {fileID: 645349678}
   - {fileID: 1926790371}
+  - {fileID: 369666284}

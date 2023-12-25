@@ -110,6 +110,8 @@ public class GameUtil : SingletonMono<GameUtil>
 		}
 		stopwatch.Restart();
     }
+
+
 }
 
 public enum WZProviderType
