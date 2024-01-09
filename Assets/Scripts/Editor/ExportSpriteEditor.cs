@@ -615,39 +615,43 @@ public static class MyCustomTool
 				fullPaths.Add(trimString1);
 			}
 
-			var groupResult = fullPaths.GroupBy(p => { return p.Substring(0, p.Length - 11); });
+			var groupResult = fullPaths.GroupBy(p => { return p.Substring(0, p.Length - 11); }).ToList();
 			foreach (var g in groupResult)
 			{
 				Debug.Log("key " + g.Key);
 
 				var aso = ScriptableObject.CreateInstance<AtlasScriptObj>();
+				var objList = new List<Object>();
 
 				foreach (var p in g)
 				{
 					Debug.Log(p);
 					var subAssets = AssetDatabase.LoadAllAssetsAtPath(p);
-					foreach (var sub in subAssets)
-					{
-						if (sub is Sprite s)
-						{
-							var trimName = $"{s.name.Substring(s.name.IndexOf(".img") + 5)}";
-							Debug.Log($"sprite:{s}\t{trimName}");
+					objList.AddRange(subAssets);
+				}
 
-							try
-							{
-								aso.Name_Sprites.TryAdd(trimName, s);
-							}
-							catch (System.Exception ex)
-							{
-								Debug.LogError($"{ex.Message}\t Key:{g.Key}\t trimName:{trimName}");
-								break;
-							}
+				foreach (var sub in objList)
+				{
+					if (sub is Sprite s)
+					{
+						var trimName = $"{s.name.Substring(s.name.IndexOf(".img") + 5)}";
+						Debug.Log($"sprite:{s}\t{trimName}");
+
+						try
+						{
+							aso.Name_Sprites.TryAdd(trimName, s);
+						}
+						catch (System.Exception ex)
+						{
+							Debug.LogError($"{ex.Message}\t Key:{g.Key}\t trimName:{trimName}");
+							break;
 						}
 					}
-					var asoPath = g.Key.Replace(".img", ".asset");
-					AssetDatabase.CreateAsset(aso, asoPath);
-					AssetDatabase.SaveAssets();
 				}
+
+				var asoPath = g.Key.Replace(".img", ".asset");
+				AssetDatabase.CreateAsset(aso, asoPath);
+				AssetDatabase.SaveAssets();
 			}
 		}
 
@@ -705,7 +709,7 @@ public static class MyCustomTool
 				//abName = abName.Substring(0, abName.Length - 11);
 				//Debug.Log(abName);
 
-				if (File.Exists($"{Directory.GetCurrentDirectory()}/Assets/AssetBundle/{abFolderPath1}/abName"))
+				if (File.Exists($"{Directory.GetCurrentDirectory()}/AssetBundle/{abFolderPath1}/abName"))
 					continue;
 
 				AssetBundleBuild build = new AssetBundleBuild();
@@ -723,7 +727,85 @@ public static class MyCustomTool
 
 
 				}
-				BuildPipeline.BuildAssetBundles($"Assets/AssetBundle/{abFolderPath1}", builds.ToArray(), BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
+				BuildPipeline.BuildAssetBundles($"{Directory.GetCurrentDirectory()}/AssetBundle/{abFolderPath1}", builds.ToArray(), BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
+
+			}
+
+
+			foreach (var file in files)
+			{
+
+
+			}
+		}
+
+	}
+	[MenuItem("Custom/Create Atlas AB2")]
+	static void UpdateSettings91()
+	{
+		List<AssetBundleBuild> builds = new List<AssetBundleBuild>();
+		List<Object> objects = new List<Object>();
+		List<string> assetNames = new List<string>();
+		Dictionary<Sprite, string> sprites = new Dictionary<Sprite, string>();
+		List<string> fullPaths = new List<string>();
+
+		foreach (var o in Selection.objects)
+		{
+			string assetPath = AssetDatabase.GetAssetPath(o);
+			var fullPath = Path.Combine(Directory.GetCurrentDirectory(), assetPath);
+			//Debug.Log(fullPath);
+			var files = Directory.GetFiles(fullPath, "*.png", SearchOption.AllDirectories);
+			foreach (var file in files)
+			{
+				//var trimString = file.Substring(0, file.Length - 11);
+				var trimString1 = file.Substring(file.IndexOf("Assets"));
+				//Debug.Log(trimString1);
+
+				fullPaths.Add(trimString1);
+			}
+
+			var groupResult = fullPaths.GroupBy(p => { return p.Substring(0, p.Length - 15); });
+			//var groupResult2 = groupResult.Select(g=>g.Key).GroupBy(p=> p.Substring(0, p.LastIndexOf("\\")));
+			//groupResult Assets/GameMain/WzPng/Mob\7220003
+			foreach (var g in groupResult)
+			{
+				Debug.Log(g.Key);//Assets/GameMain/WzPng/Mob\7220003
+
+				var abFolderPath = g.Key.Replace("\\", "/").ToLower();
+				abFolderPath = abFolderPath.Substring(g.Key.IndexOf("WzPng")+6);//Mob/7220003
+				var abFolderPath1 = abFolderPath.Substring(0, abFolderPath.IndexOf("/"));//Mob
+
+
+
+				var abFolderPath2 = $"{Directory.GetCurrentDirectory()}/AssetBundle/{abFolderPath1}";
+				Directory.CreateDirectory(abFolderPath2);
+				assetNames.Clear();
+				builds.Clear();
+
+				var ap3 = g.Key + ".asset";
+				Debug.Log(ap3);
+
+				var abName = abFolderPath.Replace("/","_");//Mob_7220003
+
+				if (File.Exists($"{Directory.GetCurrentDirectory()}/AssetBundle/{abFolderPath1}/{abName}"))
+					continue;
+
+				AssetBundleBuild build = new AssetBundleBuild();
+				build.assetBundleName = abName;
+				assetNames.Add(ap3);
+				build.assetNames = assetNames.ToArray();
+
+				builds.Add(build);
+
+
+				//Debug.Log(abFolderPath2);
+
+				foreach (var p in g)
+				{
+
+
+				}
+				BuildPipeline.BuildAssetBundles($"{Directory.GetCurrentDirectory()}/AssetBundle/{abFolderPath1}", builds.ToArray(), BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
 
 			}
 

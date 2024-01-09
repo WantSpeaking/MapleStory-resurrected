@@ -480,8 +480,8 @@ public class MapleStory : SingletonMono<MapleStory>
 			AssetBundleLoaderMgr.Instance.Init();
             Application.targetFrameRate = 60;
             maplestoryFolder = Constants.get ().path_MapleStoryFolder;
-			ms.Setting<ServerIP>.get().save(inputField_IP.text);
-			ms.Setting<ServerPort>.get().save(inputField_Port.text);
+			/*ms.Setting<ServerIP>.get().save(inputField_IP.text);
+			ms.Setting<ServerPort>.get().save(inputField_Port.text);*/
             Session.get ().init (ms.Setting<ServerIP>.get().load(), ms.Setting<ServerPort>.get().load());
 			NxFiles.init (maplestoryFolder);
 			Window.get ().init ();

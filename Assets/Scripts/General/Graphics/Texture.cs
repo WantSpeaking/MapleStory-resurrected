@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using provider;
 using UnityEditor;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 namespace ms
 {
@@ -53,8 +54,8 @@ namespace ms
 
 		public void DestoryUnityObject()
 		{
-			UnityEngine.Object.DestroyImmediate(sprite, true);
-			UnityEngine.Object.DestroyImmediate(texture2D, true);
+			//UnityEngine.Object.DestroyImmediate(sprite, true);//sprite来自loadasset，没有Instantiate，销毁了就没了
+			//UnityEngine.Object.DestroyImmediate(texture2D, true);//也没必要销毁，因为相同路径的tex引用的是同一个，销毁了，就不会再次生成
 
 
 			this.sprite = null;
@@ -286,28 +287,50 @@ namespace ms
 
 				//fullpath : Effect.wz\\BasicEff.img\\AranGetSkill\\3
 				isSprite = true;
-				
+
 
 				if (GameUtil.Instance.Use_ab_or_assetDatabase)
 				{
-					if (fullPath.Contains("Map.wz"))
+					var dotimgIndex = fullPath.IndexOf(".img");//
+					var imgPath = fullPath.Substring(0, dotimgIndex + 4);//Effect.wz\\BasicEff.img
+					var imgName = imgPath.Substring(imgPath.LastIndexOf("\\") + 1);//BasicEff.img
+
+					if (fullPath.Contains("Map.wz\\Obj") || fullPath.Contains("Map.wz\\Tile") || fullPath.Contains("Map.wz\\Portal"))
 					{
-						var dotimgIndex = fullPath.IndexOf(".img");//
-						var imgPath = fullPath.Substring(0, dotimgIndex + 4);//Effect.wz\\BasicEff.img
 						var abPath = $"wzpng\\{imgPath.Replace(".img", "").Replace(".wz", "")}";//wzpng\Effect\\BasicEff
 
-						var imgName = imgPath.Substring(imgPath.LastIndexOf("\\") + 1);//BasicEff.img
 
 						var assetPath = $"{imgName}{fullPath.Substring(dotimgIndex + 4)}";//BasicEff.img\\AranGetSkill\\3
 						assetPath = assetPath.Replace("\\", "-");//BasicEff.img-AranGetSkill-3
+						if (fullPath.Contains("Map.wz\\Back\\grassySoil.img\\back\\0"))
+						{
+							var fdf = 0;
+						}
 						sprite = TextureAndSpriteUtil.LoadSpriteFromAB(abPath.ToLower(), assetPath, imgName);
+					}
+					else if (fullPath.Contains("Map.wz\\Back"))//Map.wz\\Back\\Amoria.img\\back\\2
+					{
+						if (fullPath.Contains("Map.wz\\Back\\grassySoil.img\\back\\0"))
+						{
+							var fdf = 0;
+						}
+
+						var abPath = "wzpng/map/"+imgPath.Replace(".wz", "").Replace(".img", "").Replace("/", "\\").Replace("\\", "_").ToLower();//map_back_amoria.img_back_2
+
+						var assetName = imgName.Replace(".img", "");//Amoria
+						var spriteName = $"{imgName}{fullPath.Substring(dotimgIndex + 4)}";//Amoria.img\\back\\2
+						spriteName = spriteName.Replace("\\", "-").Replace($"{imgName}-", "");//back-2
+
+						sprite = TextureAndSpriteUtil.LoadSpriteFromAtlasObjAB(abPath, assetName, spriteName);
 					}
 					else
 					{
-						var dotimgIndex = fullPath.IndexOf(".img");//
-						var imgPath = fullPath.Substring(0, dotimgIndex + 4);//Effect.wz\\BasicEff.img
-						var imgName = imgPath.Substring(imgPath.LastIndexOf("\\") + 1);//BasicEff.img
-
+						//Map.wz\\Back\\Amoria.img\\back\\6
+						/*if (fullPath.Contains("Map.wz"))
+						{
+							fullPath = fullPath.ToLower();
+						}*/
+						
 						var abPath = $"wzpng\\{imgPath.Replace(imgName, imgName.ToLower()).Replace(".img", "").Replace(".wz", "")}";//wzpng\Effect\\basicEff
 
 						var assetName = imgName.Replace(".img", "");//BasicEff

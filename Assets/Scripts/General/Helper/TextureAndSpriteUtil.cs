@@ -184,9 +184,11 @@ public static class TextureAndSpriteUtil
 	{
 		return AssetBundleLoaderMgr.Instance.LoadSubAsset<UnityEngine.Sprite>(abName, assetName, imgName);
 	}
+
 	public static UnityEngine.Sprite LoadSpriteFromAtlasObjAB(string abPath, string assetName, string spriteName)
 	{
 		var AtlasObj= AssetBundleLoaderMgr.Instance.LoadAsset<AtlasScriptObj>(abPath, assetName);
+		Debug.Log($"{AtlasObj.name}\t {AtlasObj.GetHashCode()}\t {AtlasObj.GetInstanceID()}");
 		var s = AtlasObj?.GetSprite(spriteName);
 		return s;
 	}

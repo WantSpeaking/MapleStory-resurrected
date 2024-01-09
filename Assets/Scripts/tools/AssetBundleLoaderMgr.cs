@@ -103,11 +103,16 @@ public class AssetBundleLoaderMgr
         {
             return null;
         }
-        AppDebug.Log($"LoadSubAsset\t abName:{abName}\t assetName:{assetName}");
+        //AppDebug.Log($"LoadSubAsset\t abName:{abName}\t assetName:{assetName}");
 
 		AssetBundle ab = LoadAssetBundle(abName);
         GameUtil.Instance.LogTime("LoadAssetBundle");
-        T t = default;
+
+		T t = default;
+		var sprites = ab.LoadAllAssets<T>();
+		t = Array.Find(sprites, item => item.name == assetName);
+
+		/*T t = default;
         for (int i = 0; i < 10; i++)
         {
 			var sprites = ab.LoadAssetWithSubAssets<T>($"{imgName}_Sheet{i}");
@@ -115,7 +120,7 @@ public class AssetBundleLoaderMgr
             t = sprite;
 			if (sprite != null)
                 break;
-		}
+		}*/
 
 		/*var assets = ab.LoadAllAssets<T>();
 		var t = assets.FirstOrDefault(a=>a.name == assetName);
